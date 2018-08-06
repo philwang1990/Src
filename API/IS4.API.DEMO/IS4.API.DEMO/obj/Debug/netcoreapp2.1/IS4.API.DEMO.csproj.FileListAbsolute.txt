@@ -1,0 +1,13 @@
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/bin/Debug/netcoreapp2.1/IS4.API.DEMO.deps.json
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/bin/Debug/netcoreapp2.1/IS4.API.DEMO.runtimeconfig.json
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/bin/Debug/netcoreapp2.1/IS4.API.DEMO.runtimeconfig.dev.json
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/bin/Debug/netcoreapp2.1/IS4.API.DEMO.dll
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/bin/Debug/netcoreapp2.1/IS4.API.DEMO.pdb
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/obj/Debug/netcoreapp2.1/IS4.API.DEMO.csproj.CoreCompileInputs.cache
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/obj/Debug/netcoreapp2.1/IS4.API.DEMO.RazorAssemblyInfo.cache
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/obj/Debug/netcoreapp2.1/IS4.API.DEMO.RazorAssemblyInfo.cs
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/obj/Debug/netcoreapp2.1/IS4.API.DEMO.AssemblyInfoInputs.cache
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/obj/Debug/netcoreapp2.1/IS4.API.DEMO.AssemblyInfo.cs
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/obj/Debug/netcoreapp2.1/IS4.API.DEMO.RazorTargetAssemblyInfo.cache
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/obj/Debug/netcoreapp2.1/IS4.API.DEMO.dll
+/Users/jiangzhimin/Desktop/KKDAY/3. SourceCode/IS4.API.DEMO/IS4.API.DEMO/obj/Debug/netcoreapp2.1/IS4.API.DEMO.pdb

@@ -1,0 +1,23 @@
+﻿<Properties StartupConfiguration="{5374F841-50FA-4274-9C08-6DC80094EAE5}|Default">
+  <MonoDevelop.Ide.ItemProperties.IS4.API.DEMO PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="IS4.API.DEMO/Program.cs">
+    <Files>
+      <File FileName="WebApi/Startup.cs" Line="49" Column="17" />
+      <File FileName="WebApi/Controllers/ValuesController.cs" Line="18" Column="1" />
+      <File FileName="IS4.API.DEMO/Configuration/InMemoryConfiguration.cs" Line="20" Column="14" />
+      <File FileName="WebApi/Program.cs" Line="14" Column="1" />
+      <File FileName="IS4.API.DEMO/Startup.cs" Line="20" Column="54" />
+      <File FileName="IS4.API.DEMO/Program.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/jiangzhimin/Desktop/KKDAY/3.SourceCode/IS4.API.DEMO/IS4.API.DEMO/Startup.cs" relfile="IS4.API.DEMO/Startup.cs" line="18" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Desktop/KKDAY/3.SourceCode/IS4.API.DEMO/WebApi/Controllers/ValuesController.cs" relfile="WebApi/Controllers/ValuesController.cs" line="21" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.WebApi PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>
