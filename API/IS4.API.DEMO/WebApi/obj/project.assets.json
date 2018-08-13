@@ -11715,11 +11715,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/jiangzhimin/Desktop/KKDAY/3.SourceCode/IS4.API.DEMO/WebApi/WebApi.csproj",
+      "projectUniqueName": "/Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/WebApi.csproj",
       "projectName": "WebApi",
-      "projectPath": "/Users/jiangzhimin/Desktop/KKDAY/3.SourceCode/IS4.API.DEMO/WebApi/WebApi.csproj",
+      "projectPath": "/Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/WebApi.csproj",
       "packagesPath": "/Users/jiangzhimin/.nuget/packages/",
-      "outputPath": "/Users/jiangzhimin/Desktop/KKDAY/3.SourceCode/IS4.API.DEMO/WebApi/obj",
+      "outputPath": "/Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
