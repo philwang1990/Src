@@ -1,13 +1,9 @@
-﻿<Properties StartupConfiguration="{09C0E851-FACE-49A6-A78E-D9C903B26B8D}|Default">
-  <MonoDevelop.Ide.ItemProperties.IS4.API.DEMO PreferredExecutionTarget="MonoDevelop.Default" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="IS4.API.DEMO/Program.cs">
+﻿<Properties StartupConfiguration="{0A62C846-48D2-4D27-8D17-3231208386BC}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="WebApi/Startup.cs">
     <Files>
       <File FileName="WebApi/Startup.cs" Line="49" Column="17" />
       <File FileName="WebApi/Controllers/ValuesController.cs" Line="18" Column="1" />
-      <File FileName="IS4.API.DEMO/Configuration/InMemoryConfiguration.cs" Line="20" Column="14" />
       <File FileName="WebApi/Program.cs" Line="14" Column="1" />
-      <File FileName="IS4.API.DEMO/Startup.cs" Line="34" Column="1" />
-      <File FileName="IS4.API.DEMO/Program.cs" Line="11" Column="25" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
@@ -19,5 +15,9 @@
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.WebApi PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.KKday.API.IS4.Server PreferredExecutionTarget="MonoDevelop.Default" />
   <MultiItemStartupConfigurations />
+  <DisabledProjects>
+    <String>IS4.API.DEMO/IS4.API.DEMO.csproj</String>
+  </DisabledProjects>
 </Properties>

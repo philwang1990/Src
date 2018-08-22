@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="Configuration\" />
+    <Folder Include="Pfx\" />
+    <Folder Include="AppCode\" />
+    <Folder Include="AppCode\DAL\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\DataModel\" />
+    <Folder Include="Models\Repository\" />
+    <Folder Include="Models\DataModel\User\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="IdentityServer4" Version="2.2.0" />
+    <PackageReference Include="IdentityServer4.EntityFramework" Version="2.1.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.1" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="2.1.0" />
+    <PackageReference Include="Npgsql" Version="4.0.2" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="2.6.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.1" />
+
+        <DotNetCliToolReference Include="Microsoft.EntityFrameworkCore.Tools.DotNet" Version="2.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\_ViewImports.cshtml" />
+    <Content Remove="Views\_ViewStart.cshtml" />
+    <Content Remove="wwwroot\css\site.css" />
+    <Content Remove="wwwroot\css\site.less" />
+    <Content Remove="wwwroot\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Models\Repository\EmptyInterface.cs" />
+    <Compile Remove="CustomIdentityServerBuilderExtensions.cs" />
+    <Compile Remove="Persistence\UserStore.cs" />
+    <Compile Remove="Persistence\AppUser.cs" />
+    <Compile Remove="Persistence\PersistedGrantStore.cs" />
+    <Compile Remove="Models\Repository\XXUserRepository.xs.cs" />
+  </ItemGroup>
+</Project>

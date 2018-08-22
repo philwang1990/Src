@@ -45,7 +45,6 @@
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/bin/Debug/netcoreapp2.1/WebApi.runtimeconfig.dev.json
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/bin/Debug/netcoreapp2.1/WebApi.dll
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/bin/Debug/netcoreapp2.1/WebApi.pdb
-/Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj/Debug/netcoreapp2.1/WebApi.csprojResolveAssemblyReference.cache
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj/Debug/netcoreapp2.1/WebApi.csproj.CoreCompileInputs.cache
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj/Debug/netcoreapp2.1/WebApi.RazorAssemblyInfo.cache
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj/Debug/netcoreapp2.1/WebApi.RazorAssemblyInfo.cs
@@ -54,3 +53,4 @@
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj/Debug/netcoreapp2.1/WebApi.RazorTargetAssemblyInfo.cache
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj/Debug/netcoreapp2.1/WebApi.dll
 /Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj/Debug/netcoreapp2.1/WebApi.pdb
+/Users/jiangzhimin/Documents/GitHub/Eric/Src/API/IS4.API.DEMO/WebApi/obj/Debug/netcoreapp2.1/WebApi.csprojAssemblyReference.cache
