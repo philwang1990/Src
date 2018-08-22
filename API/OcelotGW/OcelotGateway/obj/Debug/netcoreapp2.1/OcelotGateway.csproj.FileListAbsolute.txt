@@ -1,0 +1,14 @@
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/bin/Debug/netcoreapp2.1/configuration.json
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/bin/Debug/netcoreapp2.1/OcelotGateway.deps.json
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/bin/Debug/netcoreapp2.1/OcelotGateway.runtimeconfig.json
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/bin/Debug/netcoreapp2.1/OcelotGateway.runtimeconfig.dev.json
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/bin/Debug/netcoreapp2.1/OcelotGateway.dll
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/bin/Debug/netcoreapp2.1/OcelotGateway.pdb
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/obj/Debug/netcoreapp2.1/OcelotGateway.csproj.CoreCompileInputs.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/obj/Debug/netcoreapp2.1/OcelotGateway.RazorAssemblyInfo.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/obj/Debug/netcoreapp2.1/OcelotGateway.RazorAssemblyInfo.cs
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/obj/Debug/netcoreapp2.1/OcelotGateway.AssemblyInfoInputs.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/obj/Debug/netcoreapp2.1/OcelotGateway.AssemblyInfo.cs
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/obj/Debug/netcoreapp2.1/OcelotGateway.RazorTargetAssemblyInfo.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/obj/Debug/netcoreapp2.1/OcelotGateway.dll
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/OcelotGW/OcelotGateway/obj/Debug/netcoreapp2.1/OcelotGateway.pdb

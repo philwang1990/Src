@@ -1,0 +1,23 @@
+﻿{
+  "ReRoutes": [
+    { //給API.Test測試使用的配置
+      "DownstreamPathTemplate": "/api/values", //下游路径
+      "DownstreamScheme": "http", //下游协议
+      "DownstreamHostAndPorts": [ //下游主机及端口
+        {
+          "Host": "localhost",
+          "Port": "5009"
+        }
+      ],
+      "UpstreamPathTemplate": "/webapi/values", //上游路径
+      "UpstreamHttpMethod": [ "Get" ] //上游使用的http方法
+      //"AuthenticationOptions": {
+      //  "AuthenticationProviderKey": "TestKey",
+      //  "AllowScopes": []
+      //}
+    }
+
+
+
+  ]
+}
