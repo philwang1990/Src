@@ -1,0 +1,14 @@
+﻿<Properties StartupConfiguration="{22D94F36-3BCE-4D56-88A2-C8EBBE25B0B8}|Default">
+  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.API.Test PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.KKday.API.IS4.Server PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+  <DisabledProjects>
+    <String>../../../../../Downloads/OcelotTutorial--1-/OcelotGetway/OcelotGetway.csproj</String>
+  </DisabledProjects>
+</Properties>

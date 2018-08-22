@@ -1,0 +1,14 @@
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/bin/Debug/netcoreapp2.1/API.Test.deps.json
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/bin/Debug/netcoreapp2.1/API.Test.runtimeconfig.json
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/bin/Debug/netcoreapp2.1/API.Test.runtimeconfig.dev.json
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/bin/Debug/netcoreapp2.1/API.Test.dll
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/bin/Debug/netcoreapp2.1/API.Test.pdb
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.csprojAssemblyReference.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.csproj.CoreCompileInputs.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.RazorAssemblyInfo.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.RazorAssemblyInfo.cs
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.AssemblyInfoInputs.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.AssemblyInfo.cs
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.RazorTargetAssemblyInfo.cache
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.dll
+/Users/jiangzhimin/Desktop/KKDAY/2.SourceCode/1.API/IS4.API.DEMO/API.Test/obj/Debug/netcoreapp2.1/API.Test.pdb
