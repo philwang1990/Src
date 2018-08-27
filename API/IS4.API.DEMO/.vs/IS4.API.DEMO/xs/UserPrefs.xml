@@ -1,5 +1,12 @@
 ﻿<Properties StartupConfiguration="{22D94F36-3BCE-4D56-88A2-C8EBBE25B0B8}|Default">
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.IS4.Server/AppCode/Website.cs">
+    <Files>
+      <File FileName="KKday.API.IS4.Server/appsettings.json" Line="2" Column="21" />
+      <File FileName="KKday.API.IS4.Server/Program.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.IS4.Server/Startup.cs" Line="36" Column="50" />
+      <File FileName="KKday.API.IS4.Server/AppCode/Website.cs" Line="22" Column="33" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.API.Test PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
