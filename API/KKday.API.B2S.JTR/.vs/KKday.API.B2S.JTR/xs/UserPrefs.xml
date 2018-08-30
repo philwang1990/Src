@@ -1,0 +1,20 @@
+﻿<Properties StartupConfiguration="{A777387F-6558-4DCC-A0E4-4B42FC95EE37}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.SCM.JTR/Controllers/BookController.cs">
+    <Files>
+      <File FileName="KKday.API.SCM.JTR/Controllers/BookController.cs" Line="12" Column="1" />
+      <File FileName="KKday.API.SCM.JTR/Program.cs" Line="26" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/lulu/Projects/KKday.API.B2S.JTR/KKday.API.SCM.JTR/Controllers/BookController.cs" relfile="KKday.API.SCM.JTR/Controllers/BookController.cs" line="142" column="1" />
+      <Breakpoint file="/Users/lulu/Projects/KKday.API.B2S.JTR/KKday.API.SCM.JTR/Controllers/BookController.cs" relfile="KKday.API.SCM.JTR/Controllers/BookController.cs" line="273" column="1" />
+      <Breakpoint file="/Users/lulu/Projects/KKday.API.B2S.JTR/KKday.API.SCM.JTR/Controllers/BookController.cs" relfile="KKday.API.SCM.JTR/Controllers/BookController.cs" line="279" column="1" />
+      <Breakpoint file="/Users/lulu/Projects/KKday.API.B2S.JTR/KKday.API.SCM.JTR/Controllers/BookController.cs" relfile="KKday.API.SCM.JTR/Controllers/BookController.cs" line="149" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.KKday.API.B2S.JTR PreferredExecutionTarget="MonoDevelop.Default" />
+  <MultiItemStartupConfigurations />
+</Properties>
