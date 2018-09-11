@@ -49,7 +49,7 @@ namespace KKday.API.B2S.JTR.Controllers
                         {
                             price_type = "price1",
                             qty = bookRQ.order.price1Qty,
-                            jtr_prod_no = "10457115"
+                            jtr_prod_no = jtr_prod_no//"10457115"//
                         });
 
                     }
@@ -62,7 +62,7 @@ namespace KKday.API.B2S.JTR.Controllers
                         {
                             price_type = "price2",
                             qty = bookRQ.order.price2Qty,
-                            jtr_prod_no = "10457115"
+                            jtr_prod_no = jtr_prod_no//"10457115"//
                         });
 
                     }
@@ -93,6 +93,7 @@ namespace KKday.API.B2S.JTR.Controllers
                             info_id = lst.jtr_prod_no ?? string.Empty,
                             cust_id = bookRQ.sup_id ?? string.Empty,
                             order_source_id = info.Count() > 1 ? $"{bookRQ.order.orderMid}-{qty.ToString()}" : bookRQ.order.orderMid,
+                            travel_date = bookRQ.order.begLstGoDt,
                             num = lst.qty,
                             link_man = bookRQ.order.orderCusList[0].cusFirstname.ToUpper() + bookRQ.order.orderCusList[0].cusLastname.ToUpper(),
                             link_phone = string.Empty,
@@ -103,7 +104,7 @@ namespace KKday.API.B2S.JTR.Controllers
                         string orderRSxmlData = XMLTool.XMLSerialize(jtrorder).Replace("utf-16", "utf-8").Replace("utf - 16", "utf - 8");
 
 
-                        string orderUrl = $"{Website.Instance.Configuration["JTR_API_URL:ORDER_URL"]}?custId={bookRQ.sup_id}&apikey={bookRQ.sup_key}&param={orderRSxmlData}";
+                        string orderUrl = $"{Website.Instance.Configuration["JTR_API_URL:ORDER_URL"]}?custId={bookRQ.sup_id}&apikey={bookRQ.sup_key}&param={orderRSxmlData}".Replace("\n","");
                         HttpResponseMessage orderResponse = client.GetAsync(orderUrl).Result;
                         orderRS = (order_result)XMLTool.XMLDeSerialize(orderResponse.Content.ReadAsStringAsync().Result, orderRS.GetType().ToString());
 
