@@ -1,0 +1,18 @@
+﻿<Properties StartupConfiguration="{99848D4B-770C-4139-90D3-9D2DA25F573C}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.WMS/Controllers/BookingController.cs">
+    <Files>
+      <File FileName="KKday.API.WMS/Controllers/ValuesController.cs" Line="16" Column="9" />
+      <File FileName="KKday.API.WMS/Controllers/SearchController.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.WMS/Controllers/ProductController.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.WMS/Controllers/AuthorizeController.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.WMS/Controllers/BookingController.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.KKday.API.WMS PreferredExecutionTarget="MonoDevelop.Default" FirstBuild="True" />
+</Properties>
