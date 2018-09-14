@@ -70,7 +70,8 @@ namespace KKday.API.B2S.JTR.Controllers
                 }
                 catch(Exception ex)
                 {
-                   throw new Exception("Pakage Oid do not found JTR prod no");
+                    Website.Instance.logger.Error("Pakage Oid do not found JTR prod no");
+                    throw new Exception("Pakage Oid do not found JTR prod no");
                 }
                
 
