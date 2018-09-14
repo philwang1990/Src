@@ -31,10 +31,11 @@ namespace KKday.API.B2S.Gateway.Controllers
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-
             try
             {
                 var xdoc = XDocument.Load(System.AppDomain.CurrentDomain.BaseDirectory + "//App_Data//RouteMapping.xml");
+                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() < 0) throw new Exception("Pakage Oid do not found suppiler mapping");
+
                 string sup = xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).
                                             Select(x => x.Element("sup").Value).FirstOrDefault().ToString();
                 string sup_url = Website.Instance.Configuration[$"{sup}:BOOK_URL"];
@@ -54,7 +55,8 @@ namespace KKday.API.B2S.Gateway.Controllers
             }
             catch (Exception ex)
             {
-                result = "Pakage Oid do not found suppiler mapping";
+                Website.Instance.logger.Fatal($"Gateway Error :{ex.Message},{ex.StackTrace}");
+                result = $"Gateway Error :{ex.Message}";
             }
 
             return result;
