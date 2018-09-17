@@ -8,20 +8,23 @@
     <Folder Include="wwwroot\" />
     <Folder Include="Models\" />
     <Folder Include="Models\DataModel\" />
-    <Folder Include="Models\DataModel\Search\" />
-    <Folder Include="Models\Repository\" />
-    <Folder Include="AppCode\" />
+    <Folder Include="Models\DataModel\Authorize\" />
+    <Folder Include="Models\DataModel\Product\" />
     <Folder Include="AppCode\Proxy\" />
-    <Folder Include="Models\Repository\Search\" />
+    <Folder Include="Models\Repository\" />
+    <Folder Include="Models\Repository\Product\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="log4net.Ext.Json" Version="2.0.8.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controllers\TokenController.cs" />
-    <Compile Remove="Models\Search\Startup.cs" />
-    <Compile Remove="AppCode\DAL\ProdDAL.cs" />
+    <Compile Remove="AppCode\Tools\XMLTool.cs" />
+    <Compile Remove="Models\Model\Authorize\UserModel.cs" />
+    <Compile Remove="Models\DataModel\ProductResponseModel.cs" />
   </ItemGroup>
 </Project>

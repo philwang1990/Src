@@ -15,6 +15,7 @@ namespace KKday.API.WMS {
     public class Startup {
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
+            Website.Instance.Init(configuration);
         }
 
         public IConfiguration Configuration { get; }

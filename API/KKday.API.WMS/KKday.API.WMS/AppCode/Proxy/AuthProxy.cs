@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using KKday.API.WMS.Models.Model.Authorize;
+using KKday.API.WMS.Models.DataModel.Authorize;
 using Newtonsoft.Json;
 
 namespace KKday.API.WMS.AppCode.Proxy
@@ -35,7 +35,7 @@ namespace KKday.API.WMS.AppCode.Proxy
             }
             catch(Exception ex)
             {
-                Website.Instance.logger.FatalFormat($"getToke Error :{ex.Message},{ex.StackTrace}");
+                Website.Instance.logger.FatalFormat($"getToke  Error :{ex.Message},{ex.StackTrace}");
                 throw ex;
             }
 
