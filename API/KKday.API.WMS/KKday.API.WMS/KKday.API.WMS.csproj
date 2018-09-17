@@ -6,13 +6,24 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\Model\" />
+    <Folder Include="Models\Model\Authorize\" />
+    <Folder Include="Models\Model\Product\" />
+    <Folder Include="AppCode\Proxy\" />
+    <Folder Include="Models\Repository\" />
+    <Folder Include="Models\Repository\Product\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="log4net.Ext.Json" Version="2.0.8.3" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controllers\TokenController.cs" />
+    <Compile Remove="AppCode\Tools\XMLTool.cs" />
+    <Compile Remove="Models\Model\Authorize\UserModel.cs" />
   </ItemGroup>
 </Project>
