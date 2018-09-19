@@ -1,7 +1,7 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.WMS/Controllers/SearchController.cs">
     <Files>
-      <File FileName="KKday.API.WMS/Controllers/SearchController.cs" Line="21" Column="1" />
+      <File FileName="KKday.API.WMS/Controllers/SearchController.cs" Line="23" Column="6" />
       <File FileName="KKday.API.WMS/Models/DataModel/Search/ProdListModel.cs" Line="11" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>

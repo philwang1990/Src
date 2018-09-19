@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KKday.API.WMS.Controllers {
     public class SearchController : Controller {
-<<<<<<< HEAD
 
         [HttpPost]
         public List<ProdListModel> GetProdByDate([FromBody]SearchRQModel list_rq) {
@@ -16,11 +15,10 @@ namespace KKday.API.WMS.Controllers {
             prod_list = ProdRepository.GetProdList(list_rq);
 
             return prod_list;
-=======
         // GET: /<controller>/
         public IActionResult Index() {
             return View();
->>>>>>> dev_branch
+
         }
     }
 }
