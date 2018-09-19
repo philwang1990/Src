@@ -2,6 +2,9 @@
 namespace KKday.API.WMS.Models.DataModel.Search {
     public class ProdListModel {
 
+        public string MESSAGE { get; set; }               //回傳訊息內容
+        public string STATUS_CODE { get; set; }           //回傳狀態碼(00:成功)
+
         public string id { get; set; }
         public string name { get; set; }
         public string price { get; set; }
