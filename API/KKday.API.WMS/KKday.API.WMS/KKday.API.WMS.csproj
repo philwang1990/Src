@@ -11,8 +11,12 @@
     <Folder Include="Models\DataModel\Authorize\" />
     <Folder Include="Models\DataModel\Product\" />
     <Folder Include="AppCode\Proxy\" />
+<<<<<<< HEAD
+    <Folder Include="Models\Repository\Search\" />
+=======
     <Folder Include="Models\Repository\" />
     <Folder Include="Models\Repository\Product\" />
+>>>>>>> dev_branch
   </ItemGroup>
 
   <ItemGroup>
@@ -26,5 +30,7 @@
     <Compile Remove="AppCode\Tools\XMLTool.cs" />
     <Compile Remove="Models\Model\Authorize\UserModel.cs" />
     <Compile Remove="Models\DataModel\ProductResponseModel.cs" />
+    <Compile Remove="Models\DataModel\Authorize\UserModel.cs" />
+    <Compile Remove="AppCode\Proxy\HttpStringContent.cs" />
   </ItemGroup>
 </Project>
