@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using KKday.API.WMS.AppCode.Proxy;
+using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.DataModel.Search;
 using KKday.API.WMS.Models.Search;
 using Newtonsoft.Json;
@@ -12,9 +13,12 @@ namespace KKday.API.WMS.Models.Repository {
     public class ProdRepository {
 
         //1.取得商品列表
-        public static List<ProdListModel> GetProdList(SearchRQModel rq) 
+        public static List<ProductBaseModel> GetProdList(SearchRQModel rq) 
         {
-            List<ProdListModel> pLst = new List<ProdListModel>();
+
+
+            List<ProductBaseModel> pLst = new List<ProductBaseModel>();
+
 
             try {
 
@@ -22,12 +26,21 @@ namespace KKday.API.WMS.Models.Repository {
 
                 obj = SearchProxy.GetProdList(rq);
 
+                //取回傳資料是否成功的訊息
+                JArray jsonPstats = (JArray)obj["metadata"];
+                var PstatsModel = new SearchProductModel();
+
+                PstatsModel.status = jsonPstats[0]["status"].ToString();
+                PstatsModel.desc = jsonPstats[0]["desc"].ToString();
+                PstatsModel.pagination = jsonPstats[0]["pagination"].ToString();
+
+
                 //從傑森物件取『商品列表』
                 JArray jsonPlst = (JArray)obj["data"]["prods"];
               
                 for (int i = 0; i < jsonPlst.Count; i++) {
 
-                    var model = new ProdListModel();
+                    var model = new ProductBaseModel();
 
                     model.id = jsonPlst[i]["id"].ToString();
                     model.name = jsonPlst[i]["name"].ToString();
@@ -77,6 +90,8 @@ namespace KKday.API.WMS.Models.Repository {
 
             return pLst;
         }
+
+
 
     }
 }
