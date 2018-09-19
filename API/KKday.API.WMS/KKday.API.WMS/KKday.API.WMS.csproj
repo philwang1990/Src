@@ -30,5 +30,7 @@
     <Compile Remove="AppCode\Tools\XMLTool.cs" />
     <Compile Remove="Models\Model\Authorize\UserModel.cs" />
     <Compile Remove="Models\DataModel\ProductResponseModel.cs" />
+    <Compile Remove="Models\DataModel\Authorize\UserModel.cs" />
+    <Compile Remove="AppCode\Proxy\HttpStringContent.cs" />
   </ItemGroup>
 </Project>
