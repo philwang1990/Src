@@ -12,6 +12,7 @@
     <Folder Include="Models\Repository\" />
     <Folder Include="AppCode\" />
     <Folder Include="AppCode\Proxy\" />
+    <Folder Include="Models\Repository\Search\" />
   </ItemGroup>
 
   <ItemGroup>

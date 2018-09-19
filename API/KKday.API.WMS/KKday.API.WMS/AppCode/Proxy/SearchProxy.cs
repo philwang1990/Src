@@ -6,13 +6,14 @@ using System.Net.Http;
 using KKday.API.WMS.Models.Search;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace KKday.API.WMS.AppCode.Proxy {
     public class SearchProxy {
         // 取得商品列表
-        public static DataSet GetProductAsync(SearchRQModel rq) {
+        public static JObject GetProdList(SearchRQModel rq) {
 
-            DataSet ds = new DataSet();
+            JObject jsonObj = new JObject();
 
             var _uri = "https://api-search.sit.kkday.com/v1/search/prod/";
 
@@ -27,7 +28,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
 
                     using (var client = new HttpClient(handler)) {
 
-                        #region Uri with QueryStrings
+                        #region RQ
 
                         string today = DateTime.Now.ToString("yyyyMMdd");
 
@@ -87,7 +88,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         }
 
 
-                        #endregion Uri with QueryStrings
+                        #endregion RQ
 
                         using (HttpRequestMessage request =
                                new HttpRequestMessage(HttpMethod.Get, _uri)) {
@@ -99,7 +100,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         }
                     }
 
-                    var jsonObj = JsonConvert.DeserializeObject(jsonResult);
+                    jsonObj = JObject.Parse(jsonResult);
                 }
 
 
@@ -109,7 +110,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
                 // Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
             }
 
-            return ds;
+            return jsonObj;
         }
     }
 }

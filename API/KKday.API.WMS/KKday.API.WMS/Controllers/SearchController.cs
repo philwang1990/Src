@@ -16,8 +16,8 @@ namespace KKday.API.WMS.Controllers {
     public class SearchController : Controller {
 
         [HttpPost]
-        public List<ProdtLisModel> GetProdByDate([FromBody]SearchRQModel list_rq) {
-            var prod_list = new List<ProdtLisModel>();
+        public List<ProdListModel> GetProdByDate([FromBody]SearchRQModel list_rq) {
+            var prod_list = new List<ProdListModel>();
             prod_list = ProdRepository.GetProdList(list_rq);
 
             return prod_list;
