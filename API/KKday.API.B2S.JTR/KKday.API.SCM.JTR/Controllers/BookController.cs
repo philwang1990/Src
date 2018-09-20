@@ -19,6 +19,8 @@ namespace KKday.API.B2S.JTR.Controllers
         [HttpPost("Booking")]
         public BookingResponseModel Booking([FromBody]BookingRequestModel bookRQ)
         {
+            Website.Instance.logger.Info($"JTR Booking Start!");
+
             BookingResponseModel bookRS = new BookingResponseModel();
             Metadata metadata = new Metadata();
             Data data = new Data();
@@ -107,12 +109,15 @@ namespace KKday.API.B2S.JTR.Controllers
 
                         string orderUrl = $"{Website.Instance.Configuration["JTR_API_URL:ORDER_URL"]}?custId={bookRQ.sup_id}&apikey={bookRQ.sup_key}&param={orderRSxmlData}".Replace("\n","");
                         HttpResponseMessage orderResponse = client.GetAsync(orderUrl).Result;
+                        Website.Instance.logger.Info($"URL:{Website.Instance.Configuration["JTR_API_URL:ORDER_URL"]},URL Response StatusCode:{orderResponse.StatusCode}");
                         orderRS = (order_result)XMLTool.XMLDeSerialize(orderResponse.Content.ReadAsStringAsync().Result, orderRS.GetType().ToString());
 
                         Website.Instance.logger.Info($"[ORDER]kkOrderNo:{bookRQ.order.orderMid},priceType:{lst.price_type},jtrOrderNo:{orderRS.order_id},jtrErr:{orderRS.error_msg}");
 
                         string payUrl = $"{Website.Instance.Configuration["JTR_API_URL:PAY_URL"]}?custId={bookRQ.sup_id}&apikey={bookRQ.sup_key}&orderId={orderRS.order_id}";
                         HttpResponseMessage payRresponse = client.GetAsync(payUrl).Result;
+                        Website.Instance.logger.Info($"URL:{Website.Instance.Configuration["JTR_API_URL:PAY_URL"]},URL Response StatusCode:{payRresponse.StatusCode}");
+
                         payRS = (pay_result)XMLTool.XMLDeSerialize(payRresponse.Content.ReadAsStringAsync().Result, payRS.GetType().ToString());
 
                         Website.Instance.logger.Info($"[PAY]kkOrderNo:{bookRQ.order.orderMid},priceType:{lst.price_type},jtrTktNo:{payRS.code},jtrErr:{payRS.error_msg}");
@@ -150,7 +155,8 @@ namespace KKday.API.B2S.JTR.Controllers
                     foreach (var rs in RS_info)
                     {
                         data.isMuiltSupOrder = info.Count() > 1 ? true : false;
-                        data.supTicketNumber = !string.IsNullOrEmpty(rs.code) ? data.supTicketNumber + rs.code + "<br/>" : data.supTicketNumber;
+                        //data.supTicketNumber += !string.IsNullOrEmpty(rs.code) ? data.supTicketNumber + rs.code + "<br/>" : data.supTicketNumber;
+                        data.supTicketNumber += string.Join("<br/>", rs.code) + "<br/>";
 
                         OD_info.Add(new Orderinfo()
                         {
@@ -258,7 +264,7 @@ namespace KKday.API.B2S.JTR.Controllers
                 metadata.status = $"JTR-10090";
                 metadata.description = timeoutex.Message;
                 bookRS.metadata = metadata;
-
+                Website.Instance.logger.FatalFormat($"Timeout Error :{timeoutex.Message},{timeoutex.StackTrace}");
                 return bookRS;
 
             }
@@ -268,7 +274,7 @@ namespace KKday.API.B2S.JTR.Controllers
                 metadata.status = $"JTR-00000";
                 metadata.description = ex.Message;
                 bookRS.metadata = metadata;
-
+                Website.Instance.logger.FatalFormat($"System Error :{ex.Message},{ex.StackTrace}");
                 return bookRS;
 
             }

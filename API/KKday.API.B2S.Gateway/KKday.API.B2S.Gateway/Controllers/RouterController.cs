@@ -25,6 +25,8 @@ namespace KKday.API.B2S.Gateway.Controllers
         {
             BookingResponseModel bookRS = new BookingResponseModel();
 
+            Website.Instance.logger.Info($"Gateway Router Start!");
+
             string result = "";
 
             HttpClientHandler handler = new HttpClientHandler();
@@ -51,7 +53,7 @@ namespace KKday.API.B2S.Gateway.Controllers
                 string sup_id = Website.Instance.Configuration[$"{sup}:SUP_ID"];
                 string sup_key = Website.Instance.Configuration[$"{sup}:SUP_KEY"];
 
-                Website.Instance.logger.Info($"Booking URL :{sup_url}");
+
 
                 bookRQ.sup_id = sup_id;
                 bookRQ.sup_key = sup_key;
@@ -60,6 +62,8 @@ namespace KKday.API.B2S.Gateway.Controllers
 
                 var contentData = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(sup_url, contentData).Result;
+
+                Website.Instance.logger.Info($"Supplier:{sup},Booking URL:{sup_url},URL Response StatusCode:{response.StatusCode}"); 
 
                 result = response.Content.ReadAsStringAsync().Result;
 
