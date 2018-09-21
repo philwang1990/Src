@@ -11,9 +11,12 @@
     <Folder Include="Models\DataModel\Authorize\" />
     <Folder Include="Models\DataModel\Product\" />
     <Folder Include="AppCode\Proxy\" />
+<<<<<<< HEAD
+    <Folder Include="Models\Repository\Search\" />
+=======
     <Folder Include="Models\Repository\" />
     <Folder Include="Models\Repository\Product\" />
-    <Folder Include="Models\DataModel\Supplier\" />
+>>>>>>> dev_branch
   </ItemGroup>
 
   <ItemGroup>
