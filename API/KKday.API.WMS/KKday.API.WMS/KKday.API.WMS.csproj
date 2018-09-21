@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\DataModel\" />
+    <Folder Include="Models\DataModel\Search\" />
+    <Folder Include="Models\Repository\" />
+    <Folder Include="AppCode\" />
+    <Folder Include="AppCode\Proxy\" />
+    <Folder Include="Models\Repository\Search\" />
+    <Folder Include="Models\DataModel\Product\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controllers\TokenController.cs" />
+    <Compile Remove="Models\Search\Startup.cs" />
+    <Compile Remove="AppCode\DAL\ProdDAL.cs" />
+  </ItemGroup>
+</Project>
