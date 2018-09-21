@@ -17,18 +17,12 @@ namespace KKday.API.WMS.Controllers {
     public class SearchController : Controller {
 
         [HttpPost]
-        public List<ProductBaseModel> GetProd([FromBody]SearchRQModel list_rq) {
-            var prod_list = new List<ProductBaseModel>();
-            prod_list = ProdRepository.GetProdList(list_rq);
+        public SearchProductModel GetProd([FromBody]SearchRQModel list_rq) {
+            var prods = new SearchProductModel();
+            prods = ProdRepository.GetProdList(list_rq);
 
-            return prod_list;
-<<<<<<< HEAD
-        // GET: /<controller>/
-        public IActionResult Index() {
-            return View();
+            return prods;
 
-=======
->>>>>>> nancy_branch
         }
 
       
