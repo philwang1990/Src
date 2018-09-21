@@ -8,9 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace KKday.API.WMS.Controllers {
     public class SearchController : Controller {
-        // GET: /<controller>/
-        public IActionResult Index() {
-            return View();
+
+
+        [HttpPost]
+        public SearchProductModel GetProd([FromBody]SearchRQModel list_rq) {
+            var prods = new SearchProductModel();
+            prods = ProdRepository.GetProdList(list_rq);
+
+            return prods;
+
         }
     }
 }
