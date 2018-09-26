@@ -45,7 +45,7 @@ namespace KKday.API.B2S.Gateway.Controllers
             try
             {
                 var xdoc = XDocument.Load(System.AppDomain.CurrentDomain.BaseDirectory + "//App_Data//RouteMapping.xml");
-                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() < 0) throw new Exception("Pakage Oid do not found suppiler mapping");
+                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() <= 0) throw new Exception("Pakage Oid do not found suppiler mapping");
 
                 string sup = xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).
                                             Select(x => x.Element("sup").Value).FirstOrDefault().ToString();
