@@ -48,8 +48,8 @@ namespace KKday.API.B2S.Gateway.Models.Model
         public int price4Qty { get; set; }
         public double currPrice1 { get; set; }
         public double currPrice2 { get; set; }
-        public int currPrice3 { get; set; }
-        public int currPrice4 { get; set; }
+        public double currPrice3 { get; set; }
+        public double currPrice4 { get; set; }
         public string eventTime { get; set; }
         public List<EventBackupData> eventBackupData { get; set; }
         public List<OrderCusList> orderCusList { get; set; }
