@@ -155,8 +155,8 @@ namespace KKday.API.B2S.JTR.Controllers
                     foreach (var rs in RS_info)
                     {
                         data.isMuiltSupOrder = info.Count() > 1 ? true : false;
-                        //data.supTicketNumber += !string.IsNullOrEmpty(rs.code) ? data.supTicketNumber + rs.code + "<br/>" : data.supTicketNumber;
-                        data.supTicketNumber += string.Join("<br/>", rs.code) + "<br/>";
+                        data.supTicketNumber += !string.IsNullOrEmpty(rs.code) ? data.supTicketNumber + rs.code + "<br/>" : data.supTicketNumber;
+
 
                         OD_info.Add(new Orderinfo()
                         {
@@ -185,12 +185,12 @@ namespace KKday.API.B2S.JTR.Controllers
                         if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = RS_info[1].order_error_state;
-                            note = $"1對多訂單類型，其中第1筆{RS_info[0].kkOrder_no}支付成功，{RS_info[0].code}，但第2筆成立訂單失敗，請OP至JTR後台協助確認";
+                            note = $"1對多訂單類型，其中第1筆 {RS_info[0].order_id}支付成功，{RS_info[0].code}，但第2筆成立訂單失敗，請OP至JTR後台協助確認";
                         }
                         else if (data.isMuiltSupOrder && OD_info.Count() == 1)
                         {
                             code = RS_info[0].order_error_state;
-                            note = $"1對多訂單類型，第1筆下單失敗,{RS_info[0].order_error_msg}";
+                            note = $"1對多訂單類型，下單失敗，{RS_info[0].order_error_msg}";
                         }
                         else
                         {
@@ -206,17 +206,17 @@ namespace KKday.API.B2S.JTR.Controllers
                         if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = RS_info[1].pay_error_state;
-                            note = $"1對多訂單類型，其中第1筆{RS_info[0].kkOrder_no}，{RS_info[0].code}，但第2筆{RS_info[1].kkOrder_no}，{RS_info[1].pay_error_msg}，請OP至JTR後台協助確認";
+                            note = $"1對多訂單類型，其中第1筆{RS_info[0].order_id}，{RS_info[0].code}，但第2筆{RS_info[1].order_id}，{RS_info[1].pay_error_msg}，請OP至JTR後台協助確認";
                         }
                         else if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = RS_info[0].pay_error_state;
-                            note = $"1對多訂單類型，第1筆{RS_info[0].kkOrder_no}支付訂單失敗";
+                            note = $"1對多訂單類型，第1筆{RS_info[0].order_id}支付訂單失敗，請確認訂單其他細項是否完成";
                         }
                         else
                         {
                             code = RS_info[0].pay_error_state;
-                            note = RS_info[0].pay_error_msg;
+                            note = $"{RS_info[0].order_id}支付失敗，{RS_info[0].pay_error_msg}";
                         }
 
                     }
@@ -226,12 +226,12 @@ namespace KKday.API.B2S.JTR.Controllers
                         if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = "10091";
-                            note = $"1對多訂單類型，其中第1筆{RS_info[0].kkOrder_no}交易支付成功{RS_info[0].code}，但第2筆{RS_info[1].kkOrder_no}支付成功未取得12碼供應商訂編，請OP至JTR後台協助確認";
+                            note = $"1對多訂單類型，其中第1筆{RS_info[0].order_id}交易支付成功{RS_info[0].code}，但第2筆{RS_info[1].order_id}支付成功未取得12碼供應商訂編，請OP至JTR後台協助確認";
                         }
                         else
                         {
                             code = "10091";
-                            note = $"{RS_info[0].kkOrder_no}支付成功，但未取得12碼供應商訂編，請OP至JTR後台協助確認";
+                            note = $"{RS_info[0].order_id}支付成功，但未取得12碼供應商訂編，請OP至JTR後台協助確認";
 
                         }
 
