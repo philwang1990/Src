@@ -25,7 +25,8 @@ namespace KKday.API.B2S.Gateway.Controllers
         {
             BookingResponseModel bookRS = new BookingResponseModel();
 
-            Website.Instance.logger.Info($"Gateway Router Start!");
+              Website.Instance.logger.Info($"Gateway Router Start! KKday PkgOid:{bookRQ.order.packageOid},OrderMid:{bookRQ.order.orderMid}");
+
 
             string result = "";
 
