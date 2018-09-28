@@ -26,7 +26,7 @@ namespace KKday.API.B2S.Gateway.Models.Model
         public string cusLastname { get; set; }
         public string cusFirstname { get; set; }
         public string cusGender { get; set; }
-        public string passportId { get; set; }
+        public int? passportId { get; set; }
         public string cusBirthday { get; set; }
         public string countryCd { get; set; }
     }
