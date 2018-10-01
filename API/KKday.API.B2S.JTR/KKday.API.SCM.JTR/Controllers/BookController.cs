@@ -211,7 +211,7 @@ namespace KKday.API.B2S.JTR.Controllers
                         else if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = RS_info[0].pay_error_state;
-                            note = $"1對多訂單類型，第1筆{RS_info[0].order_id}支付訂單失敗，請確認訂單其他細項是否完成";
+                            note = $"1對多訂單類型，第1筆{RS_info[0].order_id}支付失敗，{RS_info[0].pay_error_msg}，請確認訂單其他細項是否完成";
                         }
                         else
                         {
