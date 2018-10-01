@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -79,7 +79,7 @@ namespace KKday.API.B2S.Gateway.Controllers
             catch (Exception ex)
             {
                 Metadata metadata = new Metadata();
-                metadata.status = "1002";
+                metadata.status = "10002";
                 metadata.description = $"Gateway Error :{ex.Message}";
                 bookRS.metadata = metadata;
 
