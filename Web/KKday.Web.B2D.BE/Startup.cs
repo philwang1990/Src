@@ -53,12 +53,6 @@ namespace KKday.Web.B2D.BE
             app.UseCookiePolicy();
 
             app.UseMvc(routes =>
-<<<<<<< HEAD
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-=======
             {
                 //routes.MapRoute(
                 //name: "default",
@@ -77,7 +71,6 @@ namespace KKday.Web.B2D.BE
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
->>>>>>> dora.branch
             });
         }
     }
