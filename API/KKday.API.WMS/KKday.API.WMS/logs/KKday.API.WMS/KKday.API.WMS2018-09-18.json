@@ -1,0 +1,32 @@
+{"create_date":"2018/09/18 10:01:31.823","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 10:02:55.563","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 10:06:20.502","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 10:08:46.035","level":"FATAL","logger":"Website","msg":"getProd  Error :One or more errors occurred. (The SSL connection could not be established, see inner exception.),   at System.Threading.Tasks.Task`1.GetResultCore(Boolean waitCompletionNotification)\n   at KKday.API.WMS.AppCode.Proxy.ProdProxy.getProd(QueryProdRquestModel query_lst) in /Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs:line 39","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 10:10:49.563","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 10:35:10.778","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 10:54:10.647","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 11:00:51.949","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 11:17:57.815","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 11:28:25.58","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 11:47:22.827","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 11:51:06.563","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:00:17.2","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:07:01.041","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:08:52.968","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:17:08.658","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:27:18.851","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:33:13.829","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:37:09.167","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:41:14.165","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:48:49.362","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 12:50:49.166","level":"FATAL","logger":"Website","msg":"getProd  Error :Misused header name. Make sure request headers are used with HttpRequestMessage, response headers with HttpResponseMessage, and content headers with HttpContent objects.,   at System.Net.Http.Headers.HttpHeaders.GetHeaderDescriptor(String name)\n   at System.Net.Http.Headers.HttpHeaders.Add(String name, String value)\n   at KKday.API.WMS.AppCode.Proxy.ProdProxy.getProd(QueryProdRquestModel query_lst) in /Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs:line 61","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 14:07:30.274","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 14:08:01.784","level":"FATAL","logger":"Website","msg":"getProd  Error :Object reference not set to an instance of an object.,   at KKday.API.WMS.AppCode.Proxy.ProdProxy.getProd(QueryProdRquestModel query_lst) in /Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs:line 61","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 14:12:51.707","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 14:24:51.099","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 14:26:51.357","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 14:49:42.451","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 14:53:26.939","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 14:54:17.749","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 15:34:38.697","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/18 16:04:30.472","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
