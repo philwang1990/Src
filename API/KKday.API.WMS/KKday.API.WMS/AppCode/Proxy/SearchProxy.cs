@@ -10,12 +10,20 @@ using Newtonsoft.Json.Linq;
 
 namespace KKday.API.WMS.AppCode.Proxy {
     public class SearchProxy {
+
+        /// <summary>
+        /// Gets the prod list.
+        /// </summary>
+        /// <returns>The prod list.</returns>
+        /// <param name="rq">Rq.</param>
+
         // 取得商品列表
         public static JObject GetProdList(SearchRQModel rq) {
 
             JObject jsonObj = new JObject();
 
-            var _uri = "https://api-search.sit.kkday.com/v1/search/prod/";
+            var _uri = Website.Instance.Configuration["URL:KK_SEARCH"];
+       
 
             try {
 
@@ -49,6 +57,9 @@ namespace KKday.API.WMS.AppCode.Proxy {
                             ["footprint_id"] = rq.footprint_id ?? "",
                             ["ip"] = rq.ip ?? "",
                             ["multiprice_platform"] = rq.multiprice_platform ?? "01",
+
+                            ["companyXid"]= rq.companyXid ?? "" 
+
                         };
 
                         // ===> using Microsoft.AspNetCore.WebUtilities;
@@ -105,10 +116,11 @@ namespace KKday.API.WMS.AppCode.Proxy {
 
 
             } catch (Exception ex) {
+        
+                Website.Instance.logger.FatalFormat($"getPkg  Error :{ex.Message},{ex.StackTrace}");
 
                 throw ex;
-                // Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
-            }
+             }
 
             return jsonObj;
         }

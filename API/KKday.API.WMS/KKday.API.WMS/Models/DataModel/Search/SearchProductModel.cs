@@ -7,8 +7,8 @@ namespace KKday.API.WMS.Models.DataModel.Search {
 
     public class SearchProductModel {
 
-        public string status { get; set; }
-        public string desc { get; set; }
+        public string result { get; set; }
+        public string result_msg { get; set; }
         public int total_count { get; set; }
         public int start { get; set; }
         public int count { get; set; }

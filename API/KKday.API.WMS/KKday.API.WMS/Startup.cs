@@ -24,8 +24,8 @@ namespace KKday.API.WMS {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             //超強烈推薦使用語法！！！
             //model不給值JSON不會吐出
             services.AddMvc().AddJsonOptions(options =>
@@ -33,6 +33,16 @@ namespace KKday.API.WMS {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                 //options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+            });
+
+            // Register Redis cache server
+            services.AddDistributedRedisCache(options => {
+                // Redis Server 的 IP 跟 Port
+
+                options.Configuration = "192.168.2.113";
+                options.InstanceName = "api.wms";
+
+
             });
         }
 
