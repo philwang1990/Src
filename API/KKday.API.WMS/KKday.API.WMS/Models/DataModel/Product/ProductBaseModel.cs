@@ -32,14 +32,14 @@ namespace KKday.API.WMS.Models.DataModel.Product {
             public string[] tag { get; set; }//小分類 key
 
             public List<Country> countries { get; set; }
-            
+
             //無用欄位？  promo_tag_keys
 
-            
+            //actual_price 為牌價，sale_price 為直客價
+         
+    }
 
-        }
-
-        public class Country {
+    public class Country {
             public string id { get; set; }
             public string name { get; set; }
             public List<City> cities { get; set; }

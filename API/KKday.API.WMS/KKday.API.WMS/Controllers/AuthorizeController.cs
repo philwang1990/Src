@@ -1,13 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Threading.Tasks;
+using KKday.API.WMS.AppCode.DAL;
 using KKday.API.WMS.AppCode.Proxy;
 
 using KKday.API.WMS.Models.DataModel.Authorize;
+using KKday.API.WMS.Models.DataModel.User;
+using KKday.API.WMS.Models.Repository.User;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -18,24 +27,56 @@ namespace KKday.API.WMS.Controllers {
     [ApiController]
     public class AuthorizeController : Controller {
 
+        /// <summary>
+        /// The redis cache.
+        /// </summary>
+        private readonly IDistributedCache redisCache;
+
+        public AuthorizeController(IDistributedCache redisCache) {
+            this.redisCache = redisCache;
+        }
 
         [HttpGet("GetToken")]
-        public string GetToken(string account,string password)
+        public ApiUserModel GetToken(string account,string password)
         {
-            string result = "";
-
+            string token = "";
+            ApiUserModel user = new ApiUserModel();
             try
             {
+                //1. 從IS4取使用者的門票
                 GetTokenResponseModel response = AuthProxy.getToke(account, password);
-                result = response.access_token ?? response.error_description;
+                token = response.access_token ?? response.error_description;
 
+                //2. 從DB抓使用者資訊
+                user = UserRepository.GetApiUser(account, password);
+
+                //3. 把使用者的資訊轉成byte 存進去redis快取
+                var userByte = ObjectToByteArray(user);
+               
+                redisCache.Set("wms.api.token", userByte, 
+                               new DistributedCacheEntryOptions() {
+                    AbsoluteExpiration = DateTime.Now.AddHours(24)
+                    //設定過期時間，時間一到快取立刻就被移除
+                });
+            
             }
             catch (Exception ex)
             {
-                result = ex.Message;
+                throw ex;
             }
-            return result;
+            return user;
         }
+
+        //將物件轉為ByteArray
+        private byte[] ObjectToByteArray(Object aum) {
+            if (aum == null)
+                return null;
+            BinaryFormatter bf = new BinaryFormatter();
+            MemoryStream ms = new MemoryStream();
+            bf.Serialize(ms, aum);
+            return ms.ToArray();
+        }
+
 
 
 
@@ -44,18 +85,27 @@ namespace KKday.API.WMS.Controllers {
         {
             string result = "";
             HttpClient client = new HttpClient();
-            token = @"JhbGciOiJSUzI1NiIsImtpZCI6IjY5OTZkNzVjMjY1ZjE5ODE0NGE3M2EyMTcyYjgxN2Y1IiwidHlwIjoiSldUIn0.eyJuYmYiOjE1MzY4MjQ5MjEsImV4cCI6MTUzOTQxNjkyMSwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMi44Mzo4MDgwIiwiYXVkIjpbImh0dHA6Ly8xOTIuMTY4LjIuODM6ODA4MC9yZXNvdXJjZXMiLCJzb2NpYWxuZXR3b3JrIl0sImNsaWVudF9pZCI6InNvY2lhbG5ldHdvcmsiLCJzdWIiOiIzIiwiYXV0aF90aW1lIjoxNTM2ODI0OTIxLCJpZHAiOiJsb2NhbCIsInNjb3BlIjpbInNvY2lhbG5ldHdvcmsiXSwiYW1yIjpbImN1c3RvbSJdfQ.1CipxGGn1hax67DAj2CMeLCIm59JulP3lT9qCSDHyADHgdtgWlOUfowLQYZSt5ZuH7kEF6VIVczcqqribY7XkAEuk03oYKAobXuHjh2COaZgrOHp-jk_RUBtQcdLlSpVr6JAi4LL9H2N09YRBEac0qhaWnaw6U8dOWXOGN4W1yUaXEYCMD4Hh_ghbl7CvE_GLNJ0TKvSLD9Agvdgcq1yrNGekUnSIzEvTYa1JUsulvrdgauMF4UDy3_agkszbSwp4UFR-lqWST54hAHpptmMuTvTnGin1y3y7N81tJ1eLXt3dJ5m1L2_T7rMyUZ4XURYpfdwrKFPZ92qSpzpJNlklQ";
-
+        
             try
             {
-                //Token 驗證的語法
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-                HttpResponseMessage response = client.GetAsync("http://192.168.2.83:5009/api/values").Result;
-                result = response.Content.ReadAsStringAsync().Result;
+                var cacheBytes = redisCache.Get("wms.api.token");
 
-            }
-            catch (Exception ex)
+                if (cacheBytes != null) {
+
+                    token = System.Text.Encoding.UTF8.GetString(cacheBytes);
+
+                    //Token 驗證的語法
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+                    HttpResponseMessage response = client.GetAsync("http://192.168.2.83:5009/api/values").Result;
+                    result = response.Content.ReadAsStringAsync().Result;
+
+                } else {
+                    result = "系統閒置過久，請重新登入！";
+                }
+
+            } catch (Exception ex)
             {
                 result = ex.Message;
 

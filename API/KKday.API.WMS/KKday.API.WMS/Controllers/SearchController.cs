@@ -16,11 +16,15 @@ namespace KKday.API.WMS.Controllers {
     [Route("api/[controller]")]
     public class SearchController : Controller {
 
-
+        /// <summary>
+        /// Gets the prod.
+        /// </summary>
+        /// <returns>The prod.</returns>
+        /// <param name="list_rq">List rq.</param>
         [HttpPost]
         public SearchProductModel GetProd([FromBody]SearchRQModel list_rq) {
             var prods = new SearchProductModel();
-            prods = ProdRepository.GetProdList(list_rq);
+            prods = SearchRepository.GetProdList(list_rq);
 
             return prods;
 
