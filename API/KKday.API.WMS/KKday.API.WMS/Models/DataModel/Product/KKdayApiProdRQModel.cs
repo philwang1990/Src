@@ -18,10 +18,6 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public string infoType { get; set; }
         public string cleanCache { get; set; }
 
-        //套餐用
-        public string pkgStatus { get; set; }
-        public string pkgOid { get; set; }
-
         //套餐可售日期用
         public string prodOid { get; set; }  
         public string rtnMonth { get; set; }

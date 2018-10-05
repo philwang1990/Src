@@ -30,7 +30,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         client.DefaultRequestHeaders.Accept.Add(
                         new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                        KKdayApiProdRequestModel RQ = new KKdayApiProdRequestModel() {
+                        KKdayApiProdRQModel RQ = new KKdayApiProdRQModel() {
                             apiKey = "kkdayapi",
                             userOid = "1",
                             ver = "1.0.1",
@@ -89,7 +89,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         client.DefaultRequestHeaders.Accept.Add(
                         new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                        KKdayApiProdRequestModel RQ = new KKdayApiProdRequestModel() {
+                        KKdayApiProdRQModel RQ = new KKdayApiProdRQModel() {
                             apiKey = "kkdayapi",
                             userOid = "1",
                             ver = "1.0.1",
@@ -145,7 +145,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         client.DefaultRequestHeaders.Accept.Add(
                         new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                        KKdayApiProdRequestModel RQ = new KKdayApiProdRequestModel() {
+                        KKdayApiProdRQModel RQ = new KKdayApiProdRQModel() {
                             apiKey = "kkdayapi",
                             userOid = "1",
                             ver = "1.0.1",
