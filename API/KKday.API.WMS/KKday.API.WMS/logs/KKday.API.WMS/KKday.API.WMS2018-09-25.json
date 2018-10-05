@@ -1,0 +1,22 @@
+﻿{"create_date":"2018/09/25 09:27:08.416","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 13:57:50.595","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 14:49:16.163","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 14:52:27.902","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:10:45.782","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:13:46.762","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:28:32.958","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:32:55.587","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:35:07.585","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:37:25.711","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:37:55.698","level":"FATAL","logger":"Website","msg":"getProd  Error :Error reading JObject from JsonReader. Path '', line 0, position 0.,   at Newtonsoft.Json.Linq.JObject.Load(JsonReader reader, JsonLoadSettings settings)\n   at Newtonsoft.Json.Linq.JObject.Parse(String json, JsonLoadSettings settings)\n   at Newtonsoft.Json.Linq.JObject.Parse(String json)\n   at KKday.API.WMS.AppCode.Proxy.PackageProxy.getPkgLst(QueryProductModel query_lst) in /Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/PackageProxy.cs:line 56","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:38:08.902","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:39:16.015","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 15:42:04.859","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 16:11:09.117","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 16:17:06.331","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 16:20:42.816","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 17:35:04.545","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 17:36:22.259","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 17:42:07.062","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 17:53:08.741","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/09/25 17:53:39.33","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}

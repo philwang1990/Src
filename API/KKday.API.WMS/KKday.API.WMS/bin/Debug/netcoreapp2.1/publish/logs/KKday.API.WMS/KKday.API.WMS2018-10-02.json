@@ -1,0 +1,8 @@
+{"create_date":"2018/10/02 14:36:44.052","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/02 14:54:53.946","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/02 14:57:34.659","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/02 14:59:41.909","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/02 16:17:06.43","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/02 16:25:43.177","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/02 16:25:57.644","level":"FATAL","logger":"Website","msg":"getPkg  Error :Object reference not set to an instance of an object.,   at KKday.API.WMS.Models.Repository.Package.PackageRepository.GetPkgEvents(QueryProductModel rq) in /Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Package/PackageRepository.cs:line 256","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/02 17:10:36.602","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
