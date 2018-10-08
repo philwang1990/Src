@@ -15,7 +15,7 @@ namespace IS4.API.DEMO.Configuration {
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email(),
+                new IdentityResources.Email()
             };
         }
 
@@ -23,7 +23,12 @@ namespace IS4.API.DEMO.Configuration {
         public static IEnumerable<ApiResource> ApiResources() {
             return new[]
             {
-                new ApiResource("socialnetwork", "社交网络"),
+                new ApiResource("KKDAY_B2D", "分銷商平台"){
+                 
+                     UserClaims = new [] { "email" }
+                     
+                     
+                },
 
                 new ApiResource("api", "Demo API") {
                 ApiSecrets = { new Secret("secret".Sha256()) }
@@ -37,7 +42,7 @@ namespace IS4.API.DEMO.Configuration {
             {
                 new Client
                 {
-                    ClientId = "socialnetwork",
+                    ClientId = "KKDAY_B2D",
 
                     AccessTokenLifetime = 2592000,  //AccessToken过期时间：一個月(秒為單位)
                    
@@ -48,7 +53,13 @@ namespace IS4.API.DEMO.Configuration {
                     AllowedGrantTypes = GrantTypes.ResourceOwnerPasswordAndClientCredentials,
 
                     //这里只用socialnetwork
-                    AllowedScopes = new [] { "socialnetwork" },
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        IdentityServerConstants.StandardScopes.Email,
+                        "KKDAY_B2D"
+                    }
 
                    // RefreshTokenUsage = TokenUsage.ReUse,
 
@@ -60,7 +71,8 @@ namespace IS4.API.DEMO.Configuration {
 
                    // AccessTokenType = AccessTokenType.Reference //unsure if this is needed
                 }
-  
+
+
             };
         }
 

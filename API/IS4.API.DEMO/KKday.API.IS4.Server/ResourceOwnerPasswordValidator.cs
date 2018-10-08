@@ -26,13 +26,14 @@ namespace KKday.API.IS4.Server {
                 if (user != null) {
                     //check if password match - remember to hash password if stored as hash in db
                     if (user.Password == context.Password) {
-                        //set the result
+                        //set the result 顯示於門票裡的內容
                         context.Result = new GrantValidationResult(
-                            
-                            subject: user.SubjectId.ToString(),
+                            //使用者序號＋email帳號
+                            subject: user.SubjectId.ToString()+"_"+user.UserName.ToString(),
                             authenticationMethod: "custom",
-
-                            claims: GetUserClaims(user));
+                            claims: GetUserClaims(user)
+                        
+                        );
 
                         return;
                     }
