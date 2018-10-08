@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using KKday.Web.B2D.BE.Areas.Common.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -9,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace KKday.Web.B2D.BE.Areas.User.Views
 {
     [Area("User")]
+    [Authorize(Policy = "UserOnly")]
     public class AccountController : Controller
     {
         // GET: /<controller>/
@@ -17,10 +23,12 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             return View();
         }
 
+
         /// <summary>
         /// 登入頁面
         /// </summary>
         /// <returns>The login.</returns>
+        [AllowAnonymous]
         public IActionResult Login()
         {
 
@@ -31,6 +39,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         /// 註冊頁面
         /// </summary>
         /// <returns>The register.</returns>
+        [AllowAnonymous]
         public IActionResult Register()
         {
 

@@ -41,7 +41,6 @@
     <script type="text/javascript">
         var _root_path = '@Url.Content("~/")';
     </script>
-     
     @RenderSection("Stylesheet", required: false)
 </head>
 <body>
@@ -55,12 +54,19 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a asp-area="User" asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding:0;">
-                        <img src="@Url.Content("~/images/kkday_logo.png")" style="height: inherit;display: inline-block; padding:4px;" /> | AGENT
+                   <img src="@Url.Content("~/images/kkday_logo.png")" style="height: inherit;display: inline-block; padding:4px;" /> | AGENT
                 </a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                    <li class="visible-xs"><a href="javascript:void(0);">前往訂購</a></li>
+                    <li class="visible-xs"><a asp-area="User" asp-controller="Account" asp-action="MyProfile">我的帳號</a></li>
+                    <li class="visible-xs"><a asp-area="User" asp-controller="Voucher" asp-action="Index">憑證補充資料</a></li> 
+                    <li class="visible-xs"><a asp-area="User" asp-controller="Order" asp-action="Index">我的訂單</a></li>
+                    <li class="visible-xs"><a asp-area="User" asp-controller="Account" asp-action="Password">更改密碼</a></li>
+                    <li class="visible-xs"><a asp-area="User" asp-controller="Account" asp-action="Index">子帳戶設定</a></li>  
+                 
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">@User.Identity.Name</a></li>
                     <li><a href="javascript:void(0);">幣別: NTD</a></li>
                     <li><a href="javascript:void(0);">繁體中文</a></li>
                     <li><a asp-area="" asp-controller="Login" asp-action="LogOutAsync">Logout</a></li></ul>
@@ -70,13 +76,23 @@
 
     <partial name="_CookieConsentPartial" />
 
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Today.Year - KKday 同業分銷平台</p>
-        </footer>
-    </div> 
+    <!-- Sidebar -->
+    <div id="wrapper" data-spy="scroll" data-target="#spy" class="">
+        <!-- Sidebar-wrapper -->
+        <partial name="_SideMenu" />
+        <!-- Sidebar-wrapper -->
+
+        <!-- Page Content --> 
+        <div id="page-content-wrapper" class="container body-content">
+            @RenderBody() 
+
+            <hr />
+            <footer>
+                <p>&copy; @DateTime.Today.Year - KKday 同業分銷平台</p>
+            </footer>
+        </div>
+         <!-- Page Content -->
+    </div>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)

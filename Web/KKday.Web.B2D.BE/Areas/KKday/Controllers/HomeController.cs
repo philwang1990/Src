@@ -5,10 +5,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KKday.Web.B2D.BE.Areas.KKday.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 {
     [Area("KKday")]
+    [Authorize(Policy = "KKdayOnly")]
     public class HomeController : Controller
     {
         public IActionResult Index()

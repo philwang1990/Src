@@ -23,9 +23,27 @@ body {
     width: 100%;
 }
 
+.breadcrumb 
+{
+    background-color: transparent;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;
+}
+
+.no-padding {
+    padding-left:0;
+    padding-right:0;
+}
+
+.no-padding-left {
+    padding-left: 0; 
+}
+
+.no-padding-right { 
+    padding-right: 0;
 }
 
 /* Hide/rearrange for smaller screens */

@@ -8,12 +8,14 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/sidemenu.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/sidemenu.css" asp-append-version="true" />
     </environment>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
@@ -33,11 +35,11 @@
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
+        </script> 
     </environment>
-    
+
     <script type="text/javascript">
-        var _root_path = '@Url.Content("~/KKday/")';
+        var _root_path = '@Url.Content("~/Kkday/")';
     </script>
 
     @RenderSection("Stylesheet", required: false)
@@ -52,18 +54,25 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding:0;">
+                    <a asp-area="KKday" asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding:0;">
                         <img src="@Url.Content("~/images/kkday_logo.png")" style="height: inherit;display: inline-block; padding:4px;" />
                     </a>
-                     
+
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                        <li class="visible-xs"><a asp-area="KKday" asp-controller="Company" asp-action="Index">分銷商管理</a></li>
+                        <li class="visible-xs"><a asp-area="KKday" asp-controller="Voucher" asp-action="Index">憑證補充管理</a></li>                       
+                        <li class="visible-xs"><a asp-area="KKday" asp-controller="Order" asp-action="Index">訂單管理</a></li>
+                        <li class="visible-xs"><a asp-area="KKday" asp-controller="Account" asp-action="Index">分銷商帳號管理</a></li>
+                        <li class="visible-xs"><a asp-area="KKday" asp-controller="Account" asp-action="ApiUser">分銷商API管理</a></li>
+                        <li class="visible-xs"><a asp-area="KKday" asp-controller="ListPrice" asp-action="BlackList">牌價黑名單</a></li>
+                        <li class="visible-xs"><a asp-area="KKday" asp-controller="Promotion" asp-action="Index">折扣規則設定</a></li>
+
+                        <li><a asp-area="KKday" asp-controller="Home" asp-action="Index">@User.Identity.Name</a></li>
+                        @*<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
                         <li><a asp-area="" asp-controller="Login" asp-action="LogOutAsync">Logout</a></li>
-                    </ul>
                     </ul>
                 </div>
             </div>
@@ -71,15 +80,24 @@
 
         <partial name="_CookieConsentPartial" />
 
-        <div class="container body-content">
-            @RenderBody()
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Today.Year - KKday 同業分銷平台</p>
-            </footer>
-        </div> 
+         <!-- Sidebar -->
+        <div id="wrapper" data-spy="scroll" data-target="#spy" class="">
+            <!-- Sidebar-wrapper -->
+            <partial name="_SideMenu" />
+            <!-- Sidebar-wrapper -->
 
-        <script src="~/js/site.min.js" asp-append-version="true"></script> 
+            <!-- Page Content --> 
+
+            <div class="container body-content">
+                @RenderBody()
+                <hr />
+                <footer>
+                    <p>&copy; @DateTime.Today.Year - KKday 同業分銷平台</p>
+                </footer>
+            </div>
+        </div>
+
+        <script src="~/js/site.js" asp-append-version="true"></script>
         @RenderSection("Scripts", required: false)
     </body>
 </html>

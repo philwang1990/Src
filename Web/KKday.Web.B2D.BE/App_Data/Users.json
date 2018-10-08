@@ -1,0 +1,26 @@
+﻿{
+  "kkday": [
+    {
+      "xid":581,
+      "staff_no": "KK00851",
+      "email":"eric.hu@kkday.com",
+      "fist_name":"胡",
+      "last_namne":"良寬",
+      "uuid":"451706a7a6724aebaa0e7638db2ca567",
+      "dept":"bid",
+      "role": "SYS"
+    }
+  ],
+  "distributors": [
+    {
+      "email": "guest@example.com",
+      "xid": 102,
+      "fist_name": "王",
+      "last_namne": "大名",
+      "company_xid": 1,
+      "comany_staff" : "酷遊天旅行社",
+      "uuid": "a2933afeae764451a4fa3e48a27e1de5"
+    }
+  ]
+
+}
