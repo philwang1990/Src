@@ -29,7 +29,7 @@ namespace KKday.API.IS4.Server {
                         //set the result 顯示於門票裡的內容
                         context.Result = new GrantValidationResult(
                             //使用者序號＋email帳號
-                            subject: user.SubjectId.ToString()+"_"+user.UserName.ToString(),
+                            subject: user.UserName.ToString(),
                             authenticationMethod: "custom",
                             claims: GetUserClaims(user)
                         
