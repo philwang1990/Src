@@ -25,15 +25,26 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
 
 
         /// <summary>
-        /// 登入頁面
+        /// 基本資料
         /// </summary>
-        /// <returns>The login.</returns>
-        [AllowAnonymous]
-        public IActionResult Login()
+        /// <returns>The login.</returns> 
+        public IActionResult MyProfile()
         {
 
             return View();
         }
+
+        /// <summary>
+        /// 使用者密碼
+        /// </summary>
+        /// <returns>The login.</returns> 
+        public IActionResult Password()
+        {
+
+            return View();
+        }
+
+
 
         /// <summary>
         /// 註冊頁面
