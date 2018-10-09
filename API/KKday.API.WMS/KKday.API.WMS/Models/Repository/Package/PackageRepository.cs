@@ -209,13 +209,13 @@ namespace KKday.API.WMS.Models.Repository.Package {
                 #endregion
 
                 #region --2.從傑森物件取『套餐可售日期列表』--
-                if (pkgSdt.result.ToString() == "0000")
-                {
+
+                if (pkgSdt.result.ToString() == "0000" ) {
 
                     JArray jDt = (JArray)obj["content"]["saleDt"];
 
-                    for (int i = 0; i < jDt.Count; i++)
-                    {
+                    for (int i = 0; i < jDt.Count; i++) {
+
 
                         var model = new SaleDt();
 
@@ -227,6 +227,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                     pkgSdt.saleDt = dt;
                 }
+
 
                 #endregion
             } catch (Exception ex) {

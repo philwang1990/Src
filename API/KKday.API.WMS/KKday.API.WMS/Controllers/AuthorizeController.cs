@@ -42,7 +42,7 @@ namespace KKday.API.WMS.Controllers {
 
             string token = "";
             ApiUserModel user = new ApiUserModel();
->>>>>>> dev_branch
+
             try
             {
                 //1. 從IS4取使用者的門票
