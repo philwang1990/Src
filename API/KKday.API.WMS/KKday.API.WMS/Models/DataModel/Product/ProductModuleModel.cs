@@ -134,7 +134,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
     {
         public bool is_require { get; set; }
         public Man man { get; set; }
-        public Woman wonman { get; set; }
+        public Woman woman { get; set; }
         public Child child { get; set; }
     }
     public class Man

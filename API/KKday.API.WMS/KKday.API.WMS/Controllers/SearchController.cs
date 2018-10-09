@@ -12,8 +12,6 @@ using Microsoft.AspNetCore.Mvc;
 namespace KKday.API.WMS.Controllers {
 
 
-
-
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class SearchController : Controller {
@@ -25,6 +23,9 @@ namespace KKday.API.WMS.Controllers {
         /// <param name="list_rq">List rq.</param>
         [HttpPost]
         public SearchProductModel GetProd([FromBody]SearchRQModel list_rq) {
+
+            Website.Instance.logger.Info($"WMS GetProd Start! B2D Xid:{list_rq.companyXid}");
+
             var prods = new SearchProductModel();
             prods = SearchRepository.GetProdList(list_rq);
 

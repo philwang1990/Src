@@ -26,6 +26,13 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                 JObject obj = PackageProxy.getPkgLst(rq);
 
+                if (obj["content"]["result"].ToString() != "0000")
+                {
+                    pkg.result = obj["content"]["result"].ToString();
+                    pkg.result_msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
+
                 #region --1.取回傳資料是否成功的訊息、一般資訊--
 
                 pkg.result = obj["content"]["result"].ToString();
@@ -178,10 +185,9 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
             } catch (Exception ex) {
 
-                Website.Instance.logger.FatalFormat($"getPkg  Error :{ex.Message},{ex.StackTrace}");
-
-                throw ex;
-              
+                pkg.result = "10001";
+                pkg.result_msg = $"Package ERROR :{ex.Message},{ex.StackTrace}";
+                Website.Instance.logger.FatalFormat($"Package ERROR :{ex.Message},{ex.StackTrace}");
             }
 
             return pkg;
@@ -197,9 +203,17 @@ namespace KKday.API.WMS.Models.Repository.Package {
             PkgSaleDateModel pkgSdt = new PkgSaleDateModel();
             List<SaleDt> dt = new List<SaleDt>();
 
-            try {
+            try
+            {
 
                 JObject obj = PackageProxy.getSaleDate(rq);
+
+                if (obj["content"]["result"].ToString() != "0000")
+                {
+                    pkgSdt.result = obj["content"]["result"].ToString();
+                    pkgSdt.result_msg = $"kkday saleDate api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday saleDate api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
 
                 #region --1.取回傳資料是否成功的訊息--
 
@@ -210,11 +224,13 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                 #region --2.從傑森物件取『套餐可售日期列表』--
 
-                if (pkgSdt.result.ToString() == "0000" ) {
+                if (pkgSdt.result.ToString() == "0000")
+                {
 
                     JArray jDt = (JArray)obj["content"]["saleDt"];
 
-                    for (int i = 0; i < jDt.Count; i++) {
+                    for (int i = 0; i < jDt.Count; i++)
+                    {
 
 
                         var model = new SaleDt();
@@ -230,12 +246,14 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
 
                 #endregion
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
+                pkgSdt.result = "10001";
+                pkgSdt.result_msg = $"SaleDate ERROR :{ex.Message},{ex.StackTrace}";
+                Website.Instance.logger.FatalFormat($"SaleDate ERROR :{ex.Message},{ex.StackTrace}");
 
-                Website.Instance.logger.FatalFormat($"getPkg  Error :{ex.Message},{ex.StackTrace}");
-
-                throw ex;
-              }
+            }
 
             return pkgSdt;
         }
@@ -254,6 +272,13 @@ namespace KKday.API.WMS.Models.Repository.Package {
             try {
 
                 JObject obj = PackageProxy.getEvents(rq);
+
+                if (obj["content"]["result"].ToString() != "0000")
+                {
+                    pkgEvnt.result = obj["content"]["result"].ToString();
+                    pkgEvnt.result_msg = $"kkday event api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday event api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
 
                 #region --1.取回傳資料是否成功的訊息--
 
@@ -282,10 +307,9 @@ namespace KKday.API.WMS.Models.Repository.Package {
                 #endregion
             } catch (Exception ex) {
 
-                Website.Instance.logger.FatalFormat($"getPkg  Error :{ex.Message},{ex.StackTrace}");
-
-                throw ex;
-             
+                pkgEvnt.result = "10001";
+                pkgEvnt.result_msg = $"Events ERROR :{ex.Message},{ex.StackTrace}";
+                Website.Instance.logger.FatalFormat($"Events ERROR:{ex.Message},{ex.StackTrace}");
             }
 
             return pkgEvnt;

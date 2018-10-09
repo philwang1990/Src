@@ -43,30 +43,31 @@ namespace KKday.API.WMS.Controllers {
         /// <param name="email">Email.</param>
         /// <param name="password">Password.</param>
         [HttpGet("AuthUser")]
-        public ApiUserModel AuthUser(string email,string password)
+        public ApiUserModel AuthUser(string email, string password)
         {
 
-           // string token = "";
+            // string token = "";
             ApiUserModel user = new ApiUserModel();
 
             try
             {
+                Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
                 //1. 從IS4取使用者的門票
-               // GetTokenResponseModel response = AuthProxy.getToke(account, password);
-              //  token = response.access_token ?? response.error_description;
+                // GetTokenResponseModel response = AuthProxy.getToke(account, password);
+                //  token = response.access_token ?? response.error_description;
 
                 //1. 從DB抓使用者資訊
                 user = UserRepository.GetUser(email, password);
 
                 //3. 把使用者的資訊轉成byte 存進去redis快取
-              //  var userByte = ObjectToByteArray(user);
-               
-              //  redisCache.Set("wms.api.token", userByte, 
-               //                new DistributedCacheEntryOptions() {
-               //     AbsoluteExpiration = DateTime.Now.AddHours(24)
-                    //設定過期時間，時間一到快取立刻就被移除
-               // });
-            
+                //  var userByte = ObjectToByteArray(user);
+
+                //  redisCache.Set("wms.api.token", userByte, 
+                //                new DistributedCacheEntryOptions() {
+                //     AbsoluteExpiration = DateTime.Now.AddHours(24)
+                //設定過期時間，時間一到快取立刻就被移除
+                // });
+
             }
             catch (Exception ex)
             {
@@ -81,16 +82,20 @@ namespace KKday.API.WMS.Controllers {
         /// <returns>The API user.</returns>
         /// <param name="email">Email.</param>
         [HttpGet("AuthApiUser")]
-        public ApiUserModel AuthApiUser(string email) {
+        public ApiUserModel AuthApiUser(string email)
+        {
 
             ApiUserModel ApiUser = new ApiUserModel();
 
-            try {
-
+            try
+            {
+                Website.Instance.logger.Info($"WMS AuthApiUser Start! B2D email:{email}");
                 //從DB抓使用者資訊
                 ApiUser = UserRepository.GetApiUser(email);
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             return ApiUser;

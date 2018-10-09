@@ -103,9 +103,16 @@ namespace KKday.API.WMS.AppCode.Proxy {
 
                         using (HttpRequestMessage request =
                                new HttpRequestMessage(HttpMethod.Get, _uri)) {
-                            request.Headers.Add("x-auth-key", "kkdaysearchapi_Rfd_fsg+x+TcJy");
+                            request.Headers.Add("x-auth-key", Website.Instance.Configuration["KEY:SEARCH_API"]);
 
                             var response = client.SendAsync(request).Result;
+
+                            //與API串接失敗 
+                            if (response.StatusCode.ToString() != "OK")
+                            {
+                                throw new Exception(response.Content.ReadAsStringAsync().Result);
+                            }
+
                             jsonResult = response.Content.ReadAsStringAsync().Result;
 
                         }
