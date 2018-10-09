@@ -19,7 +19,7 @@ namespace KKday.Web.B2D.EC.AppCode
             try
             {
                 //kkredis  
-                string kkredis = Website.Instance.Configuration["IP:REDIS_SOP"];
+                string kkredis = Website.Instance.Configuration["IP:REDIS_KKDAY"];
                 ConnectionMultiplexer kkrds = ConnectionMultiplexer.Connect(kkredis);
                 IDatabase db = kkrds.GetDatabase();
 
@@ -60,7 +60,7 @@ namespace KKday.Web.B2D.EC.AppCode
         public void SetProdInfotoRedis(string obj ,string redisKey)
         {
             //kkredis  
-            string kkredis = Website.Instance.Configuration["IP:REDIS_SOP"];
+            string kkredis = Website.Instance.Configuration["IP:REDIS_KKDAY"];
             ConnectionMultiplexer kkrds = ConnectionMultiplexer.Connect(kkredis);
             IDatabase db = kkrds.GetDatabase();
 
@@ -73,7 +73,7 @@ namespace KKday.Web.B2D.EC.AppCode
         public string  getProdInfotoRedis( string redisKey)
         {
             //kkredis  
-            string kkredis = Website.Instance.Configuration["IP:REDIS_SOP"];
+            string kkredis = Website.Instance.Configuration["IP:REDIS_KKDAY"];
             ConnectionMultiplexer kkrds = ConnectionMultiplexer.Connect(kkredis);
             IDatabase db = kkrds.GetDatabase();
 
