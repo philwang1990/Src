@@ -31,16 +31,16 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                         KKdayApiProdRQModel RQ = new KKdayApiProdRQModel() {
-                            apiKey = "kkdayapi",
-                            userOid = "1",
-                            ver = "1.0.1",
+                            apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"],
+                            userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"],
+                            ver = Website.Instance.Configuration["KKAPI_INPUT:VER"],
                             locale = query_lst.locale_lang,
                             currency = query_lst.current_currency,
-                            ipaddress = "1",
+                            ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"],
                             json = new Json() {
-                                pkgStatus = query_lst.query_Type,
+                                pkgStatus = Website.Instance.Configuration["KKAPI_INPUT:JSON:PKG_STATUS"],
                                 pkgOid = query_lst.pkg_no,
-                                multipricePlatform = "01"
+                                multipricePlatform = Website.Instance.Configuration["KKAPI_INPUT:JSON:MULTIPRICE_PLATFORM"]
                             }
 
                         };
@@ -90,18 +90,17 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                         KKdayApiProdRQModel RQ = new KKdayApiProdRQModel() {
-                            apiKey = "kkdayapi",
-                            userOid = "1",
-                            ver = "1.0.1",
+                            apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"],
+                            userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"],
+                            ver = Website.Instance.Configuration["KKAPI_INPUT:VER"],
                             locale = query_lst.locale_lang,
                             currency = query_lst.current_currency,
-                            ipaddress = "1",
+                            ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"],
                             json = new Json() {
                                 prodOid = query_lst.prod_no,
-                                rtnMonth = "2",//只出兩個月的可售日期
+                                rtnMonth = Website.Instance.Configuration["KKAPI_INPUT:JSON:RTN_MONTH"],//只出兩個月的可售日期
                            
                             }
-
                         };
 
                         string json_data = JsonConvert.SerializeObject(RQ);
@@ -146,12 +145,12 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
                         KKdayApiProdRQModel RQ = new KKdayApiProdRQModel() {
-                            apiKey = "kkdayapi",
-                            userOid = "1",
-                            ver = "1.0.1",
+                            apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"],
+                            userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"],
+                            ver = Website.Instance.Configuration["KKAPI_INPUT:VER"],
                             locale = query_lst.locale_lang,
                             currency = query_lst.current_currency,
-                            ipaddress = "1",
+                            ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"],
                             json = new Json() {
                                 prodOid = query_lst.prod_no,
                                 pkgOid = query_lst.pkg_no,
