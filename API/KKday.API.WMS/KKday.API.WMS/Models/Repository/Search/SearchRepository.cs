@@ -28,16 +28,27 @@ namespace KKday.API.WMS.Models.Repository {
 
                 JObject obj = SearchProxy.GetProdList(rq);
 
+                Metadata md = new Metadata();
+
                 #region --1.取回傳資料是否成功的訊息、統計用資訊--
 
-                prod.result = obj["metadata"]["status"].ToString();
-                prod.result_msg = obj["metadata"]["desc"].ToString();
+                md.result = obj["metadata"]["status"].ToString();
+                md.result_msg = obj["metadata"]["desc"].ToString();
 
+                prod.metadata = md;
                 #endregion
 
                 //如果狀態為0000  表示搜尋沒問題  才繼續滿足商品欄位
-                if (prod.result == "0000") {
-                    //stats
+                if (md.result == "0000") {
+
+                    //頁數、筆數統計
+                    md.total_count = (int)obj["metadata"]["pagination"]["total_count"];//商品總筆數
+                    md.start = (int)obj["metadata"]["pagination"]["start"];//從第？筆開始
+                    md.count = (int)obj["metadata"]["pagination"]["count"];//一頁？筆商品
+
+                    prod.metadata = md;
+
+                    //stats 金額統計
                     if (rq.stats != null) {
                         Stats s = new Stats();
                         s.price = new Price() {
@@ -50,10 +61,7 @@ namespace KKday.API.WMS.Models.Repository {
                         };
                         prod.stats = s;
 
-                        prod.total_count = (int)obj["metadata"]["pagination"]["total_count"];//商品總筆數
-                        prod.start = (int)obj["metadata"]["pagination"]["start"];//從第？筆開始
-                        prod.count = (int)obj["metadata"]["pagination"]["count"];//一頁？筆商品
-                    }
+                      }
 
                     //facets
                     if (rq.facets != null) {

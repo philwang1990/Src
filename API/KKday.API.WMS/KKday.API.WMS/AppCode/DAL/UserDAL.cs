@@ -13,8 +13,61 @@ using Npgsql;
 
 namespace KKday.API.WMS.AppCode.DAL {
     public class UserDAL {
+        /// <summary>
+        /// Gets the user.
+        /// </summary>
+        /// <returns>The user.</returns>
+        /// <param name="email">Email.</param>
+        /// <param name="pw">Pw.</param>
+        public static JObject GetUser(string email, string pw) {
 
-        public static JObject GetApiUser(string email,string pw) {
+            var obj = new JObject();
+
+            try {
+
+                String sql = @"SELECT B.comp_name,B.comp_language,B.comp_currency,
+                    B.comp_email, B.payment_type, A.*
+                    FROM b2b.b2d_account A
+                    JOIN b2b.b2d_company B ON A.company_xid = B.xid
+                    WHERE A.enable = TRUE 
+                    AND A.email = :email
+                    AND A.password = :pw ";
+
+
+                NpgsqlParameter[] np = new NpgsqlParameter[]{
+                     new NpgsqlParameter("email",email),
+                     new NpgsqlParameter("pw",pw)
+                    };
+
+                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.B2D_DB, CommandType.Text, sql.ToString(), np);
+
+
+                if (ds != null && ds.Tables[0].Rows.Count > 0) {
+
+                    ds.AcceptChanges();
+                    //把dataset轉成結森物件
+                    string json = JsonConvert.SerializeObject(ds, Formatting.Indented);
+
+                    obj = JObject.Parse(json);
+                }
+
+            } catch (Exception ex) {
+
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
+            }
+
+
+
+            return obj;
+
+        }
+
+        /// <summary>
+        /// Gets the API user.
+        /// </summary>
+        /// <returns>The API user.</returns>
+        /// <param name="email">Email.</param>
+        public static JObject GetApiUser(string email) {
 
             var obj = new JObject();
 
@@ -25,13 +78,11 @@ namespace KKday.API.WMS.AppCode.DAL {
                     FROM b2b.b2d_api_account A
                     JOIN b2b.b2d_company B ON A.company_xid = B.xid
                     WHERE A.enable = TRUE 
-                    AND A.email = :email
-                    AND A.password = :pw ";
+                    AND A.email = :email";
 
 
                 NpgsqlParameter[] np = new NpgsqlParameter[]{
-                     new NpgsqlParameter("email",email),
-                     new NpgsqlParameter("pw",pw)
+                     new NpgsqlParameter("email",email)
                     };
 
                 DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.B2D_DB, CommandType.Text, sql.ToString(),np);
@@ -52,9 +103,7 @@ namespace KKday.API.WMS.AppCode.DAL {
                 Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
             }
 
-           
-
-            return obj;
+           return obj;
 
         }
 

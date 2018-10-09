@@ -209,19 +209,23 @@ namespace KKday.API.WMS.Models.Repository.Package {
                 #endregion
 
                 #region --2.從傑森物件取『套餐可售日期列表』--
-                JArray jDt = (JArray)obj["content"]["saleDt"];
+                if (pkgSdt.result.ToString() == "0000" ) {
 
-                for (int i = 0; i < jDt.Count; i++) {
+                    JArray jDt = (JArray)obj["content"]["saleDt"];
 
-                    var model = new SaleDt();
+                    for (int i = 0; i < jDt.Count; i++) {
 
-                    model.pkg_no = jDt[i]["pkgOidObj"].ToString();
-                    model.sale_day = jDt[i]["day"].ToString();
-                    dt.Add(model);
+                        var model = new SaleDt();
 
+                        model.pkg_no = jDt[i]["pkgOidObj"].ToString();
+                        model.sale_day = jDt[i]["day"].ToString();
+                        dt.Add(model);
+
+                    }
+
+                    pkgSdt.saleDt = dt;
                 }
-
-                pkgSdt.saleDt = dt;
+               
 
                 #endregion
             } catch (Exception ex) {

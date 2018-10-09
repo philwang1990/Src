@@ -7,18 +7,22 @@ namespace KKday.API.WMS.Models.DataModel.Search {
 
     public class SearchProductModel {
 
+        public Metadata metadata { get; set; }
+        public Stats stats { get; set; }
+        public Facets facets { get; set; }
+
+        public List<ProductBaseModel> prods { get; set; }
+
+    }
+
+    public class Metadata {
         public string result { get; set; }
         public string result_msg { get; set; }
         public int total_count { get; set; }
         public int start { get; set; }
         public int count { get; set; }
 
-        public Stats stats { get; set; }
-        public Facets facets { get; set; }
-
-        public List<ProductBaseModel> prods { get; set; }
-
-        }
+    }
 
     public class Stats {
         public Price price { get; set; }
