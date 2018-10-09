@@ -38,7 +38,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 {
                     product.reasult = obj["content"]["result"].ToString();
                     product.reasult_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
-                    throw new Exception("kkday product api response msg is not correct!");
+                    throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
 
                 product.reasult = obj["content"]["result"].ToString();
@@ -363,6 +363,9 @@ namespace KKday.API.WMS.Models.Repository.Product
             }
             catch (Exception ex)
             {
+                product.reasult = "";
+                product.reasult_msg = obj["content"]["msg"].ToString();
+
                 Website.Instance.logger.FatalFormat($"Product System Error :{ex.Message},{ex.StackTrace}");
             }
 
@@ -551,7 +554,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                                 size_range_end = (string)x["max"]
                             }).ToList();
                         shoe.man = man;
-                        shoe.wonman = woman;
+                        shoe.woman = woman;
                         shoe.child = child;
 
                     }
