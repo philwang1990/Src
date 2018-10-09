@@ -8,7 +8,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public string current_currency { get; set; }
         public string prod_no { get; set; }
         public string pkg_no { get; set; }//套餐用
-        public string query_Type { get; set; }
+
     }
 }
 

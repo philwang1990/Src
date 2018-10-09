@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using KKday.API.WMS.Models.DataModel.Package;
 
 namespace KKday.API.WMS.Models.DataModel.Product
 {
@@ -25,13 +26,12 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public List<GuideLanguage> module_guide_lang_list { get; set; } //導覽語言 (跟Product共用)
 
         //[booking]eventOid & eventBackupData
-        //*******崩潰 候補場次*******//
+        public List<Event> module_event_list { get; set; }
 
     }
 
 
     #region CusData Model Type = {PMDL_CUST_DATA,orderCusList}
-
     public class CusData
     {
         public bool is_require { get; set; }//cust data request
@@ -67,11 +67,20 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class Gender
     {
         public bool is_require { get; set; }
+        public List<GenderType> gender_list { get; set; }
     }
+
+    public class GenderType
+    {
+        public string type { get; set; }
+        public string type_name { get; set; }
+    }
+
 
     public class Nationality
     {
         public bool is_require { get; set; }  //[booking] nationalityCode
+        public List<NationInfo> nation_list { get; set; }
         public NationalityID nationality_id { get; set; }
     }
     public class NationalityID
@@ -79,6 +88,14 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public bool is_require_TW { get; set; }//身分證
         public bool is_require_MTP { get; set; }//台胞證
         public bool is_require_HKMO { get; set; }//港澳身分證字號
+    }
+    public class NationInfo
+    {
+        public string country_local_name { get; set; }
+
+        public string country_code { get; set; }
+        public string country_tel_code { get; set; }
+        public string country_tel_info { get; set; }
     }
 
     public class Birthday
@@ -194,6 +211,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
     {
         public bool is_require_TelNumber { get; set; } 
         public bool is_require_TelCountryCode { get; set; }
+        public List<NationInfo> tel_code_list { get; set; }
     }
 
     public class ContactApp //[booking] "YesNo" + appType + appAccount
@@ -209,6 +227,12 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public string app_name { get; set; }
     }
 
+    //public class TelCode
+    //{
+    //    public bool is_supported { get; set; }
+    //    public string app_type { get; set; }
+    //    public string app_name { get; set; }
+    //}
     #endregion
 
     #region SimWifi Model type = {PMDL_SIM_WIFI,OMDL_OTHER_DATA}  
@@ -347,6 +371,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
     {
         public bool is_require_TelNumber { get; set; }
         public bool is_require_TelCountryCode { get; set; }
+        public List<NationInfo> tel_code_list { get; set; }
     }
     public class ReceiverAddress //收件國家 countryCode +countryName /城市 cityCode+cityName /郵遞區號 zipCode /地址 address
     {
@@ -354,11 +379,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public bool is_require_City { get; set; }
         public bool is_require_ZipCode { get; set; }
         public bool is_require_Address { get; set; }
-        public List<ReceiverCounrty> country_list { get; set; }
-    }
-    public class ReceiverCounrty
-    {
-        public string country_code { get; set; }
+        public List<Country> country_list { get; set; }
     }
 
     public class SendToHotel
@@ -523,6 +544,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
     }
 
     #endregion
+
 
 
 }
