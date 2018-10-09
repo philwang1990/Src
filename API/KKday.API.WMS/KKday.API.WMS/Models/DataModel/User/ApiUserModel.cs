@@ -7,6 +7,7 @@ namespace KKday.API.WMS.Models.DataModel.User {
     ///  API 使用者資料模型, 資料表來源: 
     /// b2b.b2d_api_account, b2b.b2d_company
     /// </summary>
+    [Serializable]
     public class ApiUserModel {
 
         public string result { get; set; }
