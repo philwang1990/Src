@@ -2,10 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KKday.Web.B2D.BE.App_Code;
+using KKday.Web.B2D.BE.Common.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,9 +34,29 @@ namespace KKday.Web.B2D.BE
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+ 
+            // 新增 Cookie 驗證服務
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
+            {
+                options.Events.OnValidatePrincipal = (context) =>
+                {
+                    return Task.CompletedTask;
+                };
+
+                options.LoginPath = "/Login/";
+                // options.Cookie.Domain = "kkday.com";
+            });
+
+            // 指定Cookie授權政策區分不同身分者
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("KKdayOnly", policy => policy.RequireClaim("UserType", "KKDAY"));
+                options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER"));
+            });
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,9 +72,24 @@ namespace KKday.Web.B2D.BE
                 app.UseHsts();
             }
 
+            // 初始化-網站主控台
+            Website.Instance.Init(this.Configuration, env);
+
+            // 異常頁面處理, 走 RazorPage 模式(目錄=>"\Pages\Errors\")
+            app.UseStatusCodePages(context => {
+                // var request = context.HttpContext.Request;
+                var response = context.HttpContext.Response;
+                response.Redirect("/Errors/" + response.StatusCode);
+
+                return Task.CompletedTask;
+            });
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            // 啟用 Cookie 使用者驗證
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
