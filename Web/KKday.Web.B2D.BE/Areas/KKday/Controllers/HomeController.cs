@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KKday.Web.B2D.BE.Areas.KKday.Models;
 using Microsoft.AspNetCore.Authorization;
+using KKday.Web.B2D.BE.Models.Account;
+using Newtonsoft.Json;
+using System.Security.Claims;
 
 namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 {
@@ -15,6 +18,12 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
     {
         public IActionResult Index()
         {
+            var jsonAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            if (jsonAccount != null)
+            {
+                var account = JsonConvert.DeserializeObject<KKdayAccount>(jsonAccount);
+            }
+
             return View();
         }
 

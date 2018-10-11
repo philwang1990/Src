@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -16,7 +17,9 @@ namespace KKday.Web.B2D.BE.App_Code
 
         public string ContenRootPath { get; private set; }  // 專案目錄所在 ~/
 
-        public IConfiguration Configuration { get; private set; }
+        public IConfiguration Configuration { get; private set; } 
+
+        public string AesCryptKey { get; private set; }
 
         private Website()
         {
@@ -34,6 +37,10 @@ namespace KKday.Web.B2D.BE.App_Code
 
             // 建立資料庫連線
             this.SqlConnectionString = configuration["NPGSQL_Connection"];
+
+            //
+            this.AesCryptKey = configuration["AesCryptKey"];
+
 
         }
     }

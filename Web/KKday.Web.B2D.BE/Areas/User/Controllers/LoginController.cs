@@ -4,9 +4,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.Areas.Common.Models;
+using KKday.Web.B2D.BE.Models.Account;
+using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using KKday.Web.B2D.BE.App_Code;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,6 +21,13 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
     [Area("User")]
     public class LoginController : Controller
     {
+        private IMemoryCache _cache;
+
+        public LoginController(IMemoryCache memoryCache)
+        {
+            _cache = memoryCache;
+        }
+
         // GET: /<controller>/
         public IActionResult Index()
         {
@@ -27,35 +40,21 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
 
             try
             {
-                // 檢查登入者身分
-                bool IsKKdayUser = false, IsB2dUser = false;
-                // 檢查是否為合法KKday員工
-                if(loginModel.Email.IndexOf("kkday.com", StringComparison.InvariantCultureIgnoreCase) != -1)
-                {
-                    IsKKdayUser = true;
-                }
-                // 檢查是否為合法分銷商
-                else {
-                    IsB2dUser = true;
-                }
+                var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
+                var account = accountRepo.GetAccount(loginModel.Email, loginModel.Password);
+                var IsKKdayUser = account is KKdayAccount ? true : false;
 
-                // 以上皆非, 則送出登入身分異常
-                if(!IsKKdayUser && !IsB2dUser) {
-                    throw new Exception("Invalid User Login");
-                }
-
-                var UserType = IsKKdayUser ? "KKDAY" : "USER";
-               
-                // 使用者姓名
-                loginModel.Username = IsKKdayUser ? "KK員工" : "酷遊天旅行社";
+                var strChiperAcct = AesCryptHelper.aesEncryptBase64(JsonConvert.SerializeObject(account), Website.Instance.AesCryptKey);
 
                 var claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.Email, loginModel.Email),
-                    new Claim(ClaimTypes.Name, loginModel.Username),
-                    new Claim("UserType", UserType)
+                    new Claim(ClaimTypes.Name, account.NAME),
+                    new Claim("Account", account.ACCOUNT),
+                    new Claim("UUID", account.UUID),
+                    new Claim("UserType", IsKKdayUser ? "KKDAY" : "USER"),
+                    new Claim(ClaimTypes.UserData,strChiperAcct), // 以AES加密JSON格式把使用者資料保存於Cookie
                 };
-                  
+
                 var userIdentity = new ClaimsIdentity(claims, "login");
 
                 ClaimsPrincipal principal = new ClaimsPrincipal(userIdentity);
@@ -69,11 +68,16 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
                         IsPersistent = false,
                         AllowRefresh = false
                     });
+                 
+                if (!IsKKdayUser)
+                {
+                    HttpContext.Session.SetString("B2D_COMPANY_LOCALE", ((B2dAccount)account).LOCALE);
+                    HttpContext.Session.SetString("B2D_COMPANY_CURRENCY", ((B2dAccount)account).CURRENCY);
+                }
 
-                //Just redirect to our index after logging in. 
-                var _url =  IsKKdayUser ? Url.Content("~/KKday/") : Url.Content("~/User") ;
                 jsonData.Add("status", "OK");
-                jsonData.Add("url", _url);
+                //Just redirect to our index after logging in. 
+                jsonData.Add("url", IsKKdayUser ? Url.Content("~/KKday/") : Url.Content("~/User"));
             }
             catch (Exception ex)
             {

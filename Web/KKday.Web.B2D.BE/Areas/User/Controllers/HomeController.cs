@@ -7,20 +7,21 @@ using Microsoft.AspNetCore.Mvc;
 using KKday.Web.B2D.BE.Areas.User.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Principal;
+using KKday.Web.B2D.BE.Models.Account;
+using System.Security.Claims;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace KKday.Web.B2D.BE.Areas.User.Controllers
 {
     [Area("User")]
     [Authorize(Policy = "UserOnly")]
     public class HomeController : Controller
-    {
+    { 
         public IActionResult Index()
-        {
-            //return RedirectToAction("Login", "Account");
-            //return RedirectToAction("Register", "Account");
-
+        { 
             var userId = User.Identity.Name;
-
+           
             return View();
         }
 

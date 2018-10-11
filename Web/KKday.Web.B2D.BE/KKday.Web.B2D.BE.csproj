@@ -1,15 +1,59 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
-
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.2" />
+    <PackageReference Include="Npgsql" Version="4.0.3" />
   </ItemGroup>
-
   <ItemGroup>
-    <Folder Include="Models\DataModel\" />
+    <Folder Include="Areas\" />
+    <Folder Include="Areas\KKday\" />
+    <Folder Include="Areas\User\" />
+    <Folder Include="Areas\User\Controllers\" />
+    <Folder Include="Areas\User\Models\" />
+    <Folder Include="Areas\User\Views\" />
+    <Folder Include="Areas\KKday\Controllers\" />
+    <Folder Include="Areas\KKday\Models\" />
+    <Folder Include="Areas\KKday\Views\" />
+    <Folder Include="Areas\User\Views\Account\" />
+    <Folder Include="Areas\User\Views\Order\" />
+    <Folder Include="AppCode\" />
+    <Folder Include="Pages\" />
+    <Folder Include="Pages\Errors\" />
+    <Folder Include="Areas\User\Views\Login\" />
+    <Folder Include="Areas\KKday\Views\Company\" />
+    <Folder Include="Areas\KKday\Views\Account\" />
+    <Folder Include="Areas\KKday\Views\Order\" />
+    <Folder Include="AppCode\DAL\" />
+    <Folder Include="Models\" />
+    <Folder Include="Areas\User\Models\DataModel\" />
+    <Folder Include="Areas\KKday\Models\DataModel\" />
+    <Folder Include="AppCode\DAL\Company\" />
+    <Folder Include="AppCode\DAL\Account\" />
+    <Folder Include="Areas\KKday\Views\Voucher\" />
+    <Folder Include="Areas\KKday\Views\Promotion\" />
+    <Folder Include="Areas\KKday\Views\ListPrice\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\User\Views\Voucher\" />
     <Folder Include="Models\Repository\" />
+    <Folder Include="Models\Account\" />
+    <Folder Include="Models\Common\" />
+    <Folder Include="Models\Company\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
+    <Compile Remove="App_Code\MyUserClaimsPrincipalFactory.cs" />
+    <Compile Remove="Pages\Error\Index.cshtml.cs" />
+    <Compile Remove="Pages\Shared\Index.cshtml.cs" />
+    <Compile Remove="App_Code\ExceptionFilter.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Areas\User\Views\Home\Error.cshtml" />
+    <Content Remove="Pages\Error\Index.cshtml" />
+    <Content Remove="Pages\Shared\Index.cshtml" />
+    <Content Remove="wwwroot\images\Index.cshtml" />
+    <Content Remove="App_Data\Users.json" />
   </ItemGroup>
 </Project>

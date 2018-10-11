@@ -5,7 +5,6 @@ namespace KKday.Web.B2D.BE.Areas.Common.Models
     public class LoginModel
     {
         public string Email { get; set; }
-        public string Username { get; set; }
         public string Password { get; set; }
     }
 }

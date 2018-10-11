@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Common.Models;
+using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -34,18 +35,24 @@ namespace KKday.Web.B2D.BE
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
- 
-            // 新增 Cookie 驗證服務
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
-            {
-                options.Events.OnValidatePrincipal = (context) =>
-                {
-                    return Task.CompletedTask;
-                };
 
-                options.LoginPath = "/Login/";
-                // options.Cookie.Domain = "kkday.com";
+            // 新增 Cookie 驗證服務
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = ".B2D.User.SharedCookie";
+                    options.LoginPath = "/Login/";
+                    // options.Cookie.Domain = "kkday.com";
+
+                    options.Events.OnValidatePrincipal = (context) =>
+                    {
+                        return Task.CompletedTask;
+                    };
+
             });
+             
+            // 允用 Local Cache
+            services.AddMemoryCache();
 
             // 指定Cookie授權政策區分不同身分者
             services.AddAuthorization(options =>
@@ -54,8 +61,16 @@ namespace KKday.Web.B2D.BE
                 options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER"));
             });
 
+            #region Dependency Injection
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            // 註冊帳號處理物件
+            services.AddTransient<AccountRepository>();
+
+            #endregion
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddSessionStateTempDataProvider(); ;
+            services.AddSession();
 
         }
 
@@ -74,7 +89,7 @@ namespace KKday.Web.B2D.BE
 
             // 初始化-網站主控台
             Website.Instance.Init(this.Configuration, env);
-
+             
             // 異常頁面處理, 走 RazorPage 模式(目錄=>"\Pages\Errors\")
             app.UseStatusCodePages(context => {
                 // var request = context.HttpContext.Request;
@@ -87,7 +102,7 @@ namespace KKday.Web.B2D.BE
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
+            app.UseSession();
             // 啟用 Cookie 使用者驗證
             app.UseAuthentication();
 

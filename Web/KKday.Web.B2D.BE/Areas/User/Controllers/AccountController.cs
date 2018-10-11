@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.Areas.Common.Models;
+using KKday.Web.B2D.BE.Models.Account;
+using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -19,31 +23,76 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
     {
         // GET: /<controller>/
         public IActionResult Index()
-        {
+        {  
             return View();
         }
 
 
         /// <summary>
-        /// 基本資料
+        /// 檢視基本資料
         /// </summary>
         /// <returns>The login.</returns> 
         public IActionResult MyProfile()
         {
+            B2dUserProfile _profile = new B2dUserProfile();
+
+            var jsonAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            if (jsonAccount != null)
+            {
+                var _account = JsonConvert.DeserializeObject<B2dAccount>(jsonAccount);
+                ClassMapping.CopyPropertiesFrom(_profile, _account);
+
+
+            }
+             
+            return View(_profile);
+        }
+
+        /// <summary>
+        /// 更改密碼
+        /// </summary>
+        /// <returns>The login.</returns> 
+        public IActionResult Password()
+        {
+            var _strUuid = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "UUID").Select(c => c.Value)).FirstOrDefault();
+            ViewData["UUID"] = _strUuid;
 
             return View();
         }
 
         /// <summary>
-        /// 使用者密碼
+        /// 更改使用者密碼
         /// </summary>
-        /// <returns>The login.</returns> 
-        public IActionResult Password()
+        /// <returns>Json Result</returns>
+
+        [HttpPost]
+        public IActionResult UpdatePassword(string uuid, string password)
         {
+            Contract.Ensures(Contract.Result<IActionResult>() != null);
+            Dictionary<string, string> jsonData = new Dictionary<string, string>();
 
-            return View();
+            try
+            {
+                var _strAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                if (string.IsNullOrEmpty(_strAccount))
+                {
+                    throw new Exception("Invalid account to updated password");
+                }
+
+                var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
+                accountRepo.SetNewPassword(_strAccount, password);
+
+                jsonData.Add("status", "OK");
+            }
+            catch(Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
         }
-
 
 
         /// <summary>

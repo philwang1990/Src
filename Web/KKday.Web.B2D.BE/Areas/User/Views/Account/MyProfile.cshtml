@@ -1,5 +1,10 @@
-﻿@{
+﻿@using KKday.Web.B2D.BE.Models.Account
+@{
     Layout = "_LayoutMain";
+}
+@model B2dUserProfile
+@section Scripts {
+    <script type="text/javascript" src="https://rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
 }
 
 <nav aria-label="breadcrumb">
@@ -12,8 +17,144 @@
     <div class="row">
         <div class="col-xs-12">
             <h4>我的帳號</h4>
-
-
         </div>
+
+        <div class="col-xs-12">
+            <ul id="myTab" class="nav nav-tabs hidden-xs" style="margin-bottom: 15px;">
+                <li class="active">
+                    <a href="#home" data-toggle="tab" class="js-tabcollapse-panel-heading" data-parent="" aria-expanded="true">基本資料</a>
+                </li>
+                <li class="">
+                    <a href="#profile" data-toggle="tab" class="js-tabcollapse-panel-heading collapsed" data-parent="" aria-expanded="false">公司資料</a>
+                </li>
+                @*
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="#dropdown3" data-toggle="tab" class="js-tabcollapse-panel-heading collapsed" data-parent="" aria-expanded="false">@@fat</a>
+                        </li>
+                        <li>
+                            <a href="#dropdown4" data-toggle="tab" class="js-tabcollapse-panel-heading collapsed" data-parent="" aria-expanded="false">@@mdo</a>
+                        </li>
+                    </ul>
+                </li>
+                *@
+            </ul>
+            <div class="panel-group visible-xs" id="myTab-accordion"></div>
+            <div id="myTabContent" class="tab-content hidden-xs">
+                <div class="tab-pane fade active in" id="home">
+                     
+                        <div class="col-md-8 col-md-offset-1">
+                            <div class="row">
+
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>稱謂</label>
+                                        <div class="form-control">@Model.GENDER_TITLE</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>名<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.NAME_LAST</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>姓<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.NAME_FIRST</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>電子信箱<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.EMAIL</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>職稱<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.JOB_TITLE</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>國家或地區代碼<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.COUNTRY_CODE</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label>聯絡電話<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.TEL</div>
+                                    </div>
+                                </div>
+
+
+                        </div>
+
+                        <hr>
+                        <div class="form-footer clearfix">
+                            <a href="#" class="btn btn-primary">修改</a>
+                        </div>
+                    </div>
+                     
+                </div>
+                <div class="tab-pane fade" id="profile">
+                    <div class="col-md-8 col-md-offset-1">
+                       <div class="row">
+                                 
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label>公司名稱<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.COMPANY_NAME</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>統一編號<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.INVOICE_NO</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>公司網站網址<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.URL</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>聯絡地址<span class="text-danger">*</span></label>
+                                        <div class="form-control">@Model.ADDRESS</div>
+                                    </div>
+                                </div>
+                                
+                        </div>
+
+                    </div>
+                </div>
+                @*
+                <div class="tab-pane fade" id="dropdown3">
+                    <p>Messenger bag gentrify pitchfork tattooed craft beer, iphone skateboard locavore carles etsy salvia banksy hoodie helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit cred pitchfork. Williamsburg banh mi whatever gluten-free, carles pitchfork biodiesel fixie etsy retro mlkshk vice blog. Scenester cred you probably haven't heard of them, vinyl craft beer blog stumptown. Pitchfork sustainable tofu synth chambray yr.</p>
+                </div>
+                <div class="tab-pane fade" id="dropdown4">
+                    <p>They sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin. Cred vinyl keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table VHS viral locavore cosby sweater. Lomo wolf viral, mustache readymade thundercats keffiyeh craft beer marfa ethical. Wolf salvia freegan, sartorial keffiyeh echo park vegan.</p>
+                </div>
+                *@
+            </div>
+        </div>
+        <!-- tabs -->
+
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function(){
+        $('#myTab').tabCollapse();
+    });
+</script>
