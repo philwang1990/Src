@@ -178,7 +178,9 @@ namespace KKday.API.WMS.AppCode.Proxy
                                 }
                                 else
                                 {
+
                                     //rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getModule" + query_lst.b2d_xid);
+
                                 }
                             }
 
