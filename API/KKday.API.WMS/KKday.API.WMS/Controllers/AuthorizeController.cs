@@ -36,31 +36,38 @@ namespace KKday.API.WMS.Controllers {
             this.redisCache = redisCache;
         }
 
-        [HttpGet("GetToken")]
-        public ApiUserModel GetToken(string account,string password)
+        /// <summary>
+        /// Auths the user.
+        /// </summary>
+        /// <returns>The user.</returns>
+        /// <param name="email">Email.</param>
+        /// <param name="password">Password.</param>
+        [HttpGet("AuthUser")]
+        public ApiUserModel AuthUser(string email, string password)
         {
 
-            string token = "";
+            // string token = "";
             ApiUserModel user = new ApiUserModel();
 
             try
             {
+                Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
                 //1. 從IS4取使用者的門票
-                GetTokenResponseModel response = AuthProxy.getToke(account, password);
-                token = response.access_token ?? response.error_description;
+                // GetTokenResponseModel response = AuthProxy.getToke(account, password);
+                //  token = response.access_token ?? response.error_description;
 
-                //2. 從DB抓使用者資訊
-                user = UserRepository.GetApiUser(account, password);
+                //1. 從DB抓使用者資訊
+                user = UserRepository.GetUser(email, password);
 
                 //3. 把使用者的資訊轉成byte 存進去redis快取
-                var userByte = ObjectToByteArray(user);
-               
-                redisCache.Set("wms.api.token", userByte, 
-                               new DistributedCacheEntryOptions() {
-                    AbsoluteExpiration = DateTime.Now.AddHours(24)
-                    //設定過期時間，時間一到快取立刻就被移除
-                });
-            
+                //  var userByte = ObjectToByteArray(user);
+
+                //  redisCache.Set("wms.api.token", userByte, 
+                //                new DistributedCacheEntryOptions() {
+                //     AbsoluteExpiration = DateTime.Now.AddHours(24)
+                //設定過期時間，時間一到快取立刻就被移除
+                // });
+
             }
             catch (Exception ex)
             {
@@ -69,52 +76,74 @@ namespace KKday.API.WMS.Controllers {
             return user;
         }
 
-        //將物件轉為ByteArray
-        private byte[] ObjectToByteArray(Object aum) {
-            if (aum == null)
-                return null;
-            BinaryFormatter bf = new BinaryFormatter();
-            MemoryStream ms = new MemoryStream();
-            bf.Serialize(ms, aum);
-            return ms.ToArray();
-
-        }
-
-
-
-
-        [HttpGet("authToken")]
-        public string authToken(string token)
+        /// <summary>
+        /// Auths the API user.
+        /// </summary>
+        /// <returns>The API user.</returns>
+        /// <param name="email">Email.</param>
+        [HttpGet("AuthApiUser")]
+        public ApiUserModel AuthApiUser(string email)
         {
-            string result = "";
-            HttpClient client = new HttpClient();
-        
+
+            ApiUserModel ApiUser = new ApiUserModel();
+
             try
             {
-
-                var cacheBytes = redisCache.Get("wms.api.token");
-
-                if (cacheBytes != null) {
-
-                    token = System.Text.Encoding.UTF8.GetString(cacheBytes);
-
-                    //Token 驗證的語法
-                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-
-                    HttpResponseMessage response = client.GetAsync("http://192.168.2.83:5009/api/values").Result;
-                    result = response.Content.ReadAsStringAsync().Result;
-
-                } else {
-                    result = "系統閒置過久，請重新登入！";
-                }
-
-            } catch (Exception ex)
-            {
-                result = ex.Message;
+                Website.Instance.logger.Info($"WMS AuthApiUser Start! B2D email:{email}");
+                //從DB抓使用者資訊
+                ApiUser = UserRepository.GetApiUser(email);
 
             }
-            return result;
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return ApiUser;
         }
+
+        //將物件轉為ByteArray
+        //private byte[] ObjectToByteArray(Object aum) {
+        //    if (aum == null)
+        //        return null;
+        //    BinaryFormatter bf = new BinaryFormatter();
+        //    MemoryStream ms = new MemoryStream();
+        //    bf.Serialize(ms, aum);
+        //    return ms.ToArray();
+
+        //}
+
+        //[HttpGet("authToken")]
+        //public string authToken(string token)
+        //{
+        //    string result = "";
+        //    HttpClient client = new HttpClient();
+        
+        //    try
+        //    {
+
+        //        var cacheBytes = redisCache.Get("wms.api.token");
+
+        //        if (cacheBytes != null) {
+
+        //            token = System.Text.Encoding.UTF8.GetString(cacheBytes);
+
+        //            //Token 驗證的語法
+        //            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        //            HttpResponseMessage response = client.GetAsync("http://192.168.2.83:5009/api/values").Result;
+        //            result = response.Content.ReadAsStringAsync().Result;
+
+        //        } else {
+        //            result = "系統閒置過久，請重新登入！";
+        //        }
+
+        //    } catch (Exception ex)
+        //    {
+        //        result = ex.Message;
+
+        //    }
+        //    return result;
+        //}
 
 
 

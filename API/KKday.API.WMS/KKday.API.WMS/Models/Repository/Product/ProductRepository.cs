@@ -38,7 +38,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 {
                     product.reasult = obj["content"]["result"].ToString();
                     product.reasult_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
-                    throw new Exception("kkday product api response msg is not correct!");
+                    throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
 
                 product.reasult = obj["content"]["result"].ToString();
@@ -363,7 +363,10 @@ namespace KKday.API.WMS.Models.Repository.Product
             }
             catch (Exception ex)
             {
-                Website.Instance.logger.FatalFormat($"Product System Error :{ex.Message},{ex.StackTrace}");
+                product.reasult = "10001";
+                product.reasult_msg = $"Product ERROR:{ex.Message},{ex.StackTrace}";
+
+                Website.Instance.logger.FatalFormat($"Product ERROR:{ex.Message},{ex.StackTrace}");
             }
 
             return product;
@@ -551,7 +554,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                                 size_range_end = (string)x["max"]
                             }).ToList();
                         shoe.man = man;
-                        shoe.wonman = woman;
+                        shoe.woman = woman;
                         shoe.child = child;
 
                     }
@@ -777,6 +780,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                             Country country = new Country();
                             List<City> cityList = new List<City>();
 
+                            //ex:A01-003
                             string area_code = item["countryCode"].ToString().Split('-')[0];
                             string country_code = item["countryCode"].ToString();
 
@@ -830,6 +834,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     car.is_require = (bool)objPmdlRentCar["moduleSetting"]["isRequired"];
                     car.rent_type = (string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"];
 
+                    //去租車公司取車
                     if ((string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"] != "03")
                     {
                         RentOffice office = new RentOffice();
@@ -853,6 +858,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                             }).ToList();
                         car.rent_office = office;
                     }
+                    //司機接送 或是 客人指定>>接送資料
                     else
                     {
                         DriverShuttle driver = new DriverShuttle();
@@ -883,7 +889,20 @@ namespace KKday.API.WMS.Models.Repository.Product
                         venue.is_require = (bool)objPmdlVenue["moduleSetting"]["isRequired"];
                         venue.is_require_Date = (bool)objPmdlVenue["moduleSetting"]["isRequired"];
                         venue.venue_type = (string)objPmdlVenue["moduleSetting"]["setting"]["venueType"];
-                        venue.designated_location_list = objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedLocation"]["locations"].ToObject<List<DesignatedLocation>>();
+                        venue.designated_location_list = ((JArray)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedLocation"]["locations"])
+                            .Select(x => new DesignatedLocation
+                            {
+                                id = (string)x["id"],
+                                sort = (int)x["sort"],
+                                location_name = (string)x["locationName"],
+                                location_address = (string)x["locationAddress"],
+                                image_url = (string)x["imageUrl"],
+                                time_range_start = (string)x["timeRange"]["from"]["hour"] + ":" + (string)x["timeRange"]["from"]["minute"],
+                                time_range_end = (string)x["timeRange"]["to"]["hour"] + ":" + (string)x["timeRange"]["to"]["minute"]
+                            }).ToList();
+
+
+                        //objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedLocation"]["locations"].ToObject<List<DesignatedLocation>>();
 
                         DesignatedByCustomer byCustomer = new DesignatedByCustomer();
                         PipickUp up = new PipickUp();
@@ -902,8 +921,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                         string min_from = (string)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedByCustomer"]["pickUpLocation"]["options"]["pickUpTime"]["customTime"]["timeRange"]["from"]["minute"];
                         string hour_to = (string)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedByCustomer"]["pickUpLocation"]["options"]["pickUpTime"]["customTime"]["timeRange"]["to"]["hour"];
                         string min_to = (string)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedByCustomer"]["pickUpLocation"]["options"]["pickUpTime"]["customTime"]["timeRange"]["to"]["minute"];
-                        cusTime.time_range_start = $"{hour_from}:{min_from}";
-                        cusTime.time_range_end = $"{hour_to}:{min_to}";
+                        cusTime.time_range_start = !cusTime.is_allow ? null : $"{hour_from}:{min_from}";
+                        cusTime.time_range_end = !cusTime.is_allow ? null : $"{hour_to}:{min_to}";
 
                         upTime.custom = cusTime;
 
@@ -926,13 +945,11 @@ namespace KKday.API.WMS.Models.Repository.Product
                     var objPmdlExchange = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_EXCHANGE");
                     if ((string)objPmdlExchange["moduleSetting"]["setting"]["exchangeType"] == "05")
                     {
-
                         List<Location> locations = ((JArray)objPmdlExchange["moduleSetting"]["setting"]["dataItems"]["locations"])
                             .Select(x => new Location
                             {
                                 id = (string)x["id"],
                                 name = (string)x["name"]
-
                             }).ToList();
 
                         module.module_exchange_location_list = locations;
@@ -983,9 +1000,9 @@ namespace KKday.API.WMS.Models.Repository.Product
             catch (Exception ex)
             {
                 module.reasult = "10001";
-                module.reasult_msg = ex.Message;
+                module.reasult_msg = $"Module ERROR :{ex.Message},{ex.StackTrace}";
                 module.module_type = null;
-                Website.Instance.logger.FatalFormat($"Module System Error :{ex.Message},{ex.StackTrace}");
+                Website.Instance.logger.FatalFormat($"Module ERROR :{ex.Message},{ex.StackTrace}");
             }
 
             return module;

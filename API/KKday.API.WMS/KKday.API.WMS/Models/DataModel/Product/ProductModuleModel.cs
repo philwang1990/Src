@@ -134,7 +134,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
     {
         public bool is_require { get; set; }
         public Man man { get; set; }
-        public Woman wonman { get; set; }
+        public Woman woman { get; set; }
         public Child child { get; set; }
     }
     public class Man
@@ -459,8 +459,8 @@ namespace KKday.API.WMS.Models.DataModel.Product
     {
         public int sort { get; set; }
         public string id { get; set; }
-        public string route_English { get; set; } //路線說明(英文）
-        public string route_Local { get; set; } //路線說明(在地語系)
+        public string routeEng { get; set; } //路線說明(英文）
+        public string routeLocal { get; set; } //路線說明(在地語系)
 
     }
     public class RouteCustomized
