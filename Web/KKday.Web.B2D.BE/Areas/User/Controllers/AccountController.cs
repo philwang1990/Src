@@ -4,6 +4,7 @@ using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Areas.Common.Models;
 using KKday.Web.B2D.BE.Models.Account;
 using KKday.Web.B2D.BE.Models.Repository;
@@ -39,9 +40,8 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             var jsonAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
             if (jsonAccount != null)
             {
-                var _account = JsonConvert.DeserializeObject<B2dAccount>(jsonAccount);
+                var _account = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(jsonAccount, Website.Instance.AesCryptKey));
                 ClassMapping.CopyPropertiesFrom(_profile, _account);
-
 
             }
              

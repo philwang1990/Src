@@ -63,8 +63,8 @@ namespace KKday.Web.B2D.BE
 
             #region Dependency Injection
 
-            // 註冊帳號處理物件
-            services.AddTransient<AccountRepository>();
+            // 註冊帳號處理服務
+            services.AddSingleton<AccountRepository>();
 
             #endregion
 
