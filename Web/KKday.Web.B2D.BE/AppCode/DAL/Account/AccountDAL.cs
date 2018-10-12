@@ -10,7 +10,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
     public class AccountDAL
     {
         // 取得所有分銷商使用者列表　
-        public List<B2dAccount> GetAccounts()
+        public static List<B2dAccount> GetAccounts()
         {
             List<B2dAccount> accounts = new List<B2dAccount>();
 
@@ -37,7 +37,7 @@ JOIN b2b.b2d_company b ON a.company_xid=b.xid
                             NAME_LAST = dr.ToStringEx("name_last"),
                             COMPANY_XID = dr.ToInt64("comp_xid"),
                             COMPANY_NAME = dr.ToStringEx("comp_name"),
-                            ACCOUNT = dr.ToStringEx("user_email"), //與Email相同
+                            ACCOUNT = dr.ToStringEx("email"), //與Email相同
                             DEPARTMENT = dr.ToStringEx(""),
                             ENABLE = dr.ToBoolean("enable"),
                             GENDER_TITLE = dr.ToStringEx("gender_title"),
@@ -60,7 +60,7 @@ JOIN b2b.b2d_company b ON a.company_xid=b.xid
         }
 
         // 取得所有分銷商使用者列表　
-        public B2dAccount GetAccount(string account)
+        public static B2dAccount GetAccount(string account)
         {
             B2dAccount b2dAccount = null;
 
@@ -88,7 +88,7 @@ WHERE LOWER(email)=LOWER(:ACCOUNT)
                         NAME_LAST = dr.ToStringEx("name_last"),
                         COMPANY_XID = dr.ToInt64("comp_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
-                        ACCOUNT = dr.ToStringEx("user_email"), //與Email相同
+                        ACCOUNT = dr.ToStringEx("email"), //與Email相同
                         DEPARTMENT = dr.ToStringEx(""),
                         ENABLE = dr.ToBoolean("enable"),
                         GENDER_TITLE = dr.ToStringEx("gender_title"),
@@ -110,7 +110,7 @@ WHERE LOWER(email)=LOWER(:ACCOUNT)
         }
 
         // 取得個別分銷商使用者內容
-        public B2dUserProfile GetProfile(string account)
+        public static B2dUserProfile GetProfile(string account)
         {
             B2dUserProfile profile = null;
 
@@ -140,7 +140,7 @@ WHERE LOWER(email)=LOWER(:ACCOUNT)
                         NAME_LAST = dr.ToStringEx("name_last"),
                         COMPANY_XID = dr.ToInt64("comp_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
-                        ACCOUNT = dr.ToStringEx("user_email"), //與Email相同
+                        ACCOUNT = dr.ToStringEx("email"), //與Email相同
                         DEPARTMENT = dr.ToStringEx("department"),
                         ENABLE = dr.ToBoolean("enable"),
                         GENDER_TITLE = dr.ToStringEx("gender_title"),

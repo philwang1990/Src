@@ -9,7 +9,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
 {
     public class AccountAuthDAL
     {
-        public UserAccount UserAuth(string account, string password)
+        public static UserAccount UserAuth(string account, string password)
         {
             Npgsql.NpgsqlConnection conn = new NpgsqlConnection(Website.Instance.SqlConnectionString);
             UserAccount _account = null;
@@ -30,11 +30,11 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
                     {
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
-                        EMAIL = dr.ToStringEx("user_email"),
+                        EMAIL = dr.ToStringEx("email"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
-                        ACCOUNT = dr.ToStringEx("user_email"),
-                        DEPARTMENT = dr.ToStringEx(""),
+                        ACCOUNT = dr.ToStringEx("email"),
+                        DEPARTMENT = dr.ToStringEx("department"),
                         ENABLE = dr.ToBoolean("enable"),
                         //GENDER_TITLE = dr.ToStringEx("gender_title"),
                         //JOB_TITLE = dr.ToStringEx("job_title"),
@@ -46,7 +46,12 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
                 }
                 // 檢查是否為分銷商使用者
                 else {
-                    sqlStmt = @"SELECT * FROM b2b.b2d_account WHERE enable=true AND LOWER(email)=LOWER(:ACCOUNT)";
+                    sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
+ a.department, a.job_title, a.enable, a.gender_title, b.xid as comp_xid, b.comp_name, 
+ b.comp_language AS locale, b.comp_currency AS currency
+FROM b2b.b2d_account a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid
+WHERE enable=true AND LOWER(email)=LOWER(:ACCOUNT)";
                     ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, new NpgsqlParameter("ACCOUNT", account));
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
@@ -56,13 +61,13 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
                         {
                             XID = dr.ToInt64("xid"),
                             UUID = dr.ToStringEx("user_uuid"),
-                            EMAIL = dr.ToStringEx("user_email"), 
+                            EMAIL = dr.ToStringEx("email"), 
                             NAME_FIRST = dr.ToStringEx("name_first"),
                             NAME_LAST = dr.ToStringEx("name_last"),
-                            COMPANY_XID = dr.ToInt64("company_xid"),
-                            COMPANY_NAME = dr.ToStringEx("company_name"),
-                            ACCOUNT = dr.ToStringEx("user_email"), //與Email相同
-                            DEPARTMENT = dr.ToStringEx(""),
+                            COMPANY_XID = dr.ToInt64("comp_xid"),
+                            COMPANY_NAME = dr.ToStringEx("comp_name"),
+                            ACCOUNT = dr.ToStringEx("email"), //與Email相同
+                            DEPARTMENT = dr.ToStringEx("department"),
                             ENABLE = dr.ToBoolean("enable"),
                             GENDER_TITLE = dr.ToStringEx("gender_title"),
                             JOB_TITLE = dr.ToStringEx("job_title"),
