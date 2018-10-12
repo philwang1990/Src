@@ -40,9 +40,10 @@
     <Folder Include="App_Data\" />
     <Folder Include="Areas\User\Views\Voucher\" />
     <Folder Include="Models\Repository\" />
-    <Folder Include="Models\Account\" />
-    <Folder Include="Models\Common\" />
-    <Folder Include="Models\Company\" />
+    <Folder Include="Models\Model\" />
+    <Folder Include="Models\Model\Account\" />
+    <Folder Include="Models\Model\Common\" />
+    <Folder Include="Models\Model\Company\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
