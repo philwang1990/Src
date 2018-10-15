@@ -326,10 +326,12 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class Arrival
     {
         public bool is_require_FlightType { get; set; }
+        public List<FlightType> flight_type_list { get; set; }
         public bool is_require_Date { get; set; } //[booking]date + hour + minute
         public bool is_require_Hour { get; set; }
         public bool is_require_Minute { get; set; }
         public bool is_require_Airport { get; set; }
+        public List<Airport> airport_list { get; set; }
         public bool is_require_Airline { get; set; }
         public bool is_require_FlightNo { get; set; }
         public bool is_require_TerminalNo { get; set; }
@@ -338,17 +340,29 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class Departure
     {
         public bool is_require_FlightType { get; set; }
+        public List<FlightType> flight_type_list { get; set; }
         public bool is_require_Date { get; set; } //date + hour + minute
         public bool is_require_Hour { get; set; }
         public bool is_require_Minute { get; set; }
         public bool is_require_Airport { get; set; }
+        public List<Airport> airport_list { get; set; }
         public bool is_require_Airline { get; set; }
         public bool is_require_FlightNo { get; set; }
         public bool is_require_TerminalNo { get; set; }
         public bool is_require_HaveBeenInCountry { get; set; } //已在商品所在國家
 
     }
-
+    public class FlightType
+    {
+        public string type { get; set; }
+        public string type_name { get; set; }
+    }
+    public class Airport
+    {
+        public string airport_code { get; set; }
+        public string airport_name { get; set; }
+        public string area_code { get; set; }
+    }
 
     #endregion
 

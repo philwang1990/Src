@@ -27,12 +27,12 @@ namespace KKday.API.WMS.AppCode.Proxy
                 string result = "";
 
                 //redis取出資料
-                if (rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeLang" + query_lst.b2d_xid) != null)
-                {
-                    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeLang" + query_lst.b2d_xid);
-                }
-                else
-                {
+                //if (rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeLang" + query_lst.b2d_xid) != null)
+                //{
+                //    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeLang" + query_lst.b2d_xid);
+                //}
+                //else
+                //{
                     using (var handler = new HttpClientHandler())
                     {
                         handler.ClientCertificateOptions = ClientCertificateOption.Manual;
@@ -79,7 +79,7 @@ namespace KKday.API.WMS.AppCode.Proxy
                                 }//串接成功
                                 else
                                 {
-                                    rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getCodeLang" + query_lst.b2d_xid);
+                                    //rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getCodeLang" + query_lst.b2d_xid);
                                 }
                             }
 
@@ -87,7 +87,7 @@ namespace KKday.API.WMS.AppCode.Proxy
                         }
 
                     }
-                }
+                //}
                    
                 obj = JObject.Parse(result);
 
@@ -109,12 +109,12 @@ namespace KKday.API.WMS.AppCode.Proxy
                 string result = "";
 
                 //redis取出資料
-                if (rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeCountry" + query_lst.b2d_xid) != null)
-                {
-                    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeCountry" + query_lst.b2d_xid);
-                }
-                else
-                {
+                //if (rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeCountry" + query_lst.b2d_xid) != null)
+                //{
+                //    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeCountry" + query_lst.b2d_xid);
+                //}
+                //else
+                //{
                     using (var handler = new HttpClientHandler())
                     {
                         handler.ClientCertificateOptions = ClientCertificateOption.Manual;
@@ -162,14 +162,14 @@ namespace KKday.API.WMS.AppCode.Proxy
                                 //串接成功
                                 else
                                 {
-                                    rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getCodeCountry" + query_lst.b2d_xid);
+                                    //rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getCodeCountry" + query_lst.b2d_xid);
                                 }
 
                             }
 
                         }
 
-                    }
+                    //}
                 }
                   
                 obj = JObject.Parse(result);
@@ -197,12 +197,12 @@ namespace KKday.API.WMS.AppCode.Proxy
                 string result = "";
 
                 //redis取出資料
-                if (rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeArea" + query_lst.b2d_xid) != null)
-                {
-                    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeArea" + query_lst.b2d_xid);
-                }
-                else
-                {
+                //if (rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeArea" + query_lst.b2d_xid) != null)
+                //{
+                //    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getCodeArea" + query_lst.b2d_xid);
+                //}
+                //else
+                //{
                     using (var handler = new HttpClientHandler())
                     {
                         handler.ClientCertificateOptions = ClientCertificateOption.Manual;
@@ -249,12 +249,12 @@ namespace KKday.API.WMS.AppCode.Proxy
                                 //串接成功
                                 else
                                 {
-                                    rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getCodeArea" + query_lst.b2d_xid);
+                                    //rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getCodeArea" + query_lst.b2d_xid);
                                 }
                             }
 
 
-                        }
+                        //}
 
                     }
                 }
@@ -265,6 +265,88 @@ namespace KKday.API.WMS.AppCode.Proxy
             catch (Exception ex)
             {
                 Website.Instance.logger.FatalFormat($"KKday API getCodeArea Error :{ex.Message},{ex.StackTrace}");
+                throw ex;
+            }
+
+            return obj;
+        }
+
+        public static JObject getProdAirport(QueryProductModel query_lst)
+        {
+            var obj = new JObject();
+            try
+            {
+                string result = "";
+
+                //redis取出資料
+                //if (rds.getProdInfotoRedis("bid:test:KKdayApi_getProdAirport" + query_lst.b2d_xid) != null)
+                //{
+                //    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getProdAirport" + query_lst.b2d_xid);
+                //}
+                //else
+                //{
+                using (var handler = new HttpClientHandler())
+                {
+                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                    handler.ServerCertificateCustomValidationCallback =
+                        (httpRequestMessage, cert, cetChain, policyErrors) =>
+                        {
+                            return true;
+                        };
+
+                    using (var client = new HttpClient(handler))
+                    {
+                        client.DefaultRequestHeaders.Accept.Add(
+                        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                        KKdayApiProdRQModel RQ = new KKdayApiProdRQModel()
+                        {
+                            apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"],
+                            userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"],
+                            ver = Website.Instance.Configuration["KKAPI_INPUT:VER"],
+                            locale = query_lst.locale_lang,
+                            ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"],
+                            json = new Json()
+                            {
+
+                            }
+
+                        };
+
+                        string json_data = JsonConvert.SerializeObject(RQ);
+                        string url = $"{Website.Instance.Configuration["URL:KK_AIRPORT"]}{query_lst.prod_no}";
+
+                        using (HttpContent content = new StringContent(json_data))
+                        {
+                            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                            var response = client.PostAsync(url, content).Result;
+                            result = response.Content.ReadAsStringAsync().Result;
+
+                            Website.Instance.logger.Info($"URL:{url},URL Response StatusCode:{response.StatusCode}");
+                            //與API串接失敗 
+                            if (response.StatusCode.ToString() != "OK")
+                            {
+                                throw new Exception(response.Content.ReadAsStringAsync().Result);
+                            }
+                            //串接成功
+                            else
+                            {
+                                //rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getProdAirport" + query_lst.b2d_xid);
+                            }
+                        }
+
+
+                        //}
+
+                    }
+                }
+
+                obj = JObject.Parse(result);
+
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat($"KKday API getProdAirport Error :{ex.Message},{ex.StackTrace}");
                 throw ex;
             }
 
