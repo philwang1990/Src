@@ -239,87 +239,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
                     product.img_list = imgList;
                 }
+             
 
-                //影片
-                List<Video> videoList = new List<Video>();
-                Video video = null;
-                if (obj["content"]["videoList"] != null)
-                {
-                    JArray items = (JArray)obj["content"]["videoList"];
-
-                    foreach (var item in items)
-                    {
-                        video = new Video();
-                        video.lang_code = (string)item["video"]["langCode"];
-                        video.vidoe_url = (string)item["video"]["videoUrl"];
-
-
-                        videoList.Add(video);
-                    }
-                    product.video_list = videoList;
-                }
-
-                //費用包含與不包含
-                List<CostDetail> detailList = new List<CostDetail>();
-                CostDetail detail = null;
-                if (obj["content"]["detailList"] != null)
-                {
-                    JArray items = (JArray)obj["content"]["detailList"];
-
-                    foreach (var item in items)
-                    {
-                        detail = new CostDetail();
-                        detail.detail_desc = (string)item["detail"]["desc"];
-                        detail.detail_type = (string)item["detail"]["detailType"];
-
-                        detailList.Add(detail);
-                    }
-                    product.cost_detail_list = detailList;
-                }
-
-                //接機地點(地圖區)
-                List<MeetingPoint> mpList = new List<MeetingPoint>();
-                MeetingPoint mp = null;
-                if (obj["content"]["meetingPointList"] != null)
-                {
-                    JArray items = (JArray)obj["content"]["meetingPointList"];
-
-                    foreach (var item in items)
-                    {
-                        mp = new MeetingPoint();
-                        mp.terminal = (string)item["data"]["terminal"];
-                        mp.meeting_point = (string)item["data"]["meeting"];
-                        mp.airport_code = (string)item["data"]["airport"];
-                        mp.img_url = (string)item["data"]["img"]["s3Url"];
-                        mpList.Add(mp);
-                    }
-                    product.meeting_point_list = mpList;
-                }
-
-                //取國家,城市
-                List<Country> countryList = new List<Country>();
-                Country country = null;
-                List<City> cityList = new List<City>();
-                City city = null;
-
-                if (obj["content"]["cityList"] != null)
-                {
-                    JArray items = (JArray)obj["content"]["cityList"];
-                    country = new Country();
-                    country.id = (string)items[0]["city"]["countryCd"];
-                    country.name = (string)items[0]["city"]["countryName"];
-
-                    foreach (var item in items)
-                    {
-                        city = new City();
-                        city.id = (string)item["city"]["cityCd"];
-                        city.name = (string)item["city"]["cityName"];
-                        cityList.Add(city);
-                    }
-                    country.cities = cityList;
-                    countryList.Add(country);
-                    product.countries= countryList;
-                }
 
 
                 //憑證類型
@@ -450,27 +371,6 @@ namespace KKday.API.WMS.Models.Repository.Product
                     countryList.Add(country);
                     product.countries= countryList;
                 }
-
-
-                //憑證類型
-                //module api找出該商品的憑證類型
-                JArray modules = (JArray)objModule["content"]["product"]["modules"];
-                var voucher_module = modules.FirstOrDefault(jt => (string)jt["moduleType"] == "PMDL_EXCHANGE");
-
-                if((bool)voucher_module["moduleSetting"]["isRequired"])
-                {
-                    //codeLang api找出exchangeType 與langValue 對應
-                    var code = objExTypeLang["content"]["codeList"].FirstOrDefault(jt => (string)jt["code"]["langValue"] == (string)voucher_module["moduleSetting"]["setting"]["exchangeType"]);
-                    //找出憑證類型敘述
-                    product.voucher_desc = (string)code["code"]["langDesc"];
-                }else
-                {
-                    product.voucher_desc = "";
-                }
-                //找出憑證領取地點資訊(名稱,地點,營業時間)
-                product.voucher_locations = voucher_module["moduleSetting"]["setting"]["dataItems"]["locations"].ToObject<List<Location>>();
-
-
 
             }
             catch (Exception ex)

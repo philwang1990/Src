@@ -25,7 +25,7 @@ namespace KKday.API.WMS.Controllers {
         [HttpPost]
         public SearchProductModel GetProd([FromBody]SearchRQModel list_rq) {
 
-            Website.Instance.logger.Info($"WMS GetProd Start! B2D Xid:{list_rq.companyXid}");
+            Website.Instance.logger.Info($"WMS GetProd Start! B2D Xid:{list_rq.company_xid}");
 
             var prods = new SearchProductModel();
             prods = SearchRepository.GetProdList(list_rq);
