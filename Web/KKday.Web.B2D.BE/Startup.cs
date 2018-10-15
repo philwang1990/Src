@@ -54,6 +54,20 @@ namespace KKday.Web.B2D.BE
 
             app.UseMvc(routes =>
             {
+                //routes.MapRoute(
+                //name: "default",
+                //template: "{controller=Home}/{action=Index}/{id?}");
+
+                routes.MapRoute(
+                   name: "areaRoute",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
+                // 指定預設Area頁面
+                routes.MapAreaRoute(
+                    name: "defaultArea",
+                    areaName: "User",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

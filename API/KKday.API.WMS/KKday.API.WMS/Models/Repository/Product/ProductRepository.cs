@@ -38,7 +38,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 {
                     product.reasult = obj["content"]["result"].ToString();
                     product.reasult_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
-                    throw new Exception("kkday product api response msg is not correct!");
+                    throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
 
                 product.reasult = obj["content"]["result"].ToString();
@@ -79,7 +79,6 @@ namespace KKday.API.WMS.Models.Repository.Product
                 comment.sales_qty = obj["content"]["prodUrlInfo"]["orderNum"].ToString();
                 comment.prod_url_oid= obj["content"]["prodUrlInfo"]["prodUrlOid"].ToString();
                 product.prod_comment_info = comment;
-
                 product.b2c_price = (double)obj["content"]["product"]["minSalePrice"]; 
                 product.b2d_price = (double)obj["content"]["product"]["minPrice"]; 
 
@@ -241,6 +240,106 @@ namespace KKday.API.WMS.Models.Repository.Product
                     product.img_list = imgList;
                 }
 
+                //影片
+                List<Video> videoList = new List<Video>();
+                Video video = null;
+                if (obj["content"]["videoList"] != null)
+                {
+                    JArray items = (JArray)obj["content"]["videoList"];
+
+                    foreach (var item in items)
+                    {
+                        video = new Video();
+                        video.lang_code = (string)item["video"]["langCode"];
+                        video.vidoe_url = (string)item["video"]["videoUrl"];
+
+
+                        videoList.Add(video);
+                    }
+                    product.video_list = videoList;
+                }
+
+                //費用包含與不包含
+                List<CostDetail> detailList = new List<CostDetail>();
+                CostDetail detail = null;
+                if (obj["content"]["detailList"] != null)
+                {
+                    JArray items = (JArray)obj["content"]["detailList"];
+
+                    foreach (var item in items)
+                    {
+                        detail = new CostDetail();
+                        detail.detail_desc = (string)item["detail"]["desc"];
+                        detail.detail_type = (string)item["detail"]["detailType"];
+
+                        detailList.Add(detail);
+                    }
+                    product.cost_detail_list = detailList;
+                }
+
+                //接機地點(地圖區)
+                List<MeetingPoint> mpList = new List<MeetingPoint>();
+                MeetingPoint mp = null;
+                if (obj["content"]["meetingPointList"] != null)
+                {
+                    JArray items = (JArray)obj["content"]["meetingPointList"];
+
+                    foreach (var item in items)
+                    {
+                        mp = new MeetingPoint();
+                        mp.terminal = (string)item["data"]["terminal"];
+                        mp.meeting_point = (string)item["data"]["meeting"];
+                        mp.airport_code = (string)item["data"]["airport"];
+                        mp.img_url = (string)item["data"]["img"]["s3Url"];
+                        mpList.Add(mp);
+                    }
+                    product.meeting_point_list = mpList;
+                }
+
+                //取國家,城市
+                List<Country> countryList = new List<Country>();
+                Country country = null;
+                List<City> cityList = new List<City>();
+                City city = null;
+
+                if (obj["content"]["cityList"] != null)
+                {
+                    JArray items = (JArray)obj["content"]["cityList"];
+                    country = new Country();
+                    country.id = (string)items[0]["city"]["countryCd"];
+                    country.name = (string)items[0]["city"]["countryName"];
+
+                    foreach (var item in items)
+                    {
+                        city = new City();
+                        city.id = (string)item["city"]["cityCd"];
+                        city.name = (string)item["city"]["cityName"];
+                        cityList.Add(city);
+                    }
+                    country.cities = cityList;
+                    countryList.Add(country);
+                    product.countries= countryList;
+                }
+
+
+                //憑證類型
+                //module api找出該商品的憑證類型
+                JArray modules = (JArray)objModule["content"]["product"]["modules"];
+                var voucher_module = modules.FirstOrDefault(jt => (string)jt["moduleType"] == "PMDL_EXCHANGE");
+
+                if((bool)voucher_module["moduleSetting"]["isRequired"])
+                {
+                    //codeLang api找出exchangeType 與langValue 對應
+                    var code = objExTypeLang["content"]["codeList"].FirstOrDefault(jt => (string)jt["code"]["langValue"] == (string)voucher_module["moduleSetting"]["setting"]["exchangeType"]);
+                    //找出憑證類型敘述
+                    product.voucher_desc = (string)code["code"]["langDesc"];
+                }else
+                {
+                    product.voucher_desc = "";
+                }
+                //找出憑證領取地點資訊(名稱,地點,營業時間)
+                product.voucher_locations = voucher_module["moduleSetting"]["setting"]["dataItems"]["locations"].ToObject<List<Location>>();
+
 
                 //注意事項挖字處理
                 product.remind_list = setRemInf(obj, queryRQ.locale_lang, null);
@@ -376,7 +475,10 @@ namespace KKday.API.WMS.Models.Repository.Product
             }
             catch (Exception ex)
             {
-                Website.Instance.logger.FatalFormat($"Product System Error :{ex.Message},{ex.StackTrace}");
+                product.reasult = "10001";
+                product.reasult_msg = $"Product ERROR:{ex.Message},{ex.StackTrace}";
+
+                Website.Instance.logger.FatalFormat($"Product ERROR:{ex.Message},{ex.StackTrace}");
             }
 
             return product;
@@ -564,7 +666,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                                 size_range_end = (string)x["max"]
                             }).ToList();
                         shoe.man = man;
-                        shoe.wonman = woman;
+                        shoe.woman = woman;
                         shoe.child = child;
 
                     }
@@ -790,6 +892,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                             Country country = new Country();
                             List<City> cityList = new List<City>();
 
+                            //ex:A01-003
                             string area_code = item["countryCode"].ToString().Split('-')[0];
                             string country_code = item["countryCode"].ToString();
 
@@ -843,6 +946,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     car.is_require = (bool)objPmdlRentCar["moduleSetting"]["isRequired"];
                     car.rent_type = (string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"];
 
+                    //去租車公司取車
                     if ((string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"] != "03")
                     {
                         RentOffice office = new RentOffice();
@@ -866,6 +970,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                             }).ToList();
                         car.rent_office = office;
                     }
+                    //司機接送 或是 客人指定>>接送資料
                     else
                     {
                         DriverShuttle driver = new DriverShuttle();
@@ -896,7 +1001,20 @@ namespace KKday.API.WMS.Models.Repository.Product
                         venue.is_require = (bool)objPmdlVenue["moduleSetting"]["isRequired"];
                         venue.is_require_Date = (bool)objPmdlVenue["moduleSetting"]["isRequired"];
                         venue.venue_type = (string)objPmdlVenue["moduleSetting"]["setting"]["venueType"];
-                        venue.designated_location_list = objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedLocation"]["locations"].ToObject<List<DesignatedLocation>>();
+                        venue.designated_location_list = ((JArray)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedLocation"]["locations"])
+                            .Select(x => new DesignatedLocation
+                            {
+                                id = (string)x["id"],
+                                sort = (int)x["sort"],
+                                location_name = (string)x["locationName"],
+                                location_address = (string)x["locationAddress"],
+                                image_url = (string)x["imageUrl"],
+                                time_range_start = (string)x["timeRange"]["from"]["hour"] + ":" + (string)x["timeRange"]["from"]["minute"],
+                                time_range_end = (string)x["timeRange"]["to"]["hour"] + ":" + (string)x["timeRange"]["to"]["minute"]
+                            }).ToList();
+
+
+                        //objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedLocation"]["locations"].ToObject<List<DesignatedLocation>>();
 
                         DesignatedByCustomer byCustomer = new DesignatedByCustomer();
                         PipickUp up = new PipickUp();
@@ -915,8 +1033,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                         string min_from = (string)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedByCustomer"]["pickUpLocation"]["options"]["pickUpTime"]["customTime"]["timeRange"]["from"]["minute"];
                         string hour_to = (string)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedByCustomer"]["pickUpLocation"]["options"]["pickUpTime"]["customTime"]["timeRange"]["to"]["hour"];
                         string min_to = (string)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedByCustomer"]["pickUpLocation"]["options"]["pickUpTime"]["customTime"]["timeRange"]["to"]["minute"];
-                        cusTime.time_range_start = $"{hour_from}:{min_from}";
-                        cusTime.time_range_end = $"{hour_to}:{min_to}";
+                        cusTime.time_range_start = !cusTime.is_allow ? null : $"{hour_from}:{min_from}";
+                        cusTime.time_range_end = !cusTime.is_allow ? null : $"{hour_to}:{min_to}";
 
                         upTime.custom = cusTime;
 
@@ -939,13 +1057,11 @@ namespace KKday.API.WMS.Models.Repository.Product
                     var objPmdlExchange = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_EXCHANGE");
                     if ((string)objPmdlExchange["moduleSetting"]["setting"]["exchangeType"] == "05")
                     {
-
                         List<Location> locations = ((JArray)objPmdlExchange["moduleSetting"]["setting"]["dataItems"]["locations"])
                             .Select(x => new Location
                             {
                                 id = (string)x["id"],
                                 name = (string)x["name"]
-
                             }).ToList();
 
                         module.module_exchange_location_list = locations;
@@ -996,9 +1112,9 @@ namespace KKday.API.WMS.Models.Repository.Product
             catch (Exception ex)
             {
                 module.reasult = "10001";
-                module.reasult_msg = ex.Message;
+                module.reasult_msg = $"Module ERROR :{ex.Message},{ex.StackTrace}";
                 module.module_type = null;
-                Website.Instance.logger.FatalFormat($"Module System Error :{ex.Message},{ex.StackTrace}");
+                Website.Instance.logger.FatalFormat($"Module ERROR :{ex.Message},{ex.StackTrace}");
             }
 
             return module;

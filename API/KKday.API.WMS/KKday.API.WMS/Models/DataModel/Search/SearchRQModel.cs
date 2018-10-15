@@ -29,6 +29,7 @@ namespace KKday.API.WMS.Models.Search {
         public string company_xid { get; set; }
 
 
+
     }
 }
 

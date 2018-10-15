@@ -51,6 +51,7 @@ namespace KKday.API.WMS.Controllers {
 
             try
             {
+                Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
                 //1. 從IS4取使用者的門票
                // GetTokenResponseModel response = AuthProxy.getToke(account, password);
               //  token = response.access_token ?? response.error_description;
@@ -81,16 +82,20 @@ namespace KKday.API.WMS.Controllers {
         /// <returns>The API user.</returns>
         /// <param name="email">Email.</param>
         [HttpGet("AuthApiUser")]
-        public ApiUserModel AuthApiUser(string email) {
+        public ApiUserModel AuthApiUser(string email)
+        {
 
             ApiUserModel ApiUser = new ApiUserModel();
 
-            try {
-
+            try
+            {
+                Website.Instance.logger.Info($"WMS AuthApiUser Start! B2D email:{email}");
                 //從DB抓使用者資訊
                 ApiUser = UserRepository.GetApiUser(email);
 
-            } catch (Exception ex) {
+            }
+            catch (Exception ex)
+            {
                 throw ex;
             }
             return ApiUser;

@@ -224,4 +224,6 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public bool is_search { get; set; }
         public bool is_show { get; set; }
     }
+
+
 }

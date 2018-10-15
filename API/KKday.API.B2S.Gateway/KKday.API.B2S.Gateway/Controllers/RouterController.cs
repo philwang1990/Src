@@ -27,7 +27,16 @@ namespace KKday.API.B2S.Gateway.Controllers
 
             string result = "";
 
-            HttpClient client = new HttpClient();
+            HttpClientHandler handler = new HttpClientHandler();
+            handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+            handler.ServerCertificateCustomValidationCallback =
+                (httpRequestMessage, cert, cetChain, policyErrors) =>
+                {
+                    return true;
+                };
+
+            HttpClient client = new HttpClient(handler);
+
             client.DefaultRequestHeaders.Accept.Add(
                 new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
@@ -42,6 +51,7 @@ namespace KKday.API.B2S.Gateway.Controllers
                 string sup_id = Website.Instance.Configuration[$"{sup}:SUP_ID"];
                 string sup_key = Website.Instance.Configuration[$"{sup}:SUP_KEY"];
 
+                Website.Instance.logger.Info($"Booking URL :{sup_url}");
 
                 bookRQ.sup_id = sup_id;
                 bookRQ.sup_key = sup_key;
@@ -50,6 +60,7 @@ namespace KKday.API.B2S.Gateway.Controllers
 
                 var contentData = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(sup_url, contentData).Result;
+
                 result = response.Content.ReadAsStringAsync().Result;
 
             }
