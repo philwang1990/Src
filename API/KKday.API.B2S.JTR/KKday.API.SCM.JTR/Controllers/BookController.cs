@@ -155,7 +155,7 @@ namespace KKday.API.B2S.JTR.Controllers
                     foreach (var rs in RS_info)
                     {
                         data.isMuiltSupOrder = info.Count() > 1 ? true : false;
-                        data.supTicketNumber += !string.IsNullOrEmpty(rs.code) ? data.supTicketNumber + rs.code + "<br/>" : data.supTicketNumber;
+                        data.supTicketNumber += !string.IsNullOrEmpty(rs.code) ? rs.code + "<br/>" : "";
 
 
                         OD_info.Add(new Orderinfo()
