@@ -43,6 +43,8 @@ namespace KKday.API.B2S.JTR.Controllers
                     var xdoc = XDocument.Load(System.AppDomain.CurrentDomain.BaseDirectory + "//App_Data//ProdMapping.xml");
                     if (bookRQ.order.price1Qty > 0)
                     {
+                        if (xdoc.Descendants("item").Where(x => x.Element("kkday_prod_pkg").Value.Contains(bookRQ.order.packageOid) && x.Element("kkday_price_type").Value.Equals("price1")).Count() <= 0) throw new Exception("此套餐編號找不到相對應JTR產編，請與BD確認產編再請it修改");
+
 
                         jtr_prod_no = xdoc.Descendants("item").Where(x => x.Element("kkday_prod_pkg").Value.Equals(bookRQ.order.packageOid) && x.Element("kkday_price_type").Value.Equals("price1")).
                                                  Select(x => x.Element("jtr_prod_no").Value).FirstOrDefault().ToString();
@@ -57,6 +59,8 @@ namespace KKday.API.B2S.JTR.Controllers
                     }
                     if (bookRQ.order.price2Qty > 0)
                     {
+                        if (xdoc.Descendants("item").Where(x => x.Element("kkday_prod_pkg").Value.Contains(bookRQ.order.packageOid) && x.Element("kkday_price_type").Value.Equals("price2")).Count() <= 0) throw new Exception("此套餐編號找不到相對應JTR產編，請與BD確認產編再請it修改");
+
                         jtr_prod_no = xdoc.Descendants("item").Where(x => x.Element("kkday_prod_pkg").Value.Equals(bookRQ.order.packageOid) && x.Element("kkday_price_type").Value.Equals("price2")).
                                                  Select(x => x.Element("jtr_prod_no").Value).FirstOrDefault().ToString();
 
@@ -68,12 +72,21 @@ namespace KKday.API.B2S.JTR.Controllers
                         });
 
                     }
+                    if(bookRQ.order.price3Qty > 0 || bookRQ.order.price3Qty >0)
+                    {
+                        throw new Exception("旅客購買的套餐身份別(老人，嬰兒）不在即訂即付的約定內");
+                    }
 
                 }
                 catch(Exception ex)
                 {
-                    Website.Instance.logger.Error("Pakage Oid do not found JTR prod no");
-                    throw new Exception("Pakage Oid do not found JTR prod no");
+
+                    metadata.status = $"JTR-10002";
+                    metadata.description = $"{ex.Message}";
+                    bookRS.metadata = metadata;
+                    Website.Instance.logger.FatalFormat($"Mapping Error :{ex.Message},{ex.StackTrace}");
+                    return bookRS;
+
                 }
                
 
@@ -272,7 +285,7 @@ namespace KKday.API.B2S.JTR.Controllers
             {
 
                 metadata.status = $"JTR-00000";
-                metadata.description = ex.Message;
+                metadata.description = $"System Error :{ex.Message}";
                 bookRS.metadata = metadata;
                 Website.Instance.logger.FatalFormat($"System Error :{ex.Message},{ex.StackTrace}");
                 return bookRS;
