@@ -72,7 +72,7 @@ namespace KKday.API.B2S.JTR.Controllers
                         });
 
                     }
-                    if(bookRQ.order.price3Qty > 0 || bookRQ.order.price3Qty >0)
+                    if(bookRQ.order.price3Qty > 0 || bookRQ.order.price4Qty >0)
                     {
                         throw new Exception("旅客購買的套餐身份別(老人，嬰兒）不在即訂即付的約定內");
                     }
