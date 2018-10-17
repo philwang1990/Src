@@ -48,7 +48,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
                 else {
                     sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
  a.department, a.job_title, a.enable, a.gender_title, b.xid as comp_xid, b.comp_name, 
- b.comp_language AS locale, b.comp_currency AS currency
+ b.comp_locale AS locale, b.comp_currency AS currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE enable=true AND LOWER(email)=LOWER(:ACCOUNT)";

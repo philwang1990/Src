@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Common.Models;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +13,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Resources;
 
 namespace KKday.Web.B2D.BE
 {
@@ -36,6 +36,8 @@ namespace KKday.Web.B2D.BE
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+       
+        
             // 新增 Cookie 驗證服務
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options =>
@@ -61,17 +63,23 @@ namespace KKday.Web.B2D.BE
                 options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER"));
             });
 
-            #region Dependency Injection
+            #region Dependency Injection Regisgter -- begin
 
-            // 註冊帳號處理服務
             services.AddSingleton<AccountRepository>();
+            services.AddSingleton<CompanyRepository>();
 
-            #endregion
+            #endregion Dependency Injection Regisgter-- end
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                    .AddSessionStateTempDataProvider(); ;
+            //使用多國語系
+            services.AddScoped<ILocalizer, Localizer>();
+
+            //使用 Session
             services.AddSession();
 
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddSessionStateTempDataProvider();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -103,6 +111,7 @@ namespace KKday.Web.B2D.BE
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
+
             // 啟用 Cookie 使用者驗證
             app.UseAuthentication();
 

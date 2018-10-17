@@ -1,12 +1,32 @@
-﻿
+﻿@using Resources
+@inject ILocalizer localizer
+
 @{
-    Layout = "_LayoutMain";
+    Layout = "_LayoutMain"; 
 }
+@section Stylesheet {
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+
+}
+@section Scripts {
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/i18n/defaults-*.min.js"></script>
+}
+
+<script type="text/javascript">
+  var lookup = @Html.Raw(ViewData["LOOKUP_MODEL_JSON"].ToString()); 
+</script>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">分銷商帳號管理</li>
+        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.Company_Title</li>
     </ol>
 </nav>
 
@@ -16,27 +36,49 @@
 
 
         <div class="col-md-12">
-            <h4>分銷商管理</h4>
+            <h4>@localizer.Text.Company_Title</h4>
 
 
             <div class="search-tab row" style="margin-bottom: 20px;">
                 <form>
-                    <div class="col-xs-12 col-sm-9">
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
-                            <input type="text" class="form-control" placeholder="ID or Name" aria-label="ID or Name" aria-describedby="basic-addon1">
-                        </div>
+                    <div class="col-xs-12 col-sm-2">
+                        <label>@localizer.Text.Company_Search_Name</label>
+                        <input type="text" id="Search" class="form-control" placeholder="公司名稱" aria-label="公司名稱" aria-describedby="basic-addon1">
+                    </div>                   
+
+                    <div class="col-xs-12 col-sm-2">
+                        <label>@localizer.Text.Company_Search_Country</label>
+                        <input type="text" id="na" class="form-control" placeholder="所在國家" aria-label="所在國家" aria-describedby="basic-addon1">                          
                     </div> 
-                    
-                    <div class="col-xs-12 col-sm-3">
-                        <input type="Submit" name="submit" value="Search" class="btn btn-info cst-btn col-xs-12 col-sm-3" id="srch">
+
+                    <div class="col-xs-12 col-sm-2">
+                       <label>@localizer.Text.Company_Search_Status</label>
+                       <select class="selectpicker form-control">
+                          <option>Acitve</option>
+                          <option>Deactive</option> 
+                        </select>
+                    </div> 
+
+                    <div class="col-xs-12 col-sm-2">
+                       <label>@localizer.Text.Company_Search_Sorting </label>
+                       <select name="sorting" class="selectpicker form-control">
+                          <option value="name">名稱</option>
+                          <option value="status">狀態</option>
+                          <option value="xid">序號</option>
+                          <option value="country">國家</option>
+                        </select>
+                    </div> 
+                   
+                    <div class="col-xs-12 col-sm-2">
+                        <label></label>
+                        <input type="Submit" name="submit" value="@localizer.Text.Company_Search_Button" class="btn btn-info cst-btn form-control" id="srch">
                     </div>
                 </form>
             </div>
             <!-- search tab -->
 
 
-            <div class="table-responsive">
+            <div id="comp_panel" class="table-responsive">
                 <partial name="CompanyList" />
             </div>
 
@@ -99,8 +141,8 @@
 </div>
 
 <script type="text/javascript">
-       $(function(){
-
+    $(function(){
+     
         $("#mytable #checkall").click(function () {
             if ($("#mytable #checkall").is(':checked')) {
                 $("#mytable input[type=checkbox]").each(function () {

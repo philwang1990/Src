@@ -1,46 +1,48 @@
-﻿
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper" class="">
-        <nav id="spy">
-            <ul class="sidebar-nav nav">
-                @*<li class="sidebar-brand active">
+﻿@using Resources
+@inject ILocalizer localizer
+
+<!-- Sidebar -->
+<div id="sidebar-wrapper" class="">
+    <nav id="spy">
+        <ul class="sidebar-nav nav">
+            @*<li class="sidebar-brand active">
                     <a href="#home" class=""><span class="fa fa-home solo">Home</span></a>
                 </li>*@
-                <li class="">
-                    <a href="@Url.Content("~/KKday/Company")" data-scroll="" class="">
-                        <span>分銷商管理</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/KKday/Voucher")" data-scroll="" class="">
-                        <span>憑證補充管理</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/KKday/Order")" data-scroll="" class="">
-                        <span>訂單管理</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/KKday/Account")" data-scroll="" class="">
-                        <span>分銷商帳號管理</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/KKday/Account/ApiUser")" data-scroll="" class="">
-                        <span>分銷商API管理</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/KKday/ListPrice/BlackList")" data-scroll="" class="">
-                        <span>牌價黑名單</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/KKday/Promotion")" data-scroll="" class="">
-                        <span>折扣規則設定</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Company")" data-scroll="" class="">
+                    <span>@localizer.Text.Company_Title</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Voucher")" data-scroll="" class="">
+                    <span>憑證補充管理</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Order")" data-scroll="" class="">
+                    <span>訂單管理</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Account")" data-scroll="" class="">
+                    <span>分銷商帳號管理</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Account/ApiUser")" data-scroll="" class="">
+                    <span>分銷商API管理</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/ListPrice/BlackList")" data-scroll="" class="">
+                    <span>牌價黑名單</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Promotion")" data-scroll="" class="">
+                    <span>折扣規則設定</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

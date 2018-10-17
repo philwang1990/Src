@@ -18,7 +18,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
             {
                 string sqlStmt = @"SELECT  a.xid, a.user_uuid, a.email, a.account_type,
  a.name_first, a.name_last, a.department, a.gender_title, a.job_title, a.enable,
- b.xid AS comp_xid, b.comp_name, b.comp_language AS comp_locale, b.comp_currency
+ b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 ";
@@ -68,7 +68,7 @@ JOIN b2b.b2d_company b ON a.company_xid=b.xid
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
  a.name_first, a.name_last, a.department, a.gender_title, a.job_title, a.enable,
- b.xid AS comp_xid, b.comp_name, b.comp_language AS comp_locale, b.comp_currency
+ b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE LOWER(email)=LOWER(:ACCOUNT)
@@ -118,8 +118,8 @@ WHERE LOWER(email)=LOWER(:ACCOUNT)
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
  a.name_first, a.name_last, a.department, a.gender_title, a.job_title, a.enable,
- b.xid AS comp_xid, b.comp_name, b.comp_tel, b.comp_url, b.comp_language AS comp_locale,
- b.comp_currency, b.comp_invoice, b.comp_country_code, b.comp_address
+ b.xid AS comp_xid, b.comp_name, b.comp_tel, b.comp_url, b.comp_locale, b.comp_currency, 
+ b.comp_invoice, b.comp_country_code, b.comp_address
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE LOWER(email)=LOWER(:ACCOUNT)

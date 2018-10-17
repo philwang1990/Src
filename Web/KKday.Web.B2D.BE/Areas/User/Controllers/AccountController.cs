@@ -35,16 +35,11 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         /// <returns>The login.</returns> 
         public IActionResult MyProfile()
         {
-            B2dUserProfile _profile = new B2dUserProfile();
+            var account = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
 
-            var jsonAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
-            if (jsonAccount != null)
-            {
-                var _account = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(jsonAccount, Website.Instance.AesCryptKey));
-                ClassMapping.CopyPropertiesFrom(_profile, _account);
+            var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
+            B2dUserProfile _profile = accountRepo.GetProfile(account);
 
-            }
-             
             return View(_profile);
         }
 

@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Resources
+@inject ILocalizer localizer
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -70,8 +73,8 @@
                         <li class="visible-xs"><a asp-area="KKday" asp-controller="Promotion" asp-action="Index">折扣規則設定</a></li>
 
                         <li><a asp-area="KKday" asp-controller="Home" asp-action="Index">@User.Identity.Name</a></li>
-                        @*<li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
+                        <li><a asp-area="" asp-controller="Home" asp-action="About"></a></li>
+                        @*<li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
                         <li><a asp-area="" asp-controller="Login" asp-action="LogOutAsync">Logout</a></li>
                     </ul>
                 </div>
@@ -92,7 +95,7 @@
                 @RenderBody()
                 <hr />
                 <footer>
-                    <p>&copy; @DateTime.Today.Year - KKday 同業分銷平台</p>
+                    <p>&copy; @DateTime.Today.Year - @localizer.Text.KKday_CopyRight</p>
                 </footer>
             </div>
         </div>

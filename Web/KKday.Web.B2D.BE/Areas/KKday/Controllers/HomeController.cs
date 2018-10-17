@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using KKday.Web.B2D.BE.Models.Account;
 using Newtonsoft.Json;
 using System.Security.Claims;
+using KKday.Web.B2D.BE.App_Code;
 
 namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 {
@@ -21,7 +22,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             var jsonAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
             if (jsonAccount != null)
             {
-                var account = JsonConvert.DeserializeObject<KKdayAccount>(jsonAccount);
+                var account = JsonConvert.DeserializeObject<KKdayAccount>(AesCryptHelper.aesDecryptBase64(jsonAccount, Website.Instance.AesCryptKey));
             }
 
             return View();
