@@ -40,4 +40,5 @@ Thumbs.db
 # dotCover
 *.dotCover
 
-.obj/
+/obj
+/logs
