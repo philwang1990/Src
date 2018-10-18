@@ -18,7 +18,7 @@ namespace KKday.API.WMS.Models.Search {
         public string date_to { get; set; }
         public string[] durations { get; set; }
         public string[] stats { get; set; }
-        public string locale { get; set; }
+        public string locale { get; set; }//查詢在此商品在此國家可售不可售
         public string sort { get; set; }
         public string source { get; set; }
         public string member_uuid { get; set; }
@@ -26,6 +26,9 @@ namespace KKday.API.WMS.Models.Search {
         public string ip { get; set; }
         public string multiprice_platform { get; set; }
         public string[] facets { get; set; }
+        public string company_xid { get; set; }
+
+
 
     }
 }

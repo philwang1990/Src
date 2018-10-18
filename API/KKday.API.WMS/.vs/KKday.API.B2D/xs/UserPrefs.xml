@@ -1,0 +1,36 @@
+﻿<Properties StartupConfiguration="{3BD753CE-4196-43A8-BCDB-28ADD7081E9D}|Default">
+  <MonoDevelop.Ide.ItemProperties.KKday.API.B2D PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.B2D/appsettings.json">
+    <Files>
+      <File FileName="KKday.API.B2D/Controllers/AuthorizeController.cs" Line="64" Column="10" />
+      <File FileName="KKday.API.B2D/Controllers/BookingController.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.B2D/Controllers/SearchController.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.B2D/Controllers/ProductController.cs" Line="53" Column="63" />
+      <File FileName="KKday.API.B2D/Models/Repository/Package/PackageRepository.cs" Line="245" Column="38" />
+      <File FileName="KKday.API.B2D/appsettings.json" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="17" column="26" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="25" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Controllers/PackageController.cs" relfile="KKday.API.WMS/Controllers/PackageController.cs" line="16" column="69" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Controllers/PackageController.cs" relfile="KKday.API.WMS/Controllers/PackageController.cs" line="22" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Controllers/SearchController.cs" relfile="KKday.API.WMS/Controllers/SearchController.cs" line="23" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Search/SearchRepository.cs" relfile="KKday.API.WMS/Models/Repository/Search/SearchRepository.cs" line="123" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Search/SearchRepository.cs" relfile="KKday.API.WMS/Models/Repository/Search/SearchRepository.cs" line="118" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Search/SearchRepository.cs" relfile="KKday.API.WMS/Models/Repository/Search/SearchRepository.cs" line="40" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Package/PackageRepository.cs" relfile="KKday.API.WMS/Models/Repository/Package/PackageRepository.cs" line="287" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Controllers/ProductController.cs" relfile="KKday.API.WMS/Controllers/ProductController.cs" line="49" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Controllers/ProductController.cs" relfile="KKday.API.WMS/Controllers/ProductController.cs" line="33" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.B2D/Controllers/ProductController.cs" relfile="KKday.API.B2D/Controllers/ProductController.cs" line="49" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.B2D/Controllers/ProductController.cs" relfile="KKday.API.B2D/Controllers/ProductController.cs" line="34" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <DisabledProjects>
+    <String>KKday.API.WMS/KKday.API.B2D.csproj</String>
+  </DisabledProjects>
+</Properties>

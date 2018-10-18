@@ -1,0 +1,54 @@
+{"create_date":"2018/09/26 11:02:15.463","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 11:51:23.682","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 11:51:54.587","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18578,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 11:52:02.382","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18578,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 11:53:16.939","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 11:53:36.626","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18578,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 11:53:43.129","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/18578/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:16:54.162","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:17:11.266","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18578,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:17:17.856","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/18578/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:17:21.455","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:26:16.935","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:27:07.918","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18578,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:27:13.253","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/18578/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:27:19.518","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:43:31.895","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:43:45.049","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18578,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:43:51.977","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/18578/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:43:54.522","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:45:18.29","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:45:29.331","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18578,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:45:36.402","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/18578/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 14:45:38.861","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:26:18.088","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:26:37.166","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18592,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:26:42.167","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/18592/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:26:44.418","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:27:25.816","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:27:32.126","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/18492,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:27:37.39","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/18492/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:27:40.068","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:50:56.727","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:51:04.033","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/11731,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:51:09.691","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/11731/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 15:51:11.935","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:07:09.915","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/7204,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:07:14.729","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/7204/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:07:17.213","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:08:10.138","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/7204,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:08:20.102","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/7204/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:08:22.989","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:11:47.151","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:11:54.922","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/7204,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:11:59.716","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/7204/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:12:01.747","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:12:36.771","level":"FATAL","logger":"Website","msg":"Product System Error :Object reference not set to an instance of an object.,   at KKday.API.WMS.Models.Repository.Product.ProductRepository.GetProdDtl(QueryProductModel queryRQ) in /Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs:line 347","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:14:58.592","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:15:04.769","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/7204,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:15:09.163","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/7204/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:15:11.17","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:16:48.678","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/info/fe/v1/720,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:16:53.171","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/product/720/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:16:56.022","level":"INFO","logger":"Website","msg":"URL:https://api.kkday.com/api/comm/codeLang/list/VOUCHER_EXCHANGE_TYPE,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
+{"create_date":"2018/09/26 16:16:57.2","level":"FATAL","logger":"Website","msg":"Product System Error :kkday product api response msg is not correct!,   at KKday.API.WMS.Models.Repository.Product.ProductRepository.GetProdDtl(QueryProductModel queryRQ) in /Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs:line 36","hostname":"Lulus-MacBook"}

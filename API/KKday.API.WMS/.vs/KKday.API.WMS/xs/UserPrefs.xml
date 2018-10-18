@@ -1,25 +1,34 @@
 ﻿<Properties StartupConfiguration="{99848D4B-770C-4139-90D3-9D2DA25F573C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.WMS/Controllers/doraTest.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs">
     <Files>
-      <File FileName="KKday.API.WMS/AppCode/Proxy/SearchProxy.cs" Line="103" Column="1" />
-      <File FileName="KKday.API.WMS/Controllers/SearchController.cs" Line="17" Column="1" />
-      <File FileName="KKday.API.WMS/Controllers/doraTest.cs" Line="11" Column="1" />
+      <File FileName="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" Line="1009" Column="34" />
+      <File FileName="KKday.API.WMS/Models/DataModel/Product/ProductModel.cs" Line="8" Column="1" />
+      <File FileName="KKday.API.WMS/Controllers/ProductController.cs" Line="26" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/DAL/ProdDAL.cs" relfile="KKday.API.WMS/AppCode/DAL/ProdDAL.cs" line="21" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/Models/Repository/ProdRepository.cs" relfile="KKday.API.WMS/Models/Repository/ProdRepository.cs" line="17" column="34" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/Controllers/SearchController.cs" relfile="KKday.API.WMS/Controllers/SearchController.cs" line="19" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/DAL/ProdDAL.cs" relfile="KKday.API.WMS/AppCode/DAL/ProdDAL.cs" line="67" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" line="90" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" line="13" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" line="80" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" line="32" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" line="33" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" line="54" column="1" />
-      <Breakpoint file="/Users/touinchiku/Desktop/Git/Src/API/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/SearchProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/SearchProxy.cs" line="102" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="23" column="26" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="322" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="284" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="381" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="566" column="32" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="639" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="674" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="728" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="775" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="598" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="812" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/CommonProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/CommonProxy.cs" line="72" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/CommonProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/CommonProxy.cs" line="134" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/CommonProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/CommonProxy.cs" line="196" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="416" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Controllers/ProductController.cs" relfile="KKday.API.WMS/Controllers/ProductController.cs" line="26" column="55" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="100" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="44" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="83" column="1" />
+      <Breakpoint file="/Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="1095" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />

@@ -1,0 +1,2 @@
+{"create_date":"2018/10/03 09:59:46.589","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Lulus-MacBook"}
+{"create_date":"2018/10/03 10:00:00.477","level":"INFO","logger":"Website","msg":"URL:https://api.sit.kkday.com/api/product/20140/module/get,URL Response StatusCode:OK","hostname":"Lulus-MacBook"}
