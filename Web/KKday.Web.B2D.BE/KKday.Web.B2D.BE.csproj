@@ -46,6 +46,7 @@
     <Folder Include="Models\Model\Company\" />
     <Folder Include="Areas\KKday\Models\DataModel\Company\" />
     <Folder Include="Resources\" />
+    <Folder Include="Proxy\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
@@ -55,6 +56,7 @@
     <Compile Remove="App_Code\ExceptionFilter.cs" />
     <Compile Remove="Areas\KKday\Models\DataModel\CompLookup.cs" />
     <Compile Remove="Models\Model\Common\ApplicationUser.cs" />
+    <Compile Remove="Models\Model\Common\EmptyClass.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Areas\User\Views\Home\Error.cshtml" />
@@ -76,14 +78,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Resources\Localizer.cs">
-      <DependentUpon>Localizer.tt</DependentUpon>
-    </Compile>
     <Compile Update="Resources\Text.en-US.Designer.cs">
       <DependentUpon>Text.en-US.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Text.zh-TW.Designer.cs">
       <DependentUpon>Text.zh-TW.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Resources\Localizer.cs">
+      <DependentUpon>Localizer.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

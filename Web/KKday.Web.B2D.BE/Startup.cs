@@ -67,11 +67,12 @@ namespace KKday.Web.B2D.BE
 
             services.AddSingleton<AccountRepository>();
             services.AddSingleton<CompanyRepository>();
+            services.AddScoped<CountryRepository>();
 
             #endregion Dependency Injection Regisgter-- end
 
             //使用多國語系
-            services.AddScoped<ILocalizer, Localizer>();
+            services.AddSingleton<ILocalizer, Localizer>();
 
             //使用 Session
             services.AddSession();
@@ -94,7 +95,7 @@ namespace KKday.Web.B2D.BE
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
-
+             
             // 初始化-網站主控台
             Website.Instance.Init(this.Configuration, env);
              

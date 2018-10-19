@@ -1,0 +1,94 @@
+﻿@using KKday.Web.B2D.BE.Models.Company
+@using KKday.Web.B2D.BE.App_Code
+@using KKday.Web.B2D.BE.Models.Model.Common
+@using Resources
+
+@inject ILocalizer localizer
+
+@model B2D_Company
+@{
+    var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
+    var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];   
+}
+
+<div class="row">
+    <form id="form1">
+        <div class="col-xs-12">
+            <div class="form-group">
+                <label>公司名稱</label>
+                <input type="tel" class="form-control" value="@Model.COMP_NAME">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>所在國家或地區代碼<span class="text-danger">*</span></label>
+                <select id="country_area" class="form-control">
+                    <option value="">請選擇</option>
+                    @foreach (var country in countryAreas.OrderBy(c => c.telArea))
+                    {
+                        <option value="@(country.telArea)" @(strSelected)> +@(country.telArea) @(country.countryName)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>聯絡電話<span class="text-danger">*</span></label>
+                <input type="tel" class="form-control" value="@Model.COMP_TEL">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>慣用語言<span class="text-danger">*</span></label>
+                <select id="locale" class="form-control">
+                    <option value="">請選擇</option>
+                    @foreach (var loc in countryLocales)
+                    {
+                    <option value="@loc.localeCode">@loc.localeName (@loc.countryName)</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>交易貨幣<span class="text-danger">*</span></label>
+                <select class="form-control">
+                    <option value="">請選擇</option>
+                    <option>USD</option>
+                    <option>TWD</option>
+                    <option>KRW</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>聯絡人電子信箱<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="@Model.CONTACT_USER_EMAIL" placeholder="電子信箱">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>統一編號<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="@Model.COMP_INVOICE" placeholder="僅台灣同業用">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>公司網站網址<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="@Model.COMP_URL" placeholder="僅台灣同業用">
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label>聯絡地址<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="@Model.COMP_ADDRESS" placeholder="僅台灣同業用">
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<script type="text/javascript">
+    $("#country_area").val('@Model.COMP_TEL_COUNTRY_CODE');
+    $("#locale").val('@Model.COMP_LOCALE');
+</script>
