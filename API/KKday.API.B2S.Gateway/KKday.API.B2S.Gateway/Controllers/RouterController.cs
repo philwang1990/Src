@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
@@ -47,7 +47,16 @@ namespace KKday.API.B2S.Gateway.Controllers
             {
                 //套餐與供應上API分流
                 var xdoc = XDocument.Load(System.AppDomain.CurrentDomain.BaseDirectory + "//App_Data//RouteMapping.xml");
-                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() <= 0) throw new Exception("Pakage Oid do not found suppiler mapping");
+                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() <= 0) 
+                {
+                    Metadata metadata = new Metadata();
+                    metadata.status = "10002";
+                    metadata.description = $"此套餐編號找不到串接的供應商，且不再即訂即付的商品項目中";
+                    bookRS.metadata = metadata;
+
+                    return Json(bookRS);
+
+                }
 
                 string sup = xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).
                                             Select(x => x.Element("sup").Value).FirstOrDefault().ToString();
