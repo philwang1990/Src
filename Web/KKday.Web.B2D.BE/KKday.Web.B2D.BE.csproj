@@ -47,6 +47,7 @@
     <Folder Include="Areas\KKday\Models\DataModel\Company\" />
     <Folder Include="Resources\" />
     <Folder Include="Proxy\" />
+    <Folder Include="Areas\KKday\Models\DataModel\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
@@ -78,14 +79,14 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Resources\Localizer.cs">
+      <DependentUpon>Localizer.tt</DependentUpon>
+    </Compile>
     <Compile Update="Resources\Text.en-US.Designer.cs">
       <DependentUpon>Text.en-US.resx</DependentUpon>
     </Compile>
     <Compile Update="Resources\Text.zh-TW.Designer.cs">
       <DependentUpon>Text.zh-TW.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Localizer.cs">
-      <DependentUpon>Localizer.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -104,6 +105,14 @@
     <EmbeddedResource Update="Resources\Text.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Text.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Resources\Text.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Resources\Text.zh-TW.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.zh-TW.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 </Project>

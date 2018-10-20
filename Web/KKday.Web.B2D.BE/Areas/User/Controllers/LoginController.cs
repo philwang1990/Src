@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using KKday.Web.B2D.BE.Areas.Common.Models;
-using KKday.Web.B2D.BE.Models.Account;
+using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using KKday.Web.B2D.BE.App_Code;
+using KKday.Web.B2D.BE.Models.Model.Common;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -52,6 +52,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
                     new Claim("Account", account.ACCOUNT),
                     new Claim("UUID", account.UUID),
                     new Claim("UserType", IsKKdayUser ? "KKDAY" : "USER"),
+                    new Claim("Locale", account.LOCALE),
                     new Claim(ClaimTypes.UserData,strChiperAcct), // 以AES加密JSON格式把使用者資料保存於Cookie
                 };
 

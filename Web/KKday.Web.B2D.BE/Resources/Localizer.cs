@@ -154,6 +154,40 @@
         {
         }
 
+		public string CURR_AUD { get { return GetString("CURR_AUD"); } }
+
+		public string CURR_CAD { get { return GetString("CURR_CAD"); } }
+
+		public string CURR_CNY { get { return GetString("CURR_CNY"); } }
+
+		public string CURR_EUR { get { return GetString("CURR_EUR"); } }
+
+		public string CURR_GBP { get { return GetString("CURR_GBP"); } }
+
+		public string CURR_HKD { get { return GetString("CURR_HKD"); } }
+
+		public string CURR_IDR { get { return GetString("CURR_IDR"); } }
+
+		public string CURR_JPY { get { return GetString("CURR_JPY"); } }
+
+		public string CURR_KRW { get { return GetString("CURR_KRW"); } }
+
+		public string CURR_MYR { get { return GetString("CURR_MYR"); } }
+
+		public string CURR_NZD { get { return GetString("CURR_NZD"); } }
+
+		public string CURR_PHP { get { return GetString("CURR_PHP"); } }
+
+		public string CURR_SGD { get { return GetString("CURR_SGD"); } }
+
+		public string CURR_THB { get { return GetString("CURR_THB"); } }
+
+		public string CURR_TWD { get { return GetString("CURR_TWD"); } }
+
+		public string CURR_USD { get { return GetString("CURR_USD"); } }
+
+		public string CURR_VND { get { return GetString("CURR_VND"); } }
+
 		public string KKday_CopyRight { get { return GetString("KKday_CopyRight"); } }
 
 		public string Add { get { return GetString("Add"); } }
@@ -164,20 +198,50 @@
 
 		public string Delete { get { return GetString("Delete"); } }
 
-		public string Company_Title { get { return GetString("Company_Title"); } }
+		public string ID { get { return GetString("ID"); } }
 
-		public string Company_Search_Name { get { return GetString("Company_Search_Name"); } }
+		public string Name { get { return GetString("Name"); } }
 
-		public string Company_Search_Country { get { return GetString("Company_Search_Country"); } }
+		public string Country { get { return GetString("Country"); } }
 
-		public string Company_Search_Status { get { return GetString("Company_Search_Status"); } }
+		public string Status { get { return GetString("Status"); } }
 
-		public string Company_Search_Sorting { get { return GetString("Company_Search_Sorting"); } }
+		public string Sorting { get { return GetString("Sorting"); } }
 
-		public string Company_Search_Button { get { return GetString("Company_Search_Button"); } }
+		public string Promotion { get { return GetString("Promotion"); } }
 
-		public string Company_List_Col_Name { get { return GetString("Company_List_Col_Name"); } }
+		public string Search { get { return GetString("Search"); } }
 
-		public string Company_List_Col_Promo { get { return GetString("Company_List_Col_Promo"); } }
+		public string Query { get { return GetString("Query"); } }
+
+		public string Data_Not_Found { get { return GetString("Data_Not_Found"); } }
+
+		public string Yes { get { return GetString("Yes"); } }
+
+		public string No { get { return GetString("No"); } }
+
+		public string Title_Distribution { get { return GetString("Title_Distribution"); } }
+
+		public string Title_VoucherApply { get { return GetString("Title_VoucherApply"); } }
+
+		public string Title_Order { get { return GetString("Title_Order"); } }
+
+		public string Title_DistAccount { get { return GetString("Title_DistAccount"); } }
+
+		public string Title_DistApiAccount { get { return GetString("Title_DistApiAccount"); } }
+
+		public string Title_PriceBlacklist { get { return GetString("Title_PriceBlacklist"); } }
+
+		public string Title_Promotion { get { return GetString("Title_Promotion"); } }
+
+		public string Company_Name { get { return GetString("Company_Name"); } }
+
+		public string Company_Status_00 { get { return GetString("Company_Status_00"); } }
+
+		public string Company_Status_01 { get { return GetString("Company_Status_01"); } }
+
+		public string Company_Status_02 { get { return GetString("Company_Status_02"); } }
+
+		public string Company_Status_03 { get { return GetString("Company_Status_03"); } }
     }
 }

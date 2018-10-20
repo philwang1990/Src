@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KKday.Web.B2D.BE.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,6 +12,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 {
     [Area("KKday")]
     [Authorize(Policy = "KKdayOnly")]
+    [TypeFilter(typeof(CultureFilter))]
     public class PromotionController : Controller
     {
         // GET: /<controller>/

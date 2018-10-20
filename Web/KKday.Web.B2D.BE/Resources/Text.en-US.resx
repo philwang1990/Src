@@ -60,8 +60,28 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     
+    <!-- Currency -->
+    <data name="CURR_AUD" xml:space="preserve"><value>Australian Dollar</value></data>
+    <data name="CURR_CAD" xml:space="preserve"><value>Canadian Dollar</value></data>
+    <data name="CURR_CNY" xml:space="preserve"><value>Chinese Yuan</value></data>
+    <data name="CURR_EUR" xml:space="preserve"><value>Euro</value></data>
+    <data name="CURR_GBP" xml:space="preserve"><value>GBP</value></data>
+    <data name="CURR_HKD" xml:space="preserve"><value>Hong Kong Dollar</value></data>
+    <data name="CURR_IDR" xml:space="preserve"><value>Indonesian Rupiah</value></data>
+    <data name="CURR_JPY" xml:space="preserve"><value>Japan Yen</value></data>
+    <data name="CURR_KRW" xml:space="preserve"><value>Korean Round</value></data>
+    <data name="CURR_MYR" xml:space="preserve"><value>Malaysia Ringgit</value></data>
+    <data name="CURR_NZD" xml:space="preserve"><value>New Zealand Dollar</value></data>
+    <data name="CURR_PHP" xml:space="preserve"><value>Philippine Peso</value></data>
+    <data name="CURR_SGD" xml:space="preserve"><value>Singapore Dollar</value></data>
+    <data name="CURR_THB" xml:space="preserve"><value>Baht</value></data>
+    <data name="CURR_TWD" xml:space="preserve"><value>New Taiwan Dollar</value></data> 
+    <data name="CURR_USD" xml:space="preserve"><value>USD</value></data> 
+    <data name="CURR_VND" xml:space="preserve"><value>Vietnamese Dong</value></data> 
+    
+    <!-- Genernel -->
     <data name="KKday_CopyRight" xml:space="preserve">
-        <value>KKday Business to Distributor Platform</value>
+        <value>KKday Business to Distribution Platform</value>
     </data>
     <data name="Add" xml:space="preserve">
         <value>Add</value>
@@ -74,30 +94,82 @@
     </data>
     <data name="Delete" xml:space="preserve">
         <value>Delete</value>
+    </data> 
+    <data name="ID" xml:space="preserve">
+        <value>ID</value>
     </data>
-    
-    <data name="Company_Title" xml:space="preserve">
-        <value>Distributor Management</value>
-    </data>
-    <data name="Company_Search_Name" xml:space="preserve">
+    <data name="Name" xml:space="preserve">
         <value>Name</value>
     </data>
-    <data name="Company_Search_Country" xml:space="preserve">
+    <data name="Country" xml:space="preserve">
         <value>Country</value>
     </data>
-    <data name="Company_Search_Status" xml:space="preserve">
+    <data name="Status" xml:space="preserve">
         <value>Status</value>
     </data>
-     <data name="Company_Search_Sorting" xml:space="preserve">
+     <data name="Sorting" xml:space="preserve">
         <value>Sorting</value>
     </data>
-    <data name="Company_Search_Button" xml:space="preserve">
-        <value>Search</value>
-    </data>
-    <data name="Company_List_Col_Name" xml:space="preserve">
-        <value>Company Name</value>
-    </data>
-    <data name="Company_List_Col_Promo" xml:space="preserve">
+    <data name="Promotion" xml:space="preserve">
         <value>Promotion</value>
     </data>
+     <data name="Search" xml:space="preserve">
+        <value>Search</value>
+    </data>
+    <data name="Query" xml:space="preserve">
+        <value>Query</value>
+    </data>
+    <data name="Data_Not_Found" xml:space="preserve">
+        <value>Data Not Found</value>
+    </data>
+     <data name="Yes" xml:space="preserve">
+        <value>Yes</value>
+    </data>
+    <data name="No" xml:space="preserve">
+        <value>No</value>
+    </data>
+    
+    
+    <!-- Sidebar -->
+    <data name="Title_Distribution" xml:space="preserve">
+        <value>Distributor</value>
+    </data>
+    <data name="Title_VoucherApply" xml:space="preserve">
+        <value>Voucher Apply</value>
+    </data> 
+    <data name="Title_Order" xml:space="preserve">
+        <value>Order</value>
+    </data> 
+    <data name="Title_DistAccount" xml:space="preserve">
+        <value>Account</value>
+    </data>
+    <data name="Title_DistApiAccount" xml:space="preserve">
+        <value>Api Account</value>
+    </data> 
+    <data name="Title_PriceBlacklist" xml:space="preserve">
+        <value>Price Blacklist</value>
+    </data>
+    <data name="Title_Promotion" xml:space="preserve">
+        <value>Promotion Setting</value>
+    </data> 
+    
+    <!-- Company -->
+    <data name="Company_Name" xml:space="preserve">
+        <value>Company Name</value>
+    </data> 
+    
+    <!-- Company_Status -->
+    <data name="Company_Status_00" xml:space="preserve">
+        <value>Wait</value>
+    </data>
+    <data name="Company_Status_01" xml:space="preserve">
+        <value>Permit</value>
+    </data>
+    <data name="Company_Status_02" xml:space="preserve">
+        <value>Reject</value>
+    </data>
+    <data name="Company_Status_03" xml:space="preserve">
+        <value>Pending</value>
+    </data>
+    
 </root>

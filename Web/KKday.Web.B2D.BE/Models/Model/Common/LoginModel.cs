@@ -1,5 +1,5 @@
 ﻿using System;
-namespace KKday.Web.B2D.BE.Areas.Common.Models
+namespace KKday.Web.B2D.BE.Models.Model.Common
 { 
     [Serializable]
     public class LoginModel

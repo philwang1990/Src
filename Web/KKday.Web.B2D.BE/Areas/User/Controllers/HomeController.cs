@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using KKday.Web.B2D.BE.Areas.User.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Principal;
-using KKday.Web.B2D.BE.Models.Account;
+using KKday.Web.B2D.BE.Models.Model.Account;
 using System.Security.Claims;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;

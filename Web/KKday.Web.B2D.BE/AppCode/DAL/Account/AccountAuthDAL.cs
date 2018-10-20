@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Models.Account;
+using KKday.Web.B2D.BE.Models.Model.Account;
 using Npgsql;
 
 namespace KKday.Web.B2D.BE.AppCode.DAL.Account
@@ -19,8 +19,16 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
                 // 連接Posgresql
                 conn.Open();
 
-                string sqlStmt = @"SELECT * FROM b2b.b2d_account_kkday WHERE enable=true AND LOWER(email)=LOWER(:ACCOUNT)";
-                var ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, new NpgsqlParameter("ACCOUNT", account));
+                string sqlStmt = @"SELECT *, name_first || name_last AS Name 
+FROM b2b.b2d_account_kkday 
+WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[]{
+                    new NpgsqlParameter("account", account),
+                    new NpgsqlParameter("password", password)
+                };
+
+                var ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, sqlParams);
                 // 檢查是否為有效KKday使用者
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
@@ -31,6 +39,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
                         EMAIL = dr.ToStringEx("email"),
+                        NAME = dr.ToStringEx("name"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
                         ACCOUNT = dr.ToStringEx("email"),
@@ -47,12 +56,18 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
                 // 檢查是否為分銷商使用者
                 else {
                     sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
- a.department, a.job_title, a.enable, a.gender_title, b.xid as comp_xid, b.comp_name, 
- b.comp_locale AS locale, b.comp_currency AS currency
+ a.name_first || a.name_last AS name, a.department, a.job_title, a.enable, a.gender_title,
+ b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
-WHERE enable=true AND LOWER(email)=LOWER(:ACCOUNT)";
-                    ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, new NpgsqlParameter("ACCOUNT", account));
+WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
+
+                    sqlParams = new NpgsqlParameter[]{
+                        new NpgsqlParameter("account", account),
+                        new NpgsqlParameter("password", password)
+                    };
+
+                    ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, sqlParams);
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
                         DataRow dr = ds.Tables[0].Rows[0];
@@ -61,7 +76,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:ACCOUNT)";
                         {
                             XID = dr.ToInt64("xid"),
                             UUID = dr.ToStringEx("user_uuid"),
-                            EMAIL = dr.ToStringEx("email"), 
+                            EMAIL = dr.ToStringEx("email"),
+                            NAME = dr.ToStringEx("name"),
                             NAME_FIRST = dr.ToStringEx("name_first"),
                             NAME_LAST = dr.ToStringEx("name_last"),
                             COMPANY_XID = dr.ToInt64("comp_xid"),

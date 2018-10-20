@@ -66,6 +66,7 @@ namespace KKday.Web.B2D.BE
             #region Dependency Injection Regisgter -- begin
 
             services.AddSingleton<AccountRepository>();
+            services.AddSingleton<B2dAccountRepository>(); 
             services.AddSingleton<CompanyRepository>();
             services.AddScoped<CountryRepository>();
 

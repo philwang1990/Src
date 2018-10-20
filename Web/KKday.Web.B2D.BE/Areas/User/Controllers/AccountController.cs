@@ -5,8 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Areas.Common.Models;
-using KKday.Web.B2D.BE.Models.Account;
+using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -74,7 +73,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
                     throw new Exception("Invalid account to updated password");
                 }
 
-                var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
+                var accountRepo = (B2dAccountRepository)HttpContext.RequestServices.GetService(typeof(B2dAccountRepository));
                 accountRepo.SetNewPassword(_strAccount, password);
 
                 jsonData.Add("status", "OK");

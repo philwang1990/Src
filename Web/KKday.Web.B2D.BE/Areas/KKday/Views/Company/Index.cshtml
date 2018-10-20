@@ -8,6 +8,11 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <style type="text/css">
+        .modal-dialog {
+            width: whatever;
+        }
+    </style>
 
 }
 @section Scripts {
@@ -15,18 +20,18 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 
-    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/i18n/defaults-*.min.js"></script>
+ @*<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/i18n/defaults-*.min.js"></script>*@
 }
 
 <script type="text/javascript">
-  var lookup = @Html.Raw(ViewData["LOOKUP_MODEL_JSON"].ToString()); 
+  var query_params = @Html.Raw(ViewData["QUERY_PARAMS_JSON"].ToString()); 
 </script>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.Company_Title</li>
+        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.Title_Distribution</li>
     </ol>
 </nav>
 
@@ -36,49 +41,53 @@
 
 
         <div class="col-md-12">
-            <h4>@localizer.Text.Company_Title</h4>
+            <h4>@localizer.Text.Title_Distribution</h4>
 
 
             <div class="search-tab row" style="margin-bottom: 20px;">
                 <form>
                     <div class="col-xs-12 col-sm-2">
-                        <label>@localizer.Text.Company_Search_Name</label>
-                        <input type="text" id="Search" class="form-control" placeholder="公司名稱" aria-label="公司名稱" aria-describedby="basic-addon1">
+                        <label>@localizer.Text.Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="公司名稱" aria-label="公司名稱" aria-describedby="basic-addon1">
                     </div>                   
 
                     <div class="col-xs-12 col-sm-2">
-                        <label>@localizer.Text.Company_Search_Country</label>
-                        <input type="text" id="na" class="form-control" placeholder="所在國家" aria-label="所在國家" aria-describedby="basic-addon1">                          
+                        <label>@localizer.Text.Country</label>
+                        <input type="text" id="country" class="form-control" placeholder="所在國家" aria-label="所在國家" aria-describedby="basic-addon1">                          
                     </div> 
 
                     <div class="col-xs-12 col-sm-2">
-                       <label>@localizer.Text.Company_Search_Status</label>
-                       <select class="selectpicker form-control">
-                          <option>Acitve</option>
-                          <option>Deactive</option> 
+                       <label>@localizer.Text.Status</label>
+                       <select id="status" class="selectpicker form-control">
+                          <option value="">-- Select --</option>
+                          <option value="00">@localizer.Text.Company_Status_00</option>
+                          <option value="01">@localizer.Text.Company_Status_01</option>
+                          <option value="02">@localizer.Text.Company_Status_02</option> 
+                          <option value="03">@localizer.Text.Company_Status_03</option> 
                         </select>
                     </div> 
 
                     <div class="col-xs-12 col-sm-2">
-                       <label>@localizer.Text.Company_Search_Sorting </label>
-                       <select name="sorting" class="selectpicker form-control">
-                          <option value="name">名稱</option>
-                          <option value="status">狀態</option>
-                          <option value="xid">序號</option>
-                          <option value="country">國家</option>
+                       <label>@localizer.Text.Sorting </label>
+                       <select id="sorting" class="selectpicker form-control">
+                          <option value="">-- Select --</option>
+                          <option value="name">@localizer.Text.Name</option>
+                          <option value="status">@localizer.Text.Status</option>
+                          <option value="xid">@localizer.Text.ID</option>
+                          <option value="country">@localizer.Text.Country</option>
                         </select>
                     </div> 
                    
                     <div class="col-xs-12 col-sm-2">
                         <label></label>
-                        <input type="Submit" name="submit" value="@localizer.Text.Company_Search_Button" class="btn btn-info cst-btn form-control" id="srch">
+                        <input type="Submit" name="submit" value="@localizer.Text.Search" onclick="Refresh(1); return false;" class="btn btn-info cst-btn form-control">
                     </div>
                 </form>
             </div>
             <!-- search tab -->
 
 
-            <div id="comp_panel" class="table-responsive">
+            <div id="list_panel" class="table-responsive">
                 <partial name="CompanyList" />
             </div>
 
@@ -91,24 +100,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Edit</h4>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <input class="form-control " type="text" placeholder="Mohsin">
-                </div>
-                <div class="form-group">
-
-                    <input class="form-control " type="text" placeholder="Irshad">
-                </div>
-                <div class="form-group">
-                    <textarea rows="2" class="form-control" placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
-
-
-                </div>
+                <span>Loading...</span>
             </div>
             <div class="modal-footer ">
-                <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
+                <button type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="return UpdateCompany();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Update
+                </button>
             </div>
         </div>
         <!-- /.modal-content -->
@@ -123,7 +123,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
             </div>
             <div class="modal-body">
 
@@ -157,6 +157,46 @@
         });
 
         $("[data-toggle=tooltip]").tooltip();
+     
+        $('#edit').on('show.bs.modal', function(e) { 
+            var xid = $(e.relatedTarget).data('paragraphs');
+            var modal_body =  $(this).find('.modal-body'); 
+            $(modal_body).html("<span>Loading...</span>");
+            $.get(_root_path + "Company/RenderEdit?id=" + xid, function(result) {
+               $(modal_body).html(result);
+            });
+
+     
+        });
     });
 
+    function Refresh(page) {
+        query_params.filter = JSON.stringify({ name:$("#name").val(), country:$("#country").val().toUpperCase(), status:$("#status").val() });
+        query_params.sorting = $("#sorting").val();
+        if (page!==undefined){
+            query_params.Paging.current_page = page;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "Company/Refresh",
+            contentType: "application/json",
+            data: JSON.stringify(query_params),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    $("#list_panel").html(result.content);
+                    query_params = JSON.parse(result.query_params); 
+                }
+            }
+        });
+
+    }
+
+     
 </script>

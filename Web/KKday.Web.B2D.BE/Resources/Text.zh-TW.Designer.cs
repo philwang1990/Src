@@ -47,6 +47,108 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string CURR_AUD {
+            get {
+                return ResourceManager.GetString("CURR_AUD", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_CAD {
+            get {
+                return ResourceManager.GetString("CURR_CAD", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_CNY {
+            get {
+                return ResourceManager.GetString("CURR_CNY", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_EUR {
+            get {
+                return ResourceManager.GetString("CURR_EUR", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_GBP {
+            get {
+                return ResourceManager.GetString("CURR_GBP", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_HKD {
+            get {
+                return ResourceManager.GetString("CURR_HKD", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_IDR {
+            get {
+                return ResourceManager.GetString("CURR_IDR", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_JPY {
+            get {
+                return ResourceManager.GetString("CURR_JPY", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_KRW {
+            get {
+                return ResourceManager.GetString("CURR_KRW", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_MYR {
+            get {
+                return ResourceManager.GetString("CURR_MYR", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_NZD {
+            get {
+                return ResourceManager.GetString("CURR_NZD", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_PHP {
+            get {
+                return ResourceManager.GetString("CURR_PHP", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_SGD {
+            get {
+                return ResourceManager.GetString("CURR_SGD", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_THB {
+            get {
+                return ResourceManager.GetString("CURR_THB", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_TWD {
+            get {
+                return ResourceManager.GetString("CURR_TWD", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_USD {
+            get {
+                return ResourceManager.GetString("CURR_USD", resourceCulture);
+            }
+        }
+        
+        internal static string CURR_VND {
+            get {
+                return ResourceManager.GetString("CURR_VND", resourceCulture);
+            }
+        }
+        
         internal static string KKday_CopyRight {
             get {
                 return ResourceManager.GetString("KKday_CopyRight", resourceCulture);
@@ -77,51 +179,141 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
-        internal static string Company_Title {
+        internal static string ID {
             get {
-                return ResourceManager.GetString("Company_Title", resourceCulture);
+                return ResourceManager.GetString("ID", resourceCulture);
             }
         }
         
-        internal static string Company_Search_Name {
+        internal static string Name {
             get {
-                return ResourceManager.GetString("Company_Search_Name", resourceCulture);
+                return ResourceManager.GetString("Name", resourceCulture);
             }
         }
         
-        internal static string Company_Search_Country {
+        internal static string Country {
             get {
-                return ResourceManager.GetString("Company_Search_Country", resourceCulture);
+                return ResourceManager.GetString("Country", resourceCulture);
             }
         }
         
-        internal static string Company_Search_Status {
+        internal static string Status {
             get {
-                return ResourceManager.GetString("Company_Search_Status", resourceCulture);
+                return ResourceManager.GetString("Status", resourceCulture);
             }
         }
         
-        internal static string Company_Search_Sorting {
+        internal static string Sorting {
             get {
-                return ResourceManager.GetString("Company_Search_Sorting", resourceCulture);
+                return ResourceManager.GetString("Sorting", resourceCulture);
             }
         }
         
-        internal static string Company_Search_Button {
+        internal static string Promotion {
             get {
-                return ResourceManager.GetString("Company_Search_Button", resourceCulture);
+                return ResourceManager.GetString("Promotion", resourceCulture);
             }
         }
         
-        internal static string Company_List_Col_Name {
+        internal static string Search {
             get {
-                return ResourceManager.GetString("Company_List_Col_Name", resourceCulture);
+                return ResourceManager.GetString("Search", resourceCulture);
             }
         }
         
-        internal static string Company_List_Col_Promo {
+        internal static string Query {
             get {
-                return ResourceManager.GetString("Company_List_Col_Promo", resourceCulture);
+                return ResourceManager.GetString("Query", resourceCulture);
+            }
+        }
+        
+        internal static string Data_Not_Found {
+            get {
+                return ResourceManager.GetString("Data_Not_Found", resourceCulture);
+            }
+        }
+        
+        internal static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
+            }
+        }
+        
+        internal static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        internal static string Title_Distribution {
+            get {
+                return ResourceManager.GetString("Title_Distribution", resourceCulture);
+            }
+        }
+        
+        internal static string Title_VoucherApply {
+            get {
+                return ResourceManager.GetString("Title_VoucherApply", resourceCulture);
+            }
+        }
+        
+        internal static string Title_Order {
+            get {
+                return ResourceManager.GetString("Title_Order", resourceCulture);
+            }
+        }
+        
+        internal static string Title_DistAccount {
+            get {
+                return ResourceManager.GetString("Title_DistAccount", resourceCulture);
+            }
+        }
+        
+        internal static string Title_DistApiAccount {
+            get {
+                return ResourceManager.GetString("Title_DistApiAccount", resourceCulture);
+            }
+        }
+        
+        internal static string Title_PriceBlacklist {
+            get {
+                return ResourceManager.GetString("Title_PriceBlacklist", resourceCulture);
+            }
+        }
+        
+        internal static string Title_Promotion {
+            get {
+                return ResourceManager.GetString("Title_Promotion", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Name {
+            get {
+                return ResourceManager.GetString("Company_Name", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Status_00 {
+            get {
+                return ResourceManager.GetString("Company_Status_00", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Status_01 {
+            get {
+                return ResourceManager.GetString("Company_Status_01", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Status_02 {
+            get {
+                return ResourceManager.GetString("Company_Status_02", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Status_03 {
+            get {
+                return ResourceManager.GetString("Company_Status_03", resourceCulture);
             }
         }
     }

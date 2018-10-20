@@ -1,29 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Models.Account;
+using KKday.Web.B2D.BE.Models.Model.Account;
 using Npgsql;
 
 namespace KKday.Web.B2D.BE.AppCode.DAL.Account
 {
     public class AccountDAL
     {
+        public static int GetB2dAccountCount(string filter)
+        {
+            try
+            {
+                string sqlStmt = @"SELECT COUNT(*)
+FROM b2b.b2d_account a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid
+WHERE 1=1 {FILTER}";
+
+                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
+
+                int total_count = Convert.ToInt32(NpgsqlHelper.ExecuteScalar(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt));
+                return total_count;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         // 取得所有分銷商使用者列表　
-        public static List<B2dAccount> GetAccounts()
+        public static List<B2dAccount> GetB2dAccounts(string filter, int skip, int size, string sorting)
         {
             List<B2dAccount> accounts = new List<B2dAccount>();
 
             try
             {
-                string sqlStmt = @"SELECT  a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.department, a.gender_title, a.job_title, a.enable,
- b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
+                string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
+ a.job_title, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
-";
+WHERE 1=1 {FILTER}
+{SORTING}
+LIMIT :Size OFFSET :Skip";
 
-                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt);
+                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
+                sqlStmt = sqlStmt.Replace("{SORTING}", !string.IsNullOrEmpty(sorting) ? "ORDER BY " + sorting : string.Empty);
+
+                List<NpgsqlParameter> sqlParams = new List<NpgsqlParameter>
+                {
+                    new NpgsqlParameter("Size", size),
+                    new NpgsqlParameter("Skip", skip)
+                };
+
+                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams.ToArray());
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     foreach (DataRow dr in ds.Tables[0].Rows)
@@ -35,6 +68,7 @@ JOIN b2b.b2d_company b ON a.company_xid=b.xid
                             EMAIL = dr.ToStringEx("email"),
                             NAME_FIRST = dr.ToStringEx("name_first"),
                             NAME_LAST = dr.ToStringEx("name_last"),
+                            NAME = dr.ToStringEx("name"),
                             COMPANY_XID = dr.ToInt64("comp_xid"),
                             COMPANY_NAME = dr.ToStringEx("comp_name"),
                             ACCOUNT = dr.ToStringEx("email"), //與Email相同
@@ -58,34 +92,35 @@ JOIN b2b.b2d_company b ON a.company_xid=b.xid
 
             return accounts;
         }
-
-        // 取得所有分銷商使用者列表　
-        public static B2dAccount GetAccount(string account)
-        {
-            B2dAccount b2dAccount = null;
-
+         
+        public static B2dAccount GetB2dAccount(Int64 xid)
+        { 
             try
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.department, a.gender_title, a.job_title, a.enable,
- b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
+ a.job_title, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
-WHERE LOWER(email)=LOWER(:ACCOUNT)
-";
+WHERE xid=:xid";
 
-                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt);
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("xid", xid)
+                };
+
+                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
 
-                    b2dAccount = new B2dAccount()
+                    B2dAccount b2dAccount = new B2dAccount()
                     {
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
                         EMAIL = dr.ToStringEx("email"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
+                        NAME = dr.ToStringEx("name"),
                         COMPANY_XID = dr.ToInt64("comp_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
                         ACCOUNT = dr.ToStringEx("email"), //與Email相同
@@ -98,6 +133,8 @@ WHERE LOWER(email)=LOWER(:ACCOUNT)
                         TEL = dr.ToStringEx("comp_tel"),
                         USER_TYPE = dr.ToStringEx("account_type").Equals("01") ? "ADM" : "USER"
                     };
+
+                    return b2dAccount;
                 }
             }
             catch (Exception ex)
@@ -106,27 +143,29 @@ WHERE LOWER(email)=LOWER(:ACCOUNT)
                 throw ex;
             }
 
-            return b2dAccount;
+            return null;
         }
 
         // 取得個別分銷商使用者內容
-        public static B2dUserProfile GetProfile(string account)
+        public static B2dUserProfile GetB2dProfile(string email)
         {
             B2dUserProfile profile = null;
 
             try
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.department, a.gender_title, a.job_title, a.enable,
- b.xid AS comp_xid, b.comp_name, b.comp_tel, b.comp_url, b.comp_locale, b.comp_currency, 
- b.comp_invoice, b.comp_country_code, b.comp_address
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
+ a.job_title, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_tel, b.comp_url, b.comp_locale, 
+ b.comp_currency, b.comp_invoice, b.comp_country_code, b.comp_address
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
-WHERE LOWER(email)=LOWER(:ACCOUNT)
-";
+WHERE LOWER(email)=LOWER(:email) ";
 
-                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString,
-                                   CommandType.Text, sqlStmt, new NpgsqlParameter("ACCOUNT", account));
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("email", email)
+                };
+
+                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
@@ -138,6 +177,7 @@ WHERE LOWER(email)=LOWER(:ACCOUNT)
                         EMAIL = dr.ToStringEx("email"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
+                        NAME = dr.ToStringEx("name"),
                         COMPANY_XID = dr.ToInt64("comp_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
                         ACCOUNT = dr.ToStringEx("email"), //與Email相同
@@ -163,6 +203,32 @@ WHERE LOWER(email)=LOWER(:ACCOUNT)
             }
 
             return profile;
+        }
+
+        public static void UpdatePassword(string email, string psw)
+        {
+            try
+            {
+                SHA256 sha256 = new SHA256CryptoServiceProvider();//建立一個SHA256
+                byte[] source = Encoding.Default.GetBytes(psw);//將字串轉為Byte[]
+                byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
+                var chiperPasswod = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
+
+                string sqlStmt = @"UPDATE b2b.b2d_company SET password=:password
+WHERE LOWER(email)=LOWER(:email) ";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("email", email),
+                    new NpgsqlParameter("password", chiperPasswod)
+                };
+
+                NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+               
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
-namespace KKday.Web.B2D.BE.Models.Company
+namespace KKday.Web.B2D.BE.Models.Model.Company
 {
-    public class B2D_Contract
+    public class B2dContract
     {
         public int XID { get; set; }          //合約流水號
         public int COMPANY_XID { get; set; }  //所屬公司流水號

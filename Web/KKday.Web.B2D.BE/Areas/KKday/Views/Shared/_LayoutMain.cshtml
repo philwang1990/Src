@@ -1,6 +1,9 @@
 ﻿@using Resources
 @inject ILocalizer localizer
 
+@{ 
+     var locale = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Locale").Select(c => c.Value)).FirstOrDefault();
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -73,7 +76,7 @@
                         <li class="visible-xs"><a asp-area="KKday" asp-controller="Promotion" asp-action="Index">折扣規則設定</a></li>
 
                         <li><a asp-area="KKday" asp-controller="Home" asp-action="Index">@User.Identity.Name</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="About"></a></li>
+                        <li><a asp-area="KKday" asp-controller="Home" asp-action="Index">@locale</a></li>
                         @*<li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>*@
                         <li><a asp-area="" asp-controller="Login" asp-action="LogOutAsync">Logout</a></li>
                     </ul>

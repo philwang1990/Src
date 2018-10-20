@@ -1,17 +1,35 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
-using KKday.Web.B2D.BE.Models.Account;
+using KKday.Web.B2D.BE.Models.Model.Account;
+using KKday.Web.B2D.BE.Models.Model.Common;
+using Resources;
 
 namespace KKday.Web.B2D.BE.Models.Repository
 {
     public class AccountRepository
     {
+        private readonly ILocalizer _localizer;
+
+        public AccountRepository(ILocalizer localizer)
+        {
+            _localizer = localizer;
+        }
+
+        #region 使用者認證 Authentication
+
         public UserAccount GetAccount(string email, string password)
         {
-            // 檢查登入者身分
-            UserAccount account = AccountAuthDAL.UserAuth(email, password);
+            SHA256 sha256 = new SHA256CryptoServiceProvider();//建立一個SHA256
+            byte[] source = Encoding.Default.GetBytes(password);//將字串轉為Byte[]
+            byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
+            var chiperPasswod = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
 
-            // 以上皆非, 則送出登入身分異常
+            // 檢查登入者身分
+            UserAccount account = AccountAuthDAL.UserAuth(email, chiperPasswod);
+            // 若無效身分則送出登入異常
             if (!(account is KKdayAccount) && !(account is B2dAccount))
             {
                 throw new Exception("Invalid User Login");
@@ -22,22 +40,11 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         public B2dUserProfile GetProfile(string account)
         {
-            return AccountDAL.GetProfile(account);
+            return AccountDAL.GetB2dProfile(account);
         }
-         
-        public bool SetNewPassword(string account, string password)
-        {
-            try
-            {
-                // 呼叫WMS-API設定使用者新密碼
 
-                return true;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-    }
+        #endregion
+
+    } 
  
 }

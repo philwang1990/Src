@@ -1,5 +1,5 @@
 ﻿using System;
-namespace KKday.Web.B2D.BE.Models.Account
+namespace KKday.Web.B2D.BE.Models.Model.Account
 {
     [Serializable]
     public class B2D_API_Account
