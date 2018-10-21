@@ -1,48 +1,47 @@
 ﻿@using KKday.Web.B2D.BE.Models.Model.Common
-@using KKday.Web.B2D.BE.Models.Model.Company
+@using KKday.Web.B2D.BE.Models.Model.Account
 @using Resources
-@inject ILocalizer localizer
 
+@inject ILocalizer localizer
 @{
-    var companies = (List<B2dCompany>)ViewData["COMPANIES"];
-    var query_params = (QueryParamsModel)ViewData["QUERY_PARAMS"];
+
+    var accounts = ViewData["ACCOUNTS"] as List<B2dAccount>;
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
 }
 
-@if (companies.Count < 1)
+@if (accounts.Count < 1)
 {
     <span>@localizer.Text.Data_Not_Found</span>
 }
 else
 {
-
     <table id="mytable" class="table table-bordred table-striped">
         <thead>
         <th><input type="checkbox" id="checkall" /></th>
-        <th>@localizer.Text.ID</th>
         <th>@localizer.Text.Company_Name</th>
-        <th>@localizer.Text.Country</th>
+        <th>@localizer.Text.Account</th>
+        <th>@localizer.Text.Name</th>
+        <th>@localizer.Text.Email</th>
         <th>@localizer.Text.Status</th>
-        <th>@localizer.Text.Promotion</th>
-        <th>@localizer.Text.Edit</th>
-        <th>@localizer.Text.Delete</th>
+        <th>@localizer.Text.UserType</th>
+        <th>Edit</th>
+        <th>Delete</th>
         </thead>
         <tbody>
-            @foreach (var item in companies)
+            @foreach (var item in accounts)
             {
                 <tr>
-                    <td><input type="checkbox" class="checkthis" value="@item.XID" /></td>
-                    <td>@item.XID</td>
-                    <td>@item.COMP_NAME</td>
-                    <td>@item.COMP_COUNTRY</td>
-                    <td>@item.STATUS_DESC (@item.STATUS)</td>
-                    <td><p data-placement="top" data-toggle="tooltip" title="Promotion"><button class="btn btn-primary btn-xs" data-title="Promotion" data-toggle="modal" data-target="#promotion"><i class="fas fa-tasks"></i></button></p></td>
-                    <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit" data-paragraphs="@item.XID"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
+                    <td><input type="checkbox" class="checkthis" /></td>
+                    <td>@item.COMPANY_NAME (@item.COMPANY_XID)</td>
+                    <td>@item.ACCOUNT</td>
+                    <td>@item.NAME</td>
+                    <td>@item.EMAIL</td>
+                    <td>@(item.ENABLE ? localizer.Text.Enable : localizer.Text.Disable) </td>
+                    <td>@item.USER_TYPE</td>
+                    <td><p data-placement="top" data-toggle="tooltip" title="Edit"><button class="btn btn-primary btn-xs" data-title="Edit" data-toggle="modal" data-target="#edit"><span class="glyphicon glyphicon-pencil"></span></button></p></td>
                     <td><p data-placement="top" data-toggle="tooltip" title="Delete"><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></p></td>
                 </tr>
-
             }
-
-
         </tbody>
     </table>
     <div class="clearfix"></div>
@@ -72,5 +71,4 @@ else
             }
         </ul>
     </div>
-
 }

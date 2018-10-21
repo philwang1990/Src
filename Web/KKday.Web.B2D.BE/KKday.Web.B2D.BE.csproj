@@ -58,6 +58,8 @@
     <Compile Remove="Areas\KKday\Models\DataModel\CompLookup.cs" />
     <Compile Remove="Models\Model\Common\ApplicationUser.cs" />
     <Compile Remove="Models\Model\Common\EmptyClass.cs" />
+    <Compile Remove="Resources\Text.zh-TW.Designer.cs" />
+    <Compile Remove="Resources\Text.en-US.Designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Areas\User\Views\Home\Error.cshtml" />
@@ -82,12 +84,14 @@
     <Compile Update="Resources\Localizer.cs">
       <DependentUpon>Localizer.tt</DependentUpon>
     </Compile>
-    <Compile Update="Resources\Text.en-US.Designer.cs">
-      <DependentUpon>Text.en-US.resx</DependentUpon>
-    </Compile>
-    <Compile Update="Resources\Text.zh-TW.Designer.cs">
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Text.zh-TW.Designer.cs">
       <DependentUpon>Text.zh-TW.resx</DependentUpon>
-    </Compile>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Text.en-US.Designer.cs">
+      <DependentUpon>Text.en-US.resx</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Text.resx">

@@ -77,99 +77,49 @@
     <data name="CURR_THB" xml:space="preserve"><value>泰銖</value></data>
     <data name="CURR_TWD" xml:space="preserve"><value>新臺幣</value></data>
     <data name="CURR_USD" xml:space="preserve"><value>美元</value></data>
-    <data name="CURR_VND" xml:space="preserve"><value>越南盾</value></data>
-    
+    <data name="CURR_VND" xml:space="preserve"><value>越南盾</value></data> 
   
     <!-- Genernel -->
-    <data name="KKday_CopyRight" xml:space="preserve">
-        <value>KKday 同業分銷平台</value>
-    </data>
-    <data name="Add" xml:space="preserve">
-        <value>新增</value>
-    </data>
-    <data name="Update" xml:space="preserve">
-        <value>修改</value>
-    </data>
-    <data name="Edit" xml:space="preserve">
-        <value>編輯</value>
-    </data>
-    <data name="Delete" xml:space="preserve">
-        <value>刪除</value>
-    </data>
-    <data name="ID" xml:space="preserve">
-        <value>序號</value>
-    </data>
-    <data name="Name" xml:space="preserve">
-        <value>名稱</value>
-    </data>
-    <data name="Country" xml:space="preserve">
-        <value>國家</value>
-    </data>
-    <data name="Status" xml:space="preserve">
-        <value>狀態</value>
-    </data>
-     <data name="Sorting" xml:space="preserve">
-        <value>排序</value>
-    </data>
-    <data name="Promotion" xml:space="preserve">
-        <value>優惠</value>
-    </data>
-     <data name="Search" xml:space="preserve">
-        <value>搜尋</value>
-    </data>
-    <data name="Query" xml:space="preserve">
-        <value>查詢</value>
-    </data>
-    <data name="Data_Not_Found" xml:space="preserve">
-        <value>查無資料</value>
-    </data>
-    <data name="Yes" xml:space="preserve">
-        <value>是</value>
-    </data>
-    <data name="No" xml:space="preserve">
-        <value>否</value>
-    </data>
+    <data name="KKday_CopyRight" xml:space="preserve"><value>KKday 同業分銷平台</value></data>
+    <data name="Add" xml:space="preserve"><value>新增</value></data>
+    <data name="Update" xml:space="preserve"><value>修改</value></data>
+    <data name="Edit" xml:space="preserve"><value>編輯</value></data>
+    <data name="Delete" xml:space="preserve"><value>刪除</value></data>
+    <data name="ID" xml:space="preserve"><value>序號</value></data>
+    <data name="Name" xml:space="preserve"><value>名稱</value></data>
+    <data name="UserName" xml:space="preserve"><value>使用者名稱</value></data>
+    <data name="Country" xml:space="preserve"><value>國家</value></data>
+    <data name="Status" xml:space="preserve"><value>狀態</value></data>
+    <data name="Sorting" xml:space="preserve"><value>排序</value></data>
+    <data name="Promotion" xml:space="preserve"><value>優惠</value></data>
+    <data name="Search" xml:space="preserve"><value>搜尋</value></data>
+    <data name="Query" xml:space="preserve"><value>查詢</value></data>
+    <data name="Data_Not_Found" xml:space="preserve"><value>查無資料</value></data>
+    <data name="Yes" xml:space="preserve"><value>是</value></data>
+    <data name="No" xml:space="preserve"><value>否</value></data>
+    <data name="Enable" xml:space="preserve"><value>有效</value></data>
+    <data name="Disable" xml:space="preserve"><value>無效</value></data>
+    <data name="Account" xml:space="preserve"><value>帳號</value></data>
+    <data name="Email" xml:space="preserve"><value>電子信箱</value></data>
     
     <!-- Sidebar -->
-    <data name="Title_Distribution" xml:space="preserve">
-        <value>分銷商管理</value>
-    </data>
-    <data name="Title_VoucherApply" xml:space="preserve">
-        <value>憑證補充</value>
-    </data> 
-    <data name="Title_Order" xml:space="preserve">
-        <value>訂單管理</value>
-    </data> 
-    <data name="Title_DistAccount" xml:space="preserve">
-        <value>分銷商帳號管理</value>
-    </data>
-    <data name="Title_DistApiAccount" xml:space="preserve">
-        <value>分銷商API帳號管理</value>
-    </data> 
-    <data name="Title_PriceBlacklist" xml:space="preserve">
-        <value>牌價黑名單</value>
-    </data>
-    <data name="Title_Promotion" xml:space="preserve">
-        <value>折扣設定</value>
-    </data> 
+    <data name="Title_Distributor" xml:space="preserve"><value>分銷商管理</value></data>
+    <data name="Title_VoucherApply" xml:space="preserve"><value>憑證補充</value></data>
+    <data name="Title_Order" xml:space="preserve"><value>訂單管理</value></data>
+    <data name="Title_B2dAccount" xml:space="preserve"><value>分銷商帳號管理</value></data>
+    <data name="Title_B2dApiAccount" xml:space="preserve"><value>分銷商API帳號管理</value></data>
+    <data name="Title_PriceBlacklist" xml:space="preserve"><value>牌價黑名單</value></data>
+    <data name="Title_Promotion" xml:space="preserve"><value>折扣設定</value></data> 
     
-    
+    <!-- Account -->
+    <data name="UserType" xml:space="preserve"><value>使用者類型</value></data>
+ 
     <!-- Company -->
-    <data name="Company_Name" xml:space="preserve">
-        <value>公司名稱</value>
-    </data>
+    <data name="Company_Name" xml:space="preserve"><value>公司名稱</value></data>
     
     <!-- Company_Status -->
-    <data name="Company_Status_00" xml:space="preserve">
-        <value>待審中</value>
-    </data>
-    <data name="Company_Status_01" xml:space="preserve">
-        <value>已核准</value>
-    </data>
-    <data name="Company_Status_02" xml:space="preserve">
-        <value>未通過</value>
-    </data>
-    <data name="Company_Status_03" xml:space="preserve">
-        <value>待補件</value>
-    </data>
+    <data name="Company_Status_00" xml:space="preserve"><value>待審中</value></data>
+    <data name="Company_Status_01" xml:space="preserve"><value>已核准</value></data>
+    <data name="Company_Status_02" xml:space="preserve"><value>未通過</value></data>
+    <data name="Company_Status_03" xml:space="preserve"><value>待補件</value></data>
 </root>

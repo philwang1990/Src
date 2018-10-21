@@ -60,7 +60,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return account_list;
         }
 
-        public UserAccount GetAccount(Int64 xid)
+        public B2dAccount GetAccount(Int64 xid)
         {
             return AccountDAL.GetB2dAccount(xid);
         }

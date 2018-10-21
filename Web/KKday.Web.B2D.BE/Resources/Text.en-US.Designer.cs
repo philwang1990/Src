@@ -245,9 +245,33 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
-        internal static string Title_Distribution {
+        internal static string Enable {
             get {
-                return ResourceManager.GetString("Title_Distribution", resourceCulture);
+                return ResourceManager.GetString("Enable", resourceCulture);
+            }
+        }
+        
+        internal static string Disable {
+            get {
+                return ResourceManager.GetString("Disable", resourceCulture);
+            }
+        }
+        
+        internal static string Account {
+            get {
+                return ResourceManager.GetString("Account", resourceCulture);
+            }
+        }
+        
+        internal static string Email {
+            get {
+                return ResourceManager.GetString("Email", resourceCulture);
+            }
+        }
+        
+        internal static string Title_Distributor {
+            get {
+                return ResourceManager.GetString("Title_Distributor", resourceCulture);
             }
         }
         
@@ -263,15 +287,15 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
-        internal static string Title_DistAccount {
+        internal static string Title_B2dAccount {
             get {
-                return ResourceManager.GetString("Title_DistAccount", resourceCulture);
+                return ResourceManager.GetString("Title_B2dAccount", resourceCulture);
             }
         }
         
-        internal static string Title_DistApiAccount {
+        internal static string Title_B2dApiAccount {
             get {
-                return ResourceManager.GetString("Title_DistApiAccount", resourceCulture);
+                return ResourceManager.GetString("Title_B2dApiAccount", resourceCulture);
             }
         }
         
@@ -284,6 +308,12 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string Title_Promotion {
             get {
                 return ResourceManager.GetString("Title_Promotion", resourceCulture);
+            }
+        }
+        
+        internal static string UserType {
+            get {
+                return ResourceManager.GetString("UserType", resourceCulture);
             }
         }
         

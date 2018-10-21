@@ -41,7 +41,7 @@ namespace KKday.Web.B2D.BE.Models.Model.Account
 
     [Serializable]
     public class B2dAccount : UserAccount
-    {
+    { 
         public string USER_TYPE { get; set; } //帳號權限("00":一般, "01":管理者)
         public Int64 COMPANY_XID { get; set; } // 公司代碼
         public string COMPANY_NAME { get; set; } // 公司名稱

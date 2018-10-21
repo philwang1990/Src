@@ -202,6 +202,8 @@
 
 		public string Name { get { return GetString("Name"); } }
 
+		public string UserName { get { return GetString("UserName"); } }
+
 		public string Country { get { return GetString("Country"); } }
 
 		public string Status { get { return GetString("Status"); } }
@@ -220,19 +222,29 @@
 
 		public string No { get { return GetString("No"); } }
 
-		public string Title_Distribution { get { return GetString("Title_Distribution"); } }
+		public string Enable { get { return GetString("Enable"); } }
+
+		public string Disable { get { return GetString("Disable"); } }
+
+		public string Account { get { return GetString("Account"); } }
+
+		public string Email { get { return GetString("Email"); } }
+
+		public string Title_Distributor { get { return GetString("Title_Distributor"); } }
 
 		public string Title_VoucherApply { get { return GetString("Title_VoucherApply"); } }
 
 		public string Title_Order { get { return GetString("Title_Order"); } }
 
-		public string Title_DistAccount { get { return GetString("Title_DistAccount"); } }
+		public string Title_B2dAccount { get { return GetString("Title_B2dAccount"); } }
 
-		public string Title_DistApiAccount { get { return GetString("Title_DistApiAccount"); } }
+		public string Title_B2dApiAccount { get { return GetString("Title_B2dApiAccount"); } }
 
 		public string Title_PriceBlacklist { get { return GetString("Title_PriceBlacklist"); } }
 
 		public string Title_Promotion { get { return GetString("Title_Promotion"); } }
+
+		public string UserType { get { return GetString("UserType"); } }
 
 		public string Company_Name { get { return GetString("Company_Name"); } }
 

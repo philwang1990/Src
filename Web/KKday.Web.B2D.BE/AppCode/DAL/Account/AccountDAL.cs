@@ -40,7 +40,7 @@ WHERE 1=1 {FILTER}";
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
  a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
- a.job_title, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
+ a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE 1=1 {FILTER}
@@ -65,20 +65,20 @@ LIMIT :Size OFFSET :Skip";
                         {
                             XID = dr.ToInt64("xid"),
                             UUID = dr.ToStringEx("user_uuid"),
+                            ACCOUNT = dr.ToStringEx("email"), //與Email相同 
                             EMAIL = dr.ToStringEx("email"),
                             NAME_FIRST = dr.ToStringEx("name_first"),
                             NAME_LAST = dr.ToStringEx("name_last"),
                             NAME = dr.ToStringEx("name"),
                             COMPANY_XID = dr.ToInt64("comp_xid"),
-                            COMPANY_NAME = dr.ToStringEx("comp_name"),
-                            ACCOUNT = dr.ToStringEx("email"), //與Email相同
-                            DEPARTMENT = dr.ToStringEx(""),
+                            COMPANY_NAME = dr.ToStringEx("comp_name"), 
+                            DEPARTMENT = dr.ToStringEx("department"),
                             ENABLE = dr.ToBoolean("enable"),
                             GENDER_TITLE = dr.ToStringEx("gender_title"),
                             JOB_TITLE = dr.ToStringEx("job_title"),
                             CURRENCY = dr.ToStringEx("comp_currency"),
                             LOCALE = dr.ToStringEx("comp_locale"),
-                            TEL = dr.ToStringEx("comp_tel"),
+                            TEL = dr.ToStringEx("tel"),
                             USER_TYPE = dr.ToStringEx("account_type").Equals("01") ? "ADM" : "USER"
                         });
                     }
@@ -99,7 +99,7 @@ LIMIT :Size OFFSET :Skip";
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
  a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
- a.job_title, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
+ a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE xid=:xid";
@@ -117,14 +117,14 @@ WHERE xid=:xid";
                     {
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
+                        ACCOUNT = dr.ToStringEx("email"), //與Email相同 
                         EMAIL = dr.ToStringEx("email"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
                         NAME = dr.ToStringEx("name"),
                         COMPANY_XID = dr.ToInt64("comp_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
-                        ACCOUNT = dr.ToStringEx("email"), //與Email相同
-                        DEPARTMENT = dr.ToStringEx(""),
+                        DEPARTMENT = dr.ToStringEx("department"),
                         ENABLE = dr.ToBoolean("enable"),
                         GENDER_TITLE = dr.ToStringEx("gender_title"),
                         JOB_TITLE = dr.ToStringEx("job_title"),
@@ -155,7 +155,7 @@ WHERE xid=:xid";
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
  a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
- a.job_title, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_tel, b.comp_url, b.comp_locale, 
+ a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_tel, b.comp_url, b.comp_locale, 
  b.comp_currency, b.comp_invoice, b.comp_country_code, b.comp_address
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
@@ -174,13 +174,13 @@ WHERE LOWER(email)=LOWER(:email) ";
                     {
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
+                        ACCOUNT = dr.ToStringEx("email"), //與Email相同 
                         EMAIL = dr.ToStringEx("email"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
                         NAME = dr.ToStringEx("name"),
                         COMPANY_XID = dr.ToInt64("comp_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
-                        ACCOUNT = dr.ToStringEx("email"), //與Email相同
                         DEPARTMENT = dr.ToStringEx("department"),
                         ENABLE = dr.ToBoolean("enable"),
                         GENDER_TITLE = dr.ToStringEx("gender_title"),

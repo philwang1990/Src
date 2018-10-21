@@ -7,7 +7,8 @@ using KKday.Web.B2D.BE.Models.Model.Company;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Resources;
 using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel;
@@ -34,7 +35,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
         // GET: /<controller>/
         public IActionResult Index()
         {
-            var compRepos = (CompanyRepository)HttpContext.RequestServices.GetService(typeof(CompanyRepository));
+            var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
             var queryParamsModel = compRepos.GetQueryParamModel(string.Empty, string.Empty, PAGE_SIZE, 1);
 
             ViewData["QUERY_PARAMS"] = queryParamsModel;
@@ -51,7 +52,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
             try
             {
-                var compRepos = (CompanyRepository)HttpContext.RequestServices.GetService(typeof(CompanyRepository));
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
 
                 //更新分頁資料
                 queryParams = compRepos.GetQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
@@ -77,13 +78,13 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
         }
          
         public async System.Threading.Tasks.Task<IActionResult> RenderEdit(Int64 id)
-        {
+        { 
             string shtml = "";
 
             try
             {
-                var compRepos = (CompanyRepository)HttpContext.RequestServices.GetService(typeof(CompanyRepository));
-                var ctryRepos = (CountryRepository)HttpContext.RequestServices.GetService(typeof(CountryRepository));
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
+                var ctryRepos = HttpContext.RequestServices.GetService<CountryRepository>();
                 var locale = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Locale").Select(c => c.Value)).FirstOrDefault();
 
                 B2dCompany _company = compRepos.GetCompany(id);
@@ -110,7 +111,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
             try
             {
-                var compRepos = (CompanyRepository)HttpContext.RequestServices.GetService(typeof(CompanyRepository));
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
                 var upd_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
 
                 //更新分銷商公司資料
