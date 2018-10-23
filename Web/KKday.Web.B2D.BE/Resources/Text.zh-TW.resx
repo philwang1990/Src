@@ -83,6 +83,7 @@
     <data name="KKday_CopyRight" xml:space="preserve"><value>KKday 同業分銷平台</value></data>
     <data name="Add" xml:space="preserve"><value>新增</value></data>
     <data name="Update" xml:space="preserve"><value>修改</value></data>
+    <data name="Cancel" xml:space="preserve"><value>取消</value></data>
     <data name="Edit" xml:space="preserve"><value>編輯</value></data>
     <data name="Delete" xml:space="preserve"><value>刪除</value></data>
     <data name="ID" xml:space="preserve"><value>序號</value></data>
@@ -113,6 +114,9 @@
     
     <!-- Account -->
     <data name="UserType" xml:space="preserve"><value>使用者類型</value></data>
+    
+    <data name="UserRole_00" xml:space="preserve"><value>使用者</value></data>
+    <data name="UserRole_01" xml:space="preserve"><value>管理員</value></data>
  
     <!-- Company -->
     <data name="Company_Name" xml:space="preserve"><value>公司名稱</value></data>

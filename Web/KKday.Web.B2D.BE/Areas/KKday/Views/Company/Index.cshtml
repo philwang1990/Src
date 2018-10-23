@@ -1,8 +1,11 @@
-﻿@using Resources
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Company
+@using Resources
 @inject ILocalizer localizer
-
+@model List<B2dCompany>
 @{
-    Layout = "_LayoutMain"; 
+    Layout = "_LayoutMain";
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
 }
 @section Stylesheet {
     <!-- Latest compiled and minified CSS -->
@@ -87,8 +90,8 @@
             <!-- search tab -->
 
 
-            <div id="list_panel" class="table-responsive">
-                <partial name="CompanyList" />
+            <div id="list_panel" class="table-responsive"> 
+                @await Html.PartialAsync("CompanyList", Model)
             </div>
 
         </div>
@@ -165,15 +168,27 @@
             $.get(_root_path + "Company/RenderEdit?id=" + xid, function(result) {
                $(modal_body).html(result);
             });
-
-     
         });
+        
+        try {
+            console.log("--- fresh filter ---");
+            var conds = JSON.parse(query_params.Filter); 
+            $("#name").val(conds.name);
+            $("#country").val(conds.country);
+            $("#status").val(conds.status);
+
+            $("#sorting").val(query_params.Sorting);
+            // Refresh bootstrap-selector
+            $('.selectpicker').selectpicker('refresh');
+        }
+        catch(err) {
+        }
     });
 
     function Refresh(page) {
 
-        query_params.filter = JSON.stringify({ name:$("#name").val(), country:$("#country").val().toUpperCase(), status:$("#status").val() });
-        query_params.sorting = $("#sorting").val();
+        query_params.Filter = JSON.stringify({ name:$("#name").val(), country:$("#country").val().toUpperCase(), status:$("#status").val() });
+        query_params.Sorting = $("#sorting").val();
         if (page!==undefined){
             query_params.Paging.current_page = page;
         }
@@ -197,6 +212,11 @@
             }
         });
 
+    }
+
+    function CompanyEdit(id) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "Company/Edit/" + id + "?query=" + query;
     }
 
      

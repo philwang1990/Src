@@ -83,6 +83,7 @@
     <data name="KKday_CopyRight" xml:space="preserve"><value>KKday Business to Distribution Platform</value></data>
     <data name="Add" xml:space="preserve"><value>Add</value></data>
     <data name="Update" xml:space="preserve"><value>Update</value></data>
+     <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
     <data name="Edit" xml:space="preserve"><value>Edit</value></data>
     <data name="Delete" xml:space="preserve"><value>Delete</value></data>
     <data name="ID" xml:space="preserve"><value>ID</value></data>
@@ -112,6 +113,9 @@
     
     <!-- Account -->
     <data name="UserType" xml:space="preserve"><value>User Type</value></data>
+    
+    <data name="UserRole_00" xml:space="preserve"><value>User</value></data>
+    <data name="UserRole_01" xml:space="preserve"><value>Admin</value></data>
     
     <!-- Company -->
     <data name="Company_Name" xml:space="preserve"><value>Company Name</value></data> 

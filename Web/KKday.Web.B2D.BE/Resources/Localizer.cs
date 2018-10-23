@@ -194,6 +194,8 @@
 
 		public string Update { get { return GetString("Update"); } }
 
+		public string Cancel { get { return GetString("Cancel"); } }
+
 		public string Edit { get { return GetString("Edit"); } }
 
 		public string Delete { get { return GetString("Delete"); } }
@@ -245,6 +247,10 @@
 		public string Title_Promotion { get { return GetString("Title_Promotion"); } }
 
 		public string UserType { get { return GetString("UserType"); } }
+
+		public string UserRole_00 { get { return GetString("UserRole_00"); } }
+
+		public string UserRole_01 { get { return GetString("UserRole_01"); } }
 
 		public string Company_Name { get { return GetString("Company_Name"); } }
 

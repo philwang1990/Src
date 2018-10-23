@@ -1,0 +1,245 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Company
+@using KKday.Web.B2D.BE.App_Code
+@using KKday.Web.B2D.BE.Models.Model.Common
+@using Resources
+
+@inject ILocalizer localizer
+@model B2dCompany
+@{
+    Layout = "_LayoutMain";
+
+    var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
+    var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
+}
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item">@localizer.Text.Title_Distributor</li>
+        <li class="breadcrumb-item active" aria-current="page">編輯內容</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-12 col-sm-10 col-sm-offset-1">
+            <h4>@localizer.Text.Title_Distributor</h4>
+
+            <form id="form1">
+                <input type="hidden" id="xid" value="@Model.XID" />
+                <div class="col-xs-12">
+                    <div class="form-group">
+                        <label>@localizer.Text.Company_Name</label>
+                        <input type="text" id="name" name="name" class="form-control" value="@Model.COMP_NAME">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>合作模式<span class="text-danger">*</span></label>
+                        <select id="coop_mode" class="form-control">
+                            <option value="00">ALL</option>
+                            <option value="01">API</option>
+                            <option value="02">WEB</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>付款方式<span class="text-danger">*</span></label>
+                        <select id="pay_type" class="form-control">
+                            <option value="01">逐筆結</option>
+                            <option value="02">額度付款</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>所在國家或地區代碼<span class="text-danger">*</span></label>
+                        <select id="country_area" class="form-control">
+                            <option value="">請選擇</option>
+                            @foreach (var country in countryAreas.OrderBy(c => c.telArea))
+                            {
+                            <option value="@(country.telArea + "," + country.countryCode)"> @country.countryName +@(country.telArea)</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>聯絡電話<span class="text-danger">*</span></label>
+                        <input type="text" id="tel" class="form-control" value="@Model.COMP_TEL">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>聯絡地址<span class="text-danger">*</span></label>
+                        <input type="text" id="address" class="form-control" value="@Model.COMP_ADDRESS" placeholder="僅台灣同業用">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>慣用語言<span class="text-danger">*</span></label>
+                        <select id="locale" class="form-control">
+                            <option value="">請選擇</option>
+                            @foreach (var loc in countryLocales)
+                            {
+                                <option value="@loc.localeCode">@loc.localeName (@loc.countryName) </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>交易貨幣<span class="text-danger">*</span></label>
+                        <select id="currency" class="form-control">
+                            <option value="AUD">@localizer.Text.CURR_AUD</option>
+                            <option value="CAD">@localizer.Text.CURR_CAD</option>
+                            <option value="CNY">@localizer.Text.CURR_CNY</option>
+                            <option value="EUR">@localizer.Text.CURR_EUR</option>
+                            <option value="GBP">@localizer.Text.CURR_GBP</option>
+                            <option value="HKD">@localizer.Text.CURR_HKD</option>
+                            <option value="IDR">@localizer.Text.CURR_IDR</option>
+                            <option value="JPY">@localizer.Text.CURR_JPY</option>
+                            <option value="KRW">@localizer.Text.CURR_KRW</option>
+                            <option value="MYR">@localizer.Text.CURR_MYR</option>
+                            <option value="NZD">@localizer.Text.CURR_NZD</option>
+                            <option value="PHP">@localizer.Text.CURR_PHP</option>
+                            <option value="SGD">@localizer.Text.CURR_SGD</option>
+                            <option value="THB">@localizer.Text.CURR_THB</option>
+                            <option value="TWD">@localizer.Text.CURR_TWD</option>
+                            <option value="USD">@localizer.Text.CURR_USD</option>
+                            <option value="VND">@localizer.Text.CURR_VND</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>統一編號<span class="text-danger">*</span></label>
+                        <input type="text" id="invoice" class="form-control" value="@Model.COMP_INVOICE" placeholder="僅台灣同業用">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>狀態<span class="text-danger">*</span></label>
+                        <select id="status" class="form-control">
+                            <option value="00">@localizer.Text.Company_Status_00 00</option>
+                            <option value="01">@localizer.Text.Company_Status_01 01</option>
+                            <option value="02">@localizer.Text.Company_Status_02 02</option>
+                            <option value="03">@localizer.Text.Company_Status_03 03</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>聯絡人</label>
+                        <input type="text" id="contact" class="form-control" value="@Model.CONTACT_USER" placeholder="聯絡人姓名">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>聯絡人信箱</label>
+                        <input type="text" id="contact_email" class="form-control" value="@Model.CONTACT_USER_EMAIL" placeholder="電子信箱">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>財務窗口</label>
+                        <input type="text" id="finance" class="form-control" value="@Model.FINANCE_USER" placeholder="財務窗口姓名">
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>業務窗口</label>
+                        <input type="text" id="sales" class="form-control" value="@Model.SALES_USER" placeholder="業務窗口姓名">
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label>公司網站網址<span class="text-danger">*</span></label>
+                        <input type="text" id="url" class="form-control" value="@Model.COMP_URL" placeholder="僅台灣同業用">
+                    </div>
+                </div>
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-success" onclick="UpdateCompany();"> @localizer.Text.Update</button>
+                    <button type="button" class="btn btn-default" onclick="window.history.go(-1);"> @localizer.Text.Cancel</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+ 
+
+<script type="text/javascript">
+    $(function(){
+        $('#status').val('@Model.STATUS');
+        $('#coop_mode').val('@Model.COMP_COOP_MODE');
+        $('#pay_type').val('@Model.PAYMENT_TYPE');
+        $('#country_area').val('@(Model.COMP_TEL_COUNTRY_CODE + "," + Model.COMP_COUNTRY)');
+        $('#locale').val('@Model.COMP_LOCALE');
+        $('#currency').val('@Model.COMP_CURRENCY');
+    });
+
+    function UpdateCompany()
+    {
+       if(!confirm('Are you sure to update company profile?')) return false;
+
+       var country_area =  $("#country_area").val().split(',');
+       var cmpObj = { xid : $("#xid").val(),
+            status : $("#status").val(),
+            coop_mode :$("#coop_mode").val(),
+            payment_type :$("#pay_type").val(),
+            name :$("#name").val(),
+            url :$("#url").val(),
+            locale :$("#locale").val(),
+            currency :$("#currency").val(),
+            invoice :$("#invoice").val(),
+            country : country_area[1],
+            tel_country_code : country_area[0],
+            tel :$("#tel").val(),
+            address :$("#address").val(),
+            contact_user :$("#contact").val(),
+            contact_user_email :$("#contact_email").val(),
+            finance_user :$("#finance").val(),
+            sales_user :$("#sales").val()
+        };
+
+        console.log("company: " + JSON.stringify(cmpObj));
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "Company/Update",
+            contentType: "application/json",
+            data: JSON.stringify(cmpObj),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    alert("Update OK!");
+
+                    var newForm = $('<form>', {
+                        'action': _root_path + "Company",
+                        'target': '_self',
+                        'method': 'post'
+                    }).append(jQuery('<input>', {
+                        'name': 'query',
+                        'value': '@ViewData["QueryParams"]',
+                        'type': 'hidden'
+                    }));
+                    newForm.submit();
+                } else {
+                    alert("Error: " + result.msg);
+                }
+            }
+        });
+
+        return false;
+    }
+
+</script>

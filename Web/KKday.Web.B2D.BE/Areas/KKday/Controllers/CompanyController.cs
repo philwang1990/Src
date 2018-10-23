@@ -33,16 +33,28 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
         }
 
         // GET: /<controller>/
-        public IActionResult Index()
+        public IActionResult Index(string query)
         {
+            //var query = this.Request.Query["query"].ToString();
             var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
-            var queryParamsModel = compRepos.GetQueryParamModel(string.Empty, string.Empty, PAGE_SIZE, 1);
+            QueryParamsModel queryParams = null;
 
-            ViewData["QUERY_PARAMS"] = queryParamsModel;
-            ViewData["QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParamsModel);
-            ViewData["COMPANIES"] = compRepos.GetCompanies(string.Empty, 0, PAGE_SIZE, string.Empty);
+            if (!string.IsNullOrEmpty(query))
+            {
+                query = System.Web.HttpUtility.UrlDecode(query).Replace("&quot;", "\"");
+                queryParams = JsonConvert.DeserializeObject<QueryParamsModel>(query);
+            }
+            else
+            {
+                queryParams = compRepos.GetQueryParamModel(string.Empty, string.Empty, PAGE_SIZE, 1);
+            }
+           
+            ViewData["QUERY_PARAMS"] = queryParams;
+            ViewData["QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParams);
+            var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
+            var _companies = compRepos.GetCompanies(queryParams.Filter, skip, PAGE_SIZE, queryParams.Sorting);
 
-            return View();
+            return View(_companies);
         }
 
         [HttpPost]
@@ -56,15 +68,13 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
                 //更新分頁資料
                 queryParams = compRepos.GetQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                ViewData["QUERY_PARAMS"] = queryParams;
 
                 var skip = (queryParams.Paging.current_page -1) * queryParams.Paging.page_size;
-                var companies = compRepos.GetCompanies(queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
-
-                ViewData["QUERY_PARAMS"] = queryParams;
-                ViewData["COMPANIES"] = companies;
-
+                var _companies = compRepos.GetCompanies(queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
+                 
                 jsonData["query_params"] = JsonConvert.SerializeObject(queryParams);
-                jsonData["content"] = await this.RenderViewAsync<string>("CompanyList", null, true);
+                jsonData["content"] = await this.RenderViewAsync<List<B2dCompany>>("CompanyList", _companies, true);
                 jsonData["status"] = "OK";
             }
             catch (Exception ex)
@@ -77,35 +87,31 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return Json(jsonData);
         }
          
-        public async System.Threading.Tasks.Task<IActionResult> RenderEdit(Int64 id)
-        { 
-            string shtml = "";
-
+        public IActionResult Edit(Int64 id)
+        {
             try
             {
+                var queryArgc = System.Web.HttpUtility.UrlEncode(this.Request.Query["query"].ToString());
                 var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
-                var ctryRepos = HttpContext.RequestServices.GetService<CountryRepository>();
+                var countryRepos = HttpContext.RequestServices.GetService<CountryRepository>();
                 var locale = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Locale").Select(c => c.Value)).FirstOrDefault();
+                B2dCompany _company = compRepos.GetCompany(id); 
 
-                B2dCompany _company = compRepos.GetCompany(id);
+                ViewData["QueryParams"] = queryArgc;
+                ViewData["CountryAreas"] = countryRepos.GetCountryAreas(locale);
+                ViewData["CountryLocales"] = countryRepos.GetCountryLocales();
 
-                ViewData["CountryAreas"] = ctryRepos.GetCountryAreas(locale);
-                ViewData["CountryLocales"] = ctryRepos.GetCountryLocales();
-            
-
-                shtml = await this.RenderViewAsync<B2dCompany>("CompanyEdit", _company, true);
+                return View(_company); 
             }
             catch(Exception ex)
             {
                 Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
                 return StatusCode(500);
-            }
-
-            return Content(shtml);
+            } 
         }
 
         [HttpPost]
-        public IActionResult Update([FromBody]CompanyUpdateModel company)
+        public IActionResult Update([FromBody]CompanyUpdModel company)
         {
             Dictionary<string, object> jsonData = new Dictionary<string, object>();
 

@@ -56,6 +56,10 @@ namespace KKday.Web.B2D.BE.Models.Repository
             var _sorting = GetFieldSorting(sorting);
 
             var account_list = AccountDAL.GetB2dAccounts(_filter, skip, size, _sorting);
+            account_list.ForEach(a =>
+            {
+                a.USER_TYPE_DESC = a.USER_TYPE.Equals("01") ? _localizer.Text.UserRole_01 : _localizer.Text.UserRole_00;
+            });
 
             return account_list;
         }

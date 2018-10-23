@@ -49,7 +49,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
                 var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, account.NAME),
-                    new Claim("Account", account.ACCOUNT),
+                    new Claim("Account", account.EMAIL),
                     new Claim("UUID", account.UUID),
                     new Claim("UserType", IsKKdayUser ? "KKDAY" : "USER"),
                     new Claim("Locale", account.LOCALE),

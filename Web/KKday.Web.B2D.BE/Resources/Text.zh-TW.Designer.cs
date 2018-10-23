@@ -167,6 +167,12 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
         internal static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
@@ -320,6 +326,18 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string UserType {
             get {
                 return ResourceManager.GetString("UserType", resourceCulture);
+            }
+        }
+        
+        internal static string UserRole_00 {
+            get {
+                return ResourceManager.GetString("UserRole_00", resourceCulture);
+            }
+        }
+        
+        internal static string UserRole_01 {
+            get {
+                return ResourceManager.GetString("UserRole_01", resourceCulture);
             }
         }
         

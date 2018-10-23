@@ -67,6 +67,7 @@
     <Content Remove="Pages\Shared\Index.cshtml" />
     <Content Remove="wwwroot\images\Index.cshtml" />
     <Content Remove="App_Data\Users.json" />
+    <Content Remove="Areas\KKday\Views\Company\CompanyEdit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Resources\KKday\Company\Index.resx" />

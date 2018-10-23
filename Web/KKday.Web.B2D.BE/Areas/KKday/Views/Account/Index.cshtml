@@ -1,9 +1,18 @@
-﻿@using Resources
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Account
+@using Resources
 
 @inject ILocalizer localizer
 
+@model List<B2dAccount>
+
 @{
     Layout = "_LayoutMain";
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+}
+@section Stylesheet {
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+ 
 }
 
 <script type="text/javascript">
@@ -20,48 +29,18 @@
 <div class="container">
     <div class="row">
 
-
-        <div class="col-md-12">
+        <div class="col-xs-12">
             <h4>@localizer.Text.Title_B2dAccount</h4>
+            <div class="">
+                <a href="javascript:void(0);"><i class="fas fa-plus"></i> 新增使用者</a>
+            </div>
             <div id="list_panel" class="table-responsive">
-                @Html.Partial("AccountList")
+                @await Html.PartialAsync("AccountList", Model)
             </div>
 
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                <h4 class="modal-title custom_align" id="Heading">Edit Your Detail</h4>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <input class="form-control " type="text" placeholder="Mohsin">
-                </div>
-                <div class="form-group">
-
-                    <input class="form-control " type="text" placeholder="Irshad">
-                </div>
-                <div class="form-group">
-                    <textarea rows="2" class="form-control" placeholder="CB 106/107 Street # 11 Wah Cantt Islamabad Pakistan"></textarea>
-
-
-                </div>
-            </div>
-            <div class="modal-footer ">
-                <button type="button" class="btn btn-warning btn-lg" style="width: 100%;"><span class="glyphicon glyphicon-ok-sign"></span> Update</button>
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-
-
 
 <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
     <div class="modal-dialog">
@@ -108,8 +87,8 @@
 
         console.log("Refresh paging..." + page);
 
-        // query_params.filter = JSON.stringify({ name:$("#name").val(), country:$("#country").val().toUpperCase(), status:$("#status").val() });
-        // query_params.sorting = $("#sorting").val();
+        query_params.filter = JSON.stringify({ name:$("#name").val(), email:$("#email").val(), company: $("#company").val(), status:$("#status").val() });
+        query_params.sorting = $("#sorting").val();
         if (page!==undefined){
             query_params.Paging.current_page = page;
         }
@@ -135,4 +114,8 @@
 
     }
 
+    function AccountEdit(id) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "Account/Edit/" + id + "?query=" + query;
+    }
 </script>

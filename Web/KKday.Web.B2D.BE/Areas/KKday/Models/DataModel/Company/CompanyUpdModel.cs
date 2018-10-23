@@ -1,7 +1,7 @@
 ﻿using System;
 namespace KKday.Web.B2D.BE.Areas.KKday.Models.DataModel
 {
-    public class CompanyUpdateModel
+    public class CompanyUpdModel
     {
         public Int64 XID { get; set; }
         public string STATUS { get; set; } //審核狀態(00=待審中/01=已核准/02=未通過/03=待補件) 

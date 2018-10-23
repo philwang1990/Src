@@ -73,7 +73,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return comp;
         }
 
-        public void Update(CompanyUpdateModel company, string upd_user)
+        public void Update(CompanyUpdModel company, string upd_user)
         {
             CompanyDAL.UpdateCompany(company, upd_user);
         }

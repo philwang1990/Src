@@ -9,7 +9,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
 {
     public class AccountAuthDAL
     {
-        public static UserAccount UserAuth(string account, string password)
+        public static UserAccount UserAuth(string email, string password)
         {
             Npgsql.NpgsqlConnection conn = new NpgsqlConnection(Website.Instance.SqlConnectionString);
             UserAccount _account = null;
@@ -21,10 +21,10 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
 
                 string sqlStmt = @"SELECT *, name_first || name_last AS Name 
 FROM b2b.b2d_account_kkday 
-WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
+WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[]{
-                    new NpgsqlParameter("account", account),
+                    new NpgsqlParameter("email", email),
                     new NpgsqlParameter("password", password)
                 };
 
@@ -42,7 +42,6 @@ WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
                         NAME = dr.ToStringEx("name"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
-                        ACCOUNT = dr.ToStringEx("email"),
                         DEPARTMENT = dr.ToStringEx("department"),
                         ENABLE = dr.ToBoolean("enable"),
                         //GENDER_TITLE = dr.ToStringEx("gender_title"),
@@ -63,7 +62,7 @@ JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
 
                     sqlParams = new NpgsqlParameter[]{
-                        new NpgsqlParameter("account", account),
+                        new NpgsqlParameter("email", email),
                         new NpgsqlParameter("password", password)
                     };
 
@@ -81,8 +80,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
                             NAME_FIRST = dr.ToStringEx("name_first"),
                             NAME_LAST = dr.ToStringEx("name_last"),
                             COMPANY_XID = dr.ToInt64("comp_xid"),
-                            COMPANY_NAME = dr.ToStringEx("comp_name"),
-                            ACCOUNT = dr.ToStringEx("email"), //與Email相同
+                            COMPANY_NAME = dr.ToStringEx("comp_name"), 
                             DEPARTMENT = dr.ToStringEx("department"),
                             ENABLE = dr.ToBoolean("enable"),
                             GENDER_TITLE = dr.ToStringEx("gender_title"),

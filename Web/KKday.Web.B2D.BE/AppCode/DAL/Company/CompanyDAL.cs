@@ -140,63 +140,8 @@ LIMIT :Size OFFSET :Skip";
         }
 
         ////////////////
-
-        public static void UpdateCompany(B2dCompany company, string upd_user)
-        {
-            try
-            {
-                string sqlStmt = @"UPDATE b2b.b2d_company SET 
- status=:STATUS, comp_coop_mode=:COMP_COOP_MODE, payment_type=:PAYMENT_TYPE,
- manager_account_xid=:MANAGER_ACCOUNT_XID, parent_comp_xid=:PARENT_COMP_XID, comp_name=:COMP_NAME, 
- comp_url=:COMP_URL, comp_license=:COMP_LICENSE, comp_license_2=:COMP_LICENSE_2, comp_locale=:COMP_LOCALE,
- comp_currency=:COMP_CURRENCY, comp_invoice=:COMP_INVOICE, comp_country=:COMP_COUNTRY, 
- comp_tel_country_code=:COMP_TEL_COUNTRY_CODE,comp_tel=:COMP_TEL, comp_address=:COMP_ADDRESS, 
- charge_man_first=:CHARGE_MAN_FIRST, charge_man_last=:CHARGE_MAN_LAST, creditcard_no=:CREDITCARD_NO,
- creditcard_vaild=:CREDITCARD_VAILD, creditcard_cvc=:CREDITCARD_CVC, contact_user=:CONTACT_USER, 
- contact_user_email=:CONTACT_USER_EMAIL, finance_user=:FINANCE_USER, sales_user=:SALES_USER,
- upd_user=:upd_user, upd_datetime=Now()
-WHERE xid=:XID";
-
-                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("XID", company.XID),
-                    new NpgsqlParameter("STATUS", company.STATUS),
-                    new NpgsqlParameter("COMP_COOP_MODE", company.COMP_COOP_MODE),
-                    new NpgsqlParameter("PAYMENT_TYPE", company.PAYMENT_TYPE),
-                    new NpgsqlParameter("MANAGER_ACCOUNT_XID", company.MANAGER_ACCOUNT_XID),
-                    new NpgsqlParameter("PARENT_COMP_XID", company.PARENT_COMP_XID),
-                    new NpgsqlParameter("COMP_NAME", company.COMP_NAME),
-                    new NpgsqlParameter("COMP_URL", company.COMP_URL),
-                    new NpgsqlParameter("COMP_LICENSE", company.COMP_LICENSE),
-                    new NpgsqlParameter("COMP_LICENSE_2", company.COMP_LICENSE_2),
-                    new NpgsqlParameter("COMP_LOCALE", company.COMP_LOCALE),
-                    new NpgsqlParameter("COMP_CURRENCY", company.COMP_CURRENCY),
-                    new NpgsqlParameter("COMP_INVOICE", company.COMP_INVOICE),
-                    new NpgsqlParameter("COMP_COUNTRY", company.COMP_COUNTRY),
-                    new NpgsqlParameter("COMP_TEL_COUNTRY_CODE", company.COMP_TEL_COUNTRY_CODE),
-                    new NpgsqlParameter("COMP_TEL", company.COMP_TEL),
-                    new NpgsqlParameter("COMP_ADDRESS", company.COMP_ADDRESS),
-                    new NpgsqlParameter("CHARGE_MAN_FIRST", company.CHARGE_MAN_FIRST),
-                    new NpgsqlParameter("CHARGE_MAN_LAST", company.CHARGE_MAN_LAST),
-                    new NpgsqlParameter("CREDITCARD_NO", company.CREDITCARD_NO),
-                    new NpgsqlParameter("CREDITCARD_VALID", company.CREDITCARD_VALID),
-                    new NpgsqlParameter("CREDITCARD_CVC", company.CREDITCARD_CVC),
-                    new NpgsqlParameter("CONTACT_USER", company.CONTACT_USER),
-                    new NpgsqlParameter("CONTACT_USER_EMAIL", company.CONTACT_USER_EMAIL),
-                    new NpgsqlParameter("FINANCE_USER", company.FINANCE_USER),
-                    new NpgsqlParameter("SALES_USER", company.SALES_USER),
-                    new NpgsqlParameter("UPD_USER", upd_user)
-                };
-
-                NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
-            }
-            catch (Exception ex)
-            {
-                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
-                throw ex;
-            }
-        }
-
-        public static void UpdateCompany(CompanyUpdateModel company, string upd_user)
+          
+        public static void UpdateCompany(CompanyUpdModel company, string upd_user)
         {
             try
             {

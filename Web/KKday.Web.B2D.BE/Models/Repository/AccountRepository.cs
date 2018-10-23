@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
+using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using Resources;
@@ -44,6 +45,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
         }
 
         #endregion
+
+        // 更新分銷商使用者資料
+        public void Update(B2dAccoutUpdModel account, string upd_user)
+        {
+            AccountDAL.Update(account, upd_user);
+        }
 
     } 
  
