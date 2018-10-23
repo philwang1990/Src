@@ -10,6 +10,7 @@ using Resources;
 
 namespace KKday.Web.B2D.BE.Models.Repository
 {
+
     public class AccountRepository
     {
         private readonly ILocalizer _localizer;
@@ -41,16 +42,10 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         public B2dUserProfile GetProfile(string account)
         {
-            return AccountDAL.GetB2dProfile(account);
+            return AccountAuthDAL.GetB2dProfile(account);
         }
 
         #endregion
-
-        // 更新分銷商使用者資料
-        public void Update(B2dAccoutUpdModel account, string upd_user)
-        {
-            AccountDAL.Update(account, upd_user);
-        }
 
     } 
  

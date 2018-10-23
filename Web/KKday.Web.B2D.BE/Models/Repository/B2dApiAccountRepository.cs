@@ -9,11 +9,11 @@ using Resources;
 
 namespace KKday.Web.B2D.BE.Models.Repository
 { 
-    public class B2dAccountRepository : IB2dAccountRepository
+    public class B2dApiAccountRepository : IB2dAccountRepository
     {
         protected readonly ILocalizer _localizer;
 
-        public B2dAccountRepository(ILocalizer localizer)
+        public B2dApiAccountRepository(ILocalizer localizer)
         {
             _localizer = localizer;
         }
@@ -43,7 +43,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             {
                 var _filter = GetFieldFiltering(filter);
 
-                return AccountDAL.GetAccountCount(_filter);
+                return ApiAccountDAL.GetAccountCount(_filter);
             }
             catch (Exception ex)
             {
@@ -56,7 +56,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             var _filter = GetFieldFiltering(filter);
             var _sorting = GetFieldSorting(sorting);
 
-            var account_list = AccountDAL.GetAccounts(_filter, skip, size, _sorting);
+            var account_list = ApiAccountDAL.GetAccounts(_filter, skip, size, _sorting);
             account_list.ForEach(a =>
             {
                 a.USER_TYPE_DESC = a.USER_TYPE.Equals("01") ? _localizer.Text.UserRole_01 : _localizer.Text.UserRole_00;
@@ -67,9 +67,14 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         public B2dAccount GetAccount(Int64 xid)
         {
-            return AccountDAL.GetAccount(xid);
+            return ApiAccountDAL.GetAccount(xid);
         }
- 
+
+        public void UpdateAccount(B2dAccoutUpdModel account, string upd_user)
+        {
+            ApiAccountDAL.UpdateAccount(account, upd_user);
+        }
+
         #region Fields Mapping
 
         private string GetFieldFiltering(string filter)
@@ -113,18 +118,14 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         #endregion Fields Mapping
 
-        public void UpdateAccount(B2dAccoutUpdModel account, string upd_user)
-        {
-            AccountDAL.UpdateAccount(account, upd_user);
-        }
-
         ////////////////////////
 
         public bool SetNewPassword(string account, string password)
         {
             try
-            { 
-                AccountDAL.UpdatePassword(account, password); 
+            {
+                // 呼叫WMS-API設定使用者新密碼
+
                 return true;
             }
             catch (Exception ex)

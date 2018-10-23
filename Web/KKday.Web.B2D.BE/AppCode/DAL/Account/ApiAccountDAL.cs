@@ -10,14 +10,14 @@ using Npgsql;
 
 namespace KKday.Web.B2D.BE.AppCode.DAL.Account
 {
-    public class AccountDAL
+    public class ApiAccountDAL
     {
         public static int GetAccountCount(string filter)
         {
             try
             {
                 string sqlStmt = @"SELECT COUNT(*)
-FROM b2b.b2d_account a
+FROM b2b.b2d_account_api a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE 1=1 {FILTER}";
 
@@ -40,11 +40,11 @@ WHERE 1=1 {FILTER}";
 
             try
             {
-                string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
- a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
+                string sqlStmt = @"SELECT a.xid, a.guid, a.email, a.account_type,
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department,
+ a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
-FROM b2b.b2d_account a
+FROM b2b.b2d_account_api a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE 1=1 {FILTER}
 {SORTING}
@@ -67,7 +67,7 @@ LIMIT :Size OFFSET :Skip";
                         accounts.Add(new B2dAccount()
                         {
                             XID = dr.ToInt64("xid"),
-                            UUID = dr.ToStringEx("user_uuid"), 
+                            UUID = dr.ToStringEx("guid"), 
                             EMAIL = dr.ToStringEx("email"),
                             NAME_FIRST = dr.ToStringEx("name_first"),
                             NAME_LAST = dr.ToStringEx("name_last"),
@@ -75,9 +75,7 @@ LIMIT :Size OFFSET :Skip";
                             COMPANY_XID = dr.ToInt64("comp_xid"),
                             COMPANY_NAME = dr.ToStringEx("comp_name"), 
                             DEPARTMENT = dr.ToStringEx("department"),
-                            ENABLE = dr.ToBoolean("enable"),
-                            GENDER_TITLE = dr.ToStringEx("gender_title"),
-                            JOB_TITLE = dr.ToStringEx("job_title"),
+                            ENABLE = dr.ToBoolean("enable"), 
                             CURRENCY = dr.ToStringEx("comp_currency"),
                             LOCALE = dr.ToStringEx("comp_locale"),
                             TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
@@ -100,11 +98,11 @@ LIMIT :Size OFFSET :Skip";
         { 
             try
             {
-                string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
- a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
+                string sqlStmt = @"SELECT a.xid, a.guid, a.email, a.account_type,
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, 
+ a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
-FROM b2b.b2d_account a
+FROM b2b.b2d_account_api a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE a.xid=:xid";
 
@@ -120,7 +118,7 @@ WHERE a.xid=:xid";
                     B2dAccount b2dAccount = new B2dAccount()
                     {
                         XID = dr.ToInt64("xid"),
-                        UUID = dr.ToStringEx("user_uuid"),
+                        UUID = dr.ToStringEx("guid"),
                         EMAIL = dr.ToStringEx("email"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
@@ -128,9 +126,7 @@ WHERE a.xid=:xid";
                         COMPANY_XID = dr.ToInt64("comp_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
                         DEPARTMENT = dr.ToStringEx("department"),
-                        ENABLE = dr.ToBoolean("enable"),
-                        GENDER_TITLE = dr.ToStringEx("gender_title"),
-                        JOB_TITLE = dr.ToStringEx("job_title"),
+                        ENABLE = dr.ToBoolean("enable"), 
                         CURRENCY = dr.ToStringEx("comp_currency"),
                         LOCALE = dr.ToStringEx("comp_locale"),
                         TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
@@ -150,14 +146,15 @@ WHERE a.xid=:xid";
 
             return null;
         }
-         
+
+
         public static void UpdateAccount(B2dAccoutUpdModel account, string upd_user)
         {
             try
             { 
-                string sqlStmt = @"UPDATE b2b.b2d_account SET xid=:xid, name_last=:name_last, 
+                string sqlStmt = @"UPDATE b2b.b2d_account_api SET xid=:xid, name_last=:name_last, 
 name_first=:name_first, account_type=:account_type, enable=:enable, job_title=:job_title, tel=:tel,
-gender_title=:gender_title, department=:department, upd_user=:upd_user, upd_datetime=now()
+upd_user=:upd_user, upd_datetime=now()
 WHERE xid=:xid ";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
@@ -165,10 +162,8 @@ WHERE xid=:xid ";
                     new NpgsqlParameter("name_last", account.NAME_FIRST),
                     new NpgsqlParameter("name_first", account.NAME_LAST),
                     new NpgsqlParameter("account_type", account.USER_TYPE),
-                    new NpgsqlParameter("enable", account.ENABLE),
-                    new NpgsqlParameter("job_title", account.JOB_TITLE),
-                    new NpgsqlParameter("tel", account.TEL),
-                    new NpgsqlParameter("gender_title", (object)account.GENDER_TITLE ?? DBNull.Value),
+                    new NpgsqlParameter("enable", account.ENABLE), 
+                    new NpgsqlParameter("tel", account.TEL), 
                     new NpgsqlParameter("department", (object)account.DEPARTMENT ?? DBNull.Value), 
                     new NpgsqlParameter("upd_user", upd_user)
                 };
@@ -192,7 +187,7 @@ WHERE xid=:xid ";
                 byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
                 var chiperPasswod = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
 
-                string sqlStmt = @"UPDATE b2b.b2d_account SET password=:password
+                string sqlStmt = @"UPDATE b2b.b2d_account_api SET password=:password
 WHERE LOWER(email)=LOWER(:email) ";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
@@ -208,6 +203,6 @@ WHERE LOWER(email)=LOWER(:email) ";
                 Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
                 throw ex;
             }
-        } 
+        }
     }
 }
