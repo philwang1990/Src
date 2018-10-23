@@ -168,6 +168,37 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return View(_accounts);
         }
 
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> ApiRefresh([FromBody]QueryParamsModel queryParams)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var acctRepos = services.First(o => o.GetType() == typeof(B2dApiAccountRepository));
+
+                //更新分頁資料
+                queryParams = acctRepos.GetQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                ViewData["QUERY_PARAMS"] = queryParams;
+
+                var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
+                var _accounts = acctRepos.GetAccounts(queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
+
+                jsonData["query_params"] = JsonConvert.SerializeObject(queryParams);
+                jsonData["content"] = await this.RenderViewAsync<List<B2dAccount>>("ApiAccountList", _accounts, true);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
         public IActionResult ApiEdit(Int64 id)
         {
             try

@@ -48,6 +48,10 @@
     <Folder Include="Resources\" />
     <Folder Include="Proxy\" />
     <Folder Include="Areas\KKday\Models\DataModel\Account\" />
+    <Folder Include="wwwroot\lib\jquery-scrolling-tabs\" />
+    <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\" />
+    <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\" />
+    <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\js\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
@@ -68,12 +72,24 @@
     <Content Remove="wwwroot\images\Index.cshtml" />
     <Content Remove="App_Data\Users.json" />
     <Content Remove="Areas\KKday\Views\Company\CompanyEdit.cshtml" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\jquery.scrolling-tabs.js" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\jquery.scrolling-tabs.min.css" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.js" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.min.js" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.css" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.min.css" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Resources\KKday\Company\Index.resx" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\KKday\.DS_Store" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.js" />
+    <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.min.js" />
+    <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.css" />
+    <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.min.css" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Resources\Localizer.tt">

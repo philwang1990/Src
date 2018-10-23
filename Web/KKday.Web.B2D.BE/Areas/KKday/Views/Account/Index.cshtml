@@ -27,6 +27,53 @@
 </nav>
 
 <div class="container">
+
+    <!-- search -->
+    <div class="search-tab row" style="margin-bottom: 20px;">
+        <form>
+            <div class="col-xs-12 col-sm-2">
+                <label>@localizer.Text.Name</label>
+                <input type="text" id="name" class="form-control" placeholder="使用者" aria-label="使用者" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="col-xs-12 col-sm-2">
+                <label>@localizer.Text.Email</label>
+                <input type="text" id="email" class="form-control" placeholder="電子郵件" aria-label="電子郵件" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="col-xs-12 col-sm-2">
+                <label>@localizer.Text.Company_Name</label>
+                <input type="text" id="country" class="form-control" placeholder="公司名稱" aria-label="公司名稱" aria-describedby="basic-addon1">
+            </div>
+
+            <div class="col-xs-12 col-sm-2">
+                <label>@localizer.Text.Status</label>
+                <select id="status" class="selectpicker form-control">
+                    <option value="">-- Select --</option>
+                    <option value="0">@localizer.Text.Disable</option>
+                    <option value="1">@localizer.Text.Enable</option>
+                </select>
+            </div>
+
+            <div class="col-xs-12 col-sm-2">
+                <label>@localizer.Text.Sorting </label>
+                <select id="sorting" class="selectpicker form-control">
+                    <option value="">-- Select --</option>
+                    <option value="name">@localizer.Text.Name</option>
+                    <option value="status">@localizer.Text.Status</option>
+                    <option value="xid">@localizer.Text.ID</option>
+                    <option value="company">@localizer.Text.Company_Name</option>
+                </select>
+            </div>
+
+            <div class="col-xs-12 col-sm-2">
+                <label></label>
+                <input type="Submit" name="submit" value="@localizer.Text.Search" onclick="Refresh(1); return false;" class="btn btn-info cst-btn form-control">
+            </div>
+        </form>
+    </div>
+    <!-- search  -->
+
     <div class="row">
 
         <div class="col-xs-12">

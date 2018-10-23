@@ -17,6 +17,7 @@ else
     <table id="mytable" class="table table-bordred table-striped">
         <thead>
         <th><input type="checkbox" id="checkall" /></th>
+        <th>@localizer.Text.ID</th>
         <th>@localizer.Text.Name</th>
         <th>@localizer.Text.Email</th>
         <th>@localizer.Text.Status</th>
@@ -29,6 +30,7 @@ else
             {
                 <tr>
                    <td><input type="checkbox" class="checkthis" /></td>
+                   <td>@item.XID</td>
                    <td><a href="javascript:AccountEdit(@item.XID);"> @item.NAME_FIRST @item.NAME_LAST</a></td>
                    <td>@item.EMAIL</td>
                    <td>@(item.ENABLE ? localizer.Text.Enable : localizer.Text.Disable) </td>
