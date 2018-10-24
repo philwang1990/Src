@@ -113,7 +113,7 @@ namespace KKday.API.WMS.Models.DataModel.Package {
     }
 
     public class AfterOrderDate {
-        public int qty { get; set; }
+        public int? qty { get; set; }
         public string unit { get; set; }
       }
 
