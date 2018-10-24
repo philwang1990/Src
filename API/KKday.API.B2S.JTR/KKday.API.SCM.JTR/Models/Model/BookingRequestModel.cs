@@ -26,9 +26,9 @@ namespace KKday.API.B2S.JTR.Models.Model
         public string cusLastname { get; set; }
         public string cusFirstname { get; set; }
         public string cusGender { get; set; }
-        public string passportId { get; set; }
-        public string cusBirthday { get; set; }
-        public string countryCd { get; set; }
+        public object passportId { get; set; }
+        public object cusBirthday { get; set; }
+        public object countryCd { get; set; }
     }
 
     public class Order
@@ -48,8 +48,8 @@ namespace KKday.API.B2S.JTR.Models.Model
         public int price4Qty { get; set; }
         public double currPrice1 { get; set; }
         public double currPrice2 { get; set; }
-        public int currPrice3 { get; set; }
-        public int currPrice4 { get; set; }
+        public double currPrice3 { get; set; }
+        public double currPrice4 { get; set; }
         public string eventTime { get; set; }
         public List<EventBackupData> eventBackupData { get; set; }
         public List<OrderCusList> orderCusList { get; set; }

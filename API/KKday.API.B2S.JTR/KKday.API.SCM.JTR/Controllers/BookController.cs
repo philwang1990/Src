@@ -19,6 +19,8 @@ namespace KKday.API.B2S.JTR.Controllers
         [HttpPost("Booking")]
         public BookingResponseModel Booking([FromBody]BookingRequestModel bookRQ)
         {
+            Website.Instance.logger.Info($"JTR Booking Start!");
+
             BookingResponseModel bookRS = new BookingResponseModel();
             Metadata metadata = new Metadata();
             Data data = new Data();
@@ -107,12 +109,15 @@ namespace KKday.API.B2S.JTR.Controllers
 
                         string orderUrl = $"{Website.Instance.Configuration["JTR_API_URL:ORDER_URL"]}?custId={bookRQ.sup_id}&apikey={bookRQ.sup_key}&param={orderRSxmlData}".Replace("\n","");
                         HttpResponseMessage orderResponse = client.GetAsync(orderUrl).Result;
+                        Website.Instance.logger.Info($"URL:{Website.Instance.Configuration["JTR_API_URL:ORDER_URL"]},URL Response StatusCode:{orderResponse.StatusCode}");
                         orderRS = (order_result)XMLTool.XMLDeSerialize(orderResponse.Content.ReadAsStringAsync().Result, orderRS.GetType().ToString());
 
                         Website.Instance.logger.Info($"[ORDER]kkOrderNo:{bookRQ.order.orderMid},priceType:{lst.price_type},jtrOrderNo:{orderRS.order_id},jtrErr:{orderRS.error_msg}");
 
                         string payUrl = $"{Website.Instance.Configuration["JTR_API_URL:PAY_URL"]}?custId={bookRQ.sup_id}&apikey={bookRQ.sup_key}&orderId={orderRS.order_id}";
                         HttpResponseMessage payRresponse = client.GetAsync(payUrl).Result;
+                        Website.Instance.logger.Info($"URL:{Website.Instance.Configuration["JTR_API_URL:PAY_URL"]},URL Response StatusCode:{payRresponse.StatusCode}");
+
                         payRS = (pay_result)XMLTool.XMLDeSerialize(payRresponse.Content.ReadAsStringAsync().Result, payRS.GetType().ToString());
 
                         Website.Instance.logger.Info($"[PAY]kkOrderNo:{bookRQ.order.orderMid},priceType:{lst.price_type},jtrTktNo:{payRS.code},jtrErr:{payRS.error_msg}");
@@ -150,7 +155,8 @@ namespace KKday.API.B2S.JTR.Controllers
                     foreach (var rs in RS_info)
                     {
                         data.isMuiltSupOrder = info.Count() > 1 ? true : false;
-                        data.supTicketNumber = !string.IsNullOrEmpty(rs.code) ? data.supTicketNumber + rs.code + "<br/>" : data.supTicketNumber;
+                        data.supTicketNumber += !string.IsNullOrEmpty(rs.code) ? data.supTicketNumber + rs.code + "<br/>" : data.supTicketNumber;
+
 
                         OD_info.Add(new Orderinfo()
                         {
@@ -179,12 +185,12 @@ namespace KKday.API.B2S.JTR.Controllers
                         if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = RS_info[1].order_error_state;
-                            note = $"1對多訂單類型，其中第1筆{RS_info[0].kkOrder_no}支付成功，{RS_info[0].code}，但第2筆成立訂單失敗，請OP至JTR後台協助確認";
+                            note = $"1對多訂單類型，其中第1筆 {RS_info[0].order_id}支付成功，{RS_info[0].code}，但第2筆成立訂單失敗，請OP至JTR後台協助確認";
                         }
                         else if (data.isMuiltSupOrder && OD_info.Count() == 1)
                         {
                             code = RS_info[0].order_error_state;
-                            note = $"1對多訂單類型，第1筆下單失敗,{RS_info[0].order_error_msg}";
+                            note = $"1對多訂單類型，下單失敗，{RS_info[0].order_error_msg}";
                         }
                         else
                         {
@@ -200,17 +206,17 @@ namespace KKday.API.B2S.JTR.Controllers
                         if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = RS_info[1].pay_error_state;
-                            note = $"1對多訂單類型，其中第1筆{RS_info[0].kkOrder_no}，{RS_info[0].code}，但第2筆{RS_info[1].kkOrder_no}，{RS_info[1].pay_error_msg}，請OP至JTR後台協助確認";
+                            note = $"1對多訂單類型，其中第1筆{RS_info[0].order_id}，{RS_info[0].code}，但第2筆{RS_info[1].order_id}，{RS_info[1].pay_error_msg}，請OP至JTR後台協助確認";
                         }
                         else if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = RS_info[0].pay_error_state;
-                            note = $"1對多訂單類型，第1筆{RS_info[0].kkOrder_no}支付訂單失敗";
+                            note = $"1對多訂單類型，第1筆{RS_info[0].order_id}支付失敗，{RS_info[0].pay_error_msg}，請確認訂單其他細項是否完成";
                         }
                         else
                         {
                             code = RS_info[0].pay_error_state;
-                            note = RS_info[0].pay_error_msg;
+                            note = $"{RS_info[0].order_id}支付失敗，{RS_info[0].pay_error_msg}";
                         }
 
                     }
@@ -220,12 +226,12 @@ namespace KKday.API.B2S.JTR.Controllers
                         if (data.isMuiltSupOrder && OD_info.Count() > 1)
                         {
                             code = "10091";
-                            note = $"1對多訂單類型，其中第1筆{RS_info[0].kkOrder_no}交易支付成功{RS_info[0].code}，但第2筆{RS_info[1].kkOrder_no}支付成功未取得12碼供應商訂編，請OP至JTR後台協助確認";
+                            note = $"1對多訂單類型，其中第1筆{RS_info[0].order_id}交易支付成功{RS_info[0].code}，但第2筆{RS_info[1].order_id}支付成功未取得12碼供應商訂編，請OP至JTR後台協助確認";
                         }
                         else
                         {
                             code = "10091";
-                            note = $"{RS_info[0].kkOrder_no}支付成功，但未取得12碼供應商訂編，請OP至JTR後台協助確認";
+                            note = $"{RS_info[0].order_id}支付成功，但未取得12碼供應商訂編，請OP至JTR後台協助確認";
 
                         }
 
@@ -258,7 +264,7 @@ namespace KKday.API.B2S.JTR.Controllers
                 metadata.status = $"JTR-10090";
                 metadata.description = timeoutex.Message;
                 bookRS.metadata = metadata;
-
+                Website.Instance.logger.FatalFormat($"Timeout Error :{timeoutex.Message},{timeoutex.StackTrace}");
                 return bookRS;
 
             }
@@ -268,7 +274,7 @@ namespace KKday.API.B2S.JTR.Controllers
                 metadata.status = $"JTR-00000";
                 metadata.description = ex.Message;
                 bookRS.metadata = metadata;
-
+                Website.Instance.logger.FatalFormat($"System Error :{ex.Message},{ex.StackTrace}");
                 return bookRS;
 
             }

@@ -19,7 +19,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public string main_lang { get; set; } //主語系
         public string cost_type { get; set; } //成本類別
         //public string introduction { get; set; } //簡述  (跟ProductBase共用)
-        public string prod_desction { get; set; } //行程說明
+        public string prod_desc { get; set; } //行程說明
         public string prod_tips { get; set; } //溫馨提醒
         public string prod_map_note { get; set; } //主要目的地
         //public string prod_sup_note { get; set; } //供應商商品備註
@@ -67,6 +67,10 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public string voucher_desc { get; set; }//憑證類型種類敘述
 
         public ProdMarketing prod_mkt { get; set; }
+
+        public string prod_hander { get; set; } //訂單處理人
+
+
 
     }
 

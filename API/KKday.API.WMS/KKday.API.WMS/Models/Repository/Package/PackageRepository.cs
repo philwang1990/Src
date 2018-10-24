@@ -4,6 +4,7 @@ using System.Linq;
 using KKday.API.WMS.AppCode.Proxy;
 using KKday.API.WMS.Models.DataModel.Package;
 using KKday.API.WMS.Models.DataModel.Product;
+using KKday.API.WMS.Models.Repository.Discount;
 using Newtonsoft.Json.Linq;
 
 namespace KKday.API.WMS.Models.Repository.Package {
@@ -23,6 +24,18 @@ namespace KKday.API.WMS.Models.Repository.Package {
             List<PkgDetailModel> pkgLst = new List<PkgDetailModel>();
 
             try {
+
+                //商品黑名單過濾
+                //抓商品是否為黑名單
+                bool isBlack = DiscountRepository.GetProdBlackWhite(rq.prod_no);
+
+                if (isBlack)
+                {
+                    pkg.result = "10";
+                    pkg.result_msg = $"Bad Request:Product-{rq.prod_no} is not available";
+                    return pkg;
+                }
+
 
                 JObject obj = PackageProxy.getPkgLst(rq);
 
@@ -54,7 +67,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
                     model.online_e_date = jPkglst[i]["productPkg"]["endValidDt"].ToString();
                     model.weekDays = jPkglst[i]["productPkg"]["weekDays"].ToString();
 
-                    model.is_unit_pirce = jPkglst[i]["productPkg"]["pkgName"].ToString();
+                    model.is_unit_pirce = jPkglst[i]["productPkg"]["priceType"].ToString();
 
                     model.price1 = (double?)jPkglst[i]["productPkg"]["price1"] ?? 0;
                     model.price1_org = (double?)jPkglst[i]["productPkg"]["price1Org"] ?? 0;
@@ -158,7 +171,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                             if (moduleSet["voucherValidInfo"]["afterOrderDate"] != null && moduleSet["voucherValidInfo"]["afterOrderDate"].Any()) {
                                 AfterOrderDate aod = new AfterOrderDate() {
-                                    qty = (int)moduleSet["voucherValidInfo"]["afterOrderDate"]["qty"],
+                                    qty = (int?)moduleSet["voucherValidInfo"]["afterOrderDate"]["qty"],
                                     unit = moduleSet["voucherValidInfo"]["afterOrderDate"]["unit"].ToString()
                                 };
 

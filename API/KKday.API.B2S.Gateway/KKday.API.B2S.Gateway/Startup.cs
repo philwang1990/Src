@@ -44,7 +44,7 @@ namespace KKday.API.B2S.Gateway
                 app.UseHsts();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

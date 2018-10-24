@@ -19,16 +19,16 @@ namespace KKday.API.WMS.Models.DataModel.Product {
             
             public string prod_currency { get; set; }
             public string prod_img_url { get; set; }
-            public int rating_count { get; set; }//評價數
+            public int? rating_count { get; set; }//評價數
             public double avg_rating_star { get; set; }//評價星等 (跟LULU共用) 
-            public Boolean instant_booking { get; set; }//即時預訂 
-            public int order_count { get; set; } //訂單數量
+            public Boolean? instant_booking { get; set; }//即時預訂 
+            public int? order_count { get; set; } //訂單數量
             public int days { get; set; }//所需天數  (跟LULU共用)
             public int hours { get; set; } //所需時數  (跟LULU共用)
             public string introduction { get; set; }//(跟LULU共用)
-            public int duration { get; set; }//所需時間 (分鐘)
+            public int? duration { get; set; }//所需時間 (分鐘)
             public string display_price_usd { get; set; }//美金價錢(顯示用) 多幣別後不使用
-            public double price_usd { get; set; }//美金價錢 多幣別後不使用
+            public double? price_usd { get; set; }//美金價錢 多幣別後不使用
             public string prod_type { get; set; }//主分類key(跟LULU共用)
             public string[] tag { get; set; }//小分類 key
 

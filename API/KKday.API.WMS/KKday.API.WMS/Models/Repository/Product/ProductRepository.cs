@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System.Linq;
 using KKday.API.WMS.Models.DataModel.Package;
 using KKday.Web.B2D.EC.AppCode;
+using KKday.API.WMS.Models.Repository.Discount;
 
 namespace KKday.API.WMS.Models.Repository.Product
 {
@@ -15,7 +16,7 @@ namespace KKday.API.WMS.Models.Repository.Product
         public ProductRepository()
         {
         }
-        //code lang type
+        //code language type
         private static string _VOUCHER_EXCHANGE_TYPE = "VOUCHER_EXCHANGE_TYPE";
 
         /// <summary>
@@ -27,8 +28,21 @@ namespace KKday.API.WMS.Models.Repository.Product
         {
             ProductModel product = new ProductModel();
             JObject obj = null, objModule = null, objExTypeLang = null;
+
             try
             {
+                //商品黑名單過濾
+                //抓商品是否為黑名單
+                bool isBlack = DiscountRepository.GetProdBlackWhite(queryRQ.prod_no);
+
+                if(isBlack)
+                {
+                    product.reasult = "10";
+                    product.reasult_msg = $"Bad Request:Product-{queryRQ.prod_no} is not available";
+                    return product;
+                }
+
+                //data from kkday api
                 obj = ProdProxy.getProd(queryRQ);
                 objModule = ProdProxy.getModule(queryRQ);
                 objExTypeLang = CommonProxy.getCodeLang(queryRQ, ProductRepository._VOUCHER_EXCHANGE_TYPE);
@@ -53,7 +67,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 product.cost_type = obj["content"]["product"]["costCalcMethod"].ToString();
                 product.main_lang = obj["content"]["product"]["masterLang"].ToString();
                 product.introduction = obj["content"]["product"]["introduction"].ToString();
-                product.prod_desction = obj["content"]["product"]["productDesc"].ToString();
+                product.prod_desc = obj["content"]["product"]["productDesc"].ToString();
                 product.prod_tips = obj["content"]["product"]["productTips"].ToString();
                 product.prod_map_note = obj["content"]["product"]["gatherNote"].ToString();
                 product.is_search = obj["content"]["product"]["isSearch"].ToString();
@@ -79,10 +93,13 @@ namespace KKday.API.WMS.Models.Repository.Product
                 comment.sales_qty = obj["content"]["prodUrlInfo"]["orderNum"].ToString();
                 comment.prod_url_oid= obj["content"]["prodUrlInfo"]["prodUrlOid"].ToString();
                 product.prod_comment_info = comment;
-                product.b2c_price = (double)obj["content"]["product"]["minSalePrice"]; 
-                product.b2d_price = (double)obj["content"]["product"]["minPrice"]; 
+
+                product.b2c_price = (double)obj["content"]["product"]["minSalePrice"];
+                product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.b2d_xid), (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString());
 
                 product.order_email = obj["content"]["product"]["orderEmail"].ToString();
+                product.prod_hander = obj["content"]["supplier"]["orderHandler"].ToString();
+
 
                 TktExpire tkt = new TktExpire();
                 tkt.exp_type = obj["content"]["tkExpSetting"]["expTp"].ToString();
@@ -392,7 +409,7 @@ namespace KKday.API.WMS.Models.Repository.Product
         public static ProductModuleModel GetProdModule(QueryProductModel queryRQ)
         {
             ProductModuleModel module = new ProductModuleModel();
-            JObject objModule = null, obj = null, objEvent = null, objCountryCode = null,objAreaCode = null;
+            JObject objModule = null, obj = null, objEvent = null, objCountryCode = null, objAreaCode = null, objAirport = null;
 
             try
             {
@@ -401,6 +418,11 @@ namespace KKday.API.WMS.Models.Repository.Product
                 objEvent = PackageProxy.getEvents(queryRQ);
                 objCountryCode = CommonProxy.getCodeCountry(queryRQ);
                 objAreaCode = CommonProxy.getCodeArea(queryRQ);
+                objAirport = CommonProxy.getProdAirport(queryRQ);
+
+                //挖字！！！！！！！
+                RedisHelper rds = new RedisHelper();
+                Dictionary<string, string> uikey = rds.klingonGet("frontend", queryRQ.locale_lang);
 
                 if (objModule["content"]["result"].ToString() != "0000")
                 {
@@ -414,12 +436,12 @@ namespace KKday.API.WMS.Models.Repository.Product
                     module.reasult_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
-                if (objEvent["content"]["result"].ToString() != "0000")
-                {
-                    module.reasult = objModule["content"]["result"].ToString();
-                    module.reasult_msg = $"kkday event api response msg is not correct! {objEvent["content"]["msg"].ToString()}";
-                    throw new Exception($"kkday event api response msg is not correct! {objEvent["content"]["msg"].ToString()}");
-                }
+                //if (objEvent["content"]["result"].ToString() != "0000")
+                //{
+                //    module.reasult = objModule["content"]["result"].ToString();
+                //    module.reasult_msg = $"kkday event api response msg is not correct! {objEvent["content"]["msg"].ToString()}";
+                //    throw new Exception($"kkday event api response msg is not correct! {objEvent["content"]["msg"].ToString()}");
+                //}
 
                 module.reasult = objModule["content"]["result"].ToString();
                 module.reasult_msg = objModule["content"]["msg"].ToString();
@@ -434,8 +456,6 @@ namespace KKday.API.WMS.Models.Repository.Product
                     var objPmdlCustData = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_CUST_DATA");
 
                     //挖字！！！！！！！
-                    RedisHelper rds = new RedisHelper();
-                    Dictionary<string, string> uikey = rds.klingonGet("frontend", queryRQ.locale_lang);
 
                     CusData cus = new CusData();
                     cus.is_require = (bool)objPmdlCustData["moduleSetting"]["isRequired"];
@@ -726,21 +746,51 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                     Arrival arr = new Arrival();
                     Departure dep = new Departure();
+
+                    List<FlightType> ft_list = new List<FlightType>();
+                    ft_list.Add(new FlightType()
+                    {
+                        type = "01",
+                        type_name = uikey["booking_step1_flight_info_domestic_routes"]
+                    });
+                    ft_list.Add(new FlightType()
+                    {
+                        type = "02",
+                        type_name = uikey["booking_step1_flight_info_international_routes"]
+                    });
+
+                    List<Airport> airports = new List<Airport>();
+                    if (objAirport["content"]["airportList"] != null)
+                    {
+                        airports = ((JArray)objAirport["content"]["airportList"])
+                          .Select(x => new Airport
+                          {
+                              airport_code = (string)x["airportCode"],
+                              airport_name = (string)x["airportName"],
+                              area_code = (string)x["areaCd"]
+                          }).ToList();
+                    }
+
+
                     arr.is_require_FlightType = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["flightType"]["isRequired"];
+                    arr.flight_type_list = !arr.is_require_FlightType ? null : ft_list;
                     arr.is_require_Date = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["arrivalDatetime"]["isRequired"];
                     arr.is_require_Hour = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["arrivalDatetime"]["isRequired"];
                     arr.is_require_Minute = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["arrivalDatetime"]["isRequired"];
                     arr.is_require_Airport = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["airport"]["isRequired"];
+                    arr.airport_list = !arr.is_require_Airport ? null : airports;
                     arr.is_require_Airline = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["airline"]["isRequired"];
                     arr.is_require_FlightNo = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["flightNo"]["isRequired"];
                     arr.is_require_TerminalNo = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["terminalNo"]["isRequired"];
                     arr.is_need_ApplyVisa = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["arrival"]["isNeedToApplyVisa"]["isRequired"];
 
                     dep.is_require_FlightType = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["departure"]["flightType"]["isRequired"];
+                    dep.flight_type_list = !dep.is_require_FlightType ? null : ft_list;
                     dep.is_require_Date = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["departure"]["departureDatetime"]["isRequired"];
                     dep.is_require_Hour = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["departure"]["departureDatetime"]["isRequired"];
                     dep.is_require_Minute = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["departure"]["departureDatetime"]["isRequired"];
                     dep.is_require_Airport = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["departure"]["airport"]["isRequired"];
+                    dep.airport_list = !dep.is_require_Airport ? null : airports;
                     dep.is_require_Airline = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["departure"]["airline"]["isRequired"];
                     dep.is_require_FlightNo = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["departure"]["flightNo"]["isRequired"];
                     dep.is_require_TerminalNo = (bool)objPmdlFlightInfo["moduleSetting"]["setting"]["dataItems"]["departure"]["terminalNo"]["isRequired"];
@@ -1015,6 +1065,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 module.reasult_msg = $"Module ERROR :{ex.Message},{ex.StackTrace}";
                 module.module_type = null;
                 Website.Instance.logger.FatalFormat($"Module ERROR :{ex.Message},{ex.StackTrace}");
+
             }
 
             return module;
@@ -1038,6 +1089,10 @@ namespace KKday.API.WMS.Models.Repository.Product
                 var expNum = obj["content"]["tkExpSetting"]["expNum"].ToString();
                 var expSt = obj["content"]["tkExpSetting"]["expSt"].ToString();
                 var expEd = obj["content"]["tkExpSetting"]["expEd"].ToString();
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev_branch
                 //"product_index_tkt_1": "指定效期區間 %s ~ %s ，逾期失效。",
                 //"product_index_tkt_2": "自開票日算起%s日之內有效，逾期失效。",
                 //"product_index_tkt_3": "自開票日算起%s年之內有效，逾期失效。",
