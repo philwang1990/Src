@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KKday.API.WMS.Models.Repository.Common;
+using KKday.API.WMS.Models.DataModel.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Converters;//IsoDateTimeConverter
@@ -22,9 +23,9 @@ namespace KKday.API.WMS.Controllers
         /// <returns>The currency.</returns>
         /// <param name="locale">Locale.</param>
         [HttpGet("Currency")]
-        public JObject Currency(string locale)
+        public CurrencyModel Currency(string locale)
         {
-            JObject currency = new JObject();
+            CurrencyModel currency = new CurrencyModel();
 
             try
             {
