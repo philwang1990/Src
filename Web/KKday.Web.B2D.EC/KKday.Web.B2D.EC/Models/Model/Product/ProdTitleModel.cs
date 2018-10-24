@@ -31,6 +31,12 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string common_cancel_date { get; set; } //取消日期
         public string common_cancellation_fee { get; set; } //取消費用
 
+        public string common_days_more { get; set; } //天以前
+        public string common_days_prior { get; set; } //天
+        public string product_index_refundable { get; set; } //全額退款
+        public string product_index_non_refundable { get; set; } //不可取消，無法退款
+
+
         //booking bar 
         public string common_booking { get; set; } //立即訂購
         public string product_index_coming_soon { get; set; } //即將開賣
@@ -364,11 +370,11 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
     //取消政策 （只限3）
     public class CancelPolicy
     {
+        public int sort { get; set; }
         public int sd { get; set; }
         public int ed { get; set; }
-        public Boolean isOver { get; set; }
-        public double percent { get; set; }
-        public string show { get; set; }
+        public string showRange { get; set; }
+        public string showPercent { get; set; }
     }
 
 

@@ -74,9 +74,46 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
                     prod.policyInfo = uikey["common_special_cancel_fee"]; break;//common_cancellation_policy
             }
 
-          
+            prod = setCancelPolicy(prod, uikey);
             return prod;
 
+        }
+
+        //取消政策條列化
+        public static ProductforEcModel  setCancelPolicy(ProductforEcModel prod, Dictionary<string, string> uiKey)
+        {
+            List<CancelPolicy> policyList = new List<CancelPolicy>();
+            CancelPolicy policy = null;
+
+            int i = 0;
+            int preDate = 0;
+
+            foreach( Policy p in prod.policy_list )
+            {
+                policy = new CancelPolicy();
+                policy.sort = i;
+                policy.ed = Convert.ToInt32(p.days);
+                policy.sd = (i == 0) ? 0 : preDate + 1;
+
+                if (p.is_over)
+                {
+                    policy.showRange = policy.ed + uiKey["common_days_more"].ToString();
+                }
+                else
+                {
+                    policy.showRange = $"{policy.sd}~{policy.ed}" + uiKey["common_days_prior"].ToString();
+                }
+                policy.showPercent = p.fee == 0 ? uiKey["product_index_refundable"].ToString() : p.fee == 100 ? uiKey["product_index_non_refundable"] : p.fee + "%";
+
+                policyList.Add(policy);
+                preDate = policy.ed;
+                i++;
+            }
+
+            policyList= policyList.OrderByDescending(x => x.sort).ToList();
+            prod.cancelPolicyList = policyList;
+
+            return prod;
         }
 
         //預設標題挖字處理
@@ -107,6 +144,10 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             title.common_cancel_policy_explanation = uiKey["common_cancel_policy_explanation"];
             title.common_cancel_date = uiKey["common_cancel_date"];
             title.common_cancellation_fee = uiKey["common_cancellation_fee"];
+
+            title.common_days_more = uiKey["common_days_more"];
+            title.common_days_prior = uiKey["common_days_prior"];
+
 
             //bookin bar
             title.common_booking = uiKey["common_booking"];
@@ -380,143 +421,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             return title;
         }
 
-        //提醒
-        public static List<Reminder> setRemindInfo(JObject obj, Dictionary<string, string> uiKey)
-        {
-            //注意事項  diseaseRemind   php:gen_prod_tips_html
-            List<Reminder> remList = new List<Reminder>();
-            Reminder rem = null;
-
-            //票券商品提示M05
-            if (obj["content"]["product"]["mainCat"].ToString().Equals("M05")) //如果是票要設order_show_tkt_1 ~5
-            {
-                rem = new Reminder();
-                var expTp = obj["content"]["tkExpSetting"]["expTp"].ToString();
-                var expNum = obj["content"]["tkExpSetting"]["expNum"].ToString();
-                var expSt = obj["content"]["tkExpSetting"]["expSt"].ToString();
-                var expEd = obj["content"]["tkExpSetting"]["expEd"].ToString();
-                //"order_show_tkt_1": "指定效期區間 %s ~ %s ，逾期失效。",
-                //"order_show_tkt_2": "自開票日算起%s日之內有效，逾期失效。",
-                //"order_show_tkt_4": "自開票日算起%s年之內有效，逾期失效。",
-                //"order_show_tkt_3": "自開票日算起%s月之內有效，逾期失效。",
-                //"order_show_tkt_5": "需要按照預訂日期及當天開放時間內使用，逾期失效。",
-
-                if (expTp == "1")
-                {
-                    string show = uiKey["order_show_tkt_1"].ToString();
-                    rem.remindValue = show.Replace("%s ~", expSt).Replace("%s", expEd);
-                }
-                else if (expTp == "5")
-                {
-                    rem.remindValue = uiKey["order_show_tkt_1"].ToString(); ;
-                }
-                else
-                {
-                    string show = uiKey[$"order_show_tkt_{expTp}"].ToString(); ;
-                    rem.remindValue = show.Replace("%s", expNum);
-                }
-
-                remList.Add(rem);
-            }
-            //一般提醒 共用資料pubRemind
-            if (obj["content"]["pubRemind"].ToString() != "")
-            {
-                if (obj["content"]["pubRemind"]["A"]["checked"].ToString() == "Y")
-                {
-                    string show = uiKey["common_pub_remind_1"].ToString(); // "當參加人數未達最少出團人數之%s人時，將於使用日前%s天發出取消旅遊的email通知。";
-                    int vLength = show.IndexOf("%s");
-                    show = show.Substring(0, vLength) + obj["content"]["pubRemind"]["A"]["value"] + show.Substring(vLength + 2, show.Length - vLength - 2);
-                    show = show.Replace("%s", obj["content"]["pubRemind"]["B"]["value"].ToString());
-                    rem = new Reminder();
-                    rem.remindValue= show;
-                    remList.Add(rem);
-                }
-
-                if (obj["content"]["pubRemind"]["C"].ToString() == "Y")
-                {
-                    rem = new Reminder();
-                    rem.remindValue = uiKey["common_pub_remind_2"].ToString();
-                    remList.Add(rem);
-                }
-                if (obj["content"]["pubRemind"]["D"]["checked"].ToString() == "Y")
-                {
-                    string show = uiKey["common_pub_remind_3"].ToString(); // "當參加人數未達最少出團人數之%s人時，將於使用日前%s天發出取消旅遊的email通知。";
-                    int vLength = show.IndexOf("%s");
-                    show = show.Substring(0, vLength) + obj["content"]["pubRemind"]["D"]["value"] + show.Substring(vLength + 2, show.Length - vLength - 2);
-                    show = show.Replace("%s", obj["content"]["pubRemind"]["D"]["value2"].ToString());
-                    rem = new Reminder();
-                    rem.remindValue = show;
-                    remList.Add(rem);
-                }
-            }
-            //疾病提醒
-            if (obj["content"]["product"]["diseaseRemind"].ToString() != "")
-            {
-                string[] disRem = obj["content"]["product"]["diseaseRemind"].ToString().Split(',');
-                string show = "";
-                foreach (string s in disRem)
-                {
-                    rem = new Reminder();
-                    show = show+ uiKey["common_disease_" + s].ToString() + ",";
-                }
-
-                show = uiKey["common_disease_remind_desc"] + show.Substring(0, show.Length - 1);
-
-                rem = new Reminder();
-                rem.remindValue=show;
-                remList.Add(rem);
-            }
-            //溫馨提醒 
-            if (obj["content"]["remindList"].ToString() != "")
-            {
-                JArray items = (JArray)obj["content"]["remindList"];
-                int remindList = items.Count;
-                for (int i = 0; i < remindList; i++)
-                {
-                    rem = new Reminder();
-                    rem.remindValue=items[i]["remind"]["desc"].ToString();
-                    remList.Add(rem);
-                }
-            }
-
-            return remList;
-        }
-
-        //取消政策
-        public static List<CancelPolicy> setCancelPolicy(JObject obj, Dictionary<string, string> uiKey)
-        {
-            List<CancelPolicy> policyList = new List<CancelPolicy>();
-            CancelPolicy policy = null;
-
-            //取費用包含 費用不包含
-            JArray items = (JArray)obj["content"]["policyList"];
-            int detailList = items.Count;
-            for (int i = items.Count-1; i >=0; i--)
-            {
-                policy = new CancelPolicy();
-                policy.ed =Convert.ToInt32(items[i]["policy"]["days"].ToString()) ;
-                policy.sd = policy.ed - 1;
-                policy.isOver = Convert.ToBoolean(items[i]["policy"]["isOver"].ToString()) ;
-                policy.percent = Convert.ToDouble(items[i]["policy"]["percent"].ToString()) ;
-
-                if(policy.isOver)
-                {
-                    policy.show = policy.ed + uiKey["common_days_more"].ToString();
-                }
-                else 
-                {
-                    policy.show = $"{policy.sd}~{policy.ed}" + uiKey["common_days_prior"].ToString();
-                }
-
-                policyList.Add(policy);
-            }
-
-            return policyList;
-        }
-
-
-
-
+      
         //套餐日期 一開始先全抓
         public static List<PkgDateforEcModel> getProdPkgDate(PackageModel pkg, string lang, string currency, Dictionary<string, string> uikey, out string allCanUseDate)
         {
