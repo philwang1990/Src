@@ -1,199 +1,325 @@
-﻿@{
+﻿@page
+@{
     Layout = "_LayoutShell";
 }
-@section Stylesheet{
+@section Stylesheet {
+
+}
+@section Scripts {
 
 }
 
-<div class="page-wrap">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-10 col-lg-offset-1">
-                <h1 class="title">分銷商註冊</h1>
-                <hr>
-                <div class="row">
-                    <div class="col-md-3">
-                        <h2 class="section-title">基本資訊</h2>
-                    </div>
-                    <div class="col-md-9">
-                        <div class="row">
-                            <div class="col-sm-2">
-                                <div class="form-group">
-                                    <label>稱謂</label>
-                                    <select class="form-control">
-                                        <option>請選擇</option>
-                                        <option selected="">Mr.</option>
-                                        <option>Ms.</option>
-                                        <option>Mrs.</option>
-                                    </select>
+<form id="form_register">
+    <div class="page-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10 col-lg-offset-1">
+                    <h1 class="title">分銷商註冊</h1>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h2 class="section-title">基本資訊</h2>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="row">
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>稱謂<span class="text-danger">*</span></label>
+                                        <select id="gender_title" name="gender_title" class=“form-control”>
+                                            <option value="">請選擇</option>
+                                            <option value="miss">Miss</option>
+                                            <option value="mr">Mr</option>
+                                            <option value="mrs">Mrs</option>
+                                            <option value="ms">Ms</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group has-error">
-                                    <label>名<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="請輸入名字">
-                                    <div class="tip">不可為空</div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>名字<span class="text-danger">*</span></label>
+                                        <input id="name_first" name="name_first" type="text" class="form-control" placeholder="請輸入名字">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <label>姓<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="請輸入姓氏">
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>姓氏<span class="text-danger">*</span></label>
+                                        <input id="name_last" name="name_last" type="text" class="form-control" placeholder="請輸入姓氏">
+                                    </div>
                                 </div>
-                            </div>
 
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>電子信箱<span class="text-danger">*</span></label>
-                                    <input type="email" class="form-control" placeholder="example@domain.com">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>電子信箱<span class="text-danger">*</span></label>
+                                        <input id="email" name="email" type="email" class="form-control" placeholder="example@domain.com">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>職稱<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>職稱</label>
+                                        <input id="job" type="text" class="form-control">
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>請輸入密碼<span class="text-danger">*</span></label>
+                                        <input id="password" name="password" type="password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>再次輸入密碼<span class="text-danger">*</span></label>
+                                        <input id="password_again" name="password_again" type="password" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>公司註冊國家或區域<span class="text-danger">*</span></label>
+                                        <select id="country" name="country" class="form-control">
+                                            <option selected="" value="">請選擇</option>
+                                            <option value="TW">台灣</option>
+                                            <option value="CN">中國</option>
+                                            <option value="KR">韓國</option>
+                                            <option value="JP">日本</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label>國家或地區代碼<span class="text-danger">*</span></label>
+                                        <select id="country_code" name="country_code" class="form-control">
+                                            <option selected="" value="">請選擇</option>
+                                            <option>886</option>
+                                            <option>86</option>
+                                            <option>82</option>
+                                            <option>81</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>聯絡電話<span class="text-danger">*</span></label>
+                                        <input id="tel" name="tel" type="tel" class="form-control">
+                                    </div>
+                                </div>
 
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>請輸入密碼<span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>慣用語言<span class="text-danger">*</span></label>
+                                        <select id="locale" name="locale" class="form-control">
+                                            <option selected="" value="">請選擇</option>
+                                            <option value="zh-tw">繁體中文</option>
+                                            <option value="en">English</option>
+                                            <option value="zh-cn">簡體中文</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label>再次輸入密碼<span class="text-danger">*</span></label>
-                                    <input type="password" class="form-control">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>交易貨幣 (不可更改)<span class="text-danger">*</span></label>
+                                        <select id="currency" name="currency" class="form-control">
+                                            <option selected="" value="">請選擇</option>
+                                            <option>USD</option>
+                                            <option>CNY</option>
+                                            <option>TWD</option>
+                                            <option>KRW</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>公司名稱<span class="text-danger">*</span></label>
+                                        <input id="comp_name" name="comp_name" type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>統一編號</label>
+                                        <input id="invoice" name="invoice" type="text" class="form-control" placeholder="僅台灣同業用">
+                                    </div>
+                                </div>
 
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <label>國家或地區代碼<span class="text-danger">*</span></label>
-                                    <select class="form-control">
-                                        <option selected="">請選擇</option>
-                                        <option>+886</option>
-                                        <option>+82</option>
-                                        <option>+81</option>
-                                    </select>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>公司網站網址<span class="text-danger">*</span></label>
+                                        <input id="url" name="url" type="text" class="form-control" placeholder="https://...">
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="col-sm-7">
-                                <div class="form-group">
-                                    <label>聯絡電話<span class="text-danger">*</span></label>
-                                    <input type="tel" class="form-control">
-                                </div>
-                            </div>
 
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>慣用語言<span class="text-danger">*</span></label>
-                                    <select class="form-control">
-                                        <option selected="">請選擇</option>
-                                        <option>繁體中文</option>
-                                        <option>English</option>
-                                        <option>簡體中文</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>交易貨幣 (不可更改)<span class="text-danger">*</span></label>
-                                    <select class="form-control">
-                                        <option selected="">請選擇</option>
-                                        <option>USD</option>
-                                        <option>TWD</option>
-                                        <option>KRW</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="form-group">
-                                    <label>公司註冊國家或區域<span class="text-danger">*</span></label>
-                                    <select class="form-control">
-                                        <option selected="">請選擇</option>
-                                        <option>台灣</option>
-                                        <option>韓國</option>
-                                        <option>日本</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div class="col-sm-7">
-                                <div class="form-group">
-                                    <label>公司名稱<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group">
-                                    <label>統一編號<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="僅台灣同業用">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label>公司網站網址<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="僅台灣同業用">
-                                </div>
-                            </div>
-
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <label>聯絡地址<span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" placeholder="僅台灣同業用">
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>聯絡地址<span class="text-danger">*</span></label>
+                                        <input id="address" name="address" type="text" class="form-control">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-3">
-                        <h2 class="section-title">營業資訊</h2>
-                    </div>
-                    <div class="col-md-9">
-                        <label>請提供至少一份下述文件</label>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="file-upload-area">
-                                    <div class="content">
-                                        <label>營業執照</label>
-                                        <div class="text-light">
-                                            <i class="icons icon-paper-clip"></i>
-                                            酷遊天股份有限公司營業執照.pdf
-                                            <a href="javascript:;" class="delete-file"><i class="icons icon-close"></i></a>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <h2 class="section-title">營業資訊</h2>
+                        </div>
+                        <div class="col-md-9">
+                            <label>請提供至少一份下述文件</label>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="file-upload-area">
+                                        <div class="content">
+                                            <label>營業執照<span class="text-danger">*</span></label>
+                                            <div class="text-light">
+                                                <i class="icons icon-paper-clip"></i>
+                                                酷遊天股份有限公司營業執照.pdf
+                                                <a href="javascript:;" class="delete-file"><i class="icons icon-close"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="file-upload-area">
+                                        <div class="content">
+                                            <label>旅行社許可證</label>
+
+                                            <a href="javascript:;" class="file-upload">點擊上傳檔案<input type="file"></a>
+                                            <div class="tip">(最大檔案限制：200MB)</div>
+
+                                            <!-- Loding -->
+                                            <!-- <i class="fa fa-circle-o-notch fa-spin fa-2x text-lighter"></i> -->
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="file-upload-area">
-                                    <div class="content">
-                                        <label>旅行社許可證</label>
-
-                                        <a href="javascript:;" class="file-upload">點擊上傳檔案<input type="file"></a>
-                                        <div class="tip">(最大檔案限制：200MB)</div>
-
-                                        <!-- Loding -->
-                                        <!-- <i class="fa fa-circle-o-notch fa-spin fa-2x text-lighter"></i> -->
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
-                </div>
-                <hr>
-                <div class="form-footer">
-                    <label>
-                        <input type="checkbox">
-                        我已閱讀並同意<a href="#">旅行代理條款</a>
-                    </label>
-                    <a href="#" class="btn btn-primary">建立公司</a>
+                    <hr>
+                    <div class="form-footer">
+                        <label>
+                            <input id="readok" type="checkbox">
+                            我已閱讀並同意<a href="#">旅行代理條款</a>
+                        </label>
+                        <a href="#" id="CreatCompany" class="btn btn-primary" onclick="Register();">建立公司</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+</form>
+
+<script type="text/javascript">
+    //驗證規則擴充
+    $.validator.addMethod("phoneStyle", function( value, element ) {
+       var str = value;
+       var result = false;
+
+       if(str.length > 0){
+           var patt_phone = /^[\d\-\(\)\#]{1,}$/;
+           result = patt_phone.test(str);
+       }
+       else result = true;
+
+       return result;
+   }, "電話號碼不符合格式，僅接受數字、#-()等符號");
+
+
+    $(function() {
+        //初始化驗證規則
+        $('#form_register').validate({
+            rules:{
+                gender_title: "required",
+                name_first: "required",
+                name_last: "required",
+                email: { required: true,email:true },
+                password: {required: true,rangelength:[8,12]},
+                password_again: {required: true,rangelength:[8,12],equalTo:"#password"},
+                country: "required",
+                country_code: "required",
+                tel: {required: true,digits:true,phoneStyle:true},
+                locale: "required",
+                currency: "required",
+                comp_name: "required",
+                invoice: {digits:true,rangelength:[8,8]},
+                url: {required: true,url:true},
+                address: "required"
+            },
+
+            messages:{
+                gender_title: "不可為空",
+                name_first : "不可為空",
+                name_last : "不可為空",
+                email : {required:"不可為空",email:"請輸入有效的mail"},
+                password : {required:"不可為空",rangelength:"密碼須介於8至12位數"},
+                password_again :{required:"不可為空",rangelength:"密碼須介於8至12位數",equalTo:"密碼不相符"},
+                country : "不可為空",
+                country_code : "不可為空",
+                tel : {required:"不可為空",digits:"電話僅可輸入數字"},
+                locale : "不可為空",
+                currency : "不可為空",
+                comp_name : "不可為空",
+                invoice : {digits:"僅可輸入數字",rangelength:"統一編號須為8碼"},
+                url : {required:"不可為空",url:"請輸入正確網址"},
+                address : "不可為空"
+            }
+        });
+
+    });
+
+    function Register(){
+
+        if($('#readok').prop('checked') == false)
+        {
+            alert('請勾選同意旅行代理條款');
+        }
+        else
+        {
+            if ($('#form_register').valid()) {
+                InsertCompany();
+            }
+            else  alert('請檢查以上欄位是否均填寫正確');
+        }
+        return false;
+    }
+
+    function InsertCompany() {
+        var objComp = {
+                        GENDER_TITLE:$('#gender_title').val(),
+                        NAME_FIRST:$('#name_first').val(),
+                        NAME_LAST:$('#name_last').val(),
+                        EMAIL:$('#email').val(),
+                        JOB_TITLE:$('#job').val(),
+                        PASSWORD:$('#password').val(),
+                        COUNTRY:$('#country').val(),
+                        COUNTRY_CODE:$('#country_code').val(),
+                        TEL:$('#tel').val(),
+                        LOCALE:$('#locale').val(),
+                        CURRENCY:$('#currency').val(),
+                        COMPANY_NAME:$('#comp_name').val(),
+                        INVOICE:$('#invoice').val(),
+                        URL:$('#url').val(),
+                        ADDRESS:$('#address').val()
+                };
+
+        $.ajax({
+                url: _root_path + 'Account/InsertCompany',
+                type: 'POST',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(objComp),
+                failure: function (data) {
+                    console.log(data.responseText);
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                },
+                success: function(result) {
+                    if(result == "OK") {
+                        $('#CreatCompany').attr("disabled","true");
+                        alert('註冊已完成，請等候結果通知');
+                        //window.location.href = result.url;
+                    }
+                    else {
+                        alert(result.msg);
+                    }
+                }
+        });
+   }
+
+</script>
