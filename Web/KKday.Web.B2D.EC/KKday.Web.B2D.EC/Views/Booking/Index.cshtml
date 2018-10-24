@@ -1,0 +1,183 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@section Scripts{
+
+
+    @*<link rel="stylesheet" href="~/css/custom.css" />*@
+    <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/booking.js"></script>
+    <script src="~/js/booking.validate.js"></script>
+    <script src="~/js/booking.event.js"></script>
+    <script type="text/javascript">
+
+        var dataModel;
+        var cusModel;
+        var module;
+        var countryLst;
+
+        $(function () {
+
+             $(".defaultHide").hide();
+
+             initModule();
+             initModule2();
+             setModule();
+        });
+    </script>
+}
+
+
+
+
+
+@{
+    var guid = (string)ViewData["guid"];
+    var confirm =(confirmPkgInfo) ViewData["confirmPkgInfo"];
+
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var totalCus = (int)ViewData["totalCus"];
+    var cusData = (CusData)ViewData["cusData"];
+    var mainCat = (string)ViewData["mainCat"];
+    var guide = (List<GuideLanguage>) ViewData["guide"];
+    var wifi = (SimWifi)ViewData["wifi"];
+    var exchange = (List<Location>)ViewData["exchange"];
+
+    var flightInfoType = (string)ViewData["flightInfoType"];
+    var venue = (VenueInfo)ViewData["venue"];
+
+    var useDate = (string)ViewData["useDate"];
+    var rentCar = (RentCar)ViewData["rentCar"];
+    var carPsgr = (CarPasgr)ViewData["carPsgr"];
+
+    var sendInfoType = (string)ViewData["sendInfoType"];
+    var sendData = (SendData)ViewData["sendData"];
+
+    var contactData = (ContactData)ViewData["contactData"];
+
+    var flightInfo = (FlightInfo)ViewData["flightInfo"];
+    var contactInfo = (distributorInfo)ViewData["contactInfo"];
+    var dataModelStr = ViewData["dataModelStr"];
+}
+
+@Html.Hidden("hdndataModelStr",dataModelStr)
+@Html.Hidden("hdnAdultQty", confirm.price1Qty)
+@Html.Hidden("hdnChildQty", confirm.price2Qty)
+@Html.Hidden("hdnInfantQty", confirm.price3Qty)
+@Html.Hidden("hdnUseDate",useDate)
+
+<div class="container" style=" text-align:left;">
+
+
+    <!--contactData-->
+    <div class="orderContactData">
+        @await Html.PartialAsync("_orderContactData")
+    </div>
+    
+    <!--cusData-->
+    <div class="cusData">
+        @await Html.PartialAsync("_cusData")
+    </div>
+
+    
+    <form id="otherForm" class="otherFormClass" > 
+
+
+         <!--guideData-->
+          <div class="guideData">
+            @await Html.PartialAsync("_guide")
+          </div>
+
+           <!--flight-->
+          <div class="flightData">
+                @await Html.PartialAsync("_flightInfo");
+
+
+          </div>
+
+
+          <!--shuttle-->
+          <div class="shuttleData">
+                @await Html.PartialAsync("_shuttle");
+          </div>
+
+          
+
+          <!--carRent-->
+          <div class="rentCar">
+              @await Html.PartialAsync("_rentCar")
+          </div>
+
+
+           
+
+          <!--carPsgr-->
+          <div class="carPsgr">
+              @await Html.PartialAsync("_carPsgr")
+          </div>
+
+
+
+          <!--sendData-->
+          <div class="sendData">
+              @await Html.PartialAsync("_sendData")
+          </div>
+
+          <!--contactData-->
+          <div class="contactData">
+              @await Html.PartialAsync("_contactData")
+          </div>   
+          
+          <!--wifi exchange-->
+          <div class="otherData">
+            @await Html.PartialAsync("_other")
+          </div>
+           
+
+        <!-- 訂單備註 -->
+        <div class="traveler-con">
+            <div class="sub-title">
+                 @prodTitle.booking_step1_order_note
+                <small>(@prodTitle.booking_step1_order_note_tip)</small>
+            </div>
+             <div class="row mt-10">
+                <div class="col-md-8 col-sm-12">
+                    <div class="form-group">
+                        <textarea class="form-control" rows="3" id="txtOrdNote" name="txtOrdNote">
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </form>
+
+    <br/>
+    <input type="button" value="button" onclick="chkValid()" />
+<br/>
+
+    this is booking!  : @guid  <br />
+    booking.php <br />
+    travelerData  <br />
+    travelerQuantity <br />
+    eventBackup <br />
+    guideLanguage <br />
+    arrivalFlightInfo <br />
+    departureFlightInfo <br />
+    shuttleData <br />
+    carRenting <br />
+    passengerDataUnit  <br />
+    passengerDataUnitGroup <br />
+    passengerData <br />
+    sendData <br />
+    contactData <br />
+    otherData  <br />
+    orderNote <br />
+
+
+    @Html.Hidden("booking_step1_length_error_1", prodTitle.booking_step1_length_error_1);
+    @Html.Hidden("booking_step1_length_error_2", prodTitle.booking_step1_length_error_2);
+    @Html.Hidden("booking_step1_required_error", prodTitle.booking_step1_required_error);
+    @Html.Hidden("booking_step1_english_error", prodTitle.booking_step1_english_error);
+</div>

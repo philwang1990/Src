@@ -1,0 +1,86 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@{
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var totalCus = (int)ViewData["totalCus"];
+    var cusData = (CusData)ViewData["cusData"];
+    var contactInfo = (distributorInfo)ViewData["contactInfo"];
+
+}
+
+<form id="form1">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <h3><label>@prodTitle.booking_step1_contact</label>  </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                @prodTitle.booking_step1_contact_firstname
+            </div>
+            <div class="col-md-4">
+
+                @prodTitle.booking_step1_contact_lastname
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="txtLocalFname" name="txtLocalFname"  value="@contactInfo.firstName" placeholder="@prodTitle.booking_step1_local_firstname_placeholder" readonly>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="txtLocalLname" name="txtLocalLname" value="@contactInfo.lastName" placeholder="@prodTitle.booking_step1_local_lastname_placeholder" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                @prodTitle.common_nationality
+            </div>
+            <div class="col-md-4">
+
+                @prodTitle.booking_step1_contact_tel
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4" >
+                <input type="text" class="form-control" id="txtNationality" name="txtNationality" placeholder=""  value="@contactInfo.countryCd" readonly >
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="txtContactTel" placeholder="" value="$(@contactInfo.areatel  @contactInfo.tel)" readonly>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8">
+                @prodTitle.booking_step1_contact_email
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <input type="text" class="form-control" id="txtEmail" placeholder="" value="@contactInfo.email" readonly>
+            </div>
+
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-md-12"> 
+            <div class="col-md-4">
+                <button type="submit" class="submit" onclick="qq()">@prodTitle.common_next_step </button>
+            </div>
+        </div>
+    </div>*@
+
+     
+  </form>

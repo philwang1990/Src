@@ -1,0 +1,263 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+
+@{
+    ViewData["Title"] = "Product Page";
+
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var prod = (ProductforEcModel)ViewData["prod"];
+    var pkgs =(PackageModel)ViewData["pkgs"];
+    var allCanUseDate = (string)ViewData["allCanUseDate"];
+    var currency = (string)ViewData["currency"];
+   
+}
+
+
+@section Scripts{
+
+    <style type="text/css">
+        .show {
+            position: absolute;
+            left: 800px;
+            top: 200px;
+            z-index: 99;
+        }
+
+        .disabledClass {
+            pointer-events: none;
+        }
+    </style>
+    @*<link href="@(Url.Content("~/css/jquery-ui-theme-redmond/jquery-ui-1.10.3.custom.css"))" rel="stylesheet" type="text/css" />*@    
+    
+
+    @*
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>*@
+
+    @*
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>*@
+
+    @*<script type="text/javascript" src="@(Url.Content("~/js/jquery-ui-1.10.3.custom.js"))"></script>
+    <script type="text/javascript" src="@(Url.Content("~/js/jquery-ui.js"))"></script>*@    
+    <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
+    <script type="text/javascript" src="@Url.Content("/js/prod.check.js")"></script>
+
+    <script type="text/javascript">
+
+
+            $(function () {
+                setDatePicker();
+                setInit();
+            });
+
+    </script>
+   
+
+}
+
+
+<i class="icons minus-circle"></i>
+<i class="fas fa-minus-circle"></i>
+<i class="fal fa-minus-circle fa-w-16 fa-2x"></i>
+<i class="fal fa-plus-circle fa-w-16 fa-2x"></i>
+@Html.Hidden("hdnGuid", prod.guidNo)
+@Html.Hidden("hdnCutOfDay", prod.before_order_day)
+@Html.Hidden("hdnAllCanUseDate", allCanUseDate)
+@Html.Hidden("hdnProdOid", prod.prod_no)
+@Html.Hidden("hdnPkgOid", "")
+@Html.Hidden("hdnChkflow", "0")
+@Html.Hidden("hdnPreSelDate", "")
+@Html.Hidden("hdnShowImmediately","")
+@Html.Hidden("hdnIsEcSale", prod.prod_mkt.is_ec_sale)
+
+<div class="container" style=" text-align:left;">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8">
+                <h3> @prod.prod_name </h3>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8">
+                @prodTitle.product_index_product_oid :@prod.prod_no 
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-8">
+                @prodTitle.product_index_product_oid :@prod.prod_no 
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-8">
+                @prodTitle.common_duration :@prod.durationStr 
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+              <div class="col-md-8">
+                @prodTitle.common_location :
+                  @if (prod.countries!=null)
+                  {
+                      <label>@prod.countries[0].name</label>
+
+                      @foreach (City c in prod.countries[0].cities)
+                      {
+                         <label>,@c.name</label> 
+                      }
+
+                  }
+
+                @prod.locationCountry @prod.locationCity
+              </div>
+            </div>
+        </div>
+
+     @if (prod.guide_lang_list!=null)
+     {
+        <div class="row">
+            <div class="col-md-12">
+             <div class="col-md-8">
+                @prodTitle.common_guide_can_speak :
+                 @foreach (GuideLanguage g in prod.guide_lang_list)
+                 {
+                    <span>@g.lang_name </span>  
+                 }
+             </div>
+            </div>
+        </div>
+     }
+        <div class="row">
+            <div class="col-md-12">
+             <div class="col-md-6">
+                @prod.introduction 
+             </div>
+            </div>
+        </div>
+
+    @if (prod.prod_mkt.is_ec_sale == true)
+    {
+        <br/>
+       <div class="col-xs-6" style="clear: both;">
+        <div class="col-xs-6">
+            @prodTitle.product_index_option_title
+     </div>
+     </div>
+       <div class="row">
+            <div class="col-md-12">
+             <div class="col-md-3">
+                <div class="form-group">
+                    <div class="input-group date" id='datepicker1' onclick="iniShowDate()">  <!--chgPkgInfo('','showDate')-->
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        <input type="text" id="selDate" class="form-control" placeholder="@prodTitle.product_index_select_date" readonly="readonly">
+                    </div>
+                </div>
+             </div>
+            </div>
+        </div>
+    }
+
+
+
+
+        <!--套餐區塊-->
+
+        <div id="showPkg">
+        </div>
+
+        <div class="show">
+            @await Html.PartialAsync("_booking_bar", prod)
+        </div>
+
+    <!--行程說明-->
+        
+    @prodTitle.common_experience <br />
+       @prod.prod_desction <br />
+
+        <!--行程表-->
+        @if (prod.tour_list.Count > 0)
+        { 
+          @prodTitle.common_timetable <br />
+
+          @foreach (Tour t in prod.tour_list)
+          { 
+             <span>@t.time_desc</span>  <span>@t.tour_desc </span> <br />
+          }
+        }
+
+        @prodTitle.product_index_price_detail <br />
+
+        <!--費用包含-->
+        @foreach (CostDetail c in prod.cost_detail_list)
+        {
+            @if(c.detail_type =="INC")
+            {
+                <span>@c.detail_desc</span> <br/>
+            }
+        }
+
+        <!--費用不包含-->
+        @foreach (CostDetail c in prod.cost_detail_list)
+        {
+            @if(c.detail_type =="NO_INC")
+            {
+                <span>@c.detail_desc</span> <br/>
+            }
+        }
+
+       <!--憑證類型-->
+       @if (prod.voucher_desc!="")
+       {
+           <span>@prodTitle.product_index_voucher_type</span> <br/>
+           <span>@prod.voucher_desc</span> <br/>
+       }
+
+
+      <!--兌換地點-->
+        @prodTitle.product_index_place  <br />
+        <span style="color:red;">兌換地點還沒有做喔</span><br />
+
+        @prodTitle.common_reminder <br />
+
+        @if (prod.remind_list != null)
+        {
+            @foreach (Remind r in prod.remind_list)
+            {
+                <label>@r.remind_desc</label>
+            }
+        }
+
+        <br /><br /><br /><br />
+        @prodTitle.common_cancellation_policy <br />
+
+        @if (@prod.policy_no == "1" || prod.policy_no == "2")
+        {
+           @prod.policyInfo < br />
+        }
+        else if (prod.policy_no == "3")
+        {
+         @prodTitle.common_cancel_date @prodTitle.common_cancellation_fee <br />
+
+          @foreach (CancelPolicy policy in prod.cancelPolicyList)
+          {
+              <span>@policy.show  @policy.percent %</span> <br />
+         }
+
+       <br />
+        <span>@prodTitle.common_cancel_policy_explanation</span>
+       }
+
+    </div>
+
+
+
+        @prodTitle.common_map <br />
+
+
+
