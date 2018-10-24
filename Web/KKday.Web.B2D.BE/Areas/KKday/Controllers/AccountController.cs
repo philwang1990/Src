@@ -23,7 +23,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
     [TypeFilter(typeof(CultureFilter))]
     public class AccountController : Controller
     {
-        const int PAGE_SIZE = 1;
+        const int PAGE_SIZE = 3;
 
         readonly ILocalizer _localizer;
 

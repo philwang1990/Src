@@ -41,7 +41,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
         {
             try
             {
-                var _filter = GetFieldFiltering(filter);
+                var _filter = GetFieldFiltering(filter); 
 
                 return AccountDAL.GetAccountCount(_filter);
             }

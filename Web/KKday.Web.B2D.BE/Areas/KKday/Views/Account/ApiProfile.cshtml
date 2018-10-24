@@ -16,9 +16,18 @@
 </nav>
 <div class="container">
     <input type="hidden" id="xid" value="@Model.XID" />
+
+
     <div class="row">
         <div class="col-xs-12 col-sm-6">
             <h4>API 使用者帳號內容</h4>
+             
+            <div class="col-xs-12">
+                <span style="font-size: 1.08em; display:block; margin: 16px 0 16px 0; color:#0174DF;">
+                    @Model.COMPANY_NAME
+                </span>
+            </div>
+             
             <form id="form1">
                 <div class="col-xs-12">
                     <div class="form-group">
@@ -121,7 +130,7 @@
 
         $.ajax({
             type: "POST",
-            url: _root_path + "Account/Update",
+            url: _root_path + "Account/ApiUpdate",
             contentType: "application/json",
             data: JSON.stringify(userObj),
             dataType: "json",
@@ -135,7 +144,7 @@
                     alert("Update OK!");
 
                     var newForm = $('<form>', {
-                        'action': _root_path + "Account",
+                        'action': _root_path + "Account/ApiUser",
                         'target': '_self',
                         'method': 'post'
                     }).append(jQuery('<input>', {

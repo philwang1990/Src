@@ -153,7 +153,7 @@ WHERE a.xid=:xid";
             try
             { 
                 string sqlStmt = @"UPDATE b2b.b2d_account_api SET xid=:xid, name_last=:name_last, 
-name_first=:name_first, account_type=:account_type, enable=:enable, job_title=:job_title, tel=:tel,
+name_first=:name_first, account_type=:account_type, enable=:enable, tel=:tel, department=:department, 
 upd_user=:upd_user, upd_datetime=now()
 WHERE xid=:xid ";
 
