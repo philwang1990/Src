@@ -28,7 +28,7 @@ tarballs/
 test-results/
 Thumbs.db
 .vs/
-.logs/
+logs/
 
 # Mac bundle stuff
 *.dmg
