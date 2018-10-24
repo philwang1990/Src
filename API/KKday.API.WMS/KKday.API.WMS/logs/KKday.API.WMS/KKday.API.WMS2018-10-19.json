@@ -1,0 +1,13 @@
+{"create_date":"2018/10/19 14:03:54.7","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:04:30.784","level":"INFO","logger":"Website","msg":"WMS GetProd Start! B2D Xid:","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:04:34.243","level":"FATAL","logger":"Website","msg":"getProdLst  Error :Value cannot be null.\nParameter name: source,   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)\n   at KKday.API.WMS.Models.Repository.SearchRepository.GetProdList(SearchRQModel rq) in /Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Search/SearchRepository.cs:line 143","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:05:00.885","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:05:25.574","level":"INFO","logger":"Website","msg":"WMS GetProd Start! B2D Xid:","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:05:29.428","level":"FATAL","logger":"Website","msg":"getProdLst  Error :Value cannot be null.\nParameter name: source,   at System.Linq.Enumerable.Select[TSource,TResult](IEnumerable`1 source, Func`2 selector)\n   at KKday.API.WMS.Models.Repository.SearchRepository.GetProdList(SearchRQModel rq) in /Users/jiangzhimin/Projects/KKday.API.WMS/KKday.API.WMS/Models/Repository/Search/SearchRepository.cs:line 143","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:06:04.823","level":"INFO","logger":"Website","msg":"WMS GetProd Start! B2D Xid:","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:18:28.803","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:18:44.799","level":"INFO","logger":"Website","msg":"WMS GetProd Start! B2D Xid:","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:22:12.839","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:22:29.255","level":"INFO","logger":"Website","msg":"WMS GetProd Start! B2D Xid:","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:25:15.231","level":"DEBUG","logger":"Website","msg":"StartUp....","hostname":"Nancy-MacBook-Pro"}
+{"create_date":"2018/10/19 14:25:29.943","level":"INFO","logger":"Website","msg":"WMS GetProd Start! B2D Xid:","hostname":"Nancy-MacBook-Pro"}
