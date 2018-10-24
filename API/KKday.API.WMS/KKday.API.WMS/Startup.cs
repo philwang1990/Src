@@ -32,7 +32,7 @@ namespace KKday.API.WMS {
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
-                options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
+              // options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
             });
 
             // Register Redis cache server

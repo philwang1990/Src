@@ -95,7 +95,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 product.prod_comment_info = comment;
 
                 product.b2c_price = (double)obj["content"]["product"]["minSalePrice"];
-                product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.b2d_xid), (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString());
+                product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.company_xid), (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString());
 
                 product.order_email = obj["content"]["product"]["orderEmail"].ToString();
                 product.prod_hander = obj["content"]["supplier"]["orderHandler"].ToString();
@@ -1089,10 +1089,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 var expNum = obj["content"]["tkExpSetting"]["expNum"].ToString();
                 var expSt = obj["content"]["tkExpSetting"]["expSt"].ToString();
                 var expEd = obj["content"]["tkExpSetting"]["expEd"].ToString();
-<<<<<<< HEAD
-=======
 
->>>>>>> dev_branch
                 //"product_index_tkt_1": "指定效期區間 %s ~ %s ，逾期失效。",
                 //"product_index_tkt_2": "自開票日算起%s日之內有效，逾期失效。",
                 //"product_index_tkt_3": "自開票日算起%s年之內有效，逾期失效。",
