@@ -58,7 +58,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
  a.name_first || a.name_last AS name, a.department, a.job_title, a.enable, a.gender_title,
  b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency
 FROM b2b.b2d_account a
-JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status='01'
+JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status='03' --已核准
 WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
 
                     sqlParams = new NpgsqlParameter[]{

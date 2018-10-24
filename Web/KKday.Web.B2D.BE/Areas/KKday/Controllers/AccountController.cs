@@ -90,7 +90,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return Json(jsonData);
         }
 
-        public IActionResult Edit(Int64 id)
+        public IActionResult Profile(Int64 id)
         {  
             try
             {
@@ -199,7 +199,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return Json(jsonData);
         }
 
-        public IActionResult ApiEdit(Int64 id)
+        public IActionResult ApiProfile(Int64 id)
         {
             try
             {

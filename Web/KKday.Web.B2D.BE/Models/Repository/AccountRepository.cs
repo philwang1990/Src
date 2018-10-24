@@ -1,115 +1,52 @@
 ﻿using System;
-using SHA256EncryptCore;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
-using KKday.Web.B2D.BE.AppCode.DAL.Company;
-using KKday.Web.B2D.BE.Models.Account;
-using KKday.Web.B2D.BE.Models.Common;
-using KKday.Web.B2D.BE.AppCode.DAL.RegisterDAL;
-using KKday.Web.B2D.BE.AppCode;
+using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
+using KKday.Web.B2D.BE.Models.Model.Account;
+using KKday.Web.B2D.BE.Models.Model.Common;
+using Resources;
 
 namespace KKday.Web.B2D.BE.Models.Repository
 {
+
     public class AccountRepository
     {
+        private readonly ILocalizer _localizer;
+
+        public AccountRepository(ILocalizer localizer)
+        {
+            _localizer = localizer;
+        }
+
+        #region 使用者認證 Authentication
+
         public UserAccount GetAccount(string email, string password)
         {
-            UserAccount account = null;
+            SHA256 sha256 = new SHA256CryptoServiceProvider();//建立一個SHA256
+            byte[] source = Encoding.Default.GetBytes(password);//將字串轉為Byte[]
+            byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
+            var chiperPasswod = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
+
             // 檢查登入者身分
-            bool IsKKdayUser = false, IsB2dUser = false;
-
-            // 檢查KKday帳號
-            if (email.IndexOf("kkday.com", StringComparison.InvariantCultureIgnoreCase) != -1)
-            {
-                // 叫用WMS-API驗證KKday使用者身分
-
-                // 判斷是否有效使用者
-                {
-                    IsKKdayUser = true;
-
-                    account = new KKdayAccount()
-                    {
-                        XID = 581,
-                        UUID = "451706a7a6724aebaa0e7638db2ca567",
-                        ACCOUNT = email,
-                        GENDER_TITLE = "Mr.",
-                        EMAIL = "eric.hu@KKday.com",
-                        ENABLE = true,
-                        STAFF_NO = "KK00581",
-                        NAME_FIRST = "胡",
-                        NAME_LAST = "良寬",
-                        DEPARTMENT = "bid",
-                        ROLES = "SYS"
-                    };
-                }
-            }
-            // 檢查分銷商帳號
-            else
-            {
-                // 叫用WMS-API驗證分銷商使用者身分
-
-                // 判斷是否有效使用者
-                {
-                    IsB2dUser = true;
-
-                    account = new B2dAccount()
-                    {
-                        XID = 100,
-                        UUID = "a2933afeae764451a4fa3e48a27e1de5",
-                        ACCOUNT = email,
-                        GENDER_TITLE = "Mr.",
-                        EMAIL = "guest@example.com",
-                        ENABLE = true,
-                        NAME_FIRST = "王",
-                        NAME_LAST = "大名",
-                        COMPANY_XID = 1,
-                        USER_TYPE = "01", // 00:使用者 01: 管理者
-                        COMPANY_NAME = "酷遊天旅行社",
-                        LOCALE = "zh-TW",
-                        CURRENCY = "TWD"
-                    };
-                }
-            }
-
-            // 以上皆非, 則送出登入身分異常
-            if (!IsKKdayUser && !IsB2dUser)
+            UserAccount account = AccountAuthDAL.UserAuth(email, chiperPasswod);
+            // 若無效身分則送出登入異常
+            if (!(account is KKdayAccount) && !(account is B2dAccount))
             {
                 throw new Exception("Invalid User Login");
             }
 
             return account;
         }
-         
-        public bool SetNewPassword(string email, string password)
-        {
-            try
-            {
-                // 呼叫WMS-API設定使用者新密碼
 
-                return true;
-            }
-            catch(Exception ex)
-            {
-                throw ex;
-            }
+        public B2dUserProfile GetProfile(string account)
+        {
+            return AccountAuthDAL.GetB2dProfile(account);
         }
 
-        public void Register(RegisterModel reg)
-        {
-            try
-            {
-                if (reg.PASSWORD != null)
-                {
-                    reg.PASSWORD = Sha256Helper.Gethash(reg.PASSWORD);
-                    RegisterDAL.InsCompany(reg);
-                }
+        #endregion
 
-            }
-
-            catch(Exception ex)
-            {
-                throw ex;
-            }
-        }
-    }
+    } 
  
 }

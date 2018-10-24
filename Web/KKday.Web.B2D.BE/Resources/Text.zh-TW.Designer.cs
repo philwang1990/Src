@@ -347,6 +347,42 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string Company_Progress_00 {
+            get {
+                return ResourceManager.GetString("Company_Progress_00", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Progress_01 {
+            get {
+                return ResourceManager.GetString("Company_Progress_01", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Progress_02 {
+            get {
+                return ResourceManager.GetString("Company_Progress_02", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Progress_03 {
+            get {
+                return ResourceManager.GetString("Company_Progress_03", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Progress_04 {
+            get {
+                return ResourceManager.GetString("Company_Progress_04", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Progress_NA {
+            get {
+                return ResourceManager.GetString("Company_Progress_NA", resourceCulture);
+            }
+        }
+        
         internal static string Company_Status_00 {
             get {
                 return ResourceManager.GetString("Company_Status_00", resourceCulture);
@@ -368,6 +404,12 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string Company_Status_03 {
             get {
                 return ResourceManager.GetString("Company_Status_03", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Status_04 {
+            get {
+                return ResourceManager.GetString("Company_Status_04", resourceCulture);
             }
         }
     }

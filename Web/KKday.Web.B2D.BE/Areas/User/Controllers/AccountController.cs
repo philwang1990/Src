@@ -5,9 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Areas.Common.Models;
-using KKday.Web.B2D.BE.Models.Account;
-using KKday.Web.B2D.BE.Models.Common;
+using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -25,7 +23,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
     {
         // GET: /<controller>/
         public IActionResult Index()
-        {
+        {  
             return View();
         }
 
@@ -36,15 +34,10 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         /// <returns>The login.</returns> 
         public IActionResult MyProfile()
         {
-            B2dUserProfile _profile = new B2dUserProfile();
+            var account = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
 
-            var jsonAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
-            if (jsonAccount != null)
-            {
-                var _account = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(jsonAccount, Website.Instance.AesCryptKey));
-                ClassMapping.CopyPropertiesFrom(_profile, _account);
-
-            }
+            var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
+            B2dUserProfile _profile = accountRepo.GetProfile(account);
 
             return View(_profile);
         }
@@ -80,12 +73,12 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
                     throw new Exception("Invalid account to updated password");
                 }
 
-                var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
+                var accountRepo = (B2dAccountRepository)HttpContext.RequestServices.GetService(typeof(B2dAccountRepository));
                 accountRepo.SetNewPassword(_strAccount, password);
 
                 jsonData.Add("status", "OK");
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 jsonData.Clear();
                 jsonData.Add("status", "FAIL");
@@ -103,23 +96,8 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         [AllowAnonymous]
         public IActionResult Register()
         {
-            return View();
-        }
 
-        [HttpPost]
-        [AllowAnonymous]
-        public IActionResult InsertCompany([FromBody] RegisterModel reg)
-        {
-            try
-            {
-                var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
-                accountRepo.Register(reg);
-                return Json("OK");
-            }
-            catch (Exception ex)
-            {
-                return Json(ex.ToString());
-            }
+            return View();
         }
     }
 }

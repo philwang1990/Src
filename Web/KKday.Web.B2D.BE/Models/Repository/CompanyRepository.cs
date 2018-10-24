@@ -78,6 +78,11 @@ namespace KKday.Web.B2D.BE.Models.Repository
             CompanyDAL.UpdateCompany(company, upd_user);
         }
 
+        public void SetStatus(Int64 xid, string status, string upd_user)
+        {
+            CompanyDAL.UpdateStatus(xid, status, upd_user);
+        }
+
         #region Fields Mapping
 
         private string GetFieldFiltering(string filter)
@@ -126,6 +131,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
                 case "01": _strDesc = _localizer.Text.Company_Status_01; break;
                 case "02": _strDesc = _localizer.Text.Company_Status_02; break;
                 case "03": _strDesc = _localizer.Text.Company_Status_03; break;
+                case "04": _strDesc = _localizer.Text.Company_Status_04; break;
                 default: break;
             }
             return _strDesc;

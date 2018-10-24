@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Resources;
 using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel;
+using System.Diagnostics.Contracts;
+using Newtonsoft.Json.Linq;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,7 +25,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
     [TypeFilter(typeof(CultureFilter))]
     public class CompanyController : Controller
     {
-        const int PAGE_SIZE =1;
+        const int PAGE_SIZE =3;
 
         private readonly ILocalizer _localizer;
 
@@ -87,7 +89,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return Json(jsonData);
         }
          
-        public IActionResult Edit(Int64 id)
+        public IActionResult Profile(Int64 id)
         {
             try
             {
@@ -134,5 +136,30 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return Json(jsonData);
         }
 
+
+        [HttpPost]
+        public IActionResult SetStatus([FromBody] JObject data)
+        {
+            Contract.Ensures(Contract.Result<IActionResult>() != null);
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            { 
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
+                var upd_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+
+                compRepos.SetStatus(Convert.ToInt64(data["xid"]), data["status"].ToString(), upd_user);
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
     }
 }

@@ -188,5 +188,26 @@ WHERE xid=:XID";
                 throw ex;
             }
         }
+
+        public static void UpdateStatus(Int64 xid, string status, string upd_user)
+        {
+            try
+            {
+                string sqlStmt = @"UPDATE b2b.b2d_company SET status=:STATUS,
+upd_user=:UPD_USER, upd_datetime=Now() WHERE xid=:XID";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("XID", xid),
+                    new NpgsqlParameter("STATUS", status),
+                    new NpgsqlParameter("UPD_USER", upd_user)
+                };
+                 
+                NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

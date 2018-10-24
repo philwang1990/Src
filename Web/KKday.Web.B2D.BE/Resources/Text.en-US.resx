@@ -120,10 +120,19 @@
     <!-- Company -->
     <data name="Company_Name" xml:space="preserve"><value>Company Name</value></data> 
     
+    <!-- Company_Progress -->
+    <data name="Company_Progress_00" xml:space="preserve"><value>Applied</value></data>
+    <data name="Company_Progress_01" xml:space="preserve"><value>Wait</value></data>
+    <data name="Company_Progress_02" xml:space="preserve"><value>Pending</value></data>
+    <data name="Company_Progress_03" xml:space="preserve"><value>Permit</value></data>
+    <data name="Company_Progress_04" xml:space="preserve"><value>Reject</value></data>
+    <data name="Company_Progress_NA" xml:space="preserve"><value>Final</value></data>
+    
     <!-- Company_Status -->
-    <data name="Company_Status_00" xml:space="preserve"><value>Wait</value></data>
-    <data name="Company_Status_01" xml:space="preserve"><value>Permit</value></data>
-    <data name="Company_Status_02" xml:space="preserve"><value>Reject</value></data>
-    <data name="Company_Status_03" xml:space="preserve"><value>Pending</value></data>
+    <data name="Company_Status_00" xml:space="preserve"><value>Applied</value></data>
+    <data name="Company_Status_01" xml:space="preserve"><value>Wait</value></data>
+    <data name="Company_Status_02" xml:space="preserve"><value>Pending</value></data>
+    <data name="Company_Status_03" xml:space="preserve"><value>Permit</value></data>
+    <data name="Company_Status_04" xml:space="preserve"><value>Reject</value></data> 
     
 </root>
