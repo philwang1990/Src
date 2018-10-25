@@ -4,6 +4,7 @@ using KKday.API.WMS.AppCode.DAL;
 using Newtonsoft.Json.Linq;
 using KKday.API.WMS.Models.DataModel.Common;
 using KKday.API.WMS.AppCode.Proxy;
+using System.Collections.Generic;
 
 namespace KKday.API.WMS.Models.Repository.Common
 {
@@ -34,26 +35,50 @@ namespace KKday.API.WMS.Models.Repository.Common
                     //result.Add("currencyList", (JArray)obj["Table"]);
 
                     //JArray currencyList = (JArray)obj["Table"];
-                                           
 
-                    Json ms = new Json()
-                    {
-                        result = obj["content"]["result"].ToString(),
-                        msg = obj["content"]["msg"].ToString()
-                    };
 
-                    currency.content = ms;
+
+                    //Json ms = new Json()
+                    //{
+                    //    currency.result = obj["content"]["result"].ToString(),
+                    //    msg = obj["content"]["msg"].ToString()
+                    //};
+
+                    //currency.content = ms;
+                    //currency.content.codeList = new List<Json2>();
+
+                    //JArray codelst = (JArray)obj["content"]["codeList"];
+                    //Json2 ms2 = new Json2();
+                    //Json3 ms3 = new Json3();
+
+                    //for (int i = 0; i < codelst.Count ; i++ ){
+                    //    ms2 = new Json2();
+                    //    ms3 = new Json3();
+                    //    ms3.dataCd = (string)codelst[i]["code"]["dataCd"];
+                    //    ms3.dataName = (string)codelst[i]["code"]["dataName"];
+                    //    ms3.param1 = (string)codelst[i]["code"]["param1"];
+                    //    ms2.code = ms3;
+                    //    currency.content.codeList.Add(ms2);
+
+
+                    //}
+
+                    currency.currencyList = new List<Json>();
+                    Json Jlist = new Json();
+                    currency.result = obj["content"]["result"].ToString();
+                    currency.result_msg = obj["content"]["msg"].ToString();
 
                     JArray codelst = (JArray)obj["content"]["codeList"];
-                    Json2 ms2 = new Json2();
-                    Json3 ms3 = new Json3();
+                    foreach( var i in codelst){
+                        Jlist = new Json()
+                        {
+                            currency = (string)i["code"]["dataCd"],
+                            name = (string)i["code"]["dataName"],
+                            param1 = (string)i["code"]["param1"]
+                        };
 
-                    for (int i = 0; i < codelst.Count ; i++ ){
-                        ms.codeList.Add(ms2);
-
+                        currency.currencyList.Add(Jlist);
                     }
-
-
 
 
                 }
@@ -63,8 +88,8 @@ namespace KKday.API.WMS.Models.Repository.Common
                     //result.Add("result", "404");
                     //result.Add("result_msg", "currencyList not found!");
 
-                    currency.content.result = obj["content"]["result"].ToString();
-                    currency.content.msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    currency.result = obj["content"]["result"].ToString();
+                    currency.result_msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday currency api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
 
