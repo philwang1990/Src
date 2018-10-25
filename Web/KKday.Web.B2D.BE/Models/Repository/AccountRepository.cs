@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using KKday.Web.B2D.BE.AppCode;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
+using KKday.Web.B2D.BE.AppCode.DAL.RegisterDAL;
 using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
+using KKday.Web.B2D.BE.Models.Common;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using Resources;
@@ -47,6 +50,28 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         #endregion
 
-    } 
- 
+        #region 註冊新分銷商
+
+        public void Register(RegisterModel reg)
+        {
+            try
+            {
+                if (reg.PASSWORD != null)
+                {
+                    reg.PASSWORD = Sha256Helper.Gethash(reg.PASSWORD);
+                    reg.USER_UUID = Guid.NewGuid().ToString();
+                    RegisterDAL.InsCompany(reg);
+                }
+
+            }
+
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        #endregion
+    }
 }
