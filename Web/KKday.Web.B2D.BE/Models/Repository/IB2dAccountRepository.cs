@@ -18,5 +18,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
         B2dAccount GetAccount(Int64 xid);
         //更新使用者資料
         void UpdateAccount(B2dAccoutUpdModel account, string upd_user);
+        //
+        bool SetNewPassword(string account, string password);
     }
 }
