@@ -50,7 +50,10 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         #endregion
 
-        // 註冊新分銷商
+
+        #region 註冊新分銷商
+
+
         public void Register(RegisterModel reg)
         {
             try
@@ -58,6 +61,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
                 if (reg.PASSWORD != null)
                 {
                     reg.PASSWORD = Sha256Helper.Gethash(reg.PASSWORD);
+                    reg.USER_UUID = Guid.NewGuid().ToString();
                     RegisterDAL.InsCompany(reg);
                 }
 
@@ -67,7 +71,11 @@ namespace KKday.Web.B2D.BE.Models.Repository
             {
                 throw ex;
             }
+
         }
-    } 
- 
+
+
+        #endregion
+    }
 }
+

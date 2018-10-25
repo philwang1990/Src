@@ -121,9 +121,19 @@
     <!-- Company -->
     <data name="Company_Name" xml:space="preserve"><value>公司名稱</value></data>
     
+    <!-- Company_Progress -->
+    <data name="Company_Progress_00" xml:space="preserve"><value>已申請</value></data>
+    <data name="Company_Progress_01" xml:space="preserve"><value>審核中</value></data>
+    <data name="Company_Progress_02" xml:space="preserve"><value>待補件</value></data>
+    <data name="Company_Progress_03" xml:space="preserve"><value>已核准</value></data>
+    <data name="Company_Progress_04" xml:space="preserve"><value>未核准</value></data>
+    <data name="Company_Progress_NA" xml:space="preserve"><value>完成結果</value></data>
+    
     <!-- Company_Status -->
-    <data name="Company_Status_00" xml:space="preserve"><value>待審中</value></data>
-    <data name="Company_Status_01" xml:space="preserve"><value>已核准</value></data>
-    <data name="Company_Status_02" xml:space="preserve"><value>未通過</value></data>
-    <data name="Company_Status_03" xml:space="preserve"><value>待補件</value></data>
+    <data name="Company_Status_00" xml:space="preserve"><value>已申請</value></data>
+    <data name="Company_Status_01" xml:space="preserve"><value>審核中</value></data>
+    <data name="Company_Status_02" xml:space="preserve"><value>待補件</value></data>
+    <data name="Company_Status_03" xml:space="preserve"><value>已核准</value></data>
+    <data name="Company_Status_04" xml:space="preserve"><value>未核准</value></data>
+    
 </root>

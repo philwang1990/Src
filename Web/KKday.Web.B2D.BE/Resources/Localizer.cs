@@ -254,6 +254,18 @@
 
 		public string Company_Name { get { return GetString("Company_Name"); } }
 
+		public string Company_Progress_00 { get { return GetString("Company_Progress_00"); } }
+
+		public string Company_Progress_01 { get { return GetString("Company_Progress_01"); } }
+
+		public string Company_Progress_02 { get { return GetString("Company_Progress_02"); } }
+
+		public string Company_Progress_03 { get { return GetString("Company_Progress_03"); } }
+
+		public string Company_Progress_04 { get { return GetString("Company_Progress_04"); } }
+
+		public string Company_Progress_NA { get { return GetString("Company_Progress_NA"); } }
+
 		public string Company_Status_00 { get { return GetString("Company_Status_00"); } }
 
 		public string Company_Status_01 { get { return GetString("Company_Status_01"); } }
@@ -261,5 +273,7 @@
 		public string Company_Status_02 { get { return GetString("Company_Status_02"); } }
 
 		public string Company_Status_03 { get { return GetString("Company_Status_03"); } }
+
+		public string Company_Status_04 { get { return GetString("Company_Status_04"); } }
     }
 }

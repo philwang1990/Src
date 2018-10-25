@@ -33,9 +33,9 @@ SELECT currval('b2b.b2d_company_xid_seq') AS new_comp_xid ;
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[]
                 {
-                    new NpgsqlParameter("status", "00"),            //審核狀態(00待審中/01已核准/02審核未通過/03待補件)
-                    new NpgsqlParameter("comp_coop_mode", "01"),    //合作方式(00串接API/01平台)
-                    new NpgsqlParameter("payment_type", "00"),      //付款方式(00信用卡逐筆結/01額度付款)
+                    new NpgsqlParameter("status", "00"),            //審核狀態(00已申請/01審核中/02待補件/03已核准/04未核准)
+                    new NpgsqlParameter("comp_coop_mode", "02"),    //合作方式(00全開/01串接API/02Web平台)
+                    new NpgsqlParameter("payment_type", "01"),      //付款方式(01逐筆結/02額度付款)
                     new NpgsqlParameter("manager_account_xid", 1),
                     new NpgsqlParameter("comp_name", reg.COMPANY_NAME),
                     new NpgsqlParameter("comp_url", reg.URL),
@@ -87,7 +87,7 @@ SELECT currval('b2b.b2d_account_xid_seq') AS new_comp_xid ;";
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[]
                 {
                     new NpgsqlParameter("company_xid",comp_xid),
-                    new NpgsqlParameter("account_type","01"),   //帳號權限("00":一般, "01":管理者)
+                    new NpgsqlParameter("account_type","01"),   //帳號權限(00一般/01管理者)
                     new NpgsqlParameter("enable",true),         //是否有效(true/false) 
                     new NpgsqlParameter("password",reg.PASSWORD),
                     new NpgsqlParameter("gender_title",reg.GENDER_TITLE),
@@ -97,7 +97,7 @@ SELECT currval('b2b.b2d_account_xid_seq') AS new_comp_xid ;";
                     new NpgsqlParameter("email",reg.EMAIL),
                     new NpgsqlParameter("tel",reg.TEL),
                     new NpgsqlParameter("crt_user","system"),
-                    new NpgsqlParameter("user_uuid","")
+                    new NpgsqlParameter("user_uuid",reg.USER_UUID)
                 };
 
                 var new_xid = NpgsqlHelper.ExecuteScalar(trans, CommandType.Text, sqlStmt, sqlParams);

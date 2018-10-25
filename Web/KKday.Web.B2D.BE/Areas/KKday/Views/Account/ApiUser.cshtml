@@ -78,7 +78,7 @@
                 <a href="javascript:void(0);"><i class="fas fa-plus"></i> 新增使用者</a>
             </div>
             <div id="list_panel" class="table-responsive">
-                @await Html.PartialAsync("AccountList", Model)
+                @await Html.PartialAsync("ApiAccountList", Model)
             </div>
         </div>
     </div>
@@ -152,5 +152,5 @@
 
     function AccountEdit(id) {
         var query = encodeURI(JSON.stringify(query_params));
-        window.location.href = _root_path + "Account/ApiEdit/" + id + "?query=" + query;
+        window.location.href = _root_path + "Account/ApiProfile/" + id + "?query=" + query;
     }</script>

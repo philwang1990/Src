@@ -52,6 +52,9 @@
     <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\" />
     <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\" />
     <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\js\" />
+    <Folder Include="AppCode\DAL\ListPrice\" />
+    <Folder Include="Areas\KKday\Models\Repository\" />
+    <Folder Include="Models\Model\ListPrice\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
