@@ -192,6 +192,8 @@
 
 		public string Add { get { return GetString("Add"); } }
 
+		public string Insert { get { return GetString("Insert"); } }
+
 		public string Update { get { return GetString("Update"); } }
 
 		public string Cancel { get { return GetString("Cancel"); } }
@@ -213,6 +215,10 @@
 		public string Sorting { get { return GetString("Sorting"); } }
 
 		public string Promotion { get { return GetString("Promotion"); } }
+
+		public string Discount { get { return GetString("Discount"); } }
+
+		public string Repricing { get { return GetString("Repricing"); } }
 
 		public string Search { get { return GetString("Search"); } }
 
@@ -253,6 +259,8 @@
 		public string UserRole_01 { get { return GetString("UserRole_01"); } }
 
 		public string Company_Name { get { return GetString("Company_Name"); } }
+
+		public string Company_PromotionSetting { get { return GetString("Company_PromotionSetting"); } }
 
 		public string Company_Progress_00 { get { return GetString("Company_Progress_00"); } }
 

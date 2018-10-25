@@ -41,9 +41,8 @@
 
 <div class="container">
     <div class="row">
-
-
-        <div class="col-md-12">
+         
+        <div class="col-xs-12">
             <h4>@localizer.Text.Title_Distributor</h4>
 
 
@@ -86,13 +85,14 @@
                         <input type="Submit" name="submit" value="@localizer.Text.Search" onclick="Refresh(1); return false;" class="btn btn-info cst-btn form-control">
                     </div>
                 </form>
+
             </div>
+        </div>
 
-
+        <div class="col-xs-12">
             <div id="list_panel" class="table-responsive"> 
                 @await Html.PartialAsync("CompanyList", Model)
-            </div>
-
+            </div> 
         </div>
     </div>
 </div>
@@ -216,6 +216,11 @@
     function CompanyEdit(id) {
         var query = encodeURI(JSON.stringify(query_params));
         window.location.href = _root_path + "Company/Profile/" + id + "?query=" + query;
+    }
+
+    function CompanyPromotion(id, name) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "Company/Promotion/" + id + "?name=" + encodeURI(name) + "&query=" + query; 
     }
 
      

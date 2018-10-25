@@ -37,11 +37,11 @@
         var pgIdx = nIdx + 1;
         if (pgIdx == query_params.Paging.current_page)
         {
-            <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+        <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
         }
         else
         {
-            <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx);">@pgIdx</a></li>
+        <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx);">@pgIdx</a></li>
         }
     }
     @if (query_params.Paging.total_pages > 1)

@@ -82,8 +82,9 @@
     <!-- Genernel -->
     <data name="KKday_CopyRight" xml:space="preserve"><value>KKday Business to Distribution Platform</value></data>
     <data name="Add" xml:space="preserve"><value>Add</value></data>
+    <data name="Insert" xml:space="preserve"><value>Insert</value></data>
     <data name="Update" xml:space="preserve"><value>Update</value></data>
-     <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
     <data name="Edit" xml:space="preserve"><value>Edit</value></data>
     <data name="Delete" xml:space="preserve"><value>Delete</value></data>
     <data name="ID" xml:space="preserve"><value>ID</value></data>
@@ -92,6 +93,8 @@
     <data name="Status" xml:space="preserve"><value>Status</value></data>
     <data name="Sorting" xml:space="preserve"><value>Sorting</value></data>
     <data name="Promotion" xml:space="preserve"><value>Promotion</value></data>
+    <data name="Discount" xml:space="preserve"><value>Discount</value></data>
+    <data name="Repricing" xml:space="preserve"><value>RePricing</value></data>
     <data name="Search" xml:space="preserve"><value>Search</value></data>
     <data name="Query" xml:space="preserve"><value>Query</value></data>
     <data name="Data_Not_Found" xml:space="preserve"><value>Data Not Found</value></data>
@@ -118,7 +121,8 @@
     <data name="UserRole_01" xml:space="preserve"><value>Admin</value></data>
     
     <!-- Company -->
-    <data name="Company_Name" xml:space="preserve"><value>Company Name</value></data> 
+    <data name="Company_Name" xml:space="preserve"><value>Company Name</value></data>
+    <data name="Company_PromotionSetting" xml:space="preserve"><value>Promotion Setting</value></data>
     
     <!-- Company_Progress -->
     <data name="Company_Progress_00" xml:space="preserve"><value>Applied</value></data>

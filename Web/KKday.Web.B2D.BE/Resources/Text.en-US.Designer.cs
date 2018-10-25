@@ -161,6 +161,12 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string Insert {
+            get {
+                return ResourceManager.GetString("Insert", resourceCulture);
+            }
+        }
+        
         internal static string Update {
             get {
                 return ResourceManager.GetString("Update", resourceCulture);
@@ -218,6 +224,18 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string Promotion {
             get {
                 return ResourceManager.GetString("Promotion", resourceCulture);
+            }
+        }
+        
+        internal static string Discount {
+            get {
+                return ResourceManager.GetString("Discount", resourceCulture);
+            }
+        }
+        
+        internal static string Repricing {
+            get {
+                return ResourceManager.GetString("Repricing", resourceCulture);
             }
         }
         
@@ -338,6 +356,12 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string Company_Name {
             get {
                 return ResourceManager.GetString("Company_Name", resourceCulture);
+            }
+        }
+        
+        internal static string Company_PromotionSetting {
+            get {
+                return ResourceManager.GetString("Company_PromotionSetting", resourceCulture);
             }
         }
         

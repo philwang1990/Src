@@ -9,18 +9,12 @@ namespace KKday.Web.B2D.BE.AppCode
         //SHA256編碼
         public static String Gethash(String token)
         {
-            StringBuilder Sb = new StringBuilder();
+            SHA256 sha256 = new SHA256CryptoServiceProvider();//建立一個SHA256
+            byte[] source = Encoding.Default.GetBytes(token);//將字串轉為Byte[]
+            byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
+            var chiperPasswod = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
 
-            using (SHA256 hash = SHA256.Create())
-            {
-                Encoding enc = Encoding.UTF8;
-                Byte[] result = hash.ComputeHash(enc.GetBytes(token));
-
-                foreach (Byte b in result)
-                    Sb.Append(b.ToString("x2"));
-            }
-
-            return Sb.ToString();
+            return chiperPasswod;
         }
     }
 }

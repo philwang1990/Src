@@ -74,13 +74,15 @@
     <div class="row">
         <div class="col-xs-12">
             <h4>@localizer.Text.Title_B2dApiAccount</h4>
-            <div class="">
-                <a href="javascript:void(0);"><i class="fas fa-plus"></i> 新增使用者</a>
-            </div>
-            <div id="list_panel" class="table-responsive">
+
+            <a href="javascript:void(0);" class="btn"><i class="fas fa-plus"></i> 新增使用者</a>
+        </div>
+
+        <div class="col-xs-12">
+            <div id="list_panel" class="table-responsive">  
                 @await Html.PartialAsync("ApiAccountList", Model)
             </div>
-        </div>
+        </div> 
     </div>
 </div>
 <div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">

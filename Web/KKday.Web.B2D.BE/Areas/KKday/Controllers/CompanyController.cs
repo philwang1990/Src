@@ -5,6 +5,7 @@ using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Filters;
 using KKday.Web.B2D.BE.Models.Model.Company;
 using KKday.Web.B2D.BE.Models.Model.Common;
+using KKday.Web.B2D.BE.Models.Model.Discount;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -149,6 +150,100 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
                 var upd_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
 
                 compRepos.SetStatus(Convert.ToInt64(data["xid"]), data["status"].ToString(), upd_user);
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        public IActionResult Promotion(Int64 id, string name)
+        {
+            try
+            {
+                var queryArgc = System.Web.HttpUtility.UrlEncode(this.Request.Query["query"].ToString());
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
+                var disc_mst_list = compRepos.GetDiscounts(id);
+
+                ViewData["xid"] = id;
+                ViewData["CompanyName"] = name;
+                ViewData["QueryParams"] = queryArgc;
+                return View(disc_mst_list);
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
+                return StatusCode(500);
+            }
+        }
+  
+        public async System.Threading.Tasks.Task<IActionResult> GetAvailDiscounts(Int64 id)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            { 
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();  
+                var _discounts = compRepos.GetAvailableDiscounts(Convert.ToInt64(id)); 
+
+                jsonData["content"] = await this.RenderViewAsync<List<B2dDiscountMst>>("CompAvailDiscList", _discounts, true);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        public IActionResult InsertDiscount([FromBody] JObject req) 
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                Int64 cmp_xid = Convert.ToInt64(req["xid"]);
+                Int64[] items = req["disc"].Select(d => (Int64)d).ToArray();
+                var crt_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
+
+                // 新增公司與折扣規則對應
+                compRepos.InsertDiscount(cmp_xid, items, crt_user);
+ 
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        public IActionResult RemoveDiscount([FromBody] JObject req)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                Int64 cmp_xid = Convert.ToInt64(req["xid"]);
+                Int64 mst_xid = Convert.ToInt64(req["mst_xid"]);
+                var del_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
+
+                // 刪除公司與折扣規則對應
+                compRepos.RemoveDiscount(cmp_xid, mst_xid, del_user);
 
                 jsonData["status"] = "OK";
             }

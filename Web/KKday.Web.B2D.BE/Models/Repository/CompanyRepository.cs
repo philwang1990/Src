@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Resources;
 using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel;
+using KKday.Web.B2D.BE.Models.Model.Discount;
 
 namespace KKday.Web.B2D.BE.Models.Repository
 {
@@ -83,6 +84,26 @@ namespace KKday.Web.B2D.BE.Models.Repository
             CompanyDAL.UpdateStatus(xid, status, upd_user);
         }
 
+        public List<B2dDiscountMst> GetDiscounts(Int64 company_xid) 
+        {
+            return CompanyDiscountDAL.GetDiscountMst(company_xid);
+        }
+
+        public List<B2dDiscountMst> GetAvailableDiscounts(Int64 company_xid)
+        {
+            return CompanyDiscountDAL.GetAvailableDiscountMst(company_xid);
+        }
+
+        public void InsertDiscount(Int64 company_xid, Int64[] items, string crt_user) 
+        {
+            CompanyDiscountDAL.InsertDiscount(company_xid, items, crt_user);
+        }
+
+        public void RemoveDiscount(Int64 company_xid, Int64 mst_xid, string del_user)
+        {
+            CompanyDiscountDAL.RemoveDiscount(company_xid, mst_xid, del_user);
+        }
+
         #region Fields Mapping
 
         private string GetFieldFiltering(string filter)
@@ -138,5 +159,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
         }
 
         #endregion
+
+
     }
 }

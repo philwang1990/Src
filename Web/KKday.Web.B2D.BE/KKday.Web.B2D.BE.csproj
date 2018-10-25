@@ -55,6 +55,9 @@
     <Folder Include="AppCode\DAL\ListPrice\" />
     <Folder Include="Areas\KKday\Models\Repository\" />
     <Folder Include="Models\Model\ListPrice\" />
+    <Folder Include="Models\Model\Discount\" />
+    <Folder Include="AppCode\DAL\Promotion\" />
+    <Folder Include="Areas\KKday\Models\DataModel\Promotion\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
@@ -81,6 +84,7 @@
     <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.min.js" />
     <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.css" />
     <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.min.css" />
+    <Content Remove="Areas\KKday\Views\Promotion\DiscountMstList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Resources\KKday\Company\Index.resx" />
