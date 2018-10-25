@@ -51,8 +51,9 @@ namespace KKday.API.WMS.Models.Repository.Discount {
             var objRules = new JObject();
             List<DataModel.Discount.Rule> ruList = new List<DataModel.Discount.Rule>();
 
-            //string prod_no = "2246";
-            //string prod_type = "M06";
+            //prod_no = "2246";
+            //prod_type = "M06";
+
             try
             {
 
@@ -60,21 +61,30 @@ namespace KKday.API.WMS.Models.Repository.Discount {
 
                 //此分銷商的折扣規則
                 objRules = DiscountDAL.GetDiscRuleList(company_xid);
-                if(objRules["Table"] != null)
+
+                //當初最原始牌價
+                rule = new DataModel.Discount.Rule();
+                rule.disc_price = b2d_price;
+                rule.mst_xid = "無";
+                ruList.Add(rule);
+
+
+                if (objRules["Table"] != null)
                 {
+                    //找出不限的規則
                     var all_list = objRules["Table"].Where(y => y["rule_status"].ToString() == "00");
 
                     foreach (var item in all_list)
                     {
                         rule = new DataModel.Discount.Rule();
                         rule.mst_xid = (string)item["xid"];
-                        rule.disc_persent = (double)item["disc_persent"];
+                        rule.disc_percent = (double)item["disc_percent"];
                         rule.amt = (double)item["amt"];
-                        rule.disc_price = System.Math.Round((b2d_price * (1 - rule.disc_persent/100)) + rule.amt, MidpointRounding.AwayFromZero);
+                        rule.disc_price = System.Math.Round((b2d_price * (1 - rule.disc_percent / 100)) + rule.amt, MidpointRounding.AwayFromZero);
                         ruList.Add(rule);
                     }
 
-                    //找出最後符合的規則
+                    //找出有規定黑白名單條件的規則
                     var rules = objRules["Table"].Where(y => y["rule_status"].ToString() == "01" &&
                                                         (y["main_cat_wb"].ToString().Contains(prod_type + "^0") || (y["main_cat_wb"].ToString().Contains("^1") && !y["main_cat_wb"].ToString().Contains(prod_type + "^1"))) &&//(符合白名單)|| (確定是黑名單＆＆不符合黑名單)  也算白名單
                                                         (y["prod_no_wb"].ToString().Contains(prod_no + "^0") || (y["prod_no_wb"].ToString().Contains("^1") && !y["prod_no_wb"].ToString().Contains(prod_no + "^1"))) //符合白名單 不符合黑名單 也算白名單
@@ -84,24 +94,16 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                     {
                         rule = new DataModel.Discount.Rule();
                         rule.mst_xid = (string)item["xid"];
-                        rule.disc_persent = (double)item["disc_persent"];
+                        rule.disc_percent = (double)item["disc_percent"];
                         rule.amt = (double)item["amt"];
-                        rule.disc_price = System.Math.Round((b2d_price * (1 - rule.disc_persent/100)) + rule.amt, MidpointRounding.AwayFromZero);
+                        rule.disc_price = System.Math.Round((b2d_price * (1 - rule.disc_percent / 100)) + rule.amt, MidpointRounding.AwayFromZero);
                         ruList.Add(rule);
                     }
 
                 }
-                else
-                {
-                    rule = new DataModel.Discount.Rule();
-                    rule.disc_price = b2d_price;
-                    rule.mst_xid = "無";
-                    ruList.Add(rule);
-                }
-               
                 //套價規則排序 取最低價
                 ruList.OrderByDescending(x => x.disc_price);
-                Website.Instance.logger.Info($"B2D套價規則 XID:{ruList[0].mst_xid},DISC_PERSENT:{ruList[0].disc_persent},DISC_AMT:{ruList[0].amt}");
+                Website.Instance.logger.Info($"B2D套價規則 COMPANY_XID:{company_xid},PROD_NO:,{prod_no},XID:{ruList[0].mst_xid},DISC_PERCENT:{ruList[0].disc_percent},DISC_AMT:{ruList[0].amt}");
             }
             catch (Exception ex)
             {
