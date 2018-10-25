@@ -61,11 +61,11 @@ namespace KKday.API.WMS.Models.Repository {
 
                             model.prod_no = Convert.ToInt32(prod_no);
                             model.prod_name = jsonPlst[i]["name"].ToString();
-                            model.b2d_price = (double)jsonPlst[i]["price"];
+                            model.b2d_price = (double)jsonPlst[i]["price"];//分銷價
+                            model.b2c_price = (double)jsonPlst[i]["sale_price"];//直客價
                             model.display_ref_price = jsonPlst[i]["display_price"].ToString();
-                            model.sale_price = (double)jsonPlst[i]["sale_price"];
-                            model.display_sale_price = jsonPlst[i]["display_sale_price"].ToString();
-                            model.is_display_price = jsonPlst[i]["is_display_price"].ToString();
+                        
+                          
                             model.prod_currency = jsonPlst[i]["currency"].ToString();
                             model.prod_img_url = jsonPlst[i]["img_url"].ToString();
                             model.rating_count = (int)jsonPlst[i]["rating_count"];
@@ -124,46 +124,32 @@ namespace KKday.API.WMS.Models.Repository {
 
                         }
 
-                        //facets
+                        //facets 大分類 小分類 ...的統計
                         if (rq.facets != null) {
+
                             Facets f = new Facets();
-                            List<CatMain> cm =
-                                     ((JArray)obj["data"]["facets"]["cat_main"])
-                                         .Select(x => new CatMain {
 
-                                             id = (string)x["id"],
-                                             name = (string)x["name"],
-                                             sort = (string)x["sort"],
-                                             count = (int)x["count"]
+                            //大分
+                            if (rq.facets.Where(x => x.Equals("cat_main")).Count() == 1) {
 
-                                         }).ToList();
+                                List<CatMain> cm =
+                                         ((JArray)obj["data"]["facets"]["cat_main"])
+                                             .Select(x => new CatMain {
 
-                            f.cat_main = cm;
+                                                 id = (string)x["id"],
+                                                 name = (string)x["name"],
+                                                 sort = (string)x["sort"],
+                                                 count = (int)x["count"]
 
-                            List<TotalTime> tt =
-                                     ((JArray)obj["data"]["facets"]["total_time"])
-                                         .Select(x => new TotalTime {
+                                             }).ToList();
 
-                                             time = (int)x["time"],
-                                             count = (int)x["count"]
+                                f.cat_main = cm;
 
-                                         }).ToList();
+                            }
 
-                            f.total_time = tt;
-
-                            List<GuideLang> gl =
-                                     ((JArray)obj["data"]["facets"]["guide_lang"])
-                                         .Select(x => new GuideLang {
-
-                                             id = (string)x["id"],
-                                             name = (string)x["name"],
-                                             count = (int)x["count"]
-
-                                         }).ToList();
-
-                            f.guide_lang = gl;
-
-                            List<Cat> ca =
+                            //小分
+                            if (rq.facets.Where(x => x.Equals("cat")).Count() == 1) {
+                                List<Cat> ca =
                                     ((JArray)obj["data"]["facets"]["cat"])
                                         .Select(x => new Cat {
 
@@ -174,9 +160,41 @@ namespace KKday.API.WMS.Models.Repository {
 
                                         }).ToList();
 
-                            f.cat = ca;
+                                f.cat = ca;
+                            }
 
-                            List<SaleDt> sd =
+
+                            if (rq.facets.Where(x => x.Equals("total_time")).Count() == 1) {
+                                List<TotalTime> tt =
+                                     ((JArray)obj["data"]["facets"]["total_time"])
+                                         .Select(x => new TotalTime {
+
+                                             time = (int)x["time"],
+                                             count = (int)x["count"]
+
+                                         }).ToList();
+
+                                f.total_time = tt;
+
+                            }
+
+                            if (rq.facets.Where(x => x.Equals("guide_lang")).Count() == 1) {
+                                List<GuideLang> gl =
+                                     ((JArray)obj["data"]["facets"]["guide_lang"])
+                                         .Select(x => new GuideLang {
+
+                                             id = (string)x["id"],
+                                             name = (string)x["name"],
+                                             count = (int)x["count"]
+
+                                         }).ToList();
+
+                                f.guide_lang = gl;
+                            }
+
+                            //可販售日期
+                            if (rq.facets.Where(x => x.Equals("sale_dt")).Count() == 1) {
+                                List<SaleDt> sd =
                                     ((JArray)obj["data"]["facets"]["sale_dt"])
                                         .Select(x => new SaleDt {
 
@@ -185,7 +203,8 @@ namespace KKday.API.WMS.Models.Repository {
 
                                         }).ToList();
 
-                            f.sale_dt = sd;
+                                f.sale_dt = sd;
+                            }
 
                             prod.facets = f;
                         }

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Data;
+using System.Security.Cryptography;
+using System.Text;
 using KKday.API.WMS.AppCode.DAL;
 using KKday.API.WMS.Models.DataModel.User;
 using Newtonsoft.Json.Linq;
@@ -18,25 +20,32 @@ namespace KKday.API.WMS.Models.Repository.User {
             ApiUserModel aum = new ApiUserModel();
             try {
 
-                JObject obj = UserDAL.GetUser(email, pw);
+                //1.將明碼加密 
+                SHA256 sha256 = new SHA256CryptoServiceProvider();//建立一個SHA256
+                byte[] source = Encoding.Default.GetBytes(pw);//將字串轉為Byte[]
+                byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
+                var chiperPW = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
+
+                //2.檢查登入者身分
+                JObject obj = UserDAL.GetUser(email, chiperPW);
 
                 if (obj != null && obj.Count > 0) {
 
-                    aum.result = "200";
+                    aum.result = "00";
                     aum.result_msg = "OK";
                     aum.user_xid = (Int64)obj["Table"][0]["xid"];
                     aum.user_name = obj["Table"][0]["name_first"].ToString()
                         + obj["Table"][0]["name_last"].ToString();
-                    aum.user_email = obj["Table"][0]["account"].ToString();
+                    aum.user_email = obj["Table"][0]["email"].ToString();
                     aum.company_xid = (Int64)obj["Table"][0]["company_xid"];
                     aum.comapny_name = obj["Table"][0]["comp_name"].ToString();
-                    aum.company_language = obj["Table"][0]["comp_language"].ToString();
+                    aum.company_language = obj["Table"][0]["comp_locale"].ToString();
                     aum.company_currency = obj["Table"][0]["comp_currency"].ToString();
                     aum.payment_type = obj["Table"][0]["payment_type"].ToString();
 
                 } else {
                     //若帳密有誤 僅傳送錯誤代碼 
-                    aum.result = "401";
+                    aum.result = "03";
                     aum.result_msg = "Unauthorized";
                 }
 
@@ -66,21 +75,21 @@ namespace KKday.API.WMS.Models.Repository.User {
 
                 if (obj != null && obj.Count > 0) {
                    
-                        aum.result = "200";
+                        aum.result = "00";
                         aum.result_msg = "OK";
                         aum.user_xid = (Int64)obj["Table"][0]["xid"];
                         aum.user_name = obj["Table"][0]["name_first"].ToString()
                             + obj["Table"][0]["name_last"].ToString();
-                        aum.user_email = obj["Table"][0]["account"].ToString();
+                        aum.user_email = obj["Table"][0]["email"].ToString();
                         aum.company_xid = (Int64)obj["Table"][0]["company_xid"];
                         aum.comapny_name = obj["Table"][0]["comp_name"].ToString();
-                        aum.company_language = obj["Table"][0]["comp_language"].ToString();
+                        aum.company_language = obj["Table"][0]["comp_locale"].ToString();
                         aum.company_currency = obj["Table"][0]["comp_currency"].ToString();
                         aum.payment_type = obj["Table"][0]["payment_type"].ToString();
                        
                     } else {
                         //若帳密有誤 僅傳送錯誤代碼 
-                        aum.result = "401";
+                        aum.result = "03";
                         aum.result_msg = "Unauthorized";
                     }
 
@@ -95,5 +104,7 @@ namespace KKday.API.WMS.Models.Repository.User {
             return aum;
 
         }
+
+
     }
 }

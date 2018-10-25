@@ -39,5 +39,6 @@
     <Compile Remove="Models\DataModel\ProductResponseModel.cs" />
     <Compile Remove="Models\DataModel\Authorize\UserModel.cs" />
     <Compile Remove="AppCode\Proxy\HttpStringContent.cs" />
+    <Compile Remove="Models\Repository\Authorize\AuthorizeRepository.cs" />
   </ItemGroup>
 </Project>

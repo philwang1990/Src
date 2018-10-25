@@ -285,56 +285,56 @@ namespace KKday.API.WMS.AppCode.Proxy
                 //}
                 //else
                 //{
-                using (var handler = new HttpClientHandler())
-                {
-                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
-                    handler.ServerCertificateCustomValidationCallback =
-                        (httpRequestMessage, cert, cetChain, policyErrors) =>
-                        {
-                            return true;
-                        };
 
-                    using (var client = new HttpClient(handler))
+                    using (var handler = new HttpClientHandler())
                     {
-                        client.DefaultRequestHeaders.Accept.Add(
-                        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                        handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                        handler.ServerCertificateCustomValidationCallback =
+                            (httpRequestMessage, cert, cetChain, policyErrors) =>
+                            {
+                                return true;
+                            };
 
-                        KKdayApiProdRQModel RQ = new KKdayApiProdRQModel()
+                        using (var client = new HttpClient(handler))
                         {
-                            apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"],
-                            userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"],
-                            ver = Website.Instance.Configuration["KKAPI_INPUT:VER"],
-                            locale = query_lst.locale_lang,
-                            ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"],
-                            json = new Json()
+                            client.DefaultRequestHeaders.Accept.Add(
+                            new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                            KKdayApiProdRQModel RQ = new KKdayApiProdRQModel()
                             {
+                                apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"],
+                                userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"],
+                                ver = Website.Instance.Configuration["KKAPI_INPUT:VER"],
+                                locale = query_lst.locale_lang,
+                                ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"],
+                                json = new Json()
+                                {
 
-                            }
+                                }
 
-                        };
+                            };
 
-                        string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_AIRPORT"]}{query_lst.prod_no}";
+                            string json_data = JsonConvert.SerializeObject(RQ);
+                            string url = $"{Website.Instance.Configuration["URL:KK_AIRPORT"]}{query_lst.prod_no}";
 
-                        using (HttpContent content = new StringContent(json_data))
-                        {
-                            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                            var response = client.PostAsync(url, content).Result;
-                            result = response.Content.ReadAsStringAsync().Result;
-
-                            Website.Instance.logger.Info($"URL:{url},URL Response StatusCode:{response.StatusCode}");
-                            //與API串接失敗 
-                            if (response.StatusCode.ToString() != "OK")
+                            using (HttpContent content = new StringContent(json_data))
                             {
-                                throw new Exception(response.Content.ReadAsStringAsync().Result);
-                            }
-                            //串接成功
-                            else
-                            {
-                                //rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getProdAirport" + query_lst.b2d_xid);
-                            }
-                        }
+                                content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                                var response = client.PostAsync(url, content).Result;
+                                result = response.Content.ReadAsStringAsync().Result;
 
+                                Website.Instance.logger.Info($"URL:{url},URL Response StatusCode:{response.StatusCode}");
+                                //與API串接失敗 
+                                if (response.StatusCode.ToString() != "OK")
+                                {
+                                    throw new Exception(response.Content.ReadAsStringAsync().Result);
+                                }
+                                //串接成功
+                                else
+                                {
+                                    //rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getProdAirport" + query_lst.b2d_xid);
+                                }
+                            }
 
                         //}
 

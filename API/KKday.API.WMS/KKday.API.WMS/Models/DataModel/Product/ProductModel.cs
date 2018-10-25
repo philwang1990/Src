@@ -19,7 +19,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public string main_lang { get; set; } //主語系
         public string cost_type { get; set; } //成本類別
         //public string introduction { get; set; } //簡述  (跟ProductBase共用)
-        public string prod_desction { get; set; } //行程說明
+        public string prod_desc { get; set; } //行程說明
         public string prod_tips { get; set; } //溫馨提醒
         public string prod_map_note { get; set; } //主要目的地
         //public string prod_sup_note { get; set; } //供應商商品備註
@@ -46,7 +46,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public List<Images> img_list { get; set; } //商品最上方圖片點擊區
 
         public string finishStep { get; set; }//編輯步驟  kkday:"PO,PT,PD,TE,PS,PP,PC,SC,PG,CD,76058"
-        public string left_step { get; set; }
+       
         public ProdCommentInfo prod_comment_info { get; set; }//商品評價資訊 kkday：prodUrlInfo
 
         //public double minPrice { get; set; }//當時幣別最低成人售價(特價) "multipricePlatform":"01" 的 minPrice B2D>>套價  "multipricePlatform":"01" 的 minPrice
@@ -67,6 +67,10 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public string voucher_desc { get; set; }//憑證類型種類敘述
 
         public ProdMarketing prod_mkt { get; set; }
+
+        public string prod_hander { get; set; } //訂單處理人
+
+
 
     }
 

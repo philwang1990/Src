@@ -4,6 +4,7 @@ using System.Linq;
 using KKday.API.WMS.AppCode.Proxy;
 using KKday.API.WMS.Models.DataModel.Package;
 using KKday.API.WMS.Models.DataModel.Product;
+using KKday.API.WMS.Models.Repository.Discount;
 using Newtonsoft.Json.Linq;
 
 namespace KKday.API.WMS.Models.Repository.Package {
@@ -23,6 +24,18 @@ namespace KKday.API.WMS.Models.Repository.Package {
             List<PkgDetailModel> pkgLst = new List<PkgDetailModel>();
 
             try {
+
+                //商品黑名單過濾
+                //抓商品是否為黑名單
+                bool isBlack = DiscountRepository.GetProdBlackWhite(rq.prod_no);
+
+                if (isBlack)
+                {
+                    pkg.result = "10";
+                    pkg.result_msg = $"Bad Request:Product-{rq.prod_no} is not available";
+                    return pkg;
+                }
+
 
                 JObject obj = PackageProxy.getPkgLst(rq);
 
@@ -54,45 +67,49 @@ namespace KKday.API.WMS.Models.Repository.Package {
                     model.online_e_date = jPkglst[i]["productPkg"]["endValidDt"].ToString();
                     model.weekDays = jPkglst[i]["productPkg"]["weekDays"].ToString();
 
-                    model.is_unit_pirce = jPkglst[i]["productPkg"]["pkgName"].ToString();
+                    model.is_unit_pirce = jPkglst[i]["productPkg"]["priceType"].ToString();
 
-                    model.price1 = (double?)jPkglst[i]["productPkg"]["price1"];
-                    model.price1_org = (double?)jPkglst[i]["productPkg"]["price1Org"];
-                    model.prcie1_org_net = (double?)jPkglst[i]["productPkg"]["price1NetOrg"];
-                    model.prcie1_profit_rate = (double?)jPkglst[i]["productPkg"]["price1GrossRate"];
-                    model.prcie1_comm_rate = (double?)jPkglst[i]["productPkg"]["price1CommRate"];
+                    model.price1 = (double?)jPkglst[i]["productPkg"]["price1"] ?? 0;
+                    model.price1_org = (double?)jPkglst[i]["productPkg"]["price1Org"] ?? 0;
+                    model.prcie1_org_net = (double?)jPkglst[i]["productPkg"]["price1NetOrg"] ?? 0;
+                    model.prcie1_profit_rate = (double?)jPkglst[i]["productPkg"]["price1GrossRate"] ?? 0;
+                    model.prcie1_comm_rate = (double?)jPkglst[i]["productPkg"]["price1CommRate"] ?? 0;
                     model.prcie1_age_range = jPkglst[i]["productPkg"]["price1BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price1EndOld"].ToString();
+                    model.price1_b2c = (double?)jPkglst[i]["productPkg"]["price1Sale"] ?? 0;
                     // model.price1_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price1_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price2 = (double?)jPkglst[i]["productPkg"]["price2"];
-                    model.price2_org = (double?)jPkglst[i]["productPkg"]["price2Org"];
-                    model.prcie2_org_net = (double?)jPkglst[i]["productPkg"]["price2NetOrg"];
-                    model.prcie2_profit_rate = (double?)jPkglst[i]["productPkg"]["price2GrossRate"];
-                    model.prcie2_comm_rate = (double?)jPkglst[i]["productPkg"]["price2CommRate"];
+                    model.price2 = (double?)jPkglst[i]["productPkg"]["price2"] ?? 0;
+                    model.price2_org = (double?)jPkglst[i]["productPkg"]["price2Org"] ?? 0;
+                    model.prcie2_org_net = (double?)jPkglst[i]["productPkg"]["price2NetOrg"] ?? 0;
+                    model.prcie2_profit_rate = (double?)jPkglst[i]["productPkg"]["price2GrossRate"] ?? 0;
+                    model.prcie2_comm_rate = (double?)jPkglst[i]["productPkg"]["price2CommRate"] ?? 0;
                     model.prcie2_age_range = jPkglst[i]["productPkg"]["price2BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price2EndOld"].ToString();
+                    model.price2_b2c = (double?)jPkglst[i]["productPkg"]["price2Sale"] ?? 0;
                     // model.price2_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price2_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price3 = (double?)jPkglst[i]["productPkg"]["price3"];
-                    model.price3_org = (double?)jPkglst[i]["productPkg"]["price3Org"];
-                    model.prcie3_org_net = (double?)jPkglst[i]["productPkg"]["price3NetOrg"];
-                    model.prcie3_profit_rate = (double?)jPkglst[i]["productPkg"]["price3GrossRate"];
-                    model.prcie3_comm_rate = (double?)jPkglst[i]["productPkg"]["price3CommRate"];
+                    model.price3 = (double?)jPkglst[i]["productPkg"]["price3"]?? 0;
+                    model.price3_org = (double?)jPkglst[i]["productPkg"]["price3Org"] ?? 0;
+                    model.prcie3_org_net = (double?)jPkglst[i]["productPkg"]["price3NetOrg"] ?? 0;
+                    model.prcie3_profit_rate = (double?)jPkglst[i]["productPkg"]["price3GrossRate"] ?? 0;
+                    model.prcie3_comm_rate = (double?)jPkglst[i]["productPkg"]["price3CommRate"] ?? 0;
                     model.price3_age_range = jPkglst[i]["productPkg"]["price3BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price3EndOld"].ToString();
+                    model.price3_b2c = (double?)jPkglst[i]["productPkg"]["price3Sale"] ?? 0;
                     // model.price3_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price3_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price4 = (double?)jPkglst[i]["productPkg"]["price4"];
-                    model.price4_org = (double?)jPkglst[i]["productPkg"]["price4Org"];
-                    model.prcie4_org_net = (double?)jPkglst[i]["productPkg"]["price4NetOrg"];
-                    model.prcie4_profit_rate = (double?)jPkglst[i]["productPkg"]["price4GrossRate"];
-                    model.prcie4_comm_rate = (double?)jPkglst[i]["productPkg"]["price4CommRate"];
+                    model.price4 = (double?)jPkglst[i]["productPkg"]["price4"] ?? 0;
+                    model.price4_org = (double?)jPkglst[i]["productPkg"]["price4Org"] ?? 0;
+                    model.prcie4_org_net = (double?)jPkglst[i]["productPkg"]["price4NetOrg"] ?? 0;
+                    model.prcie4_profit_rate = (double?)jPkglst[i]["productPkg"]["price4GrossRate"] ?? 0;
+                    model.prcie4_comm_rate = (double?)jPkglst[i]["productPkg"]["price4CommRate"] ?? 0;
                     model.price4_age_range = jPkglst[i]["productPkg"]["price4BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price4EndOld"].ToString();
+                    model.price4_b2c = (double?)jPkglst[i]["productPkg"]["price4Sale"] ?? 0;
                     // model.price4_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price4_list = (double)jPkglst[i]["productPkg"][""];
 
@@ -154,7 +171,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                             if (moduleSet["voucherValidInfo"]["afterOrderDate"] != null && moduleSet["voucherValidInfo"]["afterOrderDate"].Any()) {
                                 AfterOrderDate aod = new AfterOrderDate() {
-                                    qty = (int)moduleSet["voucherValidInfo"]["afterOrderDate"]["qty"],
+                                    qty = (int?)moduleSet["voucherValidInfo"]["afterOrderDate"]["qty"],
                                     unit = moduleSet["voucherValidInfo"]["afterOrderDate"]["unit"].ToString()
                                 };
 
