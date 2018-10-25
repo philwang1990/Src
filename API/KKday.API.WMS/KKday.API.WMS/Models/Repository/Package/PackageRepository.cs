@@ -38,12 +38,20 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
 
                 JObject obj = PackageProxy.getPkgLst(rq);
+                JObject objProd = ProdProxy.getProd(rq);
 
                 if (obj["content"]["result"].ToString() != "0000")
                 {
                     pkg.result = obj["content"]["result"].ToString();
                     pkg.result_msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
+
+                if (objProd["content"]["result"].ToString() != "0000")
+                {
+                    pkg.result = obj["content"]["result"].ToString();
+                    pkg.result_msg = $"kkday product api response msg is not correct! {objProd["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday product api response msg is not correct! {objProd["content"]["msg"].ToString()}");
                 }
 
                 #region --1.取回傳資料是否成功的訊息、一般資訊--
@@ -69,7 +77,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                     model.is_unit_pirce = jPkglst[i]["productPkg"]["priceType"].ToString();
 
-                    model.price1 = (double?)jPkglst[i]["productPkg"]["price1"] ?? 0;
+                    model.price1 = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price1"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString());//分銷價
                     model.price1_org = (double?)jPkglst[i]["productPkg"]["price1Org"] ?? 0;
                     model.prcie1_org_net = (double?)jPkglst[i]["productPkg"]["price1NetOrg"] ?? 0;
                     model.prcie1_profit_rate = (double?)jPkglst[i]["productPkg"]["price1GrossRate"] ?? 0;
@@ -80,7 +88,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
                     // model.price1_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price1_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price2 = (double?)jPkglst[i]["productPkg"]["price2"] ?? 0;
+                    model.price2 = (double?)jPkglst[i]["productPkg"]["price2"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price2"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString());//分銷價
                     model.price2_org = (double?)jPkglst[i]["productPkg"]["price2Org"] ?? 0;
                     model.prcie2_org_net = (double?)jPkglst[i]["productPkg"]["price2NetOrg"] ?? 0;
                     model.prcie2_profit_rate = (double?)jPkglst[i]["productPkg"]["price2GrossRate"] ?? 0;
@@ -91,7 +99,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
                     // model.price2_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price2_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price3 = (double?)jPkglst[i]["productPkg"]["price3"]?? 0;
+                    model.price3 = (double?)jPkglst[i]["productPkg"]["price3"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price3"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString());//分銷價
                     model.price3_org = (double?)jPkglst[i]["productPkg"]["price3Org"] ?? 0;
                     model.prcie3_org_net = (double?)jPkglst[i]["productPkg"]["price3NetOrg"] ?? 0;
                     model.prcie3_profit_rate = (double?)jPkglst[i]["productPkg"]["price3GrossRate"] ?? 0;
@@ -102,7 +110,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
                     // model.price3_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price3_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price4 = (double?)jPkglst[i]["productPkg"]["price4"] ?? 0;
+                    model.price4 = (double?)jPkglst[i]["productPkg"]["price4"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price4"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString());//分銷價
                     model.price4_org = (double?)jPkglst[i]["productPkg"]["price4Org"] ?? 0;
                     model.prcie4_org_net = (double?)jPkglst[i]["productPkg"]["price4NetOrg"] ?? 0;
                     model.prcie4_profit_rate = (double?)jPkglst[i]["productPkg"]["price4GrossRate"] ?? 0;

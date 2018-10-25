@@ -37,8 +37,8 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 if(isBlack)
                 {
-                    product.reasult = "10";
-                    product.reasult_msg = $"Bad Request:Product-{queryRQ.prod_no} is not available";
+                    product.result = "10";
+                    product.result_msg = $"Bad Request:Product-{queryRQ.prod_no} is not available";
                     return product;
                 }
 
@@ -50,13 +50,13 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 if (obj["content"]["result"].ToString() != "0000")
                 {
-                    product.reasult = obj["content"]["result"].ToString();
-                    product.reasult_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    product.result = obj["content"]["result"].ToString();
+                    product.result_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
 
-                product.reasult = obj["content"]["result"].ToString();
-                product.reasult_msg = obj["content"]["msg"].ToString();
+                product.result = obj["content"]["result"].ToString();
+                product.result_msg = obj["content"]["msg"].ToString();
                 product.prod_no = (int)obj["content"]["product"]["prodOid"];
                 product.prod_name = obj["content"]["product"]["productName"].ToString();
                 product.prod_img_url = obj["content"]["product"]["productName"].ToString();
@@ -392,8 +392,8 @@ namespace KKday.API.WMS.Models.Repository.Product
             }
             catch (Exception ex)
             {
-                product.reasult = "10001";
-                product.reasult_msg = $"Product ERROR:{ex.Message},{ex.StackTrace}";
+                product.result = "10001";
+                product.result_msg = $"Product ERROR:{ex.Message},{ex.StackTrace}";
 
                 Website.Instance.logger.FatalFormat($"Product ERROR:{ex.Message},{ex.StackTrace}");
             }
@@ -426,14 +426,14 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 if (objModule["content"]["result"].ToString() != "0000")
                 {
-                    module.reasult = objModule["content"]["result"].ToString();
-                    module.reasult_msg = $"kkday module api response msg is not correct! {objModule["content"]["msg"].ToString()}";
+                    module.result = objModule["content"]["result"].ToString();
+                    module.result_msg = $"kkday module api response msg is not correct! {objModule["content"]["msg"].ToString()}";
                     throw new Exception($"kkday module api response msg is not correct! {objModule["content"]["msg"].ToString()}");
                 }
                 if (obj["content"]["result"].ToString() != "0000")
                 {
-                    module.reasult = objModule["content"]["result"].ToString();
-                    module.reasult_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    module.result = objModule["content"]["result"].ToString();
+                    module.result_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
                 //if (objEvent["content"]["result"].ToString() != "0000")
@@ -443,8 +443,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //    throw new Exception($"kkday event api response msg is not correct! {objEvent["content"]["msg"].ToString()}");
                 //}
 
-                module.reasult = objModule["content"]["result"].ToString();
-                module.reasult_msg = objModule["content"]["msg"].ToString();
+                module.result = objModule["content"]["result"].ToString();
+                module.result_msg = objModule["content"]["msg"].ToString();
 
                 JArray jModules = (JArray)objModule["content"]["product"]["modules"];
                 module.module_type = jModules.Where(y => (bool)y["moduleSetting"]["isRequired"] == true).Select(x => (string)x["moduleType"]).ToList<string>();
@@ -1061,8 +1061,8 @@ namespace KKday.API.WMS.Models.Repository.Product
             }
             catch (Exception ex)
             {
-                module.reasult = "10001";
-                module.reasult_msg = $"Module ERROR :{ex.Message},{ex.StackTrace}";
+                module.result = "10001";
+                module.result_msg = $"Module ERROR :{ex.Message},{ex.StackTrace}";
                 module.module_type = null;
                 Website.Instance.logger.FatalFormat($"Module ERROR :{ex.Message},{ex.StackTrace}");
 
