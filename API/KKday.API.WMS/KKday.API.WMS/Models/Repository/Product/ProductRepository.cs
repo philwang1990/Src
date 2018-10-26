@@ -223,7 +223,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                         arr.latitude = (string)item["latlong"]["latitude"];
                         arr.longitude = (string)item["latlong"]["longitude"];
                         arr.latlong_type = (string)item["latlong"]["latlongType"];
-                        arr.latlong_desc = (string)item["latlong"]["latlongDesc"];  
+                        arr.latlong_desc = (string)item["latlong"]["latlongDesc"];
+                        arr.latlong_xid = (int)item["latlong"]["latlongOid"];
 
                         arrList.Add(arr);
 
@@ -281,7 +282,20 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 //注意事項挖字處理
                 product.remind_list = setRemInf(obj, queryRQ.locale_lang, null);
-               
+
+                var venue_module = modules.FirstOrDefault(jt => (string)jt["moduleType"] == "PMDL_VENUE");
+                if( (string)venue_module["moduleSetting"]["setting"]["venueType"] == "01"  ) 
+                {
+                    MeetingPointMap meeting_point = new MeetingPointMap();
+                    meeting_point.mapAddress = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["mapAddress"];
+                    meeting_point.latitude = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["latitude"];
+                    meeting_point.longitude = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["longitude"];
+                    meeting_point.zoomLevel = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["zoomLevel"];
+                    meeting_point.imageUrl = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["imageUrl"];
+                    product.meeting_point_map = meeting_point;
+                    //product.meeting_point_map = venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"].ToObject<MeetingPointMap>();
+                }
+
                 //List<Remind> remList = new List<Remind>();
                 //Remind rem = null;
 
