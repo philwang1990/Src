@@ -70,6 +70,8 @@ namespace KKday.API.WMS.Models.DataModel.Product
 
         public string prod_hander { get; set; } //訂單處理人
 
+        public MeetingPointMap meeting_point_map { get; set; } // 接送範圍
+
 
 
     }
@@ -229,5 +231,13 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public bool is_show { get; set; }
     }
 
+    public class MeetingPointMap
+    {
+        public string mapAddress { get; set; }
+        public string latitude { get; set; }
+        public string longitude { get; set; }
+        public string zoomLevel { get; set; }
+        public string imageUrl { get; set; }
+    }
 
 }
