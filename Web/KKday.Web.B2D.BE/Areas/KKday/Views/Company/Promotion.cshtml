@@ -52,7 +52,7 @@
                                 <td><input type="checkbox" class="checkthis" aria-label="Select all items in this table" title="Select all items in this table" /></td>
                                 <td>@item.DISC_NAME</td>
                                 <td>
-                                    <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#disc_delete" onclick="$('#disc_mst_xid').val(@item.XID);">
+                                    <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#disc_delete" onclick="$('#disc_delete').find('.btn-success').attr('mst_xid', @item.XID);">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </button>
                                 </td>
@@ -104,7 +104,6 @@
                 <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="disc_mst_xid" />
                 <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
 
             </div>
@@ -166,7 +165,7 @@
             type: "POST",
             url: _root_path + "Company/RemoveDiscount",
             contentType: "application/json",
-            data: JSON.stringify({ xid : $("#xid").val(), mst_xid : $("#disc_mst_xid").val() }),
+            data: JSON.stringify({ xid : $("#xid").val(), mst_xid : $('#disc_delete').find('.btn-success').attr('mst_xid') }),
             dataType: "json",
             error: function (jqXHR, textStatus, errorThrown) {
                 // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
