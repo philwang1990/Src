@@ -61,12 +61,10 @@ namespace KKday.API.WMS.Models.Repository {
 
                             model.prod_no = Convert.ToInt32(prod_no);
                             model.prod_name = jsonPlst[i]["name"].ToString();
-                            model.b2d_price = (double)jsonPlst[i]["price"];//分銷價
+                            model.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jsonPlst[i]["price"], prod_no, jsonPlst[i]["main_cat_key"].ToString());//分銷價
                             model.b2c_price = (double)jsonPlst[i]["sale_price"];//直客價
                             model.display_ref_price = jsonPlst[i]["display_price"].ToString();
-                           
-                            model.display_sale_price = jsonPlst[i]["display_sale_price"].ToString();
-                            model.is_display_price = jsonPlst[i]["is_display_price"].ToString();
+                          
                             model.prod_currency = jsonPlst[i]["currency"].ToString();
                             model.prod_img_url = jsonPlst[i]["img_url"].ToString();
                             model.rating_count = (int)jsonPlst[i]["rating_count"];

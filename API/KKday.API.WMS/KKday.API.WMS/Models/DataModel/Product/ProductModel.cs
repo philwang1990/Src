@@ -6,8 +6,8 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class ProductModel: ProductBaseModel
     {
         public string guid { get; set; } // Session ID 確保30分鐘內訂購 seddionID放到redis
-        public string reasult { get; set; }
-        public string reasult_msg { get; set; }
+        public string result { get; set; }
+        public string result_msg { get; set; }
         //public string prod_no { get; set; }//商品編號 (跟ProductBase共用)
         //public string prod_name { get; set; }//商品名稱 (跟ProductBase共用)
         //public string prod_currency { get; set; }//商品進貨幣別(跟ProductBase共用)

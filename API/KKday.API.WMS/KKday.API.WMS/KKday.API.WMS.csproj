@@ -21,6 +21,7 @@
     <Folder Include="Models\Repository\User\" />
     <Folder Include="Models\Repository\Discount\" />
     <Folder Include="Models\DataModel\Discount\" />
+    <Folder Include="Models\DataModel\Common\" />
   </ItemGroup>
 
   <ItemGroup>

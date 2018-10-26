@@ -23,7 +23,7 @@ namespace KKday.API.WMS.Controllers {
         [HttpPost("QueryProduct")]
         public ProductModel QueryProduct([FromBody]QueryProductModel queryRQ)
         {
-            Website.Instance.logger.Info($"WMS QueryProduct Start! B2D Xid:{queryRQ.b2d_xid},KKday ProdOid:{queryRQ.prod_no}");
+            Website.Instance.logger.Info($"WMS QueryProduct Start! B2D Xid:{queryRQ.company_xid},KKday ProdOid:{queryRQ.prod_no}");
 
             var prod_dtl = new ProductModel();
 
@@ -40,7 +40,7 @@ namespace KKday.API.WMS.Controllers {
         [HttpPost("QueryPackage")]
         public PackageModel QueryPackage([FromBody]QueryProductModel queryRQ) {
 
-            Website.Instance.logger.Info($"WMS QueryPackage Start! B2D Xid:{queryRQ.b2d_xid},KKday ProdOid:{queryRQ.prod_no}");
+            Website.Instance.logger.Info($"WMS QueryPackage Start! B2D Xid:{queryRQ.company_xid},KKday ProdOid:{queryRQ.prod_no}");
 
             var pkg_dtl = new PackageModel();
 
@@ -57,7 +57,7 @@ namespace KKday.API.WMS.Controllers {
         [HttpPost("QueryEvent")]
         public PkgEventsModel QueryPkgEvents([FromBody]QueryProductModel queryRQ) {
 
-            Website.Instance.logger.Info($"WMS QueryEvent Start! B2D Xid:{queryRQ.b2d_xid},KKday ProdOid:{queryRQ.prod_no}");
+            Website.Instance.logger.Info($"WMS QueryEvent Start! B2D Xid:{queryRQ.company_xid},KKday ProdOid:{queryRQ.prod_no}");
 
             PkgEventsModel pkg_events = PackageRepository.GetPkgEvents(queryRQ);
 
@@ -72,7 +72,7 @@ namespace KKday.API.WMS.Controllers {
         [HttpPost("QueryModule")]
         public ProductModuleModel QueryModule([FromBody]QueryProductModel queryRQ)
         {
-            Website.Instance.logger.Info($"WMS QueryModule Start! B2D Xid:{queryRQ.b2d_xid},KKday ProdOid:{queryRQ.prod_no}");
+            Website.Instance.logger.Info($"WMS QueryModule Start! B2D Xid:{queryRQ.company_xid},KKday ProdOid:{queryRQ.prod_no}");
 
             var prod_model = new ProductModuleModel();
 
