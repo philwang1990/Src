@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Models.Model.Account;
+using KKday.Web.B2D.BE.Models.Model.Common;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -59,7 +60,6 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         /// </summary>
         /// <returns>Json Result</returns>
 
-        [HttpPost]
         public IActionResult UpdatePassword(string uuid, string password)
         {
             Contract.Ensures(Contract.Result<IActionResult>() != null);
@@ -78,7 +78,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
 
                 jsonData.Add("status", "OK");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 jsonData.Clear();
                 jsonData.Add("status", "FAIL");
@@ -93,11 +93,20 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         /// 註冊頁面
         /// </summary>
         /// <returns>The register.</returns>
+        [HttpPost]
         [AllowAnonymous]
-        public IActionResult Register()
+        public IActionResult InsertCompany([FromBody] RegisterModel reg)
         {
-
-            return View();
+            try
+            {
+                var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
+                accountRepo.Register(reg);
+                return Json("OK");
+            }
+            catch (Exception ex)
+            {
+                return Json(ex.ToString());
+            }
         }
     }
 }

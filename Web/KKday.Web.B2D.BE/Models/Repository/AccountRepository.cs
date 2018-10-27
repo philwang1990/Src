@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using System.Text;
 using KKday.Web.B2D.BE.AppCode;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
+using KKday.Web.B2D.BE.AppCode.DAL.RegisterDAL;
 using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
@@ -35,7 +36,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
             return account;
         }
-
+         
         public B2dUserProfile GetProfile(string account)
         {
             return AccountAuthDAL.GetB2dProfile(account);
@@ -43,6 +44,25 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         #endregion
 
-    } 
- 
+        #region 註冊新分銷商
+
+        public void Register(RegisterModel reg)
+        {
+            try
+            {
+                if (reg.PASSWORD != null)
+                {
+                    reg.PASSWORD = Sha256Helper.Gethash(reg.PASSWORD);
+                    reg.USER_UUID = Guid.NewGuid().ToString();
+                    RegisterDAL.InsCompany(reg);
+                }
+            } 
+            catch (Exception ex)
+            {
+                throw ex;
+            } 
+        }
+
+        #endregion
+    }  
 }
