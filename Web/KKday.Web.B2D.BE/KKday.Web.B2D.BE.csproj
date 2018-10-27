@@ -55,7 +55,7 @@
     <Folder Include="AppCode\DAL\ListPrice\" />
     <Folder Include="Areas\KKday\Models\Repository\" />
     <Folder Include="Models\Model\ListPrice\" />
-    <Folder Include="Models\Model\Discount\" />
+    <Folder Include="Models\Model\Promotion\" />
     <Folder Include="AppCode\DAL\Promotion\" />
     <Folder Include="Areas\KKday\Models\DataModel\Promotion\" />
   </ItemGroup>

@@ -27,10 +27,11 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return new QueryParamsModel()
             {
                 Filter = filter,
-                Sorting = sorting,
+                Sorting = sorting, 
                 Paging = new Pagination()
                 {
                     current_page = current_page,
+                    total_count = rec_count,
                     total_pages = total_pages,
                     page_size = size
                 }

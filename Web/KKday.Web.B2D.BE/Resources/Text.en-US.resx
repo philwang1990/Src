@@ -104,6 +104,8 @@
     <data name="Disable" xml:space="preserve"><value>Disable</value></data>
     <data name="Account" xml:space="preserve"><value>Account</value></data>
     <data name="Email" xml:space="preserve"><value>Email</value></data>
+    <data name="ProductNo" xml:space="preserve"><value>Product No</value></data>
+    <data name="ProductName" xml:space="preserve"><value>Product Name</value></data>
     
     <!-- Sidebar -->
     <data name="Title_Distributor" xml:space="preserve"><value>Distributor</value></data>

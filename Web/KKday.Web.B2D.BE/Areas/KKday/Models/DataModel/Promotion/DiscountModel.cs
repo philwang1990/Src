@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using KKday.Web.B2D.BE.Models.Model.Discount;
+using KKday.Web.B2D.BE.Models.Model.Promotion;
 
 namespace KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Promotion
 {

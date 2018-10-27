@@ -8,5 +8,6 @@ namespace KKday.Web.B2D.BE.Models.Model.Common
         public string Filter { get; set; } // 搜尋條件
         public string Sorting { get; set; } // 排序條件
         public Pagination Paging { get; set; } // 分頁資料
+        public bool RecountFlag { get; set; }
     }
 }

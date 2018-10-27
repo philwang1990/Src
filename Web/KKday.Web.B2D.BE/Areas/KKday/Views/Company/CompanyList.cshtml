@@ -14,7 +14,7 @@
 else
 {
 
-    <table id="mytable" class="table table-bordred table-striped">
+    <table id="mytable" class="table table-bordred table-striped fit">
         <thead>
             <th><input type="checkbox" id="checkall" /></th>
             <th>@localizer.Text.ID</th>
@@ -33,11 +33,13 @@ else
                 <td><a href="javascript:CompanyEdit(@item.XID);">@item.COMP_NAME</a></td>
                 <td>@item.COMP_COUNTRY</td>
                 <td>@item.STATUS_DESC (@item.STATUS)</td>
-                <td><button class="btn btn-primary btn-xs" data-title="Promotion" data-toggle="modal" data-target="#promotion" onclick="CompanyPromotion(@item.XID, '@item.COMP_NAME');">
+                <td>
+                    <button class="btn btn-primary btn-xs" data-title="Promotion" data-toggle="modal" data-target="#promotion" onclick="CompanyPromotion(@item.XID, '@item.COMP_NAME');">
                         <i class="fas fa-tasks"></i>
                     </button>
                 </td>
-                <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+                <td>
+                    <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </td>
@@ -51,7 +53,7 @@ else
 
             @if (query_params.Paging.total_pages > 1)
             {
-            <li><a href="javascript:Refresh(1);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+            <li><a href="javascript:Refresh(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
             }
 
             @for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
@@ -63,12 +65,12 @@ else
                 }
                 else
                 {
-            <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx);">@pgIdx</a></li>
+            <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx, false);">@pgIdx</a></li>
                 }
             }
             @if (query_params.Paging.total_pages > 1)
             {
-            <li><a href="javascript:Refresh(@query_params.Paging.total_pages);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+            <li><a href="javascript:Refresh(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
             }
         </ul>
     </div>

@@ -105,6 +105,9 @@
     <data name="Disable" xml:space="preserve"><value>無效</value></data>
     <data name="Account" xml:space="preserve"><value>帳號</value></data>
     <data name="Email" xml:space="preserve"><value>電子信箱</value></data>
+    <data name="ProductNo" xml:space="preserve"><value>產品編號</value></data>
+    <data name="ProductName" xml:space="preserve"><value>產品名稱</value></data>
+    
     
     <!-- Sidebar -->
     <data name="Title_Distributor" xml:space="preserve"><value>分銷商管理</value></data>

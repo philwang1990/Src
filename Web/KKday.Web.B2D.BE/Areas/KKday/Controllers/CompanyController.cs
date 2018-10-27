@@ -5,7 +5,7 @@ using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Filters;
 using KKday.Web.B2D.BE.Models.Model.Company;
 using KKday.Web.B2D.BE.Models.Model.Common;
-using KKday.Web.B2D.BE.Models.Model.Discount;
+using KKday.Web.B2D.BE.Models.Model.Promotion;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -69,8 +69,11 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             {
                 var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
 
-                //更新分頁資料
-                queryParams = compRepos.GetQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                // 若 RecountFlag=true 更新分頁資料
+                if (queryParams.RecountFlag)
+                {
+                    queryParams = compRepos.GetQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                }
                 ViewData["QUERY_PARAMS"] = queryParams;
 
                 var skip = (queryParams.Paging.current_page -1) * queryParams.Paging.page_size;

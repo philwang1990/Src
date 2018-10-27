@@ -299,6 +299,18 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string ProductNo {
+            get {
+                return ResourceManager.GetString("ProductNo", resourceCulture);
+            }
+        }
+        
+        internal static string ProductName {
+            get {
+                return ResourceManager.GetString("ProductName", resourceCulture);
+            }
+        }
+        
         internal static string Title_Distributor {
             get {
                 return ResourceManager.GetString("Title_Distributor", resourceCulture);

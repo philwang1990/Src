@@ -2,28 +2,58 @@
 using System.Collections.Generic;
 using System.Data;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Models.Model.Discount;
+using KKday.Web.B2D.BE.Models.Model.Promotion;
 using Npgsql;
 
 namespace KKday.Web.B2D.BE.AppCode.DAL.Promotion
 {
     public class DiscountDAL
     {
-        // 取得折扣主規則(不含明細)
-        public static List<B2dDiscountMst> GetDiscountMst()
+        #region DiscountMst Methods 
+
+        // 取得折扣主規則總筆數
+        public static int GetDiscountMstCount(string filter)
+        { 
+            try
+            {
+                string sqlStmt = @"SELECT COUNT(*) FROM b2b.b2d_discount_mst
+WHERE 1=1 {FILTER}";
+
+                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
+
+                var total_count = Convert.ToInt32(NpgsqlHelper.ExecuteScalar(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt));
+                return total_count;
+
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        // 取得折扣主規則
+        public static List<B2dDiscountMst> GetDiscountMsts(string filter, int skip, int size, string sorting)
         { 
             List<B2dDiscountMst> mst_list = new List<B2dDiscountMst>();
 
             try
             { 
-                string sqlStmt = @"SELECT A.company_xid, B.comp_name, C.*
-FROM b2b.b2d_comp_disc_map A
-JOIN b2b.b2d_company B ON A.company_xid=B.xid
-JOIN b2b.b2d_discount_mst C ON A.disc_mst_xid=C.xid
-ORDER BY comp_name
-";
+                string sqlStmt = @"SELECT * FROM b2b.b2d_discount_mst
+WHERE 1=1 {FILTER}
+{SORTING}
+LIMIT :Size OFFSET :Skip";
 
-                var ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt);
+                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
+                sqlStmt = sqlStmt.Replace("{SORTING}", !string.IsNullOrEmpty(sorting) ? "ORDER BY " + sorting : string.Empty);
+
+                List<NpgsqlParameter> sqlParams = new List<NpgsqlParameter>
+                {
+                    new NpgsqlParameter("Size", size),
+                    new NpgsqlParameter("Skip", skip)
+                };
+
+                var ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams.ToArray());
                 foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     mst_list.Add(new B2dDiscountMst()
@@ -35,7 +65,10 @@ ORDER BY comp_name
                         DISC_TYPE = dr.ToStringEx("disc_type"),
                         S_DATE = dr.ToDateTimeEx("s_date"),
                         E_DATE = dr.ToDateTimeEx("e_date"),
-                        RULE_STATUS = dr.ToStringEx("rule_status")
+                        RULE_STATUS = dr.ToStringEx("rule_status"),
+                        STATUS = dr.ToStringEx("status"),
+                        CRT_USER = dr.ToStringEx("crt_user"),
+                        CRT_DATETIME = dr.ToDateTime("crt_datetime")
                     });
                 } 
                
@@ -48,7 +81,47 @@ ORDER BY comp_name
 
             return mst_list;
         }
-         
+
+        // 取得折扣主規則
+        public static B2dDiscountMst GetDiscountMst(Int64 xid)
+        {
+            List<B2dDiscountMst> mst_list = new List<B2dDiscountMst>();
+
+            try
+            {
+                string sqlStmt = @"SELECT * FROM b2b.b2d_discount_mst WHERE C.xid=:xid";
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("xid", xid)
+                };
+
+                var ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+                DataRow dr = ds.Tables[0].Rows[0];
+                var mst = new B2dDiscountMst()
+                {
+                    XID = dr.ToInt64("xid"),
+                    DISC_NO = dr.ToStringEx("disc_no"),
+                    DISC_NAME = dr.ToStringEx("disc_name"),
+                    DISC_PERCENT = dr.ToDouble("disc_percent"),
+                    DISC_TYPE = dr.ToStringEx("disc_type"),
+                    S_DATE = dr.ToDateTimeEx("s_date"),
+                    E_DATE = dr.ToDateTimeEx("e_date"),
+                    RULE_STATUS = dr.ToStringEx("rule_status")
+                };
+
+                return mst;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+             
+        }
+
+        #endregion DiscountMst Methods 
+
+        ////////////////////////////
+
         // 折扣明細(黑白名單)
         public static List<B2dDiscountDtl> GetDiscountDtl(Int64 mst_xid)
         {

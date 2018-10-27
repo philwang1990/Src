@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Promotion;
-using KKday.Web.B2D.BE.Models.Model.Discount;
+using KKday.Web.B2D.BE.Models.Model.Promotion;
 using Npgsql;
 
 namespace KKday.Web.B2D.BE.AppCode.DAL.Company

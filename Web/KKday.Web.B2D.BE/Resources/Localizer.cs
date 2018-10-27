@@ -238,6 +238,10 @@
 
 		public string Email { get { return GetString("Email"); } }
 
+		public string ProductNo { get { return GetString("ProductNo"); } }
+
+		public string ProductName { get { return GetString("ProductName"); } }
+
 		public string Title_Distributor { get { return GetString("Title_Distributor"); } }
 
 		public string Title_VoucherApply { get { return GetString("Title_VoucherApply"); } }

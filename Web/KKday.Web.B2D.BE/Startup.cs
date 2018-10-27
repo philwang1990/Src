@@ -70,6 +70,7 @@ namespace KKday.Web.B2D.BE
             services.AddSingleton<IB2dAccountRepository, B2dApiAccountRepository>();
             services.AddSingleton<ListPriceRepository>();
             services.AddSingleton<CompanyRepository>();
+            services.AddSingleton<PromotionRepository>();
             services.AddScoped<CountryRepository>();
 
             #endregion Dependency Injection Regisgter-- end

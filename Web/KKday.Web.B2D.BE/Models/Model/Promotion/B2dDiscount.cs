@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KKday.Web.B2D.BE.Models.Model.Discount
+namespace KKday.Web.B2D.BE.Models.Model.Promotion
 {
     [Serializable]
     public class B2dDiscountMst
@@ -13,8 +13,11 @@ namespace KKday.Web.B2D.BE.Models.Model.Discount
         public double DISC_PERCENT { get; set; } //折扣%數
         public DateTime? S_DATE { get; set; } //可使用起日
         public DateTime? E_DATE { get; set; }//可使用迄日
-        public string STATUS { get; set; } //規則上下架狀態(00下架/01上架)
+        public string STATUS { get; set; } //規則狀態(00下架/01上架)
+        public string STATUS_DESC { get; set; } //[顯示用] 規則狀態描述
         public string RULE_STATUS { get; set; } //引用規則狀態(00不限/01限定)
+        public string CRT_USER { get; set; } //建立人
+        public DateTime CRT_DATETIME { get; set; } //建立時間
        
     }
 

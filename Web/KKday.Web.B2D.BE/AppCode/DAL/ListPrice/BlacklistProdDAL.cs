@@ -73,40 +73,100 @@ LIMIT :Size OFFSET :Skip";
 
             return prods;
         }
-
-        public static void UpdateBlacklistProd(B2dBlacklistProduct prod, string upd_user)
+        
+        public static void InsertBlacklistProd(string prod_no, string prod_name, string crt_user)
         {
+            NpgsqlConnection conn = new NpgsqlConnection(Website.Instance.SqlConnectionString);
+
             try
             {
-                string sqlStmt = @"UPDATE b2b.b2d_list_price_blacks SET prod_no=:PROD_NO,
- prod_name=:PROD_NAME, upd_user:UPD_USER, upd_datetime=now()
-WHERE xid=:XID";
-                 
-                NpgsqlParameter[] sqlParams = new NpgsqlParameter[]{
-                    new NpgsqlParameter("XID", prod.XID),
-                    new NpgsqlParameter("PROD_NO", prod.PROD_NO),
-                    new NpgsqlParameter("PROD_NAME", prod.PROD_NAME),
+                conn.Open();
 
+                string sqlStmt = @"SELECT COUNT(*) FROM b2b.b2d_list_price_blacks WHERE prod_no=:prod_no";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[]{
+                    new NpgsqlParameter("prod_no", prod_no)
+                };
+
+                var count = Convert.ToInt32(NpgsqlHelper.ExecuteScalar(conn, CommandType.Text, sqlStmt, sqlParams));
+                if(count > 0)
+                {
+                    throw new Exception($"{ prod_no } is duplicated");
+                }
+
+                sqlStmt = @"INSERT INTO b2b.b2d_list_price_blacks(prod_no, prod_name, crt_user, crt_datetime)
+    VALUES (:prod_no, :prod_name, :crt_user, now())";
+
+                sqlParams = new NpgsqlParameter[]{ 
+                    new NpgsqlParameter("prod_no", prod_no),
+                    new NpgsqlParameter("prod_name", prod_name),
+                    new NpgsqlParameter("crt_user", crt_user) 
                 };
 
                 NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
 
+                conn.Close();
             }
             catch (Exception ex)
             {
                 Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
+                conn.Close();
                 throw ex;
             }
         }
 
-        public static void DeleteBlacklistProd(Int64 xid)
+        public static void UpdateBlacklistProd(Int64 xid, string prod_no, string prod_name, string upd_user)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection(Website.Instance.SqlConnectionString);
+
+            try
+            {
+                conn.Open();
+
+                string sqlStmt = @"SELECT COUNT(*) FROM b2b.b2d_list_price_blacks WHERE xid <> :xid AND prod_no=:prod_no";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[]{
+                    new NpgsqlParameter("xid", xid),
+                    new NpgsqlParameter("prod_no", prod_no)
+                };
+
+                var count = Convert.ToInt32(NpgsqlHelper.ExecuteScalar(conn, CommandType.Text, sqlStmt, sqlParams));
+                if (count > 0)
+                {
+                    throw new Exception($"{ prod_no } is duplicated");
+                }
+
+                sqlStmt = @"UPDATE b2b.b2d_list_price_blacks SET prod_no=:prod_no, 
+ prod_name=:prod_name, upd_user=:upd_user, upd_datetime=now()
+WHERE xid=:xid";
+                 
+                 sqlParams = new NpgsqlParameter[]{
+                    new NpgsqlParameter("xid", xid),
+                    new NpgsqlParameter("prod_no", prod_no),
+                    new NpgsqlParameter("prod_name", prod_name),
+                    new NpgsqlParameter("upd_user", upd_user)
+                };
+
+                NpgsqlHelper.ExecuteNonQuery(conn, CommandType.Text, sqlStmt, sqlParams);
+
+                conn.Close();
+            }
+            catch (Exception ex)
+            {
+                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
+                conn.Close();
+                throw ex;
+            }
+        }
+
+        public static void DeleteBlacklistProd(Int64 xid, string del_user)
         {
             try
             {
-                string sqlStmt = @"DELETE FROM b2b.b2d_list_price_blacks WHERE xid=:XID";
+                string sqlStmt = @"DELETE FROM b2b.b2d_list_price_blacks WHERE xid=:xid";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[]{
-                    new NpgsqlParameter("XID", xid) 
+                    new NpgsqlParameter("xid", xid) 
                 };
 
                 NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
