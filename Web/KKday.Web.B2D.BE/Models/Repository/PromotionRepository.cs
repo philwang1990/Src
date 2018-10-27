@@ -46,12 +46,17 @@ namespace KKday.Web.B2D.BE.Models.Repository
         }
 
         //取得折扣項目清單 
-        public List<B2dDiscountMst> GetDiscountMsts(string filter, int skip, int size, string sorting) 
+        public List<B2dDiscountMst> GetDiscountMsts(string filter, int skip, int size, string sorting)
         {
             var _filter = GetFieldFiltering(filter);
             var _sorting = GetFieldSorting(sorting);
 
-            return DiscountDAL.GetDiscountMsts(_filter, skip, size, _sorting);
+            var disc_list = DiscountDAL.GetDiscountMsts(_filter, skip, size, _sorting);
+            disc_list.ForEach(d => {
+                d.STATUS_DESC = d.STATUS.Equals("01") ? _localizer.Text.Enable : _localizer.Text.Disable;
+            });
+
+            return disc_list;
         }
         #region Fields Mapping
 
