@@ -341,9 +341,9 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
-        internal static string Title_Promotion {
+        internal static string Title_PriceSetting {
             get {
-                return ResourceManager.GetString("Title_Promotion", resourceCulture);
+                return ResourceManager.GetString("Title_PriceSetting", resourceCulture);
             }
         }
         

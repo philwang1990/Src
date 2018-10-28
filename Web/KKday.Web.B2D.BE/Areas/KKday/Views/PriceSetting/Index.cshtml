@@ -1,0 +1,240 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.PriceSetting
+@using Resources
+@inject ILocalizer localizer
+@model List<B2dDiscountMst>
+@{
+    Layout = "_LayoutMain";
+}
+@section Stylesheet {
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .daterangepicker select.monthselect, .daterangepicker select.yearselect {
+            font-size: 20px;
+        }
+
+        .error-text {
+            color: red;
+        }
+    </style>
+}
+@section Scripts {
+    <script src="~/js/stacktable.js" asp-append-version="true"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
+
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.Title_PriceSetting</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <form>
+            <div class="col-xs-12">
+                <h4>折扣規則設定</h4>
+
+
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control date" />
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6">
+                    <div class="input-group input-daterange">
+                        <input type="text" class="form-control" value="2012-04-05">
+                        <div class="input-group-addon">to</div>
+                        <input type="text" class="form-control" value="2012-04-19">
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+
+        <div class="col-xs-12">
+            <a href="#" class="btn" data-title="新增折扣規則" data-toggle="modal" data-target="#add"><i class="fas fa-plus"></i> 新增折扣規則</a>
+        </div>
+
+        <div class="col-xs-12">
+            <div id="list_panel" class="table-responsive">
+                @await Html.PartialAsync("DiscountMstList", Model)
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Add</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add_form">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>折扣規則代碼</label>
+                                <input type="text" id="disc_no" name="disc_no" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>產品規則條件<span class="text-danger">*</span></label>
+                                <div class="col-sm-12">
+                                    <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio1" value="00" checked />
+                                    <label class="form-check-label" for="inlineRadio1" style="margin-right: 8px;">不限定條件</label>
+
+                                    <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio2" value="01" />
+                                    <label class="form-check-label" for="inlineRadio2">限定條件適用</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>折扣規則名稱</label>
+                                <input type="text" id="disc_name" name="disc_name" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>訂購效期<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" id="book_period" name="book_period" class="form-control period">
+                                    <div class="input-group-addon">
+                                        <span class="glyphicon glyphicon-th"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>折扣類型</label>
+                                <select id="disc_type" name="disc_type" class="form-control">
+                                    <option value="01">NET</option>
+                                    <option value="02">COMMISSION</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>折扣百分比 (&plusmn;%)<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" id="disc_percent" name="disc_percent" class="form-control" placeholder="輸入正/負的折扣%">
+                                    <div class="input-group-addon">%</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>狀態</label>
+                                <select id="status" name="status" class="form-control">
+                                    <option value="False">@localizer.Text.Disable</option>
+                                    <option value="True">@localizer.Text.Enable</option>
+                                </select>
+                            </div>
+                        </div>  
+
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_insert" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="InsertDiscountMst(); return false;">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Insert
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="disc_mst_xid" />
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_del" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script src="~/js/price-setting.js" asp-append-version="true"></script>
+<script type="text/javascript">
+
+    $(function(){
+     
+        $("#mytable #checkall").click(function () {
+            if ($("#mytable #checkall").is(':checked')) {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", true);
+                });
+            } else {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        }); 
+    
+        $("#add").on("show.bs.modal", function(e) {
+            $("#form1").trigger('reset'); 
+        });
+
+        $("[data-toggle=tooltip]").tooltip(); 
+
+        // Validation for Add New Discount
+        $("#add_form").validate({
+            errorClass: "error-text",
+            errorElement: "span",
+            rules: {
+              disc_no: "required",
+              disc_name: "required",
+              book_period: "required",
+              disc_type: "required",
+              disc_percent:  "required",
+              status: "required", 
+              rule_status: "required"
+            },
+            messages: {
+              disc_no: "折扣規則代碼不可為空",
+              disc_name: "折扣規則名稱不可為空",
+              book_period: "訂購效期不可為空",
+              disc_type: "訂購類型不可為空",
+              disc_percent: "折扣百分比不可為空",
+              status: "請選擇折扣規則狀態",
+              rule_status: "請任選產品規則條件"
+             }
+        })
+
+        price_setting_init();
+    });
+     
+</script>

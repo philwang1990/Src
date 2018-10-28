@@ -254,7 +254,7 @@
 
 		public string Title_PriceBlacklist { get { return GetString("Title_PriceBlacklist"); } }
 
-		public string Title_Promotion { get { return GetString("Title_Promotion"); } }
+		public string Title_PriceSetting { get { return GetString("Title_PriceSetting"); } }
 
 		public string UserType { get { return GetString("UserType"); } }
 

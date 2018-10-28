@@ -1,0 +1,51 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.PriceSetting
+@using Resources
+
+@inject ILocalizer localizer
+@model List<B2dDiscountMst>
+@{
+
+}
+
+@if (Model == null || Model.Count() < 1)
+{
+    <span>@localizer.Text.Data_Not_Found</span>
+}
+else
+{
+
+    <table id="disc_tbl" class="table table-bordred table-striped fit">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="checkall" /></th>
+                <th>Discount No</th>
+                <th>Discount Name</th>
+                <th>@localizer.Text.Status</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>@localizer.Text.Delete</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
+                    <td>@item.DISC_NO</td>
+                    <td>@item.DISC_NAME</td>
+                    <td>@item.STATUS_DESC</td>
+                    <td>@item.S_DATE.Value.ToString("yyyy-MM-dd")</td>
+                    <td>@item.E_DATE.Value.ToString("yyyy-MM-dd")</td>
+                    <td>
+                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}

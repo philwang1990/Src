@@ -65,7 +65,7 @@
 
             <div class="col-xs-12 col-sm-2">
                 <label></label>
-                <input type="Submit" name="submit" value="@localizer.Text.Search" onclick="Refresh(1); return false;" class="btn btn-info cst-btn form-control">
+                <input type="Submit" name="submit" value="@localizer.Text.Search" onclick="Refresh(1, true); return false;" class="btn btn-info cst-btn form-control">
             </div>
         </form>
     </div>
@@ -131,15 +131,12 @@
         $("[data-toggle=tooltip]").tooltip();
     });
 
-    function Refresh(page) {
-
-        console.log("Refresh paging..." + page);
-
+    function Refresh(page, is_recount) {
         query_params.filter = JSON.stringify({ name:$("#name").val(), email:$("#email").val(), company: $("#company").val(), status:$("#status").val() });
         query_params.sorting = $("#sorting").val();
-        if (page!==undefined){
-            query_params.Paging.current_page = page;
-        }
+        if (page!==undefined) query_params.Paging.current_page = page;
+        query_params.RecountFlag= is_recount;
+        //console.log("Params: " + JSON.stringify(query_params));
 
         $.ajax({
             type: "POST",

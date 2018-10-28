@@ -1,5 +1,5 @@
 ﻿@using KKday.Web.B2D.BE.Models.Model.Common
-@using KKday.Web.B2D.BE.Models.Model.Promotion
+@using KKday.Web.B2D.BE.Models.Model.PriceSetting
 @using Resources
 @inject ILocalizer localizer
 @model List<B2dDiscountMst>
@@ -11,7 +11,7 @@
 }
 else
 {
- 
+
     <table id="disc_tbl" class="table table-bordred table-striped fit">
         <thead>
             <tr>
@@ -30,10 +30,10 @@ else
             }
         </tbody>
     </table>
-             
+
 }
 
-    <script type="text/javascript">
+<script type="text/javascript">
         $("#disc_tbl #checkall").click(function () {
             if ($("#disc_tbl #checkall").is(':checked')) {
                 $("#disc_tbl input[type=checkbox]").each(function () {
@@ -47,4 +47,4 @@ else
             }
         });
 
-    </script>
+</script>

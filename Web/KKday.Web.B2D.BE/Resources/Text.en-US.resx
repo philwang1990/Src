@@ -114,7 +114,7 @@
     <data name="Title_B2dAccount" xml:space="preserve"><value>Account</value></data>
     <data name="Title_B2dApiAccount" xml:space="preserve"><value>Api Account</value></data>
     <data name="Title_PriceBlacklist" xml:space="preserve"><value>Price Blacklist</value></data>
-    <data name="Title_Promotion" xml:space="preserve"><value>Promotion Setting</value></data> 
+    <data name="Title_PriceSetting" xml:space="preserve"><value>Price Setting</value></data> 
     
     <!-- Account -->
     <data name="UserType" xml:space="preserve"><value>User Type</value></data>

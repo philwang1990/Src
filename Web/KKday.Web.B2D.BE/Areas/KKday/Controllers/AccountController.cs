@@ -70,7 +70,10 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
                 var acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository));
 
                 //更新分頁資料
-                queryParams = acctRepos.GetQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                if(queryParams.RecountFlag) 
+                {
+                    queryParams = acctRepos.GetQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                }
                 ViewData["QUERY_PARAMS"] = queryParams;
 
                 var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Resources;
 using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel;
-using KKday.Web.B2D.BE.Models.Model.Promotion;
+using KKday.Web.B2D.BE.Models.Model.PriceSetting;
 
 namespace KKday.Web.B2D.BE.Models.Repository
 {

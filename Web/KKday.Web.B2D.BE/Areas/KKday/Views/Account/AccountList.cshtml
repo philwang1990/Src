@@ -51,7 +51,7 @@ else
           {
               if (query_params.Paging.total_pages > 1)
               {
-            <li><a href="javascript:Refresh(1);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+            <li><a href="javascript:Refresh(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
               }
 
               for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
@@ -63,13 +63,13 @@ else
                   }
                   else
                   {
-            <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx);">@pgIdx</a></li>
+            <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx, false);">@pgIdx</a></li>
                   }
               }
 
               if (query_params.Paging.total_pages > 1)
               {
-            <li><a href="javascript:Refresh(@query_params.Paging.total_pages);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+            <li><a href="javascript:Refresh(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
               }
           }
         </ul>

@@ -116,7 +116,7 @@
     <data name="Title_B2dAccount" xml:space="preserve"><value>分銷商帳號管理</value></data>
     <data name="Title_B2dApiAccount" xml:space="preserve"><value>分銷商API帳號管理</value></data>
     <data name="Title_PriceBlacklist" xml:space="preserve"><value>牌價黑名單</value></data>
-    <data name="Title_Promotion" xml:space="preserve"><value>折扣設定</value></data> 
+    <data name="Title_PriceSetting" xml:space="preserve"><value>價格設定</value></data> 
     
     <!-- Account -->
     <data name="UserType" xml:space="preserve"><value>使用者類型</value></data>

@@ -5,7 +5,7 @@ using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Filters;
 using KKday.Web.B2D.BE.Models.Model.Company;
 using KKday.Web.B2D.BE.Models.Model.Common;
-using KKday.Web.B2D.BE.Models.Model.Promotion;
+using KKday.Web.B2D.BE.Models.Model.PriceSetting;
 using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
