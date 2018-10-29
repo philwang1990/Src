@@ -3,8 +3,8 @@
 @using Resources
 
 @inject ILocalizer localizer
-@model List<B2dDiscountMst>
-@{
+@model List<B2dDiscountDtl>
+@{ 
 
 }
 
@@ -19,25 +19,24 @@ else
         <thead>
             <tr>
                 <th><input type="checkbox" id="checkall" /></th>
-                <th>Discount No</th>
-                <th>Discount Name</th>
-                <th>@localizer.Text.Status</th>
-                <th>Start Date</th>
-                <th>End Date</th>
+                <th>ID</th>
+                <th>Discoiunt TYpe</th>
+                <th>Content</th>
+                <th>Name</th>
+                <th>White/Black</th>
                 <th>@localizer.Text.Delete</th>
             </tr>
         </thead>
-
         <tbody>
             @foreach (var item in Model)
             {
                 <tr>
                     <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
-                    <td><a href="#" onclick="DiscountMstEdit(@item.XID);">@item.DISC_NO</a></td>
-                    <td>@item.DISC_NAME</td>
-                    <td>@item.STATUS_DESC</td>
-                    <td>@item.S_DATE.Value.ToString("yyyy-MM-dd")</td>
-                    <td>@item.E_DATE.Value.ToString("yyyy-MM-dd")</td>
+                    <td>@item.XID</td>
+                    <td>@item.DISC_LIST</td>
+                    <td>@item.DISC_LIST_NAME</td>
+                    <td>@item.WHITELIST</td>
+                    <td>@item.DISC_TYPE</td> 
                     <td>
                         <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
                             <span class="glyphicon glyphicon-trash"></span>

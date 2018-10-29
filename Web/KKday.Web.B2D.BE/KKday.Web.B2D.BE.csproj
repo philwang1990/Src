@@ -56,8 +56,6 @@
     <Folder Include="Areas\KKday\Models\Repository\" />
     <Folder Include="Models\Model\ListPrice\" />
     <Folder Include="Models\Model\PriceSetting\" />
-    <Folder Include="AppCode\DAL\PriceSetting\" />
-    <Folder Include="Areas\KKday\Models\DataModel\PriceSetting\" />
     <Folder Include="wwwroot\lib\bootstrap-daterangepicker\" />
     <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\" />
     <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\js\" />
@@ -74,6 +72,7 @@
     <Compile Remove="Models\Model\Common\EmptyClass.cs" />
     <Compile Remove="Resources\Text.zh-TW.Designer.cs" />
     <Compile Remove="Resources\Text.en-US.Designer.cs" />
+    <Compile Remove="AppCode\DAL\Promotion\DiscountDAL.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Areas\User\Views\Home\Error.cshtml" />

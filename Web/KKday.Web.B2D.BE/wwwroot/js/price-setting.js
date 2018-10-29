@@ -1,12 +1,10 @@
 ﻿function price_setting_init() {
+    moment.locale('zh-tw');
 
     $(".period").daterangepicker({
-        locale : { format: 'YYYY-MM-DD', separator: ' ~ ' }, 
-        showDropdowns : true
-       // maxDate : '2018-12-31'
-    }).on('apply.daterangepicker', function(ev, picker) {
-        // $(this).val(picker.startDate.format('MM/DD/YYYY') + ' ~ ' + picker.endDate.format('MM/DD/YYYY'));
-        console.log(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
+        locale : { format: 'YYYY-MM-DD', separator: ' ~ ' },
+        showDropdowns : true,
+        alwaysShowCalendars : false
     });
  
     $(".date").daterangepicker({
@@ -19,9 +17,6 @@
             var disabled_end = moment('2018-11-07', 'YYYY-MM-DD');
             return date.isAfter(disabled_start) && date.isBefore(disabled_end);
        } */
-     }).on('apply.daterangepicker', function(ev, picker) {
-         console.log(picker.startDate.format('YYYY-MM-DD'));
-        // console.log(picker.startDate.format('YYYY-MM-DD') + ' to ' + picker.endDate.format('YYYY-MM-DD'));
      });
 
 }
@@ -62,24 +57,38 @@ function InsertDiscountMst()
         return;
     }
 
+    var discMst = { 
+        disc_no: $("#disc_no").val(), 
+        disc_name: $("#disc_name").val(), 
+        disc_type: $("#disc_type").val(),   
+        disc_percent: $("#sign_label").text() + $("#disc_percent").val(), 
+        s_date: $(".period").data('daterangepicker').startDate.format('YYYY-MM-DD'), 
+        e_date: $(".period").data('daterangepicker').endDate.format('YYYY-MM-DD'), 
+        status: $("#disc_type").val(),
+        rule_status: $("input[name=rule_status]").val()
+    };
+
+    console.log(JSON.stringify(discMst));
+ 
     $.ajax({
         type: "POST",
         url: _root_path + "PriceSetting/InsertMst",
         contentType: "application/json",
-        data: JSON.stringify(query_params),
+        data: JSON.stringify(discMst),
         dataType: "json",
         error: function (jqXHR, textStatus, errorThrown) {
-            // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+            console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
             console.log("textStatus: " +textStatus + ", error: " + errorThrown);
         }, 
         success: function (result) {
             // console.log("result: " + JSON.stringify(result));
             if(result.status == "OK") {
-                $("#list_panel").html(result.content);
-                query_params = JSON.parse(result.query_params); 
+                window.location.reload();
             }
+            else alert(result.msg);
         }
     });  
+ 
 }
 
 function DiscountMstEdit(id) {

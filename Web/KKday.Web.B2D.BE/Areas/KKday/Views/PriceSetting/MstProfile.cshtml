@@ -14,71 +14,6 @@
 }
 <div class="row">
     <div class="col-xs-12">
-        <form id="form1">
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>折扣規則代碼</label>
-                    <input type="text" id="disc_no" name="name" class="form-control" value="@Model.DISC_NO">
-                </div>
-            </div>
-            <div class="col-sm-12">
-                <div class="form-group">
-                    <label>折扣規則名稱</label>
-                    <input type="text" id="disc_name" name="name" class="form-control" value="@Model.DISC_NAME">
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>訂購起始日<span class="text-danger">*</span></label>
-                    <input type="text" id="book_sdate" name="name" class="form-control datepicker" value="@Model.S_DATE" placeholder="輸入yyyy-mm-dd">
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>訂購結束日<span class="text-danger">*</span></label>
-                    <input type="text" id="book_edate" name="name" class="form-control datepicker" value="@Model.E_DATE" placeholder="輸入yyyy-mm-dd">
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>折扣類型</label>
-                    <select id="disc_type" class="form-control">
-                        <option value="01">NET</option>
-                        <option value="02">COMMISSION</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>折扣百分比 (&plusmn;)<span class="text-danger">*</span></label>
-                    <input type="text" id="disc_percent" name="name" class="form-control" value="@Model.DISC_PERCENT" placeholder="輸入折扣%">
-                </div>
-            </div>
-
-            <div class="col-sm-6">
-                <div class="form-group">
-                    <label>狀態</label>
-                    <select id="status" class="form-control">
-                        <option value="False">@localizer.Text.Disable</option>
-                        <option value="True">@localizer.Text.Enable</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-xs-12 col-sm-6">
-                <div class="form-group">
-                    <label>產品規則條件<span class="text-danger">*</span></label>
-                    <div class="col-sm-12">
-                        <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio1" value="00" />
-                        <label class="form-check-label" for="inlineRadio1" style="margin-right:8px;">不限定條件</label>
-
-                        <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio2" value="01" />
-                        <label class="form-check-label" for="inlineRadio2">限定條件適用</label>
-                    </div>
-                </div>
-            </div>
-
-
-        </form>
 
     </div>
 </div>
@@ -100,9 +35,11 @@
         <div class="tab-content"> 
 
             <div role="tabpanel" class="tab-pane active" id="disc_dtl">
+                @await Html.PartialAsync("DiscountMstList", Model)
             </div>
 
             <div role="tabpanel" class="tab-pane active" id="curr_amt">
+                @await Html.PartialAsync("DiscountMstList", Model)
             </div>
 
         </div>  <!-- Tab panes end -->

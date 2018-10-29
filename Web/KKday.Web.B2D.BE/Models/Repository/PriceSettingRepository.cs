@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using KKday.Web.B2D.BE.AppCode.DAL.ListPrice;
-using KKday.Web.B2D.BE.AppCode.DAL.Promotion;
+using KKday.Web.B2D.BE.AppCode.DAL.PriceSetting;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using KKday.Web.B2D.BE.Models.Model.PriceSetting;
 using Newtonsoft.Json.Linq;
@@ -18,8 +18,10 @@ namespace KKday.Web.B2D.BE.Models.Repository
             _localizer = localizer;
         }
 
+        #region DiscountMst Methods
+
         //取得查詢,排序與分頁資料
-        public QueryParamsModel GetQueryParamModel(string filter, string sorting, int size, int current_page)
+        public QueryParamsModel GetMstQueryParamModel(string filter, string sorting, int size, int current_page)
         {
             var rec_count = GetDiscountMstCount(filter);
             var total_pages = (int)(rec_count / size) + ((rec_count % size != 0) ? 1 : 0);
@@ -58,7 +60,8 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
             return disc_list;
         }
-        #region Fields Mapping
+
+        #region *** Fields Mapping ***
 
         private string GetFieldFiltering(string filter)
         {
@@ -108,8 +111,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return _sorting;
         }
 
-        #endregion Fields Mapping
+        #endregion *** Fields Mapping ***
 
+        public B2dDiscountMst GetDiscountMst(Int64 xid) 
+        {
+            return DiscountDAL.GetDiscountMst(xid);
+        }
 
         public void InsertMst(B2dDiscountMst mst, string crt_user)
         {
@@ -125,5 +132,121 @@ namespace KKday.Web.B2D.BE.Models.Repository
         {
             DiscountDAL.DeleteDiscountMst(xid, del_user);
         }
+
+        #endregion DiscountMst Methods
+
+        ////////////////
+
+        #region DiscountDTL Methods
+
+        //取得查詢,排序與分頁資料
+        public QueryParamsModel GetDtlQueryParamModel(Int64 mst_xid, string filter, string sorting, int size, int current_page)
+        {
+            var rec_count = GetDiscountDtlCount(mst_xid, filter);
+            var total_pages = (int)(rec_count / size) + ((rec_count % size != 0) ? 1 : 0);
+            return new QueryParamsModel()
+            {
+                Filter = filter,
+                Sorting = sorting,
+                Paging = new Pagination()
+                {
+                    current_page = current_page,
+                    total_count = rec_count,
+                    total_pages = total_pages,
+                    page_size = size
+                }
+            };
+        }
+
+        //取得折扣項目總筆數
+        public int GetDiscountDtlCount(Int64 mst_xid, string filter)
+        {
+            var _filter = string.Empty;
+            return DiscountDAL.GetDiscountDtlCount(mst_xid, _filter);
+        }
+
+        //取得明細清單 
+        public List<B2dDiscountDtl> GetDiscountDtls(Int64 mst_xid, string filter, int skip, int size, string sorting)
+        {
+            var _filter = string.Empty;
+            var _sorting = string.Empty;
+
+            var dtl_list = DiscountDAL.GetDiscountDtls(mst_xid, _filter, skip, size, _sorting);
+            return dtl_list;
+        }
+
+        public void InsertDtl(B2dDiscountDtl dtl, string crt_user)
+        {
+            DiscountDAL.InsertDiscountDtl(dtl, crt_user);
+        }
+
+        public void UpdateDtl(B2dDiscountDtl dtl, string upd_user)
+        {
+            DiscountDAL.UpdateDiscountDtl(dtl, upd_user);
+        }
+
+        public void RemvoeDtl(Int64 xid, string del_user)
+        {
+            DiscountDAL.DeleteDiscountDtl(xid, del_user);
+        }
+
+        #endregion DiscountDTL Methods
+
+        ////////////////
+
+        #region DiscountCurrAmt Methods 
+
+        //取得查詢,排序與分頁資料
+        public QueryParamsModel GetCurrAmtQueryParamModel(Int64 mst_xid, string filter, string sorting, int size, int current_page)
+        {
+            var rec_count = GetDiscountDtlCount(mst_xid, filter);
+            var total_pages = (int)(rec_count / size) + ((rec_count % size != 0) ? 1 : 0);
+            return new QueryParamsModel()
+            {
+                Filter = filter,
+                Sorting = sorting,
+                Paging = new Pagination()
+                {
+                    current_page = current_page,
+                    total_count = rec_count,
+                    total_pages = total_pages,
+                    page_size = size
+                }
+            };
+        }
+
+        //取得語系價格總筆數
+        public int GetDiscountCurrAmtCount(Int64 mst_xid, string filter)
+        {
+            var _filter = string.Empty;
+            return DiscountDAL.GetDiscountCurrAmtCount(mst_xid, _filter);
+        }
+
+        //取得語系價格清單 
+        public List<B2dDiscountCurrAmt> GetDiscountCurrAmts(Int64 mst_xid, string filter, int skip, int size, string sorting)
+        {
+            var _filter = string.Empty;
+            var _sorting = string.Empty;
+
+            var dtl_list = DiscountDAL.GetDiscountCurrAmts(mst_xid, _filter, skip, size, _sorting);
+            return dtl_list;
+        }
+
+        public void InsertCurrAmt(B2dDiscountCurrAmt curr_amt, string crt_user)
+        {
+            DiscountDAL.InsertDiscountCurrAmnt(curr_amt, crt_user);
+        }
+
+        public void UpdateCurrAmt(B2dDiscountCurrAmt curr_amt, string upd_user)
+        {
+            DiscountDAL.UpdateDiscountCurrAmnt(curr_amt, upd_user);
+        }
+
+        public void RemvoeCurrAmt(Int64 xid, string del_user)
+        {
+            DiscountDAL.DeleteDiscountDtl(xid, del_user);
+        }
+
+        #endregion DiscountCurrAmt Methods 
     }
 }

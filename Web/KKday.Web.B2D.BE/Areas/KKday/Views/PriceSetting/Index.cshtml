@@ -14,6 +14,10 @@
             font-size: 20px;
         }
 
+        .sign-btn {
+            background-color: #E0F2F7;
+        }
+
         .error-text {
             color: red;
         }
@@ -22,7 +26,8 @@
 @section Scripts {
     <script src="~/js/stacktable.js" asp-append-version="true"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>*@
+    <script src="~/lib/bootstrap-daterangepicker/dist/js/moment-with-locales.min.js" asp-append-version="true"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
 
 }
@@ -133,9 +138,21 @@
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
-                                <label>折扣百分比 (&plusmn;%)<span class="text-danger">*</span></label>
+                                <label>折扣百分比<span class="text-danger">*</span></label>
                                 <div class="input-group">
-                                    <input type="text" id="disc_percent" name="disc_percent" class="form-control" placeholder="輸入正/負的折扣%">
+
+                                    <div class="input-group-btn">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default sign-btn dropdown-toggle" data-toggle="dropdown">
+                                                <span id="sign_label">-</span>
+                                            </button>
+                                            <ul class="dropdown-menu disc_percent">
+                                                <li><a href="#">-</a></li>
+                                                <li><a href="#">+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <input typex="text" id="disc_percent" dir="rtl" name="disc_percent" class="form-control" placeholder="輸入百分比數值">
                                     <div class="input-group-addon">%</div>
                                 </div>
                             </div>
@@ -149,7 +166,7 @@
                                     <option value="True">@localizer.Text.Enable</option>
                                 </select>
                             </div>
-                        </div>  
+                        </div>
 
                     </div>
                 </form>
@@ -191,7 +208,7 @@
 <script type="text/javascript">
 
     $(function(){
-     
+
         $("#mytable #checkall").click(function () {
             if ($("#mytable #checkall").is(':checked')) {
                 $("#mytable input[type=checkbox]").each(function () {
@@ -202,13 +219,13 @@
                     $(this).prop("checked", false);
                 });
             }
-        }); 
-    
-        $("#add").on("show.bs.modal", function(e) {
-            $("#form1").trigger('reset'); 
         });
 
-        $("[data-toggle=tooltip]").tooltip(); 
+        $("#add").on("show.bs.modal", function(e) {
+            $("#form1").trigger('reset');
+        });
+
+        $("[data-toggle=tooltip]").tooltip();
 
         // Validation for Add New Discount
         $("#add_form").validate({
@@ -220,7 +237,7 @@
               book_period: "required",
               disc_type: "required",
               disc_percent:  "required",
-              status: "required", 
+              disc_type: "required",
               rule_status: "required"
             },
             messages: {
@@ -228,13 +245,18 @@
               disc_name: "折扣規則名稱不可為空",
               book_period: "訂購效期不可為空",
               disc_type: "訂購類型不可為空",
-              disc_percent: "折扣百分比不可為空",
+              disc_type: "折扣百分比不可為空",
               status: "請選擇折扣規則狀態",
               rule_status: "請任選產品規則條件"
              }
-        })
+        });
+
+        $('.disc_percent li').click(function(e){
+           e.preventDefault();
+           $("#sign_label").html($(this).text());
+        });
 
         price_setting_init();
     });
-     
+
 </script>

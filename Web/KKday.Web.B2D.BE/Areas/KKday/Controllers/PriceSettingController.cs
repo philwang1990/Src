@@ -22,7 +22,8 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
     [TypeFilter(typeof(CultureFilter))]
     public class PriceSettingController : Controller
     {
-        const int PAGE_SIZE = 30;
+        const int PAGE_SIZE = 1;
+        const int OPTION_PAGE_SIZE = 5;
         readonly ILocalizer _localizer;
 
         public PriceSettingController(ILocalizer localizer)
@@ -34,7 +35,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
         public IActionResult Index()
         {
             var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
-            var queryParams = prsetRepos.GetQueryParamModel(string.Empty, string.Empty, PAGE_SIZE, 1);
+            var queryParams = prsetRepos.GetMstQueryParamModel(string.Empty, string.Empty, PAGE_SIZE, 1);
 
             ViewData["QUERY_PARAMS"] = queryParams;
             ViewData["QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParams);
@@ -56,7 +57,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
                 // 若 RecountFlag=true 更新分頁資料
                 if (queryParams.RecountFlag)
                 {
-                    queryParams = prsetRepos.GetQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                    queryParams = prsetRepos.GetMstQueryParamModel(queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
                 }
                 ViewData["QUERY_PARAMS"] = queryParams;
 
@@ -77,7 +78,8 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return Json(jsonData);
         }
 
-        public IActionResult InsertDiscount([FromBody] B2dDiscountMst mst)
+        [HttpPost]
+        public IActionResult InsertMst([FromBody] B2dDiscountMst mst)
         {
             Dictionary<string, object> jsonData = new Dictionary<string, object>();
 
@@ -103,7 +105,26 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
         public IActionResult MstProfile(Int64 id) 
         {
-            return View();
+            var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+            var _discMst = prsetRepos.GetDiscountMst(id);
+
+            //
+            var queryParamsDtl = prsetRepos.GetDtlQueryParamModel(id, string.Empty, string.Empty, OPTION_PAGE_SIZE, 1);
+            ViewData["DTL_QUERY_PARAMS"] = queryParamsDtl;
+            ViewData["DTL_QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParamsDtl);
+            var skip = (queryParamsDtl.Paging.current_page - 1) * queryParamsDtl.Paging.page_size;
+            var _disc = prsetRepos.GetDiscountDtls(id, queryParamsDtl.Filter, skip, PAGE_SIZE, queryParamsDtl.Sorting);
+
+            //
+            var queryParamsCurAmt = prsetRepos.GetCurrAmtQueryParamModel(id, string.Empty, string.Empty, OPTION_PAGE_SIZE, 1);
+            ViewData["CUR_AMT_QUERY_PARAMS"] = queryParamsCurAmt;
+            ViewData["CUR_AMT_QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParamsCurAmt);
+            skip = (queryParamsCurAmt.Paging.current_page - 1) * queryParamsCurAmt.Paging.page_size;
+            var _curamt_list = prsetRepos.GetDiscountCurrAmts(id, queryParamsCurAmt.Filter, skip, PAGE_SIZE, queryParamsCurAmt.Sorting);
+
+
+
+            return View(_discMst);
         }
     }
 }
