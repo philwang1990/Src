@@ -27,10 +27,10 @@ namespace KKday.API.WMS.Models.DataModel.Package {
         public string is_unit_pirce { get; set; }//價格別均一價(NORANK,RANK)
         public double? price1 { get; set; }//當下幣別價price1
         public double? price1_org { get; set; } //商品原幣別
-        public double? prcie1_org_net { get; set; }//商品原幣成本價
-        public double? prcie1_profit_rate { get; set; }//毛利率
-        public double? prcie1_comm_rate { get; set; } //傭金率
-        public string prcie1_age_range { get; set; }//年紀範圍/price1BegOId, price1EndOId 逗號區隔
+        public double? price1_org_net { get; set; }//商品原幣成本價
+        public double? price1_profit_rate { get; set; }//毛利率
+        public double? price1_comm_rate { get; set; } //傭金率
+        public string price1_age_range { get; set; }//年紀範圍/price1BegOId, price1EndOId 逗號區隔
         public double? price1_net { get; set; } //當下幣別-同業價
         public double? price1_list { get; set; }//當下幣別-牌價
         public double? price1_cost { get; set; } //當下幣別-成本價
@@ -38,10 +38,10 @@ namespace KKday.API.WMS.Models.DataModel.Package {
 
         public double? price2 { get; set; }
         public double? price2_org { get; set; }
-        public double? prcie2_org_net { get; set; }
-        public double? prcie2_profit_rate { get; set; }
-        public double? prcie2_comm_rate { get; set; }
-        public string prcie2_age_range { get; set; }
+        public double? price2_org_net { get; set; }
+        public double? price2_profit_rate { get; set; }
+        public double? price2_comm_rate { get; set; }
+        public string price2_age_range { get; set; }
         public double? price2_net { get; set; } //當下幣別價-同業價
         public double? price2_list { get; set; }//當下幣別-牌價
         public double? price2_cost { get; set; } //當下幣別-成本價
@@ -49,9 +49,9 @@ namespace KKday.API.WMS.Models.DataModel.Package {
 
         public double? price3 { get; set; }
         public double? price3_org { get; set; }
-        public double? prcie3_org_net { get; set; }
-        public double? prcie3_profit_rate { get; set; }
-        public double? prcie3_comm_rate { get; set; }
+        public double? price3_org_net { get; set; }
+        public double? price3_profit_rate { get; set; }
+        public double? price3_comm_rate { get; set; }
         public string price3_age_range { get; set; } 
         public double? price3_net { get; set; } //當下幣別-同業價
         public double? price3_list { get; set; }//當下幣別-牌價
@@ -60,9 +60,9 @@ namespace KKday.API.WMS.Models.DataModel.Package {
 
         public double? price4 { get; set; } 
         public double? price4_org { get; set; }
-        public double? prcie4_org_net { get; set; }
-        public double? prcie4_profit_rate { get; set; }
-        public double? prcie4_comm_rate { get; set; }
+        public double? price4_org_net { get; set; }
+        public double? price4_profit_rate { get; set; }
+        public double? price4_comm_rate { get; set; }
         public string price4_age_range { get; set; }
         public double? price4_net { get; set; } //當下幣別-同業價
         public double? price4_list { get; set; }//當下幣別-牌價
