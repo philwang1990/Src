@@ -28,6 +28,7 @@ namespace KKday.API.WMS.Models.Repository.Product
         {
             ProductModel product = new ProductModel();
             JObject obj = null, objModule = null, objExTypeLang = null;
+            DataModel.Discount.DiscountRuleModel disc = null;
 
             try
             {
@@ -95,7 +96,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 product.prod_comment_info = comment;
 
                 product.b2c_price = (double)obj["content"]["product"]["minSalePrice"];
-                product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.company_xid), (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString());
+                product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.company_xid), (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString(), ref disc);
 
                 product.order_email = obj["content"]["product"]["orderEmail"].ToString();
                 product.prod_hander = obj["content"]["supplier"]["orderHandler"].ToString();

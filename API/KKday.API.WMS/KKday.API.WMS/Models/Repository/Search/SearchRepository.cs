@@ -31,6 +31,8 @@ namespace KKday.API.WMS.Models.Repository {
 
                 Metadata md = new Metadata();
 
+                DataModel.Discount.DiscountRuleModel disc = null;
+
                 #region --1.取回傳資料是否成功的訊息、統計用資訊--
 
                 md.result = obj["metadata"]["status"].ToString();
@@ -47,7 +49,8 @@ namespace KKday.API.WMS.Models.Repository {
 
                     int countBlackProd = 0;//計算黑名單筆數
 
-                    for (int i = 0; i < jsonPlst.Count; i++) {
+                    for (int i = 0; i < jsonPlst.Count; i++)
+                    {
 
                         var model = new ProductBaseModel();
 
@@ -57,11 +60,12 @@ namespace KKday.API.WMS.Models.Repository {
                         bool isBlack = DiscountRepository.GetProdBlackWhite(prod_no);
 
                         //表示該商品為白名單 需要綁入列表中 （黑名單的就不綁了）
-                        if (isBlack != true) {
+                        if (isBlack != true)
+                        {
 
                             model.prod_no = Convert.ToInt32(prod_no);
                             model.prod_name = jsonPlst[i]["name"].ToString();
-                            model.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jsonPlst[i]["price"], prod_no, jsonPlst[i]["main_cat_key"].ToString());//分銷價
+                            model.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jsonPlst[i]["price"], prod_no, jsonPlst[i]["main_cat_key"].ToString(), ref disc);//分銷價
                             model.b2c_price = (double)jsonPlst[i]["sale_price"];//直客價
                             model.display_ref_price = jsonPlst[i]["display_price"].ToString();
                           
