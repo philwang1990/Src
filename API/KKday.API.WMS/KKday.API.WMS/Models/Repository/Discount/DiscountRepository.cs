@@ -46,7 +46,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
 
 
         //2. 套價規則
-        public static double GetCompanyDiscPrice(Int64 company_xid,double b2d_price,string prod_no ,string prod_type)
+        public static double GetCompanyDiscPrice(Int64 company_xid,double b2d_price,string prod_no ,string prod_type, ref DiscountRuleModel disc )
         {
             var objRules = new JObject();
             List<DataModel.Discount.Rule> ruList = new List<DataModel.Discount.Rule>();
@@ -65,7 +65,8 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                 //當初最原始牌價
                 rule = new DataModel.Discount.Rule();
                 rule.disc_price = b2d_price;
-                rule.mst_xid = "無";
+                rule.mst_xid = null;
+                rule.disc_name = null;
                 ruList.Add(rule);
 
 
@@ -80,7 +81,8 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         rule.mst_xid = (string)item["xid"];
                         rule.disc_percent = (double)item["disc_percent"];
                         rule.amt = (double)item["amt"];
-                        rule.disc_price = System.Math.Round((b2d_price * (1 - rule.disc_percent / 100)) + rule.amt, MidpointRounding.AwayFromZero);
+                        rule.disc_price = System.Math.Round((b2d_price * (1 + rule.disc_percent / 100)) + rule.amt, MidpointRounding.AwayFromZero);
+                        rule.disc_name = (string)item["disc_name"];
                         ruList.Add(rule);
                     }
 
@@ -96,14 +98,48 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         rule.mst_xid = (string)item["xid"];
                         rule.disc_percent = (double)item["disc_percent"];
                         rule.amt = (double)item["amt"];
-                        rule.disc_price = System.Math.Round((b2d_price * (1 - rule.disc_percent / 100)) + rule.amt, MidpointRounding.AwayFromZero);
+                        rule.disc_price = System.Math.Round((b2d_price * (1 + rule.disc_percent / 100)) + rule.amt, MidpointRounding.AwayFromZero);
+                        rule.disc_name = (string)item["disc_name"];
+                        rule.currency = (string)item["currency"];
+                        rule.disc_dtl_xid = (string)item["disc_dtl_xid"];
                         ruList.Add(rule);
                     }
 
                 }
                 //套價規則排序 取最低價
-                ruList.OrderByDescending(x => x.disc_price);
+                ruList = ruList.OrderBy(x => x.disc_price).ToList();
+
+                if (disc == null) // 第一次進入才需要紀錄 折扣資訊 避免 price1 price2 price3 price4 記錄了４次
+                {
+                    disc = new DiscountRuleModel();
+
+                    if (ruList[0].mst_xid == null) 
+                    {
+                        disc.isRule = false;
+                        disc.disc_xid = null;
+                        disc.disc_name = null;
+                        disc.disc_percent = null;
+                        disc.amt = null;
+                        disc.currency = null;
+                        disc.disc_dtl_xid = null;
+                    }
+                        
+                    else 
+                    {
+                        disc.isRule = true;
+                        disc.disc_xid = ruList[0].mst_xid;
+                        disc.disc_name = ruList[0].disc_name;
+                        disc.disc_percent = ruList[0].disc_percent;
+                        disc.amt = ruList[0].amt;
+                        disc.currency = ruList[0].currency ;
+                        disc.disc_dtl_xid = ruList[0].disc_dtl_xid ;
+                    }
+                        
+                }
+
                 Website.Instance.logger.Info($"B2D套價規則 COMPANY_XID:{company_xid},PROD_NO:,{prod_no},XID:{ruList[0].mst_xid},DISC_PERCENT:{ruList[0].disc_percent},DISC_AMT:{ruList[0].amt}");
+
+
             }
             catch (Exception ex)
             {

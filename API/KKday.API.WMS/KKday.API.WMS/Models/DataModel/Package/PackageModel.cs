@@ -10,10 +10,12 @@ namespace KKday.API.WMS.Models.DataModel.Package {
         public string result_msg { get; set; }
         public string cost_calc_type { get; set; }
         //成本計算方式/costCalcMethod ex:NET >> PMS會需要
+        public string guid { get; set; } // seddionID放到redis
 
         public PkgSaleDateModel sale_dates { get; set; } //套餐可售日期
         public List<PkgDetailModel> pkgs { get; set; }
-       }
+        public Discount.DiscountRuleModel discount_rule { get; set; }
+    }
 
     public class PkgDetailModel
     {
