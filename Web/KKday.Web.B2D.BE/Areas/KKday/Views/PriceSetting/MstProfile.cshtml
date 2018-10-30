@@ -5,18 +5,141 @@
 @model B2dDiscountMst
 @{
     Layout = "_LayoutMain";
+
     var dtl_query_params = ViewData["DTL_QUERY_PARAMS"] as QueryParamsModel;
     var curamt_query_params = ViewData["CUR_AMT_QUERY_PARAMS"] as QueryParamsModel;
 }
+
 @section Stylesheet {
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/jquery-scrolling-tabs/dist/css/jquery.scrolling-tabs.min.css")" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .daterangepicker select.monthselect, .daterangepicker select.yearselect {
+            font-size: 20px;
+        }
 
+        .sign-btn {
+            background-color: #E0F2F7;
+        }
+
+        .error-text {
+            color: red;
+        }
+    </style>
 }
-<div class="row">
-    <div class="col-xs-12">
+@section Scripts {
+    <script src="~/js/price-setting.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-scrolling-tabs/dist/js/jquery.scrolling-tabs.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-daterangepicker/dist/js/moment-with-locales.min.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
+}
 
+<script type="text/javascript">
+    var dtl_query_params = @Html.Raw(ViewData["DTL_QUERY_PARAMS_JSON"].ToString());
+    var curamt_query_params = @Html.Raw(ViewData["CUR_AMT_QUERY_PARAMS_JSON"].ToString());
+</script>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page">@localizer.Text.Title_PriceSetting</li>
+        <li class="breadcrumb-item active" aria-current="page">折扣規則內容</li>
+    </ol>
+</nav>
+
+
+<input type="hidden" id="mst_xid" value="@Model.XID" />
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>折扣規則內容</h4>
+            <form id="edit_form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>折扣規則名稱</label>
+                            <input type="text" id="disc_name" name="disc_name" class="form-control" value="@Model.DISC_NAME">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>訂購效期<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="text" id="book_period" name="book_period" class="form-control period" value="@string.Format("{0:yyyy-MM-dd} ~ {1:yyyy-MM-dd}",  Model.S_DATE, Model.E_DATE)" />
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>折扣類型</label>
+                            <select id="disc_type" name="disc_type" class="form-control">
+                                <option value="01">NET</option>
+                                <option value="02">COMMISSION</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>折扣百分比<span class="text-danger">*</span></label>
+                            <div class="input-group">
+
+                                <div class="input-group-btn">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default sign-btn dropdown-toggle" data-toggle="dropdown">
+                                            <span id="sign_label">@(Model.DISC_PERCENT < 0 ? "-" : "+")</span>
+                                        </button>
+                                        <ul class="dropdown-menu disc_percent">
+                                            <li><a href="#">-</a></li>
+                                            <li><a href="#">+</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input typex="text" id="disc_percent" dir="rtl" name="disc_percent" class="form-control" value="@Math.Abs(Model.DISC_PERCENT)" placeholder="輸入百分比數值">
+                                <div class="input-group-addon">%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>狀態</label>
+                            <select id="status" name="status" class="form-control">
+                                <option value="00" selected>@localizer.Text.Disable</option>
+                                <option value="01">@localizer.Text.Enable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>產品規則條件<span class="text-danger">*</span></label>
+                            <div class="col-xs-12">
+                                <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio1" value="00" checked />
+                                <label class="form-check-label" for="inlineRadio1" style="margin-right: 8px;">不限定條件</label>
+
+                                <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio2" value="01" />
+                                <label class="form-check-label" for="inlineRadio2">限定條件適用</label>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- row -->
+
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <hr />
+                        <button type="button" class="btn btn-default" onclick="window.history.go(-1);">回上一頁</button>
+                        <button type="button" class="btn btn-primary" onclick="UpdateDiscountMst();">更新</button>
+                    </div>
+                </div> <!-- row -->
+            </form>
+        </div>
     </div>
+
 </div>
+
+<br />
 
 <div class="container">
     <div class="row">
@@ -24,25 +147,91 @@
 
         <ul class="nav nav-tabs" role="tablist">
             <li role="presentation" class="active"><a href="#disc_dtl" aria-controls="disc_dtl" role="tab" data-toggle="tab">折扣明細</a></li>
-            <li role="presentation"><a href="#curr_amt" aria-controls="curr_amt" role="tab" data-toggle="tab">外幣折扣金額</a></li> 
-        </ul> 
+            <li role="presentation"><a href="#curr_amt" aria-controls="curr_amt" role="tab" data-toggle="tab">外幣折扣金額</a></li>
+        </ul>
     </div>
 
-     
-     <div class="row" style="margin-top: 16px;">
+
+    <div class="row" style="margin-top: 16px;">
 
         <!-- Tab panes begin -->
-        <div class="tab-content"> 
+        <div class="tab-content">
 
             <div role="tabpanel" class="tab-pane active" id="disc_dtl">
-                @await Html.PartialAsync("DiscountMstList", Model)
+                 
+                    <div class="col-xs-12 add-dtl" style="@(Model.RULE_STATUS.Equals("01")? "" : "display:none;")" >
+                        <a href="#" class="btn" data-title="新增明細規則" data-toggle="modal" data-target="#add_dtl"><i class="fas fa-plus"></i> 新增明細規則</a>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div id="dtl_panel" class="table-responsive">
+                        @await Html.PartialAsync("DiscountDtlList", ViewData["DTL_MODEL"])
+                        </div>
+                    </div>
+                 
             </div>
 
-            <div role="tabpanel" class="tab-pane active" id="curr_amt">
-                @await Html.PartialAsync("DiscountMstList", Model)
+            <div role="tabpanel" class="tab-pane" id="curr_amt">
+                 
+                    <div class="col-xs-12">
+                        <a href="#" class="btn" data-title="新增外幣金額" data-toggle="modal" data-target="#add_curamt"><i class="fas fa-plus"></i> 新增外幣金額</a>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div id="curamt_panel" class="table-responsive">
+                        @await Html.PartialAsync("DiscountCurrAmtList", ViewData["CURR_AMT_MODEL"])
+                        </div>
+                    </div>
+                 
             </div>
 
         </div>  <!-- Tab panes end -->
 
     </div>
 </div>
+
+<script type="text/javascript">
+    $(function(){
+        $("#status").val('@Model.STATUS');
+        $("input[name=rule_status][value='@Model.RULE_STATUS']").prop("checked",true);
+        $("input[name=rule_status]").click(function() {
+            if(this.value == "00") $(".add-dtl").hide();
+            else $(".add-dtl").show();
+        });
+
+        moment.locale('zh-tw');
+
+        $(".period").daterangepicker({
+            locale : { format: 'YYYY-MM-DD', separator: ' ~ ' },
+            showDropdowns : true,
+            alwaysShowCalendars : false
+        });
+
+        $('.disc_percent li').click(function(e){
+           e.preventDefault();
+           $("#sign_label").html($(this).text());
+        });
+
+        $("#edit_form").validate({
+            errorClass: "error-text",
+            errorElement: "span",
+            rules: {
+              disc_name: "required",
+              book_period: "required",
+              disc_type: "required",
+              disc_percent:  "required",
+              disc_type: "required",
+              rule_status: "required"
+            },
+            messages: {
+              disc_name: "折扣規則名稱不可為空",
+              book_period: "訂購效期不可為空",
+              disc_type: "訂購類型不可為空",
+              disc_type: "折扣百分比不可為空",
+              status: "請選擇折扣規則狀態",
+              rule_status: "請任選產品規則條件"
+             }
+        });
+    });
+
+</script>

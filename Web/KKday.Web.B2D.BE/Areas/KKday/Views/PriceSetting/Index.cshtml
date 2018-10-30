@@ -23,14 +23,16 @@
         }
     </style>
 }
-@section Scripts {
-    <script src="~/js/stacktable.js" asp-append-version="true"></script>
-
+@section Scripts {  
+    <script src="~/js/price-setting.js" asp-append-version="true"></script> 
     @*<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/moment.min.js"></script>*@
     <script src="~/lib/bootstrap-daterangepicker/dist/js/moment-with-locales.min.js" asp-append-version="true"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
-
 }
+
+<script type="text/javascript">
+  var query_params = @Html.Raw(ViewData["QUERY_PARAMS_JSON"].ToString());
+</script>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -57,11 +59,16 @@
 
                 <div class="col-sm-6">
                     <div class="input-group input-daterange">
-                        <input type="text" class="form-control" value="2012-04-05">
+                        <input type="text" class="form-control">
                         <div class="input-group-addon">to</div>
-                        <input type="text" class="form-control" value="2012-04-19">
+                        <input type="text" class="form-control">
                     </div>
+                </div>
 
+                <div class="col-sm-2">
+                     
+                    <button class="btn btn-primary form-control" onclick="RefreshMst(1, true); return false;">@localizer.Text.Search</button>             
+                     
                 </div>
 
             </div>
@@ -90,32 +97,13 @@
             <div class="modal-body">
                 <form id="add_form">
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>折扣規則代碼</label>
-                                <input type="text" id="disc_no" name="disc_no" class="form-control">
-                            </div>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>產品規則條件<span class="text-danger">*</span></label>
-                                <div class="col-sm-12">
-                                    <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio1" value="00" checked />
-                                    <label class="form-check-label" for="inlineRadio1" style="margin-right: 8px;">不限定條件</label>
-
-                                    <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio2" value="01" />
-                                    <label class="form-check-label" for="inlineRadio2">限定條件適用</label>
-                                </div>
-                            </div>
-                        </div>
 
                         <div class="col-sm-12">
                             <div class="form-group">
                                 <label>折扣規則名稱</label>
                                 <input type="text" id="disc_name" name="disc_name" class="form-control">
                             </div>
-                        </div>
+                        </div>  
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>訂購效期<span class="text-danger">*</span></label>
@@ -126,7 +114,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>折扣類型</label>
@@ -136,6 +124,7 @@
                                 </select>
                             </div>
                         </div>
+
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>折扣百分比<span class="text-danger">*</span></label>
@@ -156,18 +145,28 @@
                                     <div class="input-group-addon">%</div>
                                 </div>
                             </div>
-                        </div>
-
+                        </div> 
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>狀態</label>
                                 <select id="status" name="status" class="form-control">
-                                    <option value="False">@localizer.Text.Disable</option>
-                                    <option value="True">@localizer.Text.Enable</option>
+                                    <option value="00">@localizer.Text.Disable</option>
+                                    <option value="01">@localizer.Text.Enable</option>
                                 </select>
                             </div>
                         </div>
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>產品規則條件<span class="text-danger">*</span></label>
+                                <div class="col-xs-12">
+                                    <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio1" value="00" checked />
+                                    <label class="form-check-label" for="inlineRadio1" style="margin-right: 8px;">不限定條件</label>
 
+                                    <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio2" value="01" />
+                                    <label class="form-check-label" for="inlineRadio2">限定條件適用</label>
+                                </div>
+                            </div>  
+                        </div> 
                     </div>
                 </form>
             </div>
@@ -195,7 +194,7 @@
 
             </div>
             <div class="modal-footer ">
-                <button id="btn_del" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button id="btn_del" type="button" class="btn btn-success" onclick="RemoveDiscountMst();"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
                 <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
             </div>
         </div>
@@ -231,8 +230,7 @@
         $("#add_form").validate({
             errorClass: "error-text",
             errorElement: "span",
-            rules: {
-              disc_no: "required",
+            rules: { 
               disc_name: "required",
               book_period: "required",
               disc_type: "required",
@@ -241,7 +239,6 @@
               rule_status: "required"
             },
             messages: {
-              disc_no: "折扣規則代碼不可為空",
               disc_name: "折扣規則名稱不可為空",
               book_period: "訂購效期不可為空",
               disc_type: "訂購類型不可為空",

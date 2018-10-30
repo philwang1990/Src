@@ -7,7 +7,6 @@ namespace KKday.Web.B2D.BE.Models.Model.PriceSetting
     public class B2dDiscountMst
     {
         public Int64 XID { get; set; }
-        public string DISC_NO { get; set; } //規則編碼
         public string DISC_NAME { get; set; } //規則名稱
         public string DISC_TYPE { get; set; } //規則類型(01 NET/02 COMM)
         public double DISC_PERCENT { get; set; } //折扣%數

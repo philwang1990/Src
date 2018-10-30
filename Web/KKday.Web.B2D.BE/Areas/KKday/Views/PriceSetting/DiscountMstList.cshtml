@@ -5,7 +5,7 @@
 @inject ILocalizer localizer
 @model List<B2dDiscountMst>
 @{
-
+    var query_params = (QueryParamsModel)ViewData["QUERY_PARAMS"];
 }
 
 @if (Model == null || Model.Count() < 1)
@@ -19,7 +19,7 @@ else
         <thead>
             <tr>
                 <th><input type="checkbox" id="checkall" /></th>
-                <th>Discount No</th>
+                <th>@localizer.Text.ID</th>
                 <th>Discount Name</th>
                 <th>@localizer.Text.Status</th>
                 <th>Start Date</th>
@@ -33,13 +33,13 @@ else
             {
                 <tr>
                     <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
-                    <td><a href="#" onclick="DiscountMstEdit(@item.XID);">@item.DISC_NO</a></td>
+                    <td><a href="#" onclick="DiscountMstEdit(@item.XID);">@item.XID.ToString("00")</a></td>
                     <td>@item.DISC_NAME</td>
                     <td>@item.STATUS_DESC</td>
                     <td>@item.S_DATE.Value.ToString("yyyy-MM-dd")</td>
                     <td>@item.E_DATE.Value.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="$('#btn_del').attr('mst_xid', @item.XID);">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </td>
@@ -48,4 +48,31 @@ else
         </tbody>
     </table>
 
+
+    <div class="col-xs-12">
+        <ul class="pagination pull-right">
+
+            @if (query_params.Paging.total_pages > 1)
+            {
+                <li><a href="javascript:RefreshMst(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+            }
+
+            @for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
+            {
+                var pgIdx = nIdx + 1;
+                if (pgIdx == query_params.Paging.current_page)
+                {
+                    <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+                }
+                else
+                {
+                    <li><a href="javascript:void(0);" onclick="RefreshMst(@pgIdx, false);">@pgIdx</a></li>
+                }
+            }
+            @if (query_params.Paging.total_pages > 1)
+            {
+                <li><a href="javascript:RefreshMst(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+            }
+        </ul>
+    </div>
 }

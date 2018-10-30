@@ -65,7 +65,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
                     principal,
                     new AuthenticationProperties()
                     {
-                        ExpiresUtc = DateTime.UtcNow.AddMinutes(20), // 預設 Cookie 有效時間
+                        ExpiresUtc = DateTime.UtcNow.AddDays(10), // 預設 Cookie 有效時間
                         IsPersistent = false,
                         AllowRefresh = false
                     });

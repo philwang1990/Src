@@ -35,7 +35,6 @@ ORDER BY comp_name
                     mst_list.Add(new B2dDiscountMst()
                     {
                         XID = dr.ToInt64("xid"),
-                        DISC_NO = dr.ToStringEx("disc_no"),
                         DISC_NAME = dr.ToStringEx("disc_name"),
                         DISC_PERCENT = dr.ToDouble("disc_percent"),
                         DISC_TYPE = dr.ToStringEx("disc_type"),
@@ -80,8 +79,7 @@ WHERE xid NOT IN (
                 {
                     mst_list.Add(new B2dDiscountMst()
                     {
-                        XID = dr.ToInt64("xid"),
-                        DISC_NO = dr.ToStringEx("disc_no"),
+                        XID = dr.ToInt64("xid"), 
                         DISC_NAME = dr.ToStringEx("disc_name"),
                         DISC_PERCENT = dr.ToDouble("disc_percent"),
                         DISC_TYPE = dr.ToStringEx("disc_type"),

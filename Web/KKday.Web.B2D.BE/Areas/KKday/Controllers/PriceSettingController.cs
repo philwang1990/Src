@@ -22,7 +22,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
     [TypeFilter(typeof(CultureFilter))]
     public class PriceSettingController : Controller
     {
-        const int PAGE_SIZE = 1;
+        const int PAGE_SIZE = 3;
         const int OPTION_PAGE_SIZE = 5;
         readonly ILocalizer _localizer;
 
@@ -113,18 +113,70 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             ViewData["DTL_QUERY_PARAMS"] = queryParamsDtl;
             ViewData["DTL_QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParamsDtl);
             var skip = (queryParamsDtl.Paging.current_page - 1) * queryParamsDtl.Paging.page_size;
-            var _disc = prsetRepos.GetDiscountDtls(id, queryParamsDtl.Filter, skip, PAGE_SIZE, queryParamsDtl.Sorting);
+            var dtl_list = prsetRepos.GetDiscountDtls(id, queryParamsDtl.Filter, skip, PAGE_SIZE, queryParamsDtl.Sorting);
+            ViewData["DTL_MODEL"] = dtl_list;
 
             //
             var queryParamsCurAmt = prsetRepos.GetCurrAmtQueryParamModel(id, string.Empty, string.Empty, OPTION_PAGE_SIZE, 1);
             ViewData["CUR_AMT_QUERY_PARAMS"] = queryParamsCurAmt;
             ViewData["CUR_AMT_QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParamsCurAmt);
             skip = (queryParamsCurAmt.Paging.current_page - 1) * queryParamsCurAmt.Paging.page_size;
-            var _curamt_list = prsetRepos.GetDiscountCurrAmts(id, queryParamsCurAmt.Filter, skip, PAGE_SIZE, queryParamsCurAmt.Sorting);
-
+            var curamt_list = prsetRepos.GetDiscountCurrAmts(id, queryParamsCurAmt.Filter, skip, PAGE_SIZE, queryParamsCurAmt.Sorting);
+            ViewData["CURR_AMT_MODEL"] = curamt_list;
 
 
             return View(_discMst);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateMst([FromBody] B2dDiscountMst mst)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var upd_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+
+                // 修改折扣規則主檔
+                prsetRepos.UpdateMst(mst, upd_user);
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        [HttpPost]
+        public IActionResult RemoveMst([FromBody] JObject req)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var del_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+
+                // 移除折扣規則主檔
+                var xid = (Int64)req["xid"];
+                prsetRepos.RemvoeMst(xid, del_user);
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
         }
     }
 }

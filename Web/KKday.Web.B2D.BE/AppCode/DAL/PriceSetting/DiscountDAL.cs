@@ -9,7 +9,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.PriceSetting
 {
     public class DiscountDAL
     {
-        #region DiscountMst Methods 
+        #region DiscountMst Methods
 
         // 取得折扣主規則總筆數
         public static int GetDiscountMstCount(string filter)
@@ -58,8 +58,7 @@ LIMIT :Size OFFSET :Skip";
                 {
                     mst_list.Add(new B2dDiscountMst()
                     {
-                        XID = dr.ToInt64("xid"),
-                        DISC_NO = dr.ToStringEx("disc_no"),
+                        XID = dr.ToInt64("xid"), 
                         DISC_NAME = dr.ToStringEx("disc_name"),
                         DISC_PERCENT = dr.ToDouble("disc_percent"),
                         DISC_TYPE = dr.ToStringEx("disc_type"),
@@ -89,7 +88,7 @@ LIMIT :Size OFFSET :Skip";
 
             try
             {
-                string sqlStmt = @"SELECT * FROM b2b.b2d_discount_mst WHERE C.xid=:xid";
+                string sqlStmt = @"SELECT * FROM b2b.b2d_discount_mst WHERE xid=:xid";
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("xid", xid)
                 };
@@ -99,12 +98,12 @@ LIMIT :Size OFFSET :Skip";
                 var mst = new B2dDiscountMst()
                 {
                     XID = dr.ToInt64("xid"),
-                    DISC_NO = dr.ToStringEx("disc_no"),
                     DISC_NAME = dr.ToStringEx("disc_name"),
                     DISC_PERCENT = dr.ToDouble("disc_percent"),
                     DISC_TYPE = dr.ToStringEx("disc_type"),
                     S_DATE = dr.ToDateTimeEx("s_date"),
                     E_DATE = dr.ToDateTimeEx("e_date"),
+                    STATUS = dr.ToStringEx("status"),
                     RULE_STATUS = dr.ToStringEx("rule_status")
                 };
 
@@ -124,20 +123,19 @@ LIMIT :Size OFFSET :Skip";
         {
             try
             {
-                string sqlStmt = @"INSERT INTO b2b.b2d_discount_mst(disc_no, disc_name, 
+                string sqlStmt = @"INSERT INTO b2b.b2d_discount_mst(disc_name, 
  disc_type, s_date, e_date, status, disc_percent, rule_status, crt_user, crt_datetime)
-VALUES (:disc_no, :disc_name, :disc_type, :s_date, :e_date, :status, :disc_percent, :rule_status, :crt_user, now())
+VALUES (:disc_name, :disc_type, :s_date, :e_date, :status, :disc_percent, :rule_status, :crt_user, now())
 ";
 
-                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("disc_no,", mst.DISC_NO),
-                    new NpgsqlParameter("disc_name,", mst.DISC_NAME),
-                    new NpgsqlParameter("disc_type,", mst.DISC_TYPE),
-                    new NpgsqlParameter("s_date,", mst.S_DATE),
-                    new NpgsqlParameter("e_date,", mst.E_DATE),
-                    new NpgsqlParameter("status,", mst.STATUS),
-                    new NpgsqlParameter("disc_percent,", mst.DISC_PERCENT),
-                    new NpgsqlParameter("rule_status,", mst.RULE_STATUS),
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] { 
+                    new NpgsqlParameter("disc_name", mst.DISC_NAME),
+                    new NpgsqlParameter("disc_type", mst.DISC_TYPE),
+                    new NpgsqlParameter("s_date", mst.S_DATE),
+                    new NpgsqlParameter("e_date", mst.E_DATE),
+                    new NpgsqlParameter("status", mst.STATUS),
+                    new NpgsqlParameter("disc_percent", mst.DISC_PERCENT),
+                    new NpgsqlParameter("rule_status", mst.RULE_STATUS),
                     new NpgsqlParameter("crt_user", crt_user)
                 };
               
@@ -155,21 +153,20 @@ VALUES (:disc_no, :disc_name, :disc_type, :s_date, :e_date, :status, :disc_perce
         {
             try
             {
-                string sqlStmt = @" UPDATE b2b.b2d_discount_mst SET disc_no=:disc_no, disc_name=:disc_name, 
+                string sqlStmt = @"UPDATE b2b.b2d_discount_mst SET disc_name=:disc_name, 
  disc_type=:disc_type, s_date=:s_date, e_date=:e_date, status=:status, disc_percent=:disc_percent, 
  rule_status=:rule_status, upd_user=:upd_user, upd_datetime=now()
 WHERE xid=:xid";
 
-                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] { 
-                    new NpgsqlParameter("disc_no,", mst.DISC_NO),
-                    new NpgsqlParameter("disc_name,", mst.DISC_NAME),
-                    new NpgsqlParameter("disc_type,", mst.DISC_TYPE),
-                    new NpgsqlParameter("s_date,", mst.S_DATE),
-                    new NpgsqlParameter("e_date,", mst.E_DATE),
-                    new NpgsqlParameter("status,", mst.STATUS),
-                    new NpgsqlParameter("disc_percent,", mst.DISC_PERCENT),
-                    new NpgsqlParameter("rule_status,", mst.RULE_STATUS),
-                    new NpgsqlParameter("xid,", mst.XID),
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {  
+                    new NpgsqlParameter("disc_name", mst.DISC_NAME),
+                    new NpgsqlParameter("disc_type", mst.DISC_TYPE),
+                    new NpgsqlParameter("s_date", mst.S_DATE),
+                    new NpgsqlParameter("e_date", mst.E_DATE),
+                    new NpgsqlParameter("status", mst.STATUS),
+                    new NpgsqlParameter("disc_percent", mst.DISC_PERCENT),
+                    new NpgsqlParameter("rule_status", mst.RULE_STATUS),
+                    new NpgsqlParameter("xid", mst.XID),
                     new NpgsqlParameter("upd_user", upd_user)
                 };
 
@@ -226,9 +223,10 @@ WHERE xid=:xid";
         {
             try
             {
-                string sqlStmt = @"SELECT COUNT(*) FROM b2b.b2d_company
-WHERE 1=1 {FILTER}";
+                string sqlStmt = @"SELECT COUNT(*) FROM b2b.b2d_discount_dtl
+WHERE mst_xid=:mst_xid {FILTER}";
 
+                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("mst_xid", mst_xid)
@@ -299,7 +297,7 @@ LIMIT :Size OFFSET :Skip";
 VALUES (:mst_xid, :disc_type, :disc_list, :disc_list_name, :whitelist, :crt_user, now())";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("mst_xid,", dtl.MST_XID),
+                    new NpgsqlParameter("mst_xid", dtl.MST_XID),
                     new NpgsqlParameter("disc_type",dtl.DISC_TYPE), 
                     new NpgsqlParameter("disc_list", dtl.DISC_LIST), 
                     new NpgsqlParameter("disc_list_name", dtl.DISC_LIST_NAME), 
@@ -325,7 +323,7 @@ VALUES (:mst_xid, :disc_type, :disc_list, :disc_list_name, :whitelist, :crt_user
 WHERE xid=:xid";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("xid,", dtl.XID),
+                    new NpgsqlParameter("xid", dtl.XID),
                     new NpgsqlParameter("disc_type",dtl.DISC_TYPE),
                     new NpgsqlParameter("disc_list", dtl.DISC_LIST),
                     new NpgsqlParameter("disc_list_name", dtl.DISC_LIST_NAME),

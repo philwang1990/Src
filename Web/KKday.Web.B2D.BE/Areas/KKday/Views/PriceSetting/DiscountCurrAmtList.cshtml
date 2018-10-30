@@ -3,6 +3,8 @@
 @using Resources
 @inject ILocalizer localizer
 @model List<B2dDiscountCurrAmt>
+@{
+    var query_params = ViewData["DTL_QUERY_PARAMS"] as QueryParamsModel;
 }
 
 @if (Model == null || Model.Count() < 1)
@@ -12,12 +14,12 @@
 else
 {
 
-    <table id="disc_tbl" class="table table-bordred table-striped fit">
+    <table id="tbl_2" class="table table-bordred table-striped fit">
         <thead>
             <tr>
                 <th><input type="checkbox" id="checkall" /></th>
                 <th>ID</th>
-                <th>Currency</th> 
+                <th>Currency</th>
                 <th>Amount</th>
                 <th>@localizer.Text.Delete</th>
             </tr>
@@ -27,7 +29,7 @@ else
             {
                 <tr>
                     <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
-                    <td>@item.XID</td>
+                    <td><a href="#">@item.XID.ToString("00")</a></td>
                     <td>@item.CURRENCY</td>
                     <td>@item.AMOUNT</td>
                     <td>
@@ -39,5 +41,31 @@ else
             }
         </tbody>
     </table>
+
+    <div class="col-xs-12">
+        <ul class="pagination pull-right">
+
+            @if (query_params.Paging.total_pages > 1)
+        {
+            <li><a href="javascript:RefreshMst(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+        }
+            @for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
+        {
+            var pgIdx = nIdx + 1;
+            if (pgIdx == query_params.Paging.current_page)
+            {
+                <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+            }
+            else
+            {
+            <li><a href="javascript:void(0);" onclick="RefreshMst(@pgIdx, false);">@pgIdx</a></li>
+            }
+        }
+        @if (query_params.Paging.total_pages > 1)
+        {
+            <li><a href="javascript:RefreshMst(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+        }
+        </ul>
+    </div>
 
 }
