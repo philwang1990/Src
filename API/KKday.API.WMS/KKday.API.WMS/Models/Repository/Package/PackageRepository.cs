@@ -79,10 +79,10 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                     model.price1 = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price1"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString());//分銷價
                     model.price1_org = (double?)jPkglst[i]["productPkg"]["price1Org"] ?? 0;
-                    model.prcie1_org_net = (double?)jPkglst[i]["productPkg"]["price1NetOrg"] ?? 0;
-                    model.prcie1_profit_rate = (double?)jPkglst[i]["productPkg"]["price1GrossRate"] ?? 0;
-                    model.prcie1_comm_rate = (double?)jPkglst[i]["productPkg"]["price1CommRate"] ?? 0;
-                    model.prcie1_age_range = jPkglst[i]["productPkg"]["price1BegOld"].ToString() + "~" +
+                    model.price1_org_net = (double?)jPkglst[i]["productPkg"]["price1NetOrg"] ?? 0;
+                    model.price1_profit_rate = (double?)jPkglst[i]["productPkg"]["price1GrossRate"] ?? 0;
+                    model.price1_comm_rate = (double?)jPkglst[i]["productPkg"]["price1CommRate"] ?? 0;
+                    model.price1_age_range = jPkglst[i]["productPkg"]["price1BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price1EndOld"].ToString();
                     model.price1_b2c = (double?)jPkglst[i]["productPkg"]["price1Sale"] ?? 0;
                     // model.price1_net = (double)jPkglst[i]["productPkg"][""];
@@ -90,10 +90,10 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                     model.price2 = (double?)jPkglst[i]["productPkg"]["price2"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price2"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString());//分銷價
                     model.price2_org = (double?)jPkglst[i]["productPkg"]["price2Org"] ?? 0;
-                    model.prcie2_org_net = (double?)jPkglst[i]["productPkg"]["price2NetOrg"] ?? 0;
-                    model.prcie2_profit_rate = (double?)jPkglst[i]["productPkg"]["price2GrossRate"] ?? 0;
-                    model.prcie2_comm_rate = (double?)jPkglst[i]["productPkg"]["price2CommRate"] ?? 0;
-                    model.prcie2_age_range = jPkglst[i]["productPkg"]["price2BegOld"].ToString() + "~" +
+                    model.price2_org_net = (double?)jPkglst[i]["productPkg"]["price2NetOrg"] ?? 0;
+                    model.price2_profit_rate = (double?)jPkglst[i]["productPkg"]["price2GrossRate"] ?? 0;
+                    model.price2_comm_rate = (double?)jPkglst[i]["productPkg"]["price2CommRate"] ?? 0;
+                    model.price2_age_range = jPkglst[i]["productPkg"]["price2BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price2EndOld"].ToString();
                     model.price2_b2c = (double?)jPkglst[i]["productPkg"]["price2Sale"] ?? 0;
                     // model.price2_net = (double)jPkglst[i]["productPkg"][""];
@@ -101,9 +101,9 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                     model.price3 = (double?)jPkglst[i]["productPkg"]["price3"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price3"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString());//分銷價
                     model.price3_org = (double?)jPkglst[i]["productPkg"]["price3Org"] ?? 0;
-                    model.prcie3_org_net = (double?)jPkglst[i]["productPkg"]["price3NetOrg"] ?? 0;
-                    model.prcie3_profit_rate = (double?)jPkglst[i]["productPkg"]["price3GrossRate"] ?? 0;
-                    model.prcie3_comm_rate = (double?)jPkglst[i]["productPkg"]["price3CommRate"] ?? 0;
+                    model.price3_org_net = (double?)jPkglst[i]["productPkg"]["price3NetOrg"] ?? 0;
+                    model.price3_profit_rate = (double?)jPkglst[i]["productPkg"]["price3GrossRate"] ?? 0;
+                    model.price3_comm_rate = (double?)jPkglst[i]["productPkg"]["price3CommRate"] ?? 0;
                     model.price3_age_range = jPkglst[i]["productPkg"]["price3BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price3EndOld"].ToString();
                     model.price3_b2c = (double?)jPkglst[i]["productPkg"]["price3Sale"] ?? 0;
@@ -112,9 +112,9 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                     model.price4 = (double?)jPkglst[i]["productPkg"]["price4"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price4"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString());//分銷價
                     model.price4_org = (double?)jPkglst[i]["productPkg"]["price4Org"] ?? 0;
-                    model.prcie4_org_net = (double?)jPkglst[i]["productPkg"]["price4NetOrg"] ?? 0;
-                    model.prcie4_profit_rate = (double?)jPkglst[i]["productPkg"]["price4GrossRate"] ?? 0;
-                    model.prcie4_comm_rate = (double?)jPkglst[i]["productPkg"]["price4CommRate"] ?? 0;
+                    model.price4_org_net = (double?)jPkglst[i]["productPkg"]["price4NetOrg"] ?? 0;
+                    model.price4_profit_rate = (double?)jPkglst[i]["productPkg"]["price4GrossRate"] ?? 0;
+                    model.price4_comm_rate = (double?)jPkglst[i]["productPkg"]["price4CommRate"] ?? 0;
                     model.price4_age_range = jPkglst[i]["productPkg"]["price4BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price4EndOld"].ToString();
                     model.price4_b2c = (double?)jPkglst[i]["productPkg"]["price4Sale"] ?? 0;
@@ -122,8 +122,10 @@ namespace KKday.API.WMS.Models.Repository.Package {
                     //  model.price4_list = (double)jPkglst[i]["productPkg"][""];
 
                     model.status = jPkglst[i]["productPkg"]["status"].ToString();
-                    model.min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderNum"];
-                    model.max_book_qty = (int)jPkglst[i]["productPkg"]["maxOrderNum"];
+                    model.norank_min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderNum"];
+                    model.norank_max_book_qty = (int)jPkglst[i]["productPkg"]["maxOrderNum"];
+                    model.rank_min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderQty"];
+                    model.min_orverage_qty = (int)jPkglst[i]["productPkg"]["minOrderAdultQty"];
                     model.isMultiple = jPkglst[i]["productPkg"]["isMultiple"].ToString();
                     model.book_qty = jPkglst[i]["productPkg"]["orderQty"].ToString();
                     model.unit = jPkglst[i]["productPkg"]["unit"].ToString();
