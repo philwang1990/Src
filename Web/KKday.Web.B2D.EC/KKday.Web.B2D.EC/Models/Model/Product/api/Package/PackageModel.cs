@@ -66,8 +66,12 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public double? prcie4_cost { get; set; } //當下幣別-成本價 
 
         public string status { get; set; } //狀態（上架：Y,下架：N）
-        public int min_book_qty { get; set; }//最少訂購數量
-        public int max_book_qty { get; set; }//最多訂購數量
+        //public int min_book_qty { get; set; }//最少訂購數量
+        //public int max_book_qty { get; set; }//最多訂購數量
+        public int norank_min_book_qty { get; set; }//最少訂購數量
+        public int norank_max_book_qty { get; set; }//最多訂購數量
+        public int rank_min_book_qty { get; set; } //minOrderQty
+        public int min_orverage_qty { get; set; } //minOrderAdultQty
         public string isMultiple { get; set; }//是否最少購買量的倍數/ default = Y // N
         public string book_qty { get; set; }//可訂購數量
         public string unit { get; set; }//套餐單位

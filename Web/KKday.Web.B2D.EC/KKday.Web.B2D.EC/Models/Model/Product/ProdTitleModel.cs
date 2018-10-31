@@ -18,6 +18,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string common_experience { get; set; } //行程說明
         public string common_timetable { get; set; } //行程表
         public string common_timetable_day { get; set; } //第%s天
+        public string product_index_event { get; set; } //場次
 
         public string product_index_price_detail { get; set; } //費用細節
         public string product_index_voucher_type { get; set; } //憑證類型
@@ -69,6 +70,9 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
 
         public string product_index_has_been_sold_out { get; set; }//已售罄
         public string product_index_check_availablity { get; set; }//選擇其他日期
+
+        //地圖相關
+        public string common_meeting_point { get; set; }
 
 
         //-------------booking

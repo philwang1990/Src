@@ -45,6 +45,12 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string guid { get; set; }
     }
 
-
+    public class prodEvent{
+        public string companyXid { get; set; }
+        public string lang { get; set; }
+        public string prodno { get; set; }
+        public string pkgno { get; set; }
+        public string DateSelected { get; set; }
+    }
 
 }

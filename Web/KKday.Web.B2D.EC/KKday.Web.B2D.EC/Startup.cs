@@ -33,14 +33,16 @@ namespace KKday.Web.B2D.EC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-            services.AddMemoryCache();
+            services.AddSession();
+
+            services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                    .AddSessionStateTempDataProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-        
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -55,7 +57,7 @@ namespace KKday.Web.B2D.EC
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-
+            app.UseSession();
 
             app.UseMvc(routes =>
             {

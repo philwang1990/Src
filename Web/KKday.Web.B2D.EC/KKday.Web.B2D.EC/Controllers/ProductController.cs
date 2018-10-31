@@ -50,16 +50,16 @@ namespace KKday.Web.B2D.EC.Controllers
                 distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
                 //從 api取 
-                ProductforEcModel prod = ProductRepostory.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency,id);
+                ProductforEcModel prod = ProductRepostory.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id);
 
-                if(prod.reasult !="0000")throw new Exception(prod.reasult_msg); //不正確就導錯誤頁,但api還未處理怎麼回傳
-                 
+                if (prod.result != "0000") throw new Exception(prod.result_msg); //不正確就導錯誤頁,但api還未處理怎麼回傳
+
                 PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id);
 
-                if(pkgs.result !="0000")throw new Exception(prod.reasult_msg);//不正確就導錯誤頁,但api還未處理怎麼回傳
+                if (pkgs.result != "0000") throw new Exception(prod.result_msg);//不正確就導錯誤頁,但api還未處理怎麼回傳
 
                 //判斷是不是可以可以秀可以賣 ,但api 未決定錯誤怎麼給
-                if(prod.prod_mkt.is_ec_sale ==false) //不能秀就導錯誤頁
+                if (prod.prod_mkt.is_ec_sale == false) //不能秀就導錯誤頁
                 {
                     throw new Exception("商品不顯示！");
                 }
@@ -71,10 +71,12 @@ namespace KKday.Web.B2D.EC.Controllers
                 //取挖字
                 Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
 
-                prod = ProductRepostory.getProdOtherInfo(prod,id, fakeContact.lang, fakeContact.currency, uikey); prod.guidNo = guid;
+                prod = ProductRepostory.getProdOtherInfo(prod, id, fakeContact.lang, fakeContact.currency, uikey); prod.guidNo = guid;
                 List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, fakeContact.lang, fakeContact.currency, uikey, out allCanUseDate);
 
-                ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
+                //ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
+                TempData["ProdTitleKeep"] = JsonConvert.SerializeObject(uikey);
 
                 ViewData["prodTitle"] = title;
                 ViewData["prod"] = prod;
@@ -85,7 +87,7 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 return View();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 //導到錯誤頁
                 Website.Instance.logger.Debug($"product_index_err:{ex.ToString()}");
@@ -108,7 +110,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 string allCanUseDate = "";
 
                 //取挖字
-                Dictionary<string, string> uikey = RedisHelper.getuiKey( fakeContact.lang);
+                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
 
                 ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
                 ViewData["prodTitle"] = title;
@@ -118,11 +120,11 @@ namespace KKday.Web.B2D.EC.Controllers
                 //prod = prodRep.getProdInfo(prod, prodQury.prodOid, fakeContact.lang, fakeContact.currency, uikey); //prod.guidNo = guid;
                 //ViewData["prodInfo"] = prod;
 
-                PackageModel pkgs =ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodQury.prodOid);
+                PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodQury.prodOid);
                 List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, fakeContact.lang, fakeContact.currency, uikey, out allCanUseDate);
 
                 //設定每個pkg裡面可以使用的日期有那些
-                pkgs = ProductRepostory.InitPkg(prodQury,title, pkgs, prodPkgDateList);
+                pkgs = ProductRepostory.InitPkg(prodQury, title, pkgs, prodPkgDateList);
 
                 return Content(this.RenderPartialViewToString(ViewEngine, "_prodPkg", pkgs));
             }
@@ -146,7 +148,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 //要存redis往後帶
                 string guid = confirm.guid;
                 string confirmStr = JsonConvert.SerializeObject(confirm);
-                RedisHelper.SetProdInfotoRedis(confirmStr, "bid:ec:confirm:" + guid,30);
+                RedisHelper.SetProdInfotoRedis(confirmStr, "bid:ec:confirm:" + guid, 30);
                 //confirmStr = "";
                 //confirm = JsonConvert.DeserializeObject<confirmPkgInfo>(RedisHelper.getProdInfotoRedis("bid:ec:confirm:" + guid)); 
 
@@ -171,7 +173,7 @@ namespace KKday.Web.B2D.EC.Controllers
 
         public class returnStatus
         {
-            public string status {get;set;}
+            public string status { get; set; }
             public string jsonStr { get; set; }
             public string msgErr { get; set; }
 
@@ -191,5 +193,84 @@ namespace KKday.Web.B2D.EC.Controllers
             }
         }
 
+        /// <summary>
+        /// Get Event Time
+        /// </summary>
+        /// <returns>The package.</returns>
+        /// <param name="prodEvent">prodEvent.</param>
+        [HttpPost]//[AcceptVerbs("Post")]
+        public IActionResult GetEventTime([FromBody]prodEvent prodEvent)
+        {
+            try
+            {
+                distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+
+                //取挖字
+                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+
+                PkgEventsModel getEventTime = ProductRepostory.getEvent(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodEvent.prodno, prodEvent.pkgno);
+                if(getEventTime.result == "0000"){
+                    var result = getEventTime.events.Where(x => x.day == prodEvent.DateSelected);
+                    getEventTime.events = result.ToList();
+                    //return Json(result.ToList());
+                    return Json(new { errMsg = "", data = result.ToList() });
+                }
+                else{
+                    return Json(new { errMsg = "false" });
+                }
+                //return Content(this.RenderPartialViewToString(ViewEngine, "_prodPkg", pkgs));
+
+            }
+            catch (Exception ex)
+            {
+                //error
+                Website.Instance.logger.Debug($"product_eventtime_err:{ex.ToString()}");
+                returnStatus status = new returnStatus();
+                status.status = "Error";
+                status.msgErr = "error eventtime";//要改
+
+                return Json(status);
+            }
+        }
+
+        [HttpPost]//[AcceptVerbs("Post")]
+        public IActionResult getKlingon(string key, string replace)
+        {
+            try
+            {
+                string replaceWord = "%s";
+                string msg = "";
+                String json = TempData["ProdTitleKeep"] as string;
+                if(string.IsNullOrEmpty(json)){
+                    throw new Exception("");
+                }
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(json);
+                TempData.Keep();
+
+                switch(key)
+                {
+                    case "product_index_min_event_qty_alert":
+                        msg = title.product_index_min_event_qty_alert.Replace(replaceWord, replace);
+                        break;
+                    case "product_index_min_order_adult_qty_alert":
+                        msg = title.product_index_min_order_adult_qty_alert.Replace(replaceWord, replace);
+                        break;
+                    case "product_index_min_order_qty_alert":
+                        msg = title.product_index_min_order_qty_alert.Replace(replaceWord, replace);
+                        break;
+                    case "product_index_max_order_qty_alert":
+                        msg = title.product_index_max_order_qty_alert.Replace(replaceWord, replace);
+                        break;
+                    default:
+                        break;
+                }
+
+                return Json(new { flag = true, errMsg = "", msgreturn = msg });
+            }
+            catch (Exception ex){
+                Website.Instance.logger.Debug($"product_getKlingon_err:{ex.ToString()}");
+                return Json(new { flag = false, errMsg = "" });
+            }
+        }
     }
 }

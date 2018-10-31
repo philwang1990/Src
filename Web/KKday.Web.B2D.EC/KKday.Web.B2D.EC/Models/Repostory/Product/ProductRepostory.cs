@@ -148,6 +148,8 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             title.common_days_more = uiKey["common_days_more"];
             title.common_days_prior = uiKey["common_days_prior"];
 
+            title.product_index_event = uiKey["product_index_event"];
+
 
             //bookin bar
             title.common_booking = uiKey["common_booking"];
@@ -549,6 +551,20 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             //拿寄送資料的城市清單
 
             return obj;
+        }
+
+        public static PkgEventsModel getEvent(string companyXid, string state, string lang, string currency, string prodoid, string pkgoid)
+        {
+            try
+            {
+                return ApiHelper.getPkgEvent(companyXid, state, lang, currency, prodoid, pkgoid);
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.Debug($"error-getprodDtl ex:{ex.ToString()}");
+                throw new Exception("error-getprodDtl ex:" + ex.ToString());
+
+            }
         }
     
     }

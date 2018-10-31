@@ -35,7 +35,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
             ApiRequest setting = new ApiRequest();
 
-            setting.b2d_xid = B2dXid;
+            setting.company_xid = B2dXid;
             setting.current_currency = currency;
             setting.locale_lang = lang;
             setting.prod_no = prodoid;
@@ -83,7 +83,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
             ApiRequest setting = new ApiRequest();
 
-            setting.b2d_xid = B2dXid;
+            setting.company_xid = B2dXid;
             setting.current_currency = currency;
             setting.locale_lang = lang;
             setting.prod_no = prodoid;
@@ -130,7 +130,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
             ApiRequest setting = new ApiRequest();
 
-            setting.b2d_xid = B2dXid;
+            setting.company_xid = B2dXid;
             setting.current_currency = currency;
             setting.locale_lang = lang;
             setting.prod_no = prodoid;
@@ -178,7 +178,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
             ApiRequest setting = new ApiRequest();
 
-            setting.b2d_xid = B2dXid;
+            setting.company_xid = B2dXid;
             setting.current_currency = currency;
             setting.locale_lang = lang;
             setting.prod_no = prodoid;
@@ -201,7 +201,7 @@ namespace KKday.Web.B2D.EC.AppCode
                 result = streamReader.ReadToEnd();
             }
 
-                PkgEventsModel obj = JsonConvert.DeserializeObject<PkgEventsModel>(result);
+            PkgEventsModel obj = JsonConvert.DeserializeObject<PkgEventsModel>(result);
 
             return obj;
         }
@@ -209,7 +209,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
     public  class  ApiRequest
     {
-        public string b2d_xid { get; set; }
+        public string company_xid { get; set; }
         public string locale_lang { get; set; }
         public string current_currency { get; set; }
         public string prod_no { get; set; }
