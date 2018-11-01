@@ -436,7 +436,8 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             foreach(SaleDt s in sale_dates.saleDt)
             {
                 string pkgOid = s.pkg_no.ToString();
-                string day = s.sale_day.ToString();
+                DateTime day = DateTimeTool.yyyyMMdd2DateTime(s.sale_day);
+                //string day = s.sale_day.ToString();
 
                 //先建立ProductPkgDateModel ,有新的就加
                 string[] pkgid = pkgOid.Split(",");
@@ -448,18 +449,18 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
                     {
                         foreach (PkgDateforEcModel pd in result)
                         {
-                            pd.day = pd.day + day + ",";
+                            pd.day = pd.day + day.ToString("yyyy-MM-dd") + ",";
                         }
                     }
                     else
                     {
                         PkgDateforEcModel pd = new PkgDateforEcModel();
                         pd.pkgOid = id;
-                        pd.day = day + ",";
+                        pd.day = day.ToString("yyyy-MM-dd") + ",";
                         pkgDateList.Add(pd);
                     }
                 }
-                allCanUseDateTemp = allCanUseDateTemp + day + ",";
+                allCanUseDateTemp = allCanUseDateTemp + day.ToString("yyyy-MM-dd") + ",";
             }
 
             //去最後逗號

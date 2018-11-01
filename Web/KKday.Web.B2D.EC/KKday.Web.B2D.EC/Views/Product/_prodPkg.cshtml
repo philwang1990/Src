@@ -9,229 +9,170 @@
 @model PackageModel
 
 <div class="row">
+    <ul class="option-group">
+        @foreach (PkgDetailModel pkg in Model.pkgs)
+        {
+            @Html.Hidden("hdnPkgDate_" + pkg.pkg_no, (pkg.pkgDate == null ? "" : pkg.pkgDate.day))
+            @Html.Hidden($"hdnPkgMinNum_{pkg.pkg_no}", pkg.norank_min_book_qty)
+            @Html.Hidden($"hdnPkgMaxNum{pkg.pkg_no}", pkg.norank_max_book_qty)
+            @Html.Hidden($"hdnOrderQty_{pkg.pkg_no}", pkg.book_qty)
+            @Html.Hidden($"hdnPkgName_{pkg.pkg_no}", pkg.pkg_name)
+            @Html.Hidden($"hdnPrice1_{pkg.pkg_no}", pkg.price1)
+            @Html.Hidden($"hdnPrice2_{pkg.pkg_no}", pkg.price2)
+            @Html.Hidden($"hdnPrice3_{pkg.pkg_no}", pkg.price3)
+            @Html.Hidden($"hdnPrice4_{pkg.pkg_no}", pkg.price4)
+            @Html.Hidden($"hdnevent_{pkg.pkg_no}", "")
+            @Html.Hidden($"hdneventQty_{pkg.pkg_no}", "")
+            @Html.Hidden($"hdnHasEvent", "false")
+            @Html.Hidden($"hdnHasRank_{pkg.pkg_no}", pkg.is_unit_pirce)
+            @Html.Hidden($"hdnMinBookQty_{pkg.pkg_no}", pkg.rank_min_book_qty)
+            @Html.Hidden($"hdnMinOverageQty_{pkg.pkg_no}", pkg.min_overage_qty)
 
-
-
-    @foreach (PkgDetailModel pkg in Model.pkgs)
-    {
-        @Html.Hidden("hdnPkgDate_"+pkg.pkg_no, (pkg.pkgDate==null? "":pkg.pkgDate.day))
-        @Html.Hidden($"hdnPkgMinNum_{pkg.pkg_no}",pkg.norank_min_book_qty) 
-        @Html.Hidden($"hdnPkgMaxNum{pkg.pkg_no}", pkg.norank_max_book_qty)
-        @Html.Hidden($"hdnOrderQty_{pkg.pkg_no}",pkg.book_qty)
-        @Html.Hidden($"hdnPkgName_{pkg.pkg_no}",pkg.pkg_name)
-        @Html.Hidden($"hdnPrice1_{pkg.pkg_no}",pkg.price1)
-        @Html.Hidden($"hdnPrice2_{pkg.pkg_no}",pkg.price2)
-        @Html.Hidden($"hdnPrice3_{pkg.pkg_no}",pkg.price3)
-        @Html.Hidden($"hdnPrice4_{pkg.pkg_no}",pkg.price4)
-        @Html.Hidden($"hdnevent_{pkg.pkg_no}","")
-        @Html.Hidden($"hdneventQty_{pkg.pkg_no}","")
-        @Html.Hidden($"hdnHasEvent","false")
-        @Html.Hidden($"hdnHasRank_{pkg.pkg_no}",pkg.is_unit_pirce)
-        @Html.Hidden($"hdnMinBookQty_{pkg.pkg_no}",pkg.rank_min_book_qty)
-        @Html.Hidden($"hdnMinOverageQty_{pkg.pkg_no}",pkg.min_orverage_qty)
-
-
-       <div class="col-xs-6" style="        border-style: solid;
-        height: 200px;
-        clear: both;">
-            <div class="col-xs-6" style="        clear: both;">
-               <div class="col-xs-6">
-
-
-
-               </div>
+            <li class="option-item">
+                <h4 class="option-title">@pkg.pkg_name</h4>
+                <div class="product-pricing">
+                    <span>@currency</span>
+                    <h4>@pkg.price1</h4>
+                </div>
                 @{
                     string ulControl = $"{pkg.pkg_no}_eventtime";
                     string eventTimeArea = $"{pkg.pkg_no}_eventtime_area";
                     string buttonControl = $"{pkg.pkg_no}_eventtime_selected";
-                    }
-                <div class="col-xs-12 col-sm-6 @eventTimeArea" style="        display: none;">
-                                                <div class="form-group">
-                                                    <label>@prodTitle.product_index_event</label>
-                                                    <div class="dropdown">
-                                                        <button class="form-control input-dropdown" data-toggle="dropdown">
-                                                            <i class="icons icon-clock"></i> <span class="@buttonControl">@prodTitle.common_select_set</span>
-                                                        </button>
-                                                        <ul class="dropdown-menu input-dropdown-menu @ulControl">
-                                                            <li>
-                                                                請選擇
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-            </div>
-            <div class="col-xs-6">
-
-                @pkg.pkg_name   @currency   @pkg.price1 
-
-                @* 第一次進來 *@
-                @if(pkg.chkDateCanSell ==null)   
-                {
-                  <button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','first');">@prodTitle.product_index_select</button>
                 }
-                else 
+                @if (pkg.chkDateCanSell == null)
+                {
+                    <a onclick="chgPkgInfo('@pkg.pkg_no','first');" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                    @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','first');">@prodTitle.product_index_select</button>*@
+                }
+                else
                 {
                     @if (pkg.chkDateCanSell == "1")
                     {
-                        <button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showprice');">@prodTitle.product_index_select</button>
+                        <a onclick="chgPkgInfo('@pkg.pkg_no','showprice');" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                        @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showprice');">@prodTitle.product_index_select</button>*@
                     }
                     else if (pkg.chkDateCanSell == "2")
                     {
-                       @pkg.NoSellTextShow <button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showPkgDate');">選擇其他日期</button>
+                        @pkg.NoSellTextShow
+                        <a onclick="chgPkgInfo('@pkg.pkg_no','showPkgDate');" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                        @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showPkgDate');">選擇其他日期</button>*@
                     }
                     else
                     {
                         @pkg.NoSellTextShow;
                     }
                 }
-            </div>
+                <div class="option-booking">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-6">
+                            <div class="form-group">
 
-            @* 呈現價格數量區塊    common_adult  common_child common_infant common_elder *@
-            @*priceType == 'RANK' : 對象價錢*@
-            @*不管isDisplayPricex *@
-            @if (pkg.is_unit_pirce == "RANK") 
-            {
-             <div class="col-xs-6 divPkgPrice" style="        display: none" id= "divPrice_@pkg.pkg_no" >
-                @for (int i = 1; i < 5; i++)
-                {
-
-                    if (i == 1 && @pkg.price1 > 0)
-                    {
-                        <div class="row" >
-                         <div style="        float: left">
-                           <span>@prodTitle.common_adult  （Age @pkg.prcie1_age_range.Split('~')[0]  ~ @pkg.prcie1_age_range.Split('~')[1] ）</span> <br />
-                           <span>@currency   @pkg.price1   /@prodTitle.product_index_unit2_01 </span>
-                         </div> 
-                         <div id='selminus_price1_@pkg.pkg_no'  style="float: left;" class="disabledClass">
-                            <a style="font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice1Qty_@pkg.pkg_no','minus','price1')">-</a>
-                         </div>
-                         <div style="float: left">
-                            <input type="text" readonly ="readonly" size="2"  id='txtprice1Qty_@pkg.pkg_no'  /></div>
-                         <div id='selplus_price1_@pkg.pkg_no' style="float: left">
-                            <a style="font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice1Qty_@pkg.pkg_no','plus','price1')" > +</a>
-                         </div>
-                         <br />
-                        </div>
-                    }
-                    else if (i == 2 && @pkg.price2 > 0)
-                    {
-                        <div class="row">
-                         <div style="        float: left">
-                           <span>@prodTitle.common_child   （Age @pkg.prcie2_age_range.Split('~')[0]  ~ @pkg.prcie2_age_range.Split('~')[1] ）</span> <br />
-                           <span>@currency    @pkg.price2   /@prodTitle.product_index_unit2_01 </span>
-                         </div>
-                         <div id='selminus_price2_@pkg.pkg_no'  style="float: left;" class="disabledClass">
-                            <a style="font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice2Qty_@pkg.pkg_no','minus','price2')">-</a>
-                         </div>
-                         <div style="float: left">
-                            <input type="text" readonly ="readonly" size="2"  id='txtprice2Qty_@pkg.pkg_no'  />
-                         </div>
-                         <div  id='selplus_price2_@pkg.pkg_no' style="float: left">
-                            <a style="font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice2Qty_@pkg.pkg_no','plus','price2')"> +</a>
-                         </div>
-                         <br />
-                        </div>
-
-                    }
-                    else if (i == 3 && @pkg.price3 > 0)
-                    {
-                        <div class="row" >
-                          <div style="        float: left">
-                            <span>@prodTitle.common_infant   （Age @pkg.price3_age_range.Split('~')[0]  ~ @pkg.price3_age_range.Split('~')[1] ）</span> <br />
-                            <span>@currency   @pkg.price3   /@prodTitle.product_index_unit2_01 </span> 
-                          </div>
-                            <div id='selminus_price3_@pkg.pkg_no'  style="        float: left;" class="disabledClass">
-                                <a style="        font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtpriceQty_@pkg.pkg_no','minus','price3')">-</a>
+                                <label>@prodTitle.product_index_event</label>
+                                <div class="dropdown">
+                                    <button class="form-control input-dropdown" data-toggle="dropdown">
+                                        <i class="icons icon-clock"></i> <span class="@buttonControl">@prodTitle.common_select_set</span>
+                                    </button>
+                                    <ul class="dropdown-menu input-dropdown-menu @ulControl">
+                                        <li>
+                                            <a href="javascript:;">@prodTitle.common_select_set</a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                            <div style="        float: left">
-                                <input type="text" readonly ="readonly" size="2"  id='txtprice3Qty_@pkg.pkg_no'  />
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="traveler-counter">
+                                        <div class="pull-left">
+                                            <h5>Adult <span class="text-muted text-xs">(Age 65-99)</span></h5>
+                                            <span class="option-price">TWD 2,000/traveler</span>
+                                        </div>
+                                        <div class="pull-right text-right mt-10">
+                                            <a href="javascript:;" class="counter disabled">
+                                                <i class="icons icon-minus"></i>
+                                            </a>
+                                            <input type="text" class="counter-num" value="0" readonly>
+                                            <a href="javascript:;" class="counter add">
+                                                <i class="icons icon-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="traveler-counter">
+                                        <div class="pull-left">
+                                            <h5>Elder <span class="text-muted text-xs">(Age 16-64)</span></h5>
+                                            <span class="option-price">TWD 222,222,222,000/traveler</span>
+                                        </div>
+                                        <div class="pull-right text-right mt-10">
+                                            <a href="javascript:;" class="counter disabled">
+                                                <i class="icons icon-minus"></i>
+                                            </a>
+                                            <input type="text" class="counter-num" value="0" readonly>
+                                            <a href="javascript:;" class="counter add">
+                                                <i class="icons icon-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="traveler-counter">
+                                        <div class="pull-left">
+                                            <h5>Child <span class="text-muted text-xs">(Age 3-15)</span></h5>
+                                            <span class="option-price">TWD 2,000/traveler</span>
+                                        </div>
+                                        <div class="pull-right text-right mt-10">
+                                            <a href="javascript:;" class="counter disabled">
+                                                <i class="icons icon-minus"></i>
+                                            </a>
+                                            <input type="text" class="counter-num" value="0" readonly>
+                                            <a href="javascript:;" class="counter add">
+                                                <i class="icons icon-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="traveler-counter">
+                                        <div class="pull-left">
+                                            <h5>Infant <span class="text-muted text-xs">(Age 0-2)</span></h5>
+                                            <span class="option-price">TWD 0/traveler</span>
+                                        </div>
+                                        <div class="pull-right text-right mt-10">
+                                            <a href="javascript:;" class="counter disabled">
+                                                <i class="icons icon-minus"></i>
+                                            </a>
+                                            <input type="text" class="counter-num" value="0" readonly>
+                                            <a href="javascript:;" class="counter add">
+                                                <i class="icons icon-plus"></i>
+                                            </a>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
                             </div>
-                            <div id='selplus_price3_@pkg.pkg_no' style="        float: left">
-                                <a style="        font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice3Qty_@pkg.pkg_no','plus','price3')" > +</a>
-                            </div>
-                            <br />
+                            <div class="msg-error">Minimum amount of adults required 2</div>
                         </div>
-
-                    }
-                    else if (i == 4 && @pkg.price4 > 0)
-                    {
-                        <div class="row">
-                        <span>@prodTitle.common_elder   （Age @pkg.price4_age_range.Split('~')[0]  ~ @pkg.price4_age_range.Split('~')[1] ）</span> <br />
-                        <span>@currency   @pkg.price4   /@prodTitle.product_index_unit2_01 </span> 
-                        <div id='selminus_price4_@pkg.pkg_no'  style="float: left;" class="disabledClass">
-                            <a style="font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice4Qty_@pkg.pkg_no','minus','price4')">-</a>
-                        </div>
-                        <div style="float: left">
-                            <input type="text" readonly ="readonly" size="2"  id='txtprice4Qty_@pkg.pkg_no'  /></div>
-                        <div id='selplus_price4_@pkg.pkg_no' style="float: left">
-                            <a style="font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice4Qty_@pkg.pkg_no','plus','price4')" > +</a>
-                        </div>
-                        <br />
-                        </div>
-                    }
-                }
-                <div class="msg-error"></div>
-            </div>
-            }
-            else if (pkg.is_unit_pirce == "NORANK") {
-                @*己處理,要再驗證*@
-                @switch (pkg.unit)
-                {
-                    case "02":
-                        noRankUnit02Txt = prodTitle.product_index_unit2_02;
-                        break;
-                    case "03":
-                        noRankUnit02Txt = prodTitle.product_index_unit2_03;
-                        break;
-                    case "04":
-                        noRankUnit02Txt = prodTitle.product_index_unit2_04;
-                        break;
-                    case "05":
-                        noRankUnit02Txt = prodTitle.product_index_unit2_05;
-                        break;
-                    case "06":
-                        noRankUnit02Txt = prodTitle.product_index_unit2_06;
-                        break;
-
-                }
-                <div class="col-xs-6 divPkgPrice" style="display: none" id= "divPrice_@pkg.pkg_no" >
-                     <div class="row" >
-                         <div style="float: left">
-                           <span>@prodTitle.common_adult  （Age @pkg.prcie1_age_range.Split('~')[0]  ~ @pkg.prcie1_age_range.Split('~')[1] ）</span> <br />
-                           <span>@currency   @pkg.price1   / @noRankUnit02Txt </span>
-                         </div>
-                         <div id='selminus_price1_@pkg.pkg_no'  style="float: left;" class="disabledClass">
-                            <a style="font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice1Qty_@pkg.pkg_no','minus','price1')">-</a>
-                         </div><div style="float: left">
-                            <input type="text" readonly ="readonly" size="2"  id='txtprice1Qty_@pkg.pkg_no'  /></div>
-                         <div id='selplus_price1_@pkg.pkg_no' style="float: left">
-                            <a style="font-size: 30px" onclick="chkNum('@pkg.pkg_no' ,'txtprice1Qty_@pkg.pkg_no','plus','price1')" > +</a>
-                         </div>
-                         <br />
-                        </div>
-                    <div class="msg-error"></div>
-                </div>           
-            }
-
-          
-        </div>
-
-        @*<br/> 警示還沒有做 目前場次數量僅剩%s場 product_index_min_event_qty_alert.... <br/>*@ 
-
-        @if (pkg.desc_items != null)
-        {
-            @if(pkg.desc_items.Count >0)
-            {
-                <div class="col-xs-6" style="clear: both;">
-                     @prodTitle.product_index_option_detail
-                   </div>
-               @foreach (DescItem d in pkg.desc_items)
-               {
-                     <div class="col-xs-12">  @d.desc  </div>
-               }
-            }
+                    </div>
+                </div>
+                <a href="javascript:;" class="detail-toggle">Option details <i class="icons icon-arrow-down"></i></a>
+                <div class="option-detail">
+                    Adventure to the Kota Kinabalu City Mosque.<br>
+                    <ul>
+                        <li>Included: Dinner buffet</li>
+                        <li>Not Included: Lunch: coconut pudding, baked mussels, City mosque clothing rental, Binocular use</li>
+                    </ul>
+                </div>
+            </li>
         }
-    }
+
+    </ul>
+
+
+
 
 </div>

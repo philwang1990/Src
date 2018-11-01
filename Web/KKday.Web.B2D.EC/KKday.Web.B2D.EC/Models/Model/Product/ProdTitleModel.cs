@@ -20,6 +20,9 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string common_timetable_day { get; set; } //第%s天
         public string product_index_event { get; set; } //場次
 
+        public string common_number_of_comment { get; set; } //%s則評論
+        public string product_index_visitor { get; set; } //%s位旅客瀏覽過此行程
+
         public string product_index_price_detail { get; set; } //費用細節
         public string product_index_voucher_type { get; set; } //憑證類型
         public string product_index_place { get; set; } //兌換地點名稱
