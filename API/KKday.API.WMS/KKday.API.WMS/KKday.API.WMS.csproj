@@ -44,5 +44,7 @@
     <Compile Remove="Models\Repository\Authorize\AuthorizeRepository.cs" />
     <Compile Remove="Models\DataModel\Order\DiscountModel.cs" />
     <Compile Remove="Controllers\OrderController.cs" />
+    <Compile Remove="Models\Repository\Book\BookRepository.cs" />
+    <Compile Remove="Models\DataModel\Book\OrderModel.cs" />
   </ItemGroup>
 </Project>

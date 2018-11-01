@@ -14,8 +14,8 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public DateTime order_date { get; set; }//訂購日期
         public string order_type { get; set; }//訂單類型(b2b)
         public string order_status { get; set; }//訂單狀態
-        public double order_amt { get; set; }//總金額
-        public double order_b2c_amt { get; set; }//直客總金額
+        public int order_amt { get; set; }//總金額
+        public int order_b2c_amt { get; set; }//直客總金額
         public string connect_name { get; set; }//訂購人姓名
         public string connect_tel { get; set; }//訂購人聯絡電話
         public string connect_mail { get; set; }//訂購人聯絡信箱
@@ -33,8 +33,8 @@ namespace KKday.API.WMS.Models.DataModel.Booking
     {
         public string order_no { get; set; }//訂單編號
         public string booking_type { get; set; }//訂單來源(api/web)
-        public double company_xid { get; set; }//分銷商xid
-        public double channel_old { get; set; }//KKday old
+        public int company_xid { get; set; }//分銷商xid
+        public int channel_old { get; set; }//KKday old
         public string connect_name { get; set; }//訂購人姓名
         public string connect_tel { get; set; }//訂購人聯絡電話
         public string connect_mail { get; set; }//訂購人聯絡信箱
@@ -51,14 +51,14 @@ namespace KKday.API.WMS.Models.DataModel.Booking
     public class OrderLst
     {
         public string order_no { get; set; }//訂單編號
-        public string lst_seqno { get; set; }//細項編號
-        public string cus_seqno { get; set; }//旅客細項編號
+        public int lst_seqno { get; set; }//細項編號
+        public int cus_seqno { get; set; }//旅客細項編號
         public string prod_no { get; set; }//商品編號
         public string prod_name { get; set; }//商品名稱
-        public double prod_amt { get; set; }//商品金額
-        public double prod_b2c { get; set; }//直客商品金額
+        public int prod_amt { get; set; }//商品金額
+        public int prod_b2c_amt { get; set; }//直客商品金額
         public string prod_currency { get; set; }//商品金額幣別
-        public string discount_xid { get; set; }//折扣xid
+        public int discount_xid { get; set; }//折扣xid
         public string prod_cond1 { get; set; }//人(price1,price2)
         public string prod_cond2 { get; set; }//其他(ex.車)(price1)
         public string pkg_no { get; set; }//套餐編號
@@ -78,11 +78,12 @@ namespace KKday.API.WMS.Models.DataModel.Booking
     public class OrderDiscountRuleMst
     {
         public int xid { get; set; }//流水號
-        public string lst_seqno { get; set; }//細項編號
+        public int lst_seqno { get; set; }//細項編號
         public string disc_name { get; set; }//折扣名稱
-        public string disc_amt { get; set; }//折扣金額
+        public int disc_amt { get; set; }//折扣金額
         public string disc_currency { get; set; }//折扣幣別
         public string disc_note { get; set; }//折扣備註
+        public string order_no { get; set; }//訂單編號
 
         public OrderDiscountRuleDtl order_discount_rule_del { get; set; }//order_dsicount_rule_dtl
 
@@ -93,7 +94,8 @@ namespace KKday.API.WMS.Models.DataModel.Booking
 
         public int xid { get; set; }//流水號
         public int mst_xid { get; set; }//主檔流水號
-        public string order_lst_seqno { get; set; }//細項編號
+        public int order_lst_seqno { get; set; }//細項編號
+        public string order_no { get; set; }//訂單編號
 
     }
 
@@ -101,8 +103,8 @@ namespace KKday.API.WMS.Models.DataModel.Booking
     {
 
         public string order_no { get; set; }//訂單編號
-        public string cus_seqno { get; set; }//旅客細項編號
-        public string lst_seqno { get; set; }//細項編號
+        public int cus_seqno { get; set; }//旅客細項編號
+        public int lst_seqno { get; set; }//細項編號
         public string cus_type { get; set; }//旅客類別(01成02孩03嬰04老)
         public string cus_name_e_last { get; set; }//旅客護照姓
         public string cus_name_e_first { get; set; }//旅客護照名
