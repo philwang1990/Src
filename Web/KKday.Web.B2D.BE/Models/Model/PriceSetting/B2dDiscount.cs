@@ -37,6 +37,7 @@ namespace KKday.Web.B2D.BE.Models.Model.PriceSetting
         public Int64 XID { get; set; } // 外幣金額折扣序號
         public Int64 MST_XID { get; set; }
         public string CURRENCY { get; set; } // 幣別
+        public string CURRENCY_DESC { get; set; } // 幣別名稱
         public double AMOUNT { get; set; } // 金額
     }
 }

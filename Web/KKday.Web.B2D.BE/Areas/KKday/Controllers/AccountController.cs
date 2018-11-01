@@ -36,8 +36,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
         public IActionResult Index(string query)
         {  
             var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
-            var acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository));
-
+            var acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository)); 
             QueryParamsModel queryParams = null;
 
             if (!string.IsNullOrEmpty(query))

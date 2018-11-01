@@ -128,8 +128,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>折扣百分比<span class="text-danger">*</span></label>
-                                <div class="input-group">
-
+                                <div class="input-group"> 
                                     <div class="input-group-btn">
                                         <div class="btn-group">
                                             <button type="button" class="btn btn-default sign-btn dropdown-toggle" data-toggle="dropdown">
@@ -141,7 +140,7 @@
                                             </ul>
                                         </div>
                                     </div>
-                                    <input typex="text" id="disc_percent" dir="rtl" name="disc_percent" class="form-control" placeholder="輸入百分比數值">
+                                    <input typex="text" id="disc_percent" dir="rtl" name="disc_percent" class="form-control" placeholder="輸入百分比數值" onkeyup="this.value=this.value.replace(/[^\d,.]+/,'')">
                                     <div class="input-group-addon">%</div>
                                 </div>
                             </div>
@@ -189,7 +188,7 @@
                 <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
             </div>
             <div class="modal-body">
-                <input type="hidden" id="disc_mst_xid" />
+                <input type="hidden" id="del_mst_xid" />
                 <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
 
             </div>
@@ -229,7 +228,7 @@
         // Validation for Add New Discount
         $("#add_form").validate({
             errorClass: "error-text",
-            errorElement: "span",
+            errorElement: "small", 
             rules: { 
               disc_name: "required",
               book_period: "required",
@@ -245,7 +244,7 @@
               disc_type: "折扣百分比不可為空",
               status: "請選擇折扣規則狀態",
               rule_status: "請任選產品規則條件"
-             }
+            }
         });
 
         $('.disc_percent li').click(function(e){

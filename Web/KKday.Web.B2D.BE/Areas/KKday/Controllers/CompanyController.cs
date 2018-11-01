@@ -99,7 +99,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             {
                 var queryArgc = System.Web.HttpUtility.UrlEncode(this.Request.Query["query"].ToString());
                 var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
-                var countryRepos = HttpContext.RequestServices.GetService<CountryRepository>();
+                var countryRepos = HttpContext.RequestServices.GetService<CommonRepository>();
                 var locale = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Locale").Select(c => c.Value)).FirstOrDefault();
                 B2dCompany _company = compRepos.GetCompany(id); 
 

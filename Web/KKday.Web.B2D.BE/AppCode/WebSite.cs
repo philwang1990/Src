@@ -29,11 +29,8 @@ namespace KKday.Web.B2D.BE.App_Code
 
         public string AesCryptKey { get; private set; }
 
-        public readonly ILog _log = LogManager.GetLogger(typeof(Website));
-
-        public ILocalizer _localizer { get;  private set; }
-         
-
+        public readonly ILog _log = LogManager.GetLogger(typeof(Website)); 
+       
         ////////////////////////////////
 
         private Website()

@@ -35,8 +35,6 @@ namespace KKday.Web.B2D.BE
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
-       
         
             // 新增 Cookie 驗證服務
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -71,7 +69,7 @@ namespace KKday.Web.B2D.BE
             services.AddSingleton<ListPriceRepository>();
             services.AddSingleton<CompanyRepository>();
             services.AddSingleton<PriceSettingRepository>();
-            services.AddScoped<CountryRepository>();
+            services.AddSingleton<CommonRepository>();
 
             #endregion Dependency Injection Regisgter-- end
 

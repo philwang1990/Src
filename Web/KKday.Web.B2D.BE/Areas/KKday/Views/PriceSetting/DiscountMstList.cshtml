@@ -39,7 +39,7 @@ else
                     <td>@item.S_DATE.Value.ToString("yyyy-MM-dd")</td>
                     <td>@item.E_DATE.Value.ToString("yyyy-MM-dd")</td>
                     <td>
-                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="$('#btn_del').attr('mst_xid', @item.XID);">
+                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="$('#del_mst_xid').val(@item.XID);">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </td>
@@ -54,7 +54,7 @@ else
 
             @if (query_params.Paging.total_pages > 1)
             {
-                <li><a href="javascript:RefreshMst(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+                <li><a href="javascript:void(0);" onclick="RefreshMst(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
             }
 
             @for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
@@ -71,7 +71,7 @@ else
             }
             @if (query_params.Paging.total_pages > 1)
             {
-                <li><a href="javascript:RefreshMst(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+                <li><a href="javascript:void(0);" onclick="RefreshMst(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
             }
         </ul>
     </div>

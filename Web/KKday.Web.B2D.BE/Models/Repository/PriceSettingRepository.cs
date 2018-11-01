@@ -12,10 +12,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
     public class PriceSettingRepository
     {
         private readonly ILocalizer _localizer;
+        private readonly CommonRepository _common;
 
-        public PriceSettingRepository(ILocalizer localizer)
+        public PriceSettingRepository(ILocalizer localizer, CommonRepository common)
         {
             _localizer = localizer;
+            _common = common;
         }
 
         #region DiscountMst Methods
@@ -223,13 +225,19 @@ namespace KKday.Web.B2D.BE.Models.Repository
         }
 
         //取得語系價格清單 
-        public List<B2dDiscountCurrAmt> GetDiscountCurrAmts(Int64 mst_xid, string filter, int skip, int size, string sorting)
+        public List<B2dDiscountCurrAmt> GetDiscountCurrAmts(Int64 mst_xid, string locale, string filter, int skip, int size, string sorting)
         {
             var _filter = string.Empty;
-            var _sorting = string.Empty;
+            var _sorting = string.Empty; 
 
-            var dtl_list = DiscountDAL.GetDiscountCurrAmts(mst_xid, _filter, skip, size, _sorting);
-            return dtl_list;
+            var curr_locales = _common.GetCurrencyLocale(locale);
+            var curramt_list = DiscountDAL.GetDiscountCurrAmts(mst_xid, _filter, skip, size, _sorting);
+            curramt_list.ForEach(c =>
+            {
+                c.CURRENCY_DESC = curr_locales[c.CURRENCY];
+            });
+
+            return curramt_list;
         }
 
         public void InsertCurrAmt(B2dDiscountCurrAmt curr_amt, string crt_user)

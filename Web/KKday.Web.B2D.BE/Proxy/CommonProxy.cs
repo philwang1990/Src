@@ -151,5 +151,59 @@ namespace KKday.Web.B2D.BE.Commons
 
             return locales;
         }
+
+        public static Dictionary<string, string> GetCurrencyLocale(string locale)
+        {
+            try
+            {
+                Dictionary<string, string> currency_dict = new Dictionary<string, string>();
+                string result = "";
+
+                using (var handler = new HttpClientHandler())
+                {
+                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                    handler.ServerCertificateCustomValidationCallback =
+                        (httpRequestMessage, cert, cetChain, policyErrors) =>
+                        {
+                            return true;
+                        };
+
+                    using (var client = new HttpClient(handler))
+                    {
+                        client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                        string url = Website.Instance.Configuration["WMS_API:URL:CurrencyLocale"];
+                        url += "?locale=" + locale;
+
+                        var response = client.GetAsync(url).Result;
+                        result = response.Content.ReadAsStringAsync().Result;
+
+                        // HTTP Status Code須為"OK", 否則與API串接失敗 
+                        if (response.StatusCode.ToString() != "OK")
+                        {
+                            throw new Exception(response.Content.ReadAsStringAsync().Result);
+                        }
+                    }
+
+                }
+
+                JObject jsonObject = JObject.Parse(result);
+                foreach (JToken item in jsonObject["currencyList"].AsJEnumerable())
+                {
+                    if (!currency_dict.ContainsKey(item["currency"].ToString()))
+                    {
+                        currency_dict.Add(item["currency"].ToString(), item["name"].ToString());
+                    } 
+                }
+
+                return currency_dict;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat($"KKday API getCodeLang  Error :{ex.Message},{ex.StackTrace}");
+                throw ex;
+            }
+
+        }
     }
 }

@@ -4,6 +4,7 @@
 @inject ILocalizer localizer
 @model List<B2dDiscountCurrAmt>
 @{
+    var mst_xid = (Int64)ViewData["MST_XID"];
     var query_params = ViewData["DTL_QUERY_PARAMS"] as QueryParamsModel;
 }
 
@@ -30,10 +31,10 @@ else
                 <tr>
                     <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
                     <td><a href="#">@item.XID.ToString("00")</a></td>
-                    <td>@item.CURRENCY</td>
+                    <td>@item.CURRENCY_DESC (@item.CURRENCY)</td>
                     <td>@item.AMOUNT</td>
                     <td>
-                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+                        <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete_curramt" onclick="$('#del_curramt_xid').val(@item.XID);">
                             <span class="glyphicon glyphicon-trash"></span>
                         </button>
                     </td>
@@ -46,25 +47,25 @@ else
         <ul class="pagination pull-right">
 
             @if (query_params.Paging.total_pages > 1)
-        {
-            <li><a href="javascript:RefreshMst(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-        }
+            {
+                <li><a href="javascript:void(0);" onclick="RefreshCurrAmt(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+            }
             @for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
-        {
-            var pgIdx = nIdx + 1;
-            if (pgIdx == query_params.Paging.current_page)
             {
-                <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+                var pgIdx = nIdx + 1;
+                if (pgIdx == query_params.Paging.current_page)
+                {
+                    <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+                }
+                else
+                {
+                    <li><a href="javascript:void(0);" onclick="RefreshCurrAmt(@pgIdx, false);">@pgIdx</a></li>
+                }
             }
-            else
+            @if (query_params.Paging.total_pages > 1)
             {
-            <li><a href="javascript:void(0);" onclick="RefreshMst(@pgIdx, false);">@pgIdx</a></li>
+                <li><a href="javascript:void(0);" onclick="RefreshCurrAmt(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
             }
-        }
-        @if (query_params.Paging.total_pages > 1)
-        {
-            <li><a href="javascript:RefreshMst(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-        }
         </ul>
     </div>
 
