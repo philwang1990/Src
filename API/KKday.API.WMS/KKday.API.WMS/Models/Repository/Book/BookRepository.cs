@@ -16,7 +16,7 @@ namespace KKday.API.WMS.Models.Repository.Book
         public static void InsertOrder()
         {
 
-            NpgsqlConnection conn = new NpgsqlConnection("Host=192.168.2.84;Username=postgres;Password=2wsx3edc;Database=b2d");
+            NpgsqlConnection conn = new NpgsqlConnection(Website.Instance.Configuration["ConnectionStrings:NpgsqlConnection"]);
             conn.Open();
             NpgsqlTransaction trans = conn.BeginTransaction();
             try
@@ -41,7 +41,15 @@ namespace KKday.API.WMS.Models.Repository.Book
                         new NpgsqlParameter("order_note","12")
                     };
 
-                NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
+
+                // The number of rows affected if known; -1 otherwise.
+                if (NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np) > 0 )
+                {
+                    trans.Commit();
+                }
+
+                conn.Close();
+
 
 
             }
