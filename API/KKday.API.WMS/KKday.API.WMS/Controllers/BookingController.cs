@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using KKday.API.WMS.Models.Repository.Book;
+using KKday.API.WMS.Models.Repository.Booking;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,7 +21,7 @@ namespace KKday.API.WMS.Controllers {
 
             //prod_dtl = ProductRepository.GetProdDtl(queryRQ);
 
-            BookRepository.InsertOrder();
+            BookingRepository.InsertOrder();
 
             //return prod_dtl;
         }

@@ -22,8 +22,8 @@
     <Folder Include="Models\Repository\Discount\" />
     <Folder Include="Models\DataModel\Discount\" />
     <Folder Include="Models\DataModel\Common\" />
-    <Folder Include="Models\DataModel\Book\" />
-    <Folder Include="Models\Repository\Book\" />
+    <Folder Include="Models\DataModel\Booking\" />
+    <Folder Include="Models\Repository\Booking\" />
   </ItemGroup>
 
   <ItemGroup>
