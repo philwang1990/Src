@@ -11,6 +11,7 @@
     var dtl_query_params = ViewData["DTL_QUERY_PARAMS"] as QueryParamsModel;
     var curamt_query_params = ViewData["CUR_AMT_QUERY_PARAMS"] as QueryParamsModel;
     var currency_locales = (Dictionary<string, string>)ViewData["CURRENCY_LOCALES"];
+    var locale = User.FindFirst("Locale").Value;
 }
 
 @section Stylesheet {
@@ -203,7 +204,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="add_dtl_form"  >
+                    <form id="add_form_dtl"  >
                         <div class="col-sm-6">
                             <label>明細類型<span class="text-danger">*</span></label>
                             <select id="add_dtl_type" name="add_dtl_type" class="form-control">
@@ -249,7 +250,31 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="edit_dtl_from"></form>
+                    <form id="edit_from_dtl">
+                        <input type="hidden" id="edit_dtl_xid" />
+                        <div class="col-sm-6">
+                            <label>明細類型<span class="text-danger">*</span></label>
+                            <select id="edit_dtl_type" name="edit_dtl_type" class="form-control">
+                                <option value="type1">依商品編號</option>
+                                <option value="type2">依商品分類</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>內容值<span class="text-danger">*</span></label>
+                            <input type="text" id="edit_dtl_cond" name="edit_dtl_cond" class="form-control" />
+                        </div> 
+                        <div class="col-sm-6">
+                            <label>黑白名單<span class="text-danger">*</span></label>
+                            <select id="edit_dtl_wb" name="edit_dtl_wb" class="form-control">
+                                <option value="0">黑名單</option>
+                                <option value="1">白名單</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>描述</label>
+                            <input type="text" id="edit_dtl_desc" name="edit_dtl_desc" class="form-control">
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer ">
@@ -296,7 +321,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="add_curramt_form">
+                    <form id="add_form_curramt">
                         <div class="col-xs-12">
                             <label>幣別</label>
                             <select id="add_curamt_curr" name="add_curamt_curr" class="form-control">
@@ -349,7 +374,38 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form id="edit_curramt_form"></form>
+                    <form id="edit_form_curramt">
+                        <input type="hidden" id="edit_curramt_xid" />
+                        <div class="col-xs-12">
+                            <label>幣別</label>
+                            <select id="edit_curamt_curr" name="edit_curamt_curr" class="form-control">
+                                <option value="">--Select--</option>
+                            @foreach(var cur in currency_locales)
+                            {
+                                <option value="@cur.Key">@cur.Value @cur.Key</option>
+                            }
+                            </select>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>金額</label>
+                                <div class="input-group"> 
+                                    <div class="input-group-btn">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default sign-btn dropdown-toggle" data-toggle="dropdown">
+                                                <span id="sign_label_02">-</span>
+                                            </button>
+                                            <ul class="dropdown-menu sign_sel_02">
+                                                <li><a href="#">-</a></li>
+                                                <li><a href="#">+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <input typex="text" id="edit_curamt_price" dir="rtl" name="edit_curamt_price" class="form-control" placeholder="輸入數值" onkeyup="this.value=this.value.replace(/[^\d,.]+/,'')">                                     
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="modal-footer ">
@@ -383,9 +439,7 @@
     </div>
     <!-- /.modal-dialog -->
 </div>
-
-
-
+ 
 
 <script type="text/javascript">
     $(function(){
@@ -396,23 +450,7 @@
             else $(".add-dtl").show();
         });
 
-        moment.locale('zh-tw');
-
-        $(".period").daterangepicker({
-            locale : { format: 'YYYY-MM-DD', separator: ' ~ ' },
-            showDropdowns : true,
-            alwaysShowCalendars : false
-        });
-
-        $('.disc_percent li').click(function(e){
-           e.preventDefault();
-           $("#sign_label").html($(this).text());
-        });
-
-        $('.sign_sel_01 li').click(function(e){
-           e.preventDefault();
-           $("#sign_label_01").html($(this).text());
-        });
+        moment.locale('@locale'); 
 
         $("#edit_form").validate({
             errorClass: "error-text",
@@ -435,7 +473,18 @@
             }
         });
 
-        $("#add_dtl_form").validate({
+        $("#add_form_dtl").validate({
+            errorClass: "error-text",
+            errorElement: "small",
+            rules: {
+              dtl_cond: "required"
+            },
+            messages: {
+              dtl_cond: "折扣規則名稱不可為空"
+            }
+        });
+
+        $("#edit_form_dtl").validate({
             errorClass: "error-text",
             errorElement: "small",
             rules: {
@@ -447,19 +496,33 @@
         });
 
 
-        $("#add_curramt_form").validate({
+        $("#add_form_curramt").validate({
             errorClass: "error-text",
             errorElement: "small",
             rules: {
                 add_curamt_curr: "required",          
-                curamt_price: "required"
+                add_curamt_price: "required"
             },
             messages: {
                 add_curamt_curr: "幣別不可為空",
-                curamt_price: "金額不可為空"
+                add_curamt_price: "金額不可為空"
             }
         });
 
+        $("#edit_form_curramt").validate({
+            errorClass: "error-text",
+            errorElement: "small",
+            rules: {
+                edit_curamt_curr: "required",          
+                edit_curamt_price: "required"
+            },
+            messages: {
+                edit_curamt_curr: "幣別不可為空",
+                edit_curamt_price: "金額不可為空"
+            }
+        });
+     
+        mst_setting_init();
 
     });
 

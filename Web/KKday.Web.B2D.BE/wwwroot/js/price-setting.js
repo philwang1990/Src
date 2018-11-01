@@ -1,5 +1,27 @@
 ﻿function price_setting_init() {
-    moment.locale('zh-tw');
+
+    $("#mytable #checkall").click(function () {
+        if ($("#mytable #checkall").is(':checked')) {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", true);
+            });
+        } else {
+            $("#mytable input[type=checkbox]").each(function () {
+                $(this).prop("checked", false);
+            });
+        }
+    });
+
+    $("#add").on("show.bs.modal", function(e) {
+        $("#form1").trigger('reset');
+    });
+
+    $("[data-toggle=tooltip]").tooltip();
+
+    $('.disc_percent li').click(function(e){
+       e.preventDefault();
+       $("#sign_label").html($(this).text());
+    });
 
     $(".period").daterangepicker({
         locale : { format: 'YYYY-MM-DD', separator: ' ~ ' },
@@ -23,7 +45,7 @@
 
 function RefreshMst(page, is_recount) {
 
-    query_params.Filter = ""; // JSON.stringify({ name:$("#name").val(), country:$("#country").val().toUpperCase(), status:$("#status").val() });
+    query_params.Filter = JSON.stringify({ date_from:$("#date_from").val(), date_to:$("#date_to").val().toUpperCase(), status:$("#status").val() });
     query_params.Sorting = ""; // $("#sorting").val();
     if (page!==undefined) query_params.Paging.current_page = page;
     query_params.RecountFlag= is_recount;
@@ -84,6 +106,59 @@ function InsertDiscountMst()
             }
             else alert(result.msg);
         }
+    });
+}
+
+////////
+
+function mst_setting_init() {
+
+     $(".period").daterangepicker({
+        locale : { format: 'YYYY-MM-DD', separator: ' ~ ' },
+        showDropdowns : true,
+        alwaysShowCalendars : false
+    });
+
+    $('.disc_percent li').click(function(e){
+       e.preventDefault();
+       $("#sign_label").html($(this).text());
+    });
+
+    $('.sign_sel_01 li').click(function(e){
+       e.preventDefault();
+       $("#sign_label_01").html($(this).text());
+    });
+
+    $('.sign_sel_02 li').click(function(e){
+       e.preventDefault();
+       $("#sign_label_02").html($(this).text());
+    });
+
+    $("#edit_dtl").on("show.bs.modal", function(e) {
+        var xid = $(e.relatedTarget).attr('data-filtre');
+        $.getJSON(_root_path + "PriceSetting/GetDtl/" + xid,function(result){ 
+            if(result.status== "OK") { 
+                var item = JSON.parse(result.item);
+                $("#edit_dtl_xid").val(item.XID);
+                $("#edit_dtl_type").val(item.DISC_TYPE);
+                $("#edit_dtl_cond").val(item.DISC_LIST); 
+                $("#edit_dtl_desc").val(item.DISC_LIST_NAME);
+                $("#edit_dtl_wb").val(item.WHITELIST);
+            }
+        });
+    });
+
+    $("#edit_curramt").on("show.bs.modal", function(e) {
+        var xid = $(e.relatedTarget).attr('data-filtre');
+        $.getJSON(_root_path + "PriceSetting/GetCurrAmt/" + xid,function(result){
+             if(result.status== "OK") { 
+                var item = JSON.parse(result.item);
+                $("#edit_curramt_xid").val(item.XID);
+                $("#edit_curamt_curr").val(item.CURRENCY);
+                $("#sign_label_02").text(item.AMOUNT < 0 ? '-' : '+');
+                $("#edit_curamt_price").val(Math.abs(item.AMOUNT));  
+            }
+        });
     });
 }
 
@@ -198,7 +273,7 @@ function RefreshDtl(page, is_recount) {
 
 function InsertDiscDtl(mst_xid) {
      console.log("InsertDiscDtl");
-     if(!$("#add_dtl_form").valid()) {
+     if(!$("#add_form_dtl").valid()) {
         return;
     }
 
@@ -224,9 +299,30 @@ function InsertDiscDtl(mst_xid) {
 }
 
 function UpdateDiscDtl() {
-     if(!$("#edit_dtl_form").valid()) {
+    if(!$("#edit_from_dtl").valid()) {
         return;
     }
+
+    discDtl = { xid : $("#edit_dtl_xid").val(), mst_xid: $("#mst_xid").val(), disc_type: $("#edit_dtl_type").val(), disc_list: $("#edit_dtl_cond").val(), disc_list_name: $("#edit_dtl_desc").val(), whitelist: $("#edit_dtl_wb").val() };
+    console.log(JSON.stringify(discDtl));
+
+    $.ajax({
+        type: "POST",
+        url: _root_path + "PriceSetting/UpdateDtl",
+        contentType: "application/json",
+        data: JSON.stringify(discDtl),
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+            console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+        },
+        success: function (result) { 
+            if(result.status == "OK") {
+                RefreshDtl(dtl_query_params.Paging.current_page, false);
+                $('#edit_dtl').modal('hide');
+            }
+        }
+    });
 }
 
 function RemoveDiscDtl() {
@@ -283,7 +379,7 @@ function RefreshCurrAmt(page, is_recount) {
 }
 
 function InsertDiscCurrAmt() {
-     if(!$("#add_curramt_form").valid()) { 
+     if(!$("#add_form_curramt").valid()) { 
         return;
     }
 
@@ -308,11 +404,33 @@ function InsertDiscCurrAmt() {
         }
     });
 }
-
+ 
 function UpdateDiscCurrAmt() {
-     if(!$("#edit_curramt_form").valid()) {
+     if(!$("#edit_form_curramt").valid()) {
         return;
     }
+
+    currAmt = { xid: $("#edit_curramt_xid").val(), mst_xid: $("#mst_xid").val(), currency: $("#edit_curamt_curr").val(), amount: $("#sign_label_02").text()+$("#edit_curamt_price").val() };
+    console.log(JSON.stringify(currAmt));
+
+    $.ajax({
+        type: "POST",
+        url: _root_path + "PriceSetting/UpdateCurrAmt",
+        contentType: "application/json",
+        data: JSON.stringify(currAmt),
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+            console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+        },
+        success: function (result) { 
+            if(result.status == "OK") {
+                RefreshCurrAmt(curamt_query_params.Paging.current_page, false);
+                $('#edit_curramt').modal('hide');
+            }
+            else alert(result.msg);
+        }
+    });
 }
 
 function RemoveDiscCurrAmt() {

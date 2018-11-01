@@ -23,8 +23,8 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
     [TypeFilter(typeof(CultureFilter))]
     public class PriceSettingController : Controller
     {
-        const int PAGE_SIZE = 3;
-        const int OPTION_PAGE_SIZE = 1;
+        const int PAGE_SIZE = 25;
+        const int OPTION_PAGE_SIZE = 20;
         readonly ILocalizer _localizer;
 
         public PriceSettingController(ILocalizer localizer)
@@ -233,6 +233,28 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return Json(jsonData);
         }
 
+        public IActionResult GetDtl(string id)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+
+                jsonData["item"] = JsonConvert.SerializeObject(prsetRepos.GetDiscountDtl(Convert.ToInt64(id)));
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+
         [HttpPost]
         public IActionResult InsertDtl([FromBody] B2dDiscountDtl dtl)
         {
@@ -245,6 +267,30 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
                 // 新增公司與折扣規則對應
                 prsetRepos.InsertDtl(dtl, crt_user);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateDtl([FromBody]B2dDiscountDtl dtl)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var del_user = User.FindFirst("Account").Value;
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+
+                // 新增公司與折扣規則對應
+                prsetRepos.UpdateDtl(dtl, del_user);
                 jsonData["status"] = "OK";
             }
             catch (Exception ex)
@@ -300,13 +346,34 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
                 }
 
                 ViewData["MST_XID"] = id;
-                ViewData["DTL_QUERY_PARAMS"] = queryParams;
+                ViewData["CUR_AMT_QUERY_PARAMS"] = queryParams;
 
                 var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
                 var _discCurrAmt = prsetRepos.GetDiscountCurrAmts(id, locale, queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
 
                 jsonData["query_params"] = JsonConvert.SerializeObject(queryParams);
                 jsonData["content"] = await this.RenderViewAsync<List<B2dDiscountCurrAmt>>("DiscountCurrAmtList", _discCurrAmt, true);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        public IActionResult GetCurrAmt(string id)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+                 
+                jsonData["item"] = JsonConvert.SerializeObject(prsetRepos.GetDiscountCurrAmt(Convert.ToInt64(id)));
                 jsonData["status"] = "OK";
             }
             catch (Exception ex)
@@ -331,6 +398,30 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
                 // 新增公司與折扣規則對應
                 prsetRepos.InsertCurrAmt(dtl, crt_user);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateCurrAmt([FromBody] B2dDiscountCurrAmt dtl)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var upd_user = User.FindFirst("Account").Value;
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+
+                // 新增公司與折扣規則對應
+                prsetRepos.UpdateCurrAmt(dtl, upd_user);
                 jsonData["status"] = "OK";
             }
             catch (Exception ex)

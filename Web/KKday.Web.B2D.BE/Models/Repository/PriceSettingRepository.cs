@@ -177,6 +177,11 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return dtl_list;
         }
 
+        public B2dDiscountDtl GetDiscountDtl(Int64 xid)
+        {
+            return DiscountDAL.GetDiscountDtl(xid);
+        }
+
         public void InsertDtl(B2dDiscountDtl dtl, string crt_user)
         {
             DiscountDAL.InsertDiscountDtl(dtl, crt_user);
@@ -201,7 +206,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
         //取得查詢,排序與分頁資料
         public QueryParamsModel GetCurrAmtQueryParamModel(Int64 mst_xid, string filter, string sorting, int size, int current_page)
         {
-            var rec_count = GetDiscountDtlCount(mst_xid, filter);
+            var rec_count = GetDiscountCurrAmtCount(mst_xid, filter);
             var total_pages = (int)(rec_count / size) + ((rec_count % size != 0) ? 1 : 0);
             return new QueryParamsModel()
             {
@@ -238,6 +243,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
             });
 
             return curramt_list;
+        }
+
+        //取得語系加減價模組
+        public B2dDiscountCurrAmt GetDiscountCurrAmt(Int64  xid)
+        {
+            return DiscountDAL.GetDiscountCurrAmt(xid);
         }
 
         public void InsertCurrAmt(B2dDiscountCurrAmt curr_amt, string crt_user)

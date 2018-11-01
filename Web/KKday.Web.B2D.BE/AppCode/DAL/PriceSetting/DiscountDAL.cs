@@ -286,6 +286,36 @@ LIMIT :Size OFFSET :Skip";
             return dtl_lst;
         }
 
+        // 折扣明細清單
+        public static B2dDiscountDtl GetDiscountDtl(Int64 xid)
+        {
+            try
+            {
+                string sqlStmt = @"SELECT * FROM b2b.b2d_discount_dtl WHERE xid=:xid";
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("xid", xid),
+                };
+
+                var ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+                DataRow dr = ds.Tables[0].Rows[0];
+                var dtl = new B2dDiscountDtl() {
+                    XID = dr.ToInt64("xid"),
+                    MST_XID = dr.ToInt64("mst_xid"),
+                    DISC_TYPE = dr.ToStringEx("disc_type"),
+                    DISC_LIST = dr.ToStringEx("disc_list"),
+                    DISC_LIST_NAME = dr.ToStringEx("disc_list_name"),
+                    WHITELIST = dr.ToStringEx("whitelist")
+                };
+
+                return dtl;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
         //////////////////////////
 
         public static void InsertDiscountDtl(B2dDiscountDtl dtl, string crt_user)
@@ -389,7 +419,7 @@ WHERE xid=:xid";
         {
             try
             {
-                string sqlStmt = @"SELECT * FROM b2b.b2d_discount_curr_amt
+                string sqlStmt = @"SELECT COUNT(*) FROM b2b.b2d_discount_curr_amt
 WHERE mst_xid=:mst_xid {FILTER}";
 
                 sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
@@ -450,7 +480,37 @@ LIMIT :Size OFFSET :Skip";
 
             return curr_amt_lst;
         }
-         
+
+        public static B2dDiscountCurrAmt GetDiscountCurrAmt(Int64 xid)
+        {
+             
+            try
+            {
+                string sqlStmt = @"SELECT * FROM b2b.b2d_discount_curr_amt WHERE xid=:xid";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("xid", xid)
+                };
+
+                var ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+                DataRow dr = ds.Tables[0].Rows[0];
+                var currAmt = new B2dDiscountCurrAmt()
+                {
+                    XID = dr.ToInt64("xid"),
+                    MST_XID = dr.ToInt64("mst_xid"),
+                    CURRENCY = dr.ToStringEx("currency"),
+                    AMOUNT = dr.ToDouble("amount")
+                };
+
+                return currAmt;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            } 
+        }
+
         //////////////////////////
 
         public static void InsertDiscountCurrAmnt(B2dDiscountCurrAmt cur_amt, string crt_user)

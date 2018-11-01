@@ -20,10 +20,10 @@ else
             <tr>
                 <th><input type="checkbox" id="checkall" /></th>
                 <th>@localizer.Text.ID</th>
-                <th>Discount Name</th>
-                <th>@localizer.Text.Status</th>
+                <th>Discount Name</th> 
                 <th>Start Date</th>
                 <th>End Date</th>
+                <th>@localizer.Text.Status</th>
                 <th>@localizer.Text.Delete</th>
             </tr>
         </thead>
@@ -33,11 +33,11 @@ else
             {
                 <tr>
                     <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
-                    <td><a href="#" onclick="DiscountMstEdit(@item.XID);">@item.XID.ToString("00")</a></td>
-                    <td>@item.DISC_NAME</td>
-                    <td>@item.STATUS_DESC</td>
+                    <td><a href="#" onclick="DiscountMstEdit(@item.XID);">@item.XID</a></td>
+                    <td>@item.DISC_NAME</td> 
                     <td>@item.S_DATE.Value.ToString("yyyy-MM-dd")</td>
                     <td>@item.E_DATE.Value.ToString("yyyy-MM-dd")</td>
+                    <td>@item.STATUS_DESC</td>
                     <td>
                         <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="$('#del_mst_xid').val(@item.XID);">
                             <span class="glyphicon glyphicon-trash"></span>

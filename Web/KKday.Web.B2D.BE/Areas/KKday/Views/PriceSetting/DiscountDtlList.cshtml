@@ -21,7 +21,7 @@ else
             <tr>
                 <th><input type="checkbox" id="checkall" /></th>
                 <th>ID</th>
-                <th>Discoiunt Type</th>
+                <th>Type</th>
                 <th>Content</th>
                 <th>Name</th>
                 <th>Mark</th>
@@ -33,7 +33,7 @@ else
             {
             <tr>
                 <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
-                <td><a href="#">@item.XID.ToString("00")</a></td>
+                <td><a href="#" class="btn" data-title="編輯明細規則" data-toggle="modal" data-target="#edit_dtl" data-filtre="@item.XID">@item.XID</a></td>
                 <td>
                     @(item.DISC_TYPE.Equals("type1") ? "依商品編號" : "依商品分類")
                 </td>

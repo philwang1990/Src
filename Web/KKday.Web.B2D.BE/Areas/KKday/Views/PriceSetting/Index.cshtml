@@ -5,6 +5,8 @@
 @model List<B2dDiscountMst>
 @{
     Layout = "_LayoutMain";
+    var locale = User.FindFirst("Locale").Value;
+
 }
 @section Stylesheet {
 
@@ -49,26 +51,35 @@
 
 
                 <div class="col-sm-2">
+                    <label>訂購起始日</label>
                     <div class="input-group">
-                        <input type="text" class="form-control date" />
+                        <input type="text" id="date_from" class="form-control date" />
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-th"></span>
+                        </div>
+                    </div>
+               </div> 
+               <div class="col-sm-2">
+                   <label>訂購結束日</label>
+                    <div class="input-group">
+                        <input type="text" id="date_to" class="form-control date" />
                         <div class="input-group-addon">
                             <span class="glyphicon glyphicon-th"></span>
                         </div>
                     </div>
                 </div>
-
-                <div class="col-sm-6">
-                    <div class="input-group input-daterange">
-                        <input type="text" class="form-control">
-                        <div class="input-group-addon">to</div>
-                        <input type="text" class="form-control">
-                    </div>
+                <div class="col-xs-12 col-sm-2">
+                    <label>@localizer.Text.Status</label>
+                    <select id="status" class="selectpicker form-control">
+                        <option value="">-- Select --</option>
+                        <option value="0">@localizer.Text.Disable</option>
+                        <option value="1">@localizer.Text.Enable</option>
+                    </select>
                 </div>
 
                 <div class="col-sm-2">
-                     
+                    <label></label>
                     <button class="btn btn-primary form-control" onclick="RefreshMst(1, true); return false;">@localizer.Text.Search</button>             
-                     
                 </div>
 
             </div>
@@ -206,24 +217,7 @@
 <script type="text/javascript">
 
     $(function(){
-
-        $("#mytable #checkall").click(function () {
-            if ($("#mytable #checkall").is(':checked')) {
-                $("#mytable input[type=checkbox]").each(function () {
-                    $(this).prop("checked", true);
-                });
-            } else {
-                $("#mytable input[type=checkbox]").each(function () {
-                    $(this).prop("checked", false);
-                });
-            }
-        });
-
-        $("#add").on("show.bs.modal", function(e) {
-            $("#form1").trigger('reset');
-        });
-
-        $("[data-toggle=tooltip]").tooltip();
+        moment.locale('@locale'); 
 
         // Validation for Add New Discount
         $("#add_form").validate({
@@ -245,12 +239,7 @@
               status: "請選擇折扣規則狀態",
               rule_status: "請任選產品規則條件"
             }
-        });
-
-        $('.disc_percent li').click(function(e){
-           e.preventDefault();
-           $("#sign_label").html($(this).text());
-        });
+        }); 
 
         price_setting_init();
     });

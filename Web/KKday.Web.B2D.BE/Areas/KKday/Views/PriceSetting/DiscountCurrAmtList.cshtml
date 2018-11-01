@@ -5,7 +5,7 @@
 @model List<B2dDiscountCurrAmt>
 @{
     var mst_xid = (Int64)ViewData["MST_XID"];
-    var query_params = ViewData["DTL_QUERY_PARAMS"] as QueryParamsModel;
+    var query_params = ViewData["CUR_AMT_QUERY_PARAMS"] as QueryParamsModel;
 }
 
 @if (Model == null || Model.Count() < 1)
@@ -30,7 +30,7 @@ else
             {
                 <tr>
                     <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
-                    <td><a href="#">@item.XID.ToString("00")</a></td>
+                    <td><a href="#" data-toggle="modal" data-target="#edit_curramt" data-filtre="@item.XID">@item.XID</a></td>
                     <td>@item.CURRENCY_DESC (@item.CURRENCY)</td>
                     <td>@item.AMOUNT</td>
                     <td>
