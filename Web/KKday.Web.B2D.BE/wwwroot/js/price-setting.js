@@ -230,7 +230,25 @@ function UpdateDiscDtl() {
 }
 
 function RemoveDiscDtl() {
-    var xid = $("#del_dtl_xid").val();
+    var _xid = $("#del_dtl_xid").val();
+
+    $.ajax({
+        type: "POST",
+        url: _root_path + "PriceSetting/RemoveDtl",
+        contentType: "application/json",
+        data: JSON.stringify({ xid: _xid }),
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+            console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+        },
+        success: function (result) { 
+            if(result.status == "OK") {
+                window.location.reload();   
+            }
+            else alert(result.msg);
+        }
+    });
 }
 
 
@@ -298,5 +316,23 @@ function UpdateDiscCurrAmt() {
 }
 
 function RemoveDiscCurrAmt() {
-    var xid = $("#del_curramt_xid").val();
+    var _xid = $("#del_curramt_xid").val();
+
+    $.ajax({
+        type: "POST",
+        url: _root_path + "PriceSetting/RemoveCurrAmt",
+        contentType: "application/json",
+        data: JSON.stringify({ xid: _xid }),
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+            console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+        },
+        success: function (result) { 
+            if(result.status == "OK") {
+                window.location.reload();   
+            }
+            else alert(result.msg);
+        }
+    });
 }

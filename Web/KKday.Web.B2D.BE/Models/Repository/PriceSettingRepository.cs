@@ -252,7 +252,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         public void RemvoeCurrAmt(Int64 xid, string del_user)
         {
-            DiscountDAL.DeleteDiscountDtl(xid, del_user);
+            DiscountDAL.DeleteDiscountCurrAmnt(xid, del_user);
         }
 
         #endregion DiscountCurrAmt Methods 

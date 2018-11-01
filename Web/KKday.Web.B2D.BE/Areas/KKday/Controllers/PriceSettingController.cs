@@ -257,6 +257,30 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             return Json(jsonData);
         }
 
+        [HttpPost]
+        public IActionResult RemoveDtl([FromBody]JObject req)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var del_user = User.FindFirst("Account").Value;
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+
+                // 新增公司與折扣規則對應
+                prsetRepos.RemvoeDtl(Convert.ToInt64(req["xid"]), del_user);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
         ///////////////////
 
         [HttpPost]
@@ -307,6 +331,30 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
                 // 新增公司與折扣規則對應
                 prsetRepos.InsertCurrAmt(dtl, crt_user);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        [HttpPost]
+        public IActionResult RemoveCurrAmt([FromBody]JObject req)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var del_user = User.FindFirst("Account").Value;
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
+
+                // 新增公司與折扣規則對應
+                prsetRepos.RemvoeCurrAmt(Convert.ToInt64(req["xid"]), del_user);
                 jsonData["status"] = "OK";
             }
             catch (Exception ex)
