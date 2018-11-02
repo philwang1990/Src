@@ -57,7 +57,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
 
         //存到自己的 redis
-        public void SetProdInfotoRedis(string obj ,string redisKey)
+        public void SetProdInfotoRedis(string obj ,string redisKey, int expireMinute)
         {
             //kkredis  
             string kkredis = Website.Instance.Configuration["IP:REDIS_KKDAY"];
@@ -65,7 +65,7 @@ namespace KKday.Web.B2D.EC.AppCode
             IDatabase db = kkrds.GetDatabase();
 
            
-            db.StringSet(redisKey, obj, TimeSpan.FromMinutes(100));
+            db.StringSet(redisKey, obj, TimeSpan.FromMinutes(expireMinute));
 
 
         }

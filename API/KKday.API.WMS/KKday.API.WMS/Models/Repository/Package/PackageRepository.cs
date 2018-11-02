@@ -229,7 +229,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
                 pkg.pkgs = pkgLst;
                 pkg.discount_rule = disc;
                 pkg.guid = Guid.NewGuid().ToString();
-                rds.SetProdInfotoRedis(JsonConvert.SerializeObject(pkg_price), pkg.guid); // 將 pkg_price 存入redis 
+                rds.SetProdInfotoRedis(JsonConvert.SerializeObject(pkg_price), "b2d:pkgsPrice:"+pkg.guid,1440); // 將 pkg_price 存入redis 
 
                 //依套餐取回『可售日期』
                 pkg.sale_dates = (PkgSaleDateModel)GetPkgSaleDate(rq); ;
