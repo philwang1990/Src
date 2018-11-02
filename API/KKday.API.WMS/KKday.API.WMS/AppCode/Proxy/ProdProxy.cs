@@ -126,12 +126,12 @@ namespace KKday.API.WMS.AppCode.Proxy
                 string result = "";
 
                 //redis取出資料
-                if (rds.getProdInfotoRedis("bid:test:KKdayApi_getModule" + query_lst.company_xid) != null)
-                {
-                    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getModule" + query_lst.company_xid);
-                }
-                else
-                {
+                //if (rds.getProdInfotoRedis("bid:test:KKdayApi_getModule" + query_lst.company_xid) != null)
+                //{
+                //    result = rds.getProdInfotoRedis("bid:test:KKdayApi_getModule" + query_lst.company_xid);
+                //}
+                //else
+                //{
                     using (var handler = new HttpClientHandler())
                     {
                         handler.ClientCertificateOptions = ClientCertificateOption.Manual;
@@ -203,7 +203,7 @@ namespace KKday.API.WMS.AppCode.Proxy
 
                     }
 
-                }
+                //}
 
                 obj = JObject.Parse(result);
 
