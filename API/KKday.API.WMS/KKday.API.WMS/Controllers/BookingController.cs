@@ -12,7 +12,7 @@ namespace KKday.API.WMS.Controllers {
     [Route("api/[controller]")]
     public class BookingController : Controller {
 
-        [HttpGet("InsertOrder")]
+        [HttpPost("InsertOrder")]
         public void InsertOrder()
         {
             //Website.Instance.logger.Info($"WMS QueryProduct Start! B2D Xid:{queryRQ.company_xid},KKday ProdOid:{queryRQ.prod_no}");
