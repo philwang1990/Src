@@ -4,7 +4,6 @@ using KKday.API.WMS.AppCode.DAL;
 using Newtonsoft.Json.Linq;
 using KKday.API.WMS.Models.DataModel.Booking;
 using KKday.API.WMS.AppCode.Proxy;
-using KKday.API.WMS.AppCode.DAL;
 using System.Collections.Generic;
 using Npgsql;
 
