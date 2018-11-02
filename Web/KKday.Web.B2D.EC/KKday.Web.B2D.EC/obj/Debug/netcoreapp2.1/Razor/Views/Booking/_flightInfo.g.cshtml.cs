@@ -118,7 +118,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("</label>\r\n                <select class=\"form-control \" id=\"selArrFlightType\" name=\"selArrFlightType\">\r\n                    ");
             EndContext();
             BeginContext(1156, 165, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b899e1eff4f44f218efc5a0566fa026a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0818d3d536bb4667a1dfced92ad05a57", async() => {
                 BeginContext(1204, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -154,7 +154,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("\r\n                    ");
             EndContext();
             BeginContext(1343, 128, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4b6edd852f9e44869fb9b07d249fc3bf", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d7fb16a2c43944b8bb1f973a6d026ebc", async() => {
                 BeginContext(1362, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -186,7 +186,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("\r\n                    ");
             EndContext();
             BeginContext(1493, 131, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ab79ee7ed25a4e658487129c8befcb35", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "11597c99837e4d38a31ecd2124739612", async() => {
                 BeginContext(1510, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -245,7 +245,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("</label>\r\n                <select class=\"form-control \" id=\"selArrAirport\" name=\"selArrAirport\">\r\n                    ");
             EndContext();
             BeginContext(2051, 169, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "816dee75a84c41dab6114e2ee1c9ae67", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "df768d67f3af42b9826e5d940223d924", async() => {
                 BeginContext(2099, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -290,7 +290,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("                        ");
             EndContext();
             BeginContext(2346, 57, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5a45e7091343445aa8c5dd43688673de", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7fe308375174b64b212e8d5f0941171", async() => {
                 BeginContext(2380, 14, false);
 #line 51 "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_flightInfo.cshtml"
                                                     Write(a.airport_name);
@@ -492,7 +492,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("                            <!--抵達時-->\r\n                            <div class=\"col-sm-6 col-xs-12\">\r\n                                <select class=\"form-control \" id=\"selArrHour\" name=\"selArrHour\">\r\n                                    ");
             EndContext();
             BeginContext(5041, 139, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "7902fb362f5a41e8b2fffc916fe699cc", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fc89d54ca7674875a0c24a58f5035ea9", async() => {
                 BeginContext(5089, 82, true);
                 WriteLiteral("\r\n                                        --\r\n                                    ");
                 EndContext();
@@ -528,7 +528,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("                                        ");
             EndContext();
             BeginContext(5431, 32, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5a4ec1c72f924705a2ac8372b55999f9", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e791c77d89f34c70aa82d24a16e24311", async() => {
                 BeginContext(5452, 2, false);
 #line 107 "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_flightInfo.cshtml"
                                                        Write(ii);
@@ -596,7 +596,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("                            <!--抵達分-->\r\n                            <div class=\"col-sm-6 col-xs-12\">\r\n\r\n                                <select class=\"form-control \" id=\"selArrMinute\" name=\"selArrMinute\">\r\n                                    ");
             EndContext();
             BeginContext(6022, 139, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "63c8a288f64e4269a83cce5dadea261e", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "852b4b43a67b40abbe1cd280477738a6", async() => {
                 BeginContext(6070, 82, true);
                 WriteLiteral("\r\n                                        --\r\n                                    ");
                 EndContext();
@@ -632,7 +632,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("                                        ");
             EndContext();
             BeginContext(6414, 32, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "023341e0e3b942a29e2a0170d3e2a9f2", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cab697915b4e4879844ed17146dffc1a", async() => {
                 BeginContext(6435, 2, false);
 #line 125 "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_flightInfo.cshtml"
                                                        Write(ii);
@@ -794,7 +794,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("</label>\r\n                <select class=\"form-control \" id=\"selDepFlightType\" name=\"selDepFlightType\">\r\n                    ");
             EndContext();
             BeginContext(8434, 165, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ae1944d5085c4dce8ca2882bdb0564c7", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "1597a0fcf52e48ddacacc1ba1dcad0e1", async() => {
                 BeginContext(8482, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -830,7 +830,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("\r\n                    ");
             EndContext();
             BeginContext(8621, 128, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "619795540a904928bee9ae9725176ad0", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "62fb790b112845b2b760c5b4df01a050", async() => {
                 BeginContext(8640, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -862,7 +862,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("\r\n                    ");
             EndContext();
             BeginContext(8771, 131, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cb8c814b3ead4b9991c6b12e3a317e46", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e46d919c8cf94d13837891986f6848c0", async() => {
                 BeginContext(8788, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -921,7 +921,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("</label>\r\n                <select class=\"form-control \" id=\"selDepAirport\" name=\"selDepAirport\">\r\n                    ");
             EndContext();
             BeginContext(9335, 171, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b1dbf340f72d47f29f538b1656146992", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4a2df7f1ae9c49479a6d648da38234cf", async() => {
                 BeginContext(9383, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -966,7 +966,7 @@ WriteAttributeValue("", 4432, prodTitle.booking_step1_flight_info_arrival_time_p
             WriteLiteral("                        ");
             EndContext();
             BeginContext(9634, 57, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "26c063f726d144cdb21448a54ad01127", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8e7a6e59087048eb80f6c8cc3be394ca", async() => {
                 BeginContext(9668, 14, false);
 #line 196 "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_flightInfo.cshtml"
                                                     Write(a.airport_name);
@@ -1168,7 +1168,7 @@ WriteAttributeValue("", 11735, prodTitle.booking_step1_flight_info_departure_tim
             WriteLiteral("                            <!--抵達時-->\r\n                            <div class=\"col-sm-6 col-xs-12\">\r\n                                <select class=\"form-control \" id=\"selDepHour\" name=\"selDepHour\">\r\n                                    ");
             EndContext();
             BeginContext(12349, 139, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4acd0f5548d84e44a5b919f39e43b64f", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "cdfd147d5cf3421f9ce136f3bd9a06d6", async() => {
                 BeginContext(12397, 82, true);
                 WriteLiteral("\r\n                                        --\r\n                                    ");
                 EndContext();
@@ -1204,7 +1204,7 @@ WriteAttributeValue("", 11735, prodTitle.booking_step1_flight_info_departure_tim
             WriteLiteral("                                        ");
             EndContext();
             BeginContext(12741, 32, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5354649cd07c48238487a0d628871185", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8405989061804a41b16da7d7a68cad5a", async() => {
                 BeginContext(12762, 2, false);
 #line 252 "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_flightInfo.cshtml"
                                                        Write(ii);
@@ -1272,7 +1272,7 @@ WriteAttributeValue("", 11735, prodTitle.booking_step1_flight_info_departure_tim
             WriteLiteral("                            <!--抵達分-->\r\n                            <div class=\"col-sm-6 col-xs-12\">\r\n                                <select class=\"form-control \" id=\"selDepMinute\" name=\"selDepMinute\">\r\n                                    ");
             EndContext();
             BeginContext(13332, 139, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6a340ef75c0e4357999e93aa33935d1b", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ccb386db12064c17b8098f315f813a19", async() => {
                 BeginContext(13380, 82, true);
                 WriteLiteral("\r\n                                        --\r\n                                    ");
                 EndContext();
@@ -1308,7 +1308,7 @@ WriteAttributeValue("", 11735, prodTitle.booking_step1_flight_info_departure_tim
             WriteLiteral("                                        ");
             EndContext();
             BeginContext(13724, 32, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d5dd88f45de949539bd151a3686d0996", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "4bf773182eac4a948b657f56dc06f2b8", async() => {
                 BeginContext(13745, 2, false);
 #line 269 "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_flightInfo.cshtml"
                                                        Write(ii);

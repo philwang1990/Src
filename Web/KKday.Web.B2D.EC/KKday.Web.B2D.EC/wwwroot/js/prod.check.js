@@ -4,6 +4,7 @@
 
     if ($("#hdnIsEcSale").val() == "True") reflashPkg();
 
+
 }
 
 
@@ -56,7 +57,7 @@ function setDatePicker(e) {
             return IsPermit;
         }
     }).on('changeDate', function(e) {
-        if ($("#select-date").val() != "") $("#hdnPreSelDate").val($("#select-date").val());
+        if ($("#hdnPreSelDate").val() != "") $("#hdnPreSelDate").val($("#hdnPreSelDate").val());
         reflashPkg(); //重新找可用套餐
         console.log("3");
         // }
@@ -82,19 +83,22 @@ function iniShowDate() {
 function chgPkgInfo(pkgOid, chk) {
     //var thisDate=$("#select-date").val();
     if (pkgOid == '') {
-        //$("#hdnPkgOid").val("");
-        $('#select-date').datepicker('destroy');
-        //setDatePicker('2');
-        dtInit('2');
+        if ($("#hdnPkgOid").val() != "" && $("#hdnPreSelDate").val() != "") {
+            btnConfirm();
+        } else {
+            $("#hdnPkgOid").val('');
+            dtInit('2');
 
-        if ($("#select-date").val() != "") {
-            var sd = formatDate($("#select-date").val());
-            $("#select-date").datepicker('setDate', sd);
+            //if ($("#select-date").val() != "") {
+            //    var sd = formatDate($("#select-date").val());
+            //    $("#select-date").datepicker('setDate', sd);
+            //}
+            $("#select-date > input").focus().click();
         }
-        //$("#select-date").datepicker('show');
+
     } else {
         $("#hdnPkgOid").val(pkgOid);
-        if (chk == 'showprice' && $("#select-date").val() != "") {
+        if (chk == 'showprice' && $("#hdnPreSelDate").val() != "") {
             //歸0
             $("input[id^='txtprice']").val("0");
             //把選擇數量秀出來 
@@ -105,13 +109,13 @@ function chgPkgInfo(pkgOid, chk) {
             $(".confirmBar").show();
             $(".minPriceBar").hide();
             $("#confirmName").text($("#hdnPkgName_" + pkgOid).val());
-            $("#confirmSelDate").text($("#select-date").val());
+            $("#confirmSelDate").text($("#hdnPreSelDate").val());
             $("#confirmPrice").text("0");
             console.log("2");
 
 
             //eventtime
-            if ($("#select-date").val() != "") {
+            if ($("#hdnPreSelDate").val() != "") {
                 var test1 = $("#hdnProdOid").val();
                 var eventTimes = null;
                 var jqxhr = $.ajax({
@@ -121,7 +125,7 @@ function chgPkgInfo(pkgOid, chk) {
                     data: JSON.stringify({
                         prodno: test1,
                         pkgno: pkgOid,
-                        DateSelected: $("#select-date").val()
+                        DateSelected: $("#hdnPreSelDate").val()
                     }),
                     dataType: "json",
                     cache: false,
@@ -165,10 +169,10 @@ function chgPkgInfo(pkgOid, chk) {
             //$('#select_date').data('daterangepicker').remove();
             dtInit('2');
 
-            if ($("#select-date").val() != "") {
-                var sd = formatDate($("#select-date").val());
-                $("#select-date").datepicker('setDate', sd);
-            }
+            //if ($("#select-date").val() != "") {
+            //    var sd = formatDate($("#select-date").val());
+            //    $("#select-date").datepicker('setDate', sd);
+            //}
             $("#select-date > input").click();
 
             if (chk == "first") {
@@ -196,7 +200,7 @@ function reflashPkg() {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({
             prodOid: $("#hdnProdOid").val(),
-            selDate: $("#select-date").val()
+            selDate: $("#hdnPreSelDate").val()
         }),
         dataType: "text",
         cache: false,
@@ -276,6 +280,24 @@ function chkNum(pkgOid, qtyId, cond, priceType) {
     var checkMinQty = checkMinQuantity(pkgOid, $('#hdnPkgMinNum_' + pkgOid).val());
     console.log(checkMinQty);
 
+    if(qtyId.indexOf('price1Qty') > 0){
+        $('.rankNumberInfoAdult > .number').val('a1');
+    }
+else if(qtyId.indexOf('price2Qty') > 0){
+    $('.rankNumberInfoChild > .number').val('a2');
+}
+else if(qtyId.indexOf('price3Qty') > 0){
+    $('.rankNumberInfoInfant > .number').val('a3');
+}
+else if(qtyId.indexOf('price4Qty') > 0){
+    $('.rankNumberInfoElder > .number').val('a4');
+}
+
+
+
+
+
+
 
     confirmTotalPrice(pkgOid);
 }
@@ -335,7 +357,7 @@ function btnConfirm() {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({
             prodOid: $("#hdnProdOid").val(),
-            selDate: $("#select-date").val(),
+            selDate: $("#hdnPreSelDate").val(),
             pkgOid: $("#hdnPkgOid").val(),
             price1Qty: chkQty($("#txtprice1Qty_" + pkgOid).val()),
             price2Qty: chkQty($("#txtprice2Qty_" + pkgOid).val()),
@@ -487,7 +509,8 @@ function checkEventQuantity(pkgOid) {
 //minOrderAdultQty
 //api 無這欄位，待補
 function checkMinAdultQuantity(pkgOid, adultQuantity, minAdultQuantity) {
-    if (bookData.hasRank === 'RANK' && adultQuantity < minAdultQuantity) {
+    //if (bookData.hasRank === 'RANK' && adultQuantity < minAdultQuantity) {
+    if (adultQuantity < minAdultQuantity) {
         getKlingon('product_index_max_order_qty_alert', minAdultQuantity);
         $('.msg-error').show();
         return false;
@@ -530,7 +553,7 @@ function dtInit(option) {
 
     }
 
-    $('#select-date input').daterangepicker({g
+    $('#select-date input').daterangepicker({
         minDate: moment(), //今天之前的日期不可選
         singleDatePicker: true,
         showDropdowns: true, //顯示年份、月份的下拉選單
@@ -544,14 +567,19 @@ function dtInit(option) {
             if (dateArr.indexOf(date.format('YYYY-MM-DD')) == -1) {
                 return true;
             }
-
         }
     });
 
     $('#select-date input').val(''); //一定要有這一行，For Daterangepicker 初始值清空
 
     //選擇日期後套餐的 loading 效果
-    $('#select-date input').on('apply.daterangepicker', function() {
+    $('#select-date input').on('apply.daterangepicker', function(ev, picker) {
+
+        $("#hdnPreSelDate").val(picker.startDate.format('YYYY/MM/DD'));
+        $('.replaceSelDate').html(picker.startDate.format('YYYY/MM/DD'));
+        if ($('#hdnPkgOid').val() == "") {
+            reflashPkg(); //重新找可用套餐
+        }
 
         $('.option-group .dot-load').show();
 
@@ -560,4 +588,68 @@ function dtInit(option) {
         }, 1000);
 
     });
+}
+
+function BookingEvent(){
+        var dateSelected = $("#hdnPreSelDate").val();
+        var pkgSelected = $("#hdnPkgOid").val();
+        if(dateSelected === ''){
+            dtInit('1');
+            $("#select-date > input").focus().click();
+        }
+        if(dateSelected != '' && pkgSelected != ''){
+            //歸0
+            $("input[id^='txtprice']").val("0");
+            $(".confirmBar").show();
+            $(".minPriceBar").hide();
+
+            var prodId = $("#hdnProdOid").val();
+                var eventTimes = null;
+                var jqxhr = $.ajax({
+                    type: "POST",
+                    url: _root_path + "Product/GetEventTime/",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({
+                        prodno: prodId,
+                        pkgno: pkgSelected,
+                        DateSelected: $("#hdnPreSelDate").val().replace(/\//g,"")
+                    }),
+                    dataType: "json",
+                    cache: false,
+                    async: false,
+                    //timeout: 60000,
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        alert('要改');
+                    },
+                    success: function(result) {
+                        if (result.errMsg === "false") {
+                            $("." + pkgSelected + "_eventtime_area").hide();
+                        } else {
+                            eventTimes = result.data;
+                            if (eventTimes.length > 0) {
+                                $('#hdnHasEvent').val('true');
+                                $("." + pkgSelected + "_eventtime_area").show();
+                                for (i = 0; i < eventTimes.length; i++) {
+                                    var timesArr = eventTimes[i].event_times.split(",");
+
+                                    $("." + pkgSelected + "_eventtime").empty();
+                                    for (i = 0; i < timesArr.length; i++) {
+                                        var timeInfoArr = timesArr[i].split("_");
+                                        var eventId = timeInfoArr[0]; //eventTime id
+                                        var timeStr = timeInfoArr[1]; //時間
+                                        var eventQty = timeInfoArr[2]; //event quantity
+                                        $("." + pkgSelected + "_eventtime").append('<li><a onClick="selectEvent(' + eventId + ',\'' + timeStr + '\',' + pkgSelected + ',' + eventQty + ')">' + timeStr + '</a></li>');
+                                        $('#hdnevent_' + pkgSelected).val(eventId);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+        }
+}
+
+function PkgSelect(e){
+        var pkgNo = $(e).data('pkg-no');
+        $("#hdnPkgOid").val(pkgNo);
 }

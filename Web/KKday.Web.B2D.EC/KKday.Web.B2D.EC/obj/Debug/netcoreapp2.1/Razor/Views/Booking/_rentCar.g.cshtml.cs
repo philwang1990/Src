@@ -150,7 +150,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("</label>\r\n                  <select class=\"form-control \" id=\"selRentCarPickupOfiice\" name=\"selRentCarPickupOfiice\" onchange=\"chgRentCarTip(\'P\',this)\">\r\n                      ");
             EndContext();
             BeginContext(1221, 169, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5c62414090a04b53a6abd8dfb1eb451f", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8f43fa89176441fc983b59da391a191d", async() => {
                 BeginContext(1269, 28, true);
                 WriteLiteral("\r\n                          ");
                 EndContext();
@@ -195,7 +195,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("                         ");
             EndContext();
             BeginContext(1520, 104, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b33d90242ae648b3852d6c1704b817e1", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0d4dde10e0f24f96b2ea39bc2e5f91a2", async() => {
                 BeginContext(1542, 32, true);
                 WriteLiteral("\r\n                              ");
                 EndContext();
@@ -288,7 +288,7 @@ WriteAttributeValue("", 2262, prodTitle.booking_step1_rent_car_pick_up_date_plac
                                   ");
             EndContext();
             BeginContext(2884, 136, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "981dd638cea74cd6bf244b2fd711d33f", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "060ad1f4f7134810afa47d47ff01cd1a", async() => {
                 BeginContext(2933, 78, true);
                 WriteLiteral("\r\n                                      --\r\n                                  ");
                 EndContext();
@@ -318,7 +318,7 @@ WriteAttributeValue("", 2262, prodTitle.booking_step1_rent_car_pick_up_date_plac
                                   ");
             EndContext();
             BeginContext(3314, 138, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "31a482ca73d44df38b8854ddaf9c665c", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2f82165d1b49499b8222baf782d07ecb", async() => {
                 BeginContext(3365, 78, true);
                 WriteLiteral("\r\n                                      --\r\n                                  ");
                 EndContext();
@@ -430,7 +430,7 @@ WriteAttributeValue("", 2262, prodTitle.booking_step1_rent_car_pick_up_date_plac
             WriteLiteral("</label>\r\n                      <select class=\"form-control \" id=\"selRentCarDropOffOfiice\" name=\"selRentCarDropOffOfiice\" onchange=\"chgRentCarTip(\'D\',this)\" >\r\n                          ");
             EndContext();
             BeginContext(5596, 178, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "75a2e8443bfe47a09c48e9b459ec4f3a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3e5bd1e7efc94a7aacae05057ea47592", async() => {
                 BeginContext(5644, 32, true);
                 WriteLiteral("\r\n                              ");
                 EndContext();
@@ -475,7 +475,7 @@ WriteAttributeValue("", 2262, prodTitle.booking_step1_rent_car_pick_up_date_plac
             WriteLiteral("                          ");
             EndContext();
             BeginContext(5913, 105, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "76eb2dc43f694c769f83d3cf271f1947", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5dc2aca2dd8745708c89d7e41bb28675", async() => {
                 BeginContext(5935, 32, true);
                 WriteLiteral("\r\n                              ");
                 EndContext();
@@ -559,7 +559,7 @@ WriteAttributeValue("", 6644, prodTitle.booking_step1_rent_car_pick_up_date_plac
                                       ");
             EndContext();
             BeginContext(7298, 146, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bf6b8795a4d74e948a8b9427a486093a", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5ae0e34e03ea43a0a375416abf6ceee7", async() => {
                 BeginContext(7349, 86, true);
                 WriteLiteral("\r\n                                          --\r\n                                      ");
                 EndContext();
@@ -589,7 +589,7 @@ WriteAttributeValue("", 6644, prodTitle.booking_step1_rent_car_pick_up_date_plac
                                       ");
             EndContext();
             BeginContext(7760, 146, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "62be093a431c4b378368367972a1c36d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a051201879d5429bbb1462d8b29bbb6d", async() => {
                 BeginContext(7811, 86, true);
                 WriteLiteral("\r\n                                          --\r\n                                      ");
                 EndContext();

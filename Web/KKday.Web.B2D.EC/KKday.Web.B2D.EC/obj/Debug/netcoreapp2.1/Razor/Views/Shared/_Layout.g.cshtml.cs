@@ -54,7 +54,7 @@ using KKday.Web.B2D.EC.Models;
             WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n");
             EndContext();
             BeginContext(25, 2005, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b90407f9a27d462d8b6a43d282fd4d34", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8edb9bb462dd48ebb775fb75d4053184", async() => {
                 BeginContext(31, 269, true);
                 WriteLiteral(@"
     <meta charset=""utf-8"">
@@ -249,7 +249,7 @@ WriteAttributeValue("", 1782, Url.Content("~/js/moment.js"), 1782, 30, false);
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(2032, 36689, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "62fbc539a954453b9ee0ea620750284c", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "69551037d6334c3ba9ba6525cf9f3232", async() => {
                 BeginContext(2038, 558, true);
                 WriteLiteral(@"
     <div class=""header-sheet"">

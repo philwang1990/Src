@@ -166,12 +166,12 @@
                 <div class="col-md-4">
                     <affix id="booking-bar" relative-element-selector="#productDetailApp .product-wrap" :offset="{ top: 40, bottom: 48 }" :scroll-affix="false">
                         <div class="booking-bar-content">
-                            <div class="lowest-price">
-                                <h5 class="pull-left">From</h5>
+                            <div class="lowest-price minPriceBar">
+                                <h5 class="pull-left">@prodTitle.common_per_person</h5>
                                 <div class="pull-right">
                                     <div class="product-pricing">
-                                        <span>TWD </span>
-                                        <h2>2,000</h2>
+                                        <span>@currency </span>
+                                        <h2>@prod.b2d_price</h2>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
@@ -179,77 +179,59 @@
                                 <!-- <div class="text-center text-muted" id="error-message">
                                     <h3 class="mg-0">已售罄</h3>
                                 </div> -->
-                                <a class="btn btn-primary btn-block choice-pkg">
-                                    Choose option
-
-                                    <!-- 按鈕loading -->
-                                    <!-- <div class="dot-load">
-                                        <span class="dot dot-1 bg-white"></span>
-                                        <span class="dot dot-2 bg-white"></span>
-                                        <span class="dot dot-3 bg-white"></span>
-                                    </div> -->
-                                </a>
+                                @if (prod.prod_mkt.is_ec_sale)
+                                {
+                                    <a class="btn btn-primary btn-block choice-pkg" onclick="BookingEvent()">
+                                        @prodTitle.common_booking
+                                    </a>
+                                    @*<div class="row"><button type="button" class="btn btn-info" id="btnConfirm" onclick="chgPkgInfo('','')">@prodTitle.common_booking </button></div>*@
+                                }
+                                else
+                                {
+                                    <a class="btn btn-primary btn-block choice-pkg" disabled="disabled">
+                                        @prodTitle.product_index_coming_soon
+                                    </a>
+                                   @*<div class="row"><button type = "button" class="btn btn-info" id="btnConfirm" disabled="disabled">@prodTitle.product_index_coming_soon </button></div>*@
+                                }
                             </div>
-                            <div class="view-option">
+                            <div class="view-option confirmBar">
                                 <i class="icons icon-pencil"></i>
                                 <h4 class="option-title">Three people per room</h4>
                                 <div class="booking-info">
-                                    <span>2017-10-30</span>
+                                    <span class="replaceSelDate">2017-10-30</span>
                                     <span>11:00</span>
                                 </div>
                                 <div class="booking-info">
-                                    <span>Elder x 1</span>
-                                    <span>Adult x 1</span>
-                                    <span>child x 1</span>
-                                    <span>Infant x 1</span>
-                                </div>
+                                    <span class="rankNumberInfoElder">@prodTitle.common_elder x <span class="number">1</span></span>
+                                    <span class="rankNumberInfoAdult">@prodTitle.common_adult x <span class="number">1</span></span>
+                                    <span class="rankNumberInfoChild">@prodTitle.common_child x <span class="number">1</span></span>
+                                    <span class="rankNumberInfoInfant">@prodTitle.common_infant x <span class="number">1</span></span>
                             </div>
                             <div class="booking-price">
-                                <h5 class="pull-left">From</h5><!-- 選擇人數後文字顯示: Total -->
+                                <h5 class="pull-left">@prodTitle.common_total</h5><!-- 選擇人數後文字顯示: Total -->
                                 <div class="pull-right">
                                     <div class="product-pricing">
-                                        <span>TWD </span>
-                                        <h2>16,256</h2>
+                                        <span>@currency </span>
+                                        <h2 id="txtprice">16,256</h2>
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
                                 <button class="btn btn-primary btn-block disabled" data-toggle="tooltip" data-title="Please select start time and travler">Book now</button>
-                                <button class="btn btn-primary btn-block btn-book">Book now</button>
+                                <button id="btnConfirm" class="btn btn-primary btn-block btn-book">Book now</button>
                             </div>
                             <div class="booking-hint">
                                 <div class="text-right mt-10">
-                                    <!--即訂即岀顯示-->
-                                    <!-- <i class="fa fa-flash fa-lg text-primary"></i> <b>即訂即用</b> -->
-                                    <!--非即訂即岀顯示 .duration-->
                                     <div class="duration">
                                         Reservation will be confirmed within 48 hours
                                     </div>
-                                    <!-- Issue #335 -->
-                                    <!-- <div class="duration popover-info mt-10"  data-placement="left" data-html="true" data-content="工作時間+非工作日=確認時間<p>48小時＋24小時=72小時</p>"><i class="fa fa-info-circle fa-lg text-muted"></i> 72小時回覆確認</div>-->
-                                    <div class="asia-mile-area mt-10">
-                                        <input name="asia_mile_intro_link" value="https://event.kkday.com/zh-tw/asiamiles" type="hidden">
-                                        <a href="https://event.kkday.com/zh-tw/asiamiles" target="_blank">
-                                            <img src="img/ic_asiamile.svg" class="popover-info" alt="aisamile_logo" data-original-title="" title="">
-                                            <span id="asia-mile-qualify">可累積亞洲萬里通哩數</span>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
-                            <button class="btn btn-default btn-lg btn-block" id="add_wishlist" onclick="add_to_wishlist()">
+                            @*<button class="btn btn-default btn-lg btn-block" id="add_wishlist" onclick="add_to_wishlist()">
                                 <i class="fa fa-heart-o"></i>Add to wish list
                             </button>
-                            <button class="btn btn-default btn-lg btn-block is-in-wishlist" id="in_wishlist" onclick="delete_wishlist()" style="display: none;">
-                                <i class="fa fa-heart"></i>In wish list
-                            </button>
-                            <!-- <button class="btn btn-default btn-lg btn-block" id="btn_add_to_noticelist" type="button" onclick="linking_to_check_email()">
-                                <i class="fa fa-bullhorn"></i>開賣時通知我
-                            </button>
-                            <button class="btn btn-default btn-lg btn-block is-in-wishlist" id="btn_in_noticelist" disabled="disabled">
-                                <i class="fa fa-bullhorn"></i>開賣時會通知您
-                            </button> -->
                             <button class="btn btn-default btn-lg btn-block" id="contact_us" type="button" onclick="if_login()">
                                 <i class="fa fa-commenting-o"></i>Contact service center
-                            </button>
+                            </button>*@
                             <div class="text-right mt-10">
                                 <a href="javascript:;" class="text-grey" onclick="scrollToInfoSection('#cancellation-policy')">取消政策</a>
                                 <!-- <strong>一旦訂購，不可取消或更改！</strong> -->

@@ -113,7 +113,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("</label>\r\n                <select class=\"form-control\" id=\"selGuide\" name=\"selGuide\">\r\n                    ");
             EndContext();
             BeginContext(807, 133, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6f15c86bacfe4bd99e1de5f694f3a837", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0311575ec7654f4ba9244f1df47a1386", async() => {
                 BeginContext(855, 26, true);
                 WriteLiteral("\r\n                        ");
                 EndContext();
@@ -158,7 +158,7 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
             WriteLiteral("                        ");
             EndContext();
             BeginContext(1048, 106, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "dabbb4c479b148719618f4dcf21b8e4d", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "56be7437653a48f18143d440737dbc54", async() => {
                 BeginContext(1077, 30, true);
                 WriteLiteral("\r\n                            ");
                 EndContext();

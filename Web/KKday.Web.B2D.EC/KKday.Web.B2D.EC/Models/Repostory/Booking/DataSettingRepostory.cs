@@ -185,7 +185,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 
             distributorInfo fake = new distributorInfo()
             {
-                companyXid = "1",
+                companyXid = "2",
                 userid = "2",
                 firstName = "sharon",
                 lastName = "chang",
