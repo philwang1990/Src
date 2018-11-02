@@ -104,7 +104,7 @@ namespace KKday.API.WMS.AppCode.DAL
 
 
             np = new NpgsqlParameter[]{
-                     new NpgsqlParameter("order_no","1"),
+                     new NpgsqlParameter("order_no",order_no),
                      new NpgsqlParameter("lst_seqno",2),
                      new NpgsqlParameter("cus_seqno",3),
                      new NpgsqlParameter("prod_no","4"),

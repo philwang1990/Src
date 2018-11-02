@@ -33,15 +33,15 @@ namespace KKday.API.WMS.Models.Repository.Booking
                 if (obj["source"] != null)
                     BookingDAL.InsertOrderSource(obj["source"] as JObject, trans, order_no);
 
-                //if (obj["order_lst"] != null)
-                //{
-                //    JArray order_lst = (JArray)obj["order_lst"];
+                if (obj["order_lst"] != null)
+                {
+                    JArray order_lst = (JArray)obj["order_lst"];
 
-                //    foreach (var item in order_lst)
-                //    {
-                //        BookingDAL.InsertOrderLst(item as JObject, trans, order_no);
-                //    } // foreach
-                //} // if
+                    foreach (var item in order_lst)
+                    {
+                        BookingDAL.InsertOrderLst(item as JObject, trans, order_no);
+                    } // foreach
+                } // if
 
                 //BookingDAL.InsertOrderCus(obj, trans, order_no);
                 //BookingDAL.InsertOrderDiscountRuleMst(obj, trans, order_no);
