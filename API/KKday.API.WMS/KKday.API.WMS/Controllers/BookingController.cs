@@ -22,7 +22,7 @@ namespace KKday.API.WMS.Controllers {
 
             //prod_dtl = ProductRepository.GetProdDtl(queryRQ);
 
-            BookingRepository.InsertOrder();
+            BookingRepository.InsertOrder(queryRQ);
 
             //return prod_dtl;
         }

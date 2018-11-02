@@ -34,7 +34,7 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string order_no { get; set; }//訂單編號
         public string booking_type { get; set; }//訂單來源(api/web)
         public int company_xid { get; set; }//分銷商xid
-        public int channel_old { get; set; }//KKday old
+        public int channel_oid { get; set; }//KKday old
         public string connect_name { get; set; }//訂購人姓名
         public string connect_tel { get; set; }//訂購人聯絡電話
         public string connect_mail { get; set; }//訂購人聯絡信箱
@@ -85,7 +85,7 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string disc_note { get; set; }//折扣備註
         public string order_no { get; set; }//訂單編號
 
-        public OrderDiscountRuleDtl order_discount_rule_del { get; set; }//order_dsicount_rule_dtl
+        public OrderDiscountRuleDtl order_discount_rule_dtl { get; set; }//order_dsicount_rule_dtl
 
     }
 
