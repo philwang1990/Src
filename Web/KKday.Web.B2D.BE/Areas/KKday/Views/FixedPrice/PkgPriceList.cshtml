@@ -1,0 +1,279 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.FixedProd
+@using Resources
+@inject ILocalizer localizer
+@model List<FixedProductPackageDtl>
+@{
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+}
+
+<div class="panel-group" id="accordion">
+    <!-- First Panel -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" data-toggle="collapse" data-target="#collapseOne">
+                【淡季】標準４
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <form>
+                            <table class="table table-bordered price-table">
+                                <thead>
+                                <th style="width:5%;">ID</th>
+                                <th style="width:10%;">套餐條件</th>
+                                <th style="width:15%;">金額</th>
+                                <th> </th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-primary" value="Submit" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Second Panel -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" data-toggle="collapse" data-target="#collapseTwo">
+                〔旺季〕標準４
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <form>
+                            <table class="table table-bordered price-table">
+                                <thead>
+                                <th style="width:5%;">ID</th>
+                                <th style="width:10%;">套餐條件</th>
+                                <th style="width:15%;">金額</th>
+                                <th> </th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-primary" value="Submit" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Third Panel -->
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title" data-toggle="collapse" data-target="#collapseThree">
+                〈平季〉逆轉世界 7
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="col-sm-12">
+                    <div class="table-responsive">
+                        <form>
+                            <table class="table table-bordered price-table">
+                                <thead>
+                                <th style="width:5%;">ID</th>
+                                <th style="width:10%;">套餐條件</th>
+                                <th style="width:15%;">金額</th>
+                                <th> </th>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>1</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td><input type="text" /> </td>
+                                        <td><input type="text" /> </td>
+                                        <td>
+                                            <div class="buttons">
+                                                <button class="btn btn-primary btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-pencil"></span>
+                                                </button>
+                                                <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                    <span class="glyphicon glyphicon-trash"></span>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <input type="submit" class="btn btn-primary" value="Submit" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

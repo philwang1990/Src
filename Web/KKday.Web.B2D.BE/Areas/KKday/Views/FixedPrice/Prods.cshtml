@@ -1,0 +1,112 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.FixedProd
+@using Resources
+@inject ILocalizer localizer
+@model List<FixedProduct>
+@{
+    Layout = "_LayoutMain";
+
+    ViewData["COMPANY_NAME"] = "";
+    ViewData["PROD_NAME"] = "";
+
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+}
+@section Stylesheet {
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <style type="text/css">
+        .modal-dialog {
+            width: whatever;
+        }
+    </style>
+}
+@section Scripts {
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+}
+<script type="text/javascript">
+  var query_params = {}; @* @Html.Raw(ViewData["QUERY_PARAMS_JSON"].ToString()); *@
+</script>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item">@localizer.Text.Title_Distributor</li>
+        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.FixedPriceSetting</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>@localizer.Text.FixedPriceSetting</h4>
+
+            <span style="font-size: 1.18em; display: block; margin: 16px 0 16px 0; color: #0174DF;">
+                @ViewData["COMPANY_NAME"]
+            </span>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <a href="javascript:void(0);" class="btn"><i class="fas fa-plus"></i> 新增商品</a>
+        </div>
+
+        <div class="col-xs-12">
+            <div id="list_panel" class="table-responsive">
+                @await Html.PartialAsync("ProdList", Model)
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <button type="button" class="btn btn-default" onclick="window.history.go(-1);">回上一頁</button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+
+    });
+
+    function Refresh(page, is_recount) {
+        if(query_params != undefined) {
+            query_params.Filter = JSON.stringify({ name:$("#name").val(), country:$("#country").val().toUpperCase(), status:$("#status").val() });
+            query_params.Sorting = $("#sorting").val();
+            if (page!= undefined) query_params.Paging.current_page = page;
+            query_params.RecountFlag= is_recount;
+            //console.log("Params: " + JSON.stringify(query_params));
+        }
+    /*
+        $.ajax({
+            type: "POST",
+            url: _root_path + "FixedPrice/ProdRefresh",
+            contentType: "application/json",
+            data: JSON.stringify(query_params),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    $("#list_panel").html(result.content);
+                    query_params = JSON.parse(result.query_params);
+                }
+            }
+        });
+    */
+
+    }
+
+    function GoPackagePrices(cid, cname, pid, pd_no, pname) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "FixedPrice/PkgPrices/" + pd_no +"/?pid=" + pid + "&pname=" + encodeURI(pname) +
+                                "&cid=" + cid + "&cname=" + encodeURI(cname) + "&query=" + query;
+    }
+
+</script>
