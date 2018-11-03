@@ -448,5 +448,17 @@ namespace KKday.Web.B2D.BE.Resources {
                 return ResourceManager.GetString("Company_Status_04", resourceCulture);
             }
         }
+        
+        internal static string FixedPrice {
+            get {
+                return ResourceManager.GetString("FixedPrice", resourceCulture);
+            }
+        }
+        
+        internal static string FixedPriceSetting {
+            get {
+                return ResourceManager.GetString("FixedPriceSetting", resourceCulture);
+            }
+        }
     }
 }

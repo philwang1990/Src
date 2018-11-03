@@ -60,6 +60,8 @@
     <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\" />
     <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\js\" />
     <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\css\" />
+    <Folder Include="Areas\KKday\Views\FixedPrice\" />
+    <Folder Include="Models\Model\FixedProd\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
@@ -184,6 +186,9 @@
     <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
     <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
     <Content Remove="wwwroot\lib\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Remove="Areas\KKday\Views\FixedPrice\CompanyList.cshtml" />
+    <Content Remove="Areas\KKday\Views\FixedPrice\Index.cshtml" />
+    <Content Remove="wwwroot\css\sidenav.css" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Resources\KKday\Company\Index.resx" />

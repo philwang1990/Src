@@ -1,5 +1,5 @@
 ﻿#wrapper {
-    padding-left: 250px;
+    padding-left: 32px;
     transition: all 0.4s ease 0s;
     display: block;
 }
@@ -110,18 +110,18 @@
 
 @media (max-width:767px) {
 
-#wrapper {
-    padding-left: 0;
-}
+    #wrapper {
+        padding-left: 0;
+    }
 
-#sidebar-wrapper {
-    left: 0;
-}
+    #sidebar-wrapper {
+        left: 0;
+    }
 
-#wrapper.active {
-    position: relative;
-    left: 250px;
-}
+    #wrapper.active {
+        position: relative;
+        left: 250px;
+    }
 
     #wrapper.active #sidebar-wrapper {
         left: 250px;
@@ -129,12 +129,12 @@
         transition: all 0.4s ease 0s;
     }
 
-#menu-toggle {
-    display: inline-block;
-}
+    #menu-toggle {
+        display: inline-block;
+    }
 
-.inset {
-    padding: 15px;
-}
+    .inset {
+        padding: 15px;
+    }
 
 }

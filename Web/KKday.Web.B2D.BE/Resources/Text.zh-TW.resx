@@ -113,8 +113,8 @@
     <data name="Title_Distributor" xml:space="preserve"><value>分銷商管理</value></data>
     <data name="Title_VoucherApply" xml:space="preserve"><value>憑證補充</value></data>
     <data name="Title_Order" xml:space="preserve"><value>訂單管理</value></data>
-    <data name="Title_B2dAccount" xml:space="preserve"><value>分銷商帳號管理</value></data>
-    <data name="Title_B2dApiAccount" xml:space="preserve"><value>分銷商API帳號管理</value></data>
+    <data name="Title_B2dAccount" xml:space="preserve"><value>分銷商帳號</value></data>
+    <data name="Title_B2dApiAccount" xml:space="preserve"><value>分銷商API帳號</value></data>
     <data name="Title_PriceBlacklist" xml:space="preserve"><value>牌價黑名單</value></data>
     <data name="Title_PriceSetting" xml:space="preserve"><value>價格設定</value></data> 
     
@@ -142,5 +142,8 @@
     <data name="Company_Status_02" xml:space="preserve"><value>待補件</value></data>
     <data name="Company_Status_03" xml:space="preserve"><value>已核准</value></data>
     <data name="Company_Status_04" xml:space="preserve"><value>未核准</value></data>
+    
+    <data name="FixedPrice" xml:space="preserve"><value>固定價</value></data>
+    <data name="FixedPriceSetting" xml:space="preserve"><value>固定價設定</value></data>
     
 </root>

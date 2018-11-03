@@ -21,6 +21,7 @@ else
             <th>@localizer.Text.Company_Name</th>
             <th>@localizer.Text.Country</th>
             <th>@localizer.Text.Status</th>
+            <th>@localizer.Text.FixedPrice</th>
             <th>@localizer.Text.Promotion</th>
             <th>@localizer.Text.Delete</th>
         </thead>
@@ -33,6 +34,11 @@ else
                 <td><a href="javascript:CompanyEdit(@item.XID);">@item.COMP_NAME</a></td>
                 <td>@item.COMP_COUNTRY</td>
                 <td>@item.STATUS_DESC (@item.STATUS)</td>
+                <td>
+                    <button class="btn btn-primary btn-xs" data-title="Promotion" data-toggle="modal" data-target="#promotion" onclick="CompanyFixedPrice(@item.XID, '@item.COMP_NAME')">
+                        <i class="fas fa-dollar-sign"></i>
+                    </button>
+                </td>
                 <td>
                     <button class="btn btn-primary btn-xs" data-title="Promotion" data-toggle="modal" data-target="#promotion" onclick="CompanyPromotion(@item.XID, '@item.COMP_NAME');">
                         <i class="fas fa-tasks"></i>

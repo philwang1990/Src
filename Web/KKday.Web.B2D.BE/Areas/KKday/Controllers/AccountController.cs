@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Resources;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -231,7 +232,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             {
                 var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
                 var acctRepos = services.First(o => o.GetType() == typeof(B2dApiAccountRepository));
-                var upd_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var upd_user = User.FindFirst("Account").Value;
 
                 //更新分銷商公司資料
                 acctRepos.UpdateAccount(account, upd_user);
@@ -249,5 +250,40 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
         #endregion API User
 
+        [HttpPost]
+        public IActionResult UpdateAcctPasswd([FromBody] JObject req)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var upd_user = User.FindFirst("Account").Value;
+                IB2dAccountRepository acctRepos = null;
+
+                switch (req["type"].ToString())
+                {
+                    case "API":
+                        acctRepos = services.First(o => o.GetType() == typeof(B2dApiAccountRepository));
+                        break;
+                    case "USER":
+                        acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository));
+                        break;
+                    default: break;
+                }
+
+                acctRepos.SetNewPassword(req["acct"].ToString(), req["psw"].ToString());
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
     }
 }

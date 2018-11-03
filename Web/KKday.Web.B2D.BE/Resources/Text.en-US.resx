@@ -141,4 +141,7 @@
     <data name="Company_Status_03" xml:space="preserve"><value>Permit</value></data>
     <data name="Company_Status_04" xml:space="preserve"><value>Reject</value></data> 
     
+    <data name="FixedPrice" xml:space="preserve"><value>Fixed Price</value></data>
+    <data name="FixedPriceSetting" xml:space="preserve"><value>Fixed Price Setting</value></data>
+    
 </root>

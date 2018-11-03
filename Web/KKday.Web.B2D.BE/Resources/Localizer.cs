@@ -287,5 +287,9 @@
 		public string Company_Status_03 { get { return GetString("Company_Status_03"); } }
 
 		public string Company_Status_04 { get { return GetString("Company_Status_04"); } }
+
+		public string FixedPrice { get { return GetString("FixedPrice"); } }
+
+		public string FixedPriceSetting { get { return GetString("FixedPriceSetting"); } }
     }
 }
