@@ -29,11 +29,10 @@
         alwaysShowCalendars : false
     });
  
-    $(".date").daterangepicker({ 
-        autoUpdateInput: false,
-        locale : { format: 'YYYY-MM-DD', separator: ' ~ ' },
-        showDropdowns : true,
-        singleDatePicker : true
+    $(".date").daterangepicker({
+       locale : { format: 'YYYY-MM-DD', separator: ' ~ ' },
+       showDropdowns : true,
+       singleDatePicker : true
        /*
        isInvalidDate: function(date) {
             var disabled_start = moment('2018-10-31', 'YYYY-MM-DD');
@@ -42,22 +41,11 @@
        } */
      });
 
-    $('#sdate').on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-    });
-
-    $('#edate').on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-    });
-
 }
 
 function RefreshMst(page, is_recount) {
-    if($('#sdate').val() != '' && $('#edate').val() != '' && $('#sdate').data('daterangepicker').startDate > $('#edate').data('daterangepicker').startDate) {
-        alert('Start Date greate than End Date!'); return false;
-    }
 
-    query_params.Filter = JSON.stringify({ xid: $("#xid").val(), name: $("#name").val(), s_date:$("#sdate").val(), e_date:$("#edate").val().toUpperCase(), status:$("#status").val() });
+    query_params.Filter = JSON.stringify({ date_from:$("#date_from").val(), date_to:$("#date_to").val().toUpperCase(), status:$("#status").val() });
     query_params.Sorting = ""; // $("#sorting").val();
     if (page!==undefined) query_params.Paging.current_page = page;
     query_params.RecountFlag= is_recount;

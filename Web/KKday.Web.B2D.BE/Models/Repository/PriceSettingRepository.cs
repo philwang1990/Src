@@ -70,33 +70,30 @@ namespace KKday.Web.B2D.BE.Models.Repository
             var jObjFilter = string.IsNullOrEmpty(filter) ? new JObject() : JObject.Parse(filter);
             var _filter = "";
 
-            // xid
-            if (!string.IsNullOrEmpty((string)jObjFilter["xid"]))
-                _filter += $" AND xid={jObjFilter["xid"]} ";
+            // Discount No
+            if (!string.IsNullOrEmpty((string)jObjFilter["no"]))
+                _filter += $" AND LOWER(disc_no) LIKE '%{jObjFilter["no"]}%' ";
 
-            // disc_name
+            // Disount Name
             if (!string.IsNullOrEmpty((string)jObjFilter["name"]))
                 _filter += $" AND LOWER(disc_name) LIKE '%{jObjFilter["name"]}%' ";
 
-            // date range
-            var s_date = (string)jObjFilter["s_date"]; // yyyy-MM-dd
+            // Date range
+            var s_date = (string)jObjFilter["s_date"];
             var e_date = (string)jObjFilter["e_date"]; 
             if (!string.IsNullOrEmpty(s_date) && !string.IsNullOrEmpty(e_date))
             {
-                _filter += $" AND (TO_CHAR(s_date,'yyyy-MM-dd')<='{ s_date }' AND TO_CHAR(e_date,'yyyy-MM-dd')>='{ e_date }')";
+                _filter += $" AND (TO_CHAR(s_date,'yyyyMMdd')<='{ s_date }' AND TO_CHAR(e_date,'yyyyMMdd')>='{ e_date }')";
             }
             else if (!string.IsNullOrEmpty(s_date) && string.IsNullOrEmpty(e_date))
             {
-                _filter += $" AND (TO_CHAR(s_date,'yyyy-MM-dd')<='{ s_date }')";
+                _filter += $" AND (TO_CHAR(s_date,'yyyyMMdd')<='{ s_date }')";
             }
             else if (string.IsNullOrEmpty(s_date) && !string.IsNullOrEmpty(e_date))
             {
-                _filter += $" AND (TO_CHAR(e_date,'yyyy-MM-dd')>='{ e_date }')";
+                _filter += $" AND (TO_CHAR(e_date,'yyyyMMdd')>='{ e_date }')";
             }
 
-            // status
-            if (!string.IsNullOrEmpty((string)jObjFilter["status"]))
-                _filter += $" AND status='{jObjFilter["status"]}' ";
 
             return _filter;
         }
