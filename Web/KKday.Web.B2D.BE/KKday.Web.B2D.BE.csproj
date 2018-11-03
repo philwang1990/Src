@@ -34,7 +34,6 @@
     <Folder Include="Areas\KKday\Models\DataModel\" />
     <Folder Include="AppCode\DAL\Company\" />
     <Folder Include="AppCode\DAL\Account\" />
-    <Folder Include="Areas\KKday\Views\Voucher\" />
     <Folder Include="Areas\KKday\Views\PriceSetting\" />
     <Folder Include="Areas\KKday\Views\ListPrice\" />
     <Folder Include="App_Data\" />
@@ -189,6 +188,8 @@
     <Content Remove="Areas\KKday\Views\FixedPrice\CompanyList.cshtml" />
     <Content Remove="Areas\KKday\Views\FixedPrice\Index.cshtml" />
     <Content Remove="wwwroot\css\sidenav.css" />
+    <Content Remove="Areas\KKday\Views\Voucher\Index.cshtml" />
+    <Content Remove="Areas\KKday\Views\Company\VouchApply.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Resources\KKday\Company\Index.resx" />

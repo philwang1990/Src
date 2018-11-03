@@ -15,6 +15,9 @@ using Resources;
 using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel;
 using System.Diagnostics.Contracts;
 using Newtonsoft.Json.Linq;
+using System.IO;
+using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -185,7 +188,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
                 return StatusCode(500);
             }
         }
-  
+
         public async System.Threading.Tasks.Task<IActionResult> GetAvailDiscounts(Int64 id)
         {
             Dictionary<string, object> jsonData = new Dictionary<string, object>();
@@ -259,5 +262,77 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
             return Json(jsonData);
         }
+
+        #region File Uplpad
+
+        [HttpPost]
+        public async Task<IActionResult> UploadLogo([FromQuery]Int64 cid, List<IFormFile> files)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var size = files.Sum(f => f.Length);
+                // full path to file in temp location
+                var filePath = Path.GetTempFileName();
+
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    { 
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+                    }
+                } 
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData); 
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UploadLicenses([FromQuery]Int64 cid, List<IFormFile> files)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var size = files.Sum(f => f.Length);
+                // full path to file in temp location
+                var filePath = Path.GetTempFileName();
+
+                foreach (var file in files)
+                {
+                    if (file.Length > 0)
+                    {
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await file.CopyToAsync(stream);
+                        }
+                    }
+                }
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        #endregion File Uplpad
     }
 }
