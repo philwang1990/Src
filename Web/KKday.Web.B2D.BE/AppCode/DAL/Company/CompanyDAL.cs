@@ -61,6 +61,7 @@ LIMIT :Size OFFSET :Skip";
                         PARENT_COMP_XID = dr.ToInt64("parent_comp_xid"),
                         COMP_NAME = dr.ToStringEx("comp_name"),
                         COMP_URL = dr.ToStringEx("comp_url"),
+                        COMP_LOGO_URL = dr.ToStringEx("comp_logo_url"),
                         COMP_LICENSE = dr.ToStringEx("comp_license"),
                         COMP_LICENSE_2 = dr.ToStringEx("comp_license_2"),
                         COMP_LOCALE = dr.ToStringEx("comp_locale"),
@@ -110,6 +111,7 @@ LIMIT :Size OFFSET :Skip";
                     PARENT_COMP_XID = dr.ToInt64("parent_comp_xid"),
                     COMP_NAME = dr.ToStringEx("comp_name"),
                     COMP_URL = dr.ToStringEx("comp_url"),
+                    COMP_LOGO_URL = dr.ToStringEx("comp_logo_url"),
                     COMP_LICENSE = dr.ToStringEx("comp_license"),
                     COMP_LICENSE_2 = dr.ToStringEx("comp_license_2"),
                     COMP_LOCALE = dr.ToStringEx("comp_locale"),
@@ -171,7 +173,7 @@ WHERE xid=:XID";
                     new NpgsqlParameter("CONTACT_USER", company.CONTACT_USER),
                     new NpgsqlParameter("CONTACT_USER_EMAIL", company.CONTACT_USER_EMAIL),
                     new NpgsqlParameter("FINANCE_USER", company.FINANCE_USER),
-                    new NpgsqlParameter("SALES_USER", company.SALES_USER),
+                    new NpgsqlParameter("SALES_USER", company.SALES_USER), 
                     //new NpgsqlParameter("CHARGE_MAN_FIRST", company.CHARGE_MAN_FIRST),
                     //new NpgsqlParameter("CHARGE_MAN_LAST", company.CHARGE_MAN_LAST),
                     //new NpgsqlParameter("CREDITCARD_NO", company.CREDITCARD_NO),
@@ -194,7 +196,8 @@ WHERE xid=:XID";
             try
             {
                 string sqlStmt = @"UPDATE b2b.b2d_company SET status=:STATUS,
-upd_user=:UPD_USER, upd_datetime=Now() WHERE xid=:XID";
+  upd_user=:UPD_USER, upd_datetime=Now()
+WHERE xid=:XID";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("XID", xid),
@@ -203,6 +206,66 @@ upd_user=:UPD_USER, upd_datetime=Now() WHERE xid=:XID";
                 };
                  
                 NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void UpdateLogo(Int64 xid, string logo_url, string upd_user)
+        {
+            try
+            {
+                string sqlStmt = @"UPDATE b2b.b2d_company SET comp_logo_url=:comp_logo_url,
+  upd_user=:upd_user, upd_datetime=Now()
+WHERE xid=:xid";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("xid", xid),
+                    new NpgsqlParameter("comp_logo_url", logo_url),
+                    new NpgsqlParameter("upd_user", upd_user)
+                };
+
+                NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public static void UpdateLicenses(Int64 xid, string [] license_url, string upd_user)
+        {
+            try
+            {
+                string sqlStmt = @"UPDATE b2b.b2d_company SET {UPD_FIELDS},
+upd_user=:upd_user, upd_datetime=Now() 
+WHERE xid=:xid";
+
+                List<NpgsqlParameter> sqlParams = new List<NpgsqlParameter>();
+
+                sqlParams.Add(new NpgsqlParameter("xid", xid));
+                sqlParams.Add(new NpgsqlParameter("upd_user", upd_user));
+
+                var upd_fileds = "";
+                switch (license_url.Length)
+                {
+                    case 1:
+                        upd_fileds = "comp_license_2=:comp_license_2";
+                        sqlParams.Add(new NpgsqlParameter("xid", license_url[0]));
+                        break;
+                    case 2:
+                        upd_fileds = "comp_license=:comp_license, comp_license_2=:comp_license_2";
+                        sqlParams.Add(new NpgsqlParameter("comp_license", license_url[0]));
+                        sqlParams.Add(new NpgsqlParameter("comp_license_2", license_url[1]));
+                        break;
+                    default: break;
+                }
+                sqlStmt = sqlStmt.Replace("{UPD_FIELDS}", upd_fileds);
+
+
+                NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams.ToArray());
             }
             catch (Exception ex)
             {

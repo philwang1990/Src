@@ -6,10 +6,10 @@
 @inject ILocalizer localizer
 @model B2dCompany
 @{
-    Layout = "_LayoutMain";
+Layout = "_LayoutMain";
 
-    var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
-    var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
+var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
+var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
 }
 @section Stylesheet {
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/jquery-scrolling-tabs/dist/css/jquery.scrolling-tabs.min.css")" />
@@ -17,6 +17,7 @@
 }
 
 @section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/js/bootstrap-filestyle.min.js")" asp-append-version="true"></script></script>
     <script type="text/javascript" src="@Url.Content("~/lib/jquery-scrolling-tabs/dist/js/jquery.scrolling-tabs.min.js")"></script>
 }
 
@@ -193,20 +194,36 @@
                         </div>
                     </div> <!-- row -->
 
-                    <div class="row">
+                    <div class="row" style="background-color:#f2f2f2;">
+                         
+
                         <div class="col-xs-12">
-                            <div class="col-xs-12 col-sm-10" style="margin-bottom: 32px;"> 
-                                <label>上傳公司 Logo </label>
-                                <input type="file" id="logo_file" accept="image/*" /> 
-                                <br/>
-                                <button type="button" class="btn btn-warning" onclick="UploadLogo();">上傳</button>
+                            <div class="col-xs-12 col-sm-10" style="margin-top:16px; padding-bottom:8px;">
+                                <label>公司圖片</label>
+                                @if (string.IsNullOrEmpty(Model.COMP_LOGO_URL))
+                                {
+                                    <div></div>
+                                }
+                                else
+                                {
+                                    <div>@Model.COMP_LOGO_URL</div>
+                                }
+                                 
+                                <input type="file" id="logo_file" class="filestyle" accept="image/*" data-icon="false" onchange="UploadLogo();"> 
+                                 
                             </div>
 
-                            <div class="col-xs-12 col-sm-10"> 
-                                <label>上傳公司營業登記證 </label>
-                                <input type="file" id="license_files" multiple accept="image/*,.pdf" /> 
-                                <br/>
-                                <button type="button" class="btn btn-warning" onclick="UploadLicenses();">上傳</button>
+                            <div class="col-xs-12 col-sm-10" style="margin-top:16px; padding-bottom:8px;">
+                                <label>公司營業登記證</label>
+                                @if (string.IsNullOrEmpty(Model.COMP_LICENSE) && string.IsNullOrEmpty(Model.COMP_LICENSE_2))
+                                {
+                                    <div></div>
+                                } else {
+                                    <div>@Model.COMP_LICENSE @Html.Raw(string.IsNullOrEmpty(Model.COMP_LICENSE_2)? "" : "<br/>")
+                                           @Model.COMP_LICENSE_2</div>
+                                }
+
+                                <input type="file" id="license_files" class="filestyle" multiple accept="image/*,.pdf" data-icon="false" onchange="UploadLicenses();">                                  
                             </div>
                         </div>
                     </div> <!-- row --> 
@@ -301,7 +318,7 @@
             $(this).prev('label').text(labelText);
         });*@
 
-    });
+    }); 
 
     function UpdateCompany()
     {
@@ -427,7 +444,7 @@
                 if(result.status == "OK") {
                     alert('Upload file is Successful');
 
-                    $("#logo_file").prev('label').html(labelText);
+                    $("#logo_file").prev('div').html(labelText);
                 }
                 else  alert(result.msg);               
             }
@@ -472,7 +489,7 @@
             success: function (result) {
                 if(result.status == "OK") {
                     alert('Upload file is Successful'); 
-                    $("#license_files").prev('label').html(labelText);
+                    $("#license_files").prev('div').html(labelText);
                 }
                 else  alert(result.msg);               
             }

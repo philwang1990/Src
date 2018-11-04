@@ -245,7 +245,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             {
                 Int64 cmp_xid = Convert.ToInt64(req["xid"]);
                 Int64 mst_xid = Convert.ToInt64(req["mst_xid"]);
-                var del_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var del_user = User.FindFirst("Account").Value;
                 var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
 
                 // 刪除公司與折扣規則對應
@@ -272,20 +272,32 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
             try
             {
-                var size = files.Sum(f => f.Length);
-                // full path to file in temp location
-                var filePath = Path.GetTempFileName();
+                var upd_user = User.FindFirst("Account").Value;
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
+                List<string> logo_url = new List<string>();
 
-                foreach (var file in files)
+                var size = files.Sum(f => f.Length);
+               
+                foreach (var _file in files)
                 {
-                    if (file.Length > 0)
-                    { 
+                    if (_file.Length > 0)
+                    {
+                        // full path to file in temp location
+                        var filePath = Path.Combine(Path.GetTempPath(), _file.FileName);  // Path.GetTempFileName();
+
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
-                            await file.CopyToAsync(stream);
+                            await _file.CopyToAsync(stream);
                         }
+
+                        // 透過 FS API 把檔案傳上 S3, 並取得 URL 
+
+                        // 儲放網址
+                        logo_url.Add(filePath);
                     }
-                } 
+                }
+
+                compRepos.UpdateLogo(cid, logo_url[0], upd_user);
 
                 jsonData["status"] = "OK";
             }
@@ -306,20 +318,31 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
             try
             {
-                var size = files.Sum(f => f.Length);
-                // full path to file in temp location
-                var filePath = Path.GetTempFileName();
+                var upd_user = User.FindFirst("Account").Value;
+                var compRepos = HttpContext.RequestServices.GetService<CompanyRepository>();
+                List<string> license_url = new List<string>();
 
-                foreach (var file in files)
+                var size = files.Sum(f => f.Length);
+               
+                foreach (var _file in files)
                 {
-                    if (file.Length > 0)
+                    if (_file.Length > 0)
                     {
+                        // full path to file in temp location
+                        var filePath = Path.Combine(Path.GetTempPath(), _file.FileName); // Path.GetTempFileName();
                         using (var stream = new FileStream(filePath, FileMode.Create))
                         {
-                            await file.CopyToAsync(stream);
+                            await _file.CopyToAsync(stream);
                         }
+
+                        // 透過 FS API 把檔案傳上 S3, 並取得 URL
+
+                        // 儲放網址
+                        license_url.Add(filePath);
                     }
                 }
+
+                compRepos.UpdateLicenses(cid, license_url.ToArray(), upd_user);
 
                 jsonData["status"] = "OK";
             }
