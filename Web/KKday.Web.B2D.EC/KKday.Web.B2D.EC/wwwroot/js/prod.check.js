@@ -735,3 +735,30 @@ function BookingCheck() {
         $('.btn-book').hide();
     }
 }
+
+function photo_slideshow() {
+    initCarousel();
+    $('#product-photo-modal').modal('show');
+}
+
+function initCarousel() {
+$("#kk-slideshow").owlCarousel({
+                    items: 1,
+                    responsive: true,
+                    responsiveRefreshRate: 200,
+                    responsiveBaseElement: window,
+                    autoHeight: false,
+                    lazyLoad: true,
+                    rewind: true,
+                    dotsEach: true,
+                    dots: true,
+                });
+}
+
+function slideshowPrev() {
+    $("#kk-slideshow").trigger('prev.owl');
+}
+
+function slideshowNext() {
+$("#kk-slideshow").trigger('next.owl');
+}

@@ -40,6 +40,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string product_index_refundable { get; set; } //全額退款
         public string product_index_non_refundable { get; set; } //不可取消，無法退款
 
+        public string product_index_related_product { get; set; } //相關商品
+        public string product_index_more_product { get; set; } //更多商品
 
         //booking bar 
         public string common_booking { get; set; } //立即訂購

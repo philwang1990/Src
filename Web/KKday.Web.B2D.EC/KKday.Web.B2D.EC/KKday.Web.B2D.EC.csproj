@@ -40,6 +40,7 @@
     <Folder Include="Models\Model\Product\api\Product\" />
     <Folder Include="Models\Model\Product\api\Package\" />
     <Folder Include="Models\Model\Pmch\" />
+    <Folder Include="wwwroot\fonts\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Product\Index2.cshtml" />

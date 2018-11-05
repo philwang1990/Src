@@ -19,7 +19,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string main_lang { get; set; } //主語系
         public string cost_type { get; set; } //成本類別
         //public string introduction { get; set; } //簡述  (跟ProductBase共用)
-        public string prod_desction { get; set; } //行程說明
+        public string prod_desc { get; set; } //行程說明
         public string prod_tips { get; set; } //溫馨提醒
         public string prod_map_note { get; set; } //主要目的地
         //public string prod_sup_note { get; set; } //供應商商品備註

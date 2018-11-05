@@ -40,13 +40,16 @@
 @Html.Hidden("hdnShowImmediately", "")
 @Html.Hidden("hdnIsEcSale", prod.prod_mkt.is_ec_sale)
 <div id="productDetailApp">
-    <div class="product-banner" onclick="photo_slideshow()" style="background-image:url(img/demo/banner06.jpg)">
+    @{
+        string mainImg = prod.img_list != null && prod.img_list.Any() ? prod.img_list.FirstOrDefault(x => x.is_main_img == "Y").img_url : "";
+    }
+    <div class="product-banner" onclick="photo_slideshow()" style="background-image:url(@mainImg)">
         <h5 class="photo-by">Photo by KKday</h5>
         <div class="container more-photo">
-            <a href="javascript:;" class="btn btn-white btn-sm"><i class="fa fa-image"></i> View photos</a>
+            <a href="javascript:;" class="btn btn-white btn-sm"><i class="fa fa-image"></i>@prodTitle.product_index_see_more_photo</a>
         </div>
         <!-- 有影片才顯示此圖 -->
-        <img src="img/btn_play.svg" class="play-icon">
+        @*<img src="@Url.Content("~/images/btn_play.svg")" class="play-icon">*@
     </div>
 
     <div id="product-scroll-spy">
@@ -84,8 +87,24 @@
                 <div class="col-md-8">
                     <div class="cut-bread">
                         <ol class="breadcrumb">
-                            <li><a href="product_list.html">United States</a></li>
-                            <li><a href="product_list.html">San Francisco</a>, <a href="product_list.html">Las Vegas</a></li>
+                            @{
+                                string countryName = "";
+                                string cityName = "";
+                                if (prod.countries != null && prod.countries.Any())
+                                {
+                                    foreach (var country in prod.countries)
+                                    {
+                                        countryName += $"<a href=\"https://www.kkday.com/zh-tw/product/productlist/{country.id}?countryname={country.name}\">{(countryName.Length > 0 ? ", " : "")}{country.name}</a>";
+                                        foreach (var city in country.cities)
+                                        {
+                                            //https://www.kkday.com/zh-tw/product/productlist/A05-001?countryname=%E7%BE%8E%E5%9C%8B&cityname=%E7%B4%90%E7%B4%84&city=A05-001-00001
+                                            cityName += $"<a href=\"https://www.kkday.com/zh-tw/product/productlist/{country.id}?countryname={country.name}&cityname={city.name}&city={city.id}\">{(cityName.Length > 0 ? ", " : "")}{city.name}</a>";
+                                        }
+                                    }
+                                }
+                            }
+                            <li>@Html.Raw(countryName)</li>
+                            <li>@Html.Raw(cityName)</li>
                             <li class="active">@prod.prod_name</li>
                         </ol>
                     </div>
@@ -198,13 +217,13 @@
                                 <h4 class="option-title">Three people per room</h4>
                                 <div class="booking-info">
                                     <span class="replaceSelDate"></span>
-                                    <span id="EventSelect" style="display:none;"></span>
+                                    <span id="EventSelect" style="        display: none;"></span>
                                 </div>
                                 <div class="booking-info">
-                                    <span class="rankNumberInfoElder" style="display:none;">@prodTitle.common_elder x <span class="number">0</span></span>
-                                    <span class="rankNumberInfoAdult" style="display:none;">@prodTitle.common_adult x <span class="number">0</span></span>
-                                    <span class="rankNumberInfoChild" style="display:none;">@prodTitle.common_child x <span class="number">0</span></span>
-                                    <span class="rankNumberInfoInfant" style="display:none;">@prodTitle.common_infant x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoElder" style="        display: none;">@prodTitle.common_elder x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoAdult" style="        display: none;">@prodTitle.common_adult x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoChild" style="        display: none;">@prodTitle.common_child x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoInfant" style="        display: none;">@prodTitle.common_infant x <span class="number">0</span></span>
                                 </div>
                                 <div class="booking-price">
                                     <h5 class="pull-left">@prodTitle.common_total</h5><!-- 選擇人數後文字顯示: Total -->
@@ -271,137 +290,87 @@
                 <div class="row">
                     <div class="col-md-8">
                         <div class="info-section" id="info-spy">
-                            <h3 class="info-title">The Experience</h3>
+                            <h3 class="info-title">@prodTitle.common_experience</h3>
                             <div class="info-content">
                                 <p>
-                                    此台北8小時包車行程，你可以選擇台北近郊著名的景點，讓你一天暢玩，景點都可以自行決定，用車8小時為限，如果不知道要去哪裡好？你可以參考我們的建議行程，任何行程安排都可以留言與我們討論唷！<br>
-                                    <br>
-                                    － 開始時間：可自行決定出發開始時間 <br>
-                                    － 出發地點：台北市區各大飯店民宿(下單時請備注)<br>
-                                    － 行程長度：8小時<br>
-                                    － 回程資訊：自行指定下車地點<br>
-                                    － 包車車型：1-4人旅客-TOYOTA WISH 七人座車 / 5-8人旅客-福斯T5 九人座車<br>
-                                    <br>
-                                    － 行程特色 －<br>
-                                    ＃ 超彈性！自行決定想要去的景點，不拘束於旅行團設計好的行程<br>
-                                    ＃ 台北郊區景點，不必自己搭火車轉公車，包車不需人擠人<br>
-                                    ＃ 專業包車司機大哥，貼心推薦當地景點、人文小吃<br>
-                                    <br>
-                                    －包車路線 －<br>
-                                    ＃包車路線可自行決定，用車8小時為限<br>
-                                    ＃建議台北包車8小時行程：集合地點 -- 十分瀑布 -- 平溪車站 -- 九份老街 -- 基隆廟口夜市 -- 回到台北<br>
-                                    <br>
-                                    －與司機聯繫方式 －<br>
-                                    預訂完成後，會保留當天用車並告知司機聯絡方式，需要您出發日前20:00前撥打電話，與您確認在台灣的聯絡方式與接送時間地點。<br>
-                                    <br>
-                                    －參考景點 －<br>
-                                    #九份老街<br>
-                                    最令人印象深刻的想必就是位於其中的老街區，每到夜深時刻，街道兩旁的紅燈籠映照著古老的階梯，與民宅的昏黃燈光兩相輝映，整個九份山城將瀰漫著濃濃的傳統氣息。<br>
-                                    <br>
-                                    ＃十分瀑布<br>
-                                    十分位於新北市平溪區，鄰近的基隆河支流長年沖刷著河床，許多的斷層和奇岩應運而生，從而形成了景觀壯麗的十分瀑布。沿著鐵路，兩旁民宅毗鄰而居，漫步於路旁老街上時，可以感受到其蘊含其中濃厚的古典及思鄉氛圍。<br>
-                                    <br>
-                                    ＃平溪<br>
-                                    平溪區最具特色的是天燈文化、煤礦產業文化。每年元宵節，地方會舉辦盛大的天燈施放活動，吸引國內外遊客前來，也造就了平溪區以天燈聞名的意象。煤礦產業雖然是平溪區過去的經濟脈絡，也遺留下許多礦業地景，自然而然形成觀光景點。<br>
-                                    <br>
-                                    ＃基隆廟口<br>
-                                    基隆廟口的小吃最早可溯源至日據時代，基隆廟口因位於俗稱『聖王廟』的『奠濟宮』前而得名。廟口擁有許多著名的小吃，像是泡泡冰、鼎邊銼、營養三明治、蚵仔煎、蝦仁羹、豆簽羹、天婦羅等等，民眾若想嚐嚐這些美味可要來廟口逛逛。
+                                    @Html.Raw(prod.prod_desc.Replace("\n", "<br>"))
                                 </p>
                             </div>
                         </div>
+                        @*<div class="info-section">
+                                <h3 class="info-title">@prodTitle.product_index_related_product</h3>
+                                <div class="info-content">
+                                    <h4 class="info-subtitle">
+                                        Similar to Tokyo Disneyland:
+                                        @prodTitle.product_index_more_product
+                                    </h4>
+                                    <ol>
+                                        <li class="prod-group-item">
+                                            <a href="#">Tokyo Disneyland & DisneySea 2-Day Pass</a>
+                                        </li>
+                                        <li class="prod-group-item">
+                                            <a href="#">【Popular!】Tokyo Disney Resort eTicket Passport: 3-Day．4-Day Magic Passport．Starlight Passport</a>
+                                        </li>
+                                        <li class="prod-group-item">
+                                            <a href="#">Ticket Adjustment Charge</a>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </div>*@
                         <div class="info-section">
-                            <h3 class="info-title">Related Tours</h3>
+                            <h3 class="info-title">@prodTitle.common_timetable</h3>
                             <div class="info-content">
-                                <h4 class="info-subtitle">
-                                    Similar to Tokyo Disneyland:
-                                </h4>
-                                <ol>
-                                    <li class="prod-group-item">
-                                        <a href="#">Tokyo Disneyland & DisneySea 2-Day Pass</a>
-                                    </li>
-                                    <li class="prod-group-item">
-                                        <a href="#">【Popular!】Tokyo Disney Resort eTicket Passport: 3-Day．4-Day Magic Passport．Starlight Passport</a>
-                                    </li>
-                                    <li class="prod-group-item">
-                                        <a href="#">Ticket Adjustment Charge</a>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                        <div class="info-section">
-                            <h3 class="info-title">行程表</h3>
-                            <div class="info-content">
-                                <ul class="time-info">
-                                    <li class="time-info-day">
-                                        第 1 天
-                                    </li>
-                                    <li class="time-info-include">
-                                        費用包含：午餐、晚餐
-                                    </li>
-                                    <li class="time-info-spot">
-                                        <div class="time-info-title">
-                                            <div class="time">13:00</div>
-                                            <div class="txt">
-                                                九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                @foreach (var timetable in prod.tour_list)
+                                {
+                                    <ul class="time-info">
+                                        <li class="time-info-day">
+                                            第 @timetable.tour_day 天
+                                        </li>
+                                        <li class="time-info-include">
+                                            費用包含：午餐、晚餐
+                                        </li>
+                                        @*<li class="time-info-spot">
+                                                <div class="time-info-title">
+                                                    <div class="time">13:00</div>
+                                                    <div class="txt">
+                                                        九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                                    </div>
+                                                </div>
+                                                <div class="time-info-img">
+                                                    <img src="img/demo/schedule03.jpg">
+                                                </div>
+                                            </li>
+                                            <li class="time-info-spot">
+                                                <div class="time-info-title">
+                                                    <div class="txt">
+                                                        九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                                    </div>
+                                                </div>
+                                            </li>*@
+                                        <li class="time-info-spot">
+                                            <div class="time-info-title">
+                                                <div class="time">@timetable.time_desc</div>
+                                                <div class="txt">
+                                                    @Html.Raw(timetable.tour_desc)
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="time-info-img">
-                                            <img src="img/demo/schedule03.jpg">
-                                        </div>
-                                    </li>
-                                    <li class="time-info-spot">
-                                        <div class="time-info-title">
-                                            <div class="txt">
-                                                九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                            <div class="time-info-img">
+                                                <img src="@timetable.photo_url">
                                             </div>
-                                        </div>
-                                    </li>
-                                    <li class="time-info-spot">
-                                        <div class="time-info-title">
-                                            <div class="time">13:00</div>
-                                            <div class="txt">
-                                                建議行程（行程可自由安排景點)
+                                        </li>
+                                        @*<li class="time-info-spot">
+                                            <div class="time-info-title">
+                                                <div class="time">@timetable.time_desc</div>
+                                                <div class="txt">
+                                                    @Html.Raw(timetable.tour_desc)
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="time-info-img">
-                                            <img src="img/demo/schedule01.jpg">
-                                        </div>
-                                    </li>
-                                </ul>
-                                <ul class="time-info">
-                                    <li class="time-info-day">
-                                        Day 2
-                                    </li>
-                                    <li class="time-info-spot">
-                                        <div class="time-info-title">
-                                            <div class="time">13:00</div>
-                                            <div class="txt">
-                                                九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                            <div class="time-info-img">
+                                                <img src="@timetable.photo_url">
                                             </div>
-                                        </div>
-                                        <div class="time-info-img">
-                                            <img src="img/demo/schedule02.jpg">
-                                        </div>
-                                    </li>
-                                    <li class="time-info-spot">
-                                        <div class="time-info-title">
-                                            <div class="txt">
-                                                九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="time-info-spot">
-                                        <div class="time-info-title">
-                                            <div class="time">13:00</div>
-                                            <div class="txt">
-                                                建議行程（行程可自由安排景點)
-                                            </div>
-                                        </div>
-                                        <div class="time-info-img">
-                                            <img src="img/demo/schedule04.jpg">
-                                        </div>
-                                    </li>
-                                </ul>
+                                        </li>*@
+                                    </ul>
+                                }
                             </div>
                         </div>
                         <div class="info-section">
@@ -468,7 +437,7 @@
                             </div>
                         </div>
                         <div class="info-section">
-                            <h3 class="info-title">注意事項</h3>
+                            <h3 class="info-title">@prodTitle.common_reminder</h3>
                             <div class="info-content">
                                 <ul>
                                     <li>Please avoid wearing ripped or torn clothing, including (but not limited to) jeans. Avoid wearing shorts, mini skirts, sportswear, sandals, flip flops or any other inappropriate attire. Those wearing inappropriate attire may not be permitted to enter site</li>
@@ -606,282 +575,6 @@
                                 </ul>
                             </div>
                         </div>
-                        <div class="info-section" id="review-spy">
-                            <h3 class="info-title">旅客評論</h3>
-                            <div class="info-content">
-                                <h4 class="info-subtitle">
-                                    <div class="product-star">
-                                        <div class="star star-100"></div>
-                                        <div class="star star-100"></div>
-                                        <div class="star star-100"></div>
-                                        <div class="star star-100"></div>
-                                        <div class="star star-50"></div>
-                                        <span class="text-md">40 則旅客評論</span>
-                                    </div>
-                                </h4>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Pei zhen</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-0"></div>
-                                            <div class="star star-0"></div>
-                                            <span class="date text-muted text-right">
-                                                2016/04/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            The price is good compared to the package included. The tour guy is friendly. Highly recommended if you never try before
-                                        </p>
-                                        <!-- Translate -->
-                                        <a href="###" class="btn-translate">翻譯年糕</a>
-                                        <div class="review-translated">
-                                            在我看來，這是一個很好的一攬子旅遊，遊客可以低價訪問各個地方。 感謝以英文和中文解釋的友好嚮導。 此外，感謝kkday根據預訂時間表提醒電子郵件。 我向其他人推薦這個產品。
-                                            <img src="img/google_logo_grey.png" class="logo-google">
-                                        </div>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Alfred</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-0"></div>
-                                            <div class="star star-0"></div>
-                                            <span class="date text-muted text-right">
-                                                2016/04/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            It's a nice trip for my family and friends. Good weather and good place to go. *the line for rental is so long in the weekend.
-                                        </p>
-                                        <a href="###" class="btn-translate">翻譯年糕</a>
-                                        <div class="review-translated">
-                                            在我看來，這是一個很好的一攬子旅遊，遊客可以低價訪問各個地方。 感謝以英文和中文解釋的友好嚮導。 此外，感謝kkday根據預訂時間表提醒電子郵件。 我向其他人推薦這個產品。
-                                            <img src="img/google_logo_grey.png" class="logo-google">
-                                        </div>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Jan</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <span class="date text-muted text-right">
-                                                2016/02/20
-                                            </span>
-                                        </div>
-                                        <p>
-                                            整個安排超級好！旅遊車一早就到了，也很準時！一到時間就立即開車！工作人員也很友善，不會講中文但會英文，問他們也不會很難！超級好的一次經驗！
-                                        </p>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Loying</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <span class="date text-muted text-right">
-                                                2016/01/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            出發前發現上車地點購買時填寫錯誤，客服處理快速！旅遊當天雖然因為風大琵琶湖纜車停駛當地導遊臨時改讓我們前往箱館山的滑雪場讓小孩如願能夠開心玩雪，是一趟難忘的經驗，並計劃今年年底前往輕井澤滑雪還會在kkday購買一日行程
-                                        </p>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Wangtshuk</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-0"></div>
-                                            <span class="date text-muted text-right">
-                                                2015/10/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            Booked this day visit for Jan 14 and was really looking forward to it to have some fun with my 3 year old daughter and as we were staying outside Universal Studios so had to get up early and take a taxi to the meeting point, arrived to the Tourist bus stop and looked for our tour group but all signs are in Japanese so we asked around and finally found someone as we them our booking form, this is when it got bad: 1. The tour guy found our names on the list and gave us a small slip to tell us which bus to get on 2. We walked over to the bus and tried to get on then the lady inside the bus said the trip is cancelled due to weather conditions 3. We walked back and asked the tour guy and told him what the lady said and he asked if we wanted to to another site for skiing, but we were not doing the skiing package, we only joined the snow park package for my daughter to play around.
-                                        </p>
-                                        <a href="###" class="btn-translate">翻譯年糕</a>
-                                        <div class="review-translated">
-                                            在我看來，這是一個很好的一攬子旅遊，遊客可以低價訪問各個地方。 感謝以英文和中文解釋的友好嚮導。 此外，感謝kkday根據預訂時間表提醒電子郵件。 我向其他人推薦這個產品。
-                                            <img src="img/google_logo_grey.png" class="logo-google">
-                                        </div>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Keith</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <span class="date text-muted text-right">
-                                                2015/09/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            很好的一次經歷。 出發當天在新大阪上車，在新大阪的車站一早已經帶職員在等候。核對完訂單後，在07：50旅遊巴已經到達，與其他旅客一同上車出發。約0935已到達滑雪場。 滑雪場由一所有裝備借用，你可以無須帶備。 租借鞋加滑雪板（Skis) 或 單板(Snow board)費用為5,000 yen . 搭乘纜車時及在雪山上都能遠眺琵琶湖，風景極度優美，影相及呃like一流之選。 這座滑雪場非常適合親子同遊，如果小孩不想滑雪，也有雪盆可以在專為小朋友已設的雪地樂園上玩耍（需付入場費）。 初學者或首次滑雪者建議揀套餐B，因為滑雪吊椅未必用得著，你只會在小斜坡上練習及未必能克服較長的下滑距離。加上有1,000 yen餐券，對於大食的人或許可以減少用餐的開資。（山上餐廳食物份量較一般餐廳的少）而且你會被雪地樂園的雪盆吸引。選套餐B可免費進入呢，而且當日也見到不少大朋友進內玩樂及玩雪盆。 至於有一定滑雪基礎的必選套餐A，用具租借有折扣呢。 P.S. 現在好像在進行一些隨機抽獎，可以有機會獲得面額500 yen QUO Card 乙張(在日本全國有47000的加盟店可以使用QUOCARD當作現金來使用，包括便利店。）
-                                        </p>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Victor</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <span class="date text-muted text-right">
-                                                2015/08/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            It was a nice trip in Osaka. The website is very convenient and helpful. The staffs there are energetic and nice.
-                                        </p>
-                                        <a href="###" class="btn-translate">翻譯年糕</a>
-                                        <div class="review-translated">
-                                            在我看來，這是一個很好的一攬子旅遊，遊客可以低價訪問各個地方。 感謝以英文和中文解釋的友好嚮導。 此外，感謝kkday根據預訂時間表提醒電子郵件。 我向其他人推薦這個產品。
-                                            <img src="img/google_logo_grey.png" class="logo-google">
-                                        </div>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>雅琪</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <span class="date text-muted text-right">
-                                                2015/04/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            服務人員很親切，讓我們感覺很好。 風景非常美。 琵琶湖的滑雪行程，一定要自己帶防水手套，不需要穿太厚的衣服，如果自備防水衣褲就不需租借，鞋子也建議防水較好，如果帶小小孩，純玩雪還不錯，帶大孩子建議可嘗試滑雪，場地不熟建議花錢請教練帶較為安全。
-                                        </p>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Wangtshuk</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-0"></div>
-                                            <span class="date text-muted text-right">
-                                                2015/10/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            Booked this day visit for Jan 14 and was really looking forward to it to have some fun with my 3 year old daughter and as we were staying outside Universal Studios so had to get up early and take a taxi to the meeting point, arrived to the Tourist bus stop and looked for our tour group but all signs are in Japanese so we asked around and finally found someone as we them our booking form, this is when it got bad: 1.
-                                        </p>
-                                        <a href="###" class="btn-translate">翻譯年糕</a>
-                                        <div class="review-translated">
-                                            在我看來，這是一個很好的一攬子旅遊，遊客可以低價訪問各個地方。 感謝以英文和中文解釋的友好嚮導。 此外，感謝kkday根據預訂時間表提醒電子郵件。 我向其他人推薦這個產品。
-                                            <img src="img/google_logo_grey.png" class="logo-google">
-                                        </div>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <div class="review-item">
-                                    <div class="editer">
-                                        <div class="editer-logo" style="background-image:url('img/default_image.png')"></div>
-                                    </div>
-                                    <div class="content">
-                                        <h5>Keith</h5>
-                                        <div class="product-star">
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <div class="star star-100"></div>
-                                            <span class="date text-muted text-right">
-                                                2015/09/19
-                                            </span>
-                                        </div>
-                                        <p>
-                                            很好的一次經歷。 出發當天在新大阪上車，在新大阪的車站一早已經帶職員在等候。核對完訂單後，在07：50旅遊巴已經到達，與其他旅客一同上車出發。約0935已到達滑雪場。 滑雪場由一所有裝備借用，你可以無須帶備。 租借鞋加滑雪板（Skis) 或 單板(Snow board)費用為5,000 yen . 搭乘纜車時及在雪山上都能遠眺琵琶湖，風景極度優美，影相及呃like一流之選。
-                                        </p>
-                                        <hr>
-                                    </div>
-                                </div>
-                                <ul class="pagination">
-                                    <li class="a-page disabled"><a class="toPage" name="prePage"><i class="fa fa-angle-left"></i></a></li>
-                                    <li class="a-page active disabled" name="1"><a>1</a></li>
-                                    <li class="a-page" name="2"><a class="toPage">2</a></li>
-                                    <li class="a-page" name="3"><a class="toPage">3</a></li>
-                                    <li class="a-page" name="4"><a class="toPage">4</a></li>
-                                    <li class="a-page" name="5"><a class="toPage">5</a></li>
-                                    <li class="a-page" name="6"><a class="toPage">6</a></li>
-                                    <li class="a-page" name="7"><a class="toPage">7</a></li>
-                                    <li class="a-page" name="8"><a class="toPage">8</a></li>
-                                    <li class="a-page" name="9"><a class="toPage">9</a></li>
-                                    <li class="a-page" name="10"><a class="toPage">10</a></li>
-                                    <li class="a-page" name="postPage"><a class="toPage"><i class="fa fa-angle-right"></i></a></li>
-                                </ul>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
@@ -894,7 +587,7 @@
             <div class="home-carousel owl-carousel owl-theme" id="kk-alsoview">
                 <a href="product_detail.html" target="_blank">
                     <div class="card product-item">
-                        <div class="product-img img-bg" style="background-image:url('img/demo/product01.jpg')"></div>
+                        <div class="product-img img-bg" style="        background-image: url('img/demo/product01.jpg')"></div>
                         <div class="product-detail">
                             <h3>
                                 <i class="fa fa-flash text-primary"></i>
@@ -928,7 +621,7 @@
                 </a>
                 <a href="product_detail.html" target="_blank">
                     <div class="card product-item">
-                        <div class="product-img img-bg" style="background-image:url('img/demo/banner04.jpg')"></div>
+                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner04.jpg')"></div>
                         <div class="product-detail">
                             <h3>
                                 <i class="fa fa-flash text-primary"></i>
@@ -962,7 +655,7 @@
                 </a>
                 <a href="product_detail.html" target="_blank">
                     <div class="card product-item">
-                        <div class="product-img img-bg" style="background-image:url('img/demo/banner05.jpg')"></div>
+                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner05.jpg')"></div>
                         <div class="product-detail">
                             <h3>
                                 <i class="fa fa-flash text-primary"></i>
@@ -996,7 +689,7 @@
                 </a>
                 <a href="product_detail.html" target="_blank">
                     <div class="card product-item">
-                        <div class="product-img img-bg" style="background-image:url('img/demo/banner03.jpg')"></div>
+                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner03.jpg')"></div>
                         <div class="product-detail">
                             <h3>
                                 <i class="fa fa-flash text-primary"></i>
@@ -1030,7 +723,7 @@
                 </a>
                 <a href="product_detail.html" target="_blank">
                     <div class="card product-item">
-                        <div class="product-img img-bg" style="background-image:url('img/demo/banner02.jpg')"></div>
+                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner02.jpg')"></div>
                         <div class="product-detail">
                             <h3>
                                 <i class="fa fa-flash text-primary"></i>
@@ -1064,7 +757,7 @@
                 </a>
                 <a href="product_detail.html" target="_blank">
                     <div class="card product-item">
-                        <div class="product-img img-bg" style="background-image:url('img/demo/banner08.jpg')"></div>
+                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner08.jpg')"></div>
                         <div class="product-detail">
                             <h3>
                                 <i class="fa fa-flash text-primary"></i>
@@ -1098,7 +791,7 @@
                 </a>
                 <a href="product_detail.html" target="_blank">
                     <div class="card product-item">
-                        <div class="product-img img-bg" style="background-image:url('img/demo/product02.jpg')"></div>
+                        <div class="product-img img-bg" style="        background-image: url('img/demo/product02.jpg')"></div>
                         <div class="product-detail">
                             <h3>
                                 <i class="fa fa-flash text-primary"></i>
@@ -1132,7 +825,7 @@
                 </a>
                 <a href="product_detail.html" target="_blank">
                     <div class="card product-item">
-                        <div class="product-img img-bg" style="background-image:url('img/demo/banner07.jpg')"></div>
+                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner07.jpg')"></div>
                         <div class="product-detail">
                             <h3>
                                 <i class="fa fa-flash text-primary"></i>
@@ -1169,195 +862,7 @@
     </div>
 
     <a class="btn btn-primary btn-block choice-pkg visible-xs visible-sm" id="choose-mobile" href="#product_price">Select Options</a>
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-3 col-sm-6" id="footer-know-kkday">
-                    <h4>認識KKday</h4>
-                    <ul class="list-unstyled">
-                        <li class="p"><a target="_blank" href="kk_aboutus.html">關於KKday</a></li>
-                        <li class="p"><a target="_blank" href="#">聯絡我們</a></li>
-                        <li class="p"><a target="_blank" href="#">服務條款與隱私聲明</a></li>
-                        <li class="p"><a target="_blank" href="#">常見問題與幫助</a></li>
-                        <li class="p"><a target="_blank" href="#">媒體報導</a></li>
-                        <li class="p"><a target="_blank" href="#">特定商取引法に基づく表記</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 col-sm-6" id="footer-for-travellers">
-                    <h4>給旅人</h4>
-                    <ul class="list-unstyled">
-                        <li class="p"><a target="_blank" href="kk_traveller.html">三大保證</a></li>
-                        <li class="p"><a target="_blank" href="#">精選合作服務</a></li>
-                        <li class="p"><a target="_blank" href="#">旅人故事</a></li>
-                        <li class="p"><a target="_blank" href="http://blog.kkday.com/?fr=7008">KKday部落格</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 col-sm-6" id="footer-for-partner">
-                    <h4>KKday 合作夥伴</h4>
-                    <ul class="list-unstyled">
-                        <li class="p"><a target="_blank" href="kk_supplier.html">成為我們的夥伴</a></li>
-                        <li class="p"><a target="_blank" href="#">聯合行銷</a></li>
-                        <li class="p"><a target="_blank" href="#">工作機會</a></li>
-                        <li class="p"><a target="_blank" href="#">部落客/攝影師合作計畫</a></li>
-                        <li class="p"><a target="_blank" href="#">企業福委旅遊合作</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <h4>Follow KKday</h4>
-                    <div class="sns">
-                        <!-- zh-tw -->
-                        <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-tumblr"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul>
-                        <!-- zh-cn -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-tumblr"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- en -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- ja -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- ko -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                            <li><a href="#" target="_blank"><img src="img/sns/kakao_white.svg"></a></li>
-                            <li><a href="#" target="_blank"><img src="img/sns/naver_blog.svg"></a></li>
-                            <li><a href="#" target="_blank"><img src="img/sns/naver_white.svg"></a></li>
-                        </ul> -->
-                        <!-- en-sg -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- th -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- vi -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- en-ph -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- zh-hk -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- en-id -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                        <!-- zh-my -->
-                        <!-- <ul class="list-unstyled">
-                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
-                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
-                        </ul> -->
-                    </div>
-                </div>
-            </div>
-            <hr>
-            <div id="contact-kkday-row">
-                <div class="cr-font text-right" id="footer-company-info">
-                    <h8 class="text-muted">COPYRIGHT © 2016 KKday All rights reserved.</h8>
-                </div>
-            </div>
-        </div>
-        <div class="row twfooter">
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-3 col-sm-6">
-                        <ul class="list-unstyled">
-                            <li>酷遊天國際旅行社股份有限公司</li>
-                            <li>甲種旅行業</li>
-                            <li>交觀甲第7774號</li>
-                            <li>統一編號 2497 7417</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <ul class="list-unstyled">
-                            <li>地址 台灣台北市萬華區成都路4號5樓</li>
-                            <li>電話 <a href="tel:+886223140003">02-2314-0003</a></li>
-                            <li>傳真 02-2786-1101</li>
-                            <li>e-mail <a href="mailto:service@kkday.com">service＠kkday.com</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-md-3 col-sm-6">
-                        <ul class="list-unstyled">
-                            <li>代表人 陳惟倫</li>
-                            <li>聯絡人 蘇姿亦</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- ./footer -->
+
     <!-- scroll to top -->
     <div class="scroll-top-wrapper">
         <span class="scroll-top-inner">
@@ -1367,74 +872,59 @@
 
     <!-- img slideshow -->
     <div class="modal fade modal-fullscreen" id="product-photo-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog" style="max-width: none;">
-            <div class="modal-content" style="background-color:rgba(0,0,0,0.6);">
+        <div class="modal-dialog" style="        max-width: none;">
+            <div class="modal-content" style="        background-color: rgba(0,0,0,0.6);">
                 <div class="modal-body">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <div class="photo-modal-wrap">
                         <div class="row">
                             <div class="col-md-1 hidden-sm hidden-xs">
-                                <div class="custom-nav" id="slideshow_left">
+                                <div class="custom-nav" id="slideshow_left" onclick="slideshowPrev()">
                                     <a class="prev"><i class="icons icon-arrow-left"></i></a>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-md-10">
                                 <div id="kk-slideshow" class="owl-carousel owl-theme">
-                                    <div class="item">
-                                        <div class="embed-responsive embed-responsive-16by9">
-                                            <iframe src="https://www.youtube.com/embed/Nb80dza7K3g" frameborder="0" allowfullscreen></iframe>
-                                        </div>
-                                        <div class="carousel-caption">
-                                            <p>(Photo by ABCC)</p>
-                                            <p>1/7</p>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <img class="owl-lazy" alt="" data-id="1" data-src="img/demo/banner02.jpg">
-                                        <div class="carousel-caption">
-                                            <p>(Photo by ABCC)</p>
-                                            <p>2/7</p>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <img class="owl-lazy" alt="" data-id="2" data-src="img/demo/schedule04.jpg">
-                                        <div class="carousel-caption">
-                                            <p>(Photo by ABCC)</p>
-                                            <p>3/7</p>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <img class="owl-lazy" alt="" data-id="3" data-src="img/demo/schedule05.jpg">
-                                        <div class="carousel-caption">
-                                            <p>(Photo by ABCC)</p>
-                                            <p>4/7</p>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <img class="owl-lazy" alt="" data-id="4" data-src="img/demo/event01.jpg">
-                                        <div class="carousel-caption">
-                                            <p>(Photo by ABCC)</p>
-                                            <p>5/7</p>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <img class="owl-lazy" alt="" data-id="5" data-src="img/demo/schedule01.jpg">
-                                        <div class="carousel-caption">
-                                            <p>(Photo by ABCC)</p>
-                                            <p>6/7</p>
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <img class="owl-lazy" alt="" data-id="5" data-src="img/demo/schedule02.jpg">
-                                        <div class="carousel-caption">
-                                            <p>(Photo by ABCC)</p>
-                                            <p>7/7</p>
-                                        </div>
-                                    </div>
+                                    @{
+                                        int vIndex = 1;
+                                        int totalSlide = prod.video_list.Count + prod.img_list.Count;
+                                    }
+
+                                    @if (prod.video_list != null && prod.video_list.Any())
+                                    {
+                                        foreach (var vItem in prod.video_list)
+                                        {
+                                            <div class="item">
+                                                <div class="embed-responsive embed-responsive-16by9">
+                                                    <iframe src="@vItem.vidoe_url" frameborder="0" allowfullscreen></iframe>
+                                                </div>
+                                                <div class="carousel-caption">
+                                                    @*<p>(Photo by ABCC)</p>*@
+                                                    <p>@vIndex/@totalSlide</p>
+                                                </div>
+                                            </div>
+                                            vIndex++;
+                                        }
+                                    }
+                                    @if (prod.img_list != null && prod.img_list.Any())
+                                    {
+                                        foreach (var iItem in prod.img_list)
+                                        {
+                                            <div class="item">
+                                                <img class="owl-lazy" alt="" data-id="@vIndex" data-src="@iItem.img_url">
+                                                <div class="carousel-caption">
+                                                    <p>(Photo by @iItem.auth_name)</p>
+                                                    <p>@vIndex/@totalSlide</p>
+                                                </div>
+                                            </div>
+                                            vIndex++;
+                                        }
+                                    }
+
                                 </div>
                             </div>
                             <div class="col-md-1 hidden-sm hidden-xs">
-                                <div class="custom-nav" id="slideshow_right">
+                                <div class="custom-nav" id="slideshow_right" onclick="slideshowNext()">
                                     <a class="next"><i class="icons icon-arrow-right"></i></a>
                                 </div>
                             </div>
@@ -1460,7 +950,7 @@
                         <div class="tip">修改此處的信箱，會自動更新您的會員資料。</div>
                     </div>
                     <i class="fa fa-user-plus add-notice-user-btn" aria-hidden="true"></i>
-                    <div id="other-notice-email-area" style="display:none;">
+                    <div id="other-notice-email-area" style="        display: none;">
                         <div class="form-group">
                             <label>
                                 其他連絡信箱*
