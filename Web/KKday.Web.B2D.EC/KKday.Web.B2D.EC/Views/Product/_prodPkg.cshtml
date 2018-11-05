@@ -49,13 +49,13 @@
                 {
                     @if (pkg.chkDateCanSell == "1")
                     {
-                        <a onclick="PkgSelect(this);BookingEvent();" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                        <a onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
                         @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showprice');">@prodTitle.product_index_select</button>*@
                     }
                     else if (pkg.chkDateCanSell == "2")
                     {
                         @pkg.NoSellTextShow
-                        <a onclick="PkgSelect(this);BookingEvent();" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                        <a onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
                         @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showPkgDate');">選擇其他日期</button>*@
                     }
                     else
@@ -171,14 +171,14 @@
                         </div>
                     </div>
                 </div>
-                <a href="javascript:;" class="detail-toggle">Option details <i class="icons icon-arrow-down"></i></a>
+                @*<a href="javascript:;" class="detail-toggle">Option details <i class="icons icon-arrow-down"></i></a>
                 <div class="option-detail">
                     Adventure to the Kota Kinabalu City Mosque.<br>
                     <ul>
                         <li>Included: Dinner buffet</li>
                         <li>Not Included: Lunch: coconut pudding, baked mussels, City mosque clothing rental, Binocular use</li>
                     </ul>
-                </div>
+                </div>*@
             </li>
         }
 

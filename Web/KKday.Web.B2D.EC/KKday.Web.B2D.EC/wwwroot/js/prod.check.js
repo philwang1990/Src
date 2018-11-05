@@ -600,7 +600,6 @@ function dtInit(option) {
         } else {
             $('.option-booking_' + pkgSelected).show();
             BookingEvent();
-            BookingCheck();
         }
 
         $('.option-group .dot-load').show();
@@ -609,6 +608,7 @@ function dtInit(option) {
             $('.option-group .dot-load').hide();
         }, 1000);
 
+        BookingCheck();
     });
 }
 
@@ -634,6 +634,10 @@ function BookingEvent() {
 function PkgSelect(e) {
     var dateSelected = $("#hdnPreSelDate").val();
     var pkgNo = $(e).data('pkg-no');
+    var pkgName = $(e).data('pkg-name');
+
+    $('.confirmBar .option-title').html(pkgName);
+    
 
     //event選擇清空
     $('.hdneventclass').val('');

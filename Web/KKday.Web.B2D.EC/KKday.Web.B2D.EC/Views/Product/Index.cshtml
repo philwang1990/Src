@@ -8,7 +8,6 @@
     var pkgs = (PackageModel)ViewData["pkgs"];
     var allCanUseDate = (string)ViewData["allCanUseDate"];
     var currency = (string)ViewData["currency"];
-
 }
 
 @section Scripts{
@@ -191,7 +190,7 @@
                                     <a class="btn btn-primary btn-block choice-pkg" disabled="disabled">
                                         @prodTitle.product_index_coming_soon
                                     </a>
-                                   @*<div class="row"><button type = "button" class="btn btn-info" id="btnConfirm" disabled="disabled">@prodTitle.product_index_coming_soon </button></div>*@
+                                    @*<div class="row"><button type = "button" class="btn btn-info" id="btnConfirm" disabled="disabled">@prodTitle.product_index_coming_soon </button></div>*@
                                 }
                             </div>
                             <div class="view-option confirmBar">
@@ -206,35 +205,36 @@
                                     <span class="rankNumberInfoAdult" style="display:none;">@prodTitle.common_adult x <span class="number">0</span></span>
                                     <span class="rankNumberInfoChild" style="display:none;">@prodTitle.common_child x <span class="number">0</span></span>
                                     <span class="rankNumberInfoInfant" style="display:none;">@prodTitle.common_infant x <span class="number">0</span></span>
-                            </div>
-                            <div class="booking-price">
-                                <h5 class="pull-left">@prodTitle.common_total</h5><!-- 選擇人數後文字顯示: Total -->
-                                <div class="pull-right">
-                                    <div class="product-pricing">
-                                        <span>@currency </span>
-                                        <h2 id="txtprice">16,256</h2>
+                                </div>
+                                <div class="booking-price">
+                                    <h5 class="pull-left">@prodTitle.common_total</h5><!-- 選擇人數後文字顯示: Total -->
+                                    <div class="pull-right">
+                                        <div class="product-pricing">
+                                            <span>@currency </span>
+                                            <h2 id="txtprice">16,256</h2>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <button class="btn btn-primary btn-block disabled btn-confirm-block" data-toggle="tooltip" data-title="Please select start time and travler">Book now</button>
+                                    <button id="btnConfirm" class="btn btn-primary btn-block btn-book" onclick="btnConfirm()">Book now</button>
+                                </div>
+                                <div class="booking-hint">
+                                    <div class="text-right mt-10">
+                                        <div class="duration">
+                                            Reservation will be confirmed within 48 hours
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="clearfix"></div>
-                                <button class="btn btn-primary btn-block disabled btn-confirm-block" data-toggle="tooltip" data-title="Please select start time and travler">Book now</button>
-                                <button id="btnConfirm" class="btn btn-primary btn-block btn-book" onclick="btnConfirm()">Book now</button>
-                            </div>
-                            <div class="booking-hint">
+                                @*<button class="btn btn-default btn-lg btn-block" id="add_wishlist" onclick="add_to_wishlist()">
+                                        <i class="fa fa-heart-o"></i>Add to wish list
+                                    </button>
+                                    <button class="btn btn-default btn-lg btn-block" id="contact_us" type="button" onclick="if_login()">
+                                        <i class="fa fa-commenting-o"></i>Contact service center
+                                    </button>*@
                                 <div class="text-right mt-10">
-                                    <div class="duration">
-                                        Reservation will be confirmed within 48 hours
-                                    </div>
+                                    <a href="javascript:;" class="text-grey" onclick="scrollToInfoSection('#cancellation-policy')">取消政策</a>
+                                    <!-- <strong>一旦訂購，不可取消或更改！</strong> -->
                                 </div>
-                            </div>
-                            @*<button class="btn btn-default btn-lg btn-block" id="add_wishlist" onclick="add_to_wishlist()">
-                                <i class="fa fa-heart-o"></i>Add to wish list
-                            </button>
-                            <button class="btn btn-default btn-lg btn-block" id="contact_us" type="button" onclick="if_login()">
-                                <i class="fa fa-commenting-o"></i>Contact service center
-                            </button>*@
-                            <div class="text-right mt-10">
-                                <a href="javascript:;" class="text-grey" onclick="scrollToInfoSection('#cancellation-policy')">取消政策</a>
-                                <!-- <strong>一旦訂購，不可取消或更改！</strong> -->
                             </div>
                         </div>
                     </affix>
@@ -250,9 +250,9 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 @*<div class="input-group">
-                                    <span class="input-group-addon"><i class="icons icon-calendar"></i></span>
-                                    <input type="text" id="select-date" class="form-control" placeholder="@prodTitle.product_index_select_date" readonly="readonly">
-                                </div>*@
+                                        <span class="input-group-addon"><i class="icons icon-calendar"></i></span>
+                                        <input type="text" id="select-date" class="form-control" placeholder="@prodTitle.product_index_select_date" readonly="readonly">
+                                    </div>*@
                                 <div id="select-date" class="input-group">
                                     <span class="input-group-addon"><i class="icons icon-calendar"></i></span>
                                     <input type="text" class="form-control" placeholder="@prodTitle.product_index_select_date" readonly>
@@ -260,10 +260,6 @@
                             </div>
                         </div>
                         <div id="showPkg">
-                        </div>
-
-                        <div class="show">
-                            @await Html.PartialAsync("_booking_bar", prod)
                         </div>
                     </div>
                 </div>
