@@ -1,24 +1,28 @@
-﻿@using KKday.Web.B2D.BE.Models.Model.Company
-@using KKday.Web.B2D.BE.Models.Model.Common
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Company
+@using KKday.Web.B2D.BE.Models.Model.Voucher
 @using KKday.Web.B2D.BE.App_Code
 @using Resources
 
 @inject ILocalizer localizer
 @model B2dCompany
 @{
-Layout = "_LayoutMain";
+    Layout = "_LayoutMain";
 
-var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
-var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
+    var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
+    var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
+    var vouch = (B2dVoucherAddon)ViewData["VouchAddOn"];
 }
 @section Stylesheet {
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/jquery-scrolling-tabs/dist/css/jquery.scrolling-tabs.min.css")" />
     <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/progressbar.css")" />
+ 
 }
 
 @section Scripts {
-    <script type="text/javascript" src="@Url.Content("~/js/bootstrap-filestyle.min.js")" asp-append-version="true"></script></script>
+    <script type="text/javascript" src="@Url.Content("~/js/bootstrap-filestyle.min.js")" asp-append-version="true"></script>
     <script type="text/javascript" src="@Url.Content("~/lib/jquery-scrolling-tabs/dist/js/jquery.scrolling-tabs.min.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/b2d-company-profile.js")" asp-append-version="true"></script>
 }
 
 <nav aria-label="breadcrumb">
@@ -42,7 +46,7 @@ var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
     <ul class="nav nav-tabs" role="tablist"> 
         <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">基本資料</a></li>         
         <li role="presentation"><a href="#review" aria-controls="review" role="tab" data-toggle="tab">審核資訊</a></li>
-        <li role="presentation"><a href="#credit" aria-controls="credit" role="tab" data-toggle="tab">額度資料</a></li> 
+        <li role="presentation"><a href="#credit" aria-controls="credit" role="tab" data-toggle="tab">憑證補充</a></li> 
     </ul>
 
 </div>
@@ -55,6 +59,7 @@ var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
 
             <!-- Tab panes -->
             <div class="tab-content">
+
                 <div role="tabpanel" class="tab-pane active" id="profile">
                     <div class="row">
                         <div class="col-xs-12">
@@ -194,26 +199,9 @@ var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
                         </div>
                     </div> <!-- row -->
 
-                    <div class="row" style="background-color:#f2f2f2;">
-                         
-
+                    <div class="row" style="margin-top:16px;"> 
                         <div class="col-xs-12">
-                            <div class="col-xs-12 col-sm-10" style="margin-top:16px; padding-bottom:8px;">
-                                <label>公司圖片</label>
-                                @if (string.IsNullOrEmpty(Model.COMP_LOGO_URL))
-                                {
-                                    <div></div>
-                                }
-                                else
-                                {
-                                    <div>@Model.COMP_LOGO_URL</div>
-                                }
-                                 
-                                <input type="file" id="logo_file" class="filestyle" accept="image/*" data-icon="false" onchange="UploadLogo();"> 
-                                 
-                            </div>
-
-                            <div class="col-xs-12 col-sm-10" style="margin-top:16px; padding-bottom:8px;">
+                            <div class="col-xs-12 col-sm-10" style="padding-top: 8px; padding-bottom:8px;">
                                 <label>公司營業登記證</label>
                                 @if (string.IsNullOrEmpty(Model.COMP_LICENSE) && string.IsNullOrEmpty(Model.COMP_LICENSE_2))
                                 {
@@ -223,7 +211,7 @@ var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
                                            @Model.COMP_LICENSE_2</div>
                                 }
 
-                                <input type="file" id="license_files" class="filestyle" multiple accept="image/*,.pdf" data-icon="false" onchange="UploadLicenses();">                                  
+                                <input type="file" id="license_files" class="filestyle" multiple accept="image/*,.pdf" data-input="false" data-icon="true" data-buttonText="上傳檔案" onchange="UploadLicenses();">                                  
                             </div>
                         </div>
                     </div> <!-- row --> 
@@ -284,12 +272,62 @@ var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
                 <div role="tabpanel" class="tab-pane" id="credit">
                     <div class="row">
                         <div class="col-xs-12">
-                            尚未開放!
+
+                            <div class="row" style="margin-top:16px;"> 
+                                <div class="col-xs-12">
+                                    <div class="col-xs-12 col-sm-10" style="padding-top: 8px; padding-bottom:8px;">
+                                        <label>公司圖片 (選填)</label>
+                                    @if (vouch == null || string.IsNullOrEmpty(vouch.LOGO_URL))
+                                    {
+                                        <div></div>
+                                    }
+                                    else
+                                    {
+                                        <div>@vouch.LOGO_URL</div>
+                                    }
+
+                                        <input type="file" id="logo_file" class="filestyle" multiple accept="image/*" data-input="false" data-icon="true" data-buttonText="上傳檔案" onchange="UploadLogo();">                                  
+                                    </div>
+                                </div>
+                            </div> <!-- row --> 
+
+                             <form id="vouch_form"> 
+
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.ContactTel (選填)</label>
+                                        <input type="text" id="vao_tel" name="name" class="form-control" value="@(vouch != null ? vouch.TEL : string.Empty)">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Email (選填)</label>
+                                        <input type="text" id="vao_email" name="name" class="form-control" value="@(vouch != null ? vouch.TEL : string.Empty)">
+                                    </div>
+                                </div>
+                                  <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Company_Name</label>
+                                        <input type="text" id="vao_cmp_name" name="name" class="form-control" value="@(vouch != null ? vouch.COMPANY_NAME : string.Empty)">
+                                    </div>
+                                </div>
+                                  <div class="col-xs-12">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Company_Address</label>
+                                        <input type="text" id="vao_cmp_addr" name="name" class="form-control" value="@(vouch != null ? vouch.ADDRESS : string.Empty)">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12 text-center">
+                                    <button type="button" class="btn btn-success" onclick="UpdateVouch();"> @localizer.Text.Update</button>
+                                </div>
+
+                            </form>
+
                         </div>
                     </div>
                 </div>
 
-            </div>
+            </div> <!-- \Tab panes -->
         </div>
     </div>
 
@@ -312,189 +350,7 @@ var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
 
         $('.tablist').scrollingTabs();
 
-        @*$('#logo_File').change(function(){
-            var t = $(this).val();
-            var labelText = 'File : ' + t.substr(12, t.length);
-            $(this).prev('label').text(labelText);
-        });*@
-
     }); 
 
-    function UpdateCompany()
-    {
-       if(!confirm('Are you sure to update company profile?')) return false;
-
-       var country_area =  $("#country_area").val().split(',');
-       var cmpObj = { xid : $("#xid").val(),
-            status : $("#status").val(),
-            coop_mode :$("#coop_mode").val(),
-            payment_type :$("#pay_type").val(),
-            name :$("#name").val(),
-            url :$("#url").val(),
-            locale :$("#locale").val(),
-            currency :$("#currency").val(),
-            invoice :$("#invoice").val(),
-            country : country_area[1],
-            tel_country_code : country_area[0],
-            tel :$("#tel").val(),
-            address :$("#address").val(),
-            contact_user :$("#contact").val(),
-            contact_user_email :$("#contact_email").val(),
-            finance_user :$("#finance").val(),
-            sales_user :$("#sales").val()
-        };
-
-        console.log("company: " + JSON.stringify(cmpObj));
-
-        $.ajax({
-            type: "POST",
-            url: _root_path + "Company/Update",
-            contentType: "application/json",
-            data: JSON.stringify(cmpObj),
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
-                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
-            },
-            success: function (result) {
-                // console.log("result: " + JSON.stringify(result));
-                if(result.status == "OK") {
-                    alert("Update OK!");
-
-                    var newForm = $('<form>', {
-                        'action': _root_path + "Company",
-                        'target': '_self',
-                        'method': 'post'
-                    }).append(jQuery('<input>', {
-                        'name': 'query',
-                        'value': /query=([^&#=]*)/.exec(window.location.search)[1],
-                        'type': 'hidden'
-                    }));
-                    newForm.submit();
-                } else {
-                    alert("Error: " + result.msg);
-                }
-            }
-        });
-
-        return false;
-    }
-
-    function SetStatus(code) {
-        $.ajax({
-            type: "POST",
-            url: _root_path + "Company/SetStatus",
-            contentType: "application/json",
-            data: JSON.stringify({ xid :$("#xid").val(), status : code }),
-            dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
-                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
-            },
-            success: function (result) {
-                if(result.status == "OK") {
-                    var newForm = $('<form>', {
-                        'action': _root_path + "Company",
-                        'target': '_self',
-                        'method': 'post'
-                    }).append(jQuery('<input>', {
-                        'name': 'query',
-                        'value': '@ViewData["QueryParams"]',
-                        'type': 'hidden'
-                    }));
-                    newForm.submit();
-                } else {
-                    alert("Error: " + result.msg);
-                }
-            }
-        });
-
-        return false;
-    }
-
-    function UploadLogo() {
-        var formData = new FormData();
-
-        if($('#logo_file').val() == "") {
-            alert('請先選擇要上傳的Logo圖檔!');
-            return false;
-        }
-
-        var labelText = "";
-        var input = document.getElementById('logo_file');
-        var files = input.files;
-        var formData = new FormData();
-
-        for (var i = 0; i != files.length; i++) {
-            formData.append("files", files[i]);
-            labelText += files[i].name + "<br/>";
-        }
-
-        $.ajax({
-            url: _root_path + "Company/UploadLogo/?cid=" + $("#xid").val(),
-            type: 'POST',
-            data: formData,
-            processData: false,  // tell jQuery not to process the data
-            contentType: false,  // tell jQuery not to set contentType
-            error: function (jqXHR, textStatus, errorThrown) {
-                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
-                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
-            },
-            success: function (result) {
-                if(result.status == "OK") {
-                    alert('Upload file is Successful');
-
-                    $("#logo_file").prev('div').html(labelText);
-                }
-                else  alert(result.msg);               
-            }
-
-        });
-    }
-
-     function UploadLicenses() {
-        var formData = new FormData();
-
-        if($('#license_files').val() == "") {
-            alert('請先選擇要上傳的營業登記檔案!');
-            return false;
-        }
-
-        var labelText = "";
-        var input = document.getElementById('license_files');
-        var files = input.files;
-
-        if(files.length > 2) {
-            alert('只可上傳最多 2 個營業登記檔案!');
-            return false;
-        }
-
-        var formData = new FormData();
-
-        for (var i = 0; i != files.length; i++) {
-            formData.append("files", files[i]);
-            labelText += files[i].name + "<br/>";
-        }
-
-        $.ajax({
-            url: _root_path + "Company/UploadLicenses/?cid=" + $("#xid").val(),
-            type: 'POST',
-            data: formData,
-            processData: false,  // tell jQuery not to process the data
-            contentType: false,  // tell jQuery not to set contentType
-            error: function (jqXHR, textStatus, errorThrown) {
-                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
-                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
-            },
-            success: function (result) {
-                if(result.status == "OK") {
-                    alert('Upload file is Successful'); 
-                    $("#license_files").prev('div').html(labelText);
-                }
-                else  alert(result.msg);               
-            }
-
-        });
-    }
 
 </script>

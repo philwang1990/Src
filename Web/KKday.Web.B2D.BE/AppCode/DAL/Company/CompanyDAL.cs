@@ -61,7 +61,6 @@ LIMIT :Size OFFSET :Skip";
                         PARENT_COMP_XID = dr.ToInt64("parent_comp_xid"),
                         COMP_NAME = dr.ToStringEx("comp_name"),
                         COMP_URL = dr.ToStringEx("comp_url"),
-                        COMP_LOGO_URL = dr.ToStringEx("comp_logo_url"),
                         COMP_LICENSE = dr.ToStringEx("comp_license"),
                         COMP_LICENSE_2 = dr.ToStringEx("comp_license_2"),
                         COMP_LOCALE = dr.ToStringEx("comp_locale"),
@@ -110,8 +109,7 @@ LIMIT :Size OFFSET :Skip";
                     MANAGER_ACCOUNT_XID = dr.ToInt64("manager_account_xid"),
                     PARENT_COMP_XID = dr.ToInt64("parent_comp_xid"),
                     COMP_NAME = dr.ToStringEx("comp_name"),
-                    COMP_URL = dr.ToStringEx("comp_url"),
-                    COMP_LOGO_URL = dr.ToStringEx("comp_logo_url"),
+                    COMP_URL = dr.ToStringEx("comp_url"), 
                     COMP_LICENSE = dr.ToStringEx("comp_license"),
                     COMP_LICENSE_2 = dr.ToStringEx("comp_license_2"),
                     COMP_LOCALE = dr.ToStringEx("comp_locale"),
@@ -212,29 +210,7 @@ WHERE xid=:XID";
                 throw ex;
             }
         }
-
-        public static void UpdateLogo(Int64 xid, string logo_url, string upd_user)
-        {
-            try
-            {
-                string sqlStmt = @"UPDATE b2b.b2d_company SET comp_logo_url=:comp_logo_url,
-  upd_user=:upd_user, upd_datetime=Now()
-WHERE xid=:xid";
-
-                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("xid", xid),
-                    new NpgsqlParameter("comp_logo_url", logo_url),
-                    new NpgsqlParameter("upd_user", upd_user)
-                };
-
-                NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
+          
         public static void UpdateLicenses(Int64 xid, string [] license_url, string upd_user)
         {
             try

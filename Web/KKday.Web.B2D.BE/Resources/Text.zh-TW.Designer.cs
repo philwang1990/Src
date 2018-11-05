@@ -311,6 +311,18 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string Tel {
+            get {
+                return ResourceManager.GetString("Tel", resourceCulture);
+            }
+        }
+        
+        internal static string ContactTel {
+            get {
+                return ResourceManager.GetString("ContactTel", resourceCulture);
+            }
+        }
+        
         internal static string Title_Distributor {
             get {
                 return ResourceManager.GetString("Title_Distributor", resourceCulture);
@@ -374,6 +386,12 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string Company_Name {
             get {
                 return ResourceManager.GetString("Company_Name", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Address {
+            get {
+                return ResourceManager.GetString("Company_Address", resourceCulture);
             }
         }
         

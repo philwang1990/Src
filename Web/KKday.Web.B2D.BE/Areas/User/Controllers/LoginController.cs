@@ -53,6 +53,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
                     new Claim("UUID", account.UUID),
                     new Claim("UserType", IsKKdayUser ? "KKDAY" : "USER"),
                     new Claim("Locale", account.LOCALE),
+                    new Claim("Currency", IsKKdayUser ? "" : ((B2dAccount)account).CURRENCY),
                     new Claim(ClaimTypes.UserData,strChiperAcct), // 以AES加密JSON格式把使用者資料保存於Cookie
                 };
 

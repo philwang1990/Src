@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace KKday.Web.B2D.BE.Models.Model.FixedProd
+namespace KKday.Web.B2D.BE.Models.Model.FixedPrice
 {
     public class FixedProduct
     {

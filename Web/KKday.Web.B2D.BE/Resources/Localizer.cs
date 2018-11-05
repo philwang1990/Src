@@ -242,6 +242,10 @@
 
 		public string ProductName { get { return GetString("ProductName"); } }
 
+		public string Tel { get { return GetString("Tel"); } }
+
+		public string ContactTel { get { return GetString("ContactTel"); } }
+
 		public string Title_Distributor { get { return GetString("Title_Distributor"); } }
 
 		public string Title_VoucherApply { get { return GetString("Title_VoucherApply"); } }
@@ -263,6 +267,8 @@
 		public string UserRole_01 { get { return GetString("UserRole_01"); } }
 
 		public string Company_Name { get { return GetString("Company_Name"); } }
+
+		public string Company_Address { get { return GetString("Company_Address"); } }
 
 		public string Company_PromotionSetting { get { return GetString("Company_PromotionSetting"); } }
 

@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.Filters;
-using KKday.Web.B2D.BE.Models.Model.FixedProd;
+using KKday.Web.B2D.BE.Models.Model.Common;
+using KKday.Web.B2D.BE.Models.Model.FixedPrice;
+using KKday.Web.B2D.BE.Models.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
+using Resources;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -16,23 +21,32 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
     [TypeFilter(typeof(CultureFilter))]
     public class FixedPriceController : Controller
     {
+        const int PAGE_SIZE = 25;
+
+        private readonly ILocalizer _localizer;
+
+        public FixedPriceController(ILocalizer localizer)
+        {
+            _localizer = localizer;
+        }
+
+
         // GET: /<controller>/Prods
         public IActionResult Prods(Int64 id, string name)
         {
-            List<FixedProduct> prods = new List<FixedProduct>();
-
-            prods.Add(new FixedProduct()
-            {
-                COMPANY_XID = id,
-                COMPANY_NAME = name,
-                XID = 1,
-                PROD_NO = "18208",
-                PROD_NAME = "【迎接 2019】紐約跨年煙火遊船船票"
-            });
-
+            ViewData["COMPANY_XID"] = id;
             ViewData["COMPANY_NAME"] = name;
 
-            return View(prods);
+            //var query = this.Request.Query["query"].ToString();
+            var fxpRepos = HttpContext.RequestServices.GetService<FixedPriceRepository>();
+            QueryParamsModel queryParams = queryParams = fxpRepos.GetQueryParamModel(id, string.Empty, string.Empty, PAGE_SIZE, 1);
+             
+            ViewData["QUERY_PARAMS"] = queryParams;
+            ViewData["QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParams);
+            var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
+            var _prods = fxpRepos.GetFixedPriceProds(id, queryParams.Filter, skip, PAGE_SIZE, queryParams.Sorting);
+
+            return View(_prods); 
         }
 
 

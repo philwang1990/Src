@@ -30,7 +30,6 @@ namespace KKday.Web.B2D.BE.Models.Model.Company
 
         public string COMP_LICENSE { get; set; } //公司憑證(營業執照)
         public string COMP_LICENSE_2 { get; set; } //公司憑證(旅行社許可證)
-        public string COMP_LOGO_URL { get; set; } //公司Logo網址
 
         public string CREDITCARD_NO { get; set; } //信用卡號
         public string CREDITCARD_VALID { get; set; } //信用卡效期 yyyy-mm

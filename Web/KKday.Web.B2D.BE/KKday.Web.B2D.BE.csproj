@@ -60,7 +60,10 @@
     <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\js\" />
     <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\css\" />
     <Folder Include="Areas\KKday\Views\FixedPrice\" />
-    <Folder Include="Models\Model\FixedProd\" />
+    <Folder Include="Models\Model\FixedPrice\" />
+    <Folder Include="AppCode\DAL\Voucher\" />
+    <Folder Include="Models\Model\Voucher\" />
+    <Folder Include="AppCode\DAL\FixedPrice\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />

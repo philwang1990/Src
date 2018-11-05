@@ -78,12 +78,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
         public void Update(CompanyUpdModel company, string upd_user)
         {
             CompanyDAL.UpdateCompany(company, upd_user);
-        }
-
-        public void UpdateLogo(Int64 xid, string logo_url, string upd_user)
-        {
-            CompanyDAL.UpdateLogo(xid, logo_url, upd_user);
-        }
+        } 
 
         public void UpdateLicenses(Int64 xid, string[] license_url, string upd_user)
         {
