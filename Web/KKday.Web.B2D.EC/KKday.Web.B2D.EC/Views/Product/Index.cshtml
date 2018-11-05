@@ -198,14 +198,14 @@
                                 <i class="icons icon-pencil"></i>
                                 <h4 class="option-title">Three people per room</h4>
                                 <div class="booking-info">
-                                    <span class="replaceSelDate">2017-10-30</span>
-                                    <span>11:00</span>
+                                    <span class="replaceSelDate"></span>
+                                    <span id="EventSelect" style="display:none;"></span>
                                 </div>
                                 <div class="booking-info">
-                                    <span class="rankNumberInfoElder">@prodTitle.common_elder x <span class="number">1</span></span>
-                                    <span class="rankNumberInfoAdult">@prodTitle.common_adult x <span class="number">1</span></span>
-                                    <span class="rankNumberInfoChild">@prodTitle.common_child x <span class="number">1</span></span>
-                                    <span class="rankNumberInfoInfant">@prodTitle.common_infant x <span class="number">1</span></span>
+                                    <span class="rankNumberInfoElder" style="display:none;">@prodTitle.common_elder x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoAdult" style="display:none;">@prodTitle.common_adult x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoChild" style="display:none;">@prodTitle.common_child x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoInfant" style="display:none;">@prodTitle.common_infant x <span class="number">0</span></span>
                             </div>
                             <div class="booking-price">
                                 <h5 class="pull-left">@prodTitle.common_total</h5><!-- 選擇人數後文字顯示: Total -->
@@ -216,8 +216,8 @@
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
-                                <button class="btn btn-primary btn-block disabled" data-toggle="tooltip" data-title="Please select start time and travler">Book now</button>
-                                <button id="btnConfirm" class="btn btn-primary btn-block btn-book">Book now</button>
+                                <button class="btn btn-primary btn-block disabled btn-confirm-block" data-toggle="tooltip" data-title="Please select start time and travler">Book now</button>
+                                <button id="btnConfirm" class="btn btn-primary btn-block btn-book" onclick="btnConfirm()">Book now</button>
                             </div>
                             <div class="booking-hint">
                                 <div class="text-right mt-10">
