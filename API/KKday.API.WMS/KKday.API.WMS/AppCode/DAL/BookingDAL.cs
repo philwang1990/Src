@@ -33,18 +33,18 @@ namespace KKday.API.WMS.AppCode.DAL
 
 
             np = new NpgsqlParameter[]{
-                        new NpgsqlParameter("order_no",order_no),
-                        new NpgsqlParameter("kkday_order_oid",obj["kkday_order_oid"].ToString()),
-                        new NpgsqlParameter("kkday_order_mid",obj["kkday_order_mid"].ToString()),
-                        new NpgsqlParameter("order_date",obj["order_date"].ToString()), // date : 10/26/2018 04:09:21
-                        new NpgsqlParameter("order_type",obj["order_type"].ToString()),
-                        new NpgsqlParameter("order_status",obj["order_status"].ToString()),
-                        new NpgsqlParameter("order_amt",(int)obj["order_amt"]),
-                        new NpgsqlParameter("order_b2c_amt",(int)obj["order_b2c_amt"]),
-                        new NpgsqlParameter("connect_name",obj["connect_name"].ToString()),
-                        new NpgsqlParameter("connect_tel",obj["connect_tel"].ToString()),
-                        new NpgsqlParameter("connect_mail",obj["connect_mail"].ToString()),
-                        new NpgsqlParameter("order_note",obj["order_note"].ToString())
+                     new NpgsqlParameter("order_no",order_no),
+                     new NpgsqlParameter("kkday_order_oid",obj["kkday_order_oid"].ToString()),
+                     new NpgsqlParameter("kkday_order_mid",obj["kkday_order_mid"].ToString()),
+                     new NpgsqlParameter("order_date",obj["order_date"].ToString()), // date : 10/26/2018 04:09:21
+                     new NpgsqlParameter("order_type",obj["order_type"].ToString()),
+                     new NpgsqlParameter("order_status",obj["order_status"].ToString()),
+                     new NpgsqlParameter("order_amt",(int)obj["order_amt"]),
+                     new NpgsqlParameter("order_b2c_amt",(int)obj["order_b2c_amt"]),
+                     new NpgsqlParameter("connect_name",obj["connect_name"].ToString()),
+                     new NpgsqlParameter("connect_tel",obj["connect_tel"].ToString()),
+                     new NpgsqlParameter("connect_mail",obj["connect_mail"].ToString()),
+                     new NpgsqlParameter("order_note",obj["order_note"].ToString())
                     };
 
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
@@ -89,13 +89,61 @@ namespace KKday.API.WMS.AppCode.DAL
 
         }
 
-        public static int InsertOrderLst(JObject obj, NpgsqlTransaction trans, String order_no)
+        public static int InsertOrderCus(JObject obj, NpgsqlTransaction trans, String order_no, ref List<int> cus_seqno)
         {
 
             String sql = null;
             NpgsqlParameter[] np = null;
 
+            sql = @"select  replace( to_char(Nextval('b2b.b2d_order_cus_seq') ,'9999999999999'),' ','') cus_seqno;";
+            DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.B2D_DB, CommandType.Text, sql, np);
+            //ds.AcceptChanges();
+            cus_seqno.Add(Convert.ToInt32(ds.Tables[0].Rows[0]["cus_seqno"]));
 
+
+            sql = @"INSERT INTO b2b.order_cus(
+    order_no, cus_seqno, cus_type, cus_name_e_last, cus_name_e_first, cus_sex, cus_tel, cus_mail)
+    VALUES (:order_no, :cus_seqno, :cus_type, :cus_name_e_last, :cus_name_e_first, :cus_sex, :cus_tel, :cus_mail); ";
+
+
+            np = new NpgsqlParameter[]{
+                     new NpgsqlParameter("order_no",order_no),
+                     new NpgsqlParameter("cus_seqno",cus_seqno[cus_seqno.Count-1]),
+                     //new NpgsqlParameter("lst_seqno",2),
+                     new NpgsqlParameter("cus_type",obj["cus_type"].ToString()),
+                     new NpgsqlParameter("cus_name_e_last",obj["cus_name_e_last"].ToString()),
+                     new NpgsqlParameter("cus_name_e_first",obj["cus_name_e_first"].ToString()),
+                     new NpgsqlParameter("cus_sex",obj["cus_sex"].ToString()),
+                     new NpgsqlParameter("cus_tel",obj["cus_tel"].ToString()),
+                     new NpgsqlParameter("cus_mail",obj["cus_mail"].ToString())
+                    };
+
+            return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
+
+        }
+
+        public static int InsertOrderLst(JObject obj, NpgsqlTransaction trans, String order_no, List<int> cus_seqno, ref List<int> lst_seqno)
+        {
+
+            String sql = null;
+            NpgsqlParameter[] np = null;
+
+            sql = @"select  replace( to_char(Nextval('b2b.b2d_order_lst_seq') ,'9999999999999'),' ','') lst_seqno;";
+            DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.B2D_DB, CommandType.Text, sql, np);
+            //ds.AcceptChanges();
+            lst_seqno.Add(Convert.ToInt32(ds.Tables[0].Rows[0]["lst_seqno"]));
+            int cus_seq = 0;
+
+            // cus_seqno 只有一筆 那cus_seq 就只帶那筆 
+            if( cus_seqno.Count == 1 ) 
+            {
+                cus_seq = cus_seqno[0];
+            } // if
+            // cus_seqno 大於一筆 就要對位置塞入
+            else if ( cus_seqno.Count > 1 )
+            {
+                cus_seq = cus_seqno[lst_seqno.Count - 1];
+            } // else if
 
 
             sql = @"INSERT INTO b2b.order_lst(
@@ -105,54 +153,28 @@ namespace KKday.API.WMS.AppCode.DAL
 
             np = new NpgsqlParameter[]{
                      new NpgsqlParameter("order_no",order_no),
-                     new NpgsqlParameter("lst_seqno",2),
-                     new NpgsqlParameter("cus_seqno",3),
-                     new NpgsqlParameter("prod_no","4"),
-                     new NpgsqlParameter("prod_name","5"),
-                     new NpgsqlParameter("prod_amt",6),
-                     new NpgsqlParameter("prod_b2c_amt",7),
-                     new NpgsqlParameter("prod_currency","8"),
-                     new NpgsqlParameter("discount_xid",9),
-                     new NpgsqlParameter("prod_cond1","10"),
-                     new NpgsqlParameter("prod_cond2","11"),
-                     new NpgsqlParameter("pkg_no","12"),
-                     new NpgsqlParameter("pkg_name","13"),
-                     new NpgsqlParameter("pkg_date","14"),
-                     new NpgsqlParameter("op_status","15"),
-                     new NpgsqlParameter("sc_status","16"),
-                     new NpgsqlParameter("fa_status","17")
+                     new NpgsqlParameter("lst_seqno",lst_seqno[lst_seqno.Count-1]),
+                     new NpgsqlParameter("cus_seqno",cus_seq),
+                     new NpgsqlParameter("prod_no",obj["prod_no"].ToString()),
+                     new NpgsqlParameter("prod_name",obj["prod_name"].ToString()),
+                     new NpgsqlParameter("prod_amt",(int)obj["prod_amt"]),
+                     new NpgsqlParameter("prod_b2c_amt",(int)obj["prod_b2c_amt"]),
+                     new NpgsqlParameter("prod_currency",obj["prod_currency"].ToString()),
+                     new NpgsqlParameter("discount_xid",(int)obj["discount_xid"]),
+                     new NpgsqlParameter("prod_cond1",obj["prod_cond1"].ToString()),
+                     new NpgsqlParameter("prod_cond2",obj["prod_cond2"].ToString()),
+                     new NpgsqlParameter("pkg_no",obj["pkg_no"].ToString()),
+                     new NpgsqlParameter("pkg_name",obj["pkg_name"].ToString()),
+                     new NpgsqlParameter("pkg_date",obj["pkg_date"].ToString()),
+                     new NpgsqlParameter("op_status",obj["op_status"].ToString()),
+                     new NpgsqlParameter("sc_status",obj["sc_status"].ToString()),
+                     new NpgsqlParameter("fa_status",obj["fa_status"].ToString())
                     };
 
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
         }
 
-        public static int InsertOrderCus(JObject obj, NpgsqlTransaction trans, String order_no)
-        {
-
-            String sql = null;
-            NpgsqlParameter[] np = null;
-            sql = @"INSERT INTO b2b.order_cus(
-    order_no, cus_seqno, lst_seqno, cus_type, cus_name_e_last, cus_name_e_first, cus_sex, cus_tel, cus_mail)
-    VALUES (:order_no, :cus_seqno, :lst_seqno, :cus_type, :cus_name_e_last, :cus_name_e_first, :cus_sex, :cus_tel, :cus_mail); ";
-
-
-            np = new NpgsqlParameter[]{
-                     new NpgsqlParameter("order_no","1"),
-                     new NpgsqlParameter("cus_seqno",1),
-                     new NpgsqlParameter("lst_seqno",2),
-                     new NpgsqlParameter("cus_type","3"),
-                     new NpgsqlParameter("cus_name_e_last","4"),
-                     new NpgsqlParameter("cus_name_e_first","5"),
-                     new NpgsqlParameter("cus_sex","6"),
-                     new NpgsqlParameter("cus_tel","7"),
-                     new NpgsqlParameter("cus_mail","8")
-                    };
-
-            return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
-
-        }
-
-        public static int InsertOrderDiscountRuleMst(JObject obj, NpgsqlTransaction trans, String order_no)
+        public static int InsertOrderDiscountRuleMst(JObject obj, NpgsqlTransaction trans, String order_no, List<int> lst_seqno)
         {
             String sql = null;
             NpgsqlParameter[] np = null;
@@ -162,13 +184,13 @@ namespace KKday.API.WMS.AppCode.DAL
 
 
             np = new NpgsqlParameter[]{
-                     new NpgsqlParameter("xid",1),
-                     new NpgsqlParameter("lst_seqno",2),
-                     new NpgsqlParameter("disc_name","3"),
-                     new NpgsqlParameter("disc_amt",4),
-                     new NpgsqlParameter("disc_currency","5"),
-                     new NpgsqlParameter("disc_note","6"),
-                     new NpgsqlParameter("order_no","4")
+                     new NpgsqlParameter("xid",(int)obj["xid"]),
+                     new NpgsqlParameter("lst_seqno",lst_seqno[lst_seqno.Count-1]),
+                     new NpgsqlParameter("disc_name",obj["disc_name"].ToString()),
+                     new NpgsqlParameter("disc_amt",(int)obj["disc_amt"]),
+                     new NpgsqlParameter("disc_currency",obj["disc_currency"].ToString()),
+                     new NpgsqlParameter("disc_note",obj["disc_note"].ToString()),
+                     new NpgsqlParameter("order_no",order_no)
                     };
 
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
@@ -186,10 +208,10 @@ namespace KKday.API.WMS.AppCode.DAL
 
 
             np = new NpgsqlParameter[]{
-                     new NpgsqlParameter("xid",1),
-                     new NpgsqlParameter("mst_xid",2),
-                     new NpgsqlParameter("order_lst_seqno",3),
-                     new NpgsqlParameter("order_no","4")
+                     new NpgsqlParameter("xid",(int)obj["xid"]),
+                     new NpgsqlParameter("mst_xid",(int)obj["mst_xid"]),
+                     new NpgsqlParameter("order_lst_seqno",(int)obj["order_lst_seqno"]),
+                     new NpgsqlParameter("order_no",order_no)
                     };
 
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);

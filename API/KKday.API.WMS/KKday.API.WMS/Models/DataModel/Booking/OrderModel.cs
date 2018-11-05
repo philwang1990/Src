@@ -48,6 +48,22 @@ namespace KKday.API.WMS.Models.DataModel.Booking
 
     }
 
+    public class OrderCus
+    {
+
+        public string order_no { get; set; }//訂單編號
+        public int cus_seqno { get; set; }//旅客細項編號
+        //public int lst_seqno { get; set; }//細項編號
+        public string cus_type { get; set; }//旅客類別(01成02孩03嬰04老)
+        public string cus_name_e_last { get; set; }//旅客護照姓
+        public string cus_name_e_first { get; set; }//旅客護照名
+        public string cus_sex { get; set; }//旅客性別
+        public string cus_tel { get; set; }//旅客聯絡電話
+        public string cus_mail { get; set; }//旅客聯絡信箱
+
+
+    }
+
     public class OrderLst
     {
         public string order_no { get; set; }//訂單編號
@@ -70,7 +86,6 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string fa_status { get; set; }//財務狀態
 
         public OrderDiscountRuleMst order_discount_rule_mst { get; set; }//order_discount_rule_mst
-        public OrderCus order_cus { get; set; }//order_cus
 
 
     }
@@ -99,19 +114,5 @@ namespace KKday.API.WMS.Models.DataModel.Booking
 
     }
 
-    public class OrderCus
-    {
 
-        public string order_no { get; set; }//訂單編號
-        public int cus_seqno { get; set; }//旅客細項編號
-        public int lst_seqno { get; set; }//細項編號
-        public string cus_type { get; set; }//旅客類別(01成02孩03嬰04老)
-        public string cus_name_e_last { get; set; }//旅客護照姓
-        public string cus_name_e_first { get; set; }//旅客護照名
-        public string cus_sex { get; set; }//旅客性別
-        public string cus_tel { get; set; }//旅客聯絡電話
-        public string cus_mail { get; set; }//旅客聯絡信箱
-
-
-    }
 }
