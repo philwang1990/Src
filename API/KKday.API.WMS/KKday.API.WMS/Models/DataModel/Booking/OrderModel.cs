@@ -109,7 +109,7 @@ namespace KKday.API.WMS.Models.DataModel.Booking
 
         public int xid { get; set; }//流水號
         public int mst_xid { get; set; }//主檔流水號
-        public int order_lst_seqno { get; set; }//細項編號
+        public int lst_seqno { get; set; }//細項編號
         public string order_no { get; set; }//訂單編號
 
     }

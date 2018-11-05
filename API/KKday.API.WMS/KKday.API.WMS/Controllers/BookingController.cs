@@ -14,7 +14,7 @@ namespace KKday.API.WMS.Controllers {
     public class BookingController : Controller {
 
         [HttpPost("InsertOrder")]
-        public void InsertOrder([FromBody]OrderModel queryRQ)
+        public OrderNoModel InsertOrder([FromBody]OrderModel queryRQ)
         {
             //Website.Instance.logger.Info($"WMS QueryProduct Start! B2D Xid:{queryRQ.company_xid},KKday ProdOid:{queryRQ.prod_no}");
 
@@ -22,9 +22,9 @@ namespace KKday.API.WMS.Controllers {
 
             //prod_dtl = ProductRepository.GetProdDtl(queryRQ);
 
-            BookingRepository.InsertOrder(queryRQ);
+            //BookingRepository.InsertOrder(queryRQ);
 
-            //return prod_dtl;
+            return BookingRepository.InsertOrder(queryRQ);
         }
     }
 }

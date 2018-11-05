@@ -39,6 +39,7 @@ namespace KKday.API.WMS.Controllers
             {
                 throw ex;
             }
+
             return currency;
         }
     }

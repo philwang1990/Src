@@ -7,6 +7,7 @@ using KKday.API.WMS.AppCode.Proxy;
 using System.Collections.Generic;
 using Npgsql;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Mvc;
 
 namespace KKday.API.WMS.Models.Repository.Booking
 {
@@ -14,10 +15,10 @@ namespace KKday.API.WMS.Models.Repository.Booking
     {
 
 
-        public static void InsertOrder(OrderModel queryRQ)
+        public static OrderNoModel InsertOrder(OrderModel queryRQ)
         {
 
-
+            OrderNoModel orderNo = new OrderNoModel();
 
             NpgsqlConnection conn = new NpgsqlConnection(Website.Instance.Configuration["ConnectionStrings:NpgsqlConnection"]);
             conn.Open();
@@ -30,6 +31,9 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
             try
             {
+                // 先將 order_cus order_lst  seq設0
+                BookingDAL.InitialSeqs();
+
                 BookingDAL.InsertOrders(obj, trans, ref order_no);
 
                 if (obj["source"] != null)
@@ -59,7 +63,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
                             if (item["order_discount_rule_mst"]["order_discount_rule_dtl"] != null)
                             {
-                                BookingDAL.InsertOrderDiscountRuleDtl(item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject, trans, order_no);
+                                BookingDAL.InsertOrderDiscountRuleDtl(item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject, trans, order_no, lst_seqno);
 
                             } // if
 
@@ -74,6 +78,9 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
                 conn.Close();
 
+                orderNo.result = "0000";
+                orderNo.result_msg = "OK";
+                orderNo.order_no = order_no;
 
 
             }
@@ -85,13 +92,17 @@ namespace KKday.API.WMS.Models.Repository.Booking
                     conn.Close();
                 }
 
-                Website.Instance.logger.FatalFormat($"getCurrency  Error :{ex.Message},{ex.StackTrace}");
+                orderNo.result = "10001";
+                orderNo.result_msg = $"InsertOrder  Error :{ex.Message},{ex.StackTrace}";
 
-                throw ex;
+                Website.Instance.logger.FatalFormat($"InsertOrder  Error :{ex.Message},{ex.StackTrace}");
+
+                //throw ex;
 
             }
 
             //return currency;
+            return orderNo;
 
         }
 

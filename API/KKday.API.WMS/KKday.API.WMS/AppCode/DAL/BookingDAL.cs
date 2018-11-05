@@ -16,6 +16,24 @@ namespace KKday.API.WMS.AppCode.DAL
 {
     public class BookingDAL
     {
+
+        public static void InitialSeqs(){
+            NpgsqlConnection conn = new NpgsqlConnection(Website.Instance.Configuration["ConnectionStrings:NpgsqlConnection"]);
+            conn.Open();
+            NpgsqlTransaction trans = conn.BeginTransaction();
+            String sql = null;
+            NpgsqlParameter[] np = null;
+
+            sql = @"SELECT setval('b2b.b2d_order_cus_seq', 0, true),setval('b2b.b2d_order_lst_seq', 0, true); ";
+
+            NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
+
+            trans.Commit();
+
+            conn.Close();
+
+        }
+
         public static int InsertOrders(JObject obj, NpgsqlTransaction trans,ref String order_no)
         {
 
@@ -197,20 +215,20 @@ namespace KKday.API.WMS.AppCode.DAL
 
         }
 
-        public static int InsertOrderDiscountRuleDtl(JObject obj, NpgsqlTransaction trans, String order_no)
+        public static int InsertOrderDiscountRuleDtl(JObject obj, NpgsqlTransaction trans, String order_no, List<int> lst_seqno)
         {
 
             String sql = null;
             NpgsqlParameter[] np = null;
             sql = @"INSERT INTO b2b.order_discount_rule_dtl(
-    xid, mst_xid, order_lst_seqno, order_no)
-    VALUES (:xid, :mst_xid, :order_lst_seqno, :order_no); ";
+    xid, mst_xid, lst_seqno, order_no)
+    VALUES (:xid, :mst_xid, :lst_seqno, :order_no); ";
 
 
             np = new NpgsqlParameter[]{
                      new NpgsqlParameter("xid",(int)obj["xid"]),
                      new NpgsqlParameter("mst_xid",(int)obj["mst_xid"]),
-                     new NpgsqlParameter("order_lst_seqno",(int)obj["order_lst_seqno"]),
+                     new NpgsqlParameter("lst_seqno",lst_seqno[lst_seqno.Count-1]),
                      new NpgsqlParameter("order_no",order_no)
                     };
 
