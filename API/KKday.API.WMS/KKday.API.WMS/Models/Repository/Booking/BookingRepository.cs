@@ -9,6 +9,7 @@ using Npgsql;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 
+
 namespace KKday.API.WMS.Models.Repository.Booking
 {
     public class BookingRepository
@@ -104,6 +105,25 @@ namespace KKday.API.WMS.Models.Repository.Booking
             //return currency;
             return orderNo;
 
+        }
+
+        public static JObject UpdateOrder(UpdateOrderModel model)
+        {
+            int count = 0;
+
+            try
+            {
+
+                count = BookingDAL.UpdateOrder(model);
+
+                return JObject.Parse("{ \"result\":  \"0000\",\"result_msg\": \"OK\",\"count\":" + count.ToString() + "}");
+            }
+            catch (Exception ex)
+            {
+
+                return JObject.Parse("{ \"result\":  \"10001\",\"result_msg\": \"InsertOrder  Error :\"" + ex.Message + "," + ex.StackTrace + ",\"count\":" + count + "}");
+
+            }
         }
 
 

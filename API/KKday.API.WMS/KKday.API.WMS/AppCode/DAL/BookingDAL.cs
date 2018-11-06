@@ -235,5 +235,36 @@ namespace KKday.API.WMS.AppCode.DAL
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
 
         }
+
+        public static int UpdateOrder(UpdateOrderModel model)
+        {
+            NpgsqlConnection conn = new NpgsqlConnection(Website.Instance.Configuration["ConnectionStrings:NpgsqlConnection"]);
+            conn.Open();
+            NpgsqlTransaction trans = conn.BeginTransaction();
+            String sql = null;
+            NpgsqlParameter[] np = null;
+            int count = 0;
+
+            sql = @"UPDATE b2b.orders set kkday_order_oid = :kkday_order_oid, kkday_order_mid= :kkday_order_mid
+                    WHERE 1=1
+                    AND order_no = :order_no ; ";
+
+
+
+            np = new NpgsqlParameter[]{
+                     new NpgsqlParameter("kkday_order_oid",model.order_oid),
+                     new NpgsqlParameter("kkday_order_mid",model.order_mid),
+                     new NpgsqlParameter("order_no",model.order_no)
+                    };
+
+            count = NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
+
+            trans.Commit();
+
+            conn.Close();
+
+            return count;
+
+        }
     }
 }

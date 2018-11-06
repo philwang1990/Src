@@ -24,7 +24,18 @@ namespace KKday.API.WMS.Controllers {
 
             //BookingRepository.InsertOrder(queryRQ);
 
+            Website.Instance.logger.Info($"WMS InsertOrder Start! ");
+
             return BookingRepository.InsertOrder(queryRQ);
+        }
+
+        [HttpPost("UpdateOrder")]
+        public ActionResult UpdateOrder([FromBody]UpdateOrderModel queryRQ)
+        {
+
+            Website.Instance.logger.Info($"WMS UpdateOrder Start! ");
+
+            return Content(BookingRepository.UpdateOrder(queryRQ).ToString(), "application/json");
         }
     }
 }
