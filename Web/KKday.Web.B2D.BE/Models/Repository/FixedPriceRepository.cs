@@ -48,13 +48,18 @@ namespace KKday.Web.B2D.BE.Models.Repository
             }
         }
 
-        public List<FixedProduct> GetFixedPriceProds(Int64 comp_xid, string filter, int skip, int size, string sorting)
+        public List<FixedPriceProductEx> GetFixedPriceProds(Int64 comp_xid, string filter, int skip, int size, string sorting)
         {
             var _filter = string.Empty; // GetFieldFiltering(filter);
             var _sorting = string.Empty; // GetFieldSorting(sorting);
 
-            var prod_list = FixedPriceDAL.GetBlacklistProds(comp_xid, _filter, skip, size, _sorting);
+            var prod_list = FixedPriceDAL.GetFixedPriceProds(comp_xid, _filter, skip, size, _sorting);
             return prod_list;
+        }
+
+        public void InsertProd(FixedPriceProduct prod, string crt_user) 
+        {
+            FixedPriceDAL.InsertFixedPriceProduct(prod, crt_user);
         }
     }
 }

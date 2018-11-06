@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Resources;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -46,13 +47,71 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
             var _prods = fxpRepos.GetFixedPriceProds(id, queryParams.Filter, skip, PAGE_SIZE, queryParams.Sorting);
 
+            var commRepos = HttpContext.RequestServices.GetService<CommonRepository>();
+            var locale = User.FindFirst("Locale").Value;
+            ViewData["COUNTRIES_LOCALE"] = commRepos.GetCountryAreas(locale);
+
             return View(_prods); 
         }
 
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> Refresh([FromQuery]Int64 cid, [FromBody]QueryParamsModel queryParams)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var fxpRepos = HttpContext.RequestServices.GetService<FixedPriceRepository>();
+
+                //更新分頁資料
+                queryParams = fxpRepos.GetQueryParamModel(cid, queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                ViewData["QUERY_PARAMS"] = queryParams;
+
+                var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
+                var _prods = fxpRepos.GetFixedPriceProds(cid, queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
+
+                jsonData["query_params"] = JsonConvert.SerializeObject(queryParams);
+                jsonData["content"] = await this.RenderViewAsync<List<FixedPriceProductEx>>("ProdList", _prods, true);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        public IActionResult InsertProd([FromBody]FixedPriceProduct prod)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var crt_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var fxpRepos = HttpContext.RequestServices.GetService<FixedPriceRepository>();
+                fxpRepos.InsertProd(prod, crt_user);
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+
+        // 商品套餐與價格
 
         public IActionResult PkgPrices(string id, Int64 cid, string cname, Int64 pid, string pname)
         {
-            List<FixedProductPackageDtl> pkgPrices = new List<FixedProductPackageDtl>();
+            List<FixedPricePackageEx> pkgPrices = new List<FixedPricePackageEx>();
 
             ViewData["COMP_XID"] = cid;
             ViewData["COMP_NAME"] = cname;

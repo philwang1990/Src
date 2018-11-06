@@ -11,7 +11,9 @@ namespace KKday.Web.B2D.BE.Commons
 {
     public class CommonProxy
     {
-        public static List<CountryArea> GetCountryList(string locale)
+
+        // 取得國家與國碼
+        public static List<CountryArea> GetCountryAreas(string locale)
         {
             List<CountryArea> country_list = new List<CountryArea>();
 
@@ -41,7 +43,7 @@ namespace KKday.Web.B2D.BE.Commons
                         };
 
                         string json_data = JsonConvert.SerializeObject(_params);
-                        string url = Website.Instance.Configuration["KKdayAPI:URL:CountryAPI"];
+                        string url = Website.Instance.Configuration["KKdayAPI:URL:CountryAreaAPI"];
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -81,7 +83,8 @@ namespace KKday.Web.B2D.BE.Commons
             return country_list;
         }
 
-        public static List<CountryLocale> GetCountryLocales()
+        // 取得國家與語系
+        public static List<CountryLocale> GetCountryLocales(string locale)
         {
             List<CountryLocale> locales = new List<CountryLocale>();
 
@@ -106,7 +109,7 @@ namespace KKday.Web.B2D.BE.Commons
                             { "userOid", Website.Instance.Configuration["KKdayAPI:Body:ApiKey"]},
                             { "ver", Website.Instance.Configuration["KKdayAPI:Body:Ver"]},
                             { "ipaddress", Website.Instance.Configuration["KKdayAPI:Body:IPAddress"]},
-                            { "locale", "en" } 
+                            { "locale", locale } 
                         };
 
                         string json_data = JsonConvert.SerializeObject(_params);
@@ -150,9 +153,10 @@ namespace KKday.Web.B2D.BE.Commons
             }
 
             return locales;
-        }
+        } 
 
-        public static Dictionary<string, string> GetCurrencyLocale(string locale)
+        // 取得幣別
+        public static Dictionary<string, string> GetCurrencies(string locale)
         {
             try
             {
@@ -172,7 +176,7 @@ namespace KKday.Web.B2D.BE.Commons
                     {
                         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                        string url = Website.Instance.Configuration["WMS_API:URL:CurrencyLocale"];
+                        string url = Website.Instance.Configuration["WMS_API:URL:CurrencyAPI"];
                         url += "?locale=" + locale;
 
                         var response = client.GetAsync(url).Result;
@@ -193,7 +197,7 @@ namespace KKday.Web.B2D.BE.Commons
                     if (!currency_dict.ContainsKey(item["currency"].ToString()))
                     {
                         currency_dict.Add(item["currency"].ToString(), item["name"].ToString());
-                    } 
+                    }
                 }
 
                 return currency_dict;

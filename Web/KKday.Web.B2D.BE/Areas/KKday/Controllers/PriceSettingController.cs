@@ -189,7 +189,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             ViewData["CUR_AMT_QUERY_PARAMS"] = queryParamsCurAmt;
             ViewData["CUR_AMT_QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParamsCurAmt);
             // 多幣別清單
-            ViewData["CURRENCY_LOCALES"] = commonRepos.GetCurrencyLocale(locale);
+            ViewData["CURRENCY_LOCALES"] = commonRepos.GetCurrencies(locale);
 
             skip = (queryParamsCurAmt.Paging.current_page - 1) * queryParamsCurAmt.Paging.page_size;
             var curamt_list = prsetRepos.GetDiscountCurrAmts(id, locale, queryParamsCurAmt.Filter, skip, queryParamsCurAmt.Paging.page_size, queryParamsCurAmt.Sorting);

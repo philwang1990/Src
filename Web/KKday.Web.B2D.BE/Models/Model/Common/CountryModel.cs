@@ -1,7 +1,7 @@
 ﻿using System;
 namespace KKday.Web.B2D.BE.Models.Model.Common
 {
-    // 國家與國碼清單
+    // 國家與國碼
     public class CountryArea
     {
         public string telArea { get; set; }
@@ -17,5 +17,5 @@ namespace KKday.Web.B2D.BE.Models.Model.Common
         public string localeName { get; set; }
         public string countryCode { get; set; }
         public string countryName { get; set; }
-    }
+    } 
 }

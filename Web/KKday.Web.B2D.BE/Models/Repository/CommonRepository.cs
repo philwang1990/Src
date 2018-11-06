@@ -22,7 +22,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
         { 
             var countryAreas = _memoryCache.Get<List<CountryArea>>(COUNTRY_AERAS_KEY + locale);
             if(countryAreas == null) {
-                countryAreas = CommonProxy.GetCountryList(locale);
+                countryAreas = CommonProxy.GetCountryAreas(locale);
                 // 保留本機 24HR
                 _memoryCache.Set(COUNTRY_AERAS_KEY + locale, countryAreas, new TimeSpan(24,0,0));
             }
@@ -30,12 +30,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return countryAreas;
         }
 
-        public List<CountryLocale> GetCountryLocales()
+        public List<CountryLocale> GetCountryLocales(string locale)
         {
             var locales = _memoryCache.Get<List<CountryLocale>>(CLUTURE_LOCALES_KEY);
             if (locales == null)
             {
-                locales = CommonProxy.GetCountryLocales();
+                locales = CommonProxy.GetCountryLocales(locale);
                 // 保留本機 24HR
                 _memoryCache.Set(CLUTURE_LOCALES_KEY, locales, new TimeSpan(24, 0, 0));
             }
@@ -43,12 +43,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return locales;
         }
 
-        public Dictionary<string, string> GetCurrencyLocale(string locale)
+        public Dictionary<string, string> GetCurrencies(string locale)
         {
             var currency_dict = _memoryCache.Get<Dictionary<string, string>>(CURRENCY_LOCALES_KEY + locale);
             if (currency_dict == null)
             {
-                currency_dict = CommonProxy.GetCurrencyLocale(locale);
+                currency_dict = CommonProxy.GetCurrencies(locale);
                 // 保留本機 24HR
                 _memoryCache.Set(CURRENCY_LOCALES_KEY + locale, currency_dict, new TimeSpan(24, 0, 0));
             }

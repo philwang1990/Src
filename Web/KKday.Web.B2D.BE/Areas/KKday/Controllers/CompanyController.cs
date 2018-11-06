@@ -30,7 +30,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
     [TypeFilter(typeof(CultureFilter))]
     public class CompanyController : Controller
     {
-        const int PAGE_SIZE =3;
+        const int PAGE_SIZE = 25;
 
         private readonly ILocalizer _localizer;
 
@@ -111,7 +111,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
                 ViewData["VouchAddOn"] = vouchRepos.GetVoucherAddon(id);
                 ViewData["QueryParams"] = queryArgc;
                 ViewData["CountryAreas"] = countryRepos.GetCountryAreas(locale);
-                ViewData["CountryLocales"] = countryRepos.GetCountryLocales();
+                ViewData["CountryLocales"] = countryRepos.GetCountryLocales(locale);
 
                 return View(_company); 
             }

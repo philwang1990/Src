@@ -238,7 +238,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             var _filter = string.Empty;
             var _sorting = string.Empty; 
 
-            var curr_locales = _common.GetCurrencyLocale(locale);
+            var curr_locales = _common.GetCurrencies(locale);
             var curramt_list = DiscountDAL.GetDiscountCurrAmts(mst_xid, _filter, skip, size, _sorting);
             curramt_list.ForEach(c =>
             {

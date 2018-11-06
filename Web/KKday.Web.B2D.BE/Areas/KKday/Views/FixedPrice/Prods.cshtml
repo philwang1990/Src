@@ -2,11 +2,12 @@
 @using KKday.Web.B2D.BE.Models.Model.FixedPrice
 @using Resources
 @inject ILocalizer localizer
-@model List<FixedProduct>
+@model List<FixedPriceProductEx>
 @{
     Layout = "_LayoutMain";
 
     var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+    var countryLocales = ViewData["COUNTRIES_LOCALE"] as List<CountryArea>;
 }
 @section Stylesheet {
     <!-- Latest compiled and minified CSS -->
@@ -49,7 +50,9 @@
     <div class="row">
         <div class="col-xs-12">
             <input type="hidden" id="xid" value="@ViewData["COMPANY_NAME"]" />
-            <a href="#" class="btn" data-title="新增黑名單" data-toggle="modal" data-target="#add"><i class="fas fa-plus"></i> 新增商品</a>
+            <a href="#" class="btn" data-title="新增商品" data-toggle="modal" data-target="#add"><i class="fas fa-plus"></i> 新增商品</a>
+
+            <hr style="margin:3px 0 3px 0; padding:3px 0 3px 0;" />
         </div>
 
         <div class="col-xs-12">
@@ -79,23 +82,29 @@
             <div class="modal-body">
                 <div class="row">
                     <form>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>@localizer.Text.ProductNo<span class="text-danger">*</span></label>
-                                <input type="text" id="add_prod_no" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/,'')" />
-                            </div>
+                        <div class="col-xs-12"> 
+                            <label>@localizer.Text.ProductNo<span class="text-danger">*</span></label>
+                            <input type="text" id="add_prod_no" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/,'')" />
                         </div>
-                        <div class="col-xs-12">
-                            <div class="form-group">
-                                <label>@localizer.Text.ProductName<span class="text-danger">*</span></label>
-                                <input type="text" id="add_prod_name" class="form-control" />
-                            </div>
+                        <div class="col-xs-12"> 
+                            <label>@localizer.Text.ProductName<span class="text-danger">*</span></label>
+                            <input type="text" id="add_prod_name" class="form-control" /> 
+                        </div>
+                        <div class="col-xs-12"> 
+                            <label>@localizer.Text.ProductName<span class="text-danger">*</span></label>
+                             <select id="add_state" class="form-control">
+                                <option value="">請選擇</option>
+                                @foreach (var item in countryLocales)
+                                {
+                                    <option value="@item.countryCode">@item.countryName (@item.countryCode) </option>
+                                }
+                            </select>
                         </div>
                     </form>
                 </div>
             </div>
             <div class="modal-footer ">
-                <button id="btn_insert" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="InsertBLProduct();">
+                <button id="btn_insert" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="InsertProduct();">
                     <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Insert
                 </button>
             </div>
@@ -198,6 +207,33 @@
         });
     */
 
+    }
+
+    function InsertProduct() {
+        var _prod = { 
+            company_xid : @ViewData["COMPANY_XID"],
+            prod_no: $("#add_prod_no").val(),
+            prod_name : $("#add_prod_name").val(),
+            state : $("#add_state").val() 
+         };
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "FixedPrice/InsertProd",
+            contentType: "application/json",
+            data: JSON.stringify(_prod),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    window.location.reload(-1);
+                }
+            }
+        });
     }
 
     function GoPackagePrices(cid, cname, pid, pd_no, pname) {
