@@ -78,6 +78,21 @@ namespace KKday.Web.B2D.EC.Controllers
                 ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
                 TempData["ProdTitleKeep"] = JsonConvert.SerializeObject(uikey);
 
+                //取消政策排序
+                if (prod.policy_list != null && prod.policy_list.Any())
+                {
+                    prod.policy_list = prod.policy_list.OrderByDescending(o => o.is_over).OrderByDescending(o => o.days).ToList();
+                }
+
+                ProductModuleModel module = ApiHelper.getProdModule(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id, "");
+                if(module != null && module.module_venue_info != null){
+                    if(module.module_venue_info.venue_type == "01")
+                    {
+                        ViewData["moduleVenue"] = module.module_venue_info;
+                    }
+                }
+
+
                 ViewData["prodTitle"] = title;
                 ViewData["prod"] = prod;
                 ViewData["pkgs"] = pkgs;

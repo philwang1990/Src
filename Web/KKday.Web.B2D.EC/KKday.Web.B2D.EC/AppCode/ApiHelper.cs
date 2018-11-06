@@ -135,7 +135,7 @@ namespace KKday.Web.B2D.EC.AppCode
             setting.locale_lang = lang;
             setting.prod_no = prodoid;
             //setting.pkg_no = pkgoid;
-            //setting.state = state;
+            setting.state = state;
 
             using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
             {

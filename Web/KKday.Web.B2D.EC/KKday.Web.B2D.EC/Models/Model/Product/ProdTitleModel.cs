@@ -42,6 +42,11 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
 
         public string product_index_related_product { get; set; } //相關商品
         public string product_index_more_product { get; set; } //更多商品
+        public string common_included { get; set; } //行程表-費用包含（餐食）
+        public string common_breakfast { get; set; } //行程表-費用包含（早餐）
+        public string common_lunch { get; set; } //行程表-費用包含（午餐）
+        public string common_dinner { get; set; } //行程表-費用包含（晚餐）
+
 
         //booking bar 
         public string common_booking { get; set; } //立即訂購
@@ -77,7 +82,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string product_index_check_availablity { get; set; }//選擇其他日期
 
         //地圖相關
-        public string common_meeting_point { get; set; }
+        public string common_airport_meeting_point { get; set; } //機場集合地
+        public string common_meeting_point { get; set; } //非機場集合地
 
 
         //-------------booking

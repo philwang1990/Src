@@ -762,3 +762,17 @@ function slideshowPrev() {
 function slideshowNext() {
 $("#kk-slideshow").trigger('next.owl');
 }
+
+function formatWeekDayStr(weekDays) {
+    var weekDayStr = '';
+    var weekDaysArr = weekDays.split(',');
+    var weekDayFormat = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    for (i = 0; i < weekDayFormat.length; i++) {
+        if(weekDaysArr[i] == 'Y') {
+            if(weekDayStr.length > 0) {
+                weekDayStr += ', ';
+            }
+            weekDayStr += weekDayFormat[i];
+        }
+    }
+}

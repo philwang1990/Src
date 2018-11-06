@@ -8,8 +8,8 @@
     var pkgs = (PackageModel)ViewData["pkgs"];
     var allCanUseDate = (string)ViewData["allCanUseDate"];
     var currency = (string)ViewData["currency"];
+    var moduleVenue = (VenueInfo)ViewData["moduleVenue"];
 }
-
 @section Scripts{
     @*<link rel="stylesheet" href="@Url.Content("/lib/bootstrap/dist/css/bootstrap-datepicker.css")" type="text/css" />*@
     <link rel="stylesheet" href="@Url.Content("/css/daterangepicker.css")" type="text/css" />
@@ -23,9 +23,7 @@
                     dtInit();
                 });
     </script>
-
 }
-
 <i class="icons minus-circle"></i>
 <i class="fas fa-minus-circle"></i>
 <i class="fal fa-minus-circle fa-w-16 fa-2x"></i>
@@ -51,7 +49,6 @@
         <!-- 有影片才顯示此圖 -->
         @*<img src="@Url.Content("~/images/btn_play.svg")" class="play-icon">*@
     </div>
-
     <div id="product-scroll-spy">
         <div class="container">
             <ul class="nav nav-tabs page-tab">
@@ -172,15 +169,14 @@
                     <div class="prod-intro">
                         @prod.introduction
                     </div>
-                    @if (prod.prod_mkt.is_ec_sale == true)
-                    {
-                        <div class="alert alert-info">
-                            <i class="icons icon-info"></i>
-                            Please bear with us while we are working hard to translate the details of this product to your preferred language. Until then, please contact us if you need assistance
-                        </div>
-                    }
+                    @*@if (prod.prod_mkt.is_ec_sale == true)
+                        {
+                            <div class="alert alert-info">
+                                <i class="icons icon-info"></i>
+                                Please bear with us while we are working hard to translate the details of this product to your preferred language. Until then, please contact us if you need assistance
+                            </div>
+                        }*@
                 </div>
-
                 <div class="col-md-4">
                     <affix id="booking-bar" relative-element-selector="#productDetailApp .product-wrap" :offset="{ top: 40, bottom: 48 }" :scroll-affix="false">
                         <div class="booking-bar-content">
@@ -260,7 +256,6 @@
                 </div>
             </div>
         </div>
-
         <div class="option-section" id="option-spy">
             <div class="container">
                 <div class="row">
@@ -284,7 +279,6 @@
                 </div>
             </div>
         </div>
-
         <div class="product-view">
             <div class="container">
                 <div class="row">
@@ -297,282 +291,298 @@
                                 </p>
                             </div>
                         </div>
-                        @*<div class="info-section">
-                                <h3 class="info-title">@prodTitle.product_index_related_product</h3>
-                                <div class="info-content">
-                                    <h4 class="info-subtitle">
-                                        Similar to Tokyo Disneyland:
-                                        @prodTitle.product_index_more_product
-                                    </h4>
-                                    <ol>
-                                        <li class="prod-group-item">
-                                            <a href="#">Tokyo Disneyland & DisneySea 2-Day Pass</a>
-                                        </li>
-                                        <li class="prod-group-item">
-                                            <a href="#">【Popular!】Tokyo Disney Resort eTicket Passport: 3-Day．4-Day Magic Passport．Starlight Passport</a>
-                                        </li>
-                                        <li class="prod-group-item">
-                                            <a href="#">Ticket Adjustment Charge</a>
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>*@
                         <div class="info-section">
                             <h3 class="info-title">@prodTitle.common_timetable</h3>
                             <div class="info-content">
-                                @foreach (var timetable in prod.tour_list)
+                                @{
+                                    var tourGroup = prod.tour_list.GroupBy(g => g.tour_day);
+                                }
+                                @foreach (var g in tourGroup)
                                 {
                                     <ul class="time-info">
                                         <li class="time-info-day">
-                                            第 @timetable.tour_day 天
+                                            第 @g.Key 天 @* 原生css好像有問題，導致變白色 *@
                                         </li>
-                                        <li class="time-info-include">
-                                            費用包含：午餐、晚餐
-                                        </li>
-                                        @*<li class="time-info-spot">
-                                                <div class="time-info-title">
-                                                    <div class="time">13:00</div>
-                                                    <div class="txt">
-                                                        九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
-                                                    </div>
-                                                </div>
-                                                <div class="time-info-img">
-                                                    <img src="img/demo/schedule03.jpg">
-                                                </div>
-                                            </li>
+                                            @{
+                                                string commonInclude = "";
+                                                var includeData = prod.meal_list.Where(x => x.tour_day == g.Key);
+                                                if (includeData != null && includeData.Any())
+                                                {
+
+                                                    if (includeData.First().is_breakfast.ToUpper() == "Y")
+                                                    {
+                                                        commonInclude += prodTitle.common_breakfast;
+                                                    }
+                                                    if (includeData.First().is_lunch.ToUpper() == "Y")
+                                                    {
+                                                        commonInclude += $"{(commonInclude.Length > 0 ? ", " : "")}{prodTitle.common_lunch}";
+                                                    }
+                                                    if (includeData.First().is_dinner.ToUpper() == "Y")
+                                                    {
+                                                        commonInclude += $"{(commonInclude.Length > 0 ? ", " : "")}{prodTitle.common_dinner}";
+                                                    }
+                                                }
+                                            }
+                                            @if (commonInclude.Length > 0)
+                                            {
+                                                <li class="time-info-include"><Span>@prodTitle.common_included：@commonInclude</Span></li>
+                                            }
+                                        @foreach (var tour in g)
+                                        {
                                             <li class="time-info-spot">
                                                 <div class="time-info-title">
-                                                    <div class="txt">
-                                                        九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                                    @{ string timeStr = !string.IsNullOrEmpty(tour.time_desc) && tour.time_desc.Length == 4 ? $"{tour.time_desc.Substring(0, 2)}:{tour.time_desc.Substring(2, 2)}" : ""; }
+                                                    @if (!string.IsNullOrEmpty(timeStr))
+                                                    {
+                                                        <div class="time">@timeStr</div>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(tour.tour_desc))
+                                                    {
+                                                        <div class="txt">@Html.Raw(tour.tour_desc)</div>
+                                                    }
+                                                </div>
+                                                @if (!string.IsNullOrEmpty(tour.photo_url))
+                                                {
+                                                    <div class="time-info-img">
+                                                        <img src="@tour.photo_url">
                                                     </div>
-                                                </div>
-                                            </li>*@
-                                        <li class="time-info-spot">
-                                            <div class="time-info-title">
-                                                <div class="time">@timetable.time_desc</div>
-                                                <div class="txt">
-                                                    @Html.Raw(timetable.tour_desc)
-                                                </div>
-                                            </div>
-                                            <div class="time-info-img">
-                                                <img src="@timetable.photo_url">
-                                            </div>
-                                        </li>
-                                        @*<li class="time-info-spot">
-                                            <div class="time-info-title">
-                                                <div class="time">@timetable.time_desc</div>
-                                                <div class="txt">
-                                                    @Html.Raw(timetable.tour_desc)
-                                                </div>
-                                            </div>
-                                            <div class="time-info-img">
-                                                <img src="@timetable.photo_url">
-                                            </div>
-                                        </li>*@
+                                                }
+                                            </li>
+                                        }
                                     </ul>
                                 }
                             </div>
                         </div>
                         <div class="info-section">
-                            <h3 class="info-title">Inclusion</h3>
+                            <h3 class="info-title">@prodTitle.product_index_price_detail</h3>
                             <div class="info-content">
+                                @{
+                                    var priceInc = prod.cost_detail_list.Where(d => d.detail_type == "INC");
+                                    var priceXInc = prod.cost_detail_list.Where(d => d.detail_type != "INC");
+                                }
                                 <ul class="price-include">
-                                    <li>Transportation fee</li>
-                                    <li>Tour guide</li>
-                                    <li>Admission fee</li>
-                                    <li>Meals</li>
-                                    <li>清潔費</li>
-                                    <li>乘客保險 500 萬</li>
+                                    @foreach (var inc in priceInc)
+                                    {
+                                        <li data-inc-id="@inc.detail_xid">@inc.detail_desc</li>
+                                    }
                                 </ul>
                                 <ul class="price-not">
-                                    <li>Personal expenses</li>
-                                    <li>個人消費</li>
+                                    @foreach (var xinc in priceXInc)
+                                    {
+                                        <li data-inc-id="@xinc.detail_xid">@xinc.detail_desc</li>
+                                    }
                                 </ul>
                             </div>
                         </div>
                         <div class="info-section">
-                            <h3 class="info-title">Voucher Type</h3>
+                            <h3 class="info-title">@prodTitle.product_index_voucher_type</h3>
                             <div class="info-content">
                                 <ul>
-                                    <li>Paper Voucher Only</li>
-                                    <li>Please redeem the physical ticket with printed confirmation voucher at the designated location</li>
+                                    <li>@prod.voucher_desc</li>
                                 </ul>
+                                @{ int exchangeIndex = 1; }
+                                @foreach (var info in prod.voucher_locations)
+                                {
+                                    string weekDaysStr = "";
+                                    foreach (var businessHour in info.businessHours)
+                                    {
+                                        DateTime dtFrom = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, businessHour.from.hour, businessHour.from.minute, 0);
+                                        DateTime dtTo = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, businessHour.to.hour, businessHour.to.minute, 0);
+                                        var weekDayFormat = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+                                        var weekDaysArr = businessHour.weekDays.Split(',');
+                                        for (int i = 0; i < weekDayFormat.Length; i++)
+                                        {
+                                            if (weekDaysArr[i] == "Y")
+                                            {
+                                                if (weekDaysStr.Length > 0)
+                                                {
+                                                    weekDaysStr += ", ";
+                                                }
+                                                weekDaysStr += weekDayFormat[i];
+                                            }
+                                        }
+                                        weekDaysStr += $" {dtFrom.ToString("HH:mm")} ~ {dtTo.ToString("HH:mm")}<br>";
+                                    }
 
-                                <div class="exchange-info">
-                                    <h5>
-                                        <span>Ticket Exchange Point 1</span>
-                                        <span>City Tourist Hub</span>
-                                    </h5>
-                                    <div class="critical-info">
-                                        <i class="icons icon-location-pin"></i>
-                                        <span>No. 2, Rosvert Rd., Chung he district, New Taipei City</span>
+                                    <div class="exchange-info">
+                                        <h5>
+                                            <span>@prodTitle.product_index_place @exchangeIndex</span>
+                                            <span>@info.name</span>
+                                        </h5>
+                                        <div class="critical-info">
+                                            <i class="icons icon-location-pin"></i>
+                                            <span>@info.address</span>
+                                        </div>
+                                        <div class="critical-info">
+                                            <i class="icons icon-clock"></i>
+                                            <span>@Html.Raw(weekDaysStr)</span>
+                                        </div>
+                                        <div class="critical-info">
+                                            <i class="icons icon-info"></i>
+                                            <span>@info.note</span>
+                                        </div>
                                     </div>
-                                    <div class="critical-info">
-                                        <i class="icons icon-clock"></i>
-                                        <span>Mon, Tue, Wed, Thu, Fri 00:00 ~ 23:00<br>Sat, Sun 00:00 ~ 18:00</span>
-                                    </div>
-                                    <div class="critical-info">
-                                        <i class="icons icon-info"></i>
-                                        <span>Exchange Counter：H.I.S</span>
-                                    </div>
-                                </div>
-                                <div class="exchange-info">
-                                    <h5>
-                                        <span>兌換地點 2</span>
-                                        <span>Narita Airport Terminal 1</span>
-                                    </h5>
-                                    <div class="critical-info">
-                                        <i class="icons icon-location-pin"></i>
-                                        <span>Terminal 2</span>
-                                    </div>
-                                    <div class="critical-info">
-                                        <i class="icons icon-clock"></i>
-                                        <span>Mon, Tue, Wed, Thu, Fri, Sat, Sun 00:00 ~ 23:00</span>
-                                    </div>
-                                    <div class="critical-info">
-                                        <i class="icons icon-info"></i>
-                                        <span>Please come in open hour</span>
-                                    </div>
-                                </div>
+                                    exchangeIndex++;
+                                }
                             </div>
                         </div>
                         <div class="info-section">
                             <h3 class="info-title">@prodTitle.common_reminder</h3>
                             <div class="info-content">
                                 <ul>
-                                    <li>Please avoid wearing ripped or torn clothing, including (but not limited to) jeans. Avoid wearing shorts, mini skirts, sportswear, sandals, flip flops or any other inappropriate attire. Those wearing inappropriate attire may not be permitted to enter site</li>
-                                    <li>Please adhere to on-site rules regarding photography (90mm camera lens are not allowed)</li>
-                                    <li>7人座超時NT400/hr，9人座超時NT500/hr，當支付給司機。</li>
-                                    <li>預約完成後，會告知司機電話號碼，請記得前一天打電話跟司機聯絡確認時間及地點，如與旅客聯絡不上，本公司有權取消預約。</li>
+                                    @foreach (var remind in prod.remind_list)
+                                    {
+                                        <li>@remind.remind_desc</li>
+                                    }
                                 </ul>
                             </div>
                         </div>
                         <div class="info-section">
-                            <h3 class="info-title">取消政策</h3>
+                            <h3 class="info-title">@prodTitle.common_cancellation_policy</h3>
                             <div class="info-content" id="cancellation-policy">
                                 <div class="row">
                                     <div class="col-md-9">
                                         <!-- 不可取消時顯示 -->
                                         <!-- <strong>一旦訂購，不可取消或修改！</strong> -->
-
                                         <table class="cancel-info">
                                             <thead>
                                                 <tr>
-                                                    <th>取消日期</th>
-                                                    <th>取消費用</th>
+                                                    <th>@prodTitle.common_cancel_date</th>
+                                                    <th>@prodTitle.common_cancellation_fee</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <span>4</span>天以前
-                                                    </td>
-                                                    <td>0%</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span>2~3</span>天
-                                                    </td>
-                                                    <td>50%</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <span>0~1</span>天
-                                                    </td>
-                                                    <td>100%</td>
-                                                </tr>
+                                                @{int policyIndex = 0;}
+                                                @foreach (var policy in prod.policy_list)
+                                                {
+                                                    int smallestDay = prod.policy_list.Min(x => x.days);
+                                                    string dateDescStr = policy.is_over ?
+                                                                            $"<span>{policy.days}</span> {prodTitle.common_days_more}" :
+                                                                            $"<span>{(smallestDay < policy.days ? $"{(prod.policy_list[policyIndex + 1].days + 1)}" : "0")}~{policy.days}</span> {prodTitle.common_days_prior}";
+                                                    string feeDescStr = policy.fee == 100 ?
+                                                                            prodTitle.product_index_non_refundable :
+                                                                            policy.fee == 0 ?
+                                                                            prodTitle.product_index_refundable :
+                                                                            $"{policy.fee}%";
+                                                    <tr>
+                                                        <td>
+                                                            @Html.Raw(dateDescStr)
+                                                        </td>
+                                                        <td>@feeDescStr</td>
+                                                    </tr>
+                                                    policyIndex++;
+                                                }
                                             </tbody>
                                         </table>
                                         <div class="tip text-grey mt-20">
                                             <i class="icons icon-info"></i>
-                                            NOTE: Due to timezone differences, the confirmed cancellation date is determined by the supplier in local time. Please allow 2-5 working days to process and confirm your cancellation request. Once the cancellation is confirmed, you will receive your refund within 14 working days.
+                                            @prodTitle.common_cancel_policy_explanation
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="info-section" id="map-spy">
-                            <h3 class="info-title">地圖</h3>
+                            <h3 class="info-title">@prodTitle.common_map</h3>
                             <div class="info-content">
                                 <!-- 若為機場接送類別 -->
-                                <h4 class="info-subtitle">機場集合地</h4>
-                                <ul class="map-info">
-                                    <li>
-                                        <span>TPE - Terminal 1<br>1F</span>
-                                        <div class="map-img">
-                                            <div id="map_source"></div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>TPE - Terminal 2<br>2F</span>
-                                        <div class="map-img">
-                                            <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
-                                                <img src="http://placehold.it/720x405?text=This is a map">
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
+                                @if (prod.prod_type == "M03")
+                                {
+                                    <h4 class="info-subtitle">@prodTitle.common_airport_meeting_point</h4>
+                                    <ul class="map-info">
+                                        @foreach(var mapInfo in prod.meeting_point_list)
+                                        {
+                                        <li>
+                                            @{ string terminalStr = $"{mapInfo.airport_code} - terminal{mapInfo.terminal}"; }
+                                            <span>@terminalStr<br>@mapInfo.meeting_point</span>
+                                            <div class="map-img">
+                                                <a href="@mapInfo.img_url" target="_blank">
+                                                    <img src="@mapInfo.img_url">
+                                                </a>
+                                            </div>
+                                        </li>
+                                        }
+                                    </ul>
+                                }
                                 <!--若非機場接送類別-->
-                                <h4 class="info-subtitle">集合地</h4>
-                                <ul class="map-info">
-                                    <li>
-                                        <span>台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站</span>
-                                        <div class="map-img">
-                                            <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
-                                                <img src="http://placehold.it/720x405?text=This is a map">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>南港車站</span>
-                                        <div class="map-img">
-                                            <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
-                                                <img src="http://placehold.it/720x405?text=This is a map">
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
+                                @if (prod.meeting_point_map != null)
+                                {
+                                    <h4 class="info-subtitle">@prodTitle.common_meeting_point</h4>
+                                    <ul class="map-info">
+                                        @if (!string.IsNullOrEmpty(prod.meeting_point_map.latitude) && !string.IsNullOrEmpty(prod.meeting_point_map.longitude))
+                                        {
+                                            <li>
+                                                    <span>@prod.meeting_point_map.mapAddress</span>
+                                                    <div class="map-img">
+                                                        @{
+                                                            string mapUrl = $"https://www.google.com/maps/embed/v1/place?q={prod.meeting_point_map.latitude},{prod.meeting_point_map.longitude}&key=AIzaSyCD4sken7reI5M9LOV3ANX8pkNKSmvuw9g";
+                                                        }
+                                                        <iframe width="100%" height="450" frameborder="0" style="border: 0" src="@mapUrl" allowfullscreen></iframe>
+                                                    </div>
+                                                </li>
+                                        }
+                                        else if (!string.IsNullOrEmpty(prod.meeting_point_map.imageUrl))
+                                        {
+                                            <li>
+                                                <span>@prod.meeting_point_map.mapAddress</span>
+                                                <div class="map-img">
+                                                    <a href="@prod.meeting_point_map.imageUrl" target="_blank">
+                                                        <img src="@prod.meeting_point_map.imageUrl">
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
                                 <!-- 主要目的地 -->
-                                <h4 class="info-subtitle">主要目的地</h4>
-                                <!-- 備註-->
-                                <p>
-                                    7:15am JR 新宿站：地下S2出口上來 三菱東京UFJ銀行前
-                                </p>
-
-                                <ul class="map-info">
-                                    <li>
-                                        <span>平溪車站</span>
-                                        <div class="map-img">
-                                            <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
-                                                <img src="http://placehold.it/720x405?text=This is a map">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>十分瀑布</span>
-                                        <div class="map-img">
-                                            <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
-                                                <img src="http://placehold.it/720x405?text=This is a map">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>基隆廟口</span>
-                                        <div class="map-img">
-                                            <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
-                                                <img src="http://placehold.it/720x405?text=This is a map">
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <span>九份</span>
-                                        <div class="map-img">
-                                            <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
-                                                <img src="http://placehold.it/720x405?text=This is a map">
-                                            </a>
-                                        </div>
-                                    </li>
-                                </ul>
+                                @if (prod.arr_map_info_list != null && prod.arr_map_info_list.Any())
+                                {
+                                    <h4 class="info-subtitle">@prodTitle.common_experience_point</h4>
+                                    <!-- 備註-->
+                                    <p>
+                                        @prod.prod_map_note
+                                    </p>
+                                    <ul class="map-info">
+                                        @foreach (var mapInfo in prod.arr_map_info_list)
+                                        {
+                                            if (mapInfo.map_type == "PHOTO")
+                                            {
+                                                <li v-if="product.arrMapType == 'PHOTO'">
+                                                    <span>
+                                                        @mapInfo.photo_desc
+                                                    </span>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div v-if="product.arrImgUrl.length > 0 && product.arrMapType == 'PHOTO'" class="map-img">
+                                                                <!-- 圖片型態 -->
+                                                                <img :src="product.arrImgUrl">
+                                                            </div>
+                                                            <div v-else class="map-img">
+                                                                <div id="map_target"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                            @*else if(mapInfo.map_type == "ARR")*@
+                                            else
+                                            {
+                                                <li>
+                                                    <span>@mapInfo.latlong_desc</span>
+                                                    <div class="map-img">
+                                                        @{
+                                                            @*string mapUrl = $"https://www.google.com/maps/embed/v1/place?q={mapInfo.latitude},{mapInfo.longitude}/@{mapInfo.latitude},{mapInfo.longitude},{mapInfo.zoom}z&key=AIzaSyCD4sken7reI5M9LOV3ANX8pkNKSmvuw9g";*@
+                                                            string mapUrl = $"https://www.google.com/maps/embed/v1/place?q={mapInfo.latitude},{mapInfo.longitude}&key=AIzaSyCD4sken7reI5M9LOV3ANX8pkNKSmvuw9g";
+                                                            @*string imgUrl = $"{mapInfo.photo_url}?text={mapInfo.photo_desc}";*@
+                                                        }
+                                                        <iframe width="100%" height="450" frameborder="0" style="border: 0"
+                                                                src="@mapUrl" allowfullscreen></iframe>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                }
                             </div>
                         </div>
                     </div>
@@ -580,9 +590,9 @@
             </div>
         </div>
     </div>
-
     <div class="product-recommend">
         <div class="container">
+            @*<h3 class="text-center">@prodTitle.common_more_experiences</h3>*@
             <h3 class="text-center">更多推薦行程</h3>
             <div class="home-carousel owl-carousel owl-theme" id="kk-alsoview">
                 <a href="product_detail.html" target="_blank">
@@ -860,16 +870,13 @@
             </div>
         </div>
     </div>
-
     <a class="btn btn-primary btn-block choice-pkg visible-xs visible-sm" id="choose-mobile" href="#product_price">Select Options</a>
-
     <!-- scroll to top -->
     <div class="scroll-top-wrapper">
         <span class="scroll-top-inner">
             <i class="fa fa-2x fa-angle-up"></i>
         </span>
     </div>
-
     <!-- img slideshow -->
     <div class="modal fade modal-fullscreen" id="product-photo-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog" style="        max-width: none;">
@@ -889,7 +896,6 @@
                                         int vIndex = 1;
                                         int totalSlide = prod.video_list.Count + prod.img_list.Count;
                                     }
-
                                     @if (prod.video_list != null && prod.video_list.Any())
                                     {
                                         foreach (var vItem in prod.video_list)
@@ -920,7 +926,6 @@
                                             vIndex++;
                                         }
                                     }
-
                                 </div>
                             </div>
                             <div class="col-md-1 hidden-sm hidden-xs">
@@ -1033,7 +1038,7 @@
             <div class="modal-content">
                 <div class="modal-body pd-20 text-center text-md">
                     <div class="modal-icon">
-                        <img src="img/ic_load_error.svg">
+                        <img src="@Url.Content("~/images/ic_load_error.svg")">
                     </div>
                     商品讀取過程中發生了一點問題，為確保您獲得完整的行程資訊，請您重新整理頁面。
                 </div>
