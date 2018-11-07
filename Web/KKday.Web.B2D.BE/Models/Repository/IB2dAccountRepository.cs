@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
 
@@ -22,12 +21,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
         //取得會員資料
         B2dAccount GetAccount(Int64 xid);
 
-        void InsertAccount(UserAccount acct, string crt_user);
+        void InsertAccount(B2dAccount acct, string crt_user);
         //關閉帳號資料
         //B2dAccount CloseAccount(Int64 xid);
 
         //更新使用者資料
-        void UpdateAccount(UserAccount acct, string upd_user);
+        void UpdateAccount(B2dAccount acct, string upd_user);
 
         //更新使用者密碼
         bool SetNewPassword(string acct, string password);

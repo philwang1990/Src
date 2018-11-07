@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
 using KKday.Web.B2D.BE.Filters;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
@@ -115,7 +114,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
         }
 
         [HttpPost]
-        public IActionResult Update([FromBody]B2dAccoutUpdModel account)
+        public IActionResult Update([FromBody]B2dAccount account)
         {
             Dictionary<string, object> jsonData = new Dictionary<string, object>();
 
@@ -224,7 +223,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
         }
 
         [HttpPost]
-        public IActionResult ApiUpdate([FromBody]B2dAccoutUpdModel account)
+        public IActionResult ApiUpdate([FromBody]B2dAccount account)
         {
             Dictionary<string, object> jsonData = new Dictionary<string, object>();
 

@@ -5,7 +5,6 @@ using System.Text;
 using KKday.Web.B2D.BE.AppCode;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
 using KKday.Web.B2D.BE.AppCode.DAL.RegisterDAL;
-using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using Resources;

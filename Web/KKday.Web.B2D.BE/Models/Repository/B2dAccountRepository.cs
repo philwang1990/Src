@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
-using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using Newtonsoft.Json.Linq;
@@ -18,7 +17,6 @@ namespace KKday.Web.B2D.BE.Models.Repository
             _localizer = localizer;
         }
 
-
         // 取得 QueryParamModel
         public QueryParamsModel GetQueryParamModel(string filter, string sorting, int size, int current_page)
         {
@@ -27,7 +25,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return new QueryParamsModel()
             {
                 Filter = filter,
-                Sorting = sorting, 
+                Sorting = sorting,
                 Paging = new Pagination()
                 {
                     current_page = current_page,
@@ -36,7 +34,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
                     page_size = size
                 }
             };
-        }
+        } 
 
         public int GetAccountsCount(string filter)
         {
@@ -65,6 +63,57 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
             return account_list;
         }
+
+        /////////////////////////// 
+
+        // 取得 QueryParamModel
+        public QueryParamsModel GetQueryParamModel(Int64 comp_xid, string filter, string sorting, int size, int current_page)
+        {
+            var rec_count = GetAccountsCount(comp_xid, filter);
+            var total_pages = (int)(rec_count / size) + ((rec_count % size != 0) ? 1 : 0);
+            return new QueryParamsModel()
+            {
+                Filter = filter,
+                Sorting = sorting,
+                Paging = new Pagination()
+                {
+                    current_page = current_page,
+                    total_count = rec_count,
+                    total_pages = total_pages,
+                    page_size = size
+                }
+            };
+        }
+
+        public int GetAccountsCount(Int64 comp_xid, string filter)
+        {
+            try
+            {
+                var _filter = GetFieldFiltering(filter);
+
+                return AccountDAL.GetAccountCount(comp_xid, _filter);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public List<B2dAccount> GetAccounts(Int64 comp_xid, string filter, int skip, int size, string sorting)
+        {
+            var _filter = GetFieldFiltering(filter);
+            var _sorting = GetFieldSorting(sorting);
+
+            var account_list = AccountDAL.GetAccounts(comp_xid, _filter, skip, size, _sorting);
+            account_list.ForEach(a =>
+            {
+                a.USER_TYPE_DESC = a.USER_TYPE.Equals("01") ? _localizer.Text.UserRole_01 : _localizer.Text.UserRole_00;
+            });
+
+            return account_list;
+        }
+
+        ///////////////////////////
 
         public B2dAccount GetAccount(Int64 xid)
         {
@@ -114,9 +163,15 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         #endregion Fields Mapping
 
-        public void UpdateAccount(B2dAccoutUpdModel account, string upd_user)
+        public void InsertAccount(B2dAccount acct, string crt_user)
         {
-            AccountDAL.UpdateAccount(account, upd_user);
+
+
+        }
+
+        public void UpdateAccount(B2dAccount acct, string upd_user)
+        { 
+            AccountDAL.UpdateAccount(acct, upd_user);
         }
 
         ////////////////////////

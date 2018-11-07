@@ -4,7 +4,6 @@ using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.Account;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using Npgsql;
 
@@ -95,7 +94,96 @@ LIMIT :Size OFFSET :Skip";
 
             return accounts;
         }
-         
+
+        public static int GetAccountCount(Int64 comp_xid, string filter)
+        {
+            try
+            {
+                string sqlStmt = @"SELECT COUNT(*)
+FROM b2b.b2d_account a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid
+WHERE a.company_xid=:company_xid {FILTER}";
+
+                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] { 
+                    new NpgsqlParameter("company_xid", comp_xid)
+                };
+
+                int total_count = Convert.ToInt32(NpgsqlHelper.ExecuteScalar(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams));
+                return total_count;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        // 取得所有分銷商使用者列表　
+        public static List<B2dAccount> GetAccounts(Int64 comp_xid, string filter, int skip, int size, string sorting)
+        {
+            List<B2dAccount> accounts = new List<B2dAccount>();
+
+            try
+            {
+                string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
+ a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
+ b.comp_tel_country_code
+FROM b2b.b2d_account a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid
+WHERE a.company_xid=:company_xid {FILTER}
+{SORTING}
+LIMIT :Size OFFSET :Skip";
+
+                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
+                sqlStmt = sqlStmt.Replace("{SORTING}", !string.IsNullOrEmpty(sorting) ? "ORDER BY " + sorting : string.Empty);
+
+                List<NpgsqlParameter> sqlParams = new List<NpgsqlParameter>
+                {
+                    new NpgsqlParameter("company_xid", comp_xid),
+                    new NpgsqlParameter("Size", size),
+                    new NpgsqlParameter("Skip", skip)
+                };
+
+                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams.ToArray());
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    foreach (DataRow dr in ds.Tables[0].Rows)
+                    {
+                        accounts.Add(new B2dAccount()
+                        {
+                            XID = dr.ToInt64("xid"),
+                            UUID = dr.ToStringEx("user_uuid"),
+                            EMAIL = dr.ToStringEx("email"),
+                            NAME_FIRST = dr.ToStringEx("name_first"),
+                            NAME_LAST = dr.ToStringEx("name_last"),
+                            NAME = dr.ToStringEx("name"),
+                            COMPANY_XID = dr.ToInt64("comp_xid"),
+                            COMPANY_NAME = dr.ToStringEx("comp_name"),
+                            DEPARTMENT = dr.ToStringEx("department"),
+                            ENABLE = dr.ToBoolean("enable"),
+                            GENDER_TITLE = dr.ToStringEx("gender_title"),
+                            JOB_TITLE = dr.ToStringEx("job_title"),
+                            CURRENCY = dr.ToStringEx("comp_currency"),
+                            LOCALE = dr.ToStringEx("comp_locale"),
+                            TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
+                            TEL = dr.ToStringEx("tel"),
+                            USER_TYPE = dr.ToStringEx("account_type")
+                        });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+
+            return accounts;
+        }
+
         public static B2dAccount GetAccount(Int64 xid)
         { 
             try
@@ -151,7 +239,7 @@ WHERE a.xid=:xid";
             return null;
         }
          
-        public static void UpdateAccount(B2dAccoutUpdModel account, string upd_user)
+        public static void UpdateAccount(B2dAccount account, string upd_user)
         {
             try
             { 

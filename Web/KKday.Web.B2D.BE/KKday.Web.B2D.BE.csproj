@@ -78,6 +78,7 @@
     <Compile Remove="Resources\Text.zh-TW.Designer.cs" />
     <Compile Remove="Resources\Text.en-US.Designer.cs" />
     <Compile Remove="AppCode\DAL\Promotion\DiscountDAL.cs" />
+    <Compile Remove="Areas\KKday\Models\DataModel\Account\B2dAccoutUpdModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Areas\User\Views\Home\Error.cshtml" />
