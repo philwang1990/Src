@@ -148,6 +148,7 @@ namespace KKday.API.WMS.Models.Repository.Common
 
                             if (i["cityList"] != null)
                             {
+                                country.cityList = new List<City>();
                                 cityList = (JArray)i["cityList"];
                                 foreach (var j in cityList)
                                 {
