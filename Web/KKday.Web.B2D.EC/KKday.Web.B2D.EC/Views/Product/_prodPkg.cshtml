@@ -32,7 +32,7 @@
                 <h4 class="option-title">@pkg.pkg_name</h4>
                 <div class="product-pricing">
                     <span>@currency</span>
-                    <h4>@pkg.price1</h4>
+                    <h4>@pkg.price1.ToString("N0")</h4>
                 </div>
                 @{
                     string ulControl = $"{pkg.pkg_no}_eventtime";
@@ -87,7 +87,7 @@
                                         <div class="traveler-counter">
                                             <div class="pull-left">
                                                 <h5>@prodTitle.common_adult <span class="text-muted text-xs">(Age @pkg.price1_age_range.Split('~')[0]-@pkg.price1_age_range.Split('~')[1])</span></h5>
-                                                <span class="option-price">@currency @pkg.price1/@prodTitle.product_index_unit2_01</span>
+                                                <span class="option-price">@currency @pkg.price1.ToString("N")/@prodTitle.product_index_unit2_01</span>
                                             </div>
                                             <div class="pull-right text-right mt-10">
                                                 <a id='selminus_price1_@pkg.pkg_no' onclick="chkNum('@pkg.pkg_no' ,'txtprice1Qty_@pkg.pkg_no','minus','price1');" class="counter disabled">
@@ -108,7 +108,7 @@
                                         <div class="traveler-counter">
                                             <div class="pull-left">
                                                 <h5>@prodTitle.common_child <span class="text-muted text-xs">(Age @pkg.price2_age_range.Split('~')[0]-@pkg.price2_age_range.Split('~')[1])</span></h5>
-                                                <span class="option-price">@currency @pkg.price2/@prodTitle.product_index_unit2_01 </span>
+                                                <span class="option-price">@currency @pkg.price2.ToString("N")/@prodTitle.product_index_unit2_01 </span>
                                             </div>
                                             <div class="pull-right text-right mt-10">
                                                 <a id='selminus_price2_@pkg.pkg_no' onclick="chkNum('@pkg.pkg_no' ,'txtprice2Qty_@pkg.pkg_no','minus','price2');" class="counter disabled">
@@ -129,7 +129,7 @@
                                         <div class="traveler-counter">
                                             <div class="pull-left">
                                                 <h5>@prodTitle.common_infant <span class="text-muted text-xs">(Age @pkg.price3_age_range.Split('~')[0]-@pkg.price3_age_range.Split('~')[1])</span></h5>
-                                                <span class="option-price">@currency @pkg.price3/@prodTitle.product_index_unit2_01</span>
+                                                <span class="option-price">@currency @pkg.price3?.ToString("N")/@prodTitle.product_index_unit2_01</span>
                                             </div>
                                             <div class="pull-right text-right mt-10">
                                                 <a id='selminus_price3_@pkg.pkg_no' onclick="chkNum('@pkg.pkg_no' ,'txtprice3Qty_@pkg.pkg_no','minus','price3');" class="counter disabled">
@@ -150,7 +150,7 @@
                                         <div class="traveler-counter">
                                             <div class="pull-left">
                                                 <h5>@prodTitle.common_elder <span class="text-muted text-xs">(Age @pkg.price4_age_range.Split('~')[0]-@pkg.price4_age_range.Split('~')[1])</span></h5>
-                                                <span class="option-price">@currency @pkg.price4/@prodTitle.product_index_unit2_01</span>
+                                                <span class="option-price">@currency @pkg.price4?.ToString("N")/@prodTitle.product_index_unit2_01</span>
                                             </div>
                                             <div class="pull-right text-right mt-10">
                                                 <a id='selminus_price4_@pkg.pkg_no' onclick="chkNum('@pkg.pkg_no' ,'txtprice4Qty_@pkg.pkg_no','minus','price4');" class="counter disabled">
