@@ -335,30 +335,6 @@
                 $html.animate({scrollTop:$('.option-item.selected').offset().top - 60}, 300);
             });
 
-            $('#select-date input').daterangepicker({
-                minDate:moment(), //今天之前的日期不可選
-                singleDatePicker: true,
-                showDropdowns: true, //顯示年份、月份的下拉選單
-                 "opens": "center",
-                locale: {
-                    format: 'YYYY/MM/DD'
-                },
-                parentEl: '#select-date',
-            });
-
-            $('#select-date input').val(''); //一定要有這一行，For Daterangepicker 初始值清空
-
-            //選擇日期後套餐的 loading 效果
-            $('#select-date input').on('apply.daterangepicker', function(){
-
-                $('.option-group .dot-load').show();
-                
-                setTimeout(function(){
-                    $('.option-group .dot-load').hide();
-                },1000);
-
-            });
-
             //New option section DEMO用
             $('.select-option').on('click',function(){
                 
@@ -387,11 +363,6 @@
                 $bar.find('.option-title').text($name);
                 $bar.find('.booking-price .product-pricing h2').text($price);
 
-            });
-
-            $('.check-date').on('click',function(){
-                $('#select-date input').trigger('click');
-                $html.animate({scrollTop:$('.option-section').offset().top}, 500);
             });
             
                 //展開 Option details
