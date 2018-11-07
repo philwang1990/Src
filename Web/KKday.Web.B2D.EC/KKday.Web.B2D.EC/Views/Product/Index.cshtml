@@ -41,7 +41,10 @@
             <a href="javascript:;" class="btn btn-white btn-sm"><i class="fa fa-image"></i>@prodTitle.product_index_see_more_photo</a>
         </div>
         <!-- 有影片才顯示此圖 -->
-        @*<img src="@Url.Content("~/images/btn_play.svg")" class="play-icon">*@
+        @if(prod.video_list != null && prod.video_list.Any())
+        {
+            <img src="@Url.Content("~/images/btn_play.svg")" class="play-icon" />
+        }
     </div>
     <div id="product-scroll-spy">
         <div class="container">
