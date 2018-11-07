@@ -126,7 +126,6 @@ namespace KKday.API.WMS.Models.Repository.Common
                     countryCity.content.countryList = new List<Country>();
 
                     Country country = new Country();
-                    country.cityList = new List<City>();
                     City city = new City();
 
                     countryCity.content.result = obj["content"]["result"].ToString();
