@@ -11,18 +11,16 @@
     var moduleVenue = (VenueInfo)ViewData["moduleVenue"];
 }
 @section Scripts{
-    @*<link rel="stylesheet" href="@Url.Content("/lib/bootstrap/dist/css/bootstrap-datepicker.css")" type="text/css" />*@
     <link rel="stylesheet" href="@Url.Content("/css/daterangepicker.css")" type="text/css" />
     <script type="text/javascript" src="@Url.Content("/js/daterangepicker.js")"></script>
-    <script type="text/javascript" src="@Url.Content("/js/moment.js")"></script>
     <script type="text/javascript" src="@Url.Content("/js/prod.check.js")"></script>
     <script type="text/javascript">
                 $(function () {
-                    @*setDatePicker();*@
                     setInit();
                     dtInit();
                 });
     </script>
+    <script type="text/javascript" src="@Url.Content("/js/product_detail.js")"></script>
 }
 <i class="icons minus-circle"></i>
 <i class="fas fa-minus-circle"></i>
@@ -39,9 +37,9 @@
 @Html.Hidden("hdnIsEcSale", prod.prod_mkt.is_ec_sale)
 <div id="productDetailApp">
     @{
-        string mainImg = prod.img_list != null && prod.img_list.Any() ? prod.img_list.FirstOrDefault(x => x.is_main_img == "Y").img_url : "";
+        string mainImgUrl = prod.img_list != null && prod.img_list.Any() ? prod.img_list.FirstOrDefault(x => x.is_main_img == "Y").img_url : "";
     }
-    <div class="product-banner" onclick="photo_slideshow()" style="background-image:url(@mainImg)">
+    <div class="product-banner" onclick="photo_slideshow()" style="background-image:url(@mainImgUrl)">
         <h5 class="photo-by">Photo by KKday</h5>
         <div class="container more-photo">
             <a href="javascript:;" class="btn btn-white btn-sm"><i class="fa fa-image"></i>@prodTitle.product_index_see_more_photo</a>
@@ -53,20 +51,20 @@
         <div class="container">
             <ul class="nav nav-tabs page-tab">
                 <li class="active">
-                    <a href="#overview-spy">Overviews</a>
+                    <a href="#overview-spy">@prodTitle.common_info</a>
                 </li>
                 <li>
-                    <a href="#option-spy">Package Options</a>
+                    <a href="#option-spy">@prodTitle.product_index_option_title</a>
                 </li>
                 <li>
-                    <a href="#info-spy">Activity Info</a>
+                    <a href="#info-spy">@prodTitle.common_experience</a>
                 </li>
                 <li>
-                    <a href="#map-spy">Map</a>
+                    <a href="#map-spy">@prodTitle.common_map</a>
                 </li>
-                <li>
+                @*<li>
                     <a href="#review-spy">Reviews</a>
-                </li>
+                </li>*@
             </ul>
         </div>
     </div>
@@ -105,7 +103,10 @@
                             <li class="active">@prod.prod_name</li>
                         </ol>
                     </div>
-                    <span class="flash-tag"><i class="fa fa-flash text-primary"></i>Instant book</span>
+                    @{
+                        string instant = prod.confirm_order_time == 0 ? prodTitle.product_index_imm_confirm : "";
+                    }
+                    <span class="flash-tag"><i class="fa fa-flash text-primary"></i>@instant</span>
                     <h1>@prod.prod_name</h1>
                     <div class="critical-info">
                         <div class="row">
@@ -179,6 +180,24 @@
                 </div>
                 <div class="col-md-4">
                     <affix id="booking-bar" relative-element-selector="#productDetailApp .product-wrap" :offset="{ top: 40, bottom: 48 }" :scroll-affix="false">
+                        @{
+                            string bookingHintStr = "";
+                            switch (prod.confirm_order_time)
+                            {
+
+                                case 0:
+                                    bookingHintStr = $"<i class=\"fa fa-flash fa-lg text-primary\"></i><b>{prodTitle.product_index_imm_confirm}</b>";
+                                    break;
+                                case 24:
+                                    bookingHintStr = prodTitle.product_index_confirm_hr_24;
+                                    break;
+                                case 48:
+                                    bookingHintStr = prodTitle.product_index_confirm_hr_48;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
                         <div class="booking-bar-content">
                             <div class="lowest-price minPriceBar">
                                 <h5 class="pull-left">@prodTitle.common_per_person</h5>
@@ -189,7 +208,8 @@
                                     </div>
                                 </div>
                                 <div class="clearfix"></div>
-                                <!-- 已售罄時顯示#error-message，不顯示按鈕 -->
+                                <!-- 已售罄時顯示
+                                #error-message，不顯示按鈕 -->
                                 <!-- <div class="text-center text-muted" id="error-message">
                                     <h3 class="mg-0">已售罄</h3>
                                 </div> -->
@@ -207,6 +227,13 @@
                                     </a>
                                     @*<div class="row"><button type = "button" class="btn btn-info" id="btnConfirm" disabled="disabled">@prodTitle.product_index_coming_soon </button></div>*@
                                 }
+                                <div class="booking-hint">
+                                    <div class="text-right mt-10">
+                                        <div class="duration">
+                                            @Html.Raw(bookingHintStr)
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="view-option confirmBar">
                                 <i class="icons icon-pencil"></i>
@@ -236,7 +263,7 @@
                                 <div class="booking-hint">
                                     <div class="text-right mt-10">
                                         <div class="duration">
-                                            Reservation will be confirmed within 48 hours
+                                            @Html.Raw(bookingHintStr)
                                         </div>
                                     </div>
                                 </div>
@@ -303,30 +330,30 @@
                                         <li class="time-info-day">
                                             第 @g.Key 天 @* 原生css好像有問題，導致變白色 *@
                                         </li>
-                                            @{
-                                                string commonInclude = "";
-                                                var includeData = prod.meal_list.Where(x => x.tour_day == g.Key);
-                                                if (includeData != null && includeData.Any())
-                                                {
+                                        @{
+                                            string commonInclude = "";
+                                            var includeData = prod.meal_list.Where(x => x.tour_day == g.Key);
+                                            if (includeData != null && includeData.Any())
+                                            {
 
-                                                    if (includeData.First().is_breakfast.ToUpper() == "Y")
-                                                    {
-                                                        commonInclude += prodTitle.common_breakfast;
-                                                    }
-                                                    if (includeData.First().is_lunch.ToUpper() == "Y")
-                                                    {
-                                                        commonInclude += $"{(commonInclude.Length > 0 ? ", " : "")}{prodTitle.common_lunch}";
-                                                    }
-                                                    if (includeData.First().is_dinner.ToUpper() == "Y")
-                                                    {
-                                                        commonInclude += $"{(commonInclude.Length > 0 ? ", " : "")}{prodTitle.common_dinner}";
-                                                    }
+                                                if (includeData.First().is_breakfast.ToUpper() == "Y")
+                                                {
+                                                    commonInclude += prodTitle.common_breakfast;
+                                                }
+                                                if (includeData.First().is_lunch.ToUpper() == "Y")
+                                                {
+                                                    commonInclude += $"{(commonInclude.Length > 0 ? ", " : "")}{prodTitle.common_lunch}";
+                                                }
+                                                if (includeData.First().is_dinner.ToUpper() == "Y")
+                                                {
+                                                    commonInclude += $"{(commonInclude.Length > 0 ? ", " : "")}{prodTitle.common_dinner}";
                                                 }
                                             }
-                                            @if (commonInclude.Length > 0)
-                                            {
-                                                <li class="time-info-include"><Span>@prodTitle.common_included：@commonInclude</Span></li>
-                                            }
+                                        }
+                                        @if (commonInclude.Length > 0)
+                                        {
+                                            <li class="time-info-include"><Span>@prodTitle.common_included：@commonInclude</Span></li>
+                                        }
                                         @foreach (var tour in g)
                                         {
                                             <li class="time-info-spot">
@@ -490,17 +517,17 @@
                                 {
                                     <h4 class="info-subtitle">@prodTitle.common_airport_meeting_point</h4>
                                     <ul class="map-info">
-                                        @foreach(var mapInfo in prod.meeting_point_list)
+                                        @foreach (var mapInfo in prod.meeting_point_list)
                                         {
-                                        <li>
-                                            @{ string terminalStr = $"{mapInfo.airport_code} - terminal{mapInfo.terminal}"; }
-                                            <span>@terminalStr<br>@mapInfo.meeting_point</span>
-                                            <div class="map-img">
-                                                <a href="@mapInfo.img_url" target="_blank">
-                                                    <img src="@mapInfo.img_url">
-                                                </a>
-                                            </div>
-                                        </li>
+                                            <li>
+                                                @{ string terminalStr = $"{mapInfo.airport_code} - terminal{mapInfo.terminal}"; }
+                                                <span>@terminalStr<br>@mapInfo.meeting_point</span>
+                                                <div class="map-img">
+                                                    <a href="@mapInfo.img_url" target="_blank">
+                                                        <img src="@mapInfo.img_url">
+                                                    </a>
+                                                </div>
+                                            </li>
                                         }
                                     </ul>
                                 }
@@ -512,14 +539,14 @@
                                         @if (!string.IsNullOrEmpty(prod.meeting_point_map.latitude) && !string.IsNullOrEmpty(prod.meeting_point_map.longitude))
                                         {
                                             <li>
-                                                    <span>@prod.meeting_point_map.mapAddress</span>
-                                                    <div class="map-img">
-                                                        @{
-                                                            string mapUrl = $"https://www.google.com/maps/embed/v1/place?q={prod.meeting_point_map.latitude},{prod.meeting_point_map.longitude}&key=AIzaSyCD4sken7reI5M9LOV3ANX8pkNKSmvuw9g";
-                                                        }
-                                                        <iframe width="100%" height="450" frameborder="0" style="border: 0" src="@mapUrl" allowfullscreen></iframe>
-                                                    </div>
-                                                </li>
+                                                <span>@prod.meeting_point_map.mapAddress</span>
+                                                <div class="map-img">
+                                                    @{
+                                                        string mapUrl = $"https://www.google.com/maps/embed/v1/place?q={prod.meeting_point_map.latitude},{prod.meeting_point_map.longitude}&key=AIzaSyCD4sken7reI5M9LOV3ANX8pkNKSmvuw9g";
+                                                    }
+                                                    <iframe width="100%" height="450" frameborder="0" style="border: 0" src="@mapUrl" allowfullscreen></iframe>
+                                                </div>
+                                            </li>
                                         }
                                         else if (!string.IsNullOrEmpty(prod.meeting_point_map.imageUrl))
                                         {
@@ -587,286 +614,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="product-recommend">
-        <div class="container">
-            @*<h3 class="text-center">@prodTitle.common_more_experiences</h3>*@
-            <h3 class="text-center">更多推薦行程</h3>
-            <div class="home-carousel owl-carousel owl-theme" id="kk-alsoview">
-                <a href="product_detail.html" target="_blank">
-                    <div class="card product-item">
-                        <div class="product-img img-bg" style="        background-image: url('img/demo/product01.jpg')"></div>
-                        <div class="product-detail">
-                            <h3>
-                                <i class="fa fa-flash text-primary"></i>
-                                NANTA Show Discount Ticket - Hongdae
-                            </h3>
-                            <div class="product-book">
-                                <i class="glyphicon glyphicon-fire"></i>2506 booked
-                            </div>
-                            <div class="product-place">
-                                <i class="fa fa-map-marker"></i>千葉, 東京
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-star">
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-25"></div>
-                                    <span class="text-grey-light">(2260)</span>
-                                </div>
-                                <div class="product-pricing">
-                                    <span>TWD</span>
-                                    <h4>2,011</h4>
-                                </div>
-                            </div>
-                            <div class="product-hint">
-                                <i class="fa fa-flash"></i> Instant Booking
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="product_detail.html" target="_blank">
-                    <div class="card product-item">
-                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner04.jpg')"></div>
-                        <div class="product-detail">
-                            <h3>
-                                <i class="fa fa-flash text-primary"></i>
-                                NANTA Show Discount Ticket - Hongdae
-                            </h3>
-                            <div class="product-book">
-                                <i class="glyphicon glyphicon-fire"></i>2506 booked
-                            </div>
-                            <div class="product-place">
-                                <i class="fa fa-map-marker"></i>千葉, 東京
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-star">
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-25"></div>
-                                    <span class="text-grey-light">(2260)</span>
-                                </div>
-                                <div class="product-pricing">
-                                    <span>TWD</span>
-                                    <h4>2,011</h4>
-                                </div>
-                            </div>
-                            <div class="product-hint">
-                                <i class="fa fa-flash"></i> Instant Booking
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="product_detail.html" target="_blank">
-                    <div class="card product-item">
-                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner05.jpg')"></div>
-                        <div class="product-detail">
-                            <h3>
-                                <i class="fa fa-flash text-primary"></i>
-                                NANTA Show Discount Ticket - Hongdae
-                            </h3>
-                            <div class="product-book">
-                                <i class="glyphicon glyphicon-fire"></i>2506 booked
-                            </div>
-                            <div class="product-place">
-                                <i class="fa fa-map-marker"></i>千葉, 東京
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-star">
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-25"></div>
-                                    <span class="text-grey-light">(2260)</span>
-                                </div>
-                                <div class="product-pricing">
-                                    <span>TWD</span>
-                                    <h4>2,011</h4>
-                                </div>
-                            </div>
-                            <div class="product-hint">
-                                <i class="fa fa-flash"></i> Instant Booking
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="product_detail.html" target="_blank">
-                    <div class="card product-item">
-                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner03.jpg')"></div>
-                        <div class="product-detail">
-                            <h3>
-                                <i class="fa fa-flash text-primary"></i>
-                                NANTA Show Discount Ticket - Hongdae
-                            </h3>
-                            <div class="product-book">
-                                <i class="glyphicon glyphicon-fire"></i>2506 booked
-                            </div>
-                            <div class="product-place">
-                                <i class="fa fa-map-marker"></i>千葉, 東京
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-star">
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-25"></div>
-                                    <span class="text-grey-light">(2260)</span>
-                                </div>
-                                <div class="product-pricing">
-                                    <span>TWD</span>
-                                    <h4>2,011</h4>
-                                </div>
-                            </div>
-                            <div class="product-hint">
-                                <i class="fa fa-flash"></i> Instant Booking
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="product_detail.html" target="_blank">
-                    <div class="card product-item">
-                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner02.jpg')"></div>
-                        <div class="product-detail">
-                            <h3>
-                                <i class="fa fa-flash text-primary"></i>
-                                NANTA Show Discount Ticket - Hongdae
-                            </h3>
-                            <div class="product-book">
-                                <i class="glyphicon glyphicon-fire"></i>2506 booked
-                            </div>
-                            <div class="product-place">
-                                <i class="fa fa-map-marker"></i>千葉, 東京
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-star">
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-25"></div>
-                                    <span class="text-grey-light">(2260)</span>
-                                </div>
-                                <div class="product-pricing">
-                                    <span>TWD</span>
-                                    <h4>2,011</h4>
-                                </div>
-                            </div>
-                            <div class="product-hint">
-                                <i class="fa fa-flash"></i> Instant Booking
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="product_detail.html" target="_blank">
-                    <div class="card product-item">
-                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner08.jpg')"></div>
-                        <div class="product-detail">
-                            <h3>
-                                <i class="fa fa-flash text-primary"></i>
-                                NANTA Show Discount Ticket - Hongdae
-                            </h3>
-                            <div class="product-book">
-                                <i class="glyphicon glyphicon-fire"></i>2506 booked
-                            </div>
-                            <div class="product-place">
-                                <i class="fa fa-map-marker"></i>千葉, 東京
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-star">
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-25"></div>
-                                    <span class="text-grey-light">(2260)</span>
-                                </div>
-                                <div class="product-pricing">
-                                    <span>TWD</span>
-                                    <h4>2,011</h4>
-                                </div>
-                            </div>
-                            <div class="product-hint">
-                                <i class="fa fa-flash"></i> Instant Booking
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="product_detail.html" target="_blank">
-                    <div class="card product-item">
-                        <div class="product-img img-bg" style="        background-image: url('img/demo/product02.jpg')"></div>
-                        <div class="product-detail">
-                            <h3>
-                                <i class="fa fa-flash text-primary"></i>
-                                NANTA Show Discount Ticket - Hongdae
-                            </h3>
-                            <div class="product-book">
-                                <i class="glyphicon glyphicon-fire"></i>2506 booked
-                            </div>
-                            <div class="product-place">
-                                <i class="fa fa-map-marker"></i>千葉, 東京
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-star">
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-25"></div>
-                                    <span class="text-grey-light">(2260)</span>
-                                </div>
-                                <div class="product-pricing">
-                                    <span>TWD</span>
-                                    <h4>2,011</h4>
-                                </div>
-                            </div>
-                            <div class="product-hint">
-                                <i class="fa fa-flash"></i> Instant Booking
-                            </div>
-                        </div>
-                    </div>
-                </a>
-                <a href="product_detail.html" target="_blank">
-                    <div class="card product-item">
-                        <div class="product-img img-bg" style="        background-image: url('img/demo/banner07.jpg')"></div>
-                        <div class="product-detail">
-                            <h3>
-                                <i class="fa fa-flash text-primary"></i>
-                                NANTA Show Discount Ticket - Hongdae
-                            </h3>
-                            <div class="product-book">
-                                <i class="glyphicon glyphicon-fire"></i>2506 booked
-                            </div>
-                            <div class="product-place">
-                                <i class="fa fa-map-marker"></i>千葉, 東京
-                            </div>
-                            <div class="product-footer">
-                                <div class="product-star">
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-100"></div>
-                                    <div class="star star-25"></div>
-                                    <span class="text-grey-light">(2260)</span>
-                                </div>
-                                <div class="product-pricing">
-                                    <span>TWD</span>
-                                    <h4>2,011</h4>
-                                </div>
-                            </div>
-                            <div class="product-hint">
-                                <i class="fa fa-flash"></i> Instant Booking
-                            </div>
-                        </div>
-                    </div>
-                </a>
             </div>
         </div>
     </div>

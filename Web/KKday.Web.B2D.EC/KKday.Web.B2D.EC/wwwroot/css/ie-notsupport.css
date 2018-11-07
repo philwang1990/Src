@@ -1,8 +1,8 @@
-/* Styles for IE Not Support Page */
+﻿/* Styles for IE Not Support Page */
 body{
 	font-size: 14px !important;
 	line-height: 1.7;
-	background:url(../img/ie_notsupport/bg_1.jpg) !important;
+	background:url(../images/ie_notsupport/bg_1.jpg) !important;
   background-size: cover !important;
 	}
 .header{

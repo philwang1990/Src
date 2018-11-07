@@ -1,4 +1,4 @@
-.brickk-wrapper section{
+﻿.brickk-wrapper section{
 	position:relative;
 }
 .brickk-wrapper{
@@ -14,7 +14,7 @@ a.logo{
 	float: left;
 }
 .brickk-wrapper section.banner{
-	background-image: url('../img/summerescape/banner-bg.jpg');
+	background-image: url('../images/summerescape/banner-bg.jpg');
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position:bottom;
@@ -23,7 +23,7 @@ a.logo{
 	margin-bottom:-10%;
 }
 .human{
-	background-image: url('../img/summerescape/human.png');
+	background-image: url('../images/summerescape/human.png');
 	background-size:100% auto;
 	background-repeat: no-repeat;
 	position:absolute;
@@ -31,7 +31,7 @@ a.logo{
 	height:100%;
 }
 .leave{
-	background-image: url('../img/summerescape/leave.png');
+	background-image: url('../images/summerescape/leave.png');
 	background-size:100% auto;
 	background-repeat: no-repeat;
 	position:absolute;
@@ -99,7 +99,7 @@ section.board-area > .container{
 	position: relative;
 }
 .board-area .board-bg{
-	background-image: url('../img/summerescape/board-bg.png');
+	background-image: url('../images/summerescape/board-bg.png');
 	background-repeat: no-repeat;
 	background-size: 100%;
 	position:absolute;
@@ -109,7 +109,7 @@ section.board-area > .container{
 	height:100%;
 }
 .board-area .parallax{
-	background-image: url('../img/summerescape/parallax.png');
+	background-image: url('../images/summerescape/parallax.png');
 	background-repeat: no-repeat;
 	background-size: 100%;
 	position:absolute;
@@ -230,7 +230,7 @@ section.board-area > .container{
 #policy{
 	background-color:#fff;
 	padding:150px 0 40px 0;
-	background-image: url('../img/summerescape/flowers.jpg');
+	background-image: url('../images/summerescape/flowers.jpg');
 	background-size:auto 200px;
 	background-position:top center;
 	background-repeat: repeat-x;

@@ -19,6 +19,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string common_timetable { get; set; } //行程表
         public string common_timetable_day { get; set; } //第%s天
         public string product_index_event { get; set; } //場次
+        public string common_info { get; set; } //行程介紹
 
         public string common_number_of_comment { get; set; } //%s則評論
         public string product_index_visitor { get; set; } //%s位旅客瀏覽過此行程
@@ -51,7 +52,9 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         //booking bar 
         public string common_booking { get; set; } //立即訂購
         public string product_index_coming_soon { get; set; } //即將開賣
-
+        public string product_index_imm_confirm { get; set; } //工作日內回覆訂購結果
+        public string product_index_confirm_hr_24 { get; set; }
+        public string product_index_confirm_hr_48 { get; set; }
 
         //金額有關
         public string common_total { get; set; } //總金額

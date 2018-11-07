@@ -41,7 +41,7 @@
                 }
                 @if (pkg.chkDateCanSell == null)
                 {
-                    <a onclick="PkgSelect(this);BookingEvent();" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                    <a onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
                     @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','first');">@prodTitle.product_index_select</button>*@
                 }
                 else
