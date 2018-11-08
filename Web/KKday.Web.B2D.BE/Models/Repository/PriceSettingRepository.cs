@@ -4,6 +4,7 @@ using KKday.Web.B2D.BE.AppCode.DAL.ListPrice;
 using KKday.Web.B2D.BE.AppCode.DAL.PriceSetting;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using KKday.Web.B2D.BE.Models.Model.PriceSetting;
+using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using Resources;
 
@@ -12,12 +13,15 @@ namespace KKday.Web.B2D.BE.Models.Repository
     public class PriceSettingRepository
     {
         private readonly ILocalizer _localizer;
-        private readonly CommonRepository _common;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly CommonRepository _commRepos;
 
-        public PriceSettingRepository(ILocalizer localizer, CommonRepository common)
+        public PriceSettingRepository(ILocalizer localizer, IHttpContextAccessor httpContextAccessor,
+            CommonRepository commRepos)
         {
             _localizer = localizer;
-            _common = common;
+            _httpContextAccessor = httpContextAccessor;
+            _commRepos = commRepos;
         }
 
         #region DiscountMst Methods
@@ -233,16 +237,18 @@ namespace KKday.Web.B2D.BE.Models.Repository
         }
 
         //取得語系價格清單 
-        public List<B2dDiscountCurrAmt> GetDiscountCurrAmts(Int64 mst_xid, string locale, string filter, int skip, int size, string sorting)
+        public List<B2dDiscountCurrAmt> GetDiscountCurrAmts(Int64 mst_xid, string filter, int skip, int size, string sorting)
         {
             var _filter = string.Empty;
             var _sorting = string.Empty; 
 
-            var curr_locales = _common.GetCurrencies(locale);
+            var locale = _httpContextAccessor.HttpContext.User.FindFirst("Locale").Value;
+            var currenies = _commRepos.GetCurrencies(locale);
+
             var curramt_list = DiscountDAL.GetDiscountCurrAmts(mst_xid, _filter, skip, size, _sorting);
             curramt_list.ForEach(c =>
             {
-                c.CURRENCY_DESC = curr_locales[c.CURRENCY];
+                c.CURRENCY_DESC = currenies[c.CURRENCY];
             });
 
             return curramt_list;

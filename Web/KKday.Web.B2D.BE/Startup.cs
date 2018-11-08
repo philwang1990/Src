@@ -72,6 +72,7 @@ namespace KKday.Web.B2D.BE
             services.AddSingleton<CommonRepository>();
             services.AddSingleton<VouchAddonRepository>();
             services.AddSingleton<FixedPriceRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             #endregion Dependency Injection Regisgter-- end
 

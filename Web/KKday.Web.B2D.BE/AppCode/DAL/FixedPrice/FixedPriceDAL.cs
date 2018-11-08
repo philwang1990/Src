@@ -15,8 +15,10 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.FixedPrice
         {
             try
             {
-                string sqlStmt = @"SELECT COUNT(*) FROM b2b.b2d_fixedprice_prod
-WHERE company_xid=:company_xid {FILTER}";
+                string sqlStmt = @"SELECT COUNT(*)
+FROM b2b.b2d_fixedprice_prod a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid
+WHERE a.company_xid=:company_xid {FILTER}";
 
                 sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
 
@@ -41,8 +43,10 @@ WHERE company_xid=:company_xid {FILTER}";
 
             try
             {
-                string sqlStmt = @"SELECT * FROM b2b.b2d_fixedprice_prod
-WHERE company_xid=:company_xid {FILTER}
+                string sqlStmt = @"SELECT a.*, b.comp_currency, b.comp_name
+FROM b2b.b2d_fixedprice_prod a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid
+WHERE a.company_xid=:company_xid {FILTER}
 {SORTING}
 LIMIT :Size OFFSET :Skip";
 
@@ -66,7 +70,10 @@ LIMIT :Size OFFSET :Skip";
                             XID = dr.ToInt64("xid"),
                             PROD_NO = dr.ToStringEx("prod_no"),
                             PROD_NAME = dr.ToStringEx("prod_name"),
-                            STATE = dr.ToStringEx("state")
+                            STATE = dr.ToStringEx("state"),
+                            CURRENCY = dr.ToStringEx("comp_currency"),
+                            COMPANY_NAME = dr.ToStringEx("comp_name"),
+                            COMPANY_XID = dr.ToInt64("company_xid")
                         });
                     }
                 }
@@ -78,6 +85,47 @@ LIMIT :Size OFFSET :Skip";
             }
 
             return prods;
+        }
+
+        // 取得分銷商所有固定價產品
+        public static FixedPriceProductEx GetFixedPriceProd(Int64 xid)
+        { 
+            try
+            {
+                FixedPriceProductEx _prod = null;
+
+                string sqlStmt = @"SELECT a.*, b.comp_currency
+FROM b2b.b2d_fixedprice_prod a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid
+WHERE a.xid=:xid ";
+                 
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("xid", xid)
+                };
+
+                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+                {
+                    DataRow dr = ds.Tables[0].Rows[0];
+
+                    _prod = new FixedPriceProductEx()
+                    {
+                        XID = dr.ToInt64("xid"),
+                        PROD_NO = dr.ToStringEx("prod_no"),
+                        PROD_NAME = dr.ToStringEx("prod_name"),
+                        STATE = dr.ToStringEx("state"),
+                        CURRENCY = dr.ToStringEx("comp_currency"),
+                        COMPANY_XID = dr.ToInt64("company_xid")
+                    }; 
+                }
+
+                return _prod;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            } 
         }
 
         public static void InsertFixedPriceProduct(FixedPriceProduct fp_prod, string crt_user)
@@ -222,7 +270,7 @@ WHERE pkg_xid=:pkg_xid";
                     dtl_list.Add(new FixedPricePackageDtl() { 
                         XID = dr.ToInt64("xid"),
                         PKG_XID = dr.ToInt64("pkg_xid"),
-                        PROD_COND = dr.ToStringEx("prod_cond"),
+                        PRICE_COND = dr.ToStringEx("price_cond"),
                         PRICE = dr.ToDouble("price")
                     });
                 }

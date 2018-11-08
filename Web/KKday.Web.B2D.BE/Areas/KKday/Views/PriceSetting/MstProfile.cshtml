@@ -10,7 +10,7 @@
     ViewData["MST_XID"] = Model.XID;
     var dtl_query_params = ViewData["DTL_QUERY_PARAMS"] as QueryParamsModel;
     var curamt_query_params = ViewData["CUR_AMT_QUERY_PARAMS"] as QueryParamsModel;
-    var currency_locales = (Dictionary<string, string>)ViewData["CURRENCY_LOCALES"];
+    var currency_locales = (Dictionary<string, string>)ViewData["CURRENCIES"];
     var locale = User.FindFirst("Locale").Value;
 }
 

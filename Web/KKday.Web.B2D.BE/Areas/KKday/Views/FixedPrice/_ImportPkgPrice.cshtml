@@ -7,95 +7,66 @@
     var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
 }
 <div class="panel-group" id="accordion">
-    <!-- First Panel -->
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h4 class="panel-title" data-toggle="collapse" data-target="#collapseOne">
-                【淡季】標準４
-            </h4>
-        </div>
-        <div id="collapseOne" class="panel-collapse collapse">
-            <div class="panel-body">
-                <div class="col-sm-12">
-                    <div class="table-responsive">
-                        <form>
-                            <table class="table table-bordered price-table">
+    <form>
+    <!-- Panels -->
+        <div class="col-xs-12">
+@foreach (var pkg in Model) {
+        <div class="panel panel-default pkg">
+            <div class="panel-heading">
+
+                <h4 class="panel-title" data-toggle="collapse" data-target="#@pkg.SEQ_NO">
+                    <input type="checkbox" /> @pkg.PACKAGE_NAME
+                </h4>
+            </div>
+            <div id="@pkg.SEQ_NO" value="@pkg.PACKAGE_NO" class="panel-collapse collapse">
+                <div class="panel-body">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered price-table fit">
                                 <thead>
-                                <th style="width:5%;">ID</th>
-                                <th style="width:10%;">套餐條件</th>
-                                <th style="width:15%;">金額</th>
-                                <th> </th>
+                                <th>ID</th>
+                                <th>套餐條件</th>
+                                <th>牌價</th>
+                                <th>固定價</th>
+                                <th></th>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td><input type="text" /> </td>
-                                        <td><input type="text" /> </td>
-                                        <td>
-                                            <div class="buttons">
-                                                <button class="btn btn-primary btn-sm" onclick="return false;">
-                                                    <span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                                <button class="btn btn-danger btn-sm" onclick="return false;">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td><input type="text" /> </td>
-                                        <td><input type="text" /> </td>
-                                        <td>
-                                            <div class="buttons">
-                                                <button class="btn btn-primary btn-sm" onclick="return false;">
-                                                    <span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                                <button class="btn btn-danger btn-sm" onclick="return false;">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td><input type="text" /> </td>
-                                        <td><input type="text" /> </td>
-                                        <td>
-                                            <div class="buttons">
-                                                <button class="btn btn-primary btn-sm" onclick="return false;">
-                                                    <span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                                <button class="btn btn-danger btn-sm" onclick="return false;">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td><input type="text" /> </td>
-                                        <td><input type="text" /> </td>
-                                        <td>
-                                            <div class="buttons">
-                                                <button class="btn btn-primary btn-sm" onclick="return false;">
-                                                    <span class="glyphicon glyphicon-pencil"></span>
-                                                </button>
-                                                <button class="btn btn-danger btn-sm" onclick="return false;">
-                                                    <span class="glyphicon glyphicon-trash"></span>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                    @foreach (FixedPricePackageDtlEx price in pkg.Prices)
+                            {
+                                var price_seq = pkg.Prices.IndexOf(price) + 1;
+                                <tr id="@price.PKG_SEQ_NO">
+                                    <td>@price_seq</td>
+                                    <td><input type="text" value="@price.PRICE_COND" /></td>
+                                    <td>@price.PRICE</td>
+                                    <td><input type="text" value="@price.PRICE" /></td>
+                                    <td>
+                                        <div class="buttons">
+                                            <button class="btn btn-danger btn-sm" onclick="return false;">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                    }
                                 </tbody>
                             </table>
-                            <input type="submit" class="btn btn-primary" value="Submit" />
-                        </form>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+}
+        </div>
+
+        <div class="col-xs-12 text-center" style="margin-top:16px;"> 
+            <input type="button" class="btn btn-default" value="Cancel" onclick="RestorePage();" />
+            <input type="button" class="btn btn-primary" value="匯入" />
+        </div>
+</form>
+
+    @*
     <!-- Second Panel -->
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -273,5 +244,6 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
+
 </div>

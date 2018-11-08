@@ -26,9 +26,9 @@ else
             {
                 <tr>
                     <td><input type="checkbox" class="checkthis" value="@item.XID" /></td>
-                    <td><a href="#" onclick="GoPackagePrices(@item.COMPANY_XID, '@ViewData["COMPANY_NAME"]', @item.XID, '@item.PROD_NO', '@item.PROD_NAME');">@item.PROD_NO</td>
+                    <td><a href="#" onclick="GoPackagePrices(@item.XID);">@item.PROD_NO</td>
                     <td>@item.PROD_NAME</td>
-                    <td>@item.STATE</td>
+                    <td>@item.STATE_NAME @item.STATE</td>
                     <td>
                         <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
                             <span class="glyphicon glyphicon-trash"></span>

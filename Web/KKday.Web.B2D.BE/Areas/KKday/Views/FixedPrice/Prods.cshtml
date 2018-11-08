@@ -236,10 +236,9 @@
         });
     }
 
-    function GoPackagePrices(cid, cname, pid, pd_no, pname) {
+    function GoPackagePrices(pid) {
         var query = encodeURI(JSON.stringify(query_params));
-        window.location.href = _root_path + "FixedPrice/PkgPrices/" + pd_no +"/?pid=" + pid + "&pname=" + encodeURI(pname) +
-                                "&cid=" + cid + "&cname=" + encodeURI(cname) + "&query=" + query;
+        window.location.href = _root_path + "FixedPrice/PkgPrices/" + pid + "?query=" + query;
     }
 
 </script>

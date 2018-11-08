@@ -109,19 +109,42 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
         // 商品套餐與價格
 
-        public IActionResult PkgPrices(string id, Int64 cid, string cname, Int64 pid, string pname)
+        public IActionResult PkgPrices(Int64 id)
         {
-            List<FixedPricePackageEx> pkgPrices = new List<FixedPricePackageEx>();
+            var fxpRepos = HttpContext.RequestServices.GetService<FixedPriceRepository>();
 
-            ViewData["COMP_XID"] = cid;
-            ViewData["COMP_NAME"] = cname;
-            ViewData["PROD_XID"] = pid;
-            ViewData["PROD_NO"] = id;
-            ViewData["PROD_NAME"] = pname;
+            var fxpProd = fxpRepos.GetFixedPriceProduct(id);
+            ViewData["PRODUCT"] = fxpProd; 
 
-            return View(pkgPrices);
+            var pkg_list = fxpRepos.GetFixedPricePackages(id); 
+             
+            return View(pkg_list);
         }
 
-         
+        public async Task<IActionResult> SyncPackageAsync(Int64 id)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                //var crt_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var fxpRepos = HttpContext.RequestServices.GetService<FixedPriceRepository>();
+
+                var prod = fxpRepos.GetFixedPriceProduct(id);
+                var pkg_list = fxpRepos.SyncPackage(prod);
+
+                jsonData["raw_pkgs"] = pkg_list;
+                jsonData["content"] = await this.RenderViewAsync<List<FixedPricePackageEx>>("_ImportPkgPrice", pkg_list, true);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
     }
 }

@@ -96,7 +96,6 @@ function SetStatus(code) {
 }
 
 function UploadLogo() {
-    var formData = new FormData();
 
     if($('#logo_file').val() == "") {
         alert('請先選擇要上傳的Logo圖檔!');

@@ -5,7 +5,9 @@
 @model List<FixedPricePackageEx>
 @{
     Layout = "_LayoutMain"; 
-    var query_params = (QueryParamsModel)ViewData["QUERY_PARAMS"];
+
+    var prod = ViewData["PRODUCT"] as FixedPriceProductEx;
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
 }
 @section Stylesheet {
     <link rel="stylesheet" href="~/css/collapse_arrows.css">
@@ -30,7 +32,7 @@
 
         <div class="col-xs-12">
             <span style="font-size: 1.18em; display: block; margin: 16px 0 16px 0; color: #0174DF;">
-                    @ViewData["COMP_NAME"]
+                    @prod.COMPANY_NAME
             </span>
         </div>
     </div> <!-- row -->
@@ -38,16 +40,19 @@
     <div class="row"> 
         <div class="col-xs-12" style="margin-bottom: 8px;">
              
-            #@ViewData["PROD_NO"] @ViewData["PROD_NAME"]
+            #@prod.PROD_NO @prod.PROD_NAME
 
-            <button class="btn btn-info" onclick="return false;">
+            <button class="btn btn-info" onclick="SyncPackage('@prod.XID'); return false;">
                 <span class="glyphicon glyphicon glyphicon-refresh"></span> 同步
             </button>
         </div>
 
-        <div class="col-xs-12">
+        <div id="list_pkg" class="col-xs-12">
              @await Html.PartialAsync("_EditPkgPrice", Model)
-       </div>
+        </div>
+
+         <div id="import_pkg" class="col-xs-12" style="display:none;">
+         </div>
     </div> <!-- row -->
 
     <div class="row">
@@ -89,3 +94,32 @@
 
 </div>
 
+<script type="text/javascript">
+
+    $(function(){
+
+    });
+
+    function SyncPackage(pid) {
+        console.log("Sync Operations...");
+
+        $.getJSON( _root_path + "FixedPrice/SyncPackageAsync/"+ pid ,function(result){
+            // console.log(JSON.stringify(result));
+            if(result.status == "OK") {
+                $("#list_pkg").hide();
+                $("#import_pkg").show();
+
+                $("#import_pkg").html(result.content);
+            } else {
+                alert(result.msg);
+            }
+        
+        });
+    }
+
+    function RestorePage(){
+         $("#list_pkg").show();
+         $("#import_pkg").hide();
+    }
+
+</script>

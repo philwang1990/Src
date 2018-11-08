@@ -183,16 +183,17 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
             var dtl_list = prsetRepos.GetDiscountDtls(id, queryParamsDtl.Filter, skip, queryParamsDtl.Paging.page_size, queryParamsDtl.Sorting);
             ViewData["DTL_MODEL"] = dtl_list;
 
-            // 建構折扣多幣別加減價資料模型與分頁參數
-            var locale = User.FindFirst("Locale").Value; // 取得使用者語系
+            // 建構折扣多幣別加減價資料模型與分頁參數 
             var queryParamsCurAmt = prsetRepos.GetCurrAmtQueryParamModel(id, string.Empty, string.Empty, OPTION_PAGE_SIZE, 1);
             ViewData["CUR_AMT_QUERY_PARAMS"] = queryParamsCurAmt;
             ViewData["CUR_AMT_QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParamsCurAmt);
+
             // 多幣別清單
-            ViewData["CURRENCY_LOCALES"] = commonRepos.GetCurrencies(locale);
+            var locale = User.FindFirst("Locale").Value; 
+            ViewData["CURRENCIES"] = commonRepos.GetCurrencies(locale); ;
 
             skip = (queryParamsCurAmt.Paging.current_page - 1) * queryParamsCurAmt.Paging.page_size;
-            var curamt_list = prsetRepos.GetDiscountCurrAmts(id, locale, queryParamsCurAmt.Filter, skip, queryParamsCurAmt.Paging.page_size, queryParamsCurAmt.Sorting);
+            var curamt_list = prsetRepos.GetDiscountCurrAmts(id, queryParamsCurAmt.Filter, skip, queryParamsCurAmt.Paging.page_size, queryParamsCurAmt.Sorting);
             ViewData["CURR_AMT_MODEL"] = curamt_list;
 
             return View(_discMst);
@@ -336,8 +337,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
             try
             {
-                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>();
-                var locale = User.FindFirst("Locale").Value;
+                var prsetRepos = HttpContext.RequestServices.GetService<PriceSettingRepository>(); 
 
                 // 若 RecountFlag=true 更新分頁資料
                 if (queryParams.RecountFlag)
@@ -349,7 +349,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
                 ViewData["CUR_AMT_QUERY_PARAMS"] = queryParams;
 
                 var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
-                var _discCurrAmt = prsetRepos.GetDiscountCurrAmts(id, locale, queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
+                var _discCurrAmt = prsetRepos.GetDiscountCurrAmts(id, queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
 
                 jsonData["query_params"] = JsonConvert.SerializeObject(queryParams);
                 jsonData["content"] = await this.RenderViewAsync<List<B2dDiscountCurrAmt>>("DiscountCurrAmtList", _discCurrAmt, true);
