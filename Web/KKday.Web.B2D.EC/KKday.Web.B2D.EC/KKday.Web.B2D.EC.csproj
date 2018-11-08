@@ -40,7 +40,8 @@
     <Folder Include="Models\Model\Product\api\Product\" />
     <Folder Include="Models\Model\Product\api\Package\" />
     <Folder Include="Models\Model\Pmch\" />
-    <Folder Include="wwwroot\fonts\" />
+    <Folder Include="Views\Final\" />
+    <Folder Include="Views\Template\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Product\Index2.cshtml" />
@@ -62,15 +63,6 @@
     <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.el.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.en-AU.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.en-CA.js" />
-    <Content Remove="wwwroot\css\flat-ui.css" />
-    <Content Remove="wwwroot\js\bootstrap-datetimepicker.js" />
-    <Content Remove="wwwroot\js\bootstrap-maxlength.js" />
-    <Content Remove="wwwroot\js\intlTelInput.min.js" />
-    <Content Remove="wwwroot\js\ion.rangeSlider.min.js" />
-    <Content Remove="wwwroot\js\utils.js" />
-    <Content Remove="wwwroot\js\vue-affix.min.js" />
-    <Content Remove="wwwroot\js\vue.min.js" />
-    <Content Remove="wwwroot\js\test11.js" />
-    <Content Remove="logs\KKday.Web.B2D.EC\KKday.Web.B2D.EC2018-11-06.json" />
+    <Content Remove="wwwroot\css\font-awesome\css\font-awesome-ie7.css" />
   </ItemGroup>
 </Project>

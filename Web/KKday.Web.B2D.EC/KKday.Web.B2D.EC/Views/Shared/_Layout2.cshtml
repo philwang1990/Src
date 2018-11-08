@@ -1,0 +1,142 @@
+﻿    <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - KKday.Web.B2D.EC</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        @*<link rel="stylesheet" href="~/css/site.css" />*@
+        @*<link rel="stylesheet" href="~/css/custom.css" />*@
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-datepicker.css" />
+
+        @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" />*@
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+
+    </environment>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css"  />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    @*取得網站相對根目錄路徑*@
+    <script type="text/javascript">
+        var _root_path = '@Url.Content("~/")';
+    </script>
+
+
+</head>
+    <body>
+        @*<nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">KKday.Web.B2D.EC</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>*@
+
+        <header class="header fix">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="header-container row">
+                        <div class="col-xs-8">
+                            <a href="index.html">
+                                <img src="~/images/kkday_logo_final.svg" class="header-logo">
+                            </a>
+                        </div>
+                        <div class="col-xs-4 text-right">
+                            <div class="table-row">
+                                <!--訂購時把Search Button 拔掉-->
+                                <!--
+    <div class="table-cell">
+        <button type="button" class="btn btn-link visible-xs open-search">
+            <span class="fa fa-search fa-lg"></span>
+        </button>
+    </div>
+    -->
+                                <!--  <div class="table-cell">
+           <button type="button" class="btn btn-link hidden-xs" id="switch-language-btn">
+               繁體中文<i class="fa fa-caret-down"></i>
+           </button>
+       </div>
+       <div class="table-cell">
+           <button type="button" class="btn btn-link hidden-xs" id="switch-currency-btn">
+               TWD<i class="fa fa-caret-down"></i>
+           </button>
+       </div>
+       <div class="table-cell">
+           <button type="button" class="account-user-photo" id="header-main-sidenav-button" style="background-image:url('img/default_image.png')"></button>
+       </div>  -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <partial name="_CookieConsentPartial" />
+
+        <div class="container body-content">
+            @RenderBody()
+            <hr />
+            @*<footer>
+                <p>&copy; 2018 - KKday.Web.B2D.EC</p>
+            </footer>*@
+
+        </div>
+
+        <footer class="booking-footer">
+            <div class="container">
+                <div id="contact-kkday-row">
+                    <div class="cr-font text-right" id="footer-company-info">
+                        <h8 class="text-muted">COPYRIGHT © 2016 KKday All rights reserved.</h8>
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+        <environment include="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            @*<script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>*@
+            @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>*@
+            @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/locale/zh-tw.js"></script>*@
+            @*<script scr="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>*@
+            @*<script src="~/lib/bootstrap/dist/js/locales/bootstrap-datepicker.zh-TW.js"></script>*@
+            <script src="~/js/site.js" asp-append-version="true"></script>
+        </environment>
+        <environment exclude="Development">
+            <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                    asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                    asp-fallback-test="window.jQuery"
+                    crossorigin="anonymous"
+                    integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+            </script>
+            <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>
+
+        @RenderSection("Scripts", required: false)
+    </body>
+</html>

@@ -33,16 +33,16 @@ namespace KKday.Web.B2D.EC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddMemoryCache();
             services.AddSession();
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddSessionStateTempDataProvider();
 
-            services.AddMvc()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
-                    .AddSessionStateTempDataProvider();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+        
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -56,8 +56,9 @@ namespace KKday.Web.B2D.EC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseSession();
+
+
 
             app.UseMvc(routes =>
             {
@@ -66,11 +67,9 @@ namespace KKday.Web.B2D.EC
                 // template: "about",
                 // defaults: new { controller = "Home", action = "Index" }
                 //);
-
-
                 routes.MapRoute(
-                  name: "default",
-                  template: "{controller=Home}/{action=Index}/{id?}");
+                name: "default",
+                template: "{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                   name: "Product",
@@ -84,6 +83,8 @@ namespace KKday.Web.B2D.EC
                      template: "Booking/{guid?}",
                      defaults: new { controller = "Booking", action = "Index" }
                 );
+
+               
 
             });
 
