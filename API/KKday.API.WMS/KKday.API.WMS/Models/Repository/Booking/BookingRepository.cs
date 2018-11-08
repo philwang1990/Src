@@ -5,6 +5,7 @@ using Newtonsoft.Json.Linq;
 using KKday.API.WMS.Models.DataModel.Booking;
 using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.DataModel.Package;
+using KKday.API.WMS.Models.DataModel.Pmch;
 using KKday.API.WMS.AppCode.Proxy;
 using System.Collections.Generic;
 using Npgsql;
@@ -12,12 +13,14 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using KKday.API.WMS.AppCode;
 using System.Linq;
+using KKday.Web.B2D.EC.AppCode;
 
 
 namespace KKday.API.WMS.Models.Repository.Booking
 {
     public class BookingRepository
     {
+
 
 
         public static OrderNoModel InsertOrder(OrderModel queryRQ)
@@ -192,45 +195,79 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
         }
 
-        //組出價格別與年齡->前端js判斷calender用
-        public static CusAgeRange getCusAgeRange(confirmPkgInfo confirm, PkgDetailModel pkgsTemp)
+        public static PmchSslRequest setPaymentInfo(ProductModel prod, OrderKKdayModel orderModel, string orderMid)
         {
-            CusAgeRange cus = new CusAgeRange();
-            cus.price1Qty = 0;
-            cus.price2Qty = 0;
-            cus.price3Qty = 0;
-            cus.price4Qty = 0;
+            PmchSslRequest pmch = new PmchSslRequest();
 
-            if (confirm.price1Qty > 0)
-            {
-                cus.price1Qty = confirm.price1Qty;
+            pmch.apiKey = "kkdayapi";
+            pmch.userOid = "1";
+            pmch.ver = "1.0.1";
+            pmch.ipaddress = "127.0.0.1";
 
-                cus.price1sAge = Convert.ToInt32(pkgsTemp.price1_age_range.Split('~')[0]);
-                cus.price1eAge = Convert.ToInt32(pkgsTemp.price1_age_range.Split('~')[1]);
-            }
-            if (confirm.price2Qty > 0)
-            {
-                cus.price2Qty = confirm.price2Qty;
+            CallJsonPay json = new CallJsonPay();
 
-                cus.price2sAge = Convert.ToInt32(pkgsTemp.price2_age_range.Split('~')[0]);
-                cus.price2eAge = Convert.ToInt32(pkgsTemp.price2_age_range.Split('~')[1]);
-            }
-            if (confirm.price3Qty > 0)
-            {
-                cus.price3Qty = confirm.price3Qty;
+            json.pmchOid = orderModel.payPmchOid;
+            json.is3D = "0";
+            json.payCurrency = orderModel.currency;
+            json.payAmount = Convert.ToDouble(orderModel.currPriceTotal);
+            json.returnURL = "https://localhost:5001/Final/Success/" + orderMid;
+            json.cancelURL = "https://localhost:5001/Final/Cancel/" + orderMid;
+            json.userLocale = "zh-tw";
+            json.paymentParam1 = "";
+            json.paymentParam2 = "";
 
-                cus.price3sAge = Convert.ToInt32(pkgsTemp.price3_age_range.Split('~')[0]);
-                cus.price3eAge = Convert.ToInt32(pkgsTemp.price3_age_range.Split('~')[1]);
-            }
-            if (confirm.price4Qty > 0)
-            {
-                cus.price4Qty = confirm.price4Qty;
+            PaymentSourceInfo pay = new PaymentSourceInfo();
+            pay.sourceType = "KKDAY";
+            pay.orderMid = orderMid;
 
-                cus.price4sAge = Convert.ToInt32(pkgsTemp.price4_age_range.Split('~')[0]);
-                cus.price4eAge = Convert.ToInt32(pkgsTemp.price4_age_range.Split('~')[1]);
-            }
+            json.paymentSourceInfo = pay;
 
-            return cus;
+            CreditCardInfo credit = new CreditCardInfo();
+            credit.cardHolder = "phil";
+            credit.cardNo = GibberishAES.OpenSSLEncrypt("4093240835103617", "card%no$kk#@");
+            credit.cardType = "VISA";
+            credit.cardCvv = "143";
+            credit.cardExp = "202310";
+
+            json.creditCardInfo = credit;
+
+            PayerInfo payer = new PayerInfo();
+            payer.firstName = "ming";
+            payer.lastName = "chen";
+            payer.phone = "0939650222";
+            payer.email = "phil.chang@kkday.com";
+
+            json.payerInfo = payer;
+
+            PayProductInfo prodInfo = new PayProductInfo();
+            prodInfo.prodName = prod.prod_name;
+            prodInfo.prodOid = prod.prod_no.ToString();
+
+            json.productInfo = prodInfo;
+
+            PayMember member = new PayMember();
+            member.memberUuid = orderModel.memberUuid;
+            member.riskStatus = "01";
+
+            json.member = member;
+            pmch.json = json;
+
+            return pmch;// JsonConvert.SerializeObject(pmch);
+        }
+
+        public static void setPayDtltoRedis(OrderKKdayModel orderModel, string orderMid, string memUuid)
+        {
+            RedisHelper rds = new RedisHelper();
+            PaymentDtl payDtl = new PaymentDtl();
+
+            payDtl.currency = orderModel.currency;
+            payDtl.orderMid = orderMid;
+            payDtl.payMethod = orderModel.payMethod;
+            payDtl.currTotalPrice = Convert.ToDouble(orderModel.currPriceTotal);
+            payDtl.paymentToken = MD5Tool.GetMD5(orderMid + memUuid + "kk%$#@pay");
+
+            string payDtlStr = JsonConvert.SerializeObject(payDtl);
+            rds.SetProdInfotoRedis(payDtlStr, "b2d:ec:payDtl:" + orderMid, 60);
         }
 
         //組出booking 頁右邊顯示的內容
@@ -286,6 +323,47 @@ namespace KKday.API.WMS.Models.Repository.Booking
             }
 
             return prodShow;
+        }
+
+        //組出價格別與年齡->前端js判斷calender用
+        public static CusAgeRange getCusAgeRange(confirmPkgInfo confirm, PkgDetailModel pkgsTemp)
+        {
+            CusAgeRange cus = new CusAgeRange();
+            cus.price1Qty = 0;
+            cus.price2Qty = 0;
+            cus.price3Qty = 0;
+            cus.price4Qty = 0;
+
+            if (confirm.price1Qty > 0)
+            {
+                cus.price1Qty = confirm.price1Qty;
+
+                cus.price1sAge = Convert.ToInt32(pkgsTemp.price1_age_range.Split('~')[0]);
+                cus.price1eAge = Convert.ToInt32(pkgsTemp.price1_age_range.Split('~')[1]);
+            }
+            if (confirm.price2Qty > 0)
+            {
+                cus.price2Qty = confirm.price2Qty;
+
+                cus.price2sAge = Convert.ToInt32(pkgsTemp.price2_age_range.Split('~')[0]);
+                cus.price2eAge = Convert.ToInt32(pkgsTemp.price2_age_range.Split('~')[1]);
+            }
+            if (confirm.price3Qty > 0)
+            {
+                cus.price3Qty = confirm.price3Qty;
+
+                cus.price3sAge = Convert.ToInt32(pkgsTemp.price3_age_range.Split('~')[0]);
+                cus.price3eAge = Convert.ToInt32(pkgsTemp.price3_age_range.Split('~')[1]);
+            }
+            if (confirm.price4Qty > 0)
+            {
+                cus.price4Qty = confirm.price4Qty;
+
+                cus.price4sAge = Convert.ToInt32(pkgsTemp.price4_age_range.Split('~')[0]);
+                cus.price4eAge = Convert.ToInt32(pkgsTemp.price4_age_range.Split('~')[1]);
+            }
+
+            return cus;
         }
 
         //套餐日期

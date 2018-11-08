@@ -34,7 +34,7 @@ namespace KKday.API.WMS.AppCode
             }
             else
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"https://api.sit.kkday.com/api/product/info/fe/v1/" + oid);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_PROD"]}" + oid);
 
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
@@ -116,7 +116,7 @@ namespace KKday.API.WMS.AppCode
             }
             else
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"https://api.sit.kkday.com/api/product/pkg/" + oid);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_PKG"]}" + oid);
 
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
@@ -184,7 +184,7 @@ namespace KKday.API.WMS.AppCode
             }
             else
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"https://api.sit.kkday.com/api/1.0/pkg/cal/order/saleDt");
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_PKG_DAY"]}");
 
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
@@ -248,7 +248,8 @@ namespace KKday.API.WMS.AppCode
             }
             else
             {
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"https://api.sit.kkday.com/api/product/{oid}/module/get");
+                string prod_no = oid;
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_MODEL"]}");
 
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
@@ -325,7 +326,7 @@ namespace KKday.API.WMS.AppCode
 
             string result;
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"https://api.sit.kkday.com/api/order/new");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_ORDER_NEW"]}");
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
@@ -449,7 +450,7 @@ namespace KKday.API.WMS.AppCode
             call.json = j;
 
             string result;
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"https://pmch.sit.kkday.com/common/channel/list_available");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["PMCH:CHANNEL"]}");
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
@@ -495,7 +496,7 @@ namespace KKday.API.WMS.AppCode
             call.json = j;
 
             string result;
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"https://pmch.sit.kkday.com/common/gateway/token_validate");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["PMCH:GETEWAY"]}");
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
@@ -536,7 +537,7 @@ namespace KKday.API.WMS.AppCode
                 X509Chain chain, SslPolicyErrors sslPolicyErrors)
                 { return true; };
 
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.sit.kkday.com/api/order/payment/success/" + orderMid);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_PAYMENT_SUCCESS"]}" + orderMid);
 
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";

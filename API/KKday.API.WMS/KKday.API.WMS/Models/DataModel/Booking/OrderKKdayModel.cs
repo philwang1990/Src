@@ -11,7 +11,7 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string locale { get; set; }
         public string ipaddress { get; set; }
         public string currency { get; set; }
-        public OrderModel json { get; set; }
+        public OrderKKdayModel json { get; set; }
 
     }
 

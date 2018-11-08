@@ -10,6 +10,7 @@ using KKday.API.WMS.Models.Repository.Product;
 using KKday.API.WMS.Models.DataModel.Booking;
 using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.DataModel.Package;
+using KKday.API.WMS.Models.DataModel.Pmch;
 using KKday.Web.B2D.EC.AppCode;
 using KKday.API.WMS.AppCode;
 using KKday.API.WMS.Models;
@@ -61,7 +62,7 @@ namespace KKday.API.WMS.Controllers {
                 if (confirm == null) throw new Exception("err");
 
                 //假分銷商
-                distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+                distributorInfo fakeContact = DataSettingRepository.fakeContact();
 
                 //取挖字
                 Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
@@ -117,7 +118,7 @@ namespace KKday.API.WMS.Controllers {
                 }
 
                 //將dataModel 以json str 帶到前台的hidden
-                DataKKdayModel dm = DataSettingRepostory.getDefaultDataModel(totalCus);
+                DataKKdayModel dm = DataSettingRepository.getDefaultDataModel(totalCus);
                 dm = BookingRepository.setDefaultBookingInfo(dm, prod, pkg, confirm, fakeContact);
 
                 String dataModelStr = JsonConvert.SerializeObject(dm);
@@ -181,5 +182,81 @@ namespace KKday.API.WMS.Controllers {
             }
         }
 
+
+        [HttpPost]
+        public IActionResult bookingStep1([FromBody]DataKKdayModel data)
+        {
+            try
+            {
+                //重新決定排除的餐食-還沒有做
+                //'0002': ['0001', '0002', '0003', '0004', '0005', '0006'], //素食
+                //'0003': ['0002'], //猶太餐
+                //'0004': ['0002', '0005'] //穆斯林餐
+
+                ApiSetting api = new ApiSetting();
+                api.apiKey = "kkdayapi";
+                api.userOid = "1";
+                api.ver = "1.0.1";
+                api.locale = "zh-tw";
+                api.currency = "TWD";
+                api.ipaddress = "61.216.90.96";
+
+                //假分銷商
+                distributorInfo fakeContact = DataSettingRepository.fakeContact();
+                ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, data.productOid);
+
+                //DataSettingRepostory Ores = new DataSettingRepostory();
+                //data = DataSettingRepostory.fakeDataModel(data);
+                string q = JsonConvert.SerializeObject(data);
+
+                //轉 ordermodel
+                OrderRepository res = new OrderRepository();
+                OrderKKdayModel ord = res.setOrderModel(data);
+                api.json = ord;
+
+                string qq = JsonConvert.SerializeObject(api);
+                KKapiHelper kk = new KKapiHelper();
+                JObject order =kk.crtOrder(api);
+
+                string orderMid = "";
+                string orderOid = "";
+                returnStatus status = new returnStatus();
+                //要先判斷是不是result＝'0000'
+                if (order["content"]["result"].ToString()=="0000")
+                {
+                    orderMid = order["content"]["orderMid"].ToString();
+                    orderOid = order["content"]["orderOid"].ToString();
+                    status.pmchSslRequest = BookingRepository.setPaymentInfo(prod,ord, orderMid);
+                    status.status = "OK";
+
+                    //要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
+                    string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
+                    BookingRepository.setPayDtltoRedis(ord, orderMid, memUuid);
+
+                    //要存redis 因為付款後要從這個redis內容再進行payment驗證,可和上面整合存一個就好
+                    CallJsonPay rdsJson = (CallJsonPay)status.pmchSslRequest.json;
+                    string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
+                    rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
+                }
+                else 
+                {
+                    Website.Instance.logger.Debug($"bookingStep1:qq");//要改
+                    status.status = "Error";
+                    status.msgErr = "error bookingSetp1_1";//要改
+                }
+
+                return Json(status);
+            }
+            catch (Exception ex)
+            {
+                //error
+                Website.Instance.logger.Debug($"bookingStep1:{ex.ToString()}");
+                returnStatus status = new returnStatus();
+                status.status = "Error";
+                status.msgErr = "error bookingSetp1_1";//要改
+
+                return Json(status);
+            }
+        }
     }
 }

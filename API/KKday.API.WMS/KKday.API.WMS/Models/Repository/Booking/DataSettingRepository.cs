@@ -4,7 +4,7 @@ using KKday.API.WMS.Models.DataModel.Booking;
 
 namespace KKday.API.WMS.Models.Repository.Booking
 {
-    public static class DataSettingRepostory
+    public static class DataSettingRepository
     {
         public static DataKKdayModel fakeDataModel(DataKKdayModel data)
         {

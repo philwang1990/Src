@@ -54,7 +54,7 @@ namespace KKday.API.WMS.Controllers
             string isSuccess = helper.PaymentValid(transNo, pmgwValidToken);
 
             //如果ok就upd
-            distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+            distributorInfo fakeContact = DataSettingRepository.fakeContact();
             helper.PayUpdSuccessUpdOrder(id, transNo, payDtl, req, res, fakeContact);
 
             return View("Success");
