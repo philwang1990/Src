@@ -36,14 +36,17 @@ namespace KKday.Web.B2D.EC.Controllers
             //從kkday redis 取出
             //組出token res:pmgwTransNo, res:pmgwMethod ,res:pmch_resp ceil res:payAmount order_mid
             //md5($pmgw_trans_no.$pmgw_method.$trans_curr_cd.$trans_amt.$pmch_ref_no.$key);
-            PmchSslResponse res = JsonConvert.DeserializeObject<PmchSslResponse>(jsondata);
-            string transNo = GibberishAES.OpenSSLDecrypt(res.pmgwTransNo,"pmgw@%#@trans*no");
-            CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
-            string token = "kk%$#@pay";
-            string pmgwMethod = res.pmgwMethod;
+            //PmchSslResponse res = JsonConvert.DeserializeObject<PmchSslResponse>(jsondata); //舊版
+            PmchSslResponse2 res = JsonConvert.DeserializeObject<PmchSslResponse2>(jsondata); //新版
+            string transNo = GibberishAES.OpenSSLDecrypt(res.data.pmgw_trans_no, "pmgw@%#@trans*no");
+            //CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
+            CallJsonPay2 req = JsonConvert.DeserializeObject<CallJsonPay2>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
 
-            string payCurrency = res.payCurrency;
-            string payAmount = Math.Ceiling(res.payAmount).ToString();
+            string token = "kk%$#@pay";
+            string pmgwMethod = res.data.pmgw_method;
+
+            string payCurrency = res.data.pay_currency;
+            string payAmount = Math.Ceiling(res.data.pay_amount).ToString();
             string pmgwValidToken =  MD5Tool.GetMD5(transNo + pmgwMethod + payCurrency + payAmount + id+ token);
 
             KKapiHelper helper = new KKapiHelper();
@@ -52,7 +55,9 @@ namespace KKday.Web.B2D.EC.Controllers
 
             //如果ok就upd
             distributorInfo fakeContact = DataSettingRepostory.fakeContact();
-            helper.PayUpdSuccessUpdOrder(id, transNo, payDtl, req, res, fakeContact);
+            //helper.PayUpdSuccessUpdOrder(id, transNo, payDtl, req, res, fakeContact);//舊版
+            helper.PayUpdSuccessUpdOrder2(id, transNo, payDtl, req, res, fakeContact); //新版
+
 
             return View("Success");
         }

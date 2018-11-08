@@ -1,4 +1,4 @@
-﻿$.validator.addMethod("othActDate", function (value, element) {
+﻿$.validator.addMethod("othImei", function (value, element) {
            if($("#txtOtherImei").is(":visible")==true)
            {
              if ( value.match(/^([0-9]){15,}$/))
@@ -81,12 +81,11 @@ function initModule2()
             txtLocalFname: $("#booking_step1_required_error").val(),
             txtLocalLname: $("#booking_step1_required_error").val(),
             txtNationality :$("#booking_step1_required_error").val()
-        }
+            },
+        errorClass: "error_msg"
     });
 
-    formVaildate();
-
-    
+    formVaildate(); 
 }
 
 function ReParseValidation() {
@@ -117,7 +116,6 @@ function chkValid()
          {
             chkchk=false; 
          }
-       
     });
 
   $(".otherFormClass").each(function () {
@@ -158,8 +156,8 @@ function toStep1() {
         },
         success: function (result) {if(result.status=="OK"){
 
-               console.log(result.jsonStr);
-               //sendPayment(result.jsonStr);
+               console.log(result.pmchSslRequest);
+               sendPayment(result.pmchSslRequest);
  
             } else{
                  alert(result.msgErr);
@@ -173,16 +171,18 @@ function toStep1() {
     });
 }
 
-function sendPayment(json)
+function sendPayment(callPmchReq)
 {
+    //https://pmch.sit.kkday.com/citi/payment/auth
+    //https://payment.kkday.com/v1/channel/adyen/auth
     var newForm = $('<form>', {
-                       'action': "https://pmch.sit.kkday.com/citi/payment/auth",
+                       'action': "https://payment.sit.kkday.com/v1/channel/citi/auth",
                        'target': '_self',
                        'method': 'post'
                    }).append(jQuery('<input>', {
                        'name': 'jsondata',
                        'id' :'jsondata',
-                       'value':json,
+                       'value':JSON.stringify(callPmchReq),
                        'type': 'hidden'
                        }));
     $(document.body).append(newForm);
@@ -193,7 +193,6 @@ function sendPayment(json)
 
 function formVaildate()
 {
-
    $(".formClass").each(function () {
 
          var id =$(this).attr("id");
@@ -214,15 +213,18 @@ function formVaildate()
                     txtNationHKMO: {required : $("#txtNationHKMO_"+i).is(":visible")==true},
                     txtNationMTP: {required : $("#txtNationMTP_"+i).is(":visible")==true},
                     txtHigh: {required : $("#txtHigh_"+i).is(":visible")==true},
-                    selHigh: {required : $("#selHigh_"+i).is(":visible")==true},
+                    selHighUnit: {required : $("#selHighUnit_"+i).is(":visible")==true},
                     txtWeight: {required : $("#txtWeight_"+i).is(":visible")==true},
+                    selWeightUnit: {required : $("#selWeightUnit_"+i).is(":visible")==true},
                     selSize: {required : $("#selSize_"+i).is(":visible")==true},
                     selShoeUnitM: {required : $("#selShoeUnitM_"+i).is(":visible")==true},
                     selShoeUnitW: {required : $("#selShoeUnitW_"+i).is(":visible")==true},
                     selShoeUnitC: {required : $("#selShoeUnitC_"+i).is(":visible")==true},
-                    selShoeSize: {required : $("#selShoeSize_"+i).is(":visible")==true},
-                    selGlass: {required : $("#selGlass_"+i).is(":visible")==true},
-                    selMealType: {required : $("#selGlass_"+i).is(":visible")==true}
+                    selShoeSizeM: {required : $("#selShoeSizeM_"+i).is(":visible")==true},
+                    selShoeSizeW: {required : $("#selShoeSizeW_"+i).is(":visible")==true},
+                    selShoeSizeC: {required : $("#selShoeSizeC_"+i).is(":visible")==true},
+                    selGlass: {required : $("#selGlass_"+i).is(":visible")==true}
+
  
                 },
                 messages: {
@@ -239,17 +241,20 @@ function formVaildate()
                     txtNationHKMO: {required : $("#booking_step1_required_error").val()},
                     txtNationMTP: {required : $("#booking_step1_required_error").val()},
                     txtHigh: {required : $("#booking_step1_required_error").val()},
-                    selHigh: {required : $("#booking_step1_required_error").val()},
+                    selHighUnit: {required : $("#booking_step1_required_error").val()},
                     txtWeight: {required : $("#booking_step1_required_error").val()},
                     selWeightUnit :{required : $("#booking_step1_required_error").val()},
                     selSize :{required : $("#booking_step1_required_error").val()},
                     selShoeUnitM :{required : $("#booking_step1_required_error").val()},
                     selShoeUnitW :{required : $("#booking_step1_required_error").val()},
                     selShoeUnitC :{required : $("#booking_step1_required_error").val()},
-                    selShoeSize :{required : $("#booking_step1_required_error").val()},
+                    selShoeSizeM :{required : $("#booking_step1_required_error").val()},
+                    selShoeSizeW :{required : $("#booking_step1_required_error").val()},
+                    selShoeSizeC :{required : $("#booking_step1_required_error").val()},
                     selGlass :{required : $("#booking_step1_required_error").val()},
                     selMealType:{required : $("#booking_step1_required_error").val()}
-                }
+                    },
+                errorClass: "error_msg"
             });
         });
 
@@ -259,7 +264,7 @@ function formVaildate()
           $(this).validate({
                 rules: {
                     txtOtherModleNo: {required : $("#txtOtherActDate").is(":visible")==true},
-                    txtOtherImei:  { othActDate :true ,required : $("#txtOtherImei").is(":visible")==true },
+                    txtOtherImei:  { othImei :true ,required : $("#txtOtherImei").is(":visible")==true },
                     selOtherLocation :{required : $("#selOtherLocation").is(":visible")==true},
                     
                     txtSendDataRcefName :{required : $("#txtSendDataRcefName").is(":visible")==true},
@@ -326,9 +331,10 @@ function formVaildate()
                     txtDepFlightNo:{required : $("#txtDepFlightNo").is(":visible")==true},
                     txtDepDate:{required : $("#txtDepDate").is(":visible")==true},
                     selDepHour:{required : $("#selDepHour").is(":visible")==true},
-                    selDepMinute:{required : $("#selDepMinute").is(":visible")==true}
-
-
+                    selDepMinute:{required : $("#selDepMinute").is(":visible")==true},
+                    selEvent1: {required : $("#selEvent1").is(":visible")==true && $("#selEvent1").is(":disabled")==false},
+                    selEvent2: {required : $("#selEvent2").is(":visible")==true && $("#selEvent2").is(":disabled")==false},
+                    selEvent3: {required : $("#selEvent3").is(":visible")==true && $("#selEvent3").is(":disabled")==false}
 
                },
                 messages: {
@@ -399,9 +405,13 @@ function formVaildate()
                     txtDepFlightNo:{required : $("#booking_step1_required_error").val()},
                     txtDepDate:{required : $("#booking_step1_required_error").val()},
                     selDepHour:{required : $("#booking_step1_required_error").val()},
-                    selDepMinute:{required : $("#booking_step1_required_error").val()}
+                    selDepMinute:{required : $("#booking_step1_required_error").val()},
+                    selEvent1 :{required : $("#booking_step1_required_error").val()},
+                    selEvent2 :{required : $("#booking_step1_required_error").val()},
+                    selEvent3 :{required : $("#booking_step1_required_error").val()}
 
-                }
+                    },
+                errorClass: "error_msg"
             });
         });
         

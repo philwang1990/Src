@@ -13,6 +13,7 @@ using KKday.Web.B2D.EC.Models.Repostory.Booking;
 using static KKday.Web.B2D.EC.Controllers.ProductController;
 using KKday.Web.B2D.EC.Models;
 using System.Diagnostics;
+using KKday.Web.B2D.EC.Models.Model.Pmch;
 //using KKday.Web.B2D.EC.Models.Repostory.Booking;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -28,8 +29,8 @@ namespace KKday.Web.B2D.EC.Controllers
             {
                 if (guid == null) throw new Exception("err");
 
-                confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>(RedisHelper.getProdInfotoRedis("bid:ec:confirm:" + guid)); 
-
+                confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>(RedisHelper.getProdInfotoRedis("bid:ec:confirm:" + guid));
+                //confirm.pkgEvent = "1";
                 if (confirm ==null) throw new Exception("err");
 
                 //假分銷商
@@ -42,11 +43,15 @@ namespace KKday.Web.B2D.EC.Controllers
                 ProductModuleModel module = ApiHelper.getProdModule(fakeContact.companyXid,fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid,confirm.pkgOid);
                 ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid,fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid);
                 PackageModel pkgs = ApiHelper.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid);
-                PkgEventsModel pkgEvent = ApiHelper.getPkgEvent(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid, confirm.pkgOid);
 
+                PkgEventsModel pkgEvent = null;
+                 
                 string flightInfoType = "";
                 string sendInfoType = "";
                 PkgDetailModel pkg = null;
+                CusAgeRange cusAgeRange = null;
+                string isEvent = "N";
+                string isHl= "N";
                 var pkgsTemp = pkgs.pkgs.Where(x => x.pkg_no == confirm.pkgOid).ToList();
                 if (pkgsTemp.Count() > 0)
                 {
@@ -55,12 +60,25 @@ namespace KKday.Web.B2D.EC.Controllers
                         pkg = p;
                         flightInfoType = p.module_setting.flight_info_type.value;
                         sendInfoType = p.module_setting.send_info_type.value;
+                        cusAgeRange = BookingRepostory.getCusAgeRange(confirm,p);
+
+                        isEvent = p.is_event;
+                        isHl = p.is_hl;
                     }
                 }
                 else
                 {
                     //丟錯誤頁
                     throw new Exception("err");
+                }
+
+                //如果有event 但沒有傳 event id ,就error
+                if(isEvent =="Y" &&  string.IsNullOrEmpty(confirm.pkgEvent)) throw new Exception("err");
+
+                if(isEvent =="Y")
+                {
+                    pkgEvent = ApiHelper.getPkgEvent(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid, confirm.pkgOid);
+
                 }
 
                 //必須要設定人數
@@ -73,14 +91,14 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 //將dataModel 以json str 帶到前台的hidden
                 DataModel dm = DataSettingRepostory.getDefaultDataModel(totalCus);
-
                 dm = BookingRepostory.setDefaultBookingInfo(dm, prod, pkg, confirm, fakeContact);
 
                 String dataModelStr = JsonConvert.SerializeObject(dm);
                 //dm.travelerData[0].meal.mealType
                 ViewData["dataModelStr"] = dataModelStr;
 
-                ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
+                //ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
                 VenueInfo venue = module.module_venue_info;
                 if (venue == null) { venue = new VenueInfo(); venue.is_require = false; }
@@ -94,7 +112,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 ViewData["exchange"] = module.module_exchange_location_list;
                 ViewData["flightInfo"] = module.module_flight_info;
                 ViewData["venue"] = venue;// module.module_venue_info;
-                ViewData["useDate"] = confirm.selDate;
+                ViewData["useDate"] =DateTimeTool.yyyy_mm_dd(confirm.selDate);//DateTimeTool.yyyy_mm_dd(); 
                 ViewData["rentCar"] = rentCar;// module.module_rent_car;
                 ViewData["carPsgr"] = module.module_car_pasgr; //車輛資料
                 ViewData["sendData"] = module.module_send_data;
@@ -106,15 +124,27 @@ namespace KKday.Web.B2D.EC.Controllers
                 ViewData["mainCat"] = prod.prod_type;
                 ViewData["flightInfoType"] = flightInfoType;
                 ViewData["sendInfoType"] = sendInfoType;
+                ViewData["CutOfDay"] = prod.before_order_day;
+                ViewData["cusAgeRange"] = cusAgeRange;
+                ViewData["prodShow"] = BookingRepostory.setBookingShowProd(prod, pkg, confirm, fakeContact.currency,pkgEvent);
+
+                ViewData["isEvent"] = isEvent;//
+                ViewData["isHl"] = isHl; //如果是N就不用做
+                ViewData["pkgCanUseDate"] = (isHl=="Y" && isEvent=="Y")?BookingRepostory.getPkgEventDate(pkgEvent, confirm.pkgOid,(confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty)):"";//要把這個套餐可以用的日期全抓出來
 
 
                 //測試取PMCHLsit
                 //KKapiHelper kk = new KKapiHelper();
                 //kk.PaymentListReq(prod.countries, prod.prod_no.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("yyyy-MM-dd"),
-                                  //DateTimeTool.yyyyMMdd2DateTime(confirm.selDate).ToString("yyyy-MM-dd"), DateTimeTool.yyyyMMdd2DateTime(confirm.selDate).ToString("yyyy-MM-dd"), fakeContact.countryCd, fakeContact.lang,
-                                  //prod.prod_type, "127.0.0.1", prod.prod_hander, fakeContact.currency);
+                //DateTimeTool.yyyyMMdd2DateTime(confirm.selDate).ToString("yyyy-MM-dd"), DateTimeTool.yyyyMMdd2DateTime(confirm.selDate).ToString("yyyy-MM-dd"), fakeContact.countryCd, fakeContact.lang,
+                //prod.prod_type, "127.0.0.1", prod.prod_hander, fakeContact.currency);
 
-                    return View();
+                //放到session
+                TempData["qq"] = "test";
+                TempData["pkgs"] = JsonConvert.SerializeObject(pkgs);
+                TempData["pkgEvent"] = (isHl == "Y" && isEvent == "Y") ? JsonConvert.SerializeObject(pkgEvent) : "";
+                TempData["confirm"] = JsonConvert.SerializeObject(confirm);
+                return View();
             }
             catch( Exception ex)
             {
@@ -123,6 +153,50 @@ namespace KKday.Web.B2D.EC.Controllers
                 return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
                 { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
+        }
+
+
+        //取得候補的場次
+        [HttpPost]
+        public IActionResult getEvent([FromBody] EventQury Eventday)
+        {
+
+            List<string> dayevent = new List<string>();
+
+            string day = Eventday.day.Replace("-", "");
+            string dd = TempData["qq"] as string;
+            string qq = TempData["pkgEvent"] as string;
+            PkgEventsModel  pkgEvent= JsonConvert.DeserializeObject<PkgEventsModel>((string)TempData["pkgEvent"]);
+            confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>((string)TempData["confirm"]);
+            var eTemp = pkgEvent.events.Where(x => x.day.Equals(day));
+
+            TempData.Keep();
+
+            int? BookingQty = (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty);
+            if( eTemp.Count() >0)
+            {
+                foreach( Event e in eTemp)
+                {
+                    string[] eventTime = e.event_times.Split(',');
+
+                    foreach(string s in eventTime)
+                    {
+                        string id = s.Split("_")[0];
+                        int Qty = Convert.ToInt32(s.Split("_")[2]);
+
+
+                        if (Qty >= BookingQty &&  (  (day != confirm.selDate )  ||  (day == confirm.selDate && confirm.pkgEvent!=id ))) dayevent.Add(s);
+                    }
+                }
+
+                return Json(dayevent);
+
+            }
+            else{
+                //再補回傳的格式
+                return Json("");
+            }
+
         }
 
 
@@ -150,8 +224,7 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 //DataSettingRepostory Ores = new DataSettingRepostory();
                 //data = DataSettingRepostory.fakeDataModel(data);
-
-                //string q = JsonConvert.SerializeObject(data);
+                string q = JsonConvert.SerializeObject(data);
 
                 //轉 ordermodel
                 OrderRepostory res = new OrderRepostory();
@@ -159,29 +232,34 @@ namespace KKday.Web.B2D.EC.Controllers
                 api.json = ord;
 
                 string qq = JsonConvert.SerializeObject(api);
-
                 KKapiHelper kk = new KKapiHelper();
-
                 JObject order =kk.crtOrder(api);
 
                 string orderMid = "";
                 string orderOid = "";
-                string json = "";
                 returnStatus status = new returnStatus();
                 //要先判斷是不是result＝'0000'
                 if (order["content"]["result"].ToString()=="0000")
                 {
                     orderMid = order["content"]["orderMid"].ToString();
                     orderOid = order["content"]["orderOid"].ToString();
-                    json = BookingRepostory.setPaymentInfo(prod,ord, orderMid);
+                    status.pmchSslRequest = BookingRepostory.setPaymentInfo2(prod,ord, orderMid);
                     status.status = "OK";
-                    status.jsonStr = json;
+
+                    //要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
+                    string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
+                    BookingRepostory.setPayDtltoRedis(ord, orderMid, memUuid);
+
+                    //要存redis 因為付款後要從這個redis內容再進行payment驗證,可和上面整合存一個就好
+                    //CallJsonPay rdsJson = (CallJsonPay)status.pmchSslRequest.json;
+                    CallJsonPay2 rdsJson = (CallJsonPay2)status.pmchSslRequest.json;
+                    string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
+                    RedisHelper.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
                 }
                 else 
                 {
                     Website.Instance.logger.Debug($"bookingStep1:qq");//要改
                     status.status = "Error";
-                    status.jsonStr = json;
                     status.msgErr = "error bookingSetp1_1";//要改
                 }
 

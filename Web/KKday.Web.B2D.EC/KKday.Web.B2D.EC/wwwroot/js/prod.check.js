@@ -373,7 +373,7 @@ function btnConfirm() {
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify({
             prodOid: $("#hdnProdOid").val(),
-            selDate: $("#hdnPreSelDate").val(),
+            selDate: $("#hdnPreSelDate").val().replace("/","").replace("/",""),
             pkgOid: $("#hdnPkgOid").val(),
             price1Qty: chkQty($("#txtprice1Qty_" + pkgOid).val()),
             price2Qty: chkQty($("#txtprice2Qty_" + pkgOid).val()),

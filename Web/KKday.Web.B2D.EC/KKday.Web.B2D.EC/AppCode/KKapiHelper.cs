@@ -406,7 +406,7 @@ namespace KKday.Web.B2D.EC.AppCode
            X509Chain chain, SslPolicyErrors sslPolicyErrors)
            { return true; };
 
-            CallPmchReq call = new CallPmchReq();
+            PmchSslRequest call = new PmchSslRequest();
             call.ipaddress = "192.168.1.1";
             call.apiKey = "kkdayapi";
             call.userOid = "1";
@@ -469,6 +469,183 @@ namespace KKday.Web.B2D.EC.AppCode
 
         }
 
+
+
+        //PMCH 驗證
+        public string PaymentValid(String pmgwTransNo, string pmgwValidToken)
+        {
+
+            ServicePointManager.ServerCertificateValidationCallback =
+           delegate (object s, X509Certificate certificate,
+           X509Chain chain, SslPolicyErrors sslPolicyErrors)
+           { return true; };
+
+            PmchSslRequest2 call = new PmchSslRequest2();
+            call.ipaddress = "192.168.1.1";
+            call.apiKey = "kkdayapi";
+            call.userOid = "1";
+            call.ver = "1.0.1";
+
+            CallPmchValidJson j = new CallPmchValidJson();
+            j.pmgwTransNo = pmgwTransNo;
+            j.pmgwValidToken = pmgwValidToken;
+            call.json = j;
+
+            string result;
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"https://pmch.sit.kkday.com/common/gateway/token_validate");
+
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string json = JsonConvert.SerializeObject(call);
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+            }
+
+
+            //回覆要再確認是否是true !
+            var obj = JObject.Parse(result);
+
+            string isSuccess = obj["isSuccess"].ToString();
+
+            return isSuccess;
+        }
+
+
+        //PMCH 驗證過了，付款成功，變更訂單狀態為已付款可處 舊版
+        public void PayUpdSuccessUpdOrder(string orderMid,string pmgwTransNo, PaymentDtl payDtl, CallJsonPay req, PmchSslResponse res, distributorInfo fakeContact)
+        {
+            try
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+                delegate (object s, X509Certificate certificate,
+                X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                { return true; };
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.sit.kkday.com/api/order/payment/success/" + orderMid);
+
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                string result;
+
+                PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
+                mst.ipaddress = "192.168.1.1";
+                mst.apiKey = "kkdayapi";
+                mst.userOid = "1";
+                mst.ver = "1.0.1";
+                mst.locale = "zh-tw";
+
+                PaySuccessUpdOrder p = new PaySuccessUpdOrder();
+
+                p.memberUuid = fakeContact.memberUuid;
+                p.tokenKey = fakeContact.tokenKey;
+                p.deviceId = fakeContact.deviceId;
+                p.currency = payDtl.currency;
+                p.currTotalPrice = payDtl.currTotalPrice.ToString();
+                p.is3D = (req.is3D == "0"? false : true);
+                p.payMethod = payDtl.payMethod;
+                p.pmgwMethod = res.pmgwMethod;
+                p.pmgwTransNo = pmgwTransNo;
+                p.isFraud = "0";
+
+                mst.json = p;
+
+                //$path = 'order/payment/success/'.$order_mid;
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(mst);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+            }
+            catch(Exception ex)
+            {
+                string dd = ex.ToString();
+
+            }
+        }
+
+        //PMCH 驗證過了，付款成功，變更訂單狀態為已付款可處 新版
+        public void PayUpdSuccessUpdOrder2(string orderMid, string pmgwTransNo, PaymentDtl payDtl, CallJsonPay2 req, PmchSslResponse2 res, distributorInfo fakeContact)
+        {
+            try
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+                delegate (object s, X509Certificate certificate,
+                X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                { return true; };
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.sit.kkday.com/api/order/payment/success/" + orderMid);
+
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                string result;
+
+                PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
+                mst.ipaddress = "192.168.1.1";
+                mst.apiKey = "kkdayapi";
+                mst.userOid = "1";
+                mst.ver = "1.0.1";
+                mst.locale = "zh-tw";
+
+                PaySuccessUpdOrder p = new PaySuccessUpdOrder();
+
+                p.memberUuid = fakeContact.memberUuid;
+                p.tokenKey = fakeContact.tokenKey;
+                p.deviceId = fakeContact.deviceId;
+                p.currency = payDtl.currency;
+                p.currTotalPrice = payDtl.currTotalPrice.ToString();
+                p.is3D = (req.is_3d == "0" ? false : true);
+                p.payMethod = payDtl.payMethod;
+                p.pmgwMethod = res.data.pmgw_method;
+                p.pmgwTransNo = pmgwTransNo;
+                p.isFraud = "0";
+
+                mst.json = p;
+
+                //$path = 'order/payment/success/'.$order_mid;
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(mst);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                string dd = ex.ToString();
+
+            }
+        }
 
 
     }
