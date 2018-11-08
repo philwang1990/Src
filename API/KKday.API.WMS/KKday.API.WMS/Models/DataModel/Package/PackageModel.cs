@@ -88,7 +88,12 @@ namespace KKday.API.WMS.Models.DataModel.Package {
 
         public ModuleSetting module_setting { get; set; }//商品模組化設定
 
-        }
+        //這是為了前瑞顯示而加的--Phil *******
+        public string chkDateCanSell { get; set; } //如有日期進來能不能賣 1上架日期可賣 2上架日期不可賣 3己售罄
+        public string NoSellTextShow { get; set; } //2 3 用的字眼
+        public Product.PkgDateforEcModel pkgDate { get; set; }
+
+    }
 
     public class DescItem {
 

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-namespace KKday.Web.B2D.EC.Models.Model.Pmch
+namespace KKday.API.WMS.Models.DataModel.Pmch
 {
     public class PmchModel
     {

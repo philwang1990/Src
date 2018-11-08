@@ -3,19 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using KKday.Web.B2D.EC.Models.Model.Pmch;
+using KKday.API.WMS.Models.DataModel.Pmch ;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using KKday.Web.B2D.EC.AppCode;
-using KKday.Web.B2D.EC.Models.Repostory.Booking;
-using KKday.Web.B2D.EC.Models.Model.Booking;
+using KKday.API.WMS.AppCode;
+using KKday.API.WMS.Models.Repository.Booking;
+using KKday.API.WMS.Models.DataModel.Booking;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace KKday.Web.B2D.EC.Controllers
+namespace KKday.API.WMS.Controllers
 {
     public class FinalController : Controller
     {
+
+        static RedisHelper rds = new RedisHelper();
         // GET: /<controller>/
 
         public IActionResult Index()
@@ -30,7 +33,7 @@ namespace KKday.Web.B2D.EC.Controllers
             //回傳的連結有訂編 (記log)
             //透過訂編將redis 的資料抓回送出去的資料
             //取b2dredis 內的paymentDtl
-            string payDtlStr = RedisHelper.getProdInfotoRedis("b2d:ec:payDtl:" + id);
+            string payDtlStr = rds.getProdInfotoRedis("b2d:ec:payDtl:" + id);
             PaymentDtl  payDtl= JsonConvert.DeserializeObject<PaymentDtl>(payDtlStr);
 
             //從kkday redis 取出
@@ -38,7 +41,7 @@ namespace KKday.Web.B2D.EC.Controllers
             //md5($pmgw_trans_no.$pmgw_method.$trans_curr_cd.$trans_amt.$pmch_ref_no.$key);
             PmchSslResponse res = JsonConvert.DeserializeObject<PmchSslResponse>(jsondata);
             string transNo = GibberishAES.OpenSSLDecrypt(res.pmgwTransNo,"pmgw@%#@trans*no");
-            CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
+            CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(rds.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
             string token = "kk%$#@pay";
             string pmgwMethod = res.pmgwMethod;
 

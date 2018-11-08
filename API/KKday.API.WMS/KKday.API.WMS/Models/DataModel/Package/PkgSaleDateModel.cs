@@ -1,25 +1,1 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace KKday.API.WMS.Models.DataModel.Package {
-
-    public class PkgPriceModel {
-
-        public string currency { get; set; }
-        public List<pkgs> pkgs { get; set; }
-    
-    }
-
-    public class pkgs
-    {
-        public string pkg_no { get; set; }
-        public double? price1 { get; set; }
-        public double? price1_b2c { get; set; }
-        public double? price2 { get; set; }
-        public double? price2_b2c { get; set; }
-        public double? price3 { get; set; }
-        public double? price3_b2c { get; set; }
-        public double? price4 { get; set; }
-        public double? price4_b2c { get; set; }
-    }
-}
+﻿using System; using System.Collections.Generic;  namespace KKday.API.WMS.Models.DataModel.Package {      public class PkgSaleDateModel     {          public string result { get; set; }         public string result_msg { get; set; }         public List<SaleDt> saleDt { get; set; }      }      public class SaleDt     {         public string pkg_no { get; set; }         public string sale_day { get; set; }     } }
