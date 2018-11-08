@@ -24,6 +24,7 @@
     <Folder Include="Models\DataModel\Common\" />
     <Folder Include="Models\DataModel\Booking\" />
     <Folder Include="Models\Repository\Booking\" />
+    <Folder Include="Models\DataModel\Pmch\" />
   </ItemGroup>
 
   <ItemGroup>
