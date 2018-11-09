@@ -14,6 +14,7 @@ using KKday.API.WMS.Models.DataModel.Booking;
 
 namespace KKday.API.WMS.Controllers
 {
+    [Route("api/[controller]")]
     public class FinalController : Controller
     {
 
@@ -25,7 +26,7 @@ namespace KKday.API.WMS.Controllers
             return View();
         }
 
-
+        [HttpGet("Success")]
         //付款後導回
         public IActionResult Success(string id,string jsondata)
         {
