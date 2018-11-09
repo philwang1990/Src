@@ -587,5 +587,56 @@ namespace KKday.API.WMS.AppCode
 
             }
         }
+
+        //PMCH 驗證過了，付款成功，變更訂單狀態為已付款可處 新版
+        public void PayUpdSuccessUpdOrder2(string orderMid, string pmgwTransNo, PaymentDtl payDtl, CallJsonPay2 req, PmchSslResponse2 res, distributorInfo fakeContact)
+        {
+            try
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+                delegate (object s, X509Certificate certificate,
+                X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                { return true; };
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.sit.kkday.com/api/order/payment/success/" + orderMid);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+                string result;
+                PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
+                mst.ipaddress = "192.168.1.1";
+                mst.apiKey = "kkdayapi";
+                mst.userOid = "1";
+                mst.ver = "1.0.1";
+                mst.locale = "zh-tw";
+                PaySuccessUpdOrder p = new PaySuccessUpdOrder();
+                p.memberUuid = fakeContact.memberUuid;
+                p.tokenKey = fakeContact.tokenKey;
+                p.deviceId = fakeContact.deviceId;
+                p.currency = payDtl.currency;
+                p.currTotalPrice = payDtl.currTotalPrice.ToString();
+                p.is3D = (req.is_3d == "0" ? false : true);
+                p.payMethod = payDtl.payMethod;
+                p.pmgwMethod = res.data.pmgw_method;
+                p.pmgwTransNo = pmgwTransNo;
+                p.isFraud = "0";
+                mst.json = p;
+                //$path = 'order/payment/success/'.$order_mid;
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(mst);
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                string dd = ex.ToString();
+            }
+        }
     }
 }

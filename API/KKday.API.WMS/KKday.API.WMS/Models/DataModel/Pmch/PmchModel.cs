@@ -9,17 +9,6 @@ namespace KKday.API.WMS.Models.DataModel.Pmch
         //}
     }
 
-
-    public class PmchSslRequest
-    {
-        public string apiKey { get; set; }
-        public string userOid { get; set; }
-        public string ver { get; set; }
-        public string ipaddress { get; set; }
-        public CallJson json { get; set; }
-    }
-
-
     public abstract class CallJson
     {
 
@@ -43,7 +32,14 @@ namespace KKday.API.WMS.Models.DataModel.Pmch
     #endregion
 
 
-
+    public class PmchSslRequest
+    {
+        public string apiKey { get; set; }
+        public string userOid { get; set; }
+        public string ver { get; set; }
+        public string ipaddress { get; set; }
+        public CallJson json { get; set; }
+    }
 
     #region 組出可以送出授權的json
 
@@ -65,6 +61,41 @@ namespace KKday.API.WMS.Models.DataModel.Pmch
         public PayMember member { get; set; }
 
     }
+
+
+    public class PmchSslRequest3  //新版
+    {
+        public string api_key { get; set; }
+        public string user_oid { get; set; }
+        public string ver { get; set; }
+        public string lang_code { get; set; } //新版的有語言環境
+        public string ipaddress { get; set; }
+        public CallJson json { get; set; }
+    }
+
+
+    public class CallJsonPay2 : CallJson //新版
+    {
+        public string pmch_oid { get; set; }
+        public string is_3d { get; set; }
+        public string pay_currency { get; set; }
+        public double pay_amount { get; set; }
+        public string return_url { get; set; }
+        public string cancel_url { get; set; }
+        public string user_locale { get; set; }
+        public string logo_url { get; set; }
+        public string paymentParam1 { get; set; }
+        public string paymentParam2 { get; set; }
+        public payment_source_info payment_source_info { get; set; }
+        public credit_card_info credit_card_info { get; set; }
+        public payer_info payer_info { get; set; }
+        public product_info product_info { get; set; }
+        public member member { get; set; }
+
+    }
+
+
+
 
 
     public class PaymentSourceInfo
@@ -105,6 +136,49 @@ namespace KKday.API.WMS.Models.DataModel.Pmch
 
     }
 
+
+    //新版
+    public class payment_source_info
+    {
+        public string source_type { get; set; } //KKDAY (本站)CHANNEL(分銷)ONLINE_POST(線上刷卡機)
+        public string order_mid { get; set; }
+    }
+
+    public class credit_card_info //信用卡資訊
+    {
+        public string card_holder { get; set; } //卡片持有人
+        public string card_type { get; set; } //卡別
+        public string card_no { get; set; } //卡號(加密過的)
+        public string card_cvv { get; set; } //CVV
+        public string card_exp { get; set; } //到期年月yyyymm
+
+    }
+
+    public class payer_info //付款人資訊
+    {
+        public string first_name { get; set; }
+        public string last_name { get; set; }
+        public string phone { get; set; }
+        public string email { get; set; }
+    }
+
+    public class member
+    {
+        public string member_uuid { get; set; } //會員編號
+        public string risk_status { get; set; } //風險狀態代碼另外想1.白名單012.一般02 defult3.可疑03 4.黑名單04
+        public string ip { get; set; }
+    }
+
+    public class product_info
+    {
+        public string prod_oid { get; set; }
+        public string prod_name { get; set; }
+
+    }
+
+
+
+
     public class PaymentDtl
     {
         public string paymentToken { get; set; } //md5 ordermid + member+uuid + "kk%$#@pay"
@@ -138,6 +212,40 @@ namespace KKday.API.WMS.Models.DataModel.Pmch
     {
         public string encodeCardNo { get; set; }
     }
+
+
+
+    public class PmchSslResponse2
+    {
+        public metadata metadata { get; set; }
+        public Jsondata data { get; set; }
+    }
+
+    public class metadata
+    {
+        public string status { get; set; }
+        public string desc { get; set; }
+    }
+
+    public class Jsondata
+    {
+        public string pmgw_trans_no { get; set; }
+        public string pmgw_method { get; set; }
+        public string transaction_code { get; set; }
+        public string pay_currency { get; set; }
+        public decimal pay_amount { get; set; }
+        public Boolean is_3d { get; set; }
+        public member_info member_info { get; set; }
+        public string is_fraud { get; set; }
+        public string risk_note { get; set; }
+
+    }
+
+    public class member_info
+    {
+        public string encode_card_no { get; set; }
+    }
+
 
     #endregion
 
@@ -175,7 +283,7 @@ namespace KKday.API.WMS.Models.DataModel.Pmch
     }
 
     public class PaySuccessUpdOrder
-    { 
+    {
         public string memberUuid { get; set; }
         public string tokenKey { get; set; }
         public string deviceId { get; set; }

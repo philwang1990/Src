@@ -181,6 +181,40 @@ namespace KKday.API.WMS.Controllers {
             }
         }
 
+        //取得候補的場次
+        [HttpPost]
+        public IActionResult getEvent([FromBody] EventQury Eventday)
+        {
+            List<string> dayevent = new List<string>();
+            string day = Eventday.day.Replace("-", "");
+            string dd = TempData["qq"] as string;
+            string qq = TempData["pkgEvent"] as string;
+            PkgEventsModel pkgEvent = JsonConvert.DeserializeObject<PkgEventsModel>((string)TempData["pkgEvent"]);
+            confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>((string)TempData["confirm"]);
+            var eTemp = pkgEvent.events.Where(x => x.day.Equals(day));
+            TempData.Keep();
+            int? BookingQty = (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty);
+            if (eTemp.Count() > 0)
+            {
+                foreach (Event e in eTemp)
+                {
+                    string[] eventTime = e.event_times.Split(',');
+                    foreach (string s in eventTime)
+                    {
+                        string id = s.Split("_")[0];
+                        int Qty = Convert.ToInt32(s.Split("_")[2]);
+                        if (Qty >= BookingQty && ((day != confirm.selDate) || (day == confirm.selDate && confirm.pkgEvent != id))) dayevent.Add(s);
+                    }
+                }
+                return Json(dayevent);
+            }
+            else
+            {
+                //再補回傳的格式
+                return Json("");
+            }
+        }
+
 
         [HttpPost]
         public IActionResult bookingStep1([FromBody]DataKKdayModel data)
@@ -225,7 +259,7 @@ namespace KKday.API.WMS.Controllers {
                 {
                     orderMid = order["content"]["orderMid"].ToString();
                     orderOid = order["content"]["orderOid"].ToString();
-                    status.pmchSslRequest = BookingRepository.setPaymentInfo(prod,ord, orderMid);
+                    status.pmchSslRequest = BookingRepository.setPaymentInfo2(prod,ord, orderMid);
                     status.status = "OK";
 
                     //要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
@@ -233,7 +267,7 @@ namespace KKday.API.WMS.Controllers {
                     BookingRepository.setPayDtltoRedis(ord, orderMid, memUuid);
 
                     //要存redis 因為付款後要從這個redis內容再進行payment驗證,可和上面整合存一個就好
-                    CallJsonPay rdsJson = (CallJsonPay)status.pmchSslRequest.json;
+                    CallJsonPay2 rdsJson = (CallJsonPay2)status.pmchSslRequest.json;
                     string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
                     rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
                 }

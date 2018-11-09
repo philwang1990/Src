@@ -80,7 +80,8 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public string status { get; set; }
         public string jsonStr { get; set; }
         public string msgErr { get; set; }
-        public PmchSslRequest pmchSslRequest { get; set; }
+        //public PmchSslRequest pmchSslRequest { get; set; }
+        public PmchSslRequest3 pmchSslRequest { get; set; }
 
     }
 

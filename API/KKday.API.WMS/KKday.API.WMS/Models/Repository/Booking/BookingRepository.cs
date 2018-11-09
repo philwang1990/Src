@@ -254,6 +254,64 @@ namespace KKday.API.WMS.Models.Repository.Booking
             return pmch;// JsonConvert.SerializeObject(pmch);
         }
 
+        //新版
+        public static PmchSslRequest3 setPaymentInfo2(ProductModel prod, OrderKKdayModel orderModel, string orderMid)
+        {
+            PmchSslRequest3 pmch = new PmchSslRequest3();
+            pmch.api_key = "kkdayapi";
+            pmch.user_oid = "1";
+            pmch.ver = "1.0.1";
+            pmch.lang_code = "zh-tw";
+            pmch.ipaddress = "127.0.0.1";
+            CallJsonPay2 json = new CallJsonPay2();
+            json.pmch_oid = orderModel.payPmchOid;
+            json.is_3d = "0";
+            json.pay_currency = orderModel.currency;
+            json.pay_amount = Convert.ToDouble(orderModel.currPriceTotal);
+            json.return_url = "https://localhost:5001/Final/Success/" + orderMid;
+            json.cancel_url = "https://localhost:5001/Final/Cancel/" + orderMid;
+            json.user_locale = "zh-tw";
+            json.paymentParam1 = "";
+            json.paymentParam2 = "";
+            if (prod.img_list.Count > 0)
+            {
+                json.logo_url = "https://img.sit.kkday.com" + prod.img_list[0].img_kkday_url;
+            }
+            else
+            {
+                json.logo_url = "";
+            }
+            payment_source_info pay = new payment_source_info();
+            pay.source_type = "KKDAY";
+            pay.order_mid = orderMid;
+            json.payment_source_info = pay;
+            credit_card_info credit = new credit_card_info();
+            credit.card_holder = "phil";
+            credit.card_no = GibberishAES.OpenSSLEncrypt("4095296335832921", "card%no$kk#@");
+            credit.card_type = "VISA";
+            credit.card_cvv = "133";
+            credit.card_exp = "202312";
+            json.credit_card_info = credit;
+            payer_info payer = new payer_info();
+            payer.first_name = "ming";
+            payer.last_name = "chen";
+            payer.phone = "0939650222";
+            payer.email = "phil.chang@kkday.com";
+            json.payer_info = payer;
+            product_info prodInfo = new product_info();
+            prodInfo.prod_name = prod.prod_name;
+            prodInfo.prod_oid = prod.prod_no.ToString();
+            json.product_info = prodInfo;
+            member member = new member();
+            member.member_uuid = orderModel.memberUuid;
+            member.risk_status = "01";
+            member.ip = "127.0.0.1";
+            json.member = member;
+            pmch.json = json;
+
+            return pmch;// JsonConvert.SerializeObject(pmch);
+        }
+
         public static void setPayDtltoRedis(OrderKKdayModel orderModel, string orderMid, string memUuid)
         {
             RedisHelper rds = new RedisHelper();
