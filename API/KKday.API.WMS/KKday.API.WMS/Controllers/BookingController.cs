@@ -216,7 +216,7 @@ namespace KKday.API.WMS.Controllers {
         }
 
 
-        [HttpPost]
+        [HttpPost("bookingStep1")]
         public IActionResult bookingStep1([FromBody]DataKKdayModel data)
         {
             try
@@ -239,7 +239,7 @@ namespace KKday.API.WMS.Controllers {
                 ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, data.productOid);
 
                 //DataSettingRepostory Ores = new DataSettingRepostory();
-                //data = DataSettingRepostory.fakeDataModel(data);
+                 //= DataSettingRepostory.fakeDataModel(data);
                 string q = JsonConvert.SerializeObject(data);
 
                 //轉 ordermodel
@@ -286,7 +286,7 @@ namespace KKday.API.WMS.Controllers {
                 Website.Instance.logger.Debug($"bookingStep1:{ex.ToString()}");
                 returnStatus status = new returnStatus();
                 status.status = "Error";
-                status.msgErr = "error bookingSetp1_1";//要改
+                status.msgErr = ex.ToString();//要改
 
                 return Json(status);
             }
