@@ -11,11 +11,11 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
     public static class ProductRepostory
     {
         //查商品
-        public static ProductforEcModel getProdDtl(string companyXid, string state, string lang, string currency, string prodoid)
+        public static ProductforEcModel getProdDtl(string companyXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
         {
             try
             {
-                return ApiHelper.getProdDtl(companyXid, state, lang, currency, prodoid);
+                return ApiHelper.getProdDtl(companyXid, state, lang, currency, prodoid,title);
             }
             catch (Exception ex)
             {
@@ -26,11 +26,11 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
         }
 
         //查套餐
-        public static PackageModel getProdPkg(string companyXid, string state, string lang, string currency, string prodoid)
+        public static PackageModel getProdPkg(string companyXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
         {
             try
             {
-                return ApiHelper.getProdPkg(companyXid, state, lang, currency, prodoid);
+                return ApiHelper.getProdPkg(companyXid, state, lang, currency, prodoid,title);
             }
             catch (Exception ex)
             {
@@ -39,7 +39,6 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
 
             }
         }
-
 
         public static ProductforEcModel getProdOtherInfo(ProductforEcModel prod, string oid, string lang, string currency, Dictionary<string, string> uikey)
         {
@@ -420,6 +419,17 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             title.booking_step1_english_error = uiKey["booking_step1_english_error"];
 
 
+            //active 
+            title.common_options = uiKey["common_options"];
+            title.common_date = uiKey["common_date"];
+            title.common_guest = uiKey["common_guest"];
+            title.common_order_num_of_travellers = uiKey["common_order_num_of_travellers"];
+            title.order_show_event_time = uiKey["order_show_event_time"];
+            //event
+            title.booking_step1_event_backup = uiKey["booking_step1_event_backup"];
+            title.booking_step1_backup_event_data_number = uiKey["booking_step1_backup_event_data_number"];
+            title.product_productlist_choose_date = uiKey["product_productlist_choose_date"];
+
             return title;
         }
 
@@ -476,7 +486,6 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
 
             return pkgDateList;
         }
-
 
         //套餐&日期整合
         public static PackageModel InitPkg(prodQury prodQury, ProdTitleModel title, PackageModel pkgs, List<PkgDateforEcModel> prodPkgDateList)
@@ -539,6 +548,19 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
         }
 
 
+        //模組
+        public static ProductModuleModel getProdModule(string B2dXid, string state, string lang, string currency, string prodoid, string pkgoid, ProdTitleModel title)
+        {
+            try
+            {
+                return  ApiHelper.getProdModule(B2dXid,state, lang, currency, prodoid, pkgoid, title);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(title.result_code_9990);
+            }
+
+        }
 
         //
         public static JObject  getModuleBooking(string oid, string lang, string currency) 
@@ -554,11 +576,11 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             return obj;
         }
 
-        public static PkgEventsModel getEvent(string companyXid, string state, string lang, string currency, string prodoid, string pkgoid)
+        public static PkgEventsModel getEvent(string companyXid, string state, string lang, string currency, string prodoid, string pkgoid,ProdTitleModel title)
         {
             try
             {
-                return ApiHelper.getPkgEvent(companyXid, state, lang, currency, prodoid, pkgoid);
+                return ApiHelper.getPkgEvent(companyXid, state, lang, currency, prodoid, pkgoid,title);
             }
             catch (Exception ex)
             {

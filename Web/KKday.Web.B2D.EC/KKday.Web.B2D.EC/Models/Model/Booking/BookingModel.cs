@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace KKday.Web.B2D.EC.Models.Model.Booking
 {
     public class BookingModel
@@ -21,5 +22,22 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public string lang { get; set; }
         public string currency { get; set; }
         public string state { get; set; }
+
+        public string memberUuid { get; set; }
+        public string tokenKey { get; set; }
+        public string deviceId  {get;set;}
+    }
+
+
+    public class EventQury
+    {
+        public string day { get; set; }
+    }
+
+    public class returnBookingEventStatus
+    {
+        public string status { get; set; }
+        public List<string> dayevent { get; set; }
+        public string msgErr { get; set; }
     }
 }

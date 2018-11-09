@@ -31,7 +31,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.price2Qty = confirm.price2Qty == null ? 0 : confirm.price2Qty;
             data.price3Qty = confirm.price3Qty==null?0: confirm.price3Qty;
             data.price4Qty = confirm.price4Qty == null ? 0 : confirm.price4Qty;
-            data.payMethod = "ONLINE_CITI";
+            data.payMethod = "ONLINE_CITI";//這個地方接pmch要改
             data.hasRank = pkg.is_unit_pirce == "RANK" ? "Y" : "N";
             //data.productUrlOid = 
             data.productName = prod.prod_name;
@@ -345,6 +345,80 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             dayTemp = dayTemp.Substring(0, dayTemp.Length - 1);
             return dayTemp;
         }
+
+        //組出排除的餐食
+        public static DataModel  exculdeFood(ProductModel prod, DataModel dataModel, ProductModuleModel module)
+        {
+            CusData cus = module.module_cust_data;
+            List<string> excludeFood = new List<string>();
+
+            if(cus!=null)
+            {
+                if(cus.is_require ==true)
+                {
+                    if(cus.meal.is_require==true)
+                    {
+                        ExcludeFood excluede = cus.meal.exclude_food;
+
+                        foreach(CusDataInfo travelerData in dataModel.travelerData)
+                        {
+                            if(!string.IsNullOrEmpty(travelerData.meal.mealType) )
+                            {
+                                //'0002': ['0001', '0002', '0003', '0004', '0005', '0006'], //素食
+                                //'0003': ['0002'], //猶太餐
+                                //'0004': ['0002', '0005'] //穆斯林餐
+                                if (travelerData.meal.mealType=="0002" )
+                                {
+                                    foreach ( MealType meal in  cus.meal.meal_list)
+                                    {
+                                        if(meal.is_provided ==true)
+                                        {
+                                            if(meal.meal_type=="0001" || meal.meal_type == "0002" || 
+                                               meal.meal_type == "0003" || meal.meal_type == "0004" || meal.meal_type == "0005" || meal.meal_type == "0006")
+                                            {
+                                                excludeFood.Add(meal.meal_type);
+                                            }
+                                        }
+                                    }
+                                     
+                                }
+                                else if(travelerData.meal.mealType == "0003") 
+                                {
+                                    var mealType = cus.meal.meal_list.Where(x => x.meal_type.Equals("0002"));
+                                    if (mealType != null)
+                                    {
+                                        foreach( MealType m in mealType)
+                                        {
+                                            excludeFood.Add(m.meal_type);
+                                        }
+                                    }
+                                }
+                                else if ( travelerData.meal.mealType == "0004")
+                                {
+                                    var mealType = cus.meal.meal_list.Where(x => x.meal_type.Equals("0002") || x.meal_type.Equals("0003"));
+                                    if (mealType != null)
+                                    {
+                                        foreach (MealType m in mealType)
+                                        {
+                                            excludeFood.Add(m.meal_type);
+                                        }
+                                    }
+                                }
+
+                            }
+                            travelerData.meal.excludeFoodType = excludeFood.ToArray();
+
+                        }
+                    }
+                }
+            }
+
+
+
+            return dataModel;
+
+        }
+
 
     }
 }

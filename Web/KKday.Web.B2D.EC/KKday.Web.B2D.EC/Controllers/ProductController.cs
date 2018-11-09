@@ -44,17 +44,22 @@ namespace KKday.Web.B2D.EC.Controllers
                 //資料取得後要揉資料
                 //要把挖字存成一個物件並帶到view去
                 //logs Website.Instance.logger.Info($"[PAY]kkOrderNo:{bookRQ.order.orderMid},priceType:{lst.price_type},jtrTktNo:{payRS.code},jtrErr:{payRS.error_msg}");
-                if (id == null) throw new Exception("商品不存在");
-
                 //假分銷商
                 distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
+                //取挖字
+                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+                //ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
+
+                if (id == null) throw new Exception("商品不存在");
+
                 //從 api取 
-                ProductforEcModel prod = ProductRepostory.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id);
+                ProductforEcModel prod = ProductRepostory.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id,title);
 
                 if (prod.result != "0000") throw new Exception(prod.result_msg); //不正確就導錯誤頁,但api還未處理怎麼回傳
 
-                PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id);
+                PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id,title);
 
                 if (pkgs.result != "0000") throw new Exception(prod.result_msg);//不正確就導錯誤頁,但api還未處理怎麼回傳
 
@@ -68,14 +73,10 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 string allCanUseDate = "";
 
-                //取挖字
-                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
 
                 prod = ProductRepostory.getProdOtherInfo(prod, id, fakeContact.lang, fakeContact.currency, uikey); prod.guidNo = guid;
                 List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, fakeContact.lang, fakeContact.currency, uikey, out allCanUseDate);
 
-                //ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
-                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
                 TempData["ProdTitleKeep"] = JsonConvert.SerializeObject(uikey);
 
                 //取消政策排序
@@ -84,7 +85,7 @@ namespace KKday.Web.B2D.EC.Controllers
                     prod.policy_list = prod.policy_list.OrderByDescending(o => o.is_over).OrderByDescending(o => o.days).ToList();
                 }
 
-                ProductModuleModel module = ApiHelper.getProdModule(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id, "");
+                ProductModuleModel module = ProductRepostory.getProdModule(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id, "",title);
                 if(module != null && module.module_venue_info != null){
                     if(module.module_venue_info.venue_type == "01")
                     {
@@ -135,7 +136,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 //prod = prodRep.getProdInfo(prod, prodQury.prodOid, fakeContact.lang, fakeContact.currency, uikey); //prod.guidNo = guid;
                 //ViewData["prodInfo"] = prod;
 
-                PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodQury.prodOid);
+                PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodQury.prodOid,title);
                 List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, fakeContact.lang, fakeContact.currency, uikey, out allCanUseDate);
 
                 //設定每個pkg裡面可以使用的日期有那些
@@ -149,7 +150,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 Website.Instance.logger.Debug($"product_reflashPkg_err:{ex.ToString()}");
                 returnStatus status = new returnStatus();
                 status.status = "Error";
-                status.msgErr = "error confirmPkg";//要改
+                status.msgErr = "資料錯誤，請重新讀取頁";//要改
 
                 return Json(status);
             }
@@ -178,21 +179,12 @@ namespace KKday.Web.B2D.EC.Controllers
                 Website.Instance.logger.Debug($"product_confirmPkg_err:{ex.ToString()}");
                 returnStatus status = new returnStatus();
                 status.status = "Error";
-                status.msgErr = "error confirmPkg";//要改
+                status.msgErr = "資料錯誤，請重新讀取頁";//要改
 
                 return Json(status);
             }
         }
 
-
-
-        public class returnStatus
-        {
-            public string status { get; set; }
-            public string jsonStr { get; set; }
-            public string msgErr { get; set; }
-
-        }
 
         //Put in BaseController
         public string RenderPartialViewToString(ICompositeViewEngine viewEngine, string viewName, object model)
@@ -219,11 +211,16 @@ namespace KKday.Web.B2D.EC.Controllers
             try
             {
                 distributorInfo fakeContact = DataSettingRepostory.fakeContact();
-
                 //取挖字
-                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+                String json = TempData["ProdTitleKeep"] as string;
+                if (string.IsNullOrEmpty(json))
+                {
+                    throw new Exception("資料錯誤，請重新讀取頁面");
+                }
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(json);
+                TempData.Keep();
 
-                PkgEventsModel getEventTime = ProductRepostory.getEvent(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodEvent.prodno, prodEvent.pkgno);
+                PkgEventsModel getEventTime = ProductRepostory.getEvent(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodEvent.prodno, prodEvent.pkgno,title);
                 if(getEventTime.result == "0000"){
                     var result = getEventTime.events.Where(x => x.day == prodEvent.DateSelected);
                     getEventTime.events = result.ToList();
@@ -242,7 +239,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 Website.Instance.logger.Debug($"product_eventtime_err:{ex.ToString()}");
                 returnStatus status = new returnStatus();
                 status.status = "Error";
-                status.msgErr = "error eventtime";//要改
+                status.msgErr = "資料錯誤，請重新讀取頁面";//要改
 
                 return Json(status);
             }
@@ -284,7 +281,7 @@ namespace KKday.Web.B2D.EC.Controllers
             }
             catch (Exception ex){
                 Website.Instance.logger.Debug($"product_getKlingon_err:{ex.ToString()}");
-                return Json(new { flag = false, errMsg = "" });
+                return Json(new { flag = false, errMsg = "資料錯誤，請重新讀取頁" });
             }
         }
     }

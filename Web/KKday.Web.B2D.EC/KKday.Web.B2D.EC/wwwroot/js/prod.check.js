@@ -721,7 +721,9 @@ function BookingCheck() {
     var allowBook = false;
     var pkgno = $("#hdnPkgOid").val();
     //檢查日期
-    if ($("#hdnPreSelDate").val() != '' && pkgno != '' && $('#txtprice').text() != '0' && ($('#hdnHasEvent_' + pkgno).val() == 'true' && $("#hdnevent_" + pkgno).val() != '')) {
+    if ($("#hdnPreSelDate").val() != '' && pkgno != '' && $('#txtprice').text() != '0' &&
+     (($('#hdnHasEvent_' + pkgno).val() == 'true' && $("#hdnevent_" + pkgno).val() != '')||($('#hdnHasEvent_' + pkgno).val() == 'false'))
+     ) {
         allowBook = true;
     } else {
         allowBook = false;

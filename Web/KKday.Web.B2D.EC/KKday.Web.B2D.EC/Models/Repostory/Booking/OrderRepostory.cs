@@ -25,7 +25,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             book.contactCountryCd = data.contactCountryCd;// "TW";
             book.lstGoDt = data.lstGoDt;// "20180906";
             book.eventOid = data.eventOid;
-            book.eventBackupData = data.eventBackupData;
+            book.eventBackupData = data.eventBackupData==null ?"" : data.eventBackupData.Replace("-","");
             book.price1Qty = data.price1Qty;//;
             book.price2Qty = data.price2Qty;
             book.price3Qty = data.price3Qty;// 0;
@@ -141,8 +141,6 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             book.pmch = pmchObj;
             return book;
         }
-
-
 
         public omdlFlightInfo getFlightInfo2(DataModel data)
         {
@@ -271,13 +269,13 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             pm.qtyInfant = data.modules.passengerData.moduleData.qtyInfant;
 
             qtyChildSeatInfo qch = new qtyChildSeatInfo();
-            qch.supplierProvided = data.modules.passengerData.moduleData.qtyChildSeat.supplierProvided;
-            qch.selfProvided = data.modules.passengerData.moduleData.qtyChildSeat.selfProvided;// 0;
+            qch.supplierProvided = data.modules.passengerData.moduleData.qtyChildSeat.supplierProvided==null?0: data.modules.passengerData.moduleData.qtyChildSeat.supplierProvided;
+            qch.selfProvided = data.modules.passengerData.moduleData.qtyChildSeat.selfProvided==null? 0: data.modules.passengerData.moduleData.qtyChildSeat.selfProvided;// 0;
             pm.qtyChildSeat = qch;
 
             qtyInfantSeatInfo qin = new qtyInfantSeatInfo();
-            qin.supplierProvided = data.modules.passengerData.moduleData.qtyInfantSeat.supplierProvided;
-            qin.selfProvided = data.modules.passengerData.moduleData.qtyInfantSeat.selfProvided;// 0;
+            qin.supplierProvided = data.modules.passengerData.moduleData.qtyInfantSeat.supplierProvided==null?0 : data.modules.passengerData.moduleData.qtyInfantSeat.supplierProvided;
+            qin.selfProvided = data.modules.passengerData.moduleData.qtyInfantSeat.selfProvided==null? 0: data.modules.passengerData.moduleData.qtyInfantSeat.selfProvided;// 0;
             pm.qtyInfantSeat = qin;
 
             pm.qtyCarryLuggage = data.modules.passengerData.moduleData.qtyCarryLuggage;

@@ -48,14 +48,13 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string common_lunch { get; set; } //行程表-費用包含（午餐）
         public string common_dinner { get; set; } //行程表-費用包含（晚餐）
 
-
         //booking bar 
         public string common_booking { get; set; } //立即訂購
         public string product_index_coming_soon { get; set; } //即將開賣
+
         public string product_index_imm_confirm { get; set; } //工作日內回覆訂購結果
         public string product_index_confirm_hr_24 { get; set; }
         public string product_index_confirm_hr_48 { get; set; }
-
         //金額有關
         public string common_total { get; set; } //總金額
         public string common_adult { get; set; } //成人
@@ -80,16 +79,20 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
 
         //product_index_confirm_hr_48 2個工作日內回覆訂購結果
         //product_index_asia_mile_valid} //可累積亞洲萬里通里數
+        //地圖相關
+        public string common_meeting_point { get; set; }
+        public string common_airport_meeting_point { get; set; } //機場集合地
 
         public string product_index_has_been_sold_out { get; set; }//已售罄
         public string product_index_check_availablity { get; set; }//選擇其他日期
 
-        //地圖相關
-        public string common_airport_meeting_point { get; set; } //機場集合地
-        public string common_meeting_point { get; set; } //非機場集合地
-
 
         //-------------booking
+        public string common_options { get; set; } //選項
+        public string common_date { get; set; } //使用日
+        public string common_guest { get; set; } //人數
+        public string common_order_num_of_travellers { get; set; } //數量
+        public string order_show_event_time { get; set; } //場次時間  
 
         public string common_confirmation { get; set; } //填寫資料
         public string common_payment { get; set; } //付款
@@ -373,6 +376,15 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string booking_step1_length_error_2 { get; set; } //個字
         public string booking_step1_required_error { get; set; }//此為必填欄位
         public string booking_step1_english_error { get; set; } //請使用英文輸入
+        public string common_data_error { get; set; } //資料錯誤，請重新讀取頁面
+        public string result_code_9990 { get; set; } //api 錯誤，回傳資料有問題!
+        public string product_index_no_event_avalible { get; set; } //此日目前沒有場次
+
+        //候補場次
+        public string booking_step1_event_backup { get; set; }//候補場次
+        public string booking_step1_backup_event_data_number { get; set; } //第%s候補
+        public string product_productlist_choose_date { get; set; } //
+        public string booking_step1_backup_event_data { get; set; } //場次時段額滿時，將改訂您選擇的場次順位(不欲候補其他場次，無需填寫)
 
     }
 
