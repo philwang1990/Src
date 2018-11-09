@@ -11,7 +11,6 @@ using StackExchange.Redis;
 using KKday.API.WMS.Models.DataModel.Booking;
 using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.DataModel.Pmch;
-using KKday.Web.B2D.EC.AppCode;
 
 namespace KKday.API.WMS.AppCode
 {

@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using KKday.API.WMS.Models.DataModel.Pmch ;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using KKday.Web.B2D.EC.AppCode;
 using KKday.API.WMS.AppCode;
 using KKday.API.WMS.Models.Repository.Booking;
 using KKday.API.WMS.Models.DataModel.Booking;

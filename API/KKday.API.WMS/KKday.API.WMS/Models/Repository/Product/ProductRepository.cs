@@ -6,8 +6,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Linq;
 using KKday.API.WMS.Models.DataModel.Package;
-using KKday.Web.B2D.EC.AppCode;
 using KKday.API.WMS.Models.Repository.Discount;
+using KKday.API.WMS.AppCode;
 
 namespace KKday.API.WMS.Models.Repository.Product
 {

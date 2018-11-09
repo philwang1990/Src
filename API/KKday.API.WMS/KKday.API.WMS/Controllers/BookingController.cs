@@ -11,7 +11,6 @@ using KKday.API.WMS.Models.DataModel.Booking;
 using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.DataModel.Package;
 using KKday.API.WMS.Models.DataModel.Pmch;
-using KKday.Web.B2D.EC.AppCode;
 using KKday.API.WMS.AppCode;
 using KKday.API.WMS.Models;
 using System.Diagnostics;

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
-namespace KKday.Web.B2D.EC.AppCode
+namespace KKday.API.WMS.AppCode
 {
     public class RedisHelper
     {

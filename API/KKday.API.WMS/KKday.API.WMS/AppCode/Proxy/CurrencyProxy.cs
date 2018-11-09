@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using KKday.API.WMS.Models.DataModel.Common;
-using KKday.Web.B2D.EC.AppCode;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 

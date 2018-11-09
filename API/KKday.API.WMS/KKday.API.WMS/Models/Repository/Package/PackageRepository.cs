@@ -7,6 +7,7 @@ using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.Repository.Discount;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
+using KKday.API.WMS.AppCode;
 
 namespace KKday.API.WMS.Models.Repository.Package {
     /// <summary>
@@ -14,7 +15,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
     /// </summary>
     public class PackageRepository {
 
-        static Web.B2D.EC.AppCode.RedisHelper rds = new Web.B2D.EC.AppCode.RedisHelper();
+        static RedisHelper rds = new RedisHelper();
 
         /// <summary>
         /// Gets the package lst.

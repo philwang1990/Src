@@ -13,7 +13,6 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using KKday.API.WMS.AppCode;
 using System.Linq;
-using KKday.Web.B2D.EC.AppCode;
 
 
 namespace KKday.API.WMS.Models.Repository.Booking
