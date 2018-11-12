@@ -86,7 +86,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 passportExpDate = null
             };
 
-            cus.localname = new localNameInfo()
+            cus.localName = new localNameInfo()
             {
                 firstName = null,
                 lastName = null
@@ -129,7 +129,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 passportExpDate = null
             };
 
-            cus.localname = new localNameInfo()
+            cus.localName = new localNameInfo()
             {
                 firstName = null,
                 lastName = null
@@ -185,7 +185,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 
             distributorInfo fake = new distributorInfo()
             {
-                companyXid = "2",
+                companyXid = "98",
                 userid = "2",
                 firstName = "sharon",
                 lastName = "chang",
@@ -195,8 +195,11 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 countryCd = "TW",
                 lang = "zh-tw",
                 currency = "TWD",
-                state="TW"
-        };
+                state="TW",
+                memberUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719",
+                tokenKey = "897af29c45ed180451c2e6bfa81333b6",
+                deviceId = "3c2ab71448224d1d7148350f7972e96e"
+            };
 
             return fake;
         }
@@ -221,10 +224,12 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
         //}
 
         //單純的目的是產出前台可以使用的object string
-        public static DataModel getDefaultDataModel(int qty) 
+        public static DataModel getDefaultDataModel(int qty,string guidNo) 
         {
 
             DataModel d = new DataModel();
+
+            d.guidNo = guidNo;
 
             modulesData modules = new modulesData();
 
@@ -348,7 +353,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 englishNameInfo en = new englishNameInfo();
                 cus.englishName = en;
                 localNameInfo localName = new localNameInfo();
-                cus.localname = localName;
+                cus.localName = localName;
                 weightInfo weight = new weightInfo();
                 cus.weight = weight;
                 heightInfo height = new heightInfo();

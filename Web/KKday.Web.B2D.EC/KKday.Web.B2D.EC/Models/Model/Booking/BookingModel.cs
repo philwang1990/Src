@@ -32,6 +32,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
     public class EventQury
     {
         public string day { get; set; }
+        public string guid { get; set; }
     }
 
     public class returnBookingEventStatus

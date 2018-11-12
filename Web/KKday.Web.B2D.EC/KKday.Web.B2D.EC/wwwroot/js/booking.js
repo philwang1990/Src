@@ -233,7 +233,7 @@ function reflashEvent(e,number) {
         type: "POST",
         url: _root_path + "Booking/getEvent/",
         contentType: "application/json; charset=utf-8",
-        data: JSON.stringify({ day: $("#"+e).val() }),
+        data: JSON.stringify({ day: $("#"+e).val() ,guid:$("#hdnGuid").val()}),
         dataType: "text",
         cache: false,
         async: true,

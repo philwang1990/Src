@@ -6,6 +6,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
     //前端接收 fill data的model
     public class DataModel
     {
+        public string guidNo { get; set; }
         public string productOid { get; set; }
         public string packageOid { get; set; }
         public string contactFirstname { get; set; }
@@ -437,7 +438,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public nationalityInfo nationality { get; set; }
         public string birthday { get; set; }
         public passportInfo passport { get; set; }
-        public localNameInfo localname { get; set; }
+        public localNameInfo localName { get; set; }
         public heightInfo height { get; set; }
         public weightInfo weight { get; set; }
         public shoeSizeInfo shoeSize { get; set; }

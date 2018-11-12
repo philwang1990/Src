@@ -1,12 +1,20 @@
-﻿//select nation..
+﻿
+function initModule3()
+{
+    shuttleCustomTime('hide');
+    shuttleCustomRoute('hide');
+}
+
+
+//select nation..
 function chgNation(i)
 {
 
-   if($("#selcusCountry_"+i).val()=="TW" &&  $("#hdnNationTW_"+i).val()=="1")
+   if($("#selcusCountry_"+i).val()=="TW" &&  $("#selcusCountry_"+i).is(":visible")==true && $("#hdnNationTW_"+i).val()=="1")
    {
      $(".nationTW_"+i).show();
      $(".nationHKMO_"+i).hide();
-     $(".nationMTP_"+i).hide();
+     $(".nationMTP_"+i).show();
    }
    else if( ($("#selcusCountry_"+i).val()=="HK" || $("#selcusCountry_"+i).val()=="MO" )  &&  $("#hdnNationHKMO_"+i).val()=="1")
    {
@@ -14,12 +22,12 @@ function chgNation(i)
      $(".nationHKMO_"+i).show();
      $(".nationMTP_"+i).hide();
    }
-   else if( $("#selcusCountry_"+i).val()=="CN"   &&  $("#hdnNationMTP_"+i).val()=="1")
-   {
-     $(".nationTW_"+i).hide();
-     $(".nationHKMO_"+i).hide();
-     $(".nationMTP_"+i).show();
-   }
+   //else if( $("#selcusCountry_"+i).val()=="CN"   &&  $("#hdnNationMTP_"+i).val()=="1")
+   //{
+     //$(".nationTW_"+i).hide();
+     //$(".nationHKMO_"+i).hide();
+     //$(".nationMTP_"+i).show();
+   //}
    else
    {
      $(".nationTW_"+i).hide();
@@ -362,22 +370,24 @@ function chgShoeIdentity(i)
     if ($("#selSize_"+i).val().split('_')[0]=="M")
     {
         chgShoeIdentity2(i,true,false,false);
-        $(".shoeSize_"+i).show();
+        $(".shoeSizeM_"+i).show();
     }
     else if ($("#selSize_"+i).val().split('_')[0]=="W")
     {
         chgShoeIdentity2(i,false,true,false);
-        $(".shoeSize_"+i).show();
+        $(".shoeSizeW_"+i).show();
     }
-        else if ($("#selSize_"+i).val().split('_')[0]=="C")
+    else if ($("#selSize_"+i).val().split('_')[0]=="C")
     {
         chgShoeIdentity2(i,false,false,true);
-        $(".shoeSize_"+i).show();
+        $(".shoeSizeC_"+i).show();
     }
         else
     {
         chgShoeIdentity2(i,false,false,false);
-       $(".shoeSize_"+i).hide();
+       $(".shoeSizeM_"+i).hide();
+       $(".shoeSizeW_"+i).hide();
+       $(".shoeSizeC_"+i).hide();
     }
 }
 
@@ -416,12 +426,12 @@ function chgShoeIdentity2(i,m,w,c)
 
 function chgShoeIdentity3(t)
 {
-    if($(t).val()!="--")
+    if($(t).val()!="")
     {
       var s = parseFloat($(t).val().split('_')[1]);
       var e = parseFloat($(t).val().split('_')[2]);
       var options = "";
-      options += '<option value="--" disabled selected="selected">--</option>'; 
+      options += '<option value=null disabled selected="selected">--</option>'; 
       for (ii=s ; ii<= e ; ii=ii+0.5 )
       {
         options += '<option value="' + ii + '">' + ii + '</option>';
