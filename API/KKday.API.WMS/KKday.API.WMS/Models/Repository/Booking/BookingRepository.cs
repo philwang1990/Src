@@ -270,7 +270,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             json.pay_amount = Convert.ToDouble(orderModel.currPriceTotal);
 
             json.return_url = "https://localhost:5001/api/Final/Success/" + "?id=" + orderMid + "&jsondata=";
-            json.cancel_url = "https://localhost:5001/Final/Cancel/" + orderMid;
+            json.cancel_url = "https://localhost:5001/Final/Cancel/" + "?id=" + orderMid;
             json.user_locale = "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
