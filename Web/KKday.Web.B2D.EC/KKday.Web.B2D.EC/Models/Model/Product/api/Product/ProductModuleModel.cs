@@ -6,8 +6,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
 {
     public class ProductModuleModel
     {
-        public string reasult { get; set; }//(跟Product共用)
-        public string reasult_msg { get; set; }//(跟Product共用)
+        public string result { get; set; }//(跟Product共用)
+        public string result_msg { get; set; }//(跟Product共用)
         public List<string> module_type { get; set; }//此商品有套用的module類型
 
         public CusData module_cust_data { get; set; }//旅客資料

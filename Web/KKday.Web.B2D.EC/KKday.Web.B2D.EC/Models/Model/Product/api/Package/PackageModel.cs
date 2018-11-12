@@ -34,6 +34,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public double price1_net { get; set; } //當下幣別-同業價
         public double price1_list { get; set; }//當下幣別-牌價
         public double price1_cost { get; set; } //當下幣別-成本價
+        public double price1_b2c { get; set; }//price_sale
 
         public double price2 { get; set; }
         public double price2_org { get; set; }
@@ -44,6 +45,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public double price2_net { get; set; } //當下幣別價-同業價
         public double price2_list { get; set; }//當下幣別-牌價
         public double price2_cost { get; set; } //當下幣別-成本價
+        public double price2_b2c { get; set; }//price_sale
 
         public double? price3 { get; set; }
         public double? price3_org { get; set; }
@@ -54,6 +56,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public double? price3_net { get; set; } //當下幣別-同業價
         public double? price3_list { get; set; }//當下幣別-牌價
         public double? price3_cost { get; set; } //當下幣別-成本價 
+        public double? price3_b2c { get; set; }//price_sale
 
         public double? price4 { get; set; }
         public double? price4_org { get; set; }
@@ -64,6 +67,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public double? price4_net { get; set; } //當下幣別-同業價
         public double? price4_list { get; set; }//當下幣別-牌價
         public double? price4_cost { get; set; } //當下幣別-成本價 
+        public double? price4_b2c { get; set; }//price_sale
 
         public string status { get; set; } //狀態（上架：Y,下架：N）
         //public int min_book_qty { get; set; }//最少訂購數量

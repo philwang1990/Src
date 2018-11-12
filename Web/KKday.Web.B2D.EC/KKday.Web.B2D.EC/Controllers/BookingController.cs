@@ -44,7 +44,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 ProductModel prod = ProductRepostory.getProdDtl(fakeContact.companyXid,fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid,title);
                 PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid,title);
 
-                if(prod.result !="0000") {
+                if (prod.result !="0000") {
                     Website.Instance.logger.Debug($"booking_index_getProdDtl_err:prodOid->{confirm.prodOid} ,msg-> {prod.result_msg}");
                     throw new Exception(title.result_code_9990);
                 }
@@ -82,7 +82,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 }
 
                 //如果有event 但沒有傳 event id ,就error
-                if(isEvent =="Y" &&  string.IsNullOrEmpty(confirm.pkgEvent)) throw new Exception(title.common_data_error);
+                if (isEvent =="Y" &&  string.IsNullOrEmpty(confirm.pkgEvent)) throw new Exception(title.common_data_error);
 
                 if(isEvent =="Y")
                 {
@@ -98,7 +98,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 }
 
                 //將dataModel原型 以json str 帶到前台的hidden
-                DataModel dm = DataSettingRepostory.getDefaultDataModel(totalCus);
+                DataModel dm = DataSettingRepostory.getDefaultDataModel(totalCus,guid);
                 dm = BookingRepostory.setDefaultBookingInfo(dm, prod, pkg, confirm, fakeContact);//這個地方接pmch要改
 
                 String dataModelStr = JsonConvert.SerializeObject(dm);
@@ -144,12 +144,13 @@ namespace KKday.Web.B2D.EC.Controllers
                 //prod.prod_type, "127.0.0.1", prod.prod_hander, fakeContact.currency);
 
                 //放到session
-                TempData["prod"] = JsonConvert.SerializeObject(prod);
-                TempData["pkgs"] = JsonConvert.SerializeObject(pkgs);
-                TempData["pkgEvent"] = (isHl == "Y" && isEvent == "Y") ? JsonConvert.SerializeObject(pkgEvent) : "";
-                TempData["module"] = JsonConvert.SerializeObject(module);
-                TempData["confirm"] = JsonConvert.SerializeObject(confirm);
-                TempData["ProdTitleKeep"] = JsonConvert.SerializeObject(title);
+                TempData["prod_" + guid] = JsonConvert.SerializeObject(prod);
+                TempData["pkgs_" + guid] = JsonConvert.SerializeObject(pkgs);
+                TempData["pkgEvent_" + guid] = (isHl == "Y" && isEvent == "Y") ? JsonConvert.SerializeObject(pkgEvent) : "";
+                TempData["module_" + guid] = JsonConvert.SerializeObject(module);
+                TempData["confirm_" + guid] = JsonConvert.SerializeObject(confirm);
+                TempData["ProdTitleKeep_" + guid] = JsonConvert.SerializeObject(title);
+
                 return View();
             }
             catch( Exception ex)
@@ -173,9 +174,9 @@ namespace KKday.Web.B2D.EC.Controllers
                 List<string> dayevent = new List<string>();
                 string day = Eventday.day.Replace("-", "");
 
-                string titleJson = (string)TempData["ProdTitleKeep"];
-                string pkgEventJson = (string)TempData["pkgEvent"];
-                string confirmJson = (string)TempData["confirm"];
+                string titleJson = (string)TempData["ProdTitleKeep_"+ Eventday.guid];
+                string pkgEventJson = (string)TempData["pkgEvent_" + Eventday.guid];
+                string confirmJson = (string)TempData["confirm_" + Eventday.guid];
 
                 if (string.IsNullOrEmpty(titleJson)){throw new Exception("資料錯誤，請重新讀取頁面");}
                 if (string.IsNullOrEmpty(pkgEventJson)) { throw new Exception("資料錯誤，請重新讀取頁面"); }
@@ -235,8 +236,6 @@ namespace KKday.Web.B2D.EC.Controllers
             {
                 Website.Instance.logger.Debug($"bookingStep1_inputdata:{ JsonConvert.SerializeObject(data)}");
 
-
-
                 ApiSetting api = new ApiSetting();
                 api.apiKey = "kkdayapi";
                 api.userOid = "1";
@@ -250,11 +249,11 @@ namespace KKday.Web.B2D.EC.Controllers
                 //假分銷商
                 distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
-                string prodStr = TempData["prod"] as string;
+                string prodStr = TempData["prod_" + data.guidNo] as string;
                 if (string.IsNullOrEmpty(prodStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
                 ProductModel prod = JsonConvert.DeserializeObject<ProductModel>(prodStr);
 
-                string moduleStr = TempData["module"] as string;
+                string moduleStr = TempData["module_" + data.guidNo] as string;
                 if (string.IsNullOrEmpty(moduleStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
                 ProductModuleModel module = JsonConvert.DeserializeObject<ProductModuleModel>(moduleStr);
 
