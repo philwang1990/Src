@@ -269,26 +269,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             json.pay_currency = orderModel.currency;
             json.pay_amount = Convert.ToDouble(orderModel.currPriceTotal);
 
-            //John 先寫死 success會用到
-            PmchSslResponse2 temp = new PmchSslResponse2();
-            temp.metadata = new metadata();
-            temp.data = new Jsondata();
-            temp.metadata.status = "01";
-            temp.metadata.desc = "test";
-            temp.data.pmgw_trans_no = "ps";
-            temp.data.pmgw_method = "me";
-            temp.data.transaction_code = "code";
-            temp.data.pay_currency = "cur";
-            temp.data.pay_amount = 1;
-            temp.data.is_3d = false;
-            temp.data.member_info = new member_info();
-            temp.data.member_info.encode_card_no = "card";
-            temp.data.is_fraud = "fr";
-            temp.data.risk_note = "note";
-            string tempStr = JsonConvert.SerializeObject(temp);
-            //John 先寫死 success會用到
-
-            json.return_url = "https://localhost:5001/api/Final/Success/" + "?id=" + orderMid + "&jsondata="+ tempStr;
+            json.return_url = "https://localhost:5001/api/Final/Success/" + "?id=" + orderMid + "&jsondata=";
             json.cancel_url = "https://localhost:5001/Final/Cancel/" + orderMid;
             json.user_locale = "zh-tw";
             json.paymentParam1 = "";
