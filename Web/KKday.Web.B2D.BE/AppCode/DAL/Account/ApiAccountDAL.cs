@@ -11,14 +11,27 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
 {
     public class ApiAccountDAL
     {
-        public static int GetAccountCount(string filter)
+        // 取得API帳號筆數
+        public static int GetAccountCount_Api(string filter, Int64? comp_xid = 0)
         {
             try
             {
-                string sqlStmt = @"SELECT COUNT(*)
+                string sqlStmt = "";
+                if (comp_xid == 0)
+                {
+                    sqlStmt = @"SELECT COUNT(*)
 FROM b2b.b2d_account_api a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE 1=1 {FILTER}";
+                }
+                else
+                {
+                    sqlStmt = @"SELECT COUNT(*)
+FROM b2b.b2d_account_api a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid
+WHERE 1=1 AND b.xid=" + comp_xid + "{FILTER}";
+
+                }
 
                 sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
 
@@ -32,15 +45,18 @@ WHERE 1=1 {FILTER}";
             }
         }
 
-        // 取得所有分銷商使用者列表　
-        public static List<B2dAccount> GetAccounts(string filter, int skip, int size, string sorting)
+        // 取得所有API使用者列表　
+        public static List<B2dAccount> GetAccounts_Api(string filter, int skip, int size, string sorting, Int64? comp_xid = 0)
         {
             List<B2dAccount> accounts = new List<B2dAccount>();
 
             try
             {
-                string sqlStmt = @"SELECT a.xid, a.guid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department,
+                string sqlStmt = "";
+                if (comp_xid == 0)
+                {
+                    sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type, a.gender_title,
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.job_title,
  a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
 FROM b2b.b2d_account_api a
@@ -48,99 +64,26 @@ JOIN b2b.b2d_company b ON a.company_xid=b.xid
 WHERE 1=1 {FILTER}
 {SORTING}
 LIMIT :Size OFFSET :Skip";
-
-                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
-                sqlStmt = sqlStmt.Replace("{SORTING}", !string.IsNullOrEmpty(sorting) ? "ORDER BY " + sorting : string.Empty);
-
-                List<NpgsqlParameter> sqlParams = new List<NpgsqlParameter>
-                {
-                    new NpgsqlParameter("Size", size),
-                    new NpgsqlParameter("Skip", skip)
-                };
-
-                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams.ToArray());
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    foreach (DataRow dr in ds.Tables[0].Rows)
-                    {
-                        accounts.Add(new B2dAccount()
-                        {
-                            XID = dr.ToInt64("xid"),
-                            UUID = dr.ToStringEx("guid"), 
-                            EMAIL = dr.ToStringEx("email"),
-                            NAME_FIRST = dr.ToStringEx("name_first"),
-                            NAME_LAST = dr.ToStringEx("name_last"),
-                            NAME = dr.ToStringEx("name"),
-                            COMPANY_XID = dr.ToInt64("comp_xid"),
-                            COMPANY_NAME = dr.ToStringEx("comp_name"), 
-                            DEPARTMENT = dr.ToStringEx("department"),
-                            ENABLE = dr.ToBoolean("enable"), 
-                            CURRENCY = dr.ToStringEx("comp_currency"),
-                            LOCALE = dr.ToStringEx("comp_locale"),
-                            TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
-                            TEL = dr.ToStringEx("tel"),
-                            USER_TYPE = dr.ToStringEx("account_type")
-                        });
-                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
-                throw ex;
-            }
 
-            return accounts;
-        }
-
-        public static int GetAccountCount(Int64 comp_xid, string filter)
-        {
-            try
-            {
-                string sqlStmt = @"SELECT COUNT(*)
-FROM b2b.b2d_account_api a
-JOIN b2b.b2d_company b ON a.company_xid=b.xid
-WHERE a.company_xid=:company_xid {FILTER}";
-
-                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
-
-                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("company_xid", comp_xid)
-                };
-
-                int total_count = Convert.ToInt32(NpgsqlHelper.ExecuteScalar(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams));
-                return total_count;
-            }
-            catch (Exception ex)
-            {
-                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
-                throw ex;
-            }
-        }
-
-        // 取得所有分銷商使用者列表　
-        public static List<B2dAccount> GetAccounts(Int64 comp_xid, string filter, int skip, int size, string sorting)
-        {
-            List<B2dAccount> accounts = new List<B2dAccount>();
-
-            try
-            {
-                string sqlStmt = @"SELECT a.xid, a.guid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department,
+                else
+                {
+                    sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type, a.gender_title,
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.job_title,
  a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
 FROM b2b.b2d_account_api a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid
-WHERE a.company_xid=:company_xid {FILTER}
+WHERE 1=1 AND b.xid=" + comp_xid + @"{FILTER}
 {SORTING}
 LIMIT :Size OFFSET :Skip";
+                }
 
                 sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
                 sqlStmt = sqlStmt.Replace("{SORTING}", !string.IsNullOrEmpty(sorting) ? "ORDER BY " + sorting : string.Empty);
 
                 List<NpgsqlParameter> sqlParams = new List<NpgsqlParameter>
                 {
-                    new NpgsqlParameter("company_xid", comp_xid),
                     new NpgsqlParameter("Size", size),
                     new NpgsqlParameter("Skip", skip)
                 };
@@ -153,18 +96,19 @@ LIMIT :Size OFFSET :Skip";
                         accounts.Add(new B2dAccount()
                         {
                             XID = dr.ToInt64("xid"),
-                            UUID = dr.ToStringEx("guid"),
+                            UUID = dr.ToStringEx("user_uuid"),
                             EMAIL = dr.ToStringEx("email"),
+                            GENDER_TITLE = dr.ToStringEx("gender_title"),
                             NAME_FIRST = dr.ToStringEx("name_first"),
                             NAME_LAST = dr.ToStringEx("name_last"),
                             NAME = dr.ToStringEx("name"),
                             COMPANY_XID = dr.ToInt64("comp_xid"),
                             COMPANY_NAME = dr.ToStringEx("comp_name"),
                             DEPARTMENT = dr.ToStringEx("department"),
+                            JOB_TITLE = dr.ToStringEx("job_title"),
                             ENABLE = dr.ToBoolean("enable"),
                             CURRENCY = dr.ToStringEx("comp_currency"),
                             LOCALE = dr.ToStringEx("comp_locale"),
-                            TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
                             TEL = dr.ToStringEx("tel"),
                             USER_TYPE = dr.ToStringEx("account_type")
                         });
@@ -180,12 +124,13 @@ LIMIT :Size OFFSET :Skip";
             return accounts;
         }
 
-        public static B2dAccount GetAccount(Int64 xid)
-        { 
+        // 取得個別API使用者資訊
+        public static B2dUserProfile GetAccount_Api(Int64 xid)
+        {
             try
             {
-                string sqlStmt = @"SELECT a.xid, a.guid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, 
+                string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type, a.gender_title,
+ a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.job_title,
  a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
 FROM b2b.b2d_account_api a
@@ -201,21 +146,22 @@ WHERE a.xid=:xid";
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
 
-                    B2dAccount b2dAccount = new B2dAccount()
+                    B2dUserProfile b2dAccount = new B2dUserProfile()
                     {
                         XID = dr.ToInt64("xid"),
-                        UUID = dr.ToStringEx("guid"),
+                        UUID = dr.ToStringEx("user_uuid"),
                         EMAIL = dr.ToStringEx("email"),
+                        GENDER_TITLE = dr.ToStringEx("gender_title"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
                         NAME = dr.ToStringEx("name"),
                         COMPANY_XID = dr.ToInt64("comp_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
                         DEPARTMENT = dr.ToStringEx("department"),
-                        ENABLE = dr.ToBoolean("enable"), 
+                        JOB_TITLE = dr.ToStringEx("job_title"),
+                        ENABLE = dr.ToBoolean("enable"),
                         CURRENCY = dr.ToStringEx("comp_currency"),
                         LOCALE = dr.ToStringEx("comp_locale"),
-                        TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
                         TEL = dr.ToStringEx("tel"),
                         USER_TYPE = dr.ToStringEx("account_type")
                     };
@@ -233,24 +179,26 @@ WHERE a.xid=:xid";
             return null;
         }
 
-
-        public static void UpdateAccount(B2dApiAccount account, string upd_user)
+        // 修改API使用者
+        public static void UpdateAccount_Api(B2dApiAccount account, string upd_user)
         {
             try
-            { 
+            {
                 string sqlStmt = @"UPDATE b2b.b2d_account_api SET xid=:xid, name_last=:name_last, 
-name_first=:name_first, account_type=:account_type, enable=:enable, tel=:tel, department=:department, 
-upd_user=:upd_user, upd_datetime=now()
+name_first=:name_first, account_type=:account_type, gendert_title=:gendert_title, enable=:enable, 
+tel=:tel, department=:department, job_title=::job_title,upd_user=:upd_user, upd_datetime=now()
 WHERE xid=:xid ";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("xid", account.XID),
+                    new NpgsqlParameter("gendert_title", account.GENDER_TITLE),
                     new NpgsqlParameter("name_last", account.NAME_FIRST),
                     new NpgsqlParameter("name_first", account.NAME_LAST),
                     new NpgsqlParameter("account_type", account.USER_TYPE),
-                    new NpgsqlParameter("enable", account.ENABLE), 
-                    new NpgsqlParameter("tel", account.TEL), 
-                    new NpgsqlParameter("department", (object)account.DEPARTMENT ?? DBNull.Value), 
+                    new NpgsqlParameter("enable", account.ENABLE),
+                    new NpgsqlParameter("tel", account.TEL),
+                    new NpgsqlParameter("department", (object)account.DEPARTMENT ?? DBNull.Value),
+                    new NpgsqlParameter("job_title", (object)account.JOB_TITLE ?? DBNull.Value),
                     new NpgsqlParameter("upd_user", upd_user)
                 };
 
@@ -264,7 +212,71 @@ WHERE xid=:xid ";
             }
         }
 
-        public static void UpdatePassword(string email, string psw)
+        // 新增API使用者
+        public static void InsertApiAccount_Api(B2dApiAccount account, string crt_user)
+        {
+            try
+            {
+                string sqlStmt = @"INSERT INTO b2b.b2d_account_api(
+user_uuid, source, company_xid, account_type, enable, password, name_last, name_first, gender_title, 
+department, job_title, email, tel, crt_user, crt_datetime, api_token)
+VALUES (:user_uuid, :source, :company_xid, :account_type, :enable, :password, :name_last, :name_first, 
+:gender_title, :department, :job_title, :email, :tel, :crt_user, now(), :api_token);";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("user_uuid", account.UUID),
+                    new NpgsqlParameter("source", ""),
+                    new NpgsqlParameter("company_xid", account.COMPANY_XID),
+                    new NpgsqlParameter("account_type", account.USER_TYPE),
+                    new NpgsqlParameter("enable", account.ENABLE),
+                    new NpgsqlParameter("password", account.PASSWORD),
+                    new NpgsqlParameter("name_last", account.NAME_LAST),
+                    new NpgsqlParameter("name_first", account.NAME_FIRST),
+                    new NpgsqlParameter("gender_title", account.GENDER_TITLE),
+                    new NpgsqlParameter("department", account.DEPARTMENT),
+                    new NpgsqlParameter("job_title", account.JOB_TITLE),
+                    new NpgsqlParameter("email", account.EMAIL),
+                    new NpgsqlParameter("tel", account.TEL),
+                    new NpgsqlParameter("crt_user", crt_user),
+                    new NpgsqlParameter("api_token", "")
+                };
+
+                NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+
+            }
+            catch (Exception ex)
+            {
+                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        // 關閉使用者
+        public static void CloseAccount_Api(Int64 xid, string upd_user)
+        {
+            try
+            {
+                string sqlStmt = @"UPDATE b2b.b2d_account
+SET enable = false
+WHERE xid=11:xid";
+
+                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
+                    new NpgsqlParameter("xid", xid)
+                };
+
+                NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+
+            }
+
+            catch (Exception ex)
+            {
+                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+
+        // 更改密碼
+        public static void UpdatePassword_Api(string email, string psw)
         {
             try
             {
@@ -282,7 +294,7 @@ WHERE LOWER(email)=LOWER(:email) ";
                 };
 
                 NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
-               
+
             }
             catch (Exception ex)
             {

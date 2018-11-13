@@ -111,7 +111,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
                 ViewData["VouchAddOn"] = vouchRepos.GetVoucherAddon(id);
                 ViewData["QueryParams"] = queryArgc;
                 ViewData["CountryAreas"] = countryRepos.GetCountryAreas(locale);
-                ViewData["CountryLocales"] = countryRepos.GetCountryLocales(locale);
+                ViewData["CountryLocales"] = countryRepos.GetCountryLocales();
 
                 return View(_company); 
             }

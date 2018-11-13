@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 using KKday.Web.B2D.BE.AppCode;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
 using KKday.Web.B2D.BE.AppCode.DAL.RegisterDAL;
@@ -21,8 +18,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             _localizer = localizer;
         }
 
-        #region 使用者認證 Authentication
-
+        // 使用者認證 Authentication
         public UserAccount GetAccount(string email, string password)
         {
             // 檢查登入者身分
@@ -35,16 +31,9 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
             return account;
         }
-         
-        public B2dUserProfile GetProfile(string account)
-        {
-            return AccountAuthDAL.GetB2dProfile(account);
-        }
 
-        #endregion
 
-        #region 註冊新分銷商
-
+        // 註冊新分銷商
         public void Register(RegisterModel reg)
         {
             try
@@ -53,15 +42,21 @@ namespace KKday.Web.B2D.BE.Models.Repository
                 {
                     reg.PASSWORD = Sha256Helper.Gethash(reg.PASSWORD);
                     reg.USER_UUID = Guid.NewGuid().ToString();
+
+                    string[] time = reg.TIMEZONE.Split(new char[2] { ',', ':' });
+                    reg.TIMEZONE = time[1];
+
+                    string[] country = reg.COUNTRY_CODE.Split(new char[1] { ',' });
+                    reg.COUNTRY_CODE = country[0];
+                    reg.TEL_CODE = country[1];
+
                     RegisterDAL.InsCompany(reg);
                 }
-            } 
+            }
             catch (Exception ex)
             {
                 throw ex;
-            } 
+            }
         }
-
-        #endregion
-    }  
+    }
 }

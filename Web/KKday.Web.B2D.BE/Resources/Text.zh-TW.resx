@@ -107,8 +107,38 @@
     <data name="Email" xml:space="preserve"><value>電子信箱</value></data>
     <data name="ProductNo" xml:space="preserve"><value>產品編號</value></data>
     <data name="ProductName" xml:space="preserve"><value>產品名稱</value></data>
-    <data name="Tel" xml:space="preserve"><value>電話</value></data>
+    <data name="Tel" xml:space="preserve"><value>聯絡電話</value></data>
     <data name="ContactTel" xml:space="preserve"><value>聯絡電話</value></data>
+    <data name="Select" xml:space="preserve"><value>請選擇</value></data>
+    <data name="UpdateOK" xml:space="preserve"><value>修改完成</value></data>
+    <!-- Genernel User-->
+    <data name="Register" xml:space="preserve"><value>分銷商註冊</value></data>
+    <data name="UserProfile" xml:space="preserve"><value>基本資料</value></data>
+    <data name="CompanyProfile" xml:space="preserve"><value>公司資料</value></data>
+    <data name="GenderTitle" xml:space="preserve"><value>稱謂</value></data>
+    <data name="NameLast" xml:space="preserve"><value>姓氏</value></data>
+    <data name="NameFirst" xml:space="preserve"><value>名字</value></data>
+    <data name="JobTitle" xml:space="preserve"><value>職稱</value></data>
+    <data name="Department" xml:space="preserve"><value>部門</value></data>
+    <data name="CountryANDTelCode" xml:space="preserve"><value>公司所在國家及區碼</value></data>
+    <data name="TimeZone" xml:space="preserve"><value>公司所在時區(GMT)</value></data>
+    <data name="AddAccount" xml:space="preserve"><value>新增使用者</value></data>
+    <data name="ChangePassword" xml:space="preserve"><value>更改密碼</value></data>
+    <data name="NewPassword" xml:space="preserve"><value>請輸入密碼</value></data>
+    <data name="PasswordAgain" xml:space="preserve"><value>請再次輸入密碼</value></data>
+    <data name="CannotChange" xml:space="preserve"><value>(不可更改)</value></data>
+    <data name="Currency" xml:space="preserve"><value>幣別</value></data>
+    <data name="Locale" xml:space="preserve"><value>語系</value></data>
+    <data name="OnlyTaiwan" xml:space="preserve"><value>僅台灣同業使用</value></data>
+    
+    <!-- Search -->
+    <data name="Search_Name" xml:space="preserve"><value>請輸入姓名</value></data>
+    <data name="Search_Name_Last" xml:space="preserve"><value>請輸入姓氏</value></data>
+    <data name="Search_Name_First" xml:space="preserve"><value>請輸入名字</value></data>
+    <data name="Search_Email" xml:space="preserve"><value>請輸入電子信箱</value></data>
+    <data name="Search_Tel" xml:space="preserve"><value>請輸入電話號碼</value></data>
+    <data name="Search_JobTitle" xml:space="preserve"><value>請輸入職稱</value></data>
+    <data name="Search_Department" xml:space="preserve"><value>請輸入部門</value></data>
     
     <!-- Sidebar -->
     <data name="Title_Distributor" xml:space="preserve"><value>分銷商管理</value></data>
@@ -118,6 +148,16 @@
     <data name="Title_B2dApiAccount" xml:space="preserve"><value>分銷商API帳號</value></data>
     <data name="Title_PriceBlacklist" xml:space="preserve"><value>牌價黑名單</value></data>
     <data name="Title_PriceSetting" xml:space="preserve"><value>價格設定</value></data> 
+    <!-- Sidebar User -->
+    <data name="Title_GoBooking" xml:space="preserve"><value>前往訂購</value></data>
+    <data name="Title_MyProfile" xml:space="preserve"><value>我的帳號</value></data>
+    <data name="Title_AddVoucher" xml:space="preserve"><value>憑證補充資料</value></data>
+    <data name="Title_MyOrder" xml:space="preserve"><value>我的訂單</value></data>
+    <data name="Title_ChangePassword" xml:space="preserve"><value>更改密碼</value></data>
+    <data name="Title_WebUser" xml:space="preserve"><value>子帳戶設定</value></data>
+    <data name="Title_ApiUser" xml:space="preserve"><value>API子帳戶設定</value></data>
+    <data name="Title_WebUserProfile" xml:space="preserve"><value>子帳號內容</value></data>
+    <data name="Title_ApiUserProfile" xml:space="preserve"><value>API帳號內容</value></data>
     
     <!-- Account -->
     <data name="UserType" xml:space="preserve"><value>使用者類型</value></data>
@@ -127,8 +167,11 @@
  
     <!-- Company -->
     <data name="Company_Name" xml:space="preserve"><value>公司名稱</value></data>
+    <data name="Company_Invoice" xml:space="preserve"><value>統一編號</value></data>
+    <data name="Company_Url" xml:space="preserve"><value>公司網址</value></data>
     <data name="Company_Address" xml:space="preserve"><value>公司地址</value></data>
     <data name="Company_PromotionSetting" xml:space="preserve"><value>優惠設定</value></data>
+    <data name="Company_logo" xml:space="preserve"><value>公司Logo圖片</value></data>
     
     <!-- Company_Progress -->
     <data name="Company_Progress_00" xml:space="preserve"><value>已申請</value></data>

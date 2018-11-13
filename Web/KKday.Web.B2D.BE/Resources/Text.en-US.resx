@@ -77,7 +77,7 @@
     <data name="CURR_THB" xml:space="preserve"><value>Baht</value></data>
     <data name="CURR_TWD" xml:space="preserve"><value>New Taiwan Dollar</value></data> 
     <data name="CURR_USD" xml:space="preserve"><value>USD</value></data> 
-    <data name="CURR_VND" xml:space="preserve"><value>Vietnamese Dong</value></data> 
+    <data name="CURR_VND" xml:space="preserve"><value>Vietnamese Dong</value></data>  
     
     <!-- Genernel -->
     <data name="KKday_CopyRight" xml:space="preserve"><value>KKday Business to Distribution Platform</value></data>
@@ -108,6 +108,36 @@
     <data name="ProductName" xml:space="preserve"><value>Product Name</value></data>
     <data name="Tel" xml:space="preserve"><value>Telephone</value></data>
     <data name="ContactTel" xml:space="preserve"><value>Contact Tel</value></data>
+    <data name="Select" xml:space="preserve"><value>Select</value></data>
+    <data name="UpdateOK" xml:space="preserve"><value>Update OK</value></data>
+    <!-- Genernel User-->
+    <data name="Register" xml:space="preserve"><value>Register</value></data>
+    <data name="UserProfile" xml:space="preserve"><value>User Profile</value></data>
+    <data name="CompanyProfile" xml:space="preserve"><value>Company Profile</value></data>
+    <data name="GenderTitle" xml:space="preserve"><value>Gender Title</value></data>
+    <data name="NameLast" xml:space="preserve"><value>Last Name</value></data>
+    <data name="NameFirst" xml:space="preserve"><value>First Name</value></data>
+    <data name="JobTitle" xml:space="preserve"><value>Job Title</value></data>
+    <data name="Department" xml:space="preserve"><value>Department</value></data>
+    <data name="CountryANDTelCode" xml:space="preserve"><value>Country And Tel Code</value></data>
+    <data name="TimeZone" xml:space="preserve"><value>Country Timezone(GMT)</value></data>
+    <data name="AddAccount" xml:space="preserve"><value>Add Account</value></data>
+    <data name="ChangePassword" xml:space="preserve"><value>Change Password</value></data>
+    <data name="NewPassword" xml:space="preserve"><value>password</value></data>
+    <data name="PasswordAgain" xml:space="preserve"><value>Password Again</value></data>
+    <data name="CannotChange" xml:space="preserve"><value>(Can't Change)</value></data>
+    <data name="Currency" xml:space="preserve"><value>Currency</value></data>
+    <data name="Locale" xml:space="preserve"><value>Locale</value></data>
+    <data name="OnlyTaiwan" xml:space="preserve"><value>Taiwan Only</value></data>
+    
+    <!-- Search -->
+    <data name="Search_Name" xml:space="preserve"><value>Please enter your username</value></data>
+    <data name="Search_Name_Last" xml:space="preserve"><value>Please enter your lastname</value></data>
+    <data name="Search_Name_First" xml:space="preserve"><value>Please enter your firstname</value></data>
+    <data name="Search_Email" xml:space="preserve"><value>Please enter your email</value></data>
+    <data name="Search_Tel" xml:space="preserve"><value>Please enter your phone number</value></data>
+    <data name="Search_JobTitle" xml:space="preserve"><value>Please enter your job title</value></data>
+    <data name="Search_Department" xml:space="preserve"><value>Please enter your department</value></data>
     
     <!-- Sidebar -->
     <data name="Title_Distributor" xml:space="preserve"><value>Distributor</value></data>
@@ -117,6 +147,16 @@
     <data name="Title_B2dApiAccount" xml:space="preserve"><value>Api Account</value></data>
     <data name="Title_PriceBlacklist" xml:space="preserve"><value>Price Blacklist</value></data>
     <data name="Title_PriceSetting" xml:space="preserve"><value>Price Setting</value></data> 
+    <!-- Sidebar User -->
+    <data name="Title_GoBooking" xml:space="preserve"><value>Go Booking</value></data>
+    <data name="Title_MyProfile" xml:space="preserve"><value>My Profile</value></data>
+    <data name="Title_AddVoucher" xml:space="preserve"><value>Add Voucher</value></data>
+    <data name="Title_MyOrder" xml:space="preserve"><value>My Orders</value></data>
+    <data name="Title_ChangePassword" xml:space="preserve"><value>Change Password</value></data>
+    <data name="Title_WebUser" xml:space="preserve"><value>User Account Setting</value></data>
+    <data name="Title_ApiUser" xml:space="preserve"><value>API Account Setting</value></data>
+    <data name="Title_WebUserProfile" xml:space="preserve"><value>User Profile</value></data>
+    <data name="Title_ApiUserProfile" xml:space="preserve"><value>API Profile</value></data>
     
     <!-- Account -->
     <data name="UserType" xml:space="preserve"><value>User Type</value></data>
@@ -126,8 +166,11 @@
     
     <!-- Company -->
     <data name="Company_Name" xml:space="preserve"><value>Company Name</value></data>
+    <data name="Company_Invoice" xml:space="preserve"><value>Company Invoice</value></data>
+    <data name="Company_Url" xml:space="preserve"><value>Company Url</value></data>
     <data name="Company_Address" xml:space="preserve"><value>Company Address</value></data>
     <data name="Company_PromotionSetting" xml:space="preserve"><value>Promotion Setting</value></data>
+    <data name="Company_logo" xml:space="preserve"><value>Company Logo</value></data>
     
     <!-- Company_Progress -->
     <data name="Company_Progress_00" xml:space="preserve"><value>Applied</value></data>

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using KKday.Web.B2D.BE.AppCode.DAL.FixedPrice;
+using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.FixedPrice;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using KKday.Web.B2D.BE.Models.Model.FixedPrice;
 using KKday.Web.B2D.BE.Proxy;
@@ -85,9 +86,8 @@ namespace KKday.Web.B2D.BE.Models.Repository
         /////////////
 
         public List<FixedPricePackageEx> GetFixedPricePackages(Int64 prod_xid)
-        {
-            List<FixedPricePackageEx> pkgs = new List<FixedPricePackageEx>();
-            return pkgs;
+        { 
+            return FixedPriceDAL.GetFixedPricePackages(prod_xid, string.Empty, 0, int.MaxValue, string.Empty);
         }
 
         public List<FixedPricePackageEx> SyncPackage(FixedPriceProductEx prod)
@@ -135,8 +135,8 @@ namespace KKday.Web.B2D.BE.Models.Repository
                 pkgs.Add(new FixedPricePackageEx()
                 {
                     SEQ_NO = _pkg_seq,
-                    PACKAGE_NO = p.pkg_no,
-                    PACKAGE_NAME = p.pkg_name,
+                    PKG_NO = p.pkg_no,
+                    PKG_NAME = p.pkg_name,
                     PROD_XID = prod.XID,
                     Prices = prices
                 });
@@ -145,6 +145,11 @@ namespace KKday.Web.B2D.BE.Models.Repository
             });
 
             return pkgs;
+        }
+
+        public void ImportPackage(ImportPackage pkg, string crt_user)
+        {
+            FixedPriceDAL.ImportPackage(pkg, crt_user);
         }
     }
 }

@@ -25,8 +25,8 @@ namespace KKday.Web.B2D.BE.Models.Model.FixedPrice
     {
         public Int64 XID { get; set; }
         public Int64 PROD_XID { get; set; }
-        public string PACKAGE_NO { get; set; }
-        public string PACKAGE_NAME { get; set; }
+        public string PKG_NO { get; set; }
+        public string PKG_NAME { get; set; }
         public DateTime ONLINE_SDATE { get; set; }
         public DateTime ONLINE_EDATE { get; set; }
     }

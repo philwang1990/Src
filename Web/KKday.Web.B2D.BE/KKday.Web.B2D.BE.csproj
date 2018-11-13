@@ -65,6 +65,10 @@
     <Folder Include="Models\Model\Voucher\" />
     <Folder Include="AppCode\DAL\FixedPrice\" />
     <Folder Include="Models\Model\Package\" />
+    <Folder Include="Areas\KKday\Models\DataModel\FixedPrice\" />
+    <Folder Include="wwwroot\lib\bootstrap-select\" />
+    <Folder Include="wwwroot\lib\bootstrap-select\css\" />
+    <Folder Include="wwwroot\lib\bootstrap-select\js\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />

@@ -84,7 +84,7 @@ namespace KKday.Web.B2D.BE.Commons
         }
 
         // 取得國家與語系
-        public static List<CountryLocale> GetCountryLocales(string locale)
+        public static List<CountryLocale> GetCountryLocales()
         {
             List<CountryLocale> locales = new List<CountryLocale>();
 
@@ -109,7 +109,7 @@ namespace KKday.Web.B2D.BE.Commons
                             { "userOid", Website.Instance.Configuration["KKdayAPI:Body:ApiKey"]},
                             { "ver", Website.Instance.Configuration["KKdayAPI:Body:Ver"]},
                             { "ipaddress", Website.Instance.Configuration["KKdayAPI:Body:IPAddress"]},
-                            { "locale", locale } 
+                            { "locale", "en" } 
                         };
 
                         string json_data = JsonConvert.SerializeObject(_params);

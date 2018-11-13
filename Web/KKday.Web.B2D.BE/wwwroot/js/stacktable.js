@@ -116,16 +116,15 @@
         tr_class = $(this).prop('class');
 
         // for the first row, "headIndex" cell is the head of the table
-
         if (rowIndex === 0) {
           // the main heading goes into the markup variable
-          if (displayHeader) {
+          if (displayHeader) { 
             markup += '<tr class=" '+tr_class +' "><th class="st-head-row st-head-row-main" colspan="2">'+$(this).find('>th,>td').eq(headIndex).html()+'</th></tr>';
           }
         } else {
           // for the other rows, put the "headIndex" cell as the head for that row
           // then iterate through the key/values
-          $(this).find('>td,>th').each(function(cellIndex) {
+          $(this).find('>td,>th').each(function(cellIndex) { 
             if (cellIndex === headIndex) {
               headMarkup = '<tr class="'+ tr_class+'"><th class="st-head-row" colspan="2">'+$(this).html()+'</th></tr>';
             } else {

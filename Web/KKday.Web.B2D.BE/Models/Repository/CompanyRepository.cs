@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using KKday.Web.B2D.BE.AppCode.DAL.Company;
 using KKday.Web.B2D.BE.Models.Model.Company;
 using KKday.Web.B2D.BE.Models.Model.Common;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Resources;
 using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel;
@@ -43,10 +42,10 @@ namespace KKday.Web.B2D.BE.Models.Repository
         {
             try
             {
-                var _filter = GetFieldFiltering(filter); 
+                var _filter = GetFieldFiltering(filter);
                 return CompanyDAL.GetCompanyCount(_filter);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }
@@ -78,7 +77,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
         public void Update(CompanyUpdModel company, string upd_user)
         {
             CompanyDAL.UpdateCompany(company, upd_user);
-        } 
+        }
 
         public void UpdateLicenses(Int64 xid, string[] license_url, string upd_user)
         {
@@ -90,7 +89,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             CompanyDAL.UpdateStatus(xid, status, upd_user);
         }
 
-        public List<B2dDiscountMst> GetDiscounts(Int64 company_xid) 
+        public List<B2dDiscountMst> GetDiscounts(Int64 company_xid)
         {
             return CompanyDiscountDAL.GetDiscountMst(company_xid);
         }
@@ -100,7 +99,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return CompanyDiscountDAL.GetAvailableDiscountMst(company_xid);
         }
 
-        public void InsertDiscount(Int64 company_xid, Int64[] items, string crt_user) 
+        public void InsertDiscount(Int64 company_xid, Int64[] items, string crt_user)
         {
             CompanyDiscountDAL.InsertDiscount(company_xid, items, crt_user);
         }
@@ -112,7 +111,6 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         #region Fields Mapping
 
-        // 過濾對應
         private string GetFieldFiltering(string filter)
         {
             var _filter = "";
@@ -121,34 +119,33 @@ namespace KKday.Web.B2D.BE.Models.Repository
             if (!string.IsNullOrEmpty((string)jObjFilter["name"]))
                 _filter += $" AND comp_name LIKE '%{jObjFilter["name"]}%' ";
 
-            if (!string.IsNullOrEmpty((string)jObjFilter["country"])) 
+            if (!string.IsNullOrEmpty((string)jObjFilter["country"]))
                 _filter += $" AND comp_country = '{jObjFilter["country"]}' ";
-             
+
             if (!string.IsNullOrEmpty((string)jObjFilter["status"]))
                 _filter += $" AND status = '{jObjFilter["status"]}' ";
-          
+
 
             return _filter;
         }
 
-        // 排序對應
         private string GetFieldSorting(string sorting)
         {
             var _sorting = "";
-             
-            switch(sorting) 
+
+            switch (sorting)
             {
 
-                case "name" : _sorting = "comp_name"; break;
+                case "name": _sorting = "comp_name"; break;
                 case "status": _sorting = "status"; break;
                 case "xid": _sorting = "xid"; break;
-                case "country": _sorting = "comp_country"; break; 
-                default : break;
+                case "country": _sorting = "comp_country"; break;
+                default: break;
             }
 
             return _sorting;
         }
-         
+
         // 狀態對應
         private string GetFieldStatus(string status)
         {

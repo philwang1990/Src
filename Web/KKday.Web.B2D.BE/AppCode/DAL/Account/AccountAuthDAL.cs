@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Models.Model.Account;
@@ -19,7 +18,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Account
                 // 連接Posgresql
                 conn.Open();
 
-                string sqlStmt = @"SELECT *, name_first || name_last AS Name 
+                string sqlStmt = @"SELECT *, name_last || name_first AS Name 
 FROM b2b.b2d_account_kkday 
 WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
 
@@ -55,11 +54,11 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                 // 檢查是否為分銷商使用者
                 else {
                     sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
- a.name_first || a.name_last AS name, a.department, a.job_title, a.enable, a.gender_title,
+ a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
  b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status='03' --已核准
-WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
+WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
 
                     sqlParams = new NpgsqlParameter[]{
                         new NpgsqlParameter("email", email),
@@ -101,66 +100,6 @@ WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
             }
 
             return _account;
-        }
-
-
-        // 取得個別分銷商使用者內容
-        public static B2dUserProfile GetB2dProfile(string email)
-        {
-            B2dUserProfile profile = null;
-
-            try
-            {
-                string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
-a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
-a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_tel, b.comp_url, b.comp_locale, 
-b.comp_currency, b.comp_invoice, b.comp_country_code, b.comp_address, b.comp_tel_country_code
-FROM b2b.b2d_account a
-JOIN b2b.b2d_company b ON a.company_xid=b.xid
-WHERE LOWER(email)=LOWER(:email) ";
-
-                NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                  new NpgsqlParameter("email", email)
-              };
-
-                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
-                if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
-                {
-                    DataRow dr = ds.Tables[0].Rows[0];
-
-                    profile = new B2dUserProfile()
-                    {
-                        XID = dr.ToInt64("xid"),
-                        UUID = dr.ToStringEx("user_uuid"),
-                        EMAIL = dr.ToStringEx("email"),
-                        NAME_FIRST = dr.ToStringEx("name_first"),
-                        NAME_LAST = dr.ToStringEx("name_last"),
-                        NAME = dr.ToStringEx("name"),
-                        COMPANY_XID = dr.ToInt64("comp_xid"),
-                        COMPANY_NAME = dr.ToStringEx("comp_name"),
-                        DEPARTMENT = dr.ToStringEx("department"),
-                        ENABLE = dr.ToBoolean("enable"),
-                        GENDER_TITLE = dr.ToStringEx("gender_title"),
-                        JOB_TITLE = dr.ToStringEx("job_title"),
-                        CURRENCY = dr.ToStringEx("comp_currency"),
-                        LOCALE = dr.ToStringEx("comp_locale"),
-                        ADDRESS = dr.ToStringEx("comp_address"),
-                        COUNTRY_CODE = dr.ToStringEx("comp_country_code"),
-                        URL = dr.ToStringEx("comp_url"),
-                        INVOICE_NO = dr.ToStringEx("comp_invoice"),
-                        TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
-                        TEL = dr.ToStringEx("tel"),
-                        USER_TYPE = dr.ToStringEx("account_type")
-                    };
-                }
-            }
-            catch (Exception ex)
-            {
-                Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
-                throw ex;
-            }
-
-            return profile;
         }
     }
 }

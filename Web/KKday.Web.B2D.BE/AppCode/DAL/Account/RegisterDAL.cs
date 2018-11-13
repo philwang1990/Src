@@ -21,13 +21,13 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.RegisterDAL
 
                 string sqlStmt = @"INSERT INTO b2b.b2d_company(
  status, comp_coop_mode, payment_type, manager_account_xid, comp_name, comp_url, comp_license,
- comp_license_2, comp_locale, comp_currency, comp_invoice, comp_tel_country_code, 
+ comp_license_2, comp_country, comp_locale, comp_currency, comp_invoice, comp_tel_country_code, 
  comp_tel, contact_user_email, comp_address, charge_man_first, charge_man_last, contact_user, crt_user, 
- crt_datetime, charge_man_gender, comp_country)
+ crt_datetime, charge_man_gender, comp_timezone)
 VALUES (:status, :comp_coop_mode, :payment_type, :manager_account_xid, :comp_name, :comp_url, :comp_license,
- :comp_license_2, :comp_locale, :comp_currency, :comp_invoice, :comp_tel_country_code, :comp_tel,
+ :comp_license_2, :comp_country, :comp_locale, :comp_currency, :comp_invoice, :comp_tel_country_code, :comp_tel,
  :contact_user_email, :comp_address, :charge_man_first, :charge_man_last, :contact_user, :crt_user, now(), 
- :charge_man_gender, :comp_country);
+ :charge_man_gender, :comp_timezone);
 SELECT currval('b2b.b2d_company_xid_seq') AS new_comp_xid ;
 ";
 
@@ -44,7 +44,8 @@ SELECT currval('b2b.b2d_company_xid_seq') AS new_comp_xid ;
                     new NpgsqlParameter("comp_locale", reg.LOCALE),
                     new NpgsqlParameter("comp_currency", reg.CURRENCY),
                     new NpgsqlParameter("comp_invoice", reg.INVOICE),
-                    new NpgsqlParameter("comp_tel_country_code", reg.COUNTRY_CODE),
+                    new NpgsqlParameter("comp_country", reg.COUNTRY_CODE),
+                    new NpgsqlParameter("comp_tel_country_code", reg.TEL_CODE),
                     new NpgsqlParameter("comp_tel", reg.TEL),
                     new NpgsqlParameter("contact_user_email", reg.EMAIL),
                     new NpgsqlParameter("comp_address", reg.ADDRESS),
@@ -53,7 +54,7 @@ SELECT currval('b2b.b2d_company_xid_seq') AS new_comp_xid ;
                     new NpgsqlParameter("contact_user", string.Empty),
                     new NpgsqlParameter("crt_user", "system"),
                     new NpgsqlParameter("charge_man_gender", reg.GENDER_TITLE),
-                    new NpgsqlParameter("comp_country", reg.COUNTRY)
+                    new NpgsqlParameter("comp_timezone", Convert.ToInt32(reg.TIMEZONE))
                 };
 
                 var new_comp_xid = NpgsqlHelper.ExecuteScalar(trans, CommandType.Text, sqlStmt, sqlParams);
@@ -74,7 +75,7 @@ SELECT currval('b2b.b2d_company_xid_seq') AS new_comp_xid ;
         }
 
         // 新增分銷商主帳號
-        public static string InsAccount(NpgsqlTransaction trans, RegisterModel reg,object comp_xid)
+        public static string InsAccount(NpgsqlTransaction trans, RegisterModel reg, object comp_xid)
         {
             try
             {
@@ -112,7 +113,7 @@ SELECT currval('b2b.b2d_account_xid_seq') AS new_comp_xid ;";
         }
 
         // 更新主帳號xid
-        public static void UpdManagerXid(NpgsqlTransaction trans, object comp_xid,object acc_xid)
+        public static void UpdManagerXid(NpgsqlTransaction trans, object comp_xid, object acc_xid)
         {
             try
             {

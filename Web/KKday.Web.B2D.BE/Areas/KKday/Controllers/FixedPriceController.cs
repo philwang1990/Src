@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KKday.Web.B2D.BE.Areas.KKday.Models.DataModel.FixedPrice;
 using KKday.Web.B2D.BE.Filters;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using KKday.Web.B2D.BE.Models.Model.FixedPrice;
@@ -90,7 +91,7 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
             try
             {
-                var crt_user = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                var crt_user = User.FindFirst("Account").Value;
                 var fxpRepos = HttpContext.RequestServices.GetService<FixedPriceRepository>();
                 fxpRepos.InsertProd(prod, crt_user);
 
@@ -146,5 +147,28 @@ namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 
             return Json(jsonData);
         }
+
+        public IActionResult ImportPackage([FromBody]ImportPackage pkg)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var crt_user = User.FindFirst("Account").Value;
+                var fxpRepos = HttpContext.RequestServices.GetService<FixedPriceRepository>();
+                fxpRepos.ImportPackage(pkg, crt_user);
+
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
     }
 }

@@ -246,6 +246,60 @@
 
 		public string ContactTel { get { return GetString("ContactTel"); } }
 
+		public string Select { get { return GetString("Select"); } }
+
+		public string UpdateOK { get { return GetString("UpdateOK"); } }
+
+		public string Register { get { return GetString("Register"); } }
+
+		public string UserProfile { get { return GetString("UserProfile"); } }
+
+		public string CompanyProfile { get { return GetString("CompanyProfile"); } }
+
+		public string GenderTitle { get { return GetString("GenderTitle"); } }
+
+		public string NameLast { get { return GetString("NameLast"); } }
+
+		public string NameFirst { get { return GetString("NameFirst"); } }
+
+		public string JobTitle { get { return GetString("JobTitle"); } }
+
+		public string Department { get { return GetString("Department"); } }
+
+		public string CountryANDTelCode { get { return GetString("CountryANDTelCode"); } }
+
+		public string TimeZone { get { return GetString("TimeZone"); } }
+
+		public string AddAccount { get { return GetString("AddAccount"); } }
+
+		public string ChangePassword { get { return GetString("ChangePassword"); } }
+
+		public string NewPassword { get { return GetString("NewPassword"); } }
+
+		public string PasswordAgain { get { return GetString("PasswordAgain"); } }
+
+		public string CannotChange { get { return GetString("CannotChange"); } }
+
+		public string Currency { get { return GetString("Currency"); } }
+
+		public string Locale { get { return GetString("Locale"); } }
+
+		public string OnlyTaiwan { get { return GetString("OnlyTaiwan"); } }
+
+		public string Search_Name { get { return GetString("Search_Name"); } }
+
+		public string Search_Name_Last { get { return GetString("Search_Name_Last"); } }
+
+		public string Search_Name_First { get { return GetString("Search_Name_First"); } }
+
+		public string Search_Email { get { return GetString("Search_Email"); } }
+
+		public string Search_Tel { get { return GetString("Search_Tel"); } }
+
+		public string Search_JobTitle { get { return GetString("Search_JobTitle"); } }
+
+		public string Search_Department { get { return GetString("Search_Department"); } }
+
 		public string Title_Distributor { get { return GetString("Title_Distributor"); } }
 
 		public string Title_VoucherApply { get { return GetString("Title_VoucherApply"); } }
@@ -260,6 +314,24 @@
 
 		public string Title_PriceSetting { get { return GetString("Title_PriceSetting"); } }
 
+		public string Title_GoBooking { get { return GetString("Title_GoBooking"); } }
+
+		public string Title_MyProfile { get { return GetString("Title_MyProfile"); } }
+
+		public string Title_AddVoucher { get { return GetString("Title_AddVoucher"); } }
+
+		public string Title_MyOrder { get { return GetString("Title_MyOrder"); } }
+
+		public string Title_ChangePassword { get { return GetString("Title_ChangePassword"); } }
+
+		public string Title_WebUser { get { return GetString("Title_WebUser"); } }
+
+		public string Title_ApiUser { get { return GetString("Title_ApiUser"); } }
+
+		public string Title_WebUserProfile { get { return GetString("Title_WebUserProfile"); } }
+
+		public string Title_ApiUserProfile { get { return GetString("Title_ApiUserProfile"); } }
+
 		public string UserType { get { return GetString("UserType"); } }
 
 		public string UserRole_00 { get { return GetString("UserRole_00"); } }
@@ -268,9 +340,15 @@
 
 		public string Company_Name { get { return GetString("Company_Name"); } }
 
+		public string Company_Invoice { get { return GetString("Company_Invoice"); } }
+
+		public string Company_Url { get { return GetString("Company_Url"); } }
+
 		public string Company_Address { get { return GetString("Company_Address"); } }
 
 		public string Company_PromotionSetting { get { return GetString("Company_PromotionSetting"); } }
+
+		public string Company_logo { get { return GetString("Company_logo"); } }
 
 		public string Company_Progress_00 { get { return GetString("Company_Progress_00"); } }
 

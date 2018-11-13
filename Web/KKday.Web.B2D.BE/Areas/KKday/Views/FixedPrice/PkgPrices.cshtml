@@ -4,18 +4,62 @@
 @inject ILocalizer localizer
 @model List<FixedPricePackageEx>
 @{
-    Layout = "_LayoutMain"; 
+    Layout = "_LayoutMain";
 
     var prod = ViewData["PRODUCT"] as FixedPriceProductEx;
     var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
 }
+
 @section Stylesheet {
     <link rel="stylesheet" href="~/css/collapse_arrows.css">
+    <link rel="stylesheet" href="~/css/stacktable.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet" />
     <style type="text/css">
-        .price-table { margin-bottom: 8px; }
+        .daterangepicker select.monthselect, .daterangepicker select.yearselect {
+            font-size: 20px;
+        }
+
+        .sign-btn {
+            background-color: #E0F2F7;
+        }
+
+        .error-text {
+            color: red;
+        }
+
+        .price-table {
+            margin-bottom: 8px;
+        }
+
+        .cb-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cb-label input[type=checkbox], .cb-label input[type=radio] {
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+            vertical-align: center;
+            background: #fff;
+            border: 1px solid #ccc;
+            position: relative;
+        } 
+
+        .cell-spacing { margin-top: 3px; margin-bottom:3px; }
     </style>
 }
- 
+
+@section Scripts {
+    <script src="~/lib/bootstrap-daterangepicker/dist/js/moment-with-locales.min.js" asp-append-version="true"></script>
+    <script src="~/js/stacktable.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
+}
+
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
@@ -25,21 +69,21 @@
 </nav>
 
 <div class="container">
-    <div class="row"> 
+    <div class="row">
         <div class="col-xs-12">
             <h4>固定價設定</h4>
         </div>
 
         <div class="col-xs-12">
             <span style="font-size: 1.18em; display: block; margin: 16px 0 16px 0; color: #0174DF;">
-                    @prod.COMPANY_NAME
+                @prod.COMPANY_NAME
             </span>
         </div>
     </div> <!-- row -->
 
-    <div class="row"> 
+    <div class="row">
         <div class="col-xs-12" style="margin-bottom: 8px;">
-             
+            <input type="hidden" id="xid" value="@prod.XID" />
             #@prod.PROD_NO @prod.PROD_NAME
 
             <button class="btn btn-info" onclick="SyncPackage('@prod.XID'); return false;">
@@ -48,11 +92,11 @@
         </div>
 
         <div id="list_pkg" class="col-xs-12">
-             @await Html.PartialAsync("_EditPkgPrice", Model)
+            @await Html.PartialAsync("_EditPkgPrice", Model)
         </div>
 
-         <div id="import_pkg" class="col-xs-12" style="display:none;">
-         </div>
+        <div id="import_pkg" class="col-xs-12" style="display:none;">
+        </div>
     </div> <!-- row -->
 
     <div class="row">
@@ -97,6 +141,7 @@
 <script type="text/javascript">
 
     $(function(){
+        $('#mytable').stacktable({ hideOriginal:true, displayHeader: false });
 
     });
 
@@ -113,13 +158,70 @@
             } else {
                 alert(result.msg);
             }
-        
+
         });
     }
 
     function RestorePage(){
          $("#list_pkg").show();
-         $("#import_pkg").hide();
+         $("#import_pkg").html('').hide();
+    }
+
+    function ImportPackages() {
+
+        console.log("Import Pakcages");
+
+        var objImport = {
+            prod_xid : $("#xid").val(),
+            s_date : $("#period").data('daterangepicker').startDate.format('YYYY-MM-DD'),
+            e_date : $("#period").data('daterangepicker').endDate.format('YYYY-MM-DD'),
+            packages : []
+        };
+
+        var sel_pkg_count = 0;
+        $("#accordion input[type=checkbox]:checked").each(function () {
+            var seq = $(this).parent().attr("data-target");
+            var pkg_no = $(seq).attr("data-val");
+            var pkg_name = $(this).parent().text().trim();
+
+            pkg_item = { pkg_no : pkg_no, pkg_name : pkg_name, prices : [] }
+
+            var price_rows = $(seq).find(".price tbody tr");
+            if(price_rows.length > 0) {
+                price_rows.each(function() {
+                    var price_cond = $(this).find("td").eq(1).text();
+                    var price = $(this).find("td").eq(3).find("input").val();
+                    // console.log("....>>> price_cond : " + price_cond + ", price : " + price);
+                    pkg_item.prices.push({ cond : price_cond, price : price });
+                });
+            }
+            sel_pkg_count ++;
+
+            objImport.packages.push(pkg_item);
+        });
+
+        console.log(JSON.stringify(objImport));
+
+        if(!confirm("確定要匯入日期區間:" + $("#period").val() + ", 共 " + sel_pkg_count + " 組套餐?")) return false;
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "FixedPrice/ImportPackage",
+            contentType: "application/json",
+            data: JSON.stringify(objImport),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    $("#list_pkg").show();
+                    $("#import_pkg").html('').hide();
+                }
+            }
+        });
     }
 
 </script>

@@ -40,7 +40,7 @@ namespace KKday.Web.B2D.BE.Models.Model.Account
 
     [Serializable]
     public class B2dAccount : UserAccount
-    { 
+    {
         public string USER_TYPE { get; set; } //帳號權限("00":一般, "01":管理者
         public string USER_TYPE_DESC { get; set; } //[顯示用] 帳號權限
         public Int64 COMPANY_XID { get; set; } // 公司代碼
@@ -48,6 +48,6 @@ namespace KKday.Web.B2D.BE.Models.Model.Account
         public string TEL_AREA { get; set; } // [顯示用] 國碼
         public string TEL { get; set; } //聯絡電話
         public string CURRENCY { get; set; } //幣別
-
+        public string PASSWORD { get; set; } //密碼
     }
 }

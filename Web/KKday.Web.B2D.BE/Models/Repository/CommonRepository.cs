@@ -30,12 +30,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return countryAreas;
         }
 
-        public List<CountryLocale> GetCountryLocales(string locale)
+        public List<CountryLocale> GetCountryLocales()
         {
             var locales = _memoryCache.Get<List<CountryLocale>>(CLUTURE_LOCALES_KEY);
             if (locales == null)
             {
-                locales = CommonProxy.GetCountryLocales(locale);
+                locales = CommonProxy.GetCountryLocales();
                 // 保留本機 24HR
                 _memoryCache.Set(CLUTURE_LOCALES_KEY, locales, new TimeSpan(24, 0, 0));
             }

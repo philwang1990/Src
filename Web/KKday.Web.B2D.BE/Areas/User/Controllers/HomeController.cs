@@ -11,10 +11,12 @@ using KKday.Web.B2D.BE.Models.Model.Account;
 using System.Security.Claims;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
+using KKday.Web.B2D.BE.Filters;
 
 namespace KKday.Web.B2D.BE.Areas.User.Controllers
 {
     [Area("User")]
+    [TypeFilter(typeof(CultureFilter))]
     [Authorize(Policy = "UserOnly")]
     public class HomeController : Controller
     { 

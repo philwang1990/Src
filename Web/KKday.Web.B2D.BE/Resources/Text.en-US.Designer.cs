@@ -317,6 +317,168 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        internal static string UpdateOK {
+            get {
+                return ResourceManager.GetString("UpdateOK", resourceCulture);
+            }
+        }
+        
+        internal static string Register {
+            get {
+                return ResourceManager.GetString("Register", resourceCulture);
+            }
+        }
+        
+        internal static string UserProfile {
+            get {
+                return ResourceManager.GetString("UserProfile", resourceCulture);
+            }
+        }
+        
+        internal static string CompanyProfile {
+            get {
+                return ResourceManager.GetString("CompanyProfile", resourceCulture);
+            }
+        }
+        
+        internal static string GenderTitle {
+            get {
+                return ResourceManager.GetString("GenderTitle", resourceCulture);
+            }
+        }
+        
+        internal static string NameLast {
+            get {
+                return ResourceManager.GetString("NameLast", resourceCulture);
+            }
+        }
+        
+        internal static string NameFirst {
+            get {
+                return ResourceManager.GetString("NameFirst", resourceCulture);
+            }
+        }
+        
+        internal static string JobTitle {
+            get {
+                return ResourceManager.GetString("JobTitle", resourceCulture);
+            }
+        }
+        
+        internal static string Department {
+            get {
+                return ResourceManager.GetString("Department", resourceCulture);
+            }
+        }
+        
+        internal static string CountryANDTelCode {
+            get {
+                return ResourceManager.GetString("CountryANDTelCode", resourceCulture);
+            }
+        }
+        
+        internal static string TimeZone {
+            get {
+                return ResourceManager.GetString("TimeZone", resourceCulture);
+            }
+        }
+        
+        internal static string AddAccount {
+            get {
+                return ResourceManager.GetString("AddAccount", resourceCulture);
+            }
+        }
+        
+        internal static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
+            }
+        }
+        
+        internal static string NewPassword {
+            get {
+                return ResourceManager.GetString("NewPassword", resourceCulture);
+            }
+        }
+        
+        internal static string PasswordAgain {
+            get {
+                return ResourceManager.GetString("PasswordAgain", resourceCulture);
+            }
+        }
+        
+        internal static string CannotChange {
+            get {
+                return ResourceManager.GetString("CannotChange", resourceCulture);
+            }
+        }
+        
+        internal static string Currency {
+            get {
+                return ResourceManager.GetString("Currency", resourceCulture);
+            }
+        }
+        
+        internal static string Locale {
+            get {
+                return ResourceManager.GetString("Locale", resourceCulture);
+            }
+        }
+        
+        internal static string OnlyTaiwan {
+            get {
+                return ResourceManager.GetString("OnlyTaiwan", resourceCulture);
+            }
+        }
+        
+        internal static string Search_Name {
+            get {
+                return ResourceManager.GetString("Search_Name", resourceCulture);
+            }
+        }
+        
+        internal static string Search_Name_Last {
+            get {
+                return ResourceManager.GetString("Search_Name_Last", resourceCulture);
+            }
+        }
+        
+        internal static string Search_Name_First {
+            get {
+                return ResourceManager.GetString("Search_Name_First", resourceCulture);
+            }
+        }
+        
+        internal static string Search_Email {
+            get {
+                return ResourceManager.GetString("Search_Email", resourceCulture);
+            }
+        }
+        
+        internal static string Search_Tel {
+            get {
+                return ResourceManager.GetString("Search_Tel", resourceCulture);
+            }
+        }
+        
+        internal static string Search_JobTitle {
+            get {
+                return ResourceManager.GetString("Search_JobTitle", resourceCulture);
+            }
+        }
+        
+        internal static string Search_Department {
+            get {
+                return ResourceManager.GetString("Search_Department", resourceCulture);
+            }
+        }
+        
         internal static string Title_Distributor {
             get {
                 return ResourceManager.GetString("Title_Distributor", resourceCulture);
@@ -359,6 +521,60 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string Title_GoBooking {
+            get {
+                return ResourceManager.GetString("Title_GoBooking", resourceCulture);
+            }
+        }
+        
+        internal static string Title_MyProfile {
+            get {
+                return ResourceManager.GetString("Title_MyProfile", resourceCulture);
+            }
+        }
+        
+        internal static string Title_AddVoucher {
+            get {
+                return ResourceManager.GetString("Title_AddVoucher", resourceCulture);
+            }
+        }
+        
+        internal static string Title_MyOrder {
+            get {
+                return ResourceManager.GetString("Title_MyOrder", resourceCulture);
+            }
+        }
+        
+        internal static string Title_ChangePassword {
+            get {
+                return ResourceManager.GetString("Title_ChangePassword", resourceCulture);
+            }
+        }
+        
+        internal static string Title_WebUser {
+            get {
+                return ResourceManager.GetString("Title_WebUser", resourceCulture);
+            }
+        }
+        
+        internal static string Title_ApiUser {
+            get {
+                return ResourceManager.GetString("Title_ApiUser", resourceCulture);
+            }
+        }
+        
+        internal static string Title_WebUserProfile {
+            get {
+                return ResourceManager.GetString("Title_WebUserProfile", resourceCulture);
+            }
+        }
+        
+        internal static string Title_ApiUserProfile {
+            get {
+                return ResourceManager.GetString("Title_ApiUserProfile", resourceCulture);
+            }
+        }
+        
         internal static string UserType {
             get {
                 return ResourceManager.GetString("UserType", resourceCulture);
@@ -383,6 +599,18 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string Company_Invoice {
+            get {
+                return ResourceManager.GetString("Company_Invoice", resourceCulture);
+            }
+        }
+        
+        internal static string Company_Url {
+            get {
+                return ResourceManager.GetString("Company_Url", resourceCulture);
+            }
+        }
+        
         internal static string Company_Address {
             get {
                 return ResourceManager.GetString("Company_Address", resourceCulture);
@@ -392,6 +620,12 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string Company_PromotionSetting {
             get {
                 return ResourceManager.GetString("Company_PromotionSetting", resourceCulture);
+            }
+        }
+        
+        internal static string Company_logo {
+            get {
+                return ResourceManager.GetString("Company_logo", resourceCulture);
             }
         }
         

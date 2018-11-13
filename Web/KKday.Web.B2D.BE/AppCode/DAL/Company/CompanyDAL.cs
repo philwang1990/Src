@@ -37,9 +37,9 @@ WHERE 1=1 {FILTER}";
                 string sqlStmt = @"SELECT * FROM b2b.b2d_company
 WHERE 1=1 {FILTER}
 {SORTING}
-LIMIT :Size OFFSET :Skip"; 
+LIMIT :Size OFFSET :Skip";
 
-                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty); 
+                sqlStmt = sqlStmt.Replace("{FILTER}", !string.IsNullOrEmpty(filter) ? filter : string.Empty);
                 sqlStmt = sqlStmt.Replace("{SORTING}", !string.IsNullOrEmpty(sorting) ? "ORDER BY " + sorting : string.Empty);
 
                 List<NpgsqlParameter> sqlParams = new List<NpgsqlParameter>
@@ -90,7 +90,7 @@ LIMIT :Size OFFSET :Skip";
                 throw ex;
             }
         }
-        
+
         public static B2dCompany GetCompany(Int64 xid)
         {
             try
@@ -109,7 +109,7 @@ LIMIT :Size OFFSET :Skip";
                     MANAGER_ACCOUNT_XID = dr.ToInt64("manager_account_xid"),
                     PARENT_COMP_XID = dr.ToInt64("parent_comp_xid"),
                     COMP_NAME = dr.ToStringEx("comp_name"),
-                    COMP_URL = dr.ToStringEx("comp_url"), 
+                    COMP_URL = dr.ToStringEx("comp_url"),
                     COMP_LICENSE = dr.ToStringEx("comp_license"),
                     COMP_LICENSE_2 = dr.ToStringEx("comp_license_2"),
                     COMP_LOCALE = dr.ToStringEx("comp_locale"),
@@ -140,7 +140,7 @@ LIMIT :Size OFFSET :Skip";
         }
 
         ////////////////
-          
+
         public static void UpdateCompany(CompanyUpdModel company, string upd_user)
         {
             try
@@ -158,9 +158,9 @@ WHERE xid=:XID";
                     new NpgsqlParameter("XID", company.XID),
                     new NpgsqlParameter("STATUS", company.STATUS),
                     new NpgsqlParameter("COMP_COOP_MODE", company.COOP_MODE),
-                    new NpgsqlParameter("PAYMENT_TYPE", company.PAYMENT_TYPE), 
+                    new NpgsqlParameter("PAYMENT_TYPE", company.PAYMENT_TYPE),
                     new NpgsqlParameter("COMP_NAME", company.NAME),
-                    new NpgsqlParameter("COMP_URL", company.URL), 
+                    new NpgsqlParameter("COMP_URL", company.URL),
                     new NpgsqlParameter("COMP_LOCALE", company.LOCALE),
                     new NpgsqlParameter("COMP_CURRENCY", company.CURRENCY),
                     new NpgsqlParameter("COMP_INVOICE", company.INVOICE),
@@ -171,7 +171,7 @@ WHERE xid=:XID";
                     new NpgsqlParameter("CONTACT_USER", company.CONTACT_USER),
                     new NpgsqlParameter("CONTACT_USER_EMAIL", company.CONTACT_USER_EMAIL),
                     new NpgsqlParameter("FINANCE_USER", company.FINANCE_USER),
-                    new NpgsqlParameter("SALES_USER", company.SALES_USER), 
+                    new NpgsqlParameter("SALES_USER", company.SALES_USER),
                     //new NpgsqlParameter("CHARGE_MAN_FIRST", company.CHARGE_MAN_FIRST),
                     //new NpgsqlParameter("CHARGE_MAN_LAST", company.CHARGE_MAN_LAST),
                     //new NpgsqlParameter("CREDITCARD_NO", company.CREDITCARD_NO),
@@ -194,15 +194,14 @@ WHERE xid=:XID";
             try
             {
                 string sqlStmt = @"UPDATE b2b.b2d_company SET status=:STATUS,
-  upd_user=:UPD_USER, upd_datetime=Now()
-WHERE xid=:XID";
+upd_user=:UPD_USER, upd_datetime=Now() WHERE xid=:XID";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("XID", xid),
                     new NpgsqlParameter("STATUS", status),
                     new NpgsqlParameter("UPD_USER", upd_user)
                 };
-                 
+
                 NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
             }
             catch (Exception ex)
@@ -210,8 +209,8 @@ WHERE xid=:XID";
                 throw ex;
             }
         }
-          
-        public static void UpdateLicenses(Int64 xid, string [] license_url, string upd_user)
+
+        public static void UpdateLicenses(Int64 xid, string[] license_url, string upd_user)
         {
             try
             {

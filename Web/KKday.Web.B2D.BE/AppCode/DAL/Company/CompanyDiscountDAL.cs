@@ -29,8 +29,8 @@ ORDER BY comp_name
                     new NpgsqlParameter("company_xid", company_xid)
                 };
 
-                var ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, sqlParams); 
-                foreach(DataRow dr in ds.Tables[0].Rows)
+                var ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, sqlParams);
+                foreach (DataRow dr in ds.Tables[0].Rows)
                 {
                     mst_list.Add(new B2dDiscountMst()
                     {
@@ -57,11 +57,11 @@ ORDER BY comp_name
         }
 
         public static List<B2dDiscountMst> GetAvailableDiscountMst(Int64 company_xid)
-        { 
+        {
             List<B2dDiscountMst> mst_list = new List<B2dDiscountMst>();
 
             try
-            { 
+            {
                 string sqlStmt = @"SELECT * FROM b2b.b2d_discount_mst 
 WHERE xid NOT IN (
     SELECT DISTINCT A.disc_mst_xid
@@ -79,7 +79,7 @@ WHERE xid NOT IN (
                 {
                     mst_list.Add(new B2dDiscountMst()
                     {
-                        XID = dr.ToInt64("xid"), 
+                        XID = dr.ToInt64("xid"),
                         DISC_NAME = dr.ToStringEx("disc_name"),
                         DISC_PERCENT = dr.ToDouble("disc_percent"),
                         DISC_TYPE = dr.ToStringEx("disc_type"),
@@ -88,11 +88,11 @@ WHERE xid NOT IN (
                         RULE_STATUS = dr.ToStringEx("rule_status")
                     });
                 }
-                 
+
             }
             catch (Exception ex)
             {
-                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace); 
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
                 throw ex;
             }
 
@@ -130,11 +130,11 @@ VALUES (:company_xid, :disc_mst_xid, now(), :crt_user)";
             catch (Exception ex)
             {
                 Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
-                if(trans != null) trans.Rollback();
+                if (trans != null) trans.Rollback();
                 conn.Close();
 
                 throw ex;
-            } 
+            }
         }
 
         public static void RemoveDiscount(Int64 company_xid, Int64 disc_mst_xid, string del_user)
@@ -142,17 +142,17 @@ VALUES (:company_xid, :disc_mst_xid, now(), :crt_user)";
             try
             {
                 string sqlStmt = @"DELETE FROM b2b.b2d_comp_disc_map WHERE company_xid=:company_xid AND disc_mst_xid=:disc_mst_xid";
-                 
+
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                         new NpgsqlParameter("company_xid", company_xid),
-                        new NpgsqlParameter("disc_mst_xid", disc_mst_xid) 
+                        new NpgsqlParameter("disc_mst_xid", disc_mst_xid)
                 };
 
                 NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
             }
             catch (Exception ex)
             {
-                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace); 
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
                 throw ex;
             }
         }
