@@ -22,8 +22,8 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string order_note { get; set; }//訂單備註
 
         public Source source { get; set; } // order_source
-        public OrderLst[] order_lst { get; set; } // order_lst
-        public OrderCus[] order_cus { get; set; } // order_cus
+        public List<OrderLst> order_lst { get; set; } // order_lst
+        public List<OrderCus> order_cus { get; set; } // order_cus
 
 
 
