@@ -264,23 +264,16 @@ namespace KKday.API.WMS.AppCode.DAL
 
             //};
 
-            sql = @"UPDATE b2b.orders 
-                    SET kkday_order_oid = :kkday_order_oid, kkday_order_mid= :kkday_order_mid
-                    FROM b2b.orders a LEFT JOIN b2b.order_source b on a.order_no = b.order_no
+            sql = @"UPDATE b2b.orders set kkday_order_oid = :kkday_order_oid, kkday_order_mid= :kkday_order_mid
                     WHERE 1=1
-                    AND a.order_no = :order_no 
-                    AND b.order_no = :order_no2 
-                    AND b.company_xid = :company_xid ; ";
+                    AND order_no = :order_no ; ";
 
 
 
             np = new NpgsqlParameter[]{
                      new NpgsqlParameter("kkday_order_oid",model.order_oid),
                      new NpgsqlParameter("kkday_order_mid",model.order_mid),
-                     new NpgsqlParameter("order_no2",model.order_no),
-                     new NpgsqlParameter("order_no",model.order_no),
-                     new NpgsqlParameter("company_xid",model.company_xid)
-
+                     new NpgsqlParameter("order_no",model.order_no)
                     };
 
             count = NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
