@@ -292,10 +292,10 @@ namespace KKday.API.WMS.Controllers {
             }
         }
 
-        public string paymentList(payTypeValue[] payTypeList)
+        [HttpPost("paymentList")]
+        public string paymentList([FromBody]List<payTypeValue> payTypeList)
         {
-
-            return "123";
+            return BookingRepository.paymentList(payTypeList);
         }
     }
 }

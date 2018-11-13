@@ -1,5 +1,9 @@
 ﻿using System;
 using System.Data;
+using System.IO;
+using System.Net;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using KKday.API.WMS.AppCode.DAL;
 using Newtonsoft.Json.Linq;
 using KKday.API.WMS.Models.DataModel.Booking;
@@ -13,7 +17,6 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc;
 using KKday.API.WMS.AppCode;
 using System.Linq;
-
 
 namespace KKday.API.WMS.Models.Repository.Booking
 {
@@ -444,6 +447,51 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
             dayTemp = dayTemp.Substring(0, dayTemp.Length - 1);
             return dayTemp;
+        }
+
+        //PMCH List 要呈現在頁面上可以選擇的付款方式～
+        public static String paymentList(List<payTypeValue> payTypeList)
+        {
+
+            //ServicePointManager.ServerCertificateValidationCallback =
+                      //delegate (object s, X509Certificate certificate,
+                      //X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                      //{ return true; };
+
+            PmchSslRequest call = new PmchSslRequest();
+            call.ipaddress = "192.168.1.1";
+            call.apiKey = "kkdayapi";
+            call.userOid = "1";
+            call.ver = "1.0.1";
+
+            CallJsonGetPayList j = new CallJsonGetPayList();
+            
+
+            j.conditionList = payTypeList;
+            call.json = j;
+
+            string result;
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["PMCH:CHANNEL"]}");
+
+            httpWebRequest.ContentType = "application/json";
+            httpWebRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+            {
+                string json = JsonConvert.SerializeObject(call);
+
+                streamWriter.Write(json);
+                streamWriter.Flush();
+                streamWriter.Close();
+            }
+
+            var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+            using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+            {
+                result = streamReader.ReadToEnd();
+                return result;
+            }
         }
 
     }
