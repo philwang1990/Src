@@ -129,7 +129,7 @@ namespace KKday.API.WMS.Models.Repository.Common
             return lang;
         }
 
-        public static ProductCountryCityModel GetProductCountryCity(KKdayApiCurrencyRQModel queryRQ)
+        public static ProductCountryCityModel GetProductCountryCity(KKdayApiCommonRQModel queryRQ)
         {
             ProductCountryCityModel countryCity = new ProductCountryCityModel();
 

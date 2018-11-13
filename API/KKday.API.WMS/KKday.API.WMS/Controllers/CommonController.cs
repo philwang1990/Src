@@ -51,13 +51,17 @@ namespace KKday.API.WMS.Controllers
             {
                 Website.Instance.logger.Info("WMS GuideLanguageModel Start!");
                 lang = CommonRepository.GetGuideLanguage();
-
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             return lang;
         }
 
         [HttpPost("ProductCountryCity")]
-        public ProductCountryCityModel ProductCountryCity(KKdayApiCurrencyRQModel queryRQ)
+        public ProductCountryCityModel ProductCountryCity(KKdayApiCommonRQModel queryRQ)
         {
             ProductCountryCityModel CountryCity = new ProductCountryCityModel();
 
