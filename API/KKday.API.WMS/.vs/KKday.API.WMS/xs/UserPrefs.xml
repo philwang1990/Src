@@ -1,66 +1,19 @@
-﻿<Properties StartupConfiguration="{99848D4B-770C-4139-90D3-9D2DA25F573C}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.WMS/Models/Repository/Order/OrderRepository.cs">
+﻿<Properties>
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.WMS/Controllers/BookingController.cs">
     <Files>
-      <File FileName="KKday.API.WMS/Models/Repository/Order/OrderRepository.cs" Line="57" Column="36" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Order/OrderInfoModel.cs" Line="153" Column="31" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Order/DataModel.cs" Line="96" Column="36" />
-      <File FileName="KKday.API.WMS/Controllers/OrderController.cs" Line="23" Column="1" />
-      <File FileName="KKday.API.WMS/Controllers/UserController.cs" Line="18" Column="56" />
-      <File FileName="KKday.API.WMS/Controllers/AuthorizeController.cs" Line="85" Column="34" />
-      <File FileName="KKday.API.WMS/Models/Repository/User/UserRepository.cs" Line="129" Column="49" />
-      <File FileName="KKday.API.WMS/Models/DataModel/User/B2dAccountModel.cs" Line="17" Column="29" />
-      <File FileName="KKday.API.WMS/Models/DataModel/User/ApiUserModel.cs" Line="16" Column="21" />
-      <File FileName="KKday.API.WMS/Models/DataModel/User/B2dUserProfileModel.cs" Line="15" Column="6" />
-      <File FileName="KKday.API.WMS/Models/DataModel/User/RegisterModel.cs" Line="4" Column="18" />
-      <File FileName="KKday.API.WMS/Program.cs" Line="14" Column="1" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Order/KKdayApiOrderRQModel.cs" Line="24" Column="18" />
-      <File FileName="KKday.API.WMS/Models/Repository/Package/PackageRepository.cs" Line="91" Column="87" />
-      <File FileName="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" Line="464" Column="86" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Order/QueryOrderModel.cs" Line="27" Column="27" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Product/QueryProductModel.cs" Line="11" Column="42" />
-      <File FileName="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" Line="220" Column="1" />
-      <File FileName="KKday.API.WMS/AppCode/DAL/OrderDAL.cs" Line="49" Column="1" />
-      <File FileName="KKday.API.WMS/AppCode/Proxy/OrderProxy.cs" Line="22" Column="1" />
-      <File FileName="KKday.API.WMS/AppCode/DAL/UserDAL.cs" Line="62" Column="1" />
-      <File FileName="KKday.API.WMS/Models/Repository/Discount/DiscountRepository.cs" Line="56" Column="1" />
-      <File FileName="KKday.API.WMS/AppCode/DAL/DiscountDAL.cs" Line="53" Column="31" />
-      <File FileName="KKday.API.WMS/AppCode/NpgsqlHelper_V2.cs" Line="386" Column="1" />
-      <File FileName="KKday.API.WMS/AppCode/DAL/RegisterDAL.cs" Line="59" Column="70" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Product/ProductModel.cs" Line="6" Column="30" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Common/CurrencyModel.cs" Line="11" Column="47" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Common/KKdayApiCommonRQModel.cs" Line="6" Column="32" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Common/GuideLanguageModel.cs" Line="14" Column="26" />
-      <File FileName="KKday.API.WMS/Controllers/CommonController.cs" Line="46" Column="48" />
-      <File FileName="KKday.API.WMS/Models/Repository/Common/CommonRepository.cs" Line="57" Column="51" />
-      <File FileName="KKday.API.WMS/AppCode/Proxy/CommonProxy.cs" Line="437" Column="1" />
-      <File FileName="KKday.API.WMS/AppCode/Proxy/CurrencyProxy.cs" Line="21" Column="1" />
-      <File FileName="KKday.API.WMS/appsettings.json" Line="36" Column="22" />
-      <File FileName="KKday.API.WMS/AppCode/DAL/CommonDAL.cs" Line="1" Column="1" />
-      <File FileName="KKday.API.WMS/Controllers/GuideyModel.cs" Line="1" Column="1" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Product/KKdayApiProdRQModel.cs" Line="5" Column="37" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Product/ProductModuleModel.cs" Line="242" Column="43" />
-      <File FileName="KKday.API.WMS/Models/DataModel/Order/OrderListModel.cs" Line="12" Column="30" />
-      <File FileName="KKday.API.WMS/Controllers/ProductController.cs" Line="58" Column="45" />
-      <File FileName="KKday.API.WMS/AppCode/DAL/AccountAuthDAL.cs" Line="9" Column="43" />
-      <File FileName="KKday.API.WMS/AppCode/Proxy/AuthProxy.cs" Line="13" Column="52" />
+      <File FileName="KKday.API.WMS/appsettings.json" Line="1" Column="1" />
+      <File FileName="KKday.API.WMS/AppCode/RedisHelper.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.WMS/Models/Repository/Package/PackageRepository.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.WMS/Startup.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.WMS/AppCode/Proxy/PackageProxy.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" Line="1" Column="1" />
       <File FileName="KKday.API.WMS/Controllers/BookingController.cs" Line="1" Column="1" />
-      <File FileName="KKday.API.WMS/AppCode/Proxy/PackageProxy.cs" Line="24" Column="40" />
-      <File FileName="KKday.API.WMS/logs/KKday.API.WMS/KKday.API.WMS2018-11-07.json" Line="42" Column="866" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/Models/Repository/Discount/DiscountRepository.cs" relfile="KKday.API.WMS/Models/Repository/Discount/DiscountRepository.cs" line="73" column="1" />
-      <Breakpoint file="/Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/ProdProxy.cs" line="181" column="1" />
-      <Breakpoint file="/Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" relfile="KKday.API.WMS/Models/Repository/Product/ProductRepository.cs" line="1097" column="1" />
-      <Breakpoint file="/Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/Models/Repository/Order/OrderRepository.cs" relfile="KKday.API.WMS/Models/Repository/Order/OrderRepository.cs" line="103" column="24" />
-      <Breakpoint file="/Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/Controllers/CommonController.cs" relfile="KKday.API.WMS/Controllers/CommonController.cs" line="48" column="1" />
-      <Breakpoint file="/Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/Models/Repository/Common/CommonRepository.cs" relfile="KKday.API.WMS/Models/Repository/Common/CommonRepository.cs" line="95" column="1" />
-      <Breakpoint file="/Users/lulu/Desktop/KKDAY/3.source/KKday.API.WMS/KKday.API.WMS/AppCode/Proxy/OrderProxy.cs" relfile="KKday.API.WMS/AppCode/Proxy/OrderProxy.cs" line="22" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.KKday.API.WMS PreferredExecutionTarget="MonoDevelop.Default" />
 </Properties>

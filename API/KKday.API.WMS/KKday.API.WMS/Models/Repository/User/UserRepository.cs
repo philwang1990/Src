@@ -106,8 +106,6 @@ namespace KKday.API.WMS.Models.Repository {
 
         }
 
-
-
         #region 使用者認證 Authentication
 
         public static UserAccount AuthAccount(string email, string password)
@@ -174,5 +172,6 @@ namespace KKday.API.WMS.Models.Repository {
         }
 
         #endregion
+
     }
 }

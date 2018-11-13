@@ -126,6 +126,7 @@ namespace KKday.API.WMS.AppCode.Proxy
                 string result = "";
 
                 //redis取出資料
+
                 if (rds.getProdInfotoRedis("bid:test:KKdayApi_getModule" + query_lst.company_xid) != null)
                 {
                     //result = rds.getProdInfotoRedis("bid:test:KKdayApi_getModule" + query_lst.company_xid);

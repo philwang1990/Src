@@ -7,6 +7,7 @@ using KKday.API.WMS.AppCode.Proxy;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace KKday.API.WMS.Models.Repository.Common
 {
     public class CommonRepository
@@ -26,7 +27,9 @@ namespace KKday.API.WMS.Models.Repository.Common
             {
 
                 //obj = CommonDAL.GetCurrency(locale);
+
                 obj = CommonProxy.getCurrency(locale);
+
 
                 //if (obj != null && obj.Count > 0)
                 if (obj["content"]["result"].ToString() == "0000")
@@ -38,7 +41,10 @@ namespace KKday.API.WMS.Models.Repository.Common
                     currency.result_msg = obj["content"]["msg"].ToString();
 
                     JArray codelst = (JArray)obj["content"]["codeList"];
-                    foreach( var i in codelst){
+
+                    foreach (var i in codelst)
+                    {
+
                         Jlist = new Json()
                         {
                             currency = (string)i["code"]["dataCd"],
@@ -68,6 +74,7 @@ namespace KKday.API.WMS.Models.Repository.Common
 
                 Website.Instance.logger.FatalFormat($"getCurrency  Error :{ex.Message},{ex.StackTrace}");
 
+
                 throw ex;
 
             }
@@ -75,6 +82,7 @@ namespace KKday.API.WMS.Models.Repository.Common
             return currency;
 
         }
+
 
         public static GuideLanguageModel GetGuideLanguage()
         {
@@ -103,13 +111,81 @@ namespace KKday.API.WMS.Models.Repository.Common
                     }
                     //list 排除重複語法
                     lang.lang_list = list.GroupBy(x => x.langCd).Select(y =>y.First()).ToList();
-
+                    
                 }
                 else
                 {
+
                     lang.result = obj["content"]["result"].ToString();
                     lang.result_msg = $"kkday guide lang api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday guide lang api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat($"GetProductCountryCity  Error :{ex.Message},{ex.StackTrace}");
+                throw ex;
+            }
+            return lang;
+        }
+
+        public static ProductCountryCityModel GetProductCountryCity(KKdayApiCurrencyRQModel queryRQ)
+        {
+            ProductCountryCityModel countryCity = new ProductCountryCityModel();
+
+            JObject obj = null;
+            countryCity.content = new ProductCountryCity();
+
+            try
+            {
+
+                obj = CurrencyProxy.GetProductCountryCity(queryRQ);
+
+                if (obj["content"]["result"].ToString() == "0000")
+                {
+                    countryCity.content.countryList = new List<Country>();
+
+                    Country country = new Country();
+                    country.cityList = new List<City>();
+                    City city = new City();
+
+                    countryCity.content.result = obj["content"]["result"].ToString();
+                    countryCity.content.msg = obj["content"]["msg"].ToString();
+
+                    JArray countryList = null;
+                    JArray cityList = null;
+
+                    if (obj["content"]["countryList"] != null)
+                    {
+                        countryList = (JArray)obj["content"]["countryList"];
+                        foreach (var i in countryList)
+                        {
+                            country = new Country()
+                            {
+                                countryCd = (string)i["countryCd"],
+                                countryName = (string)i["countryName"]
+                            };
+
+                            if (i["cityList"] != null)
+                            {
+                                country.cityList = new List<City>();
+                                cityList = (JArray)i["cityList"];
+                                foreach (var j in cityList)
+                                {
+                                    city = new City()
+                                    {
+                                        cityCd = (string)j["cityCd"],
+                                        cityName = (string)j["cityName"]
+                                    };
+
+                                    country.cityList.Add(city);
+                                }
+                            }
+
+
+                            countryCity.content.countryList.Add(country);
+                        }
+                    }
                 }
 
             }
@@ -118,11 +194,13 @@ namespace KKday.API.WMS.Models.Repository.Common
 
                 Website.Instance.logger.FatalFormat($"getCurrency  Error :{ex.Message},{ex.StackTrace}");
 
-                throw ex;
-
+                    countryCity.content.result = obj["content"]["result"].ToString();
+                    countryCity.content.msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday currency api response msg is not correct! {obj["content"]["msg"].ToString()}");
             }
 
-            return lang;
+            
+            return countryCity;
 
         }
     }
