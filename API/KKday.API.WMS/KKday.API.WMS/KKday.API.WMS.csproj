@@ -21,7 +21,9 @@
     <Folder Include="Models\Repository\User\" />
     <Folder Include="Models\Repository\Discount\" />
     <Folder Include="Models\DataModel\Discount\" />
-    <Folder Include="logs\KKday.API.WMS\" />
+    <Folder Include="Models\DataModel\Common\" />
+    <Folder Include="Models\DataModel\Order\" />
+    <Folder Include="Models\Repository\Order\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,5 +41,8 @@
     <Compile Remove="Models\DataModel\ProductResponseModel.cs" />
     <Compile Remove="Models\DataModel\Authorize\UserModel.cs" />
     <Compile Remove="AppCode\Proxy\HttpStringContent.cs" />
+    <Compile Remove="Models\Repository\Authorize\AuthorizeRepository.cs" />
+    <Compile Remove="AppCode\Proxy\CurrencyProxy.cs" />
+    <Compile Remove="Controllers\GuideyModel.cs" />
   </ItemGroup>
 </Project>

@@ -28,6 +28,7 @@ namespace KKday.API.WMS.Models.Repository.Product
         {
             ProductModel product = new ProductModel();
             JObject obj = null, objModule = null, objExTypeLang = null;
+            DataModel.Discount.DiscountRuleModel disc = null;
 
             try
             {
@@ -37,8 +38,8 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 if(isBlack)
                 {
-                    product.reasult = "10";
-                    product.reasult_msg = $"Bad Request:Product-{queryRQ.prod_no} is not available";
+                    product.result = "10";
+                    product.result_msg = $"Bad Request:Product-{queryRQ.prod_no} is not available";
                     return product;
                 }
 
@@ -50,13 +51,13 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 if (obj["content"]["result"].ToString() != "0000")
                 {
-                    product.reasult = obj["content"]["result"].ToString();
-                    product.reasult_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    product.result = obj["content"]["result"].ToString();
+                    product.result_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
 
-                product.reasult = obj["content"]["result"].ToString();
-                product.reasult_msg = obj["content"]["msg"].ToString();
+                product.result = obj["content"]["result"].ToString();
+                product.result_msg = obj["content"]["msg"].ToString();
                 product.prod_no = (int)obj["content"]["product"]["prodOid"];
                 product.prod_name = obj["content"]["product"]["productName"].ToString();
                 product.prod_img_url = obj["content"]["product"]["productName"].ToString();
@@ -95,10 +96,11 @@ namespace KKday.API.WMS.Models.Repository.Product
                 product.prod_comment_info = comment;
 
                 product.b2c_price = (double)obj["content"]["product"]["minSalePrice"];
-                product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.b2d_xid), (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString());
+                product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.company_xid), (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString(), ref disc);
 
                 product.order_email = obj["content"]["product"]["orderEmail"].ToString();
                 product.prod_hander = obj["content"]["supplier"]["orderHandler"].ToString();
+
 
                 TktExpire tkt = new TktExpire();
                 tkt.exp_type = obj["content"]["tkExpSetting"]["expTp"].ToString();
@@ -222,7 +224,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                         arr.latitude = (string)item["latlong"]["latitude"];
                         arr.longitude = (string)item["latlong"]["longitude"];
                         arr.latlong_type = (string)item["latlong"]["latlongType"];
-                        arr.latlong_desc = (string)item["latlong"]["latlongDesc"];  
+                        arr.latlong_desc = (string)item["latlong"]["latlongDesc"];
+                        arr.latlong_xid = (int)item["latlong"]["latlongOid"];
 
                         arrList.Add(arr);
 
@@ -280,7 +283,20 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 //注意事項挖字處理
                 product.remind_list = setRemInf(obj, queryRQ.locale_lang, null);
-               
+
+                var venue_module = modules.FirstOrDefault(jt => (string)jt["moduleType"] == "PMDL_VENUE");
+                if( (string)venue_module["moduleSetting"]["setting"]["venueType"] == "01"  ) 
+                {
+                    MeetingPointMap meeting_point = new MeetingPointMap();
+                    meeting_point.mapAddress = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["mapAddress"];
+                    meeting_point.latitude = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["latitude"];
+                    meeting_point.longitude = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["longitude"];
+                    meeting_point.zoomLevel = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["zoomLevel"];
+                    meeting_point.imageUrl = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["imageUrl"];
+                    product.meeting_point_map = meeting_point;
+                    //product.meeting_point_map = venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"].ToObject<MeetingPointMap>();
+                }
+
                 //List<Remind> remList = new List<Remind>();
                 //Remind rem = null;
 
@@ -319,7 +335,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                         video = new Video();
                         video.lang_code = (string)item["video"]["langCode"];
                         video.vidoe_url = (string)item["video"]["videoUrl"];
-
+                        video.xid = (int)item["video"]["videoOid"];
 
                         videoList.Add(video);
                     }
@@ -391,8 +407,8 @@ namespace KKday.API.WMS.Models.Repository.Product
             }
             catch (Exception ex)
             {
-                product.reasult = "10001";
-                product.reasult_msg = $"Product ERROR:{ex.Message},{ex.StackTrace}";
+                product.result = "10001";
+                product.result_msg = $"Product ERROR:{ex.Message},{ex.StackTrace}";
 
                 Website.Instance.logger.FatalFormat($"Product ERROR:{ex.Message},{ex.StackTrace}");
             }
@@ -425,14 +441,14 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 if (objModule["content"]["result"].ToString() != "0000")
                 {
-                    module.reasult = objModule["content"]["result"].ToString();
-                    module.reasult_msg = $"kkday module api response msg is not correct! {objModule["content"]["msg"].ToString()}";
+                    module.result = objModule["content"]["result"].ToString();
+                    module.result_msg = $"kkday module api response msg is not correct! {objModule["content"]["msg"].ToString()}";
                     throw new Exception($"kkday module api response msg is not correct! {objModule["content"]["msg"].ToString()}");
                 }
                 if (obj["content"]["result"].ToString() != "0000")
                 {
-                    module.reasult = objModule["content"]["result"].ToString();
-                    module.reasult_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    module.result = objModule["content"]["result"].ToString();
+                    module.result_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
                 //if (objEvent["content"]["result"].ToString() != "0000")
@@ -442,8 +458,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //    throw new Exception($"kkday event api response msg is not correct! {objEvent["content"]["msg"].ToString()}");
                 //}
 
-                module.reasult = objModule["content"]["result"].ToString();
-                module.reasult_msg = objModule["content"]["msg"].ToString();
+                module.result = objModule["content"]["result"].ToString();
+                module.result_msg = objModule["content"]["msg"].ToString();
 
                 JArray jModules = (JArray)objModule["content"]["product"]["modules"];
                 module.module_type = jModules.Where(y => (bool)y["moduleSetting"]["isRequired"] == true).Select(x => (string)x["moduleType"]).ToList<string>();
@@ -671,14 +687,14 @@ namespace KKday.API.WMS.Models.Repository.Product
                     SimWifi simWifi = new SimWifi();
 
                     simWifi.is_require = (bool)objPmdlSimWifi["moduleSetting"]["isRequired"];
-                    MobileModleNumber no = new MobileModleNumber();
+                    MobileModelNumber no = new MobileModelNumber();
                     MobileIMEI imei = new MobileIMEI();
                     ActivationDate date = new ActivationDate();
                     no.is_require = (bool)objPmdlSimWifi["moduleSetting"]["setting"]["dataItems"]["mobileModelNumber"]["isRequired"];
                     imei.is_require = (bool)objPmdlSimWifi["moduleSetting"]["setting"]["dataItems"]["mobileIMEI"]["isRequired"];
                     date.is_require = (bool)objPmdlSimWifi["moduleSetting"]["setting"]["dataItems"]["activationDate"]["isRequired"];
 
-                    simWifi.mobile_modle_no = no;
+                    simWifi.mobile_model_no = no;
                     simWifi.mobile_IMEI = imei;
                     simWifi.activation_date = date;
                     module.module_sim_wifi = simWifi;
@@ -894,6 +910,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                     RentCar car = new RentCar();
                     car.is_require = (bool)objPmdlRentCar["moduleSetting"]["isRequired"];
                     car.rent_type = (string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"];
+                    car.is_require_SDate = true;
+                    car.is_require_EDate = true;
 
                     //去租車公司取車
                     if ((string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"] != "03")
@@ -902,8 +920,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                         BusinessHour bissTime = new BusinessHour();
                         office.is_ProvidedFreeGPS = (bool)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["rentCar"]["isProvidedFreeGPS"];
                         office.is_ProvidedFreeWiFi = (bool)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["rentCar"]["isProvidedFreeWiFi"];
-                        office.is_require_PickUp = true;
-                        office.is_require_DropOff = car.rent_type == "01" ? true : false;
+                        office.is_require_SLocation = true;
+                        office.is_require_ELocation = true;
                         office.office_list = ((JArray)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["rentCar"]["offices"])
                             .Select(x => new Office
                             {
@@ -922,8 +940,9 @@ namespace KKday.API.WMS.Models.Repository.Product
                     //司機接送 或是 客人指定>>接送資料
                     else
                     {
-                        DriverShuttle driver = new DriverShuttle();
+                        car.is_require_EDate = false; //客人指定不用還車日期
 
+                        DriverShuttle driver = new DriverShuttle();
                         CharterRoute charter = new CharterRoute();
                         RouteCustomized customized = new RouteCustomized();
                         customized.is_require = (bool)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["driverShuttle"]["charterRoute"]["customRoute"]["isAllowCustom"];
@@ -1027,7 +1046,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     List<GuideLanguage> langList = new List<GuideLanguage>();
                     GuideLanguage lang = null;
 
-                    module.module_type.Add("GUIDE_LANGAGE");
+                    module.module_type.Add("GUIDE_LANGUAGE");
 
                     string[] guide_langs = ((string)obj["content"]["product"]["guideLang"]).Split(',');
                     foreach (string guide_lang in guide_langs)
@@ -1060,8 +1079,8 @@ namespace KKday.API.WMS.Models.Repository.Product
             }
             catch (Exception ex)
             {
-                module.reasult = "10001";
-                module.reasult_msg = $"Module ERROR :{ex.Message},{ex.StackTrace}";
+                module.result = "10001";
+                module.result_msg = $"Module ERROR :{ex.Message},{ex.StackTrace}";
                 module.module_type = null;
                 Website.Instance.logger.FatalFormat($"Module ERROR :{ex.Message},{ex.StackTrace}");
 
@@ -1088,23 +1107,19 @@ namespace KKday.API.WMS.Models.Repository.Product
                 var expNum = obj["content"]["tkExpSetting"]["expNum"].ToString();
                 var expSt = obj["content"]["tkExpSetting"]["expSt"].ToString();
                 var expEd = obj["content"]["tkExpSetting"]["expEd"].ToString();
+
                 //"product_index_tkt_1": "指定效期區間 %s ~ %s ，逾期失效。",
                 //"product_index_tkt_2": "自開票日算起%s日之內有效，逾期失效。",
                 //"product_index_tkt_3": "自開票日算起%s年之內有效，逾期失效。",
                 //"product_index_tkt_4": "自開票日算起%s月之內有效，逾期失效。",
                 //"product_index_tkt_5": "需要按照預訂日期及當天開放時間內使用，逾期失效。",
 
-                if (expTp == "1")
-                {
+                if (expTp == "1") {
                     string show = uikey["product_index_tkt_1"].ToString();
                     rem.remind_desc = show.Replace("%s ~", expSt).Replace("%s", expEd);
-                }
-                else if (expTp == "5")
-                {
+                } else if (expTp == "5") {
                     rem.remind_desc = uikey["product_index_tkt_5"].ToString(); ;
-                }
-                else
-                {
+                } else {
                     string show = uikey[$"product_index_tkt_{expTp}"].ToString(); ;
                     rem.remind_desc = show.Replace("%s", expNum);
                 }

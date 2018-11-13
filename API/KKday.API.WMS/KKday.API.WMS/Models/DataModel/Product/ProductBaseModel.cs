@@ -10,13 +10,13 @@ namespace KKday.API.WMS.Models.DataModel.Product {
             public int prod_no { get; set; }  //id
             public string prod_name { get; set; }
 
-            public double b2c_price { get; set; }//直客價
-            public double b2d_price { get; set; }//同業價（套價）....特價的價錢 (計算用) ＝ ref_price (跟LULU共用）牌價
+            //sale_price 為直客價，price 為分銷價
+            public double b2c_price { get; set; }//直客價（原為sale_price） 
+            public double b2d_price { get; set; }//同業價（原為price)（套價）....特價的價錢 (計算用) ＝ ref_price (跟LULU共用）牌價
+            
             public string display_ref_price { get; set; } //特價的價錢 (顯示用)
-            public double? sale_price { get; set; } //市價  商品原售價(計算用) (跟LULU共用) 
-            public string display_sale_price { get; set; }  //沒特價的價錢(顯示用) 
-
             public string is_display_price { get; set; }
+            
             public string prod_currency { get; set; }
             public string prod_img_url { get; set; }
             public int? rating_count { get; set; }//評價數

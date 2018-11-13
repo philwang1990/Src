@@ -11,6 +11,7 @@ namespace KKday.API.WMS.AppCode.DAL {
         /// Gets the black list.撈所有的黑名單
         /// </summary>
         /// <returns>The black list.</returns>
+
         public static JObject GetBlackList()
         {
 
@@ -28,6 +29,7 @@ namespace KKday.API.WMS.AppCode.DAL {
                 if (ds != null && ds.Tables[0].Rows.Count > 0)
                 {
 
+
                     ds.AcceptChanges();
                     //把dataset轉成結森物件
                     string json = JsonConvert.SerializeObject(ds, Formatting.Indented);
@@ -35,14 +37,17 @@ namespace KKday.API.WMS.AppCode.DAL {
                     obj = JObject.Parse(json);
                 }
 
+
             }
             catch (Exception ex)
             {
+
 
                 Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
             }
 
             return obj;
+
         }
 
         public static JObject GetDiscRuleList(Int64 comp_xid)
@@ -51,23 +56,29 @@ namespace KKday.API.WMS.AppCode.DAL {
             try
             {
 
-                String sql = @"SELECT MST.*,DISC.*,coalesce(AMT.Amount,0) AS AMT
+                String sql = @"SELECT MST.*,DISC.*,coalesce(AMT.Amount,0) AS AMT,AMT.currency AS currency
 FROM (
-    SELECT A.xid AS mst_xid,
-     (SELECT  regexp_replace(xpath('.//text()', ('<items>' || XMLAGG(XMLELEMENT(name C, CATE)) || '</items>')::xml)::text,  '[{}]', '', 'g') AS CATE
-        FROM (
-            SELECT mst_xid, disc_list||'^'||whitelist  AS CATE 
-            FROM b2b.b2d_discount_dtl dtl WHERE dtl.disc_type='type2'
-             )G WHERE  G.mst_xid=A.xid  
-     )AS main_cat_wb,
-     (SELECT  regexp_replace(xpath('.//text()', ('<items>' || XMLAGG(XMLELEMENT(name C, PRODNO)) || '</items>')::xml)::text,  '[{}]', '', 'g') AS PRODNO
-        FROM (
-            SELECT mst_xid, disc_list||'^'||whitelist  AS PRODNO 
-            FROM b2b.b2d_discount_dtl dtl WHERE dtl.disc_type='type1'
-             )G WHERE  G.mst_xid=A.xid  
-     )AS prod_no_wb                   
-    FROM b2b.b2d_discount_mst A
-    GROUP BY A.xid
+   SELECT A.xid AS mst_xid,
+    (SELECT  regexp_replace(xpath('.//text()', ('<items>' || XMLAGG(XMLELEMENT(name C, CATE)) || '</items>')::xml)::text,  '[{}]', '', 'g') AS CATE
+       FROM (
+           SELECT mst_xid, disc_list||'^'||whitelist  AS CATE
+           FROM b2b.b2d_discount_dtl dtl WHERE dtl.disc_type='type2'
+            )G WHERE  G.mst_xid=A.xid
+    )AS main_cat_wb,
+    (SELECT  regexp_replace(xpath('.//text()', ('<items>' || XMLAGG(XMLELEMENT(name C, PRODNO)) || '</items>')::xml)::text,  '[{}]', '', 'g') AS PRODNO
+       FROM (
+           SELECT mst_xid, disc_list||'^'||whitelist  AS PRODNO
+           FROM b2b.b2d_discount_dtl dtl WHERE dtl.disc_type='type1'
+            )G WHERE  G.mst_xid=A.xid
+    )AS prod_no_wb  ,
+    (SELECT  regexp_replace(xpath('.//text()', ('<items>' || XMLAGG(XMLELEMENT(name C, dtl_xid)) || '</items>')::xml)::text, '[{}]', '', 'g') AS PRODNO
+       FROM (
+           SELECT mst_xid, dtl.xid AS dtl_xid
+           FROM b2b.b2d_discount_dtl dtl
+            )G WHERE  G.mst_xid=A.xid
+    )AS disc_dtl_xid
+   FROM b2b.b2d_discount_mst A
+   GROUP BY A.xid
 )DISC
 INNER JOIN b2b.b2d_discount_mst MST ON DISC.mst_xid = MST.xid
 LEFT JOIN b2b.b2d_comp_disc_map MAPP ON  MST.xid = MAPP.disc_mst_xid
@@ -104,4 +115,5 @@ ORDER BY mst.xid";
             return obj;
         }
     }
+
 }

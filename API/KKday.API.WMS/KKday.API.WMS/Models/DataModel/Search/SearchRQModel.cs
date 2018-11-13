@@ -27,7 +27,7 @@ namespace KKday.API.WMS.Models.Search {
         public string multiprice_platform { get; set; }
         public string[] facets { get; set; }
         public string company_xid { get; set; }
-
+        public string[] guide_langs { get; set; }
 
 
     }

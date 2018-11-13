@@ -6,12 +6,16 @@ using KKday.API.WMS.Models.DataModel.Package;
 using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.Repository.Discount;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace KKday.API.WMS.Models.Repository.Package {
     /// <summary>
     /// Package repository.
     /// </summary>
     public class PackageRepository {
+
+        static Web.B2D.EC.AppCode.RedisHelper rds = new Web.B2D.EC.AppCode.RedisHelper();
+
         /// <summary>
         /// Gets the package lst.
         /// </summary>
@@ -22,6 +26,9 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
             PackageModel pkg = new PackageModel();
             List<PkgDetailModel> pkgLst = new List<PkgDetailModel>();
+
+            DataModel.Discount.DiscountRuleModel disc = null;
+            PkgPriceModel pkg_price = new PkgPriceModel();
 
             try {
 
@@ -38,12 +45,20 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
 
                 JObject obj = PackageProxy.getPkgLst(rq);
+                JObject objProd = ProdProxy.getProd(rq);
 
                 if (obj["content"]["result"].ToString() != "0000")
                 {
                     pkg.result = obj["content"]["result"].ToString();
                     pkg.result_msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
+
+                if (objProd["content"]["result"].ToString() != "0000")
+                {
+                    pkg.result = obj["content"]["result"].ToString();
+                    pkg.result_msg = $"kkday product api response msg is not correct! {objProd["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday product api response msg is not correct! {objProd["content"]["msg"].ToString()}");
                 }
 
                 #region --1.取回傳資料是否成功的訊息、一般資訊--
@@ -57,9 +72,13 @@ namespace KKday.API.WMS.Models.Repository.Package {
                 #region --2.從傑森物件取『套餐列表』--
                 JArray jPkglst = (JArray)obj["content"]["packageList"];
 
+                pkg_price.pkgs = new List<pkgs>(); // 初始化陣列
+                pkg_price.currency = rq.current_currency;
+
                 for (int i = 0; i < jPkglst.Count; i++) {
 
                     var model = new PkgDetailModel();
+                    var price_model = new pkgs(); // pkg_price 用
 
                     model.pkg_no = jPkglst[i]["productPkg"]["pkgOid"].ToString();
                     model.pkg_name = jPkglst[i]["productPkg"]["pkgName"].ToString();
@@ -69,49 +88,55 @@ namespace KKday.API.WMS.Models.Repository.Package {
 
                     model.is_unit_pirce = jPkglst[i]["productPkg"]["priceType"].ToString();
 
-                    model.price1 = (double?)jPkglst[i]["productPkg"]["price1"];
-                    model.price1_org = (double?)jPkglst[i]["productPkg"]["price1Org"];
-                    model.prcie1_org_net = (double?)jPkglst[i]["productPkg"]["price1NetOrg"];
-                    model.prcie1_profit_rate = (double?)jPkglst[i]["productPkg"]["price1GrossRate"];
-                    model.prcie1_comm_rate = (double?)jPkglst[i]["productPkg"]["price1CommRate"];
-                    model.prcie1_age_range = jPkglst[i]["productPkg"]["price1BegOld"].ToString() + "~" +
+                    model.price1 = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price1"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString(), ref disc);//分銷價
+                    model.price1_org = (double?)jPkglst[i]["productPkg"]["price1Org"] ?? 0;
+                    model.price1_org_net = (double?)jPkglst[i]["productPkg"]["price1NetOrg"] ?? 0;
+                    model.price1_profit_rate = (double?)jPkglst[i]["productPkg"]["price1GrossRate"] ?? 0;
+                    model.price1_comm_rate = (double?)jPkglst[i]["productPkg"]["price1CommRate"] ?? 0;
+                    model.price1_age_range = jPkglst[i]["productPkg"]["price1BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price1EndOld"].ToString();
+                    model.price1_b2c = (double?)jPkglst[i]["productPkg"]["price1Sale"] ?? 0;
                     // model.price1_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price1_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price2 = (double?)jPkglst[i]["productPkg"]["price2"];
-                    model.price2_org = (double?)jPkglst[i]["productPkg"]["price2Org"];
-                    model.prcie2_org_net = (double?)jPkglst[i]["productPkg"]["price2NetOrg"];
-                    model.prcie2_profit_rate = (double?)jPkglst[i]["productPkg"]["price2GrossRate"];
-                    model.prcie2_comm_rate = (double?)jPkglst[i]["productPkg"]["price2CommRate"];
-                    model.prcie2_age_range = jPkglst[i]["productPkg"]["price2BegOld"].ToString() + "~" +
+                    model.price2 = (double?)jPkglst[i]["productPkg"]["price2"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price2"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString(), ref disc);//分銷價
+                    model.price2_org = (double?)jPkglst[i]["productPkg"]["price2Org"] ?? 0;
+                    model.price2_org_net = (double?)jPkglst[i]["productPkg"]["price2NetOrg"] ?? 0;
+                    model.price2_profit_rate = (double?)jPkglst[i]["productPkg"]["price2GrossRate"] ?? 0;
+                    model.price2_comm_rate = (double?)jPkglst[i]["productPkg"]["price2CommRate"] ?? 0;
+                    model.price2_age_range = jPkglst[i]["productPkg"]["price2BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price2EndOld"].ToString();
+                    model.price2_b2c = (double?)jPkglst[i]["productPkg"]["price2Sale"] ?? 0;
                     // model.price2_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price2_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price3 = (double?)jPkglst[i]["productPkg"]["price3"];
-                    model.price3_org = (double?)jPkglst[i]["productPkg"]["price3Org"];
-                    model.prcie3_org_net = (double?)jPkglst[i]["productPkg"]["price3NetOrg"];
-                    model.prcie3_profit_rate = (double?)jPkglst[i]["productPkg"]["price3GrossRate"];
-                    model.prcie3_comm_rate = (double?)jPkglst[i]["productPkg"]["price3CommRate"];
+                    model.price3 = (double?)jPkglst[i]["productPkg"]["price3"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price3"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString(), ref disc);//分銷價
+                    model.price3_org = (double?)jPkglst[i]["productPkg"]["price3Org"] ?? 0;
+                    model.price3_org_net = (double?)jPkglst[i]["productPkg"]["price3NetOrg"] ?? 0;
+                    model.price3_profit_rate = (double?)jPkglst[i]["productPkg"]["price3GrossRate"] ?? 0;
+                    model.price3_comm_rate = (double?)jPkglst[i]["productPkg"]["price3CommRate"] ?? 0;
                     model.price3_age_range = jPkglst[i]["productPkg"]["price3BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price3EndOld"].ToString();
+                    model.price3_b2c = (double?)jPkglst[i]["productPkg"]["price3Sale"] ?? 0;
                     // model.price3_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price3_list = (double)jPkglst[i]["productPkg"][""];
 
-                    model.price4 = (double?)jPkglst[i]["productPkg"]["price4"];
-                    model.price4_org = (double?)jPkglst[i]["productPkg"]["price4Org"];
-                    model.prcie4_org_net = (double?)jPkglst[i]["productPkg"]["price4NetOrg"];
-                    model.prcie4_profit_rate = (double?)jPkglst[i]["productPkg"]["price4GrossRate"];
-                    model.prcie4_comm_rate = (double?)jPkglst[i]["productPkg"]["price4CommRate"];
+                    model.price4 = (double?)jPkglst[i]["productPkg"]["price4"] == null ? 0 : DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), (double)jPkglst[i]["productPkg"]["price4"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString(), ref disc);//分銷價
+                    model.price4_org = (double?)jPkglst[i]["productPkg"]["price4Org"] ?? 0;
+                    model.price4_org_net = (double?)jPkglst[i]["productPkg"]["price4NetOrg"] ?? 0;
+                    model.price4_profit_rate = (double?)jPkglst[i]["productPkg"]["price4GrossRate"] ?? 0;
+                    model.price4_comm_rate = (double?)jPkglst[i]["productPkg"]["price4CommRate"] ?? 0;
                     model.price4_age_range = jPkglst[i]["productPkg"]["price4BegOld"].ToString() + "~" +
                                              jPkglst[i]["productPkg"]["price4EndOld"].ToString();
+                    model.price4_b2c = (double?)jPkglst[i]["productPkg"]["price4Sale"] ?? 0;
                     // model.price4_net = (double)jPkglst[i]["productPkg"][""];
                     //  model.price4_list = (double)jPkglst[i]["productPkg"][""];
 
                     model.status = jPkglst[i]["productPkg"]["status"].ToString();
-                    model.min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderNum"];
-                    model.max_book_qty = (int)jPkglst[i]["productPkg"]["maxOrderNum"];
+                    model.norank_min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderNum"];
+                    model.norank_max_book_qty = (int)jPkglst[i]["productPkg"]["maxOrderNum"];
+                    model.rank_min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderQty"];
+                    model.min_overage_qty = (int)jPkglst[i]["productPkg"]["minOrderAdultQty"];
                     model.isMultiple = jPkglst[i]["productPkg"]["isMultiple"].ToString();
                     model.book_qty = jPkglst[i]["productPkg"]["orderQty"].ToString();
                     model.unit = jPkglst[i]["productPkg"]["unit"].ToString();
@@ -186,9 +211,25 @@ namespace KKday.API.WMS.Models.Repository.Package {
                         }
                                       
                     pkgLst.Add(model);
+
+
+                    price_model.pkg_no = model.pkg_no;
+                    price_model.price1 = model.price1;
+                    price_model.price1_b2c = model.price1_b2c;
+                    price_model.price2 = model.price2;
+                    price_model.price2_b2c = model.price2_b2c;
+                    price_model.price3 = model.price3;
+                    price_model.price3_b2c = model.price3_b2c;
+                    price_model.price4 = model.price4;
+                    price_model.price4_b2c = model.price4_b2c;
+                    pkg_price.pkgs.Add(price_model);
+
                 }
 
                 pkg.pkgs = pkgLst;
+                pkg.discount_rule = disc;
+                pkg.guid = Guid.NewGuid().ToString();
+                rds.SetProdInfotoRedis(JsonConvert.SerializeObject(pkg_price), pkg.guid); // 將 pkg_price 存入redis 
 
                 //依套餐取回『可售日期』
                 pkg.sale_dates = (PkgSaleDateModel)GetPkgSaleDate(rq); ;

@@ -25,8 +25,8 @@ namespace KKday.API.WMS.AppCode.DAL {
 
             try {
 
-                String sql = @"SELECT B.comp_name,B.comp_language,B.comp_currency,
-                    B.comp_email, B.payment_type, A.*
+                String sql = @"SELECT B.comp_name,B.comp_locale,B.comp_currency,
+                    B.contact_user_email, B.payment_type, A.*
                     FROM b2b.b2d_account A
                     JOIN b2b.b2d_company B ON A.company_xid = B.xid
                     WHERE A.enable = TRUE 
@@ -73,12 +73,13 @@ namespace KKday.API.WMS.AppCode.DAL {
 
             try {
 
-                String sql = @"SELECT B.comp_name,B.comp_language,B.comp_currency,
-                    B.comp_email, B.payment_type, A.*
+                String sql = @"SELECT B.comp_name,comp_locale,B.comp_currency,
+                    B.contact_user_email, B.payment_type, A.*
                     FROM b2b.b2d_account_api A
                     JOIN b2b.b2d_company B ON A.company_xid = B.xid
-                    WHERE A.enable = TRUE 
-                    AND A.email = :email";
+                    WHERE A.enable = TRUE                      
+                    AND A.email = :email
+                    AND B.status = '01'";
 
 
                 NpgsqlParameter[] np = new NpgsqlParameter[]{
@@ -105,27 +106,6 @@ namespace KKday.API.WMS.AppCode.DAL {
 
            return obj;
 
-        }
-
-      
-
-
-        public string ToMD5(string pw) {
-
-            using (var cryptoMD5 = System.Security.Cryptography.MD5.Create()) {
-                //將字串編碼成 UTF8 位元組陣列
-                var bytes = Encoding.UTF8.GetBytes(pw);
-
-                //取得雜湊值位元組陣列
-                var hash = cryptoMD5.ComputeHash(bytes);
-
-                //取得 MD5
-                var md5 = BitConverter.ToString(hash)
-                  .Replace("-", String.Empty)
-                  .ToUpper();
-
-                return md5;
-            }
         }
 
     }

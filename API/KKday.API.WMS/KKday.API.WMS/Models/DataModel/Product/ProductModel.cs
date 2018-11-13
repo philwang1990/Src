@@ -6,8 +6,8 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class ProductModel: ProductBaseModel
     {
         public string guid { get; set; } // Session ID 確保30分鐘內訂購 seddionID放到redis
-        public string reasult { get; set; }
-        public string reasult_msg { get; set; }
+        public string result { get; set; }
+        public string result_msg { get; set; }
         //public string prod_no { get; set; }//商品編號 (跟ProductBase共用)
         //public string prod_name { get; set; }//商品名稱 (跟ProductBase共用)
         //public string prod_currency { get; set; }//商品進貨幣別(跟ProductBase共用)
@@ -46,7 +46,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public List<Images> img_list { get; set; } //商品最上方圖片點擊區
 
         public string finishStep { get; set; }//編輯步驟  kkday:"PO,PT,PD,TE,PS,PP,PC,SC,PG,CD,76058"
-        public string left_step { get; set; }
+       
         public ProdCommentInfo prod_comment_info { get; set; }//商品評價資訊 kkday：prodUrlInfo
 
         //public double minPrice { get; set; }//當時幣別最低成人售價(特價) "multipricePlatform":"01" 的 minPrice B2D>>套價  "multipricePlatform":"01" 的 minPrice
@@ -69,6 +69,9 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public ProdMarketing prod_mkt { get; set; }
 
         public string prod_hander { get; set; } //訂單處理人
+
+        public MeetingPointMap meeting_point_map { get; set; } // 接送範圍
+
 
 
     }
@@ -228,5 +231,13 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public bool is_show { get; set; }
     }
 
+    public class MeetingPointMap
+    {
+        public string mapAddress { get; set; }
+        public string latitude { get; set; }
+        public string longitude { get; set; }
+        public string zoomLevel { get; set; }
+        public string imageUrl { get; set; }
+    }
 
 }

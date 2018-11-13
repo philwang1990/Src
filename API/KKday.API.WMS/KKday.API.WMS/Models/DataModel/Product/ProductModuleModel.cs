@@ -7,8 +7,8 @@ namespace KKday.API.WMS.Models.DataModel.Product
 
     public class ProductModuleModel
     {
-        public string reasult { get; set; }//(跟Product共用)
-        public string reasult_msg { get; set; }//(跟Product共用)
+        public string result { get; set; }//(跟Product共用)
+        public string result_msg { get; set; }//(跟Product共用)
         public List<string> module_type { get; set; }//此商品有套用的module類型
 
         public CusData module_cust_data { get; set; }//旅客資料
@@ -239,11 +239,11 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class SimWifi
     {
         public bool is_require { get; set; }
-        public MobileModleNumber mobile_modle_no { get; set; }
+        public MobileModelNumber mobile_model_no { get; set; }
         public MobileIMEI mobile_IMEI { get; set; }
         public ActivationDate activation_date { get; set; }
     }
-    public class MobileModleNumber 
+    public class MobileModelNumber 
     {
         public bool is_require { get; set; }//手機型號
     }
@@ -432,14 +432,16 @@ namespace KKday.API.WMS.Models.DataModel.Product
     {
         public bool is_require { get; set; }
         public string rent_type { get; set; }//01{pickUp=true,dropOff=false},02{pickUp=true,dropOff=true}
+        public bool is_require_SDate { get; set; } //取車日期
+        public bool is_require_EDate { get; set; } //還車日期
         public RentOffice rent_office { get; set; } //01,02
         public DriverShuttle driver_shuttle { get; set; } //03
     }
 
     public class RentOffice 
     {
-        public bool is_require_PickUp { get; set; } //取車地點
-        public bool is_require_DropOff { get; set; } //還車地點
+        public bool is_require_SLocation { get; set; } //取車地點
+        public bool is_require_ELocation { get; set; } //還車地點
         public List<Office> office_list { get; set; }
         public bool is_ProvidedFreeWiFi { get; set; } //YesNo
         public bool is_ProvidedFreeGPS { get; set; } //YesNo
