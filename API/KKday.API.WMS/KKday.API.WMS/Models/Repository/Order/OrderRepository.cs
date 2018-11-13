@@ -7,7 +7,7 @@ using KKday.API.WMS.Models.DataModel.Common;
 using KKday.API.WMS.Models.DataModel.Order;
 using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.Repository.Common;
-using KKday.Web.B2D.EC.AppCode;
+using KKday.API.WMS.AppCode;
 using Newtonsoft.Json.Linq;
 
 namespace KKday.API.WMS.Models.Repository.Order

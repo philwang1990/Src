@@ -139,7 +139,7 @@ namespace KKday.API.WMS.Models.Repository.Common
             try
             {
 
-                obj = CurrencyProxy.GetProductCountryCity(queryRQ);
+                obj = CommonProxy.GetProductCountryCity(queryRQ);
 
                 if (obj["content"]["result"].ToString() == "0000")
                 {
