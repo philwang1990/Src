@@ -137,7 +137,8 @@ namespace KKday.API.WMS.Models.Repository.Package {
                     model.norank_min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderNum"];
                     model.norank_max_book_qty = (int)jPkglst[i]["productPkg"]["maxOrderNum"];
                     model.rank_min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderQty"];
-                    model.min_orverage_qty = (int)jPkglst[i]["productPkg"]["minOrderAdultQty"];
+                    model.min_overage_qty = (int)jPkglst[i]["productPkg"]["minOrderAdultQty"];
+
                     model.isMultiple = jPkglst[i]["productPkg"]["isMultiple"].ToString();
                     model.book_qty = jPkglst[i]["productPkg"]["orderQty"].ToString();
                     model.unit = jPkglst[i]["productPkg"]["unit"].ToString();
@@ -230,7 +231,9 @@ namespace KKday.API.WMS.Models.Repository.Package {
                 pkg.pkgs = pkgLst;
                 pkg.discount_rule = disc;
                 pkg.guid = Guid.NewGuid().ToString();
+
                 rds.SetProdInfotoRedis(JsonConvert.SerializeObject(pkg_price), "b2d:pkgsPrice:"+pkg.guid,1440); // 將 pkg_price 存入redis 
+
 
                 //依套餐取回『可售日期』
                 pkg.sale_dates = (PkgSaleDateModel)GetPkgSaleDate(rq); ;

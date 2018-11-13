@@ -2,11 +2,12 @@
 using System.Data;
 using System.Security.Cryptography;
 using System.Text;
+using KKday.API.WMS.AppCode;
 using KKday.API.WMS.AppCode.DAL;
 using KKday.API.WMS.Models.DataModel.User;
 using Newtonsoft.Json.Linq;
 
-namespace KKday.API.WMS.Models.Repository.User {
+namespace KKday.API.WMS.Models.Repository {
     public class UserRepository {
 
         /// <summary>
@@ -105,6 +106,72 @@ namespace KKday.API.WMS.Models.Repository.User {
 
         }
 
+        #region 使用者認證 Authentication
+
+        public static UserAccount AuthAccount(string email, string password)
+        {
+            // 檢查登入者身分
+            UserAccount account = AccountAuthDAL.UserAuth(email, Sha256Helper.Gethash(password));
+            // 若無效身分則送出登入異常
+            if (!(account is KKdayAccount) && !(account is B2dAccount))
+            {
+                //若帳密有誤 僅傳送錯誤代碼 
+                account.result = "03";
+                account.result_msg = "Invalid User Login";
+
+            }
+
+            return account;
+        }
+
+        public static UserAccount AuthApiAccount(string email)
+        {
+            // 檢查登入者身分
+            UserAccount account = AccountAuthDAL.UserApiAuth(email);
+            // 若無效身分則送出登入異常
+            if (!(account is B2dAccount))
+            {
+                //若帳密有誤 僅傳送錯誤代碼 
+                account.result = "03";
+                account.result_msg = "Invalid User Login";
+
+            }
+
+            return account;
+        }
+
+
+
+        public static B2dUserProfile GetProfile(string account)
+        {
+            return AccountAuthDAL.GetB2dProfile(account);
+        }
+
+        #endregion
+
+        #region 註冊新分銷商
+
+        public static RegisterRSModel RegisterAccount(RegisterRQModel reg)
+        {
+            RegisterRSModel rs = new RegisterRSModel();
+            try
+            {
+                if (reg.PASSWORD != null)
+                {
+                    reg.PASSWORD = Sha256Helper.Gethash(reg.PASSWORD);
+                    reg.USER_UUID = Guid.NewGuid().ToString();
+                    RegisterDAL.InsCompany(reg,ref rs);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return rs; 
+        }
+
+        #endregion
 
     }
 }

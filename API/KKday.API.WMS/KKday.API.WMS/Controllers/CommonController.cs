@@ -43,6 +43,19 @@ namespace KKday.API.WMS.Controllers
             return currency;
         }
 
+        [HttpGet("GuideLanguage")]
+        public GuideLanguageModel GuideLanguage()
+        {
+            GuideLanguageModel lang = new GuideLanguageModel();
+            try
+            {
+                Website.Instance.logger.Info("WMS GuideLanguageModel Start!");
+                lang = CommonRepository.GetGuideLanguage();
+
+
+            return lang;
+        }
+
         [HttpPost("ProductCountryCity")]
         public ProductCountryCityModel ProductCountryCity(KKdayApiCurrencyRQModel queryRQ)
         {
@@ -55,6 +68,7 @@ namespace KKday.API.WMS.Controllers
                 CountryCity = CommonRepository.GetProductCountryCity(queryRQ);
 
 
+
             }
             catch (Exception ex)
             {
@@ -62,6 +76,7 @@ namespace KKday.API.WMS.Controllers
             }
 
             return CountryCity;
+
         }
     }
 }

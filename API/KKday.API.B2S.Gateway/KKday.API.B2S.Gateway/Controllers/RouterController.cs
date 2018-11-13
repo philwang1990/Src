@@ -21,15 +21,12 @@ namespace KKday.API.B2S.Gateway.Controllers
     {
 
         [HttpPost]
-        public JsonResult Post([FromBody]BookingRequestModel bookRQ)
+        public string Post([FromBody]BookingRequestModel bookRQ)
         {
             BookingResponseModel bookRS = new BookingResponseModel();
 
-            Website.Instance.logger.Info($"Gateway Router Start! KKday PkgOid:{bookRQ.order.packageOid},OrderMid:{bookRQ.order.orderMid}");
-
             string result = "";
 
-            //https不需驗證
             HttpClientHandler handler = new HttpClientHandler();
             handler.ClientCertificateOptions = ClientCertificateOption.Manual;
             handler.ServerCertificateCustomValidationCallback =
@@ -45,9 +42,8 @@ namespace KKday.API.B2S.Gateway.Controllers
 
             try
             {
-                //套餐與供應上API分流
                 var xdoc = XDocument.Load(System.AppDomain.CurrentDomain.BaseDirectory + "//App_Data//RouteMapping.xml");
-                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() <= 0) throw new Exception("Pakage Oid do not found suppiler mapping");
+                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() < 0) throw new Exception("Pakage Oid do not found suppiler mapping");
 
                 string sup = xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).
                                             Select(x => x.Element("sup").Value).FirstOrDefault().ToString();
@@ -55,6 +51,7 @@ namespace KKday.API.B2S.Gateway.Controllers
                 string sup_id = Website.Instance.Configuration[$"{sup}:SUP_ID"];
                 string sup_key = Website.Instance.Configuration[$"{sup}:SUP_KEY"];
 
+                Website.Instance.logger.Info($"Booking URL :{sup_url}");
 
                 bookRQ.sup_id = sup_id;
                 bookRQ.sup_key = sup_key;
@@ -64,30 +61,16 @@ namespace KKday.API.B2S.Gateway.Controllers
                 var contentData = new StringContent(json, System.Text.Encoding.UTF8, "application/json");
                 HttpResponseMessage response = client.PostAsync(sup_url, contentData).Result;
 
-                Website.Instance.logger.Info($"Supplier:{sup},Booking URL:{sup_url},URL Response StatusCode:{response.StatusCode}");
-
-                //與API串接失敗 
-                if (response.StatusCode.ToString() != "OK")
-                {
-                    throw new Exception(response.Content.ReadAsStringAsync().Result);
-                }
-
                 result = response.Content.ReadAsStringAsync().Result;
-                bookRS = JsonConvert.DeserializeObject<BookingResponseModel>(result);
 
             }
             catch (Exception ex)
             {
-                Metadata metadata = new Metadata();
-                metadata.status = "1002";
-                metadata.description = $"Gateway Error :{ex.Message}";
-                bookRS.metadata = metadata;
-
                 Website.Instance.logger.Fatal($"Gateway Error :{ex.Message},{ex.StackTrace}");
+                result = $"Gateway Error :{ex.Message}";
             }
 
-            //回傳真正的JSON格式
-            return Json(bookRS);
+            return result;
         }
 
     }

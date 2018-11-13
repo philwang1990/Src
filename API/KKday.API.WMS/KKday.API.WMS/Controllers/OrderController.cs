@@ -1,38 +1,38 @@
-﻿using System;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KKday.API.WMS.Models.DataModel.Order;
+using KKday.API.WMS.Models.Repository.Order;
 using Microsoft.AspNetCore.Mvc;
 
-namespace KKday.API.WMS.Controllers {
+// For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
+namespace KKday.API.WMS.Controllers
+{
     [Route("api/[controller]")]
-    [ApiController]
-    public class OrderController : ControllerBase {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get() {
-            return new string[] { "value1", "value2" };
+    public class OrderController : Controller
+    {
+        [HttpPost("QueryOrders")]
+        public OrderListModel QueryOrders([FromBody]QueryOrderModel queryRQ)
+        {
+            Website.Instance.logger.Info($"WMS QueryOrders Start! B2D Xid:{queryRQ.company_xid}");
+
+            var orders = new OrderListModel();
+
+            return orders = OrderRepository.GetOrders(queryRQ);
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id) {
-            return "value";
-        }
+        [HttpPost("QueryOrderInfo/{order_no}")]
+        public OrderInfoModel QueryOrderInfo([FromBody]QueryOrderModel queryRQ,string order_no)
+        {
+            Website.Instance.logger.Info($"WMS QueryOrderInfo Start! B2D Xid:{queryRQ.company_xid},B2D OrderNo:{order_no}");
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value) {
-        }
+            var order_info = new OrderInfoModel();
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value) {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id) {
+            return order_info = OrderRepository.GetOrderInfo(queryRQ, order_no);
         }
     }
 }
+

@@ -75,7 +75,8 @@ namespace KKday.API.WMS.Models.DataModel.Package {
         public int norank_min_book_qty { get; set; }//NORANK之最少訂購數量
         public int norank_max_book_qty { get; set; }//NORANK之最多訂購數量
         public int rank_min_book_qty { get; set; }//RANK之最少訂購數量
-        public int min_orverage_qty { get; set; }//成人加老人最少訂購數量
+        public int min_overage_qty { get; set; }//成人加老人最少訂購數量
+
         public string isMultiple { get; set; }//是否最少購買量的倍數/ default = Y // N
         public string book_qty { get; set; }//可訂購數量
         public string unit { get; set; }//套餐單位

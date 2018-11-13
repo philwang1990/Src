@@ -5,6 +5,8 @@ using Newtonsoft.Json.Linq;
 using KKday.API.WMS.Models.DataModel.Common;
 using KKday.API.WMS.AppCode.Proxy;
 using System.Collections.Generic;
+using System.Linq;
+
 
 namespace KKday.API.WMS.Models.Repository.Common
 {
@@ -25,44 +27,13 @@ namespace KKday.API.WMS.Models.Repository.Common
             {
 
                 //obj = CommonDAL.GetCurrency(locale);
-                obj = CurrencyProxy.GetCurrency(locale);
+
+                obj = CommonProxy.getCurrency(locale);
 
 
                 //if (obj != null && obj.Count > 0)
                 if (obj["content"]["result"].ToString() == "0000")
                 {
-                    //result.Add("result","200");
-                    //result.Add("result_msg", "OK");
-                    //result.Add("currencyList", (JArray)obj["Table"]);
-
-                    //JArray currencyList = (JArray)obj["Table"];
-
-
-
-                    //Json ms = new Json()
-                    //{
-                    //    currency.result = obj["content"]["result"].ToString(),
-                    //    msg = obj["content"]["msg"].ToString()
-                    //};
-
-                    //currency.content = ms;
-                    //currency.content.codeList = new List<Json2>();
-
-                    //JArray codelst = (JArray)obj["content"]["codeList"];
-                    //Json2 ms2 = new Json2();
-                    //Json3 ms3 = new Json3();
-
-                    //for (int i = 0; i < codelst.Count ; i++ ){
-                    //    ms2 = new Json2();
-                    //    ms3 = new Json3();
-                    //    ms3.dataCd = (string)codelst[i]["code"]["dataCd"];
-                    //    ms3.dataName = (string)codelst[i]["code"]["dataName"];
-                    //    ms3.param1 = (string)codelst[i]["code"]["param1"];
-                    //    ms2.code = ms3;
-                    //    currency.content.codeList.Add(ms2);
-
-
-                    //}
 
                     currency.currencyList = new List<Json>();
                     Json Jlist = new Json();
@@ -70,8 +41,10 @@ namespace KKday.API.WMS.Models.Repository.Common
                     currency.result_msg = obj["content"]["msg"].ToString();
 
                     JArray codelst = (JArray)obj["content"]["codeList"];
+
                     foreach (var i in codelst)
                     {
+
                         Jlist = new Json()
                         {
                             currency = (string)i["code"]["dataCd"],
@@ -99,7 +72,8 @@ namespace KKday.API.WMS.Models.Repository.Common
             catch (Exception ex)
             {
 
-                Website.Instance.logger.FatalFormat($"GetCurrency  Error :{ex.Message},{ex.StackTrace}");
+                Website.Instance.logger.FatalFormat($"getCurrency  Error :{ex.Message},{ex.StackTrace}");
+
 
                 throw ex;
 
@@ -107,6 +81,52 @@ namespace KKday.API.WMS.Models.Repository.Common
 
             return currency;
 
+        }
+
+
+        public static GuideLanguageModel GetGuideLanguage()
+        {
+            GuideLanguageModel lang = new GuideLanguageModel();
+
+            JObject obj = null;
+            try
+            {
+                obj = CommonProxy.getGuideLang();
+                if (obj["content"]["result"].ToString() == "0000")
+                {
+                    lang.result = obj["content"]["result"].ToString();
+                    lang.result_msg = obj["content"]["msg"].ToString();
+
+                    List<langList> list = new List<langList>();
+                    langList Jlist = new langList();
+                    
+                    JArray codelst = (JArray)obj["content"]["countryLangList"];
+                    foreach (var items in codelst)
+                    {
+                        foreach (var x in items["langList"])
+                        {
+                            Jlist = x.ToObject<langList>();
+                            list.Add(Jlist);
+                        }
+                    }
+                    //list 排除重複語法
+                    lang.lang_list = list.GroupBy(x => x.langCd).Select(y =>y.First()).ToList();
+                    
+                }
+                else
+                {
+
+                    lang.result = obj["content"]["result"].ToString();
+                    lang.result_msg = $"kkday guide lang api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday guide lang api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat($"GetProductCountryCity  Error :{ex.Message},{ex.StackTrace}");
+                throw ex;
+            }
+            return lang;
         }
 
         public static ProductCountryCityModel GetProductCountryCity(KKdayApiCurrencyRQModel queryRQ)
@@ -165,28 +185,22 @@ namespace KKday.API.WMS.Models.Repository.Common
                             countryCity.content.countryList.Add(country);
                         }
                     }
-
-
-                }
-                else
-                {
-                    countryCity.content.result = obj["content"]["result"].ToString();
-                    countryCity.content.msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
-                    throw new Exception($"kkday currency api response msg is not correct! {obj["content"]["msg"].ToString()}");
                 }
 
-                }
+            }
             catch (Exception ex)
             {
 
-                Website.Instance.logger.FatalFormat($"GetProductCountryCity  Error :{ex.Message},{ex.StackTrace}");
+                Website.Instance.logger.FatalFormat($"getCurrency  Error :{ex.Message},{ex.StackTrace}");
 
-                throw ex;
-
+                    countryCity.content.result = obj["content"]["result"].ToString();
+                    countryCity.content.msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday currency api response msg is not correct! {obj["content"]["msg"].ToString()}");
             }
 
-
+            
             return countryCity;
+
         }
     }
 }

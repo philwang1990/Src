@@ -25,6 +25,8 @@
     <Folder Include="Models\DataModel\Booking\" />
     <Folder Include="Models\Repository\Booking\" />
     <Folder Include="Models\DataModel\Pmch\" />
+    <Folder Include="Models\DataModel\Order\" />
+    <Folder Include="Models\Repository\Order\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,9 +45,7 @@
     <Compile Remove="Models\DataModel\Authorize\UserModel.cs" />
     <Compile Remove="AppCode\Proxy\HttpStringContent.cs" />
     <Compile Remove="Models\Repository\Authorize\AuthorizeRepository.cs" />
-    <Compile Remove="Models\DataModel\Order\DiscountModel.cs" />
-    <Compile Remove="Controllers\OrderController.cs" />
-    <Compile Remove="Models\Repository\Book\BookRepository.cs" />
-    <Compile Remove="Models\DataModel\Book\OrderModel.cs" />
+    <Compile Remove="AppCode\Proxy\CurrencyProxy.cs" />
+    <Compile Remove="Controllers\GuideyModel.cs" />
   </ItemGroup>
 </Project>

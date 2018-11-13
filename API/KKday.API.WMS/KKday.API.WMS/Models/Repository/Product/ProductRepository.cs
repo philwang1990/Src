@@ -335,7 +335,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                         video = new Video();
                         video.lang_code = (string)item["video"]["langCode"];
                         video.vidoe_url = (string)item["video"]["videoUrl"];
-
+                        video.xid = (int)item["video"]["videoOid"];
 
                         videoList.Add(video);
                     }
@@ -687,14 +687,14 @@ namespace KKday.API.WMS.Models.Repository.Product
                     SimWifi simWifi = new SimWifi();
 
                     simWifi.is_require = (bool)objPmdlSimWifi["moduleSetting"]["isRequired"];
-                    MobileModleNumber no = new MobileModleNumber();
+                    MobileModelNumber no = new MobileModelNumber();
                     MobileIMEI imei = new MobileIMEI();
                     ActivationDate date = new ActivationDate();
                     no.is_require = (bool)objPmdlSimWifi["moduleSetting"]["setting"]["dataItems"]["mobileModelNumber"]["isRequired"];
                     imei.is_require = (bool)objPmdlSimWifi["moduleSetting"]["setting"]["dataItems"]["mobileIMEI"]["isRequired"];
                     date.is_require = (bool)objPmdlSimWifi["moduleSetting"]["setting"]["dataItems"]["activationDate"]["isRequired"];
 
-                    simWifi.mobile_modle_no = no;
+                    simWifi.mobile_model_no = no;
                     simWifi.mobile_IMEI = imei;
                     simWifi.activation_date = date;
                     module.module_sim_wifi = simWifi;
@@ -910,6 +910,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                     RentCar car = new RentCar();
                     car.is_require = (bool)objPmdlRentCar["moduleSetting"]["isRequired"];
                     car.rent_type = (string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"];
+                    car.is_require_SDate = true;
+                    car.is_require_EDate = true;
 
                     //去租車公司取車
                     if ((string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"] != "03")
@@ -918,8 +920,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                         BusinessHour bissTime = new BusinessHour();
                         office.is_ProvidedFreeGPS = (bool)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["rentCar"]["isProvidedFreeGPS"];
                         office.is_ProvidedFreeWiFi = (bool)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["rentCar"]["isProvidedFreeWiFi"];
-                        office.is_require_PickUp = true;
-                        office.is_require_DropOff = car.rent_type == "01" ? true : false;
+                        office.is_require_SLocation = true;
+                        office.is_require_ELocation = true;
                         office.office_list = ((JArray)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["rentCar"]["offices"])
                             .Select(x => new Office
                             {
@@ -938,8 +940,9 @@ namespace KKday.API.WMS.Models.Repository.Product
                     //司機接送 或是 客人指定>>接送資料
                     else
                     {
-                        DriverShuttle driver = new DriverShuttle();
+                        car.is_require_EDate = false; //客人指定不用還車日期
 
+                        DriverShuttle driver = new DriverShuttle();
                         CharterRoute charter = new CharterRoute();
                         RouteCustomized customized = new RouteCustomized();
                         customized.is_require = (bool)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["driverShuttle"]["charterRoute"]["customRoute"]["isAllowCustom"];
@@ -1043,7 +1046,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     List<GuideLanguage> langList = new List<GuideLanguage>();
                     GuideLanguage lang = null;
 
-                    module.module_type.Add("GUIDE_LANGAGE");
+                    module.module_type.Add("GUIDE_LANGUAGE");
 
                     string[] guide_langs = ((string)obj["content"]["product"]["guideLang"]).Split(',');
                     foreach (string guide_lang in guide_langs)
