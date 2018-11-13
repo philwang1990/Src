@@ -291,5 +291,11 @@ namespace KKday.API.WMS.Controllers {
                 return Json(status);
             }
         }
+
+        public string PaymentList(payTypeValue[] payTypeList)
+        {
+
+            return "123";
+        }
     }
 }
