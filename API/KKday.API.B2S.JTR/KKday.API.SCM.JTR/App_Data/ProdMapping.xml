@@ -138,45 +138,45 @@
     <item>
   <kkday_prod_pkg>66760</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>22117233</jtr_prod_no>
+    <jtr_prod_no>23923543</jtr_prod_no>
   </item>
     
   <item>
   <kkday_prod_pkg>66760</kkday_prod_pkg>
     <kkday_price_type>price2</kkday_price_type>
-    <jtr_prod_no>22117234</jtr_prod_no>
+    <jtr_prod_no>23923550</jtr_prod_no>
   </item>
     
  <item>
   <kkday_prod_pkg>66761</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>12309588</jtr_prod_no>
+    <jtr_prod_no>23893318</jtr_prod_no>
   </item> 
  
    <item>
   <kkday_prod_pkg>66762</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>12309599</jtr_prod_no>
+    <jtr_prod_no>23897489</jtr_prod_no>
   </item> 
     <item>
   <kkday_prod_pkg>66763</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>12309607</jtr_prod_no>
+    <jtr_prod_no>23897760</jtr_prod_no>
   </item> 
      <item>
   <kkday_prod_pkg>66764</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>11604401</jtr_prod_no>
+    <jtr_prod_no>23898281</jtr_prod_no>
   </item> 
   <item>
   <kkday_prod_pkg>66765</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>11604395</jtr_prod_no>
+    <jtr_prod_no>23898452</jtr_prod_no>
   </item> 
   <item>
   <kkday_prod_pkg>66766</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>11604344</jtr_prod_no>
+    <jtr_prod_no>23898607</jtr_prod_no>
   </item> 
     <!-- KKday_prod_no: 19691--> 
   <item>
@@ -218,5 +218,27 @@
   <kkday_prod_pkg>66758</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
     <jtr_prod_no>11433188</jtr_prod_no>
+  </item>
+ <!-- KKday_prod_no: 19513--> 
+    <item>
+  <kkday_prod_pkg>74979</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>10197782</jtr_prod_no>
+  </item>
+  <!-- KKday_prod_no: 18573--> 
+    <item>
+  <kkday_prod_pkg>66731</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>14229695</jtr_prod_no>
+  </item>
+   <item>
+  <kkday_prod_pkg>66732</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>14229688</jtr_prod_no>
+  </item>
+   <item>
+  <kkday_prod_pkg>66733</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>14229689</jtr_prod_no>
   </item>
 </product>
