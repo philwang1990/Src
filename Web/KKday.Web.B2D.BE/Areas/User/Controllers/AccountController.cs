@@ -362,7 +362,8 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
                     throw new Exception("Invalid account to updated password");
                 }
 
-                var accountRepo = (B2dAccountRepository)HttpContext.RequestServices.GetService(typeof(B2dAccountRepository));
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var accountRepo = services.First(o => o.GetType() == typeof(B2dAccountRepository));
                 accountRepo.SetNewPassword(_strAccount, password);
 
                 jsonData.Add("status", "OK");
