@@ -67,15 +67,15 @@ namespace KKday.API.WMS.Models.Repository.Booking
                     {
                         BookingDAL.InsertOrderLst(item as JObject, trans, order_no, cus_seqno, ref lst_seqno);
 
-                        if (item["order_discount_rule_mst"] as JObject  != null )
+                        if (item["order_discount_rule"] as JObject  != null )
                         {
-                            BookingDAL.InsertOrderDiscountRuleMst(item["order_discount_rule_mst"] as JObject, trans, order_no, lst_seqno);
+                            BookingDAL.InsertOrderDiscountRule(item["order_discount_rule"] as JObject, trans, order_no, lst_seqno);
 
-                            if (item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject != null)
-                            {
-                                BookingDAL.InsertOrderDiscountRuleDtl(item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject, trans, order_no, lst_seqno);
+                            //if (item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject != null)
+                            //{
+                            //    BookingDAL.InsertOrderDiscountRuleDtl(item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject, trans, order_no, lst_seqno);
 
-                            } // if
+                            //} // if
 
                         } // if
 

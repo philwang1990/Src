@@ -86,12 +86,12 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string fa_status { get; set; }//財務狀態
         public int prod_qty { get; set; }//商品數量
 
-        public OrderDiscountRuleMst order_discount_rule_mst { get; set; }//order_discount_rule_mst
+        public OrderDiscountRule order_discount_rule { get; set; }//order_discount_rule_mst
 
 
     }
 
-    public class OrderDiscountRuleMst
+    public class OrderDiscountRule
     {
         public int xid { get; set; }//流水號
         //public int lst_seqno { get; set; }//細項編號
@@ -101,19 +101,19 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string disc_note { get; set; }//折扣備註
         //public string order_no { get; set; }//訂單編號
 
-        public OrderDiscountRuleDtl order_discount_rule_dtl { get; set; }//order_dsicount_rule_dtl
+        //public OrderDiscountRuleDtl order_discount_rule_dtl { get; set; }//order_dsicount_rule_dtl
 
     }
 
-    public class OrderDiscountRuleDtl
-    {
+    //public class OrderDiscountRuleDtl
+    //{
 
-        public int xid { get; set; }//流水號
-        public int mst_xid { get; set; }//主檔流水號
-        //public int lst_seqno { get; set; }//細項編號
-        //public string order_no { get; set; }//訂單編號
+    //    public int xid { get; set; }//流水號
+    //    public int mst_xid { get; set; }//主檔流水號
+    //    //public int lst_seqno { get; set; }//細項編號
+    //    //public string order_no { get; set; }//訂單編號
 
-    }
+    //}
 
 
 }

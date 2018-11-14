@@ -193,11 +193,11 @@ namespace KKday.API.WMS.AppCode.DAL
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
         }
 
-        public static int InsertOrderDiscountRuleMst(JObject obj, NpgsqlTransaction trans, String order_no, List<int> lst_seqno)
+        public static int InsertOrderDiscountRule(JObject obj, NpgsqlTransaction trans, String order_no, List<int> lst_seqno)
         {
             String sql = null;
             NpgsqlParameter[] np = null;
-            sql = @"INSERT INTO b2b.order_discount_rule_mst(
+            sql = @"INSERT INTO b2b.order_discount_rule(
     xid, lst_seqno, disc_name, disc_amt, disc_currency, disc_note, order_no)
     VALUES (:xid, :lst_seqno, :disc_name, :disc_amt, :disc_currency, :disc_note, :order_no); ";
 
@@ -216,26 +216,26 @@ namespace KKday.API.WMS.AppCode.DAL
 
         }
 
-        public static int InsertOrderDiscountRuleDtl(JObject obj, NpgsqlTransaction trans, String order_no, List<int> lst_seqno)
-        {
+    //    public static int InsertOrderDiscountRuleDtl(JObject obj, NpgsqlTransaction trans, String order_no, List<int> lst_seqno)
+    //    {
 
-            String sql = null;
-            NpgsqlParameter[] np = null;
-            sql = @"INSERT INTO b2b.order_discount_rule_dtl(
-    xid, mst_xid, lst_seqno, order_no)
-    VALUES (:xid, :mst_xid, :lst_seqno, :order_no); ";
+    //        String sql = null;
+    //        NpgsqlParameter[] np = null;
+    //        sql = @"INSERT INTO b2b.order_discount_rule_dtl(
+    //xid, mst_xid, lst_seqno, order_no)
+    //VALUES (:xid, :mst_xid, :lst_seqno, :order_no); ";
 
 
-            np = new NpgsqlParameter[]{
-                     new NpgsqlParameter("xid",(int)obj["xid"]),
-                     new NpgsqlParameter("mst_xid",(int)obj["mst_xid"]),
-                     new NpgsqlParameter("lst_seqno",lst_seqno[lst_seqno.Count-1]),
-                     new NpgsqlParameter("order_no",order_no)
-                    };
+        //    np = new NpgsqlParameter[]{
+        //             new NpgsqlParameter("xid",(int)obj["xid"]),
+        //             new NpgsqlParameter("mst_xid",(int)obj["mst_xid"]),
+        //             new NpgsqlParameter("lst_seqno",lst_seqno[lst_seqno.Count-1]),
+        //             new NpgsqlParameter("order_no",order_no)
+        //            };
 
-            return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
+        //    return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
 
-        }
+        //}
 
         public static int UpdateOrder(UpdateOrderModel model)
         {
