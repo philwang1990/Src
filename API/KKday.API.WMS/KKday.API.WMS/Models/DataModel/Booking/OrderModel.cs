@@ -96,7 +96,7 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public int xid { get; set; }//流水號
         //public int lst_seqno { get; set; }//細項編號
         public string disc_name { get; set; }//折扣名稱
-        public int disc_amt { get; set; }//折扣金額
+        public double disc_amt { get; set; }//折扣金額
         public string disc_currency { get; set; }//折扣幣別
         public string disc_note { get; set; }//折扣備註
         //public string order_no { get; set; }//訂單編號
