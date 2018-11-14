@@ -46,10 +46,10 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
                 BookingDAL.InsertOrders(obj, trans, ref order_no);
 
-                if (obj["source"] as JObject != null)
+                if (obj["source"]  != null)
                     BookingDAL.InsertOrderSource(obj["source"] as JObject, trans, order_no);
 
-                if (obj["order_cus"] as JObject != null)
+                if (obj["order_cus"]  != null)
                 {
                     JArray order_cus = (JArray)obj["order_cus"];
 
@@ -59,7 +59,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
                     } // foreach
                 } // if
 
-                if (obj["order_lst"] as JObject != null)
+                if (obj["order_lst"]  != null)
                 {
                     JArray order_lst = (JArray)obj["order_lst"];
 
@@ -67,8 +67,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
                     {
                         BookingDAL.InsertOrderLst(item as JObject, trans, order_no, cus_seqno, ref lst_seqno);
 
-                        Console.WriteLine("dddd==="+ item["order_discount_rule_mst"]);
-                        if (item["order_discount_rule_mst"] as JObject != null )
+                        if (item["order_discount_rule_mst"] as JObject  != null )
                         {
                             BookingDAL.InsertOrderDiscountRuleMst(item["order_discount_rule_mst"] as JObject, trans, order_no, lst_seqno);
 

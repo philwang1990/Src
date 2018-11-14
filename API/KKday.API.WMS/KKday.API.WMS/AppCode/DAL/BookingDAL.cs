@@ -165,8 +165,8 @@ namespace KKday.API.WMS.AppCode.DAL
 
 
             sql = @"INSERT INTO b2b.order_lst(
-    order_no, lst_seqno, cus_seqno, prod_no, prod_name, prod_amt, prod_b2c_amt, prod_currency, discount_xid, prod_cond1, prod_cond2, pkg_no, pkg_name, pkg_date, op_status, sc_status, fa_status)
-    VALUES (:order_no, :lst_seqno, :cus_seqno, :prod_no, :prod_name, :prod_amt, :prod_b2c_amt, :prod_currency, :discount_xid, :prod_cond1, :prod_cond2, :pkg_no, :pkg_name, :pkg_date, :op_status, :sc_status, :fa_status); ";
+    order_no, lst_seqno, cus_seqno, prod_no, prod_name, prod_amt, prod_b2c_amt, prod_currency, discount_xid, prod_cond1, prod_cond2, pkg_no, pkg_name, pkg_date, op_status, sc_status, fa_status,prod_qty)
+    VALUES (:order_no, :lst_seqno, :cus_seqno, :prod_no, :prod_name, :prod_amt, :prod_b2c_amt, :prod_currency, :discount_xid, :prod_cond1, :prod_cond2, :pkg_no, :pkg_name, :pkg_date, :op_status, :sc_status, :fa_status,:prod_qty); ";
 
 
             np = new NpgsqlParameter[]{
@@ -186,7 +186,8 @@ namespace KKday.API.WMS.AppCode.DAL
                      new NpgsqlParameter("pkg_date",obj["pkg_date"].ToString()),
                      new NpgsqlParameter("op_status",obj["op_status"].ToString()),
                      new NpgsqlParameter("sc_status",obj["sc_status"].ToString()),
-                     new NpgsqlParameter("fa_status",obj["fa_status"].ToString())
+                     new NpgsqlParameter("fa_status",obj["fa_status"].ToString()),
+                     new NpgsqlParameter("prod_qty",(int)obj["prod_qty"])
                     };
 
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
