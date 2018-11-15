@@ -9,6 +9,7 @@ using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using StackExchange.Redis;
 using KKday.Web.B2D.EC.Models.Model.Product;
+using KKday.Web.B2D.EC.Models.Model.Booking.api;
 
 
 namespace KKday.Web.B2D.EC.AppCode
@@ -148,6 +149,7 @@ namespace KKday.Web.B2D.EC.AppCode
                 setting.current_currency = currency;
                 setting.locale_lang = lang;
                 setting.prod_no = prodoid;
+                setting.state = state;
 
                 using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
                 {
@@ -227,6 +229,52 @@ namespace KKday.Web.B2D.EC.AppCode
                 throw new Exception(title.result_code_9990);
             }
         }
+
+        public static insB2dOrderResult insB2dOrder(B2dOrderModel orders, ProdTitleModel title)
+        {
+            try
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+           delegate (object s, X509Certificate certificate,
+           X509Chain chain, SslPolicyErrors sslPolicyErrors)
+           { return true; };
+
+                var pathUrl = Website.Instance.Configuration["B2DApiUrl:apiUri"];
+
+                string result;
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{pathUrl}Booking/InsertOrder");
+
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(orders);
+
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+
+                insB2dOrderResult obj = JsonConvert.DeserializeObject<insB2dOrderResult>(result);
+
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(title.result_code_9990);
+            }
+        }
+
+
     }
 
     public  class  ApiRequest

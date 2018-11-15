@@ -444,6 +444,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public shoeSizeInfo shoeSize { get; set; }
         public mealInfo meal { get; set; }
         public double? glassDiopter { get; set; }
+       
 
     }
 
