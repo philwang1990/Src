@@ -27,6 +27,8 @@
     <Folder Include="Models\DataModel\Pmch\" />
     <Folder Include="Models\DataModel\Order\" />
     <Folder Include="Models\Repository\Order\" />
+    <Folder Include="Models\DataModel\Account\" />
+    <Folder Include="Models\Repository\Account\" />
   </ItemGroup>
 
   <ItemGroup>
