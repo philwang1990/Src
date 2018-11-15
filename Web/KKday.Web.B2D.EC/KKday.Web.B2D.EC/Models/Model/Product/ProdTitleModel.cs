@@ -32,6 +32,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string common_map { get; set; } //地圖
         public string common_experience_point { get; set; } //主要目的地
         public string common_special_cancel_fee { get; set; } //購買即視為同意取消政策
+        public string common_free_cancellation { get; set; } //
+        public string common_no_refund { get; set; } //
         public string common_cancel_policy_explanation { get; set; } //取消時間依照商品時區決定
         public string common_cancel_date { get; set; } //取消日期
         public string common_cancellation_fee { get; set; } //取消費用
@@ -55,6 +57,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string product_index_imm_confirm { get; set; } //工作日內回覆訂購結果
         public string product_index_confirm_hr_24 { get; set; }
         public string product_index_confirm_hr_48 { get; set; }
+
+
         //金額有關
         public string common_total { get; set; } //總金額
         public string common_adult { get; set; } //成人
@@ -386,6 +390,17 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string product_productlist_choose_date { get; set; } //
         public string booking_step1_backup_event_data { get; set; } //場次時段額滿時，將改訂您選擇的場次順位(不欲候補其他場次，無需填寫)
 
+
+        //錯誤訊息
+        public string common_more_experiences { get; set; }
+        public string errorpage_index_title_1 { get; set; }
+        public string errorpage_index_title_2 { get; set; }
+        public string errorpage_index_title_3 { get; set; }
+        public string errorpage_index_check_here { get; set; }
+        public string common_invalid_title { get; set; }
+        public string common_invalid_info { get; set; } //invalid URL or address.
+        public string common_invalid_market_title { get; set; } //此商品不支援你所選的瀏覽語言
+        public string common_invalid_order { get; set; } //訂單已失效，請重新訂購。
     }
 
 

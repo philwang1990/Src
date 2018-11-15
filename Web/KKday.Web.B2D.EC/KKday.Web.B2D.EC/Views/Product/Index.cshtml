@@ -209,9 +209,9 @@
                                 <div class="clearfix"></div>
                                 <!-- 已售罄時顯示
                                 #error-message，不顯示按鈕 -->
-                                <!-- <div class="text-center text-muted" id="error-message">
-                                    <h3 class="mg-0">已售罄</h3>
-                                </div> -->
+                                @*<div class="text-center text-muted" id="error-message" style="display:none;">
+                                    <h3 class="mg-0 btn-mute-msg"></h3>
+                                </div>*@
                                 @if (prod.prod_mkt.is_ec_sale)
                                 {
                                     <a class="btn btn-primary btn-block choice-pkg" onclick="BookingEvent()">
@@ -221,7 +221,7 @@
                                 }
                                 else
                                 {
-                                    <a class="btn btn-primary btn-block choice-pkg" disabled="disabled">
+                                    <a class="btn btn-primary btn-block mg-0" disabled="disabled">
                                         @prodTitle.product_index_coming_soon
                                     </a>
                                     @*<div class="row"><button type = "button" class="btn btn-info" id="btnConfirm" disabled="disabled">@prodTitle.product_index_coming_soon </button></div>*@
@@ -232,6 +232,20 @@
                                             @Html.Raw(bookingHintStr)
                                         </div>
                                     </div>
+                                </div>
+                                <div class="text-right mt-10">
+                                    @if (prod.policy_no == "1")
+                                    {
+                                        <strong>@prodTitle.common_free_cancellation</strong>
+                                    }
+                                    else if(prod.policy_no == "2")
+                                    {
+                                        <strong>@prodTitle.common_no_refund</strong>
+                                    }
+                                    else if(prod.policy_no == "3")
+                                    {
+                                        <a onclick="scrollToInfoSection('#cancellation-policy')" class="text-grey">@prodTitle.common_special_cancel_fee</a>
+                                    }
                                 </div>
                             </div>
                             <div class="view-option confirmBar">
@@ -256,8 +270,8 @@
                                         </div>
                                     </div>
                                     <div class="clearfix"></div>
-                                    <button class="btn btn-primary btn-block disabled btn-confirm-block" data-toggle="tooltip" data-title="Please select start time and travler">Book now</button>
-                                    <button id="btnConfirm" class="btn btn-primary btn-block btn-book" onclick="btnConfirm()">Book now</button>
+                                    <button class="btn btn-primary btn-block disabled btn-confirm-block" data-toggle="tooltip" data-title="Please select start time and travler">@prodTitle.product_index_choose_option</button>
+                                    <button id="btnConfirm" class="btn btn-primary btn-block btn-book" onclick="btnConfirm()">@prodTitle.product_index_choose_option</button>
                                 </div>
                                 <div class="booking-hint">
                                     <div class="text-right mt-10">
@@ -266,15 +280,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                @*<button class="btn btn-default btn-lg btn-block" id="add_wishlist" onclick="add_to_wishlist()">
-                                        <i class="fa fa-heart-o"></i>Add to wish list
-                                    </button>
-                                    <button class="btn btn-default btn-lg btn-block" id="contact_us" type="button" onclick="if_login()">
-                                        <i class="fa fa-commenting-o"></i>Contact service center
-                                    </button>*@
                                 <div class="text-right mt-10">
-                                    <a href="javascript:;" class="text-grey" onclick="scrollToInfoSection('#cancellation-policy')">取消政策</a>
-                                    <!-- <strong>一旦訂購，不可取消或更改！</strong> -->
+                                    @if (prod.policy_no == "1")
+                                    {
+                                        <strong>@prodTitle.common_free_cancellation</strong>
+                                    }
+                                    else if(prod.policy_no == "2")
+                                    {
+                                        <strong>@prodTitle.common_no_refund</strong>
+                                    }
+                                    else if(prod.policy_no == "3")
+                                    {
+                                        <a onclick="scrollToInfoSection('#cancellation-policy')" class="text-grey">@prodTitle.common_special_cancel_fee</a>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -283,6 +301,8 @@
             </div>
         </div>
         <div class="option-section" id="option-spy">
+        @if (prod.prod_mkt.is_ec_sale)
+        {
             <div class="container">
                 <div class="row">
                     <div class="col-md-8">
@@ -304,6 +324,7 @@
                     </div>
                 </div>
             </div>
+        }
         </div>
         <div class="product-view">
             <div class="container">
@@ -468,42 +489,51 @@
                             <div class="info-content" id="cancellation-policy">
                                 <div class="row">
                                     <div class="col-md-9">
-                                        <!-- 不可取消時顯示 -->
-                                        <!-- <strong>一旦訂購，不可取消或修改！</strong> -->
-                                        <table class="cancel-info">
-                                            <thead>
-                                                <tr>
-                                                    <th>@prodTitle.common_cancel_date</th>
-                                                    <th>@prodTitle.common_cancellation_fee</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @{int policyIndex = 0;}
-                                                @foreach (var policy in prod.policy_list)
-                                                {
-                                                    int smallestDay = prod.policy_list.Min(x => x.days);
-                                                    string dateDescStr = policy.is_over ?
-                                                                            $"<span>{policy.days}</span> {prodTitle.common_days_more}" :
-                                                                            $"<span>{(smallestDay < policy.days ? $"{(prod.policy_list[policyIndex + 1].days + 1)}" : "0")}~{policy.days}</span> {prodTitle.common_days_prior}";
-                                                    string feeDescStr = policy.fee == 100 ?
-                                                                            prodTitle.product_index_non_refundable :
-                                                                            policy.fee == 0 ?
-                                                                            prodTitle.product_index_refundable :
-                                                                            $"{policy.fee}%";
+                                    @if(prod.policy_no == "1")
+                                    {
+                                        @prodTitle.common_free_cancellation
+                                    }
+                                    else if (prod.policy_no == "2")
+                                    {
+                                        @prodTitle.common_no_refund
+                                    }
+                                    else
+                                    {
+                                            <table class="cancel-info">
+                                                <thead>
                                                     <tr>
-                                                        <td>
-                                                            @Html.Raw(dateDescStr)
-                                                        </td>
-                                                        <td>@feeDescStr</td>
+                                                        <th>@prodTitle.common_cancel_date</th>
+                                                        <th>@prodTitle.common_cancellation_fee</th>
                                                     </tr>
-                                                    policyIndex++;
-                                                }
-                                            </tbody>
-                                        </table>
-                                        <div class="tip text-grey mt-20">
-                                            <i class="icons icon-info"></i>
-                                            @prodTitle.common_cancel_policy_explanation
-                                        </div>
+                                                </thead>
+                                                <tbody>
+                                                    @{int policyIndex = 0;}
+                                                    @foreach (var policy in prod.policy_list)
+                                                    {
+                                                        int smallestDay = prod.policy_list.Min(x => x.days);
+                                                        string dateDescStr = policy.is_over ?
+                                                                                $"<span>{policy.days}</span> {prodTitle.common_days_more}" :
+                                                                                $"<span>{(smallestDay < policy.days ? $"{(prod.policy_list[policyIndex + 1].days + 1)}" : "0")}~{policy.days}</span> {prodTitle.common_days_prior}";
+                                                        string feeDescStr = policy.fee == 100 ?
+                                                                                prodTitle.product_index_non_refundable :
+                                                                                policy.fee == 0 ?
+                                                                                prodTitle.product_index_refundable :
+                                                                                $"{policy.fee}%";
+                                                        <tr>
+                                                            <td>
+                                                                @Html.Raw(dateDescStr)
+                                                            </td>
+                                                            <td>@feeDescStr</td>
+                                                        </tr>
+                                                        policyIndex++;
+                                                    }
+                                                </tbody>
+                                            </table>
+                                            <div class="tip text-grey mt-20">
+                                                <i class="icons icon-info"></i>
+                                                @prodTitle.common_cancel_policy_explanation
+                                            </div>
+                                    }
                                     </div>
                                 </div>
                             </div>

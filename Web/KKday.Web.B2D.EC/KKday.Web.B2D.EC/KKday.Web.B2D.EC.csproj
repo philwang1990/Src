@@ -42,6 +42,7 @@
     <Folder Include="Models\Model\Pmch\" />
     <Folder Include="Views\Final\" />
     <Folder Include="Views\Template\" />
+    <Folder Include="Views\Error\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Product\Index2.cshtml" />
