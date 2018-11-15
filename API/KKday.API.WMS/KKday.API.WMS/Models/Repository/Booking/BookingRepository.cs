@@ -38,6 +38,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             JObject obj = JObject.Parse(json_data);
             List<int> cus_seqno = new List<int>();
             List<int> lst_seqno = new List<int>();
+            int discount_xid = 0;
 
             try
             {
@@ -65,11 +66,11 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
                     foreach (var item in order_lst)
                     {
-                        BookingDAL.InsertOrderLst(item as JObject, trans, order_no, cus_seqno, ref lst_seqno);
+                        BookingDAL.InsertOrderLst(item as JObject, trans, order_no, cus_seqno, ref lst_seqno,ref discount_xid);
 
                         if (item["order_discount_rule"] as JObject  != null )
                         {
-                            BookingDAL.InsertOrderDiscountRule(item["order_discount_rule"] as JObject, trans, order_no, lst_seqno);
+                            BookingDAL.InsertOrderDiscountRule(item["order_discount_rule"] as JObject, trans, order_no, lst_seqno, discount_xid);
 
                             //if (item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject != null)
                             //{

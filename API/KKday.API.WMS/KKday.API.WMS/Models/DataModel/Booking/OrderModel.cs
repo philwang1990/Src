@@ -74,7 +74,7 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public double prod_amt { get; set; }//商品金額
         public double prod_b2c_amt { get; set; }//直客商品金額
         public string prod_currency { get; set; }//商品金額幣別
-        public int discount_xid { get; set; }//折扣xid
+        //public int discount_xid { get; set; }//折扣xid
         public string prod_cond1 { get; set; }//人(price1,price2)
         public string prod_cond2 { get; set; }//其他(ex.車)(price1)
         public string pkg_no { get; set; }//套餐編號
@@ -93,7 +93,7 @@ namespace KKday.API.WMS.Models.DataModel.Booking
 
     public class OrderDiscountRule
     {
-        public int xid { get; set; }//流水號
+        //public int xid { get; set; }//流水號
         //public int lst_seqno { get; set; }//細項編號
         public string disc_name { get; set; }//折扣名稱
         public double disc_amt { get; set; }//折扣金額

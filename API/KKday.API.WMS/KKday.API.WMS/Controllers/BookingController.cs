@@ -217,7 +217,7 @@ namespace KKday.API.WMS.Controllers {
 
 
         [HttpPost("bookingStep1")]
-        public IActionResult bookingStep1([FromBody]DataKKdayModel data)
+        public String bookingStep1([FromBody]DataKKdayModel data)
         {
             try
             {
@@ -270,15 +270,16 @@ namespace KKday.API.WMS.Controllers {
                     CallJsonPay2 rdsJson = (CallJsonPay2)status.pmchSslRequest.json;
                     string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
                     rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
+                    return "true";
                 }
                 else 
                 {
                     Website.Instance.logger.Debug($"bookingStep1:qq");//要改
                     status.status = "Error";
                     status.msgErr = "error bookingSetp1_1";//要改
+                    return "false";
                 }
 
-                return Json(status);
             }
             catch (Exception ex)
             {
@@ -288,7 +289,7 @@ namespace KKday.API.WMS.Controllers {
                 status.status = "Error";
                 status.msgErr = ex.ToString();//要改
 
-                return Json(status);
+                return "false";
             }
         }
 

@@ -26,9 +26,9 @@ namespace KKday.API.WMS.Controllers
             return View();
         }
 
-        [HttpGet("Success")]
+        [HttpGet("Step3")]
         //付款後導回
-        public IActionResult Success(string id,string jsondata)
+        public String Step3(string id,string jsondata)
         {
             //回傳的連結有訂編 (記log)
             //透過訂編將redis 的資料抓回送出去的資料
@@ -56,12 +56,15 @@ namespace KKday.API.WMS.Controllers
             //必須要再呼叫一次要讓FA 知道這個授權是kkday做的!而不是robot
             string isSuccess = helper.PaymentValid(transNo, pmgwValidToken);
 
-            //如果ok就upd
-            distributorInfo fakeContact = DataSettingRepository.fakeContact();
-            //helper.PayUpdSuccessUpdOrder(id, transNo, payDtl, req, res, fakeContact);//舊版
-            helper.PayUpdSuccessUpdOrder2(id, transNo, payDtl, req, res, fakeContact); //新版
+            if (isSuccess == "true")
+            {
+                //如果ok就upd
+                distributorInfo fakeContact = DataSettingRepository.fakeContact();
+                //helper.PayUpdSuccessUpdOrder(id, transNo, payDtl, req, res, fakeContact);//舊版
+                helper.PayUpdSuccessUpdOrder2(id, transNo, payDtl, req, res, fakeContact); //新版
+            } 
 
-            return View("Success");
+            return isSuccess;
         }
 
 
