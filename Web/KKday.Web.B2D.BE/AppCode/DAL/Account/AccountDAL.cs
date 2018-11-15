@@ -56,7 +56,7 @@ WHERE 1=1 AND b.xid=" + comp_xid + "{FILTER}";
                 if (comp_xid == 0)
                 {
                     sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
+ a.name_first, a.name_last, a.name_last || a.name_first AS name, a.department, a.gender_title, 
  a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
 FROM b2b.b2d_account a
@@ -68,7 +68,7 @@ LIMIT :Size OFFSET :Skip";
                 else
                 {
                     sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
+ a.name_first, a.name_last, a.name_last || a.name_first AS name, a.department, a.gender_title, 
  a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
 FROM b2b.b2d_account a
@@ -131,7 +131,7 @@ LIMIT :Size OFFSET :Skip";
             try
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
+ a.name_first, a.name_last, a.name_last || a.name_first AS name, a.department, a.gender_title, 
  a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
 FROM b2b.b2d_account a
@@ -187,7 +187,7 @@ WHERE a.xid=:xid";
             try
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.gender_title, 
+ a.name_first, a.name_last, a.name_last || a.name_first AS name, a.department, a.gender_title, 
  a.job_title, a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_tel_country_code, b.comp_invoice,
  b.comp_url, b.comp_address
 FROM b2b.b2d_account a
