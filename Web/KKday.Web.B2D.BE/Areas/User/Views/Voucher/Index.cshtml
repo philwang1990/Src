@@ -2,7 +2,6 @@
 @using KKday.Web.B2D.BE.Models.Model.Common
 @using KKday.Web.B2D.BE.Models.Model.Voucher
 @using Resources
-
 @inject ILocalizer localizer
 
 @{
@@ -10,11 +9,10 @@
     var vouch = (B2dVoucherAddon)ViewData["VouchAddOn"];
 }
 @model B2dVoucherAddon
-@section Scripts {
-    <script type="text/javascript" src="https://rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
-    <script type="text/javascript" src="@Url.Content("~/js/b2d-company-profile.js")" asp-append-version="true"></script>
-}
-
+@*@section Scripts {
+    @*<script type="text/javascript" src="@Url.Content("~/js/b2d-company-profile.js")" asp-append-version="true"></script>
+}*@
+<script type="text/javascript" src="https://rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
@@ -34,7 +32,7 @@
                         <div class="col-xs-12">
                             <div class="col-xs-12 col-sm-10" style="padding-top: 8px; padding-bottom: 8px;">
                                 <label>@localizer.Text.Company_logo</label>
-                                @if (Model.LOGO_URL=="")
+                                @if (Model.LOGO_URL == "")
                                 {
                                     <div></div>
                                 }
@@ -49,25 +47,25 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>@localizer.Text.Tel</label>
-                                <input type="text" id="vao_tel" name="name" class="form-control" value="@Model.TEL">
+                                <input type="text" id="vao_tel" name="vao_tel" class="form-control" value="@Model.TEL">
                             </div>
                         </div>
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label>@localizer.Text.Email</label>
-                                <input type="text" id="vao_email" name="name" class="form-control" value="@Model.EMAIL">
+                                <input type="text" id="vao_email" name="vao_email" class="form-control" value="@Model.EMAIL">
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="form-group">
                                 <label>@localizer.Text.Company_Name</label>
-                                <input type="text" id="vao_cmp_name" name="name" class="form-control" value="@Model.COMPANY_NAME">
+                                <input type="text" id="vao_cmp_name" name="vao_cmp_name" class="form-control" value="@Model.COMPANY_NAME">
                             </div>
                         </div>
                         <div class="col-xs-12">
                             <div class="form-group">
                                 <label>@localizer.Text.Company_Address</label>
-                                <input type="text" id="vao_cmp_addr" name="name" class="form-control" value="@Model.ADDRESS">
+                                <input type="text" id="vao_cmp_addr" name="vao_cmp_addr" class="form-control" value="@Model.ADDRESS">
                             </div>
                         </div>
                         <div class="col-sm-12 text-center">
@@ -80,3 +78,72 @@
         </div>
     </div>
 </div>
+<script type="text/javascript">
+    //驗證規則擴充
+    $.validator.addMethod("phoneStyle", function( value, element )
+    {
+       var str = value;
+       var result = false;
+
+       if(str.length > 0){
+           var patt_phone = /^[\d\-\(\)\#]{1,}$/;
+           result = patt_phone.test(str);
+       }
+       else result = true;
+
+       return result;
+    }, "電話號碼不符合格式，僅接受數字、#-()等符號");
+
+
+    $(function() {
+        //初始化驗證規則
+        $('#vouch').validate({
+            rules:{
+                vao_tel: {required: true,phoneStyle:true},
+                vao_email: { required: true,email:true },
+                vao_cmp_name: "required",
+                vao_cmp_addr: "required"
+            },
+
+            messages:{
+                vao_tel : {required:"不可為空"},
+                vao_email : {required:"不可為空",email:"請輸入有效的mail"},
+                vao_cmp_name : "不可為空",
+                vao_cmp_addr : "不可為空"
+            }
+        });
+
+    });
+
+    function UpdateVouch_User() {
+
+    if($('#vouch').valid())
+    {
+        var vouchData = {
+            company_xid: $("#comp_xid").val(),
+            company_name: $("#vao_cmp_name").val(),
+            address: $("#vao_cmp_addr").val(),
+            tel : $("#vao_tel").val(),
+            email: $("#vao_email").val()
+        };
+
+        $.ajax({
+            url: _root_path + "Voucher/UpdateVouchAddon",
+            type: 'POST',
+            contentType: "application/json",
+            data: JSON.stringify(vouchData),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                if(result.status == "OK") {
+                    alert('Upload Voucher Add-on is Successful');
+                }
+                else  alert(result.msg);
+            }
+
+        });
+    }
+}
+</script>
