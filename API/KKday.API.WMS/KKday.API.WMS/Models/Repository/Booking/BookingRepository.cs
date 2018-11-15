@@ -175,7 +175,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             data.crtDevice = "Macintosh";
             data.crtBrowser = "Safari";
             data.crtBrowserVersion = "12.0";
-            data.memberUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
+            data.memberUuid = Website.Instance.Configuration["KKAPI_INPUT:JSON:MEMBER_UUID"];
             data.riskStatus = "01";
             data.tokenKey = "897af29c45ed180451c2e6bfa81333b6";
             data.deviceId = "3c2ab71448224d1d7148350f7972e96e";
@@ -212,8 +212,8 @@ namespace KKday.API.WMS.Models.Repository.Booking
             json.is3D = "0";
             json.payCurrency = orderModel.currency;
             json.payAmount = Convert.ToDouble(orderModel.currPriceTotal);
-            json.returnURL = "https://localhost:5001/Final/Success/" + orderMid;
-            json.cancelURL = "https://localhost:5001/Final/Cancel/" + orderMid;
+            json.returnURL = "https://192.168.2.83:6001/Final/Success/" + orderMid;
+            json.cancelURL = "https://192.168.2.83:6001/Final/Cancel/" + orderMid;
             json.userLocale = "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
@@ -272,8 +272,8 @@ namespace KKday.API.WMS.Models.Repository.Booking
             json.pay_currency = orderModel.currency;
             json.pay_amount = Convert.ToDouble(orderModel.currPriceTotal);
 
-            json.return_url = "https://localhost:5001/api/Final/Success/" + "?id=" + orderMid + "&jsondata=";
-            json.cancel_url = "https://localhost:5001/Final/Cancel/" + "?id=" + orderMid;
+            json.return_url = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"] + "Final/Success/" + "?id=" + orderMid + "&jsondata=";
+            json.cancel_url = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"] + "Final/Cancel/" + "?id=" + orderMid;
             json.user_locale = "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
