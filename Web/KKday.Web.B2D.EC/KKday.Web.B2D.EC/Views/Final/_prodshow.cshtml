@@ -26,11 +26,11 @@
             </div>
             @if (string.IsNullOrEmpty(prodShow.eventOid) == false)
             {
+                <div class="col-xs-6">
+                 <div class="sub-title">@prodTitle.order_show_event_time</div>
+                 <div class="text">@prodShow.eventTime </div>
+                </div>
             }
-            <div class="col-xs-6">
-                <div class="sub-title">@prodTitle.order_show_event_time</div>
-                <div class="text">@prodShow.eventTime </div>
-            </div>
         </div>
         <hr>
         @if (prodShow.isRank == true)
@@ -40,7 +40,7 @@
         {
         <div class="text">
             @prodTitle.common_adult x @prodShow.price1Qty
-            <div class="pull-right price">@prodShow.currency  @prodShow.price1</div>
+            <div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price1).ToString("N0")</div>
             <div class="clearfix"></div>
         </div>
         }
@@ -48,7 +48,7 @@
         {
         <div class="text">
             @prodTitle.common_child x @prodShow.price2Qty
-            <div class="pull-right price">@prodShow.currency  @prodShow.price2</div>
+            <div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price2).ToString("N0")</div>
             <div class="clearfix"></div>
         </div>
         }
@@ -56,7 +56,7 @@
         {
         <div class="text">
             @prodTitle.common_infant x @prodShow.price3Qty
-            <div class="pull-right price">@prodShow.currency  @prodShow.price3</div>
+            <div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price3).ToString("N0")</div>
             <div class="clearfix"></div>
         </div>
         }
@@ -64,7 +64,7 @@
         {
         <div class="text">
             @prodTitle.common_elder x @prodShow.price4Qty
-            <div class="pull-right price">@prodShow.currency  @prodShow.price4</div>
+            <div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price4).ToString("N0")</div>
             <div class="clearfix"></div>
         </div>
         }
@@ -74,7 +74,7 @@
         <div class="sub-title">@prodTitle.common_guest</div>
         <div class="text">
             @prodShow.unitText x @prodShow.price1Qty
-            <div class="pull-right price"><div class="pull-right price">@prodShow.currency  @prodShow.price1</div></div>
+            <div class="pull-right price"><div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price1).ToString("N0")</div></div>
             <div class="clearfix"></div>
         </div>
         }
@@ -84,7 +84,7 @@
             <div class="sub-title">@prodTitle.common_total</div>
         </div>
         <div class="pull-right">
-            <div class="text-right text-lg price" id="total_price">@prodShow.currency  @prodShow.totoalPrice </div>
+            <div class="text-right text-lg price" id="total_price">@prodShow.currency  @Convert.ToDouble(prodShow.totoalPrice).ToString("N0") </div>
         </div>
         <div class="clearfix"></div>
     </div>

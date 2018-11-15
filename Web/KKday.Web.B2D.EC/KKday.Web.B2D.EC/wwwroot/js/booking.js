@@ -36,7 +36,8 @@ function DateSetting()
             format: 'YYYY-MM-DD'
          },
          minDate :new Date(useDateTemp.getFullYear() - eAge, useDateTemp.getMonth(), useDateTemp.getDate()),
-         maxDate :new Date(useDateTemp.getFullYear() - sAge, useDateTemp.getMonth(), useDateTemp.getDate())
+         maxDate :new Date(useDateTemp.getFullYear() - sAge, useDateTemp.getMonth(), useDateTemp.getDate()),
+         startDate: new Date(useDateTemp.getFullYear() - sAge, useDateTemp.getMonth(), useDateTemp.getDate())
        });
 
         $(this).find("[id^=txtBirtyday_]").on('apply.daterangepicker', function(ev, picker) { 

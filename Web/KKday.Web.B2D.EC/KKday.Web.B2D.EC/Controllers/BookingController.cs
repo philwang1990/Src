@@ -27,7 +27,7 @@ namespace KKday.Web.B2D.EC.Controllers
         public IActionResult Index(string guid)
         {
             try
-            {  
+            {
                 //假分銷商
                 distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
@@ -160,10 +160,11 @@ namespace KKday.Web.B2D.EC.Controllers
             catch( Exception ex)
             {
                 ViewData["errMsg"] = ex.Message.ToString();
-                //導到錯誤頁
                 Website.Instance.logger.Debug($"booking_index_err:{ex.ToString()}");
-                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
-                { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                //導到錯誤頁
+                return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Invalid_Common });
+                //return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
+                //{ RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
 
