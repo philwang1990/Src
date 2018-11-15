@@ -1,0 +1,157 @@
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.deps.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.runtimeconfig.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.runtimeconfig.dev.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csproj.CoreCompileInputs.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorAssemblyInfo.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorAssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.AssemblyInfoInputs.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.AssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.TagHelpers.input.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.TagHelpers.output.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorCoreGenerate.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/About.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Contact.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Privacy.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/Index.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/_prodPkg.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorTargetAssemblyInfo.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorTargetAssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csproj.CopyComplete
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.deps.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.runtimeconfig.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.runtimeconfig.dev.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csproj.CoreCompileInputs.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorAssemblyInfo.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorAssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.AssemblyInfoInputs.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.AssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.TagHelpers.input.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.TagHelpers.output.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorCoreGenerate.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/About.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Contact.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Privacy.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/Index.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/_prodPkg.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorTargetAssemblyInfo.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorTargetAssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC 拷貝/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csproj.CopyComplete
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.deps.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.runtimeconfig.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.runtimeconfig.dev.json
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csproj.CoreCompileInputs.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorAssemblyInfo.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorAssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.AssemblyInfoInputs.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.AssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.TagHelpers.input.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.TagHelpers.output.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorCoreGenerate.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/Index.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_carPsgr.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_contactData.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_cusData.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_flightInfo.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_guide.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_orderContactData.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_other.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_rentCar.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_sendData.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_shuttle.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/About.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Contact.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Privacy.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/Index.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/_booking_bar.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/_prodPkg.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorTargetAssemblyInfo.cache
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorTargetAssemblyInfo.cs
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.dll
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.pdb
+/Users/zhangfengrong/Documents/Core_Test/KKday.Web.B2D.EC_ok/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csproj.CopyComplete
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.deps.json
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.runtimeconfig.json
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.runtimeconfig.dev.json
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.dll
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.pdb
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.dll
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/bin/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.pdb
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csproj.CoreCompileInputs.cache
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorAssemblyInfo.cache
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorAssemblyInfo.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.AssemblyInfoInputs.cache
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.AssemblyInfo.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.TagHelpers.input.cache
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.TagHelpers.output.cache
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorCoreGenerate.cache
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/Index.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_carPsgr.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_contactData.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_cusData.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_flightInfo.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_guide.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_orderContactData.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_other.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_rentCar.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_sendData.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Booking/_shuttle.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/About.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Contact.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Index.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Home/Privacy.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/Index.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/_booking_bar.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Product/_prodPkg.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/Error.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_CookieConsentPartial.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_Layout.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/Shared/_ValidationScriptsPartial.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/_ViewImports.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/Razor/Views/_ViewStart.g.cshtml.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorTargetAssemblyInfo.cache
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.RazorTargetAssemblyInfo.cs
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.Views.pdb
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.dll
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.pdb
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csproj.CopyComplete
+/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj/Debug/netcoreapp2.1/KKday.Web.B2D.EC.csprojAssemblyReference.cache

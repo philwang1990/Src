@@ -1,0 +1,380 @@
+* {
+	box-sizing: border-box;
+	outline: none;
+}
+
+body {
+	margin: 0;
+	padding: 0 30px;
+	letter-spacing: 0.5px;
+	font-family: "Hiragino Sans GB", "Microsoft YaHei", sans-serif !important;
+}
+
+a {
+	text-decoration: none;
+}
+
+.clearfix {
+	clear: both;
+}
+
+.card {
+	border: 2px solid #26bec9;
+	overflow: hidden;
+}
+
+.card .header {
+	width: 100%;
+	height: 40px;
+	background-color: #26bec9;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.card .header .logo {
+	height: 70%;
+}
+
+.prod .prod-img {
+	width: 100%;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+}
+
+.prod .prod-detail {
+	padding: 5px;
+}
+
+.prod .prod-detail h2 {
+	margin: 0 0 5px 0;
+	font-size: 12px;
+	line-height: 1.5;
+	color: #333;
+	height: 35px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.prod .prod-detail .price {
+	display: inline-block;
+	font-size: 16px;
+	line-height: 1.2;
+	color: #26bec9;
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+
+.prod .prod-detail .price span {
+	color: #999;
+	font-size: 11px;
+	font-weight: 400;
+	margin-right: 2px;
+}
+
+.prod .cta {
+	float: right;
+	padding: 5px 15px;
+	font-size: 12px;
+	color: #fff;
+	background: linear-gradient(-210deg, #64B3F4 0%, #26BEC9 90%);
+	border-radius: 16px;
+	display: inline-block;
+}
+
+.card-col-2 .prod {
+	border-left: 1px solid #ddd;
+	float: left;
+}
+
+.card-col-2 .prod:nth-child(2) {
+	border: none;
+}
+
+.card-row .prod {
+	border-bottom: 1px solid #ddd;
+}
+
+.card-row .prod:last-child {
+	border: none;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.prod .prod-detail.text-center h2 {
+	margin: 0;
+}
+
+.prod .prod-detail.text-center .cta {
+	float: none;
+}
+
+/*200x200*/
+
+.card-200 {
+	width: 200px;
+	height: 200px;
+}
+
+.card-200 .header {
+	height: 30px;
+}
+
+.card-200 .prod .prod-img {
+	height: 88px;
+}
+
+.card-200 .prod .prod-detail .price {
+	font-size: 12px;
+}
+
+.card-200 .prod .prod-detail .cta {
+	padding: 5px 10px;
+}
+
+/*200x400*/
+
+.card-240 {
+	width: 240px;
+	height: 400px;
+}
+
+.card-240 .prod-img {
+	height: 99px;
+}
+
+/*300x250*/
+
+.card-300 {
+	width: 300px;
+	height: 250px;
+	float: left;
+	margin-right: 10px;
+}
+
+.card-300 .prod-img {
+	height: 128px;
+}
+
+.card-300.card-col-2 .prod {
+	width: 50%;
+}
+
+.card-300.card-col-2 .prod-img {
+	height: 105px;
+}
+
+/*336x280*/
+
+.card-336 {
+	width: 336px;
+	height: 280px;
+	float: left;
+	margin-right: 10px;
+}
+
+.card-336 .prod-img {
+	height: 156px;
+}
+
+.card-336 .prod-detail h2 {
+	font-size: 13px;
+}
+
+.card-336.card-col-2 .prod {
+	width: 50%;
+}
+
+.card-336.card-col-2 .prod-detail h2 {
+	font-size: 12px;
+}
+
+.card-336.card-col-2 .prod-img {
+	height: 135px;
+}
+
+/*160x600*/
+
+.card-160 {
+	width: 160px;
+	height: 600px;
+}
+
+.card-160 .prod-img {
+	height: 85px;
+}
+
+/*300x600*/
+
+.card-300x600 {
+	width: 300px;
+	height: 600px;
+	float: left;
+	margin-right: 10px;
+}
+
+.card-300x600 .prod-img {
+	height: 107px;
+}
+
+.card-300x600.card-5-row .prod {
+	height: 112px;
+}
+
+.card-300x600.card-5-row .prod-img {
+	width: 130px;
+	height: 100%;
+	float: left;
+}
+
+.card-300x600.card-5-row .prod-detail {
+	float: left;
+	height: 100%;
+	width: calc(100% - 130px);
+}
+
+.card-300x600.card-5-row .prod-detail .price {
+	margin-bottom: 8px;
+}
+
+/*468x60*/
+
+.card-468 {
+	width: 468px;
+	height: 60px;
+}
+
+.card-468 .header {
+	width: 70px;
+	height: 100%;
+	float: left;
+}
+
+.card-468 .header .logo {
+	height: 22px;
+	margin-top: 5px;
+}
+
+.card-468 .prod {
+	width: 197px;
+}
+
+.card-468 .prod-img {
+	width: 84px;
+	height: 60px;
+	float: left;
+}
+
+.card-468 .prod-detail {
+	padding: 2px 5px;
+	width: calc(100% - 84px);
+	float: left;
+}
+
+.card-468 .prod-detail h2 {
+	height: 28px;
+	line-height: 1.2;
+}
+
+.card-468 .prod-detail h2,
+.card-468 .prod-detail .price {
+	margin: 0;
+}
+
+.card-468 .prod-detail .price {
+	font-size: 12px;
+}
+
+/*728x90*/
+
+.card-728 {
+	width: 728px;
+	height: 90px;
+}
+
+.card-728 .header {
+	width: 90px;
+	height: 100%;
+	float: left;
+}
+
+.card-728 .header .logo {
+	height: 30px;
+	margin-top: 8px;
+}
+
+.card-728 .prod {
+	width: 317px;
+}
+
+.card-728 .prod-img {
+	width: 120px;
+	height: 90px;
+	float: left;
+}
+
+.card-728 .prod-detail {
+	width: calc(100% - 120px);
+	float: left;
+}
+
+.card-728 .prod-detail h2 {
+	font-size: 13px;
+	margin-bottom: 12px;
+}
+
+.card-728 .prod-detail .price {
+	font-size: 12px;
+}
+
+.card-728 .prod-detail .cta {
+	padding: 5px 10px;
+}
+
+/*320x100*/
+
+.card-320 {
+	width: 320px;
+	height: 100px;
+}
+
+.card-320 .pic {
+	height: 100%;
+	width: 145px;
+	float: left;
+}
+
+.card-320 .prod-img {
+	width: 100%;
+	height: 70px;
+}
+
+.card-320 .header {
+	width: 100%;
+	height: 28px;
+}
+
+.card-320 .header .logo {
+	height: 20px;
+}
+
+.card-320 .prod-detail {
+	padding: 5px 8px;
+	width: calc(100% - 145px);
+	float: left;
+}
+
+.card-320 .prod-detail h2 {
+	margin: 0;
+}
+
+.card-320 .prod-detail .price {
+	font-size: 13px;
+	margin-bottom: 0;
+}

@@ -1,0 +1,232 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+
+@{ 
+    Layout = "_Layout3";
+}
+@section Scripts{
+
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Booking Step1 - KKday.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <link href="img/favicon.png" rel="shortcut icon" type="image/ico">
+    <link rel="stylesheet" href="~/css/flat-ui.css" type="text/css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/simple-line-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <!--Intel Tel-->
+    <link rel="stylesheet" href="~/css/intlTelInput.css" type="text/css">
+    <link rel="stylesheet" href="~/css/custom.css" type="text/css">
+    <style>
+
+        .error_msg {
+            color: Red;
+        }
+    </style>
+
+ @*<script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>*@
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/booking.js"></script>
+    <script src="~/js/booking.validate.js"></script>
+    <script src="~/js/booking.event.js"></script>
+
+    <script src="~/js/jquery.kkday.js"></script>
+    <!--Date Range Picker-->
+    <script type="text/javascript" src="~/js/moment.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
+    <!--Intel Tel-->
+    <script src="~/js/intlTelInput.min.js"></script>
+    <script src="~/js/booking.kkday.js"></script>
+
+    <script type="text/javascript">
+
+        var dataModel;
+        var cusModel;
+        var useDate;
+        var module;
+        var countryLst;
+        
+        $(function () {
+
+             $(".defaultHide").hide();
+
+             initModule();
+             initModule2();
+             initModule3();
+             setModule();
+
+             intKKday();
+        });
+    </script>
+}
+
+
+
+
+
+@{
+    var guid = (string)ViewData["guid"];
+    var confirm =(confirmPkgInfo) ViewData["confirmPkgInfo"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var totalCus = (int)ViewData["totalCus"];
+    var cusData = (CusData)ViewData["cusData"];
+    var mainCat = (string)ViewData["mainCat"];
+    var guide = (List<GuideLanguage>) ViewData["guide"];
+    var wifi = (SimWifi)ViewData["wifi"];
+    var exchange = (List<Location>)ViewData["exchange"];
+
+    var flightInfoType = (string)ViewData["flightInfoType"];
+    var venue = (VenueInfo)ViewData["venue"];
+
+    var useDate = (string)ViewData["useDate"];
+    var rentCar = (RentCar)ViewData["rentCar"];
+    var carPsgr = (CarPasgr)ViewData["carPsgr"];
+
+    var sendInfoType = (string)ViewData["sendInfoType"];
+    var sendData = (SendData)ViewData["sendData"];
+
+    var contactData = (ContactData)ViewData["contactData"];
+
+    var flightInfo = (FlightInfo)ViewData["flightInfo"];
+    var contactInfo = (distributorInfo)ViewData["contactInfo"];
+    var dataModelStr = ViewData["dataModelStr"];
+    var cutOfDay = ViewData["CutOfDay"];
+    var cusAgeRange = ViewData["cusAgeRange"];
+    var prodShow = (BookingShowProdModel) ViewData["prodShow"];
+    var isEvent = (string)ViewData["isEvent"];
+    var isHl = (string)ViewData["isHl"];
+    var pkgCanUseDate = (string)ViewData["pkgCanUseDate"];
+}
+
+@Html.Hidden("hdnGuid",guid)
+@Html.Hidden("hdndataModelStr",dataModelStr)
+@Html.Hidden("hdnAdultQty", confirm.price1Qty)
+@Html.Hidden("hdnChildQty", confirm.price2Qty)
+@Html.Hidden("hdnInfantQty", confirm.price3Qty)
+@Html.Hidden("hdnOldQty",confirm.price4Qty)
+@Html.Hidden("hdnUseDate",useDate)
+@Html.Hidden("hdnCutOfDay", cutOfDay)
+@Html.Hidden("hdnPkgCanUseDate",pkgCanUseDate)
+@Html.Hidden("hdnIsEvent",isEvent)
+@Html.Hidden("hdnIsHl",isHl)
+
+<section id="bookingWrapper" class="booking-wrap">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="active">@prodTitle.common_confirmation </a></li>
+            <li>@prodTitle.common_payment </a></li>
+            <li>@prodTitle.common_done </li>
+        </ol>
+        <div class="row">
+            <div class="col-md-8 col-sm-9">
+                <!--contactData-->
+                <form id="form1">
+                <div class="orderContactData board active" id="board1">
+                    @await Html.PartialAsync("_orderContactData")
+                </div>
+               </form>
+               
+               <div class="board active" id="board2">
+                <div class="title">
+                    @prodTitle.booking_step1_traveler_information
+                    <a href="javascript:;" class="title-tool expand-info">
+                        <i class="fa fa-angle-down"></i>
+                    </a>
+                </div>
+
+                 <div class="con">
+                     <!--cusData-->
+                     @*<div class="cusData">*@
+                        @await Html.PartialAsync("_cusData")
+                     @*</div>*@
+                    
+                     <form id="otherForm" class="otherFormClass">
+
+
+                        <!--event-->
+                         <div class="eventData">
+                             @await  Html.PartialAsync("_event")
+
+                         </div>
+                    
+                        <!--guideData-->
+                        <div class="guideData">
+                            @await Html.PartialAsync("_guide")
+                        </div>
+
+                        <!--flight-->
+                        <div class="flightData">
+                            @await Html.PartialAsync("_flightInfo")
+                        </div>
+                        
+                        <!--shuttle-->
+                        <div class="shuttleData">
+                            @await Html.PartialAsync("_shuttle")
+                        </div>
+                        
+                        <!--carRent-->
+                        <div class="rentCar">
+                            @await Html.PartialAsync("_rentCar")
+                        </div>
+                
+                        <!--carPsgr-->
+                        <div class="carPsgr">
+                            @await Html.PartialAsync("_carPsgr")
+                        </div>
+                        
+                        <!--sendData-->
+                        <div class="sendData">
+                            @await Html.PartialAsync("_sendData")
+                        </div>
+
+                        <!--contactData-->
+                        <div class="contactData">
+                            @await Html.PartialAsync("_contactData")
+                        </div>
+
+                        <!--wifi exchange-->
+                        <div class="otherData">
+                            @await Html.PartialAsync("_other")
+                        </div>
+
+                        <!-- 訂單備註 -->
+                        <div class="traveler-con">
+                            <div class="sub-title">
+                                @prodTitle.booking_step1_order_note
+                                <small>(@prodTitle.booking_step1_order_note_tip)</small>
+                            </div>
+                            <div class="row mt-10">
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="form-group">
+                                    <textarea class="form-control" rows="3" id="txtOrdNote" name="txtOrdNote"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+                <div class="board" id="board3">
+                    @await Html.PartialAsync("_payment")
+                </div>
+            </div>
+        </div>
+        
+        <br />
+        <input type="button" value="先從這裡成立訂單" onclick="chkValid()" />
+        <br />
+        
+        @Html.Hidden("booking_step1_length_error_1", prodTitle.booking_step1_length_error_1)
+        @Html.Hidden("booking_step1_length_error_2", prodTitle.booking_step1_length_error_2)
+        @Html.Hidden("booking_step1_required_error", prodTitle.booking_step1_required_error)
+        @Html.Hidden("booking_step1_english_error", prodTitle.booking_step1_english_error)
+
+    </div>
+
+
+    <!--action-->
+     @await Html.PartialAsync("_prodShow")
+</section>

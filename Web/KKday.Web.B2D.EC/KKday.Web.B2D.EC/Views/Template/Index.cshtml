@@ -1,0 +1,1415 @@
+﻿@page
+
+@section Scripts{
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Booking Step1 - KKday.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <link href="img/favicon.png" rel="shortcut icon" type="image/ico">
+    @*<link rel="stylesheet" href="~/css/bootstrap.min.css">*@
+    <link rel="stylesheet" href="~/css/flat-ui.css" type="text/css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="~/css/simple-line-icons.css" type="text/css">
+    <link rel="stylesheet" href="~/css/daterangepicker.css">
+    <!--Intel Tel-->
+    <link rel="stylesheet" href="~/css/intlTelInput.css" type="text/css">
+    <link rel="stylesheet" href="~/css/custom.css" type="text/css">
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+    <script src="https://www-02.sit.kkday.com/assets/js/jquery-1.11.2.min.js"></script>
+    <script src="https://www-02.sit.kkday.com/assets/js/html5shiv.js"></script>
+    <script src="https://www-02.sit.kkday.com/assets/js/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery 2.0.0 -->
+    @*<script src="~/js/jquery.min.js"></script>*@
+    <!-- Bootstrap 3.3.7 -->
+    @*<script src="~/js/bootstrap.min.js"></script>*@
+    <script src="~/js/jquery.kkday.js"></script>
+    <!--Date Range Picker-->
+    <script type="text/javascript" src="~/js/moment.js"></script>
+    <script src="~/js/daterangepicker.js"></script>
+    <!--Intel Tel-->
+    <script src="~/js/intlTelInput.min.js"></script>
+    <script src="~/js/booking.kkday.js"></script>
+    <script>
+$(function(){
+
+         
+        intKKday();
+
+        });
+
+
+    </script>
+}
+@{
+
+
+}
+
+
+<!-- new version base on w3school -->
+<!-- preference: http://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_sidenav -->
+
+<section class="booking-wrap">
+    <div class="container">
+        <ol class="breadcrumb">
+            <li class="active">填寫資料</a></li>
+            <li>付款</a></li>
+            <li></li>
+        </ol>
+        <div class="row">
+            <div class="col-md-8 col-sm-9">
+                <div class="board active" id="board1">
+                    <div class="title">
+                        訂購人資料
+                        <a href="javascript:;" class="title-tool expand-info">
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                    </div>
+                    <div class="con">
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group must has-error">
+                                    <label>訂購人名<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="例：Ming Ni" value="Ann">
+                                    <div class="tip text-danger">請輸入訂購人名</div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group must has-error">
+                                    <label>訂購人姓<span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" placeholder="例：Chen" value="Chen">
+                                    <div class="tip text-danger">請輸入訂購人姓</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group must">
+                                    <label>國籍<span class="text-danger">*</span></label>
+                                    <select class="form-control">
+                                        <option value="0">-請選擇-</option>
+                                        <option selected="selected">台灣</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group must">
+                                    <label>聯絡電話<span class="text-danger">*</span></label>
+                                    <input type="tel" class="form-control form-phone">
+                                    <div class="tip text-danger">no number</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-xs-12">
+                                <div class="form-group must">
+                                    <label>Email<span class="text-danger">*</span></label>
+                                    <input type="email" class="form-control" placeholder="aaa@gmail.com" value="ann.chen@gmail.com">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="board active" id="board2">
+                    <div class="title">
+                        旅人資料
+                        <a href="javascript:;" class="title-tool expand-info">
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                    </div>
+                    <div class="con">
+                        <div class="traveler-con">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <label>乘客數量</label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="tip">
+                                    <i class="icon-info icons"></i>此處為保險使用，請務必填寫正確
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">
+                                旅人1
+                                <div class="pull-right">
+                                    <button type="text" class="form-control input-dropdown" row="auto" data-toggle="dropdown">請選擇常用聯絡人</button>
+                                    <ul class="dropdown-menu input-dropdown-menu w-180">
+                                        <li class="text-muted text-xs">請選擇常用聯絡人</li>
+                                        <li><a href="javascript:;">常用聯絡人1</a></li>
+                                        <li><a href="javascript:;">常用聯絡人2</a></li>
+                                        <li><a href="javascript:;">常用聯絡人123456789</a></li>
+                                    </ul>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group must">
+                                        <!--calss="must" 為示意當必填欄位未填時錯誤樣式-->
+                                        <label>旅客護照名(英文)<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" placeholder="例：Ming Ni" value="Ann">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group must">
+                                        <label>旅客護照姓(英文)<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control" placeholder="例：Chen" value="Chen">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>性別<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>男</option>
+                                            <option>女</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>出生日期<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control has-datepicker">
+                                            <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>國籍<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>台灣</option>
+                                            <option>日本</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>護照號碼<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>護照截止日<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control has-datepicker">
+                                            <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>本國國籍名字<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>本國國籍姓氏<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>台灣身分證字號<span class="text-danger">*</span></label>
+                                        <div class="input-icon">
+                                            <input class="form-control" placeholder="請輸入台灣身分證字號" type="text">
+                                            <span class="flag"><img src="img/flag/tw.png"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>港澳身分證字號<span class="text-danger">*</span></label>
+                                        <div class="input-icon">
+                                            <input class="form-control" placeholder="請輸入港澳身分證字號" type="text">
+                                            <span class="flag"><img src="img/flag/hk.png"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>台胞證字號<span class="text-danger">*</span></label>
+                                        <div class="input-icon">
+                                            <input class="form-control" placeholder="請輸入台胞證字號" type="text">
+                                            <span class="flag"><img src="img/flag/tw.png"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>旅客身高<span class="text-danger">*</span></label>
+                                        <div class="input-select">
+                                            <div class="form-group form-input">
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="form-group form-select">
+                                                <select class="form-control">
+                                                    <option value="0">-</option>
+                                                    <option selected="selected">cm</option>
+                                                    <option>inch</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="tip text-danger">請輸入身高</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>旅客體重<span class="text-danger">*</span></label>
+                                        <div class="input-select">
+                                            <div class="form-group form-input">
+                                                <input type="text" class="form-control">
+                                            </div>
+                                            <div class="form-group form-select">
+                                                <select class="form-control">
+                                                    <option value="0">-</option>
+                                                    <option selected="selected">kg</option>
+                                                    <option>磅</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="tip text-danger">請選擇體重單位</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="form-group">
+                                        <label>旅客鞋碼<span class="text-danger">*</span></label>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <select class="form-control select_shoe">
+                                                        <option value="0">-</option>
+                                                        <option>成人男性鞋碼</option>
+                                                        <option>成人女性鞋碼</option>
+                                                        <option>兒童鞋碼</option>
+                                                    </select>
+                                                    <div class="tip">
+                                                        <i class="icon-info icons"></i>如腳掌長低於19CM, 請選擇兒童鞋碼
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-xs-12">
+                                                <div class="form-inline hidden shoe_size">
+                                                    <div class="form-group">
+                                                        <select class="form-control select-num">
+                                                            <option>單位</option>
+                                                            <option>US</option>
+                                                            <option>JP</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <select class="form-control w-90">
+                                                            <option>--</option>
+                                                            <option>20</option>
+                                                            <option>21</option>
+                                                            <option>22</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>眼鏡度數<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-</option>
+                                            <option>100</option>
+                                            <option>150</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>選擇餐食<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>葷</option>
+                                            <option>素</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <label>
+                                <input type="checkbox" checked="checked">
+                                Save this Traveler info to profile
+                            </label>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">候補場次</div>
+                            <div class="form-group">
+                                <label>第一候補場次時間</label>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                                <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option value="0">-請選擇-</option>
+                                                <option>10:00</option>
+                                                <option>11:00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>第二候補場次時間</label>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                                <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option value="0">-請選擇-</option>
+                                                <option>10:00</option>
+                                                <option>11:00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>第三候補場次時間</label>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                                <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option value="0">-請選擇-</option>
+                                                <option>10:00</option>
+                                                <option>11:00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">導覽語言</div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>行程導覽語言<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option class="selected">中文</option>
+                                            <option>英文</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">
+                                抵達日本航班資訊
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>航班類型<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>國際線</option>
+                                            <option>國內線</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>抵達機場<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>桃園國際機場</option>
+                                            <option>英文</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label>航廈<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>航空公司<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label>航班編號<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>航班出發時間<span class="text-danger">*</span></label>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                                <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                            </div>
+                                            <div class="tip text-danger">沒有選日期</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="time-select">
+                                            <div class="form-group">
+                                                <select class="form-control select-num">
+                                                    <option value="0">--</option>
+                                                    <option>00</option>
+                                                    <option>01</option>
+                                                </select>
+                                            </div>
+                                            <span class="time-gap">時</span>
+                                            <div class="form-group">
+                                                <select class="form-control select-num">
+                                                    <option value="0">--</option>
+                                                    <option>00</option>
+                                                    <option>01</option>
+                                                </select>
+                                            </div>
+                                            <span class="time-gap">分</span>
+                                        </div>
+                                        <div class="tip text-danger">沒有選時間</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>是否辦理落地簽?<span class="text-danger">*</span></label>
+                                <div class="form-inline">
+                                    <label>
+                                        <input type="radio" name="visa_type">
+                                        是
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="visa_type">
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">
+                                離開日本航班資訊
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>航班類型<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>國際線</option>
+                                            <option>國內線</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>出發機場<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>桃園國際機場</option>
+                                            <option>英文</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label>航廈<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>航空公司<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3 col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <label>航班編號<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>航班抵達時間<span class="text-danger">*</span></label>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                                <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                            </div>
+                                            <div class="tip text-danger">請選擇抵達日期</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-xs-12">
+                                        <div class="time-select">
+                                            <div class="form-group">
+                                                <select class="form-control select-num">
+                                                    <option value="0">--</option>
+                                                    <option>00</option>
+                                                    <option>01</option>
+                                                </select>
+                                            </div>
+                                            <span class="time-gap">時</span>
+                                            <div class="form-group">
+                                                <select class="form-control select-num">
+                                                    <option value="0">--</option>
+                                                    <option>00</option>
+                                                    <option>01</option>
+                                                </select>
+                                            </div>
+                                            <span class="time-gap">分</span>
+                                        </div>
+                                        <div class="tip text-danger">請選擇抵達時間</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">接送資料</div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>接駁日期<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                            <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="form-group">
+                                        <label>接駁時間<span class="text-danger">*</span></label>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-xs-12">
+                                                <div class="form-group">
+                                                    <select class="form-control" id="select_pickup">
+                                                        <option value="0">-請選擇-</option>
+                                                        <option>09:05</option>
+                                                        <option>09:10</option>
+                                                        <option value="customize">自訂接駁時間</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6 col-xs-12">
+                                                <div class="hidden" id="pickup_time">
+                                                    <div class="time-select">
+                                                        <div class="form-group">
+                                                            <select class="form-control select-num">
+                                                                <option value="0">--</option>
+                                                                <option>00</option>
+                                                                <option>01</option>
+                                                            </select>
+                                                        </div>
+                                                        <span class="time-gap">時</span>
+                                                        <div class="form-group">
+                                                            <select class="form-control select-num">
+                                                                <option value="0">--</option>
+                                                                <option>00</option>
+                                                                <option>01</option>
+                                                            </select>
+                                                        </div>
+                                                        <span class="time-gap">分</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>上車地點<span class="text-danger">*</span></label>
+                                        <textarea class="form-control" rows="2" placeholder="請輸入上車地點"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>下車地點<span class="text-danger">*</span></label>
+                                        <textarea class="form-control" rows="2" placeholder="請輸入上車地點"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>接送地點<span class="text-danger">*</span></label>
+                                <select class="form-control">
+                                    <option value="0">-請選擇-</option>
+                                    <option>W Hotel</option>
+                                    <option>Four Season New York</option>
+                                </select>
+                                <div class="tip">
+                                    3-37 Toyosaki, Tomigusuku, Tomigusuku,Okinawa Prefecture 901-0225
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>包車路線<span class="text-danger">*</span></label>
+                                <button type="text" class="form-control input-dropdown" row="auto" data-toggle="dropdown">請選擇包車路線</button>
+                                <ul class="dropdown-menu input-dropdown-menu">
+                                    <li>
+                                        <a href="###">Route A: Taipei - Yehliu - Shifen - Jinguashi - Jiufen - Back to Taipei</a>
+                                    </li>
+                                    <li>
+                                        <a href="###">Route B: Taipei - Shifen - Pingxi - Jiufen Main Street - Keelung Miaokou Night Market - Back to Taipei</a>
+                                    </li>
+                                    <li>
+                                        <a href="###">Route C: Taipei - Yehliu - Jiufen - Houtong - Shifen - Back to Taipei</a>
+                                    </li>
+                                    <li>
+                                        <a href="###">Route D:Taipei – Chiang Kau-Shek Memorial Hall - Yangmingshan National Park - Qingtiangang - Xiaoyoukeng - Back to Taipei</a>
+                                    </li>
+                                    <li>
+                                        <a href="###" class="customize">我想要自訂行程</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="form-group hidden" id="charter_group">
+                                <label>自訂行程<span class="text-danger">*</span></label>
+                                <div class="input-btn">
+                                    <input type="text" class="form-control" placeholder="請輸入自訂行程地點">
+                                    <a href="#" class="btn btn-primary">新增</a>
+                                </div>
+                                <div class="tip">本產品最多可以輸入 <span class="text-primary">5</span> 個自訂行程地點</div>
+                                <ul class="select-list">
+                                    <li><i class="icon-close icons"></i>淡水老街</li>
+                                    <li><i class="icon-close icons"></i>地熱谷</li>
+                                    <li><i class="icon-close icons"></i>阿里山飛天遁地小火車</li>
+                                    <li><i class="icon-close icons"></i>台北101</li>
+                                    <li><i class="icon-close icons"></i>大直美麗華摩天輪</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">租車資料</div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>取車地點<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>W Hotel</option>
+                                            <option>Four Season New York</option>
+                                        </select>
+                                        <div class="tip">
+                                            3-37 Toyosaki, Tomigusuku, Tomigusuku,Okinawa Prefecture 901-0225
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>取車時間<span class="text-danger">*</span></label>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                                <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option value="0">-請選擇-</option>
+                                                <option>09:05</option>
+                                                <option>09:10</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>是否需要免費Wi-Fi機<span class="text-danger">*</span></label>
+                                <div class="form-inline">
+                                    <label>
+                                        <input type="radio" name="wifi" value="yes">
+                                        是
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="wifi" value="no">
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>是否需要免費GPS<span class="text-danger">*</span></label>
+                                <div class="form-inline">
+                                    <label>
+                                        <input type="radio" name="gps" value="yes">
+                                        是
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="gps" value="no">
+                                        否
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>還車地點<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>W Hotel</option>
+                                            <option>Four Season New York</option>
+                                        </select>
+                                        <div class="tip">
+                                            3-37 Toyosaki, Tomigusuku, Tomigusuku,Okinawa Prefecture 901-0225
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>還車時間<span class="text-danger">*</span></label>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                                <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="form-group">
+                                            <select class="form-control">
+                                                <option value="0">-請選擇-</option>
+                                                <option>09:05</option>
+                                                <option>09:10</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">乘客資料</div>
+                            旅客數量<span class="text-danger">*</span>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>成人(12歲以上)</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>孩童(4 - 11歲)</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>嬰兒(0 - 3歲)</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            行李數量<span class="text-danger">*</span>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>手提行李</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>托運行李</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            兒童座椅數量(適用年齡 4 - 11歲)<span class="text-danger">*</span>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>廠商提供</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>自備座椅</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            嬰兒座椅數量(適用年齡 0 - 3歲)<span class="text-danger">*</span>
+                            <div class="row">
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>廠商提供</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 col-xs-12">
+                                    <div class="form-group">
+                                        <small>自備座椅</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>1</option>
+                                            <option>2</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">寄送資料</div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>收件人名字<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>收件人姓氏<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            收件人地址<span class="text-danger">*</span>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <small>收件國家</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>台灣</option>
+                                            <option>日本</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <small>收件城市</small>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>台北市</option>
+                                            <option>新北市</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <small>郵遞區號</small>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-8 col-sm-12 col-xs-12">
+                                    <div class="form-group">
+                                        <small>詳細地址</small>
+                                        <textarea rows="2" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>出發前可聯絡電話<span class="text-danger">*</span></label>
+                                        <input type="tel" class="form-control form-phone">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>飯店名稱<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>飯店電話<span class="text-danger">*</span></label>
+                                        <input type="tel" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label>飯店地址<span class="text-danger">*</span></label>
+                                        <textarea rows="2" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>訂房人英文名(同護照)<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>訂房人英文姓(同護照)<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>訂房人本國籍名字<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>訂房人本國籍姓氏<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>訂房網站<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>訂房編號<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>入住日期<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                            <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>退房日期<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                            <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">其他資料</div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>手機型號<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>IMEI<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>開通日期<span class="text-danger">*</span></label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control has-datepicker" placeholder="請選擇日期">
+                                            <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>取票櫃檯<span class="text-danger">*</span></label>
+                                        <select class="form-control">
+                                            <option value="0">-請選擇-</option>
+                                            <option>W Hotel</option>
+                                            <option>Four Season New York</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="traveler-con">
+                            <div class="sub-title">
+                                旅遊期間聯絡人
+                                <div class="pull-right">
+                                    <button type="text" class="form-control input-dropdown" row="auto" data-toggle="dropdown">請選擇常用聯絡人</button>
+                                    <ul class="dropdown-menu input-dropdown-menu w-180">
+                                        <li class="text-muted text-xs">請選擇常用聯絡人</li>
+                                        <li><a href="javascript:;">常用聯絡人1</a></li>
+                                        <li><a href="javascript:;">常用聯絡人2</a></li>
+                                        <li><a href="javascript:;">常用聯絡人123456789</a></li>
+                                    </ul>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>聯絡人英文名(同護照)<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>聯絡人英文姓(同護照)<span class="text-danger">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>聯絡電話<span class="text-danger">*</span></label>
+                                        <div class="form-inline radio-has-son">
+                                            <label>
+                                                <input type="radio" name="contact_phone" value="yes">
+                                                有
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="contact_phone" value="no">
+                                                沒有
+                                            </label>
+                                        </div>
+                                        <div class="form-group-son hide">
+                                            <div class="form-group">
+                                                <input type="tel" class="form-control form-phone">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-8 col-sm-6 col-xs-12">
+                                    <div class="form-group">
+                                        <label>APP聯絡<span class="text-danger">*</span></label>
+                                        <div class="form-inline radio-has-son">
+                                            <label>
+                                                <input type="radio" name="contact_app" value="yes">
+                                                有
+                                            </label>
+                                            <label>
+                                                <input type="radio" name="contact_app" value="no">
+                                                沒有
+                                            </label>
+                                        </div>
+                                        <div class="form-group-son hide">
+                                            <div class="row">
+                                                <div class="col-md-4 col-sm-12">
+                                                    <select class="form-control">
+                                                        <option value="0">-</option>
+                                                        <option>WhatsApp</option>
+                                                        <option>WeChat</option>
+                                                        <option>Line</option>
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-8 col-sm-12">
+                                                    <input type="text" class="form-control" placeholder="kkdaysns123">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label>
+                                <input type="checkbox" checked="checked">
+                                Save this Traveler info to profile
+                            </label>
+                        </div>
+                        <div class="traveler-con">
+                            <div class="sub-title">訂單備註<small>(選填)</small></div>
+                            <div class="row mt-10">
+                                <div class="col-md-8 col-sm-12">
+                                    <div class="form-group">
+                                        <textarea class="form-control" rows="3"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-15">
+                            <a href="javascript:;" class="btn btn-primary" id="board2_btn" data-href="#board3">下一步</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="board" id="board3">
+                    <div class="title">
+                        付款方式
+                        <a href="javascript:;" class="title-tool expand-info">
+                            <i class="fa fa-angle-down"></i>
+                        </a>
+                    </div>
+                    <div class="con">
+                        <ul class="payment-list">
+                            <li>
+                                <label>
+                                    <input type="radio" name="payment" value="creditcard">
+                                    信用卡
+                                </label>
+                                <div class="card-group">
+                                    <img src="img/payment/ic_visa.svg" class="pay-kind-img"><img src="img/payment/ic_jcb.svg" class="pay-kind-img"><img src="img/payment/ic_master.svg" class="pay-kind-img">
+                                </div>
+                                <div class="card-info">
+                                    <b>支付金額<span class="price">USD 100.00</span></b>
+                                    <div class="tip">
+                                        ＊您將以USD支付, 總費用為USD 100.00
+                                        <br>＊KKday不收取任何交易手續費或附加費用.如您發現被收取交易手續費, 請洽詢您的發卡銀行
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-sm-4 col-xs-12">
+                                            <div class="form-group">
+                                                <label>持卡人姓名</label>
+                                                <input type="text" class="form-control" placeholder="Wang Xiau Ming">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-4 col-xs-6">
+                                            <div class="form-group">
+                                                <label>信用卡號碼</label>
+                                                <input type="tel" class="form-control" placeholder="oooo-oooo-oooo-oooo">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-6">
+                                            <div class="form-group">
+                                                <label>有效期限</label>
+                                                <input type="tel" class="form-control" placeholder="MM/YY">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4 col-xs-6">
+                                            <div class="form-group">
+                                                <label>CVC/4DBC</label>
+                                                <input type="tel" class="form-control" placeholder="123">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="payment" value="paypal">
+                                    PayPal
+                                </label>
+                                <div class="card-group">
+                                    <img src="img/payment/ic_paypal.svg" class="pay-kind-img">
+                                </div>
+                                <div class="card-info">
+                                    <b>支付金額<span class="price">USD 100.00</span></b>
+                                    <div class="tip">
+                                        ＊您將以USD支付, 總費用為USD 100.00
+                                        <br>＊KKday不收取任何交易手續費或附加費用.如您發現被收取交易手續費, 請洽詢您的發卡銀行
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="payment" value="android">
+                                    Android Pay
+                                </label>
+                                <div class="card-group">
+                                    <img src="img/payment/ic_androidpay.svg" class="pay-kind-img">
+                                </div>
+                            </li>
+                            <li>
+                                <label>
+                                    <input type="radio" name="payment" value="line">
+                                    LINE Pay
+                                </label>
+                                <div class="card-group">
+                                    <img src="img/payment/ic_linepay.svg" class="linepay-point">
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="mt-15">
+                            親愛的旅人，在確認付款前請確認您已經知道我們的
+                            <a href="#" class="link text-grey">隱私權政策</a>及<a href="#" class="link text-grey">條款</a>
+                        </div>
+                        <div class="mt-15">
+                            <a href="javascript:;" class="btn btn-primary" data-toggle="modal" data-target="#modal_error_msg">確定支付<b>USD100</b></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <aside class="active">
+        <a href="javascript:;" class="aside-toggle"><i class="icon-options-vertical icons"></i></a>
+        <div class="booking-prod">
+            <div class="pic" style="background-image:url(/img/demo/banner06.jpg)"></div>
+            <div class="title">【富士山一日遊】KKday專車・河口湖、忍野八海、烤肉水果吃到飽</div>
+            <hr>
+            <div class="sub-title">套餐</div>
+            <div class="text">
+                烤肉水果吃到飽 - 連續吃三天9餐
+            </div>
+            <hr>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="sub-title">出發日</div>
+                    <div class="text">2017-08-24</div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="sub-title">場次時間</div>
+                    <div class="text">08:30</div>
+                </div>
+            </div>
+            <hr>
+            <div class="sub-title">數量</div>
+            <div class="text">
+                成人 x 1
+                <div class="pull-right price">USD 50.00</div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="text">
+                兒童 x 1
+                <div class="pull-right price">USD 50.00</div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="coupon-success hide">
+                <hr>
+                <div class="sub-title">折扣卷</div>
+                <div class="text text-right">
+                    <div class="price">- USD 50.00</div>
+                </div>
+            </div>
+            <hr>
+            <div class="pull-left">
+                <div class="sub-title">總價</div>
+            </div>
+            <div class="pull-right">
+                <div class="text-right text-lg price" id="total_price">USD 100.00</div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </aside>
+</section>
