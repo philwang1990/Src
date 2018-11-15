@@ -227,9 +227,9 @@ namespace KKday.API.WMS.Controllers {
                 //'0004': ['0002', '0005'] //穆斯林餐
 
                 ApiSetting api = new ApiSetting();
-                api.apiKey = "kkdayapi";
-                api.userOid = "1";
-                api.ver = "1.0.1";
+                api.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                api.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                api.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
                 api.locale = "zh-tw";
                 api.currency = "TWD";
                 api.ipaddress = "61.216.90.96";
@@ -263,7 +263,7 @@ namespace KKday.API.WMS.Controllers {
                     status.status = "OK";
 
                     //要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
-                    string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
+                    string memUuid = Website.Instance.Configuration["KKAPI_INPUT:JSON:MEMBER_UUID"];
                     BookingRepository.setPayDtltoRedis(ord, orderMid, memUuid);
 
                     //要存redis 因為付款後要從這個redis內容再進行payment驗證,可和上面整合存一個就好
