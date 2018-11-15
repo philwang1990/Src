@@ -272,8 +272,8 @@ namespace KKday.API.WMS.Models.Repository.Booking
             json.pay_currency = orderModel.currency;
             json.pay_amount = Convert.ToDouble(orderModel.currPriceTotal);
 
-            json.return_url = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"] + "Final/Success/" + "?id=" + orderMid + "&jsondata=";
-            json.cancel_url = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"] + "Final/Cancel/" + "?id=" + orderMid;
+            json.return_url = Website.Instance.Configuration["URL:B2D_API"] + "Final/Success/" + "?id=" + orderMid + "&jsondata=";
+            json.cancel_url = Website.Instance.Configuration["URL:B2D_API"] + "Final/Cancel/" + "?id=" + orderMid;
             json.user_locale = "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
