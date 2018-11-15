@@ -54,7 +54,8 @@
                                     {
                                         hour = t.hour; 
                                         minute = t.minute;
-                                        @if (hour.Length == 1) {  sTime = "0" + sTime; }
+                                        @if (hour.Length == 1) {  hour = "0" + hour; }
+                                        @if (minute.Length == 1) { minute = "0" + minute; }
                                       <option value="@t.id" >@hour : @minute</option>
 
                                     }

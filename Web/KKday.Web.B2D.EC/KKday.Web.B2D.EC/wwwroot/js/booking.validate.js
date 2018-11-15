@@ -105,6 +105,10 @@ function ReParseValidation() {
 
 function chkValid()
 {
+   $("#board1").removeClass("active").addClass("active");
+   $("#board2").removeClass("active").addClass("active");
+   $("#board3").removeClass("active").addClass("active");
+
    ReParseValidation();
    formVaildate();
 
