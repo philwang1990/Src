@@ -50,7 +50,7 @@ namespace KKday.API.B2S.Gateway.Controllers
                 if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() <= 0) 
                 {
                     Metadata metadata = new Metadata();
-                    metadata.status = "10002";
+                    metadata.status = "JTR-10002";
                     metadata.description = $"此套餐編號找不到串接的供應商，且不再即訂即付的商品項目中";
                     bookRS.metadata = metadata;
 
@@ -88,7 +88,7 @@ namespace KKday.API.B2S.Gateway.Controllers
             catch (Exception ex)
             {
                 Metadata metadata = new Metadata();
-                metadata.status = "10002";
+                metadata.status = "JTR-10002";
                 metadata.description = $"Gateway Error :{ex.Message}";
                 bookRS.metadata = metadata;
 
