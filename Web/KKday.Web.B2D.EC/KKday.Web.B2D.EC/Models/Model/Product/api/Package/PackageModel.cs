@@ -13,6 +13,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
 
         public PkgSaleDateModel sale_dates { get; set; } //套餐可售日期
         public List<PkgDetailModel> pkgs { get; set; }
+
+        public string guid { get; set; }
     }
 
     public class PkgDetailModel

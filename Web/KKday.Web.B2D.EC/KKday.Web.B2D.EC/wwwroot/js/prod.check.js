@@ -3,6 +3,7 @@
     $(".minPriceBar").show();
 
     if ($("#hdnIsEcSale").val() == "True") reflashPkg();
+    else{ $("#option-spy").hide(); }
 
 
 }
@@ -41,8 +42,6 @@ function setDatePicker(e) {
             var year = (d.getFullYear()).toString();
             var daytemp = year + month + day;
 
-            //console.log(daytemp);
-
             var chk = allCanUseDateArr.find(function(item, index, array) {
                 return item == daytemp;
             });
@@ -59,8 +58,6 @@ function setDatePicker(e) {
     }).on('changeDate', function(e) {
         if ($("#hdnPreSelDate").val() != "") $("#hdnPreSelDate").val($("#hdnPreSelDate").val());
         reflashPkg(); //重新找可用套餐
-        console.log("3");
-        // }
 
     }).on('clearDate', function(e) {
         if ($("#hdnPreSelDate").val() != "") $("#select-date").val($("#hdnPreSelDate").val());
@@ -111,8 +108,6 @@ function chgPkgInfo(pkgOid, chk) {
             $("#confirmName").text($("#hdnPkgName_" + pkgOid).val());
             $("#confirmSelDate").text($("#hdnPreSelDate").val());
             $("#confirmPrice").text("0");
-            console.log("2");
-
 
             //eventtime
             if ($("#hdnPreSelDate").val() != "") {
@@ -215,7 +210,7 @@ function reflashPkg() {
         success: function(result) {
             $("#showPkg").html(result);
             if ($("#hdnPkgOid").val() != "" && $("#hdnShowImmediately").val() == "1") {
-                console.log("1");
+
                 chgPkgInfo($("#hdnPkgOid").val(), "showprice");
                 $("hdnShowImmediately").val("");
             }
@@ -642,6 +637,10 @@ function PkgSelect(e) {
     //event選擇清空
     $('.hdneventclass').val('');
 
+    //按鈕效果
+    $('.select-option').show();
+    $('#PkgOption_'+pkgNo).hide();
+
     //總價清空
     $("#txtprice").text('0');
     $("#hdnPkgOid").val(pkgNo);
@@ -652,6 +651,12 @@ function PkgSelect(e) {
     } else {
         $(".option-booking_" + pkgNo).hide();
     }
+
+    //選取效果
+    $('.option-item').removeClass('selected');
+    $('.option-item-'+pkgNo).addClass('selected');
+
+    BookingCheck();
 }
 
 function BookingNowDisplay(e) {
@@ -702,12 +707,13 @@ function GetEvent(prodno, pkgno, date) {
                             var timeStr = timeInfoArr[1]; //時間
                             var eventQty = timeInfoArr[2]; //event quantity
                             $("." + pkgno + "_eventtime").append('<li><a onClick="selectEvent(' + eventId + ',\'' + timeStr + '\',' + pkgno + ',' + eventQty + ')">' + timeStr + '</a></li>');
-                            //$('#hdnevent_' + pkgno).val(eventId);
                         }
                     }
                 } else {
                     //沒有event可選
                     //關閉booking
+                    //product_index_no_event_avalible
+                    getKlingon('product_index_no_event_avalible','');
                     $('.hdneventclass').val('false');
                     $('#EventSelect').html('');
                     $('#EventSelect').hide();
@@ -721,11 +727,21 @@ function BookingCheck() {
     var allowBook = false;
     var pkgno = $("#hdnPkgOid").val();
     //檢查日期
-    if ($("#hdnPreSelDate").val() != '' && pkgno != '' && $('#txtprice').text() != '0' &&
-     (($('#hdnHasEvent_' + pkgno).val() == 'true' && $("#hdnevent_" + pkgno).val() != '')||($('#hdnHasEvent_' + pkgno).val() == 'false'))
+    if ($("#hdnPreSelDate").val() != '' 
+        && pkgno != '' 
+        && $('#txtprice').text() != '0' 
+        && ($('#hdnHasEvent_' + pkgno).val() == 'true' && $("#hdnevent_" + pkgno).val() != '')
      ) {
         allowBook = true;
-    } else {
+    }
+    else if ($("#hdnPreSelDate").val() != '' 
+        && pkgno != '' 
+        && $('#txtprice').text() != '0' 
+        && ($('#hdnHasEvent_' + pkgno).val() == 'false')
+     ) {
+        allowBook = true;
+    }
+    else {
         allowBook = false;
     }
 

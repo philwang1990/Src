@@ -524,7 +524,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
                         {
                             if (pkgOid.Equals(pkgDate.pkgOid))
                             {
-                                if (pkgDate.day.IndexOf(prodQury.selDate) > -1)
+                                if (pkgDate.day.IndexOf(prodQury.selDate.Replace("/","-")) > -1)
                                 {
                                     if (pkg.status == "Y")
                                     {

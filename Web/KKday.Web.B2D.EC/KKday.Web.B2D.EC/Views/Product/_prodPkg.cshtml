@@ -28,7 +28,7 @@
             @Html.Hidden($"hdnMinBookQty_{pkg.pkg_no}", pkg.rank_min_book_qty)
             @Html.Hidden($"hdnMinOverageQty_{pkg.pkg_no}", pkg.min_overage_qty)
 
-            <li class="option-item">
+            <li class="option-item option-item-@pkg.pkg_no">
                 <h4 class="option-title">@pkg.pkg_name</h4>
                 <div class="product-pricing">
                     <span>@currency</span>
@@ -41,20 +41,20 @@
                 }
                 @if (pkg.chkDateCanSell == null)
                 {
-                    <a onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                    <a id="PkgOption_@pkg.pkg_no" onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
                     @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','first');">@prodTitle.product_index_select</button>*@
                 }
                 else
                 {
                     @if (pkg.chkDateCanSell == "1")
                     {
-                        <a onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                        <a id="PkgOption_@pkg.pkg_no" onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
                         @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showprice');">@prodTitle.product_index_select</button>*@
                     }
                     else if (pkg.chkDateCanSell == "2")
                     {
                         @pkg.NoSellTextShow
-                        <a onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
+                        <a id="PkgOption_@pkg.pkg_no" onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
                         @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showPkgDate');">選擇其他日期</button>*@
                     }
                     else
@@ -81,13 +81,46 @@
                         </div>
                         <div class="col-xs-12">
                             <div class="row">
-                                @if (@pkg.price1 > 0)
+                                @{ 
+                                    string unitStr = "";
+                                    string unitQty = "";
+
+                                    switch(pkg.unit)
+                                    {
+                                        case "02":
+                                            unitQty = prodTitle.product_index_unit2_02;
+                                            break;
+                                        case "03":
+                                            unitQty = prodTitle.product_index_unit2_03;
+                                            break;
+                                        case "04":
+                                            unitQty = prodTitle.product_index_unit2_04;
+                                            break;
+                                        case "05":
+                                            unitQty = prodTitle.product_index_unit2_05;
+                                            break;
+                                        case "06":
+                                            unitQty = prodTitle.product_index_unit2_06;
+                                            break;
+                                        default:
+                                            unitQty = prodTitle.product_index_unit2_01;
+                                            break;
+                                    }
+                                }
+                                @if (pkg.price1 > 0)
                                 {
+                                    unitStr = pkg.is_unit_pirce == "NORANK" ? pkg.unit_txt : prodTitle.common_adult;
+
                                     <div class="col-md-6">
                                         <div class="traveler-counter">
                                             <div class="pull-left">
-                                                <h5>@prodTitle.common_adult <span class="text-muted text-xs">(Age @pkg.price1_age_range.Split('~')[0]-@pkg.price1_age_range.Split('~')[1])</span></h5>
-                                                <span class="option-price">@currency @pkg.price1.ToString("N")/@prodTitle.product_index_unit2_01</span>
+                                                <h5>@unitStr 
+                                                @if(pkg.is_unit_pirce == "RANK")
+                                                {
+                                                    <span class="text-muted text-xs">(Age @pkg.price1_age_range.Split('~')[0]-@pkg.price1_age_range.Split('~')[1])</span>
+                                                }
+                                                </h5>
+                                                <span class="option-price">@currency @pkg.price1.ToString("N0")/@unitQty</span>
                                             </div>
                                             <div class="pull-right text-right mt-10">
                                                 <a id='selminus_price1_@pkg.pkg_no' onclick="chkNum('@pkg.pkg_no' ,'txtprice1Qty_@pkg.pkg_no','minus','price1');" class="counter disabled">
@@ -104,11 +137,18 @@
                                 }
                                 @if (pkg.price2 > 0)
                                 {
+                                    unitStr = pkg.is_unit_pirce == "NORANK" ? pkg.unit_txt : prodTitle.common_child;
+
                                     <div class="col-md-6">
                                         <div class="traveler-counter">
                                             <div class="pull-left">
-                                                <h5>@prodTitle.common_child <span class="text-muted text-xs">(Age @pkg.price2_age_range.Split('~')[0]-@pkg.price2_age_range.Split('~')[1])</span></h5>
-                                                <span class="option-price">@currency @pkg.price2.ToString("N")/@prodTitle.product_index_unit2_01 </span>
+                                                <h5>@unitStr 
+                                                @if(pkg.is_unit_pirce == "RANK")
+                                                {
+                                                    <span class="text-muted text-xs">(Age @pkg.price2_age_range.Split('~')[0]-@pkg.price2_age_range.Split('~')[1])</span>
+                                                }
+                                                </h5>
+                                                <span class="option-price">@currency @pkg.price2.ToString("N0")/@unitQty </span>
                                             </div>
                                             <div class="pull-right text-right mt-10">
                                                 <a id='selminus_price2_@pkg.pkg_no' onclick="chkNum('@pkg.pkg_no' ,'txtprice2Qty_@pkg.pkg_no','minus','price2');" class="counter disabled">
@@ -125,11 +165,18 @@
                                 }
                                 @if (pkg.price3 > 0)
                                 {
+                                    unitStr = pkg.is_unit_pirce == "NORANK" ? pkg.unit_txt : prodTitle.common_child;
+
                                     <div class="col-md-6">
                                         <div class="traveler-counter">
                                             <div class="pull-left">
-                                                <h5>@prodTitle.common_infant <span class="text-muted text-xs">(Age @pkg.price3_age_range.Split('~')[0]-@pkg.price3_age_range.Split('~')[1])</span></h5>
-                                                <span class="option-price">@currency @pkg.price3?.ToString("N")/@prodTitle.product_index_unit2_01</span>
+                                                <h5>@unitStr 
+                                                @if(pkg.is_unit_pirce == "RANK")
+                                                {
+                                                    <span class="text-muted text-xs">(Age @pkg.price3_age_range.Split('~')[0]-@pkg.price3_age_range.Split('~')[1])</span>
+                                                }
+                                                </h5>
+                                                <span class="option-price">@currency @pkg.price3?.ToString("N0")/@unitQty</span>
                                             </div>
                                             <div class="pull-right text-right mt-10">
                                                 <a id='selminus_price3_@pkg.pkg_no' onclick="chkNum('@pkg.pkg_no' ,'txtprice3Qty_@pkg.pkg_no','minus','price3');" class="counter disabled">
@@ -146,11 +193,18 @@
                                 }
                                 @if (pkg.price4 > 0)
                                 {
+                                    unitStr = pkg.is_unit_pirce == "NORANK" ? pkg.unit_txt : prodTitle.common_child;
+
                                     <div class="col-md-6">
                                         <div class="traveler-counter">
                                             <div class="pull-left">
-                                                <h5>@prodTitle.common_elder <span class="text-muted text-xs">(Age @pkg.price4_age_range.Split('~')[0]-@pkg.price4_age_range.Split('~')[1])</span></h5>
-                                                <span class="option-price">@currency @pkg.price4?.ToString("N")/@prodTitle.product_index_unit2_01</span>
+                                                <h5>@unitStr 
+                                                @if(pkg.is_unit_pirce == "RANK")
+                                                {
+                                                    <span class="text-muted text-xs">(Age @pkg.price4_age_range.Split('~')[0]-@pkg.price4_age_range.Split('~')[1])</span>
+                                                }
+                                                </h5>
+                                                <span class="option-price">@currency @pkg.price4?.ToString("N0")/@unitQty</span>
                                             </div>
                                             <div class="pull-right text-right mt-10">
                                                 <a id='selminus_price4_@pkg.pkg_no' onclick="chkNum('@pkg.pkg_no' ,'txtprice4Qty_@pkg.pkg_no','minus','price4');" class="counter disabled">

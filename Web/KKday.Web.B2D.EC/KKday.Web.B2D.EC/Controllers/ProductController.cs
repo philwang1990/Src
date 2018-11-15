@@ -47,6 +47,8 @@ namespace KKday.Web.B2D.EC.Controllers
                 //假分銷商
                 distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
+                //fakeContact.state = "CN";
+
                 //取挖字
                 Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
                 //ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
@@ -57,24 +59,35 @@ namespace KKday.Web.B2D.EC.Controllers
                 //從 api取 
                 ProductforEcModel prod = ProductRepostory.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id,title);
 
-                if (prod.result != "0000") throw new Exception(prod.result_msg); //不正確就導錯誤頁,但api還未處理怎麼回傳
+                if (prod.result != "0000")
+                {
+                    if(prod.result == "10001" && !prod.prod_mkt.is_ec_sale)
+                    {
+                        return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Invalid_Market });
+                    }
+                    else
+                    {
+                        throw new Exception(prod.result_msg); //不正確就導錯誤頁,但api還未處理怎麼回傳
+                    }
+                }
 
                 PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id,title);
 
                 if (pkgs.result != "0000") throw new Exception(prod.result_msg);//不正確就導錯誤頁,但api還未處理怎麼回傳
 
-                //判斷是不是可以可以秀可以賣 ,但api 未決定錯誤怎麼給
-                if (prod.prod_mkt.is_ec_sale == false) //不能秀就導錯誤頁
-                {
-                    throw new Exception("商品不顯示！");
-                }
+                ////判斷是不是可以可以秀可以賣 ,但api 未決定錯誤怎麼給
+                //if (prod.prod_mkt.is_ec_sale == false) //不能秀就導錯誤頁
+                //{
+                //    throw new Exception("商品不顯示！");
+                //}
 
                 string guid = System.Guid.NewGuid().ToString();
 
                 string allCanUseDate = "";
 
 
-                prod = ProductRepostory.getProdOtherInfo(prod, id, fakeContact.lang, fakeContact.currency, uikey); prod.guidNo = guid;
+                prod = ProductRepostory.getProdOtherInfo(prod, id, fakeContact.lang, fakeContact.currency, uikey);
+                prod.guidNo = pkgs.guid;
                 List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, fakeContact.lang, fakeContact.currency, uikey, out allCanUseDate);
 
                 TempData["ProdTitleKeep"] = JsonConvert.SerializeObject(uikey);
@@ -107,8 +120,9 @@ namespace KKday.Web.B2D.EC.Controllers
             {
                 //導到錯誤頁
                 Website.Instance.logger.Debug($"product_index_err:{ex.ToString()}");
-                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
-                { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                return RedirectToAction("Index", "Error", new ErrorViewModel{ ErrorType = ErrorType.Invalid_Common });
+                //return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
+                //{ RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
 
@@ -223,15 +237,14 @@ namespace KKday.Web.B2D.EC.Controllers
                 PkgEventsModel getEventTime = ProductRepostory.getEvent(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodEvent.prodno, prodEvent.pkgno,title);
                 if(getEventTime.result == "0000"){
                     var result = getEventTime.events.Where(x => x.day == prodEvent.DateSelected);
+                    //result = new List<Event> { };
+
                     getEventTime.events = result.ToList();
-                    //return Json(result.ToList());
                     return Json(new { errMsg = "", data = result.ToList() });
                 }
                 else{
                     return Json(new { errMsg = "false" });
                 }
-                //return Content(this.RenderPartialViewToString(ViewEngine, "_prodPkg", pkgs));
-
             }
             catch (Exception ex)
             {
@@ -272,6 +285,9 @@ namespace KKday.Web.B2D.EC.Controllers
                         break;
                     case "product_index_max_order_qty_alert":
                         msg = title.product_index_max_order_qty_alert.Replace(replaceWord, replace);
+                        break;
+                    case "product_index_no_event_avalible":
+                        msg = title.product_index_no_event_avalible;
                         break;
                     default:
                         break;

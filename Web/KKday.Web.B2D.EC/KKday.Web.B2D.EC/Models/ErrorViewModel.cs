@@ -7,5 +7,14 @@ namespace KKday.Web.B2D.EC.Models
         public string RequestId { get; set; }
 
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+
+        public ErrorType ErrorType { get; set; }
+    }
+
+    public enum ErrorType
+    {
+        Invalid_Common,
+        Invalid_Market,
+        Order_Fail
     }
 }
