@@ -69,7 +69,7 @@ namespace KKday.API.WMS.AppCode.DAL
             
 
             sql = @"UPDATE is4.users 
-                    SET source_type = :source_type,user_pass = :user_pass,status = :status
+                    SET source_type = :source_type,user_pass = coalesce(:user_pass,user_pass),status = :status
                     WHERE 1=1
                     AND user_no = :user_no;";
 
@@ -77,7 +77,7 @@ namespace KKday.API.WMS.AppCode.DAL
 
             np = new NpgsqlParameter[]{
                 new NpgsqlParameter("source_type",model.source_type),
-                new NpgsqlParameter("user_pass",Sha256Helper.Gethash(model.user_pass)),
+                new NpgsqlParameter("user_pass",model.user_pass=="" ?null : Sha256Helper.Gethash(model.user_pass)),
                 new NpgsqlParameter("status",model.status), // 預設00 01才是可以使用的status
                 new NpgsqlParameter("user_no",model.user_no),
 
