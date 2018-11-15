@@ -75,6 +75,11 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 if (pkgs.result != "0000") throw new Exception(prod.result_msg);//不正確就導錯誤頁,但api還未處理怎麼回傳
 
+                Int64 nowDatetime = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
+                pkgs.pkgs = pkgs.pkgs.Where(x => nowDatetime >= Convert.ToInt64(x.online_s_date) && Convert.ToInt64(x.online_e_date) > nowDatetime).ToList();
+                string price1Type = pkgs.pkgs != null && pkgs.pkgs.Any() ? pkgs.pkgs.Select(p => p.is_unit_pirce).FirstOrDefault() : "";
+                string price1TypeStr = pkgs.pkgs != null && pkgs.pkgs.Any() ? pkgs.pkgs.Select(p => p.unit_txt).FirstOrDefault() : "";
+                ViewData["priceType"] = price1Type == "NORANK" ? price1TypeStr : title.common_adult;
                 ////判斷是不是可以可以秀可以賣 ,但api 未決定錯誤怎麼給
                 //if (prod.prod_mkt.is_ec_sale == false) //不能秀就導錯誤頁
                 //{
@@ -151,6 +156,11 @@ namespace KKday.Web.B2D.EC.Controllers
                 //ViewData["prodInfo"] = prod;
 
                 PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodQury.prodOid,title);
+
+                Int64 nowDatetime = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
+                pkgs.pkgs = pkgs.pkgs.Where(x => nowDatetime >= Convert.ToInt64(x.online_s_date) && Convert.ToInt64(x.online_e_date) > nowDatetime).ToList();
+
+                Website.Instance.logger.Debug($"product_reflashPkg_err:{JsonConvert.SerializeObject(pkgs)}");
                 List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, fakeContact.lang, fakeContact.currency, uikey, out allCanUseDate);
 
                 //設定每個pkg裡面可以使用的日期有那些
