@@ -1,6 +1,7 @@
 ﻿using System;
 using KKday.API.WMS.Models.DataModel.Booking;
 using System.Collections.Generic;
+using KKday.API.WMS.AppCode.Proxy;
 namespace KKday.API.WMS.Models.Repository.Booking
 {
     public class OrderRepository
@@ -386,6 +387,11 @@ namespace KKday.API.WMS.Models.Repository.Booking
             contact.moduleData = cm;
             return contact;
 
+        }
+
+        public object AuthFailure(string mid)
+        {
+            return OrderProxy.AuthFailure(mid);
         }
     }
 }
