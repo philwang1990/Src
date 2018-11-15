@@ -40,9 +40,9 @@ namespace KKday.API.WMS.AppCode
 
                 CallModules call = new CallModules();
                 call.ipaddress = "192.168.1.1";
-                call.apiKey = "kkdayapi";
-                call.userOid = "1";
-                call.ver = "1.0.1";
+                call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
                 call.locale = lang;
                 call.currency = currency;
 
@@ -122,9 +122,9 @@ namespace KKday.API.WMS.AppCode
 
                 CallModules call = new CallModules();
                 call.ipaddress = "192.168.1.1";
-                call.apiKey = "kkdayapi";
-                call.userOid = "1";
-                call.ver = "1.0.1";
+                call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
                 call.locale = lang;
                 call.currency = currency;
 
@@ -190,9 +190,9 @@ namespace KKday.API.WMS.AppCode
 
                 CallModules call = new CallModules();
                 call.ipaddress = "192.168.1.1";
-                call.apiKey = "kkdayapi";
-                call.userOid = "1";
-                call.ver = "1.0.1";
+                call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
                 call.locale = lang;
                 //call.currency = currency;
 
@@ -255,9 +255,9 @@ namespace KKday.API.WMS.AppCode
 
                 CallModules call = new CallModules();
                 call.ipaddress = "192.168.1.1";
-                call.apiKey = "kkdayapi";
-                call.userOid = "1";
-                call.ver = "1.0.1";
+                call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
                 call.locale = lang;
                 //call.currency = currency;
 
@@ -411,9 +411,9 @@ namespace KKday.API.WMS.AppCode
 
             PmchSslRequest call = new PmchSslRequest();
             call.ipaddress = "192.168.1.1";
-            call.apiKey = "kkdayapi";
-            call.userOid = "1";
-            call.ver = "1.0.1";
+            call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+            call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+            call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
 
             CallJsonGetPayList j = new CallJsonGetPayList();
 
@@ -485,9 +485,9 @@ namespace KKday.API.WMS.AppCode
 
             PmchSslRequest2 call = new PmchSslRequest2();
             call.ipaddress = "192.168.1.1";
-            call.apiKey = "kkdayapi";
-            call.userOid = "1";
-            call.ver = "1.0.1";
+            call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+            call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+            call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
 
             CallPmchValidJson j = new CallPmchValidJson();
             j.pmgwTransNo = pmgwTransNo;
@@ -545,9 +545,9 @@ namespace KKday.API.WMS.AppCode
 
                 PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
                 mst.ipaddress = "192.168.1.1";
-                mst.apiKey = "kkdayapi";
-                mst.userOid = "1";
-                mst.ver = "1.0.1";
+                mst.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                mst.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                mst.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
                 mst.locale = "zh-tw";
 
                 PaySuccessUpdOrder p = new PaySuccessUpdOrder();
@@ -603,9 +603,9 @@ namespace KKday.API.WMS.AppCode
                 string result;
                 PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
                 mst.ipaddress = "192.168.1.1";
-                mst.apiKey = "kkdayapi";
-                mst.userOid = "1";
-                mst.ver = "1.0.1";
+                mst.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                mst.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                mst.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
                 mst.locale = "zh-tw";
                 PaySuccessUpdOrder p = new PaySuccessUpdOrder();
                 p.memberUuid = fakeContact.memberUuid;

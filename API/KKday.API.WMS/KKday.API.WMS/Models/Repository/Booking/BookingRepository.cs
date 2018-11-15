@@ -201,9 +201,9 @@ namespace KKday.API.WMS.Models.Repository.Booking
         {
             PmchSslRequest pmch = new PmchSslRequest();
 
-            pmch.apiKey = "kkdayapi";
-            pmch.userOid = "1";
-            pmch.ver = "1.0.1";
+            pmch.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+            pmch.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+            pmch.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
             pmch.ipaddress = "127.0.0.1";
 
             CallJsonPay json = new CallJsonPay();
@@ -261,9 +261,9 @@ namespace KKday.API.WMS.Models.Repository.Booking
         public static PmchSslRequest3 setPaymentInfo2(ProductModel prod, OrderKKdayModel orderModel, string orderMid)
         {
             PmchSslRequest3 pmch = new PmchSslRequest3();
-            pmch.api_key = "kkdayapi";
-            pmch.user_oid = "1";
-            pmch.ver = "1.0.1";
+            pmch.api_key = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+            pmch.user_oid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+            pmch.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
             pmch.lang_code = "zh-tw";
             pmch.ipaddress = "127.0.0.1";
             CallJsonPay2 json = new CallJsonPay2();
@@ -460,9 +460,9 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
             PmchSslRequest call = new PmchSslRequest();
             call.ipaddress = "192.168.1.1";
-            call.apiKey = "kkdayapi";
-            call.userOid = "1";
-            call.ver = "1.0.1";
+            call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+            call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+            call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
 
             CallJsonGetPayList j = new CallJsonGetPayList();
             
