@@ -687,12 +687,6 @@ function BookingNowDisplay(e) {
 
 function GetEvent(prodno, pkgno, date) {
 
-    //
-    if($('#hdnHasEvent_'+pkgno).val() == 'false')
-    {
-        return false;
-    }
-
     var eventTimes = null;
     var jqxhr = $.ajax({
         type: "POST",
