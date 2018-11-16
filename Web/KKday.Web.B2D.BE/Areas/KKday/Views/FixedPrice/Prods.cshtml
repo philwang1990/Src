@@ -10,19 +10,21 @@
     var countryLocales = ViewData["COUNTRIES_LOCALE"] as List<CountryArea>;
 }
 @section Stylesheet {
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css" />
-    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="~/css/tablesaw.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css" /> 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
     <style type="text/css">
         .modal-dialog {
             width: whatever;
-        }
+        } 
+ 
     </style>
 }
-@section Scripts { 
-    <!-- Latest compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script> 
+@section Scripts {
+    <script src="~/js/tablesaw.js" asp-append-version="true"></script>
+    <script src="~/js/tablesaw-init.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
 }
 
 <script type="text/javascript">
