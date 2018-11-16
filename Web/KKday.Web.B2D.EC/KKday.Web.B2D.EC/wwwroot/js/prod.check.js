@@ -192,6 +192,10 @@ function selectEvent(eventid, eventtime, pkgId, qty) {
 //刷新套餐區塊
 function reflashPkg() {
 
+    //disable div
+    document.getElementById("showPkg").style.pointerEvents = "none";
+    $('.option-group .dot-load').show();
+    
     var jqxhr = $.ajax({
         type: "POST",
         url: _root_path + "Product/reflashPkg/",
@@ -209,15 +213,12 @@ function reflashPkg() {
         },
         success: function(result) {
             $("#showPkg").html(result);
-            if ($("#hdnPkgOid").val() != "" && $("#hdnShowImmediately").val() == "1") {
 
-                chgPkgInfo($("#hdnPkgOid").val(), "showprice");
-                $("hdnShowImmediately").val("");
-            }
+            //open disable div
+            document.getElementById("showPkg").style.pointerEvents = "auto";
+            $('.option-group .dot-load').hide();
         },
         complete: function() {
-
-
 
         }
     });
@@ -560,6 +561,12 @@ function dtInit(option) {
         } else {
             dateArr = ($("#hdnAllCanUseDate").val()).split(",");
         }
+    } else if (option === "3") {
+        if ($("#hdnPkgOid").val() != "") {
+            dateArr = ($("#hdnPkgDate_" + $("#hdnPkgOid").val()).val()).split(",");
+        } else {
+            dateArr = ($("#hdnAllCanUseDate").val()).split(",");
+        }
     } else {
 
     }
@@ -581,7 +588,12 @@ function dtInit(option) {
         }
     });
 
-    $('#select-date input').val(''); //一定要有這一行，For Daterangepicker 初始值清空
+    if($("#hdnPreSelDate").val() != '') {
+        $('#select-date input').val($("#hdnPreSelDate").val());
+    }
+    else {
+        $('#select-date input').val(''); //一定要有這一行，For Daterangepicker 初始值清空
+    }
 
     //選擇日期後套餐的 loading 效果
     $('#select-date input').on('apply.daterangepicker', function(ev, picker) {
@@ -596,7 +608,7 @@ function dtInit(option) {
             $('.option-booking_' + pkgSelected).show();
             BookingEvent();
         }
-
+        
         $('.option-group .dot-load').show();
 
         setTimeout(function() {
@@ -656,6 +668,8 @@ function PkgSelect(e) {
     $('.option-item').removeClass('selected');
     $('.option-item-'+pkgNo).addClass('selected');
 
+    dtInit('2');
+
     BookingCheck();
 }
 
@@ -672,6 +686,7 @@ function BookingNowDisplay(e) {
 }
 
 function GetEvent(prodno, pkgno, date) {
+
     var eventTimes = null;
     var jqxhr = $.ajax({
         type: "POST",
@@ -793,4 +808,8 @@ function formatWeekDayStr(weekDays) {
             weekDayStr += weekDayFormat[i];
         }
     }
+}
+
+function ChangePriceTxt() {
+    
 }

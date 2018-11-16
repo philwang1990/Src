@@ -9,6 +9,8 @@
     var allCanUseDate = (string)ViewData["allCanUseDate"];
     var currency = (string)ViewData["currency"];
     var moduleVenue = (VenueInfo)ViewData["moduleVenue"];
+    @*var priceType = ViewBag["priceType"] as string;*@
+    var priceType = (string)ViewData["priceType"];
 }
 @section Scripts{
     <link rel="stylesheet" href="@Url.Content("/css/daterangepicker.css")" type="text/css" />
@@ -256,10 +258,11 @@
                                     <span id="EventSelect" style="        display: none;"></span>
                                 </div>
                                 <div class="booking-info">
-                                    <span class="rankNumberInfoElder" style="        display: none;">@prodTitle.common_elder x <span class="number">0</span></span>
-                                    <span class="rankNumberInfoAdult" style="        display: none;">@prodTitle.common_adult x <span class="number">0</span></span>
-                                    <span class="rankNumberInfoChild" style="        display: none;">@prodTitle.common_child x <span class="number">0</span></span>
-                                    <span class="rankNumberInfoInfant" style="        display: none;">@prodTitle.common_infant x <span class="number">0</span></span>
+
+                                    <span class="rankNumberInfoElder" style="display: none;">@prodTitle.common_elder x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoAdult" style="display: none;">@priceType x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoChild" style="display: none;">@prodTitle.common_child x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoInfant" style="display: none;">@prodTitle.common_infant x <span class="number">0</span></span>
                                 </div>
                                 <div class="booking-price">
                                     <h5 class="pull-left">@prodTitle.common_total</h5><!-- 選擇人數後文字顯示: Total -->
@@ -715,7 +718,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade log-in" id="checking_email" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    @*<div class="modal fade log-in" id="checking_email" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -823,5 +826,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>*@
 </div>

@@ -534,9 +534,71 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
                                 else
                                 {
                                     pkg.chkDateCanSell = "2"; //2上架日期不可賣
-                                    pkg.NoSellTextShow = title.product_index_check_availablity; //"此日期無法購買";
+                                    //pkg.NoSellTextShow = title.product_index_check_availablity; //"此日期無法購買";
+                                    pkg.NoSellTextShow = title.product_index_has_been_sold_out; // "已售罄";
                                 }
                                 pkg.pkgDate = pkgDate;
+                            }
+                        }
+                    }
+                }
+
+            }
+
+            return pkgs;
+        }
+
+        //套餐&日期整合
+        public static PackageModel InitPkg2(prodQury prodQury, ProdTitleModel title, PackageModel pkgs, List<PkgDateforEcModel> prodPkgDateList)
+        {
+            if (prodQury.selDate == "")//第一次進來
+            {
+                foreach (PkgDetailModel pkg in pkgs.pkgs)
+                {
+                    string pkgOid = pkg.pkg_no;
+
+                    foreach (PkgDateforEcModel pkgDate in prodPkgDateList)
+                    {
+                        if (pkgOid.Equals(pkgDate.pkgOid))
+                        {
+                            pkg.pkgDate = pkgDate;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                //如果有 selDate要依selDate決定可用的套餐
+                foreach (PkgDetailModel pkg in pkgs.pkgs)
+                {
+                    string pkgOid = pkg.pkg_no;
+                    //先確認有沒有在可售區間 -晚點寫,要改
+
+                    if (pkg.status == "N")
+                    {
+                        pkg.chkDateCanSell = "3"; //3己售罄
+                        pkg.NoSellTextShow = title.product_index_has_been_sold_out; // "已售罄";
+                    }
+                    else
+                    {
+                        //foreach (PkgDateforEcModel pkgDate in prodPkgDateList)
+                        {
+                            //if (prodPkgDateList.Select(x=>x.day))
+                            {
+                                //if (pkgDate.day.IndexOf(prodQury.selDate.Replace("/", "-")) > -1)
+                                {
+                                    if (pkg.status == "Y")
+                                    {
+                                        pkg.chkDateCanSell = "1";// 1上架日期可賣
+                                    }
+                                }
+                                //else
+                                {
+                                    pkg.chkDateCanSell = "2"; //2上架日期不可賣
+                                    //pkg.NoSellTextShow = title.product_index_check_availablity; //"此日期無法購買";
+                                    pkg.NoSellTextShow = title.product_index_has_been_sold_out; // "已售罄";
+                                }
+                                //pkg.pkgDate = pkgDate;
                             }
                         }
                     }
