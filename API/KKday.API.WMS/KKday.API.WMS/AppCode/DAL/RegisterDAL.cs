@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Data;
-using KKday.API.WMS.Models.DataModel.User;
+using KKday.API.WMS.Models.DataModel.Account;
 using Npgsql;
 
 namespace KKday.API.WMS.AppCode.DAL

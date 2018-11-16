@@ -1,5 +1,5 @@
 ﻿using System;
-namespace KKday.API.WMS.Models.DataModel.User
+namespace KKday.API.WMS.Models.DataModel.Account
 {
     public class RegisterRQModel
     {

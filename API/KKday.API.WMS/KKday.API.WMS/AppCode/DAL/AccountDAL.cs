@@ -7,7 +7,7 @@ namespace KKday.API.WMS.AppCode.DAL
 {
     public class AccountDAL
     {
-        public static int InsertUser(AccountModel model)
+        public static int RegisterIs4User(AccountModel model)
         {
             int count = 0;
 
