@@ -4633,7 +4633,7 @@ ul.sub-category li a{
 .booking-wrap{
 min-height: 100vh;
 position: relative;
-padding: 0px 0px;
+padding: 60px 0px;
   }
 .booking-wrap .breadcrumb{
 padding-top: 15px;
@@ -4882,7 +4882,7 @@ line-height: 45px;
   }    
 .booking-wrap aside{
 position: absolute;
-right: -70px;
+right: 0px;
 top: 0px;
 height: 100%;
 width: 400px;
