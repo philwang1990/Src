@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -32,6 +33,21 @@ namespace KKday.Web.B2D.EC
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+            // 新增 Cookie 驗證服務
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = ".B2D.User.SharedCookie";
+                    options.LoginPath = "/Login/";
+                    // options.Cookie.Domain = "kkday.com";
+
+                    options.Events.OnValidatePrincipal = (context) =>
+                    {
+                        return Task.CompletedTask;
+                    };
+
+                });
 
             services.AddMemoryCache();
             services.AddSession();
@@ -69,7 +85,7 @@ namespace KKday.Web.B2D.EC
                 //);
                 routes.MapRoute(
                 name: "default",
-                template: "{controller=Home}/{action=Index}/{id?}");
+                template: "{controller=Login}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                   name: "Product",
