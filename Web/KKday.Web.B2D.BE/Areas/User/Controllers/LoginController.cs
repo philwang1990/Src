@@ -54,7 +54,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
                     new Claim("UserType", IsKKdayUser ? "KKDAY" : "USER"),
                     new Claim("Locale", account.LOCALE),
                     new Claim("Currency", IsKKdayUser ? "" : ((B2dAccount)account).CURRENCY),
-                    new Claim(ClaimTypes.UserData,strChiperAcct), // 以AES加密JSON格式把使用者資料保存於Cookie
+                    new Claim(ClaimTypes.UserData,strChiperAcct) // 以AES加密JSON格式把使用者資料保存於Cookie
                 };
 
                 var userIdentity = new ClaimsIdentity(claims, "login");
@@ -79,7 +79,15 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
 
                 jsonData.Add("status", "OK");
                 //Just redirect to our index after logging in. 
-                jsonData.Add("url", IsKKdayUser ? Url.Content("~/KKday/") : Url.Content("~/User"));
+                if(account.ENABLE==true)
+                {
+                    jsonData.Add("url", IsKKdayUser ? Url.Content("~/KKday/") : Url.Content("~/User"));
+                }
+                else
+                {
+                    jsonData.Add("url", IsKKdayUser ? Url.Content("~/KKday/") : Url.Content("~/User/Home/Review"));
+                }
+
             }
             catch (Exception ex)
             {

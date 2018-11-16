@@ -185,20 +185,20 @@ WHERE a.xid=:xid";
             try
             {
                 string sqlStmt = @"UPDATE b2b.b2d_account_api SET xid=:xid, name_last=:name_last, 
-name_first=:name_first, account_type=:account_type, gendert_title=:gendert_title, enable=:enable, 
-tel=:tel, department=:department, job_title=::job_title,upd_user=:upd_user, upd_datetime=now()
+name_first=:name_first, account_type=:account_type, gender_title=:gender_title, enable=:enable, 
+tel=:tel, department=:department, job_title=:job_title,upd_user=:upd_user, upd_datetime=now()
 WHERE xid=:xid ";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("xid", account.XID),
-                    new NpgsqlParameter("gendert_title", account.GENDER_TITLE),
+                    new NpgsqlParameter("gender_title", account.GENDER_TITLE),
                     new NpgsqlParameter("name_last", account.NAME_FIRST),
                     new NpgsqlParameter("name_first", account.NAME_LAST),
                     new NpgsqlParameter("account_type", account.USER_TYPE),
                     new NpgsqlParameter("enable", account.ENABLE),
                     new NpgsqlParameter("tel", account.TEL),
-                    new NpgsqlParameter("department", (object)account.DEPARTMENT ?? DBNull.Value),
-                    new NpgsqlParameter("job_title", (object)account.JOB_TITLE ?? DBNull.Value),
+                    new NpgsqlParameter("department", account.DEPARTMENT),
+                    new NpgsqlParameter("job_title", account.JOB_TITLE),
                     new NpgsqlParameter("upd_user", upd_user)
                 };
 

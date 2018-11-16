@@ -88,8 +88,8 @@ SELECT currval('b2b.b2d_account_xid_seq') AS new_comp_xid ;";
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[]
                 {
                     new NpgsqlParameter("company_xid",comp_xid),
-                    new NpgsqlParameter("account_type","01"),   //帳號權限(00一般/01管理者)
-                    new NpgsqlParameter("enable",true),         //是否有效(true/false) 
+                    new NpgsqlParameter("account_type","01"),    //帳號權限(00一般/01管理者)
+                    new NpgsqlParameter("enable",false),         //是否有效(true/false) 
                     new NpgsqlParameter("password",reg.PASSWORD),
                     new NpgsqlParameter("gender_title",reg.GENDER_TITLE),
                     new NpgsqlParameter("name_last",reg.NAME_LAST),
