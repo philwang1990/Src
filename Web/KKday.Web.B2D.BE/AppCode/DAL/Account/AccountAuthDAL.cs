@@ -51,7 +51,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                         
                     };
                 }
-                // 檢查是否為分銷商使用者
+                // 檢查是否為分銷商有效使用者
                 else {
                     sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
  a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
@@ -66,6 +66,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                     };
 
                     ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, sqlParams);
+
+                    //已核准分銷商登入
                     if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                     {
                         DataRow dr = ds.Tables[0].Rows[0];
@@ -86,6 +88,37 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                             JOB_TITLE = dr.ToStringEx("job_title"),
                             CURRENCY = dr.ToStringEx("currency"),
                             LOCALE = dr.ToStringEx("locale")
+                        };
+                    }
+
+                    //待審中分銷商登入
+                    else
+                    {
+                        sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
+ a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
+ b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency
+FROM b2b.b2d_account a
+JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status!='03' --除了已核准外
+WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
+
+                        sqlParams = new NpgsqlParameter[]{
+                        new NpgsqlParameter("email", email),
+                        new NpgsqlParameter("password", password)
+                    };
+
+                        ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, sqlParams);
+                        DataRow dr = ds.Tables[0].Rows[0];
+
+                        _account = new B2dAccount()
+                        {
+                            XID = dr.ToInt64("xid"),
+                            UUID = dr.ToStringEx("user_uuid"),
+                            EMAIL = dr.ToStringEx("email"),
+                            NAME = dr.ToStringEx("name"),
+                            ENABLE = dr.ToBoolean("enable"),
+                            COMPANY_XID=dr.ToInt32("comp_xid"),
+                            CURRENCY = "",
+                            LOCALE = ""
                         };
                     }
                 }

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using KKday.Web.B2D.BE.App_Code;
+using KKday.Web.B2D.BE.AppCode;
 using KKday.Web.B2D.BE.Filters;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
@@ -48,6 +50,22 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             ViewData["CountryAreas"] = countryRepos.GetCountryAreas(locale);
             ViewData["CountryLocales"] = countryRepos.GetCountryLocales();
 
+            //寄送mail
+            //var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            //var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+            //var md5 = System.Security.Cryptography.MD5.Create();
+            //var token = Sha256Helper.Gethash(UserData.EMAIL + UserData.TEL + "#BID%&*KK@auth");
+            //var url = "https://localhost:5001/Login/?verify=" + token;
+
+            //寄送註冊成功通知
+            //string from_email = "dora.tang@kkday.com";
+            //string from_name = "dora";
+            //Dictionary<string, string> user = new Dictionary<string, string>();
+            //user.Add("doraemon", "dora.tang@kkday.com");
+            //string subject = "註冊已完成";
+            //string body = "請點選連結：" + url + "以完成帳號啟用";
+
             return View(_profile);
         }
 
@@ -75,7 +93,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         }
 
         // 更改密碼
-        public ActionResult Password()
+        public IActionResult Password()
         {
             var _strUuid = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "UUID").Select(c => c.Value)).FirstOrDefault();
             ViewData["UUID"] = _strUuid;
@@ -349,7 +367,8 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         }
 
         // 更改使用者密碼
-        public IActionResult UpdatePassword(string uuid, string password)
+        [HttpPost]
+        public IActionResult UpdatePassword(string mail,string password)
         {
             Contract.Ensures(Contract.Result<IActionResult>() != null);
             Dictionary<string, string> jsonData = new Dictionary<string, string>();
@@ -364,7 +383,39 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
 
                 var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
                 var accountRepo = services.First(o => o.GetType() == typeof(B2dAccountRepository));
-                accountRepo.SetNewPassword(_strAccount, password);
+                if(mail==null) accountRepo.SetNewPassword(_strAccount, password, 01);
+                else accountRepo.SetNewPassword(mail, password, 01);
+
+                jsonData.Add("status", "OK");
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        // 更改API使用者密碼
+        [HttpPost]
+        public IActionResult UpdatePassword_Api(string mail, string password)
+        {
+            Contract.Ensures(Contract.Result<IActionResult>() != null);
+            Dictionary<string, string> jsonData = new Dictionary<string, string>();
+
+            try
+            {
+                var _strAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                if (string.IsNullOrEmpty(_strAccount))
+                {
+                    throw new Exception("Invalid account to updated password");
+                }
+
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var accountRepo = services.First(o => o.GetType() == typeof(B2dApiAccountRepository));
+                accountRepo.SetNewPassword(mail, password, 02);
 
                 jsonData.Add("status", "OK");
             }
@@ -390,6 +441,16 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             ViewData["CountryAreas"] = countryRepos.GetCountryAreas("zh-tw");
             ViewData["CountryLocales"] = countryRepos.GetCountryLocales();
 
+            //寄送註冊成功通知
+            //string from_email = "dora.tang@kkday.com";
+            //string from_name = "dora";
+            //Dictionary<string, string> user = new Dictionary<string, string>();
+            //user.Add("doraemon", "dora.tang@kkday.com");
+            //string subject = "註冊已完成";
+            //string body = "請等候通知";
+
+            //SendMail.SendTextMail(from_email, from_name, user, subject, body);
+                       
             return View();
         }
 
@@ -401,6 +462,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             {
                 var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
                 accountRepo.Register(reg);
+
                 return Json("OK");
             }
             catch (Exception ex)

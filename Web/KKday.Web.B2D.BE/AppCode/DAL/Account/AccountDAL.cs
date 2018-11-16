@@ -333,7 +333,7 @@ WHERE xid=11:xid";
         }
 
         // 更改密碼
-        public static void UpdatePassword(string email, string psw)
+        public static void UpdatePassword(string email, string psw, Int64? from = 0)
         {
             try
             {
@@ -342,8 +342,17 @@ WHERE xid=11:xid";
                 byte[] crypto = sha256.ComputeHash(source);//進行SHA256加密
                 var chiperPasswod = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
 
-                string sqlStmt = @"UPDATE b2b.b2d_account SET password=:password
+                string sqlStmt = "";
+                if (from == 02)//api使用者
+                {
+                    sqlStmt = @"UPDATE b2b.b2d_account_api SET password=:password
 WHERE LOWER(email)=LOWER(:email) ";
+                }
+                else 
+                {
+                    sqlStmt = @"UPDATE b2b.b2d_account SET password=:password
+WHERE LOWER(email)=LOWER(:email) ";
+                }
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("email", email),
