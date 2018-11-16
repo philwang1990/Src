@@ -38,6 +38,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             JObject obj = JObject.Parse(json_data);
             List<int> cus_seqno = new List<int>();
             List<int> lst_seqno = new List<int>();
+            int discount_xid = 0;
 
             try
             {
@@ -65,17 +66,17 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
                     foreach (var item in order_lst)
                     {
-                        BookingDAL.InsertOrderLst(item as JObject, trans, order_no, cus_seqno, ref lst_seqno);
+                        BookingDAL.InsertOrderLst(item as JObject, trans, order_no, cus_seqno, ref lst_seqno,ref discount_xid);
 
-                        if (item["order_discount_rule_mst"] as JObject  != null )
+                        if (item["order_discount_rule"] as JObject  != null )
                         {
-                            BookingDAL.InsertOrderDiscountRuleMst(item["order_discount_rule_mst"] as JObject, trans, order_no, lst_seqno);
+                            BookingDAL.InsertOrderDiscountRule(item["order_discount_rule"] as JObject, trans, order_no, lst_seqno, discount_xid);
 
-                            if (item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject != null)
-                            {
-                                BookingDAL.InsertOrderDiscountRuleDtl(item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject, trans, order_no, lst_seqno);
+                            //if (item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject != null)
+                            //{
+                            //    BookingDAL.InsertOrderDiscountRuleDtl(item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject, trans, order_no, lst_seqno);
 
-                            } // if
+                            //} // if
 
                         } // if
 
@@ -175,7 +176,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             data.crtDevice = "Macintosh";
             data.crtBrowser = "Safari";
             data.crtBrowserVersion = "12.0";
-            data.memberUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
+            data.memberUuid = Website.Instance.Configuration["KKAPI_INPUT:JSON:MEMBER_UUID"];
             data.riskStatus = "01";
             data.tokenKey = "897af29c45ed180451c2e6bfa81333b6";
             data.deviceId = "3c2ab71448224d1d7148350f7972e96e";
@@ -201,9 +202,9 @@ namespace KKday.API.WMS.Models.Repository.Booking
         {
             PmchSslRequest pmch = new PmchSslRequest();
 
-            pmch.apiKey = "kkdayapi";
-            pmch.userOid = "1";
-            pmch.ver = "1.0.1";
+            pmch.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+            pmch.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+            pmch.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
             pmch.ipaddress = "127.0.0.1";
 
             CallJsonPay json = new CallJsonPay();
@@ -212,8 +213,8 @@ namespace KKday.API.WMS.Models.Repository.Booking
             json.is3D = "0";
             json.payCurrency = orderModel.currency;
             json.payAmount = Convert.ToDouble(orderModel.currPriceTotal);
-            json.returnURL = "https://localhost:5001/Final/Success/" + orderMid;
-            json.cancelURL = "https://localhost:5001/Final/Cancel/" + orderMid;
+            json.returnURL = "https://192.168.2.83:6001/Final/Success/" + orderMid;
+            json.cancelURL = "https://192.168.2.83:6001/Final/Cancel/" + orderMid;
             json.userLocale = "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
@@ -261,9 +262,9 @@ namespace KKday.API.WMS.Models.Repository.Booking
         public static PmchSslRequest3 setPaymentInfo2(ProductModel prod, OrderKKdayModel orderModel, string orderMid)
         {
             PmchSslRequest3 pmch = new PmchSslRequest3();
-            pmch.api_key = "kkdayapi";
-            pmch.user_oid = "1";
-            pmch.ver = "1.0.1";
+            pmch.api_key = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+            pmch.user_oid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+            pmch.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
             pmch.lang_code = "zh-tw";
             pmch.ipaddress = "127.0.0.1";
             CallJsonPay2 json = new CallJsonPay2();
@@ -272,8 +273,8 @@ namespace KKday.API.WMS.Models.Repository.Booking
             json.pay_currency = orderModel.currency;
             json.pay_amount = Convert.ToDouble(orderModel.currPriceTotal);
 
-            json.return_url = "https://localhost:5001/api/Final/Success/" + "?id=" + orderMid + "&jsondata=";
-            json.cancel_url = "https://localhost:5001/Final/Cancel/" + "?id=" + orderMid;
+            json.return_url = Website.Instance.Configuration["URL:B2D_API"] + "Final/Success/" + "?id=" + orderMid + "&jsondata=";
+            json.cancel_url = Website.Instance.Configuration["URL:B2D_API"] + "Final/Cancel/" + "?id=" + orderMid;
             json.user_locale = "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
@@ -460,9 +461,9 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
             PmchSslRequest call = new PmchSslRequest();
             call.ipaddress = "192.168.1.1";
-            call.apiKey = "kkdayapi";
-            call.userOid = "1";
-            call.ver = "1.0.1";
+            call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+            call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+            call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
 
             CallJsonGetPayList j = new CallJsonGetPayList();
             

@@ -145,5 +145,69 @@ namespace KKday.API.WMS.AppCode.Proxy
 
             return obj;
         }
+
+
+        public static JObject AuthFailure(string mid)
+        {
+            var obj = new JObject();
+            try
+            {
+                string result = "";
+                using (var handler = new HttpClientHandler())
+                {
+                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                    handler.ServerCertificateCustomValidationCallback =
+                        (httpRequestMessage, cert, cetChain, policyErrors) =>
+                        {
+                            return true;
+                        };
+
+                    using (var client = new HttpClient(handler))
+                    {
+                        client.DefaultRequestHeaders.Accept.Add(
+                        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+                        KKdayApiOrderRQModel RQ = new KKdayApiOrderRQModel();
+
+                        RQ.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                        RQ.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                        RQ.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
+                        RQ.locale = "zh-tw";
+                        RQ.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
+
+                        Json j = new Json();
+                        j.memberUuid = Website.Instance.Configuration["KKAPI_INPUT:JSON:MEMBER_UUID"];
+                        j.deviceId = Website.Instance.Configuration["KKAPI_INPUT:JSON:DEVICE_ID"];
+                        j.tokenKey = Website.Instance.Configuration["KKAPI_INPUT:JSON:TOKEN_KEY"];
+
+                        RQ.json = j;
+
+                        string json_data = JsonConvert.SerializeObject(RQ);
+                        string url = $"{Website.Instance.Configuration["URL:KK_PAYMENT_FAIL"]}{mid}";
+
+                        using (HttpContent content = new StringContent(json_data))
+                        {
+                            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                            var response = client.PostAsync(url, content).Result;
+                            result = response.Content.ReadAsStringAsync().Result;
+
+                            Website.Instance.logger.Info($"URL:{url},URL Response StatusCode:{response.StatusCode}");
+                        }
+
+
+                    }
+
+                }
+                obj = JObject.Parse(result);
+
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat($"AuthFailure Error :{ex.Message},{ex.StackTrace}");
+                throw ex;
+            }
+
+            return obj;
+        }
     }
 }

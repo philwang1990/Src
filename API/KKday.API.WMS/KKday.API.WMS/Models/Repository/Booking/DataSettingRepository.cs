@@ -196,7 +196,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
                 lang = "zh-tw",
                 currency = "TWD",
                 state="TW",
-                memberUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719",
+                memberUuid = Website.Instance.Configuration["KKAPI_INPUT:JSON:MEMBER_UUID"],
                 tokenKey = "897af29c45ed180451c2e6bfa81333b6",
                 deviceId = "3c2ab71448224d1d7148350f7972e96e"
             };

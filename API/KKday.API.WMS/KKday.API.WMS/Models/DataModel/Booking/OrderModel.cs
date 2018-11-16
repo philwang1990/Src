@@ -74,7 +74,7 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public double prod_amt { get; set; }//商品金額
         public double prod_b2c_amt { get; set; }//直客商品金額
         public string prod_currency { get; set; }//商品金額幣別
-        public int discount_xid { get; set; }//折扣xid
+        //public int discount_xid { get; set; }//折扣xid
         public string prod_cond1 { get; set; }//人(price1,price2)
         public string prod_cond2 { get; set; }//其他(ex.車)(price1)
         public string pkg_no { get; set; }//套餐編號
@@ -86,34 +86,33 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string fa_status { get; set; }//財務狀態
         public int prod_qty { get; set; }//商品數量
 
-        public OrderDiscountRuleMst order_discount_rule_mst { get; set; }//order_discount_rule_mst
+        public OrderDiscountRule order_discount_rule { get; set; }//order_discount_rule_mst
 
 
     }
 
-    public class OrderDiscountRuleMst
+    public class OrderDiscountRule
     {
-        public int xid { get; set; }//流水號
+        //public int xid { get; set; }//流水號
         //public int lst_seqno { get; set; }//細項編號
         public string disc_name { get; set; }//折扣名稱
-        public int disc_amt { get; set; }//折扣金額
+        public double disc_amt { get; set; }//折扣金額
         public string disc_currency { get; set; }//折扣幣別
         public string disc_note { get; set; }//折扣備註
         //public string order_no { get; set; }//訂單編號
 
-        public OrderDiscountRuleDtl order_discount_rule_dtl { get; set; }//order_dsicount_rule_dtl
+        //public OrderDiscountRuleDtl order_discount_rule_dtl { get; set; }//order_dsicount_rule_dtl
 
     }
 
-    public class OrderDiscountRuleDtl
-    {
+    //public class OrderDiscountRuleDtl
+    //{
+    //    public int xid { get; set; }//流水號
+    //    public int mst_xid { get; set; }//主檔流水號
+    //    //public int lst_seqno { get; set; }//細項編號
+    //    //public string order_no { get; set; }//訂單編號
 
-        public int xid { get; set; }//流水號
-        public int mst_xid { get; set; }//主檔流水號
-        //public int lst_seqno { get; set; }//細項編號
-        //public string order_no { get; set; }//訂單編號
-
-    }
+    //}
 
 
 }
