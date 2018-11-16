@@ -1,5 +1,5 @@
 ﻿@{
-     
+
 }
 
 
@@ -17,8 +17,8 @@
             pointer-events: none;
         }
     </style>
-    @*<link href="@(Url.Content("~/css/jquery-ui-theme-redmond/jquery-ui-1.10.3.custom.css"))" rel="stylesheet" type="text/css" />*@    
-    
+    @*<link href="@(Url.Content("~/css/jquery-ui-theme-redmond/jquery-ui-1.10.3.custom.css"))" rel="stylesheet" type="text/css" />*@
+
 
     @*
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
@@ -29,9 +29,10 @@
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>*@
 
     @*<script type="text/javascript" src="@(Url.Content("~/js/jquery-ui-1.10.3.custom.js"))"></script>
-    <script type="text/javascript" src="@(Url.Content("~/js/jquery-ui.js"))"></script>*@    
+        <script type="text/javascript" src="@(Url.Content("~/js/jquery-ui.js"))"></script>*@
     <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
-    <script type="text/javascript" src="@Url.Content("/js/booking.validate.js")"></script>
+    @*<script type="text/javascript" src="@Url.Content("/js/booking.validate.js")"></script>*@
+    <script type="text/javascript" src="@Url.Content("/js/pmch.js")"></script>
 
     <script type="text/javascript">
 
@@ -39,11 +40,11 @@
 
                 //alert('test');
                 //sendPayment("{\"apiKey\":\"kkdayapi\",\"userOid\":\"1\",\"ver\":\"1.0.1\",\"ipaddress\":\"127.0.0.1\",\"json\":{\"pmchOid\":\"1\",\"is3D\":\"0\",\"payCurrency\":\"TWD\",\"payAmount\":263.0,\"returnURL\":\"https://localhost:5001/Home\",\"cancelURL\":\"https://localhost:5001/Home\",\"userLocale\":\"zh-tw\",\"paymentParam1\":\"\",\"paymentParam2\":\"\",\"paymentSourceInfo\":{\"sourceType\":\"KKDAY\",\"orderMid\":\"18KK102473420\"},\"creditCardInfo\":{\"cardHolder\":\"phil\",\"cardType\":\"VISA\",\"cardNo\":\"4093240835103617\",\"cardCvv\":\"143\",\"cardExp\":\"202310\"},\"payerInfo\":{\"firstName\":\"ming\",\"lastName\":\"chen\",\"phone\":\"0939650222\",\"email\":\"phil.chang@kkday.com\"},\"productInfo\":{\"prodOid\":\"20140\",\"prodName\":\"浪漫水金九\"}}}");
-
+                //toSuccess();
             });
 
     </script>
-   
+
 
 }
 

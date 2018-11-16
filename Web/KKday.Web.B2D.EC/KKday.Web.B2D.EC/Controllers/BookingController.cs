@@ -15,6 +15,7 @@ using KKday.Web.B2D.EC.Models;
 using System.Diagnostics;
 using KKday.Web.B2D.EC.Models.Model.Pmch;
 //using KKday.Web.B2D.EC.Models.Repostory.Booking;
+using Microsoft.Extensions.Primitives;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -131,7 +132,8 @@ namespace KKday.Web.B2D.EC.Controllers
                 ViewData["sendInfoType"] = sendInfoType;
                 ViewData["CutOfDay"] = prod.before_order_day;
                 ViewData["cusAgeRange"] = cusAgeRange;
-                ViewData["prodShow"] = BookingRepostory.setBookingShowProd(prod, pkg, confirm, fakeContact.currency,pkgEvent);
+                BookingShowProdModel show = BookingRepostory.setBookingShowProd(prod, pkg, confirm, fakeContact.currency, pkgEvent,title);
+                ViewData["prodShow"] = show;
 
                 ViewData["isEvent"] = isEvent;//
                 ViewData["isHl"] = isHl; //如果是N就不用做
@@ -145,20 +147,24 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 //放到session
                 TempData["prod_" + guid] = JsonConvert.SerializeObject(prod);
-                TempData["pkgs_" + guid] = JsonConvert.SerializeObject(pkgs);
                 TempData["pkgEvent_" + guid] = (isHl == "Y" && isEvent == "Y") ? JsonConvert.SerializeObject(pkgEvent) : "";
                 TempData["module_" + guid] = JsonConvert.SerializeObject(module);
                 TempData["confirm_" + guid] = JsonConvert.SerializeObject(confirm);
                 TempData["ProdTitleKeep_" + guid] = JsonConvert.SerializeObject(title);
+                TempData["pkg_" + guid] = JsonConvert.SerializeObject(pkg);
+                TempData["pkgsDiscRule_" + guid] = JsonConvert.SerializeObject(pkgs.discount_rule);
+                TempData["prodShow_"+guid] = JsonConvert.SerializeObject(show);
 
                 return View();
             }
             catch( Exception ex)
             {
-                //導到錯誤頁
+                ViewData["errMsg"] = ex.Message.ToString();
                 Website.Instance.logger.Debug($"booking_index_err:{ex.ToString()}");
-                return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
-                { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+                //導到錯誤頁
+                return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Invalid_Common });
+                //return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
+                //{ RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
 
@@ -244,8 +250,6 @@ namespace KKday.Web.B2D.EC.Controllers
                 api.currency = "TWD";
                 api.ipaddress = "61.216.90.96";
 
-                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>((string)TempData["ProdTitleKeep"]);
-                TempData.Keep();
                 //假分銷商
                 distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
@@ -257,12 +261,35 @@ namespace KKday.Web.B2D.EC.Controllers
                 if (string.IsNullOrEmpty(moduleStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
                 ProductModuleModel module = JsonConvert.DeserializeObject<ProductModuleModel>(moduleStr);
 
+                string pkgStr = TempData["pkg_" + data.guidNo] as string;
+                if (string.IsNullOrEmpty(pkgStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
+                PkgDetailModel pkg = JsonConvert.DeserializeObject<PkgDetailModel>(pkgStr);
+
+                string pkgConfirmStr = TempData["confirm_" + data.guidNo] as string;
+                if (string.IsNullOrEmpty(moduleStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
+                confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>(pkgConfirmStr);
+
+                string titleStr = TempData["ProdTitleKeep_" + data.guidNo] as string;
+                if (string.IsNullOrEmpty(moduleStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(titleStr);
+
+                string discRuleStr = TempData["pkgsDiscRule_" + data.guidNo] as string;
+                if (string.IsNullOrEmpty(discRuleStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
+                DiscountRuleModel rule = JsonConvert.DeserializeObject<DiscountRuleModel>(discRuleStr);
+
+                string showStr = TempData["prodShow_" + data.guidNo] as string;
+                if (string.IsNullOrEmpty(showStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
+                //BookingShowProdModel show = JsonConvert.DeserializeObject<BookingShowProdModel>(showStr);
+
+                TempData.Keep();
+
                 //排除餐食 
-                data =BookingRepostory.exculdeFood(prod, data, module);
+                data = BookingRepostory.exculdeFood(prod, data, module);
 
                 //DataSettingRepostory Ores = new DataSettingRepostory();
                 //data = DataSettingRepostory.fakeDataModel(data);
-                string q = JsonConvert.SerializeObject(data);
+                //string q = JsonConvert.SerializeObject(data);
+                //string b2bOrder = BookingRepostory.insB2dOrder(title, prod, pkg, confirm, data, fakeContact,rule);
 
                 //轉 ordermodel
                 OrderRepostory res = new OrderRepostory();
@@ -286,6 +313,10 @@ namespace KKday.Web.B2D.EC.Controllers
                     orderOid = order["content"]["orderOid"].ToString();
                     status.pmchSslRequest = BookingRepostory.setPaymentInfo2(prod,ord, orderMid);
                     status.status = "OK";
+
+                    //要把BookingShowProdModel 帶到訂購final頁
+                    RedisHelper.SetProdInfotoRedis(showStr, "b2d:ec:order:final:prodShow:" + orderMid, 60);
+                    RedisHelper.SetProdInfotoRedis(JsonConvert.SerializeObject(data), "b2d:ec:order:final:orderData:" + orderMid, 60);
 
                     //要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
                     string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";

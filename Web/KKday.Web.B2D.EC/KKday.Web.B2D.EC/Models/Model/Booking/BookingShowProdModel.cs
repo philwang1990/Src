@@ -24,6 +24,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public string eventTime { get; set; }
         public double? totoalPrice { get; set; }
         public string unitText { get; set; }
+        public string confirm_order_time { get; set; }
     }
 
 }

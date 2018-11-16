@@ -22,6 +22,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public string lang { get; set; }
         public string currency { get; set; }
         public string state { get; set; }
+        public string channelOid { get; set; }
 
         public string memberUuid { get; set; }
         public string tokenKey { get; set; }
