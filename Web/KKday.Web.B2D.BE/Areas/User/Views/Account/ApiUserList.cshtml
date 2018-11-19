@@ -28,7 +28,7 @@ else
             {
                 <tr>
                     <td><input type="checkbox" class="checkthis" /></td>
-                    <td><a href="javascript:AccountEdit(@item.XID);"> @item.NAME_FIRST @item.NAME_LAST</a></td>
+                    <td><a href="javascript:AccountEdit(@item.XID);"> @item.NAME_LAST @item.NAME_FIRST</a></td>
                     <td>@item.EMAIL</td>
                     <td>@(item.ENABLE ? localizer.Text.Enable : localizer.Text.Disable) </td>
                     <td>@item.USER_TYPE_DESC</td>

@@ -275,6 +275,7 @@ $(function(){
                 if(result.status == "OK") {
                     $("#list_panel").html(result.content);
                     query_params = JSON.parse(result.query_params);
+                    window.location.href = "@Url.Content("~/User/Account/ApiUser")";
                 }
             }
         });

@@ -442,14 +442,14 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             ViewData["CountryLocales"] = countryRepos.GetCountryLocales();
 
             //寄送註冊成功通知
-            //string from_email = "dora.tang@kkday.com";
-            //string from_name = "dora";
-            //Dictionary<string, string> user = new Dictionary<string, string>();
-            //user.Add("doraemon", "dora.tang@kkday.com");
-            //string subject = "註冊已完成";
-            //string body = "請等候通知";
+            string from_email = "noreply@kkday.com";
+            string from_name = "我是測試信";
+            Dictionary<string, string> user = new Dictionary<string, string>();
+            user.Add("doraemon", "bid@kkday.com");
+            string subject = "註冊已完成";
+            string body = "請等候通知";
 
-            //SendMail.SendTextMail(from_email, from_name, user, subject, body);
+            SendMail.SendTextMail(from_email, from_name, user, subject, body);
                        
             return View();
         }

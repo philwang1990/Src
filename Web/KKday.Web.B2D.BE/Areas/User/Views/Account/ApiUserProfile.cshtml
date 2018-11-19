@@ -49,7 +49,7 @@
                             <div class="form-group">
                                 <label>@localizer.Text.GenderTitle</label>
                                 <select id="gender_title" name="gender_title" class="form-control">
-                                    <option value="">@localizer.Text.Select</option>
+                                    <option value="@Model.GENDER_TITLE">@localizer.Text.Select</option>
                                     <option value="miss">Miss</option>
                                     <option value="mr">Mr</option>
                                     <option value="mrs">Mrs</option>
@@ -218,17 +218,7 @@
                     // console.log("result: " + JSON.stringify(result));
                     if(result.status == "OK") {
                         alert("Update OK!");
-
-                        var newForm = $('<form>', {
-                            'action': _root_path + "Account/ApiUser",
-                            'target': '_self',
-                            'method': 'post'
-                        }).append(jQuery('<input>', {
-                            'name': 'query',
-                            'value': '@ViewData["QueryParams"]',
-                            'type': 'hidden'
-                        }));
-                        newForm.submit();
+                        window.location.href = "@Url.Content("~/User/Account/ApiUser")";
                     } else {
                         alert("Error: " + result.msg);
                     }
