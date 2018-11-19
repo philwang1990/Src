@@ -8,7 +8,7 @@ namespace KKday.API.WMS.AppCode.DAL
     {
         public static UserAccount UserAuth(string email, string password)
         {
-            Npgsql.NpgsqlConnection conn = new Npgsql.NpgsqlConnection(Website.Instance.SqlConnectionString);
+            Npgsql.NpgsqlConnection conn = new Npgsql.NpgsqlConnection(Website.Instance.B2D_DB);
             UserAccount _account = null;
 
             try
@@ -60,7 +60,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
  b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status='03' --已核准
-WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
+WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
 
                     sqlParams = new NpgsqlParameter[]{
                         new NpgsqlParameter("email", email),
@@ -110,7 +110,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:account) AND password=:password";
         //B2D API分銷商
         public static UserAccount UserApiAuth(string email)
         {
-            Npgsql.NpgsqlConnection conn = new Npgsql.NpgsqlConnection(Website.Instance.SqlConnectionString);
+            Npgsql.NpgsqlConnection conn = new Npgsql.NpgsqlConnection(Website.Instance.B2D_DB);
             UserAccount _account = null;
 
             try
@@ -193,7 +193,7 @@ WHERE LOWER(email)=LOWER(:email) ";
                   new NpgsqlParameter("email", email)
               };
 
-                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
+                DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.B2D_DB, CommandType.Text, sqlStmt, sqlParams);
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
