@@ -1,0 +1,252 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.FixedPrice
+@using Resources
+@inject ILocalizer localizer
+@model List<FixedPricePackageEx>
+@{
+    Layout = "_LayoutMain";
+
+    var prod = ViewData["PRODUCT"] as FixedPriceProductEx;
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+}
+
+@section Stylesheet {
+    <link rel="stylesheet" href="~/css/collapse_arrows.css" />
+    <link rel="stylesheet" href="~/css/tablesaw.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .daterangepicker select.monthselect, .daterangepicker select.yearselect {
+            font-size: 20px;
+        }
+
+        .sign-btn {
+            background-color: #E0F2F7;
+        }
+
+        .error-text {
+            color: red;
+        }
+
+        .price-table {
+            margin-bottom: 8px;
+        }
+
+        .cb-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cb-label input[type=checkbox], .cb-label input[type=radio] {
+            -webkit-appearance: none;
+            appearance: none;
+            outline: none;
+            width: 12px;
+            height: 12px;
+            cursor: pointer;
+            vertical-align: center;
+            background: #fff;
+            border: 1px solid #ccc;
+            position: relative;
+        } 
+
+        .cell-spacing { margin-top: 3px; margin-bottom:3px; }
+    </style>
+}
+
+@section Scripts {
+    <script src="~/lib/bootstrap-daterangepicker/dist/js/moment-with-locales.min.js" asp-append-version="true"></script> 
+    <script src="~/js/tablesaw.js" asp-append-version="true"></script>
+    <script src="~/js/tablesaw-init.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item">@localizer.Text.Title_Distributor</li>
+        <li class="breadcrumb-item active" aria-current="page">固定價設定</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>固定價設定</h4>
+        </div>
+
+        <div class="col-xs-12">
+            <span style="font-size: 1.18em; display: block; margin: 16px 0 16px 0; color: #0174DF;">
+                @prod.COMPANY_NAME
+            </span>
+        </div>
+    </div> <!-- row -->
+
+    <div class="row">
+        <div class="col-xs-12" style="margin-bottom: 8px;">
+            <input type="hidden" id="xid" value="@prod.XID" />
+            #@prod.PROD_NO @prod.PROD_NAME
+
+            <button class="btn btn-info" onclick="SyncPackage('@prod.XID'); return false;">
+                <span class="glyphicon glyphicon glyphicon-refresh"></span> 同步
+            </button>
+        </div>
+
+        <div id="list_pkg" class="col-xs-12">
+            @await Html.PartialAsync("_EditPkgPrice", Model)
+        </div>
+
+        <div id="import_pkg" class="col-xs-12" style="display:none;">
+        </div>
+    </div> <!-- row -->
+
+    <div class="row">
+        <div class="col-xs-12">
+             <button class="btn btn-danger" onclick="DelPkgSetting();" data-title="Delete" data-toggle="modal" data-target="#delete">
+                <span class="glyphicon glyphicon-trash"></span> @localizer.Text.Delete
+            </button>
+        </div>
+    </div> <!-- row -->
+
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <button type="button" class="btn btn-default" onclick="window.history.go(-1);">回上一頁</button>
+        </div>
+    </div> <!-- row -->
+
+</div>
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="disc_mst_xid" />
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_del" type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+     
+    });
+
+    function SyncPackage(pid) {
+        console.log("Sync Operations...");
+
+        $.getJSON( _root_path + "FixedPrice/SyncPackageAsync/"+ pid ,function(result){
+            // console.log(JSON.stringify(result));
+            if(result.status == "OK") {
+                $("#list_pkg").hide();
+                $("#import_pkg").show();
+
+                $("#import_pkg").html(result.content);
+            } else {
+                alert(result.msg);
+            }
+
+        });
+    }
+
+    function RestorePage(){
+         $("#list_pkg").show();
+         $("#import_pkg").html('').hide();
+    }
+
+    function ImportPackages() {
+
+        console.log("Import Pakcages");
+
+        var objImport = {
+            prod_xid : $("#xid").val(),
+            s_date : $("#period").data('daterangepicker').startDate.format('YYYY-MM-DD'),
+            e_date : $("#period").data('daterangepicker').endDate.format('YYYY-MM-DD'),
+            packages : []
+        };
+
+        var sel_pkg_count = 0;
+        $("#accordion input[type=checkbox]:checked").each(function () {
+            var seq = $(this).parent().attr("data-target");
+            var pkg_no = $(seq).attr("data-val");
+            var pkg_name = $(this).parent().text().trim();
+
+            pkg_item = { pkg_no : pkg_no, pkg_name : pkg_name, prices : [] }
+
+            var price_rows = $(seq).find(".price tbody tr");
+            if(price_rows.length > 0) {
+                price_rows.each(function() {
+                    var price_cond = $(this).find("td").eq(1).text();
+                    var price = $(this).find("td").eq(3).find("input").val();
+                    // console.log("....>>> price_cond : " + price_cond + ", price : " + price);
+                    pkg_item.prices.push({ cond : price_cond, price : price });
+                });
+            }
+            sel_pkg_count ++;
+
+            objImport.packages.push(pkg_item);
+        });
+
+        console.log(JSON.stringify(objImport));
+
+        if(!confirm("確定要匯入日期區間:" + $("#period").val() + ", 共 " + sel_pkg_count + " 組套餐?")) return false;
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "FixedPrice/ImportPackage",
+            contentType: "application/json",
+            data: JSON.stringify(objImport),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    $("#list_pkg").show();
+                    $("#import_pkg").html('').hide();
+                }
+            }
+        });
+    }
+
+    function UpdPriceSetting(pkg, xid) {
+
+    }
+
+    function DelPriceSetting(xid) {
+        $("#btn_del").unbind('click').on("click", function() { RemovePrice(xid); });
+    }
+
+    function DelPkgSetting() {
+        $("#btn_del").unbind('click').on("click", function() { RemovePackage(); }); 
+    }
+
+    function RemovePrice(xid) {
+        alert("Remove pacakge-price : " + xid);
+    }
+
+    function RemovePackage() {
+        var pkg_items = [];
+        $(".checkitem:checked").each(function() {
+            pkg_items.push($(this).val());
+        });
+
+        alert("Remove pacakge : " + JSON.stringify(pkg_items));
+    }
+
+</script>

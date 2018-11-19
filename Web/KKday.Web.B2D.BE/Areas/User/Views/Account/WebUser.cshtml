@@ -1,0 +1,362 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Account
+@using Resources
+
+@inject ILocalizer localizer
+@model List<B2dAccount>
+@{
+    Layout = "_LayoutMain";
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+    var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
+    var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
+}
+
+<script type="text/javascript">
+  var query_params = @Html.Raw(ViewData["QUERY_PARAMS_JSON"].ToString());
+</script>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/")">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.Title_WebUser</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>@localizer.Text.Title_WebUser</h4>
+
+            <!-- search -->
+                <div class="search-tab row" style="margin-bottom: 20px;">
+                    <form id="search">
+                        <div class="col-xs-12 col-sm-2">
+                            <label>@localizer.Text.Name</label>
+                            <input type="text" id="name" class="form-control" placeholder="@localizer.Text.Search_Name" aria-label="name" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="col-xs-12 col-sm-2">
+                            <label>@localizer.Text.Email</label>
+                            <input type="text" id="email" class="form-control" placeholder="@localizer.Text.Search_Email" aria-label="email" aria-describedby="basic-addon1">
+                        </div>
+
+                        <div class="col-xs-12 col-sm-2">
+                            <label>@localizer.Text.Status</label>
+                            <select id="status" class="selectpicker form-control">
+                                <option value="">-- Select --</option>
+                                <option value="0">@localizer.Text.Disable</option>
+                                <option value="1">@localizer.Text.Enable</option>
+                            </select>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-2">
+                            <label> </label>
+                            <input type="Submit" name="submit" value="@localizer.Text.Search" onclick="Refresh(1, true); return false;" class="btn btn-info cst-btn form-control">
+                        </div>
+                    </form>
+                </div>
+            <!-- search  -->
+
+            <div class="row">
+                <a href="#" class="btn" data-title="@localizer.Text.AddAccount" data-toggle="modal" data-target="#add"><i class="fas fa-plus"></i>@localizer.Text.AddAccount</a>
+
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div id="list_panel" class="table-responsive">
+                @await Html.PartialAsync("WebUserList", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">Delete this entry</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<!-- 新增子帳號 -->
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.AddAccount</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add_form">
+                    <div class="row">
+
+                        <div class="col-sm-12">
+                            <div class="form-group">
+                                <label>@localizer.Text.Email<span class="text-danger">*</span></label>
+                                <input type="text" id="new_email" name="new_email" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.NewPassword<span class="text-danger">*</span></label>
+                                <input type="password" id="new_password" name="new_password" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.PasswordAgain<span class="text-danger">*</span></label>
+                                <input type="password" id="new_password_again" name="new_password_again" class="form-control">
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@localizer.Text.GenderTitle<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <select id="new_gendertitle" name="new_gendertitle" class="form-control">
+                                        <option value="">@localizer.Text.Select</option>
+                                        <option value="miss">Miss</option>
+                                        <option value="mr">Mr</option>
+                                        <option value="mrs">Mrs</option>
+                                        <option value="ms">Ms</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@localizer.Text.NameLast<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" id="new_namelast" name="new_namelast" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <label>@localizer.Text.NameFirst<span class="text-danger">*</span></label>
+                                <div class="input-group">
+                                    <input type="text" id="new_namefirst" name="new_namefirst" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>@localizer.Text.CountryANDTelCode<span class="text-danger">*</span></label>
+                                @*<div>@Model.</div>*@
+                                <select id="new_countryarea" name="new_countryarea" class="form-control">
+                                    <option value="">@localizer.Text.Select</option>
+                                    @foreach (var country in countryAreas.OrderBy(c => c.telArea))
+                                    {
+                                        <option value="@(country.telArea + "," + country.countryCode)"> @country.countryName (+@(country.telArea))</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="form-group">
+                                <label>@localizer.Text.Tel<span class="text-danger">*</span></label>
+                                <input type="text" id="new_tel" name="new_tel" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.Department</label>
+                                <input type="text" id="new_department" name="new_department" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.JobTitle</label>
+                                <input type="text" id="new_jobtitle" name="new_jobtitle" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.UserType<span class="text-danger">*</span></label>
+                                <select id="new_type" name="new_type" class="form-control">
+                                    <option value="00">@localizer.Text.UserRole_00</option>
+                                    <option value="01">@localizer.Text.UserRole_01</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.Status<span class="text-danger">*</span></label>
+                                <select id="new_enable" name="new_enable" class="form-control">
+                                    <option value="true">@localizer.Text.Enable</option>
+                                    <option value="false">@localizer.Text.Disable</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_insert" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="AccountAdd();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Insert
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+        $("#mytable #checkall").click(function () {
+            if ($("#mytable #checkall").is(':checked')) {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", true);
+                });
+
+            } else {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+
+        $("[data-toggle=tooltip]").tooltip();
+
+        //初始化驗證規則
+        $('#add_form').validate({
+            rules:{
+                    new_email:{ required: true,email:true },
+                    new_password:{required: true,rangelength:[8,12]},
+                    new_password_again:{required: true,rangelength:[8,12],equalTo:"#new_password"},
+                    new_gendertitle:"required",
+                    new_namelast:"required",
+                    new_namefirst:"required",
+                    new_countryarea:"required",
+                    new_tel:{required: true,phoneStyle:true},
+                    new_type:"required",
+                    new_enable:"required"
+            },
+
+            messages:{
+                        new_email:{required:"不可為空",email:"請輸入有效的mail"},
+                        new_password:{required:"不可為空",rangelength:"密碼須介於8至12位數"},
+                        new_password_again:{required:"不可為空",rangelength:"密碼須介於8至12位數",equalTo:"密碼不相符"},
+                        new_gendertitle:"不可為空",
+                        new_namelast:"不可為空",
+                        new_namefirst:"不可為空",
+                        new_countryarea:"不可為空",
+                        new_tel:{required:"不可為空"},
+                        new_department:"不可為空",
+                        new_jobtitle:"不可為空",
+                        new_type:"不可為空",
+                        new_enable:"不可為空"
+            }
+        });
+    });
+
+    $.validator.addMethod("phoneStyle", function( value, element )
+    {
+       var str = value;
+       var result = false;
+
+       if(str.length > 0){
+           var patt_phone = /^[\d\-\(\)\#]{1,}$/;
+           result = patt_phone.test(str);
+       }
+       else result = true;
+
+       return result;
+    }, "電話號碼不符合格式，僅接受數字、#-()等符號");
+
+    function Refresh(page, is_recount) {
+        query_params.filter = JSON.stringify({ name:$.trim($("#name").val().toLowerCase()), email:$("#email").val().toLowerCase(), status:$("#status").val() });
+        query_params.sorting = $("#sorting").val();
+        if (page!==undefined) query_params.Paging.current_page = page;
+        query_params.RecountFlag= is_recount;
+        //console.log("Params: " + JSON.stringify(query_params));
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "Account/Refresh",
+            contentType: "application/json",
+            data: JSON.stringify(query_params),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    $("#list_panel").html(result.content);
+                    query_params = JSON.parse(result.query_params);
+                }
+            }
+        });
+
+    }
+
+    function AccountEdit(id) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "Account/WebUserProfile/" + id + "?query=" + query;
+    }
+
+    function AccountAdd() {
+        if($('#add_form').valid())
+        {
+            var query = {
+                            EMAIL:$('#new_email').val(),
+                            PASSWORD:$('#new_password').val(),
+                            GENDER_TITLE:$('#new_gendertitle').val(),
+                            NAME_FIRST:$('#new_namefirst').val(),
+                            NAME_LAST:$('#new_namelast').val(),
+                            TEL_AREA:$('#new_countryarea').val(),
+                            TEL:$('#new_tel').val(),
+                            DEPARTMENT:$('#new_department').val(),
+                            JOB_TITLE:$('#new_jobtitle').val(),
+                            USER_TYPE:$('#new_type').val(),
+                            ENABLE:$('#new_enable').val()
+            };
+
+            $.ajax({
+                        url: _root_path + 'Account/InsertWebUser',
+                        type: 'POST',
+                        contentType: "application/json",
+                        dataType: "json",
+                        data: JSON.stringify(query),
+                        failure: function (data) {
+                            console.log(data.responseText);
+                        },
+                        error: function (data) {
+                            console.log(data.responseText);
+                        },
+                        success: function(result) {
+                            if(result == "OK") {
+                                alert('新增成功');
+                                window.location.href =_root_path + "Account/WebUser";
+                            }
+                            else {
+                                alert(result.msg);
+                            }
+                        }
+            });
+        }
+    }
+
+    function AccountClose(id) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "Account/AccountProfile_close/" + id + "?query=" + query;
+    }
+</script>

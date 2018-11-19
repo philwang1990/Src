@@ -5,17 +5,38 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KKday.Web.B2D.BE.Areas.User.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Principal;
+using KKday.Web.B2D.BE.Models.Model.Account;
+using System.Security.Claims;
+using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
+using KKday.Web.B2D.BE.Filters;
+using KKday.Web.B2D.BE.AppCode.DAL.Company;
+using KKday.Web.B2D.BE.App_Code;
+using KKday.Web.B2D.BE.Models.Model.Company;
 
 namespace KKday.Web.B2D.BE.Areas.User.Controllers
 {
     [Area("User")]
+    [TypeFilter(typeof(CultureFilter))]
+    [Authorize(Policy = "UserOnly")]
     public class HomeController : Controller
-    {
+    { 
         public IActionResult Index()
+        { 
+            var userId = User.Identity.Name;
+           
+            return View();
+        }
+
+        public IActionResult Review()
         {
-            //return RedirectToAction("Login", "Account");
-            return RedirectToAction("Register", "Account");
-            //return View();
+            var aesUserData = User.FindFirst(ClaimTypes.UserData).Value;
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+            var xid = UserData.COMPANY_XID;
+            B2dCompany model = CompanyDAL.GetCompany(xid);
+            return View(model);
         }
 
         #region 用不到
@@ -41,12 +62,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
         }
         */
 
-        #endregion
+        #endregion 用不到
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
     }
 }

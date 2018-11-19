@@ -1,0 +1,16 @@
+﻿.panel-title {
+    position: relative;
+}
+
+.panel-title::after { 
+    color: #333;
+    top: -2px;
+    right: 0px;
+    position: absolute; 
+    font-family: 'Glyphicons Halflings';
+    content: "\e114";     
+}
+
+.panel-title[aria-expanded="true"]::after {
+    content: "\e113";
+}

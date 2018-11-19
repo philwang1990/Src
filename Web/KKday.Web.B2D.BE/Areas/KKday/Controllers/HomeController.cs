@@ -5,14 +5,28 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KKday.Web.B2D.BE.Areas.KKday.Models;
+using Microsoft.AspNetCore.Authorization;
+using KKday.Web.B2D.BE.Models.Model.Account;
+using Newtonsoft.Json;
+using System.Security.Claims;
+using KKday.Web.B2D.BE.App_Code;
+using KKday.Web.B2D.BE.Filters;
 
 namespace KKday.Web.B2D.BE.Areas.KKday.Controllers
 {
     [Area("KKday")]
+    [Authorize(Policy = "KKdayOnly")]
+    [TypeFilter(typeof(CultureFilter))]
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
+            var jsonAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            if (jsonAccount != null)
+            {
+                var account = JsonConvert.DeserializeObject<KKdayAccount>(AesCryptHelper.aesDecryptBase64(jsonAccount, Website.Instance.AesCryptKey));
+            }
+
             return View();
         }
 
