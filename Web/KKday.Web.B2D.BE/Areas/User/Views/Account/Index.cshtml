@@ -1,3 +1,245 @@
-﻿@page
+﻿@using KKday.Web.B2D.BE.Models.Model.Account
+@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Voucher
+@using Resources
+
+@inject ILocalizer localizer
+
 @{
+    Layout = "_LayoutMain";
+    var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
+    var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
+    var vouch = (B2dVoucherAddon)ViewData["VouchAddOn"];
 }
+@model B2dUserProfile
+@section Scripts {
+    <script type="text/javascript" src="https://rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/b2d-company-profile.js")" asp-append-version="true"></script>
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/")">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.Title_MyProfile</li>
+    </ol>
+</nav>
+
+<form id="myprofile">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h4>@localizer.Text.Title_MyProfile</h4>
+            </div>
+
+            <div class="col-xs-12">
+                <ul id="myTab" class="nav nav-tabs hidden-xs" style="margin-bottom: 15px;">
+                    <li class="active">
+                        <a href="#home" data-toggle="tab" class="js-tabcollapse-panel-heading" data-parent="" aria-expanded="true">@localizer.Text.UserProfile</a>
+                    </li>
+                    <li class="">
+                        <a href="#profile" data-toggle="tab" class="js-tabcollapse-panel-heading collapsed" data-parent="" aria-expanded="false">@localizer.Text.CompanyProfile</a>
+                    </li>
+                </ul>
+                <div class="panel-group visible-xs" id="myTab-accordion"></div>
+                <div id="myTabContent" class="tab-content hidden-xs">
+                    <div class="tab-pane fade active in" id="home">
+                        <div class="col-md-8 col-md-offset-1">
+                            <div class="row">
+
+                                <div class="col-sm-2">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.GenderTitle</label>
+                                        <div class="form-control">@Model.GENDER_TITLE</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.NameLast<span class="text-danger">*</span></label>
+                                        <input type="text" id="name_last" name="name_last" class="form-control" value="@Model.NAME_LAST" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.NameFirst<span class="text-danger">*</span></label>
+                                        <input type="text" id="name_first" name="name_first" class="form-control" value="@Model.NAME_FIRST" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Email</label>
+                                        <div class="form-control">@Model.EMAIL</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.UserType</label>
+                                        <div class="form-control">@Model.USER_TYPE_DESC</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Department<span class="text-danger">*</span></label>
+                                        <input type="text" id="department" name="department" class="form-control" value="@Model.DEPARTMENT" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.JobTitle<span class="text-danger">*</span></label>
+                                        <input type="text" id="job_title" name="job_title" class="form-control" value="@Model.JOB_TITLE" />
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.CountryANDTelCode</label>
+                                        <div id="country_area" class="form-control">+@Model.TEL_AREA</div>
+                                        @*<select id="country_area" class="form-control">
+                                            <option value="">@localizer.Text.Select</option>
+                                            @foreach (var country in countryAreas.OrderBy(c => c.telArea))
+                                            {
+                                                <option value="@(country.telArea + "," + country.countryCode)"> @country.countryName (+@(country.telArea))</option>
+                                            }
+                                        </select>*@
+                                    </div>
+                                </div>
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Tel<span class="text-danger">*</span></label>
+                                        <input type="text" id="tel" name="tel" class="form-control" value="@Model.TEL" />
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                            <hr>
+                            <div class="form-footer clearfix">
+                                <a href="#" id="upd_profile" class="btn btn-primary" onclick="UpdateProfile();">@localizer.Text.Update</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile">
+                        <div class="col-md-8 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Company_Name</label>
+                                        <div class="form-control">@Model.COMPANY_NAME</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-5">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Company_Invoice</label>
+                                        @*<input type="text" id="invoice" name="invoice" class="form-control" placeholder="@Model.INVOICE_NO" />*@
+                                        <div class="form-control">@Model.INVOICE_NO</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Company_Url</label>
+                                        @*<input type="text" id="url" name="url" class="form-control" placeholder="@Model.URL" />*@
+                                        <div class="form-control">@Model.URL</div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <label>@localizer.Text.Company_Address</label>
+                                        @*<input type="text" id="address" name="address" class="form-control" placeholder="@Model.ADDRESS" />*@
+                                        <div class="form-control">@Model.ADDRESS</div>
+                                    </div>
+                                </div>
+
+                                <hr>
+                                @*<div class="form-footer clearfix">
+                                        <a href="#" id="upd_company" class="btn btn-primary" onclick="UpdateCompany();">修改</a>
+                                    </div>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+
+    //修改帳號資訊
+    function UpdateProfile() {
+        var objProf = {
+                        XID:"@Model.XID",
+                        EMAIL:"@Model.EMAIL",
+                        GENDER_TITLE:"@Model.GENDER_TITLE",
+                        NAME_LAST:$('#name_last').val(),
+                        NAME_FIRST:$('#name_first').val(),
+                        ENABLE:"@Model.ENABLE",
+                        USER_TYPE:"@Model.USER_TYPE",
+                        DEPARTMENT:$('#department').val(),
+                        JOB_TITLE:$('#job_title').val(),
+                        TEL:$('#tel').val()
+                };
+
+        $.ajax({
+                url: _root_path + 'Account/UpdateProfile',
+                type: 'POST',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(objProf),
+                failure: function (data) {
+                    console.log(data.responseText);
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                },
+                success: function(result) {
+                    if(result == "OK") {
+                        alert('@localizer.Text.UpdateOK');
+                        window.location.href = "@Url.Content("~/User/Account")";
+                    }
+                    else {
+                        alert(result.msg);
+                    }
+                }
+        });
+   }
+
+   @*//修改公司資訊
+   function UpdateCompany() {
+        var objComp = {
+                        XID:"@Model.COMPANY_XID",
+                        EMAIL:"@Model.EMAIL",
+                        INVOICE_NO:$('#invoice').val(),
+                        URL:$('#url').val(),
+                        ADDRESS:$('#address').val()
+                };
+
+        $.ajax({
+                url: _root_path + 'Company/UpdateCompany',
+                type: 'POST',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(objComp),
+                failure: function (data) {
+                    console.log(data.responseText);
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                },
+                success: function(result) {
+                    if(result == "OK") {
+                        $('#CreatCompany').attr("disabled","true");
+                        alert('修改完成');
+                        window.location.href = result.url;
+                    }
+                    else {
+                        alert(result.msg);
+                    }
+                }
+        });
+   }*@
+
+    $(function(){
+        $('#myTab').tabCollapse();
+    });
+</script>

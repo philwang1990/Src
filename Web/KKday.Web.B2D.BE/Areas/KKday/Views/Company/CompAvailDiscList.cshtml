@@ -1,0 +1,50 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.PriceSetting
+@using Resources
+@inject ILocalizer localizer
+@model List<B2dDiscountMst>
+@{
+}
+@if (Model == null || Model.Count() < 1)
+{
+    <span>@localizer.Text.Data_Not_Found</span>
+}
+else
+{
+
+    <table id="disc_tbl" class="table table-bordred table-striped fit">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="checkall" /></th>
+                <th>Discount Name</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" class="checkthis" value="@item.XID" aria-label="Select discount" title="Select discount in this table" /></td>
+                    <td>@item.DISC_NAME</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+<script type="text/javascript">
+        $("#disc_tbl #checkall").click(function () {
+            if ($("#disc_tbl #checkall").is(':checked')) {
+                $("#disc_tbl input[type=checkbox]").each(function () {
+                    $(this).prop("checked", true);
+                });
+
+            } else {
+                $("#disc_tbl input[type=checkbox]").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+
+</script>

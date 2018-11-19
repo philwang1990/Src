@@ -1,0 +1,77 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Account
+@using Resources
+
+@inject ILocalizer localizer
+@model List<B2dAccount>
+@{
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+}
+
+@if (Model == null || Model.Count < 1)
+{
+    <span>@localizer.Text.Data_Not_Found</span>
+}
+else
+{
+
+     <table id="mytable" class="table table-bordred table-striped fit">
+        <thead>
+            <th><input type="checkbox" id="checkall" /></th>
+            <th>@localizer.Text.ID</th>
+            <th>@localizer.Text.Name</th>
+            <th>@localizer.Text.Email</th>
+            <th>@localizer.Text.Status</th>
+            <th>@localizer.Text.UserType</th> 
+            <th>@localizer.Text.Company_Name</th>
+            <th>Delete</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                   <td><input type="checkbox" class="checkthis" /></td>
+                   <td>@item.XID</td>
+                   <td><a href="javascript:AccountEdit(@item.XID);"> @item.NAME_FIRST @item.NAME_LAST</a></td>
+                   <td>@item.EMAIL</td>
+                   <td>@(item.ENABLE ? localizer.Text.Enable : localizer.Text.Disable) </td>
+                   <td>@item.USER_TYPE_DESC</td>
+                   <td>@item.COMPANY_NAME<span style="margin-left: 8px;">#@item.COMPANY_XID</span></td> 
+                   <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+                         <span class="glyphicon glyphicon-trash"></span>
+                       </button></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <div class="col-xs-12">
+        <ul class="pagination pull-right">
+          @if (query_params != null)
+          {
+              if (query_params.Paging.total_pages > 1)
+              {
+            <li><a href="javascript:Refresh(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+              }
+
+              for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
+              {
+                  var pgIdx = nIdx + 1;
+                  if (pgIdx == query_params.Paging.current_page)
+                  {
+            <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+                  }
+                  else
+                  {
+            <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx, false);">@pgIdx</a></li>
+                  }
+              }
+
+              if (query_params.Paging.total_pages > 1)
+              {
+            <li><a href="javascript:Refresh(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+              }
+          }
+        </ul>
+    </div>
+}

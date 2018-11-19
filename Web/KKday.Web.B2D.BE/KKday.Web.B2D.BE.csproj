@@ -4,6 +4,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.1.2" />
+    <PackageReference Include="Npgsql" Version="4.0.3" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="log4net.Ext.Json" Version="2.0.8.3" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\" />
@@ -16,6 +20,242 @@
     <Folder Include="Areas\KKday\Models\" />
     <Folder Include="Areas\KKday\Views\" />
     <Folder Include="Areas\User\Views\Account\" />
+    <Folder Include="Areas\User\Views\Order\" />
+    <Folder Include="AppCode\" />
+    <Folder Include="Pages\" />
+    <Folder Include="Pages\Errors\" />
+    <Folder Include="Areas\User\Views\Login\" />
+    <Folder Include="Areas\KKday\Views\Company\" />
+    <Folder Include="Areas\KKday\Views\Account\" />
+    <Folder Include="Areas\KKday\Views\Order\" />
+    <Folder Include="AppCode\DAL\" />
+    <Folder Include="Models\" />
+    <Folder Include="Areas\User\Models\DataModel\" />
+    <Folder Include="Areas\KKday\Models\DataModel\" />
+    <Folder Include="AppCode\DAL\Company\" />
+    <Folder Include="AppCode\DAL\Account\" />
+    <Folder Include="Areas\KKday\Views\PriceSetting\" />
+    <Folder Include="Areas\KKday\Views\ListPrice\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\User\Views\Voucher\" />
+    <Folder Include="Models\Repository\" />
+    <Folder Include="Models\Model\" />
+    <Folder Include="Models\Model\Account\" />
+    <Folder Include="Models\Model\Common\" />
+    <Folder Include="Models\Model\Company\" />
+    <Folder Include="Areas\KKday\Models\DataModel\Company\" />
+    <Folder Include="Resources\" />
+    <Folder Include="Proxy\" />
+    <Folder Include="Areas\KKday\Models\DataModel\Account\" />
+    <Folder Include="wwwroot\lib\jquery-scrolling-tabs\" />
+    <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\" />
+    <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\" />
+    <Folder Include="wwwroot\lib\jquery-scrolling-tabs\dist\js\" />
+    <Folder Include="AppCode\DAL\ListPrice\" />
+    <Folder Include="Areas\KKday\Models\Repository\" />
+    <Folder Include="Models\Model\ListPrice\" />
+    <Folder Include="Models\Model\PriceSetting\" />
+    <Folder Include="wwwroot\lib\bootstrap-daterangepicker\" />
+    <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\" />
+    <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\js\" />
+    <Folder Include="wwwroot\lib\bootstrap-daterangepicker\dist\css\" />
+    <Folder Include="Areas\KKday\Views\FixedPrice\" />
+    <Folder Include="Models\Model\FixedPrice\" />
+    <Folder Include="AppCode\DAL\Voucher\" />
+    <Folder Include="Models\Model\Voucher\" />
+    <Folder Include="AppCode\DAL\FixedPrice\" />
+    <Folder Include="Models\Model\Package\" />
+    <Folder Include="Areas\KKday\Models\DataModel\FixedPrice\" />
+    <Folder Include="wwwroot\lib\bootstrap-select\" />
+    <Folder Include="wwwroot\lib\bootstrap-select\css\" />
+    <Folder Include="wwwroot\lib\bootstrap-select\js\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />
+    <Compile Remove="App_Code\MyUserClaimsPrincipalFactory.cs" />
+    <Compile Remove="Pages\Error\Index.cshtml.cs" />
+    <Compile Remove="Pages\Shared\Index.cshtml.cs" />
+    <Compile Remove="App_Code\ExceptionFilter.cs" />
+    <Compile Remove="Areas\KKday\Models\DataModel\CompLookup.cs" />
+    <Compile Remove="Models\Model\Common\ApplicationUser.cs" />
+    <Compile Remove="Models\Model\Common\EmptyClass.cs" />
+    <Compile Remove="Resources\Text.zh-TW.Designer.cs" />
+    <Compile Remove="Resources\Text.en-US.Designer.cs" />
+    <Compile Remove="AppCode\DAL\Promotion\DiscountDAL.cs" />
+    <Compile Remove="Areas\KKday\Models\DataModel\Account\B2dAccoutUpdModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Areas\User\Views\Home\Error.cshtml" />
+    <Content Remove="Pages\Error\Index.cshtml" />
+    <Content Remove="Pages\Shared\Index.cshtml" />
+    <Content Remove="wwwroot\images\Index.cshtml" />
+    <Content Remove="App_Data\Users.json" />
+    <Content Remove="Areas\KKday\Views\Company\CompanyEdit.cshtml" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\jquery.scrolling-tabs.js" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\jquery.scrolling-tabs.min.css" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.js" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.min.js" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.css" />
+    <Content Remove="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.min.css" />
+    <Content Remove="Areas\KKday\Views\Promotion\DiscountMstList.cshtml" />
+    <Content Remove="wwwroot\lib\jquery-datepicker\css\bootstrap-datepicker.min.css" />
+    <Content Remove="wwwroot\lib\jquery-datepicker\js\bootstrap-datepicker.min.js" />
+    <Content Remove="wwwroot\lib\jquery-datepicker\locales\bootstrap-datepicker.ar-tn.min.js" />
+    <Content Remove="wwwroot\lib\jquery-datepicker\locales\bootstrap-datepicker.az.min.js" />
+    <Content Remove="wwwroot\lib\jquery-datepicker\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Remove="wwwroot\lib\jquery-datepicker\locales\bootstrap-datepicker.bn.min.js" />
+    <Content Remove="wwwroot\lib\jquery-datepicker\locales\bootstrap-datepicker.br.min.js" />
+    <Content Remove="wwwroot\lib\jquery-datepicker\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\bootstrap-datepicker\css\bootstrap-datepicker.min.css" />
+    <Content Remove="wwwroot\lib\bootstrap-datetimepicker\js\bootstrap-datetimepicker.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datetimepicker\js\bootstrap-datetimepicker.min.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\js\bootstrap-datepicker.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker-en-CA.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ar-tn.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ar.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.az.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.bn.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.br.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.bs.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.da.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.de.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.el.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-AU.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-CA.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-GB.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-IE.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-NZ.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.en-ZA.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.eo.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.es.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.et.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.eu.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.fa.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.fi.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.fo.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.fr-CH.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.fr.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.gl.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.he.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.hi.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.hr.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.hu.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.hy.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.id.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.is.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.it-CH.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.it.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ja.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ka.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.kh.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.kk.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.km.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ko.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.kr.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.lt.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.lv.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.me.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.mk.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.mn.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ms.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl-BE.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.nl.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.no.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.oc.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.pl.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt-BR.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.pt.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ro.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs-latin.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.rs.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ru.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.si.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.sk.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.sl.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.sq.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.sr-latin.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.sr.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.sv.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.sw.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.ta.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.tg.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.th.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.tk.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.tr.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.uk.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.uz-cyrl.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.uz-latn.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.vi.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-CN.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\locales\bootstrap-datepicker.zh-TW.js" />
+    <Content Remove="wwwroot\lib\bootstrap-datepicker\js\bootstrap-datepicker.js" />
+    <Content Remove="Areas\KKday\Views\FixedPrice\CompanyList.cshtml" />
+    <Content Remove="Areas\KKday\Views\FixedPrice\Index.cshtml" />
+    <Content Remove="wwwroot\css\sidenav.css" />
+    <Content Remove="Areas\KKday\Views\Voucher\Index.cshtml" />
+    <Content Remove="Areas\KKday\Views\Company\VouchApply.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="Resources\KKday\Company\Index.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\KKday\.DS_Store" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.js" />
+    <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.min.js" />
+    <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.css" />
+    <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.min.css" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\Localizer.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Localizer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\Localizer.cs">
+      <DependentUpon>Localizer.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\Text.zh-TW.Designer.cs">
+      <DependentUpon>Text.zh-TW.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Text.en-US.Designer.cs">
+      <DependentUpon>Text.en-US.resx</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Text.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.zh-TW.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Text.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Text.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.zh-TW.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Text.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Resources\Text.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.en-US.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Condition=" '$(EnableDefaultEmbeddedResourceItems)' == 'true' " Update="Resources\Text.zh-TW.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Text.zh-TW.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>
 

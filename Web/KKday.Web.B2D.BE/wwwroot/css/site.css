@@ -7,6 +7,7 @@ body {
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
+ 
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
@@ -23,9 +24,33 @@ body {
     width: 100%;
 }
 
+.breadcrumb 
+{
+    background-color: transparent;
+}
+
 /* QR code generator */
 #qrCode {
     margin: 15px;
+}
+
+.no-padding {
+    padding-left:0;
+    padding-right:0;
+}
+
+.no-padding-left {
+    padding-left: 0; 
+}
+
+.no-padding-right { 
+    padding-right: 0;
+}
+
+.table td.fit,
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
 }
 
 /* Hide/rearrange for smaller screens */

@@ -20,14 +20,14 @@ namespace KKday.API.WMS.Models.Repository.Account
     public class AccountRepository
     {
 
-        public static JObject InsertUser(AccountModel model)
+        public static JObject RegisterIs4User(AccountModel model)
         {
             int count = 0;
 
             try
             {
 
-                count = AccountDAL.InsertUser(model);
+                count = AccountDAL.RegisterIs4User(model);
 
                 return JObject.Parse("{ \"result\":  \"0000\",\"result_msg\": \"OK\",\"count\":" + count.ToString() + "}");
             }
@@ -57,6 +57,30 @@ namespace KKday.API.WMS.Models.Repository.Account
 
             }
         }
+
+        #region 註冊新分銷商
+
+        public static RegisterRSModel RegisterAccount(RegisterRQModel reg)
+        {
+            RegisterRSModel rs = new RegisterRSModel();
+            try
+            {
+                if (reg.PASSWORD != null)
+                {
+                    reg.PASSWORD = Sha256Helper.Gethash(reg.PASSWORD);
+                    reg.USER_UUID = Guid.NewGuid().ToString();
+                    RegisterDAL.InsCompany(reg, ref rs);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return rs;
+        }
+
+        #endregion
 
     }
 }
