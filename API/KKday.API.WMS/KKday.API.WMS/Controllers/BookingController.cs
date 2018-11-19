@@ -255,7 +255,7 @@ namespace KKday.API.WMS.Controllers {
                 string orderOid = "";
                 returnStatus status = new returnStatus();
                 //要先判斷是不是result＝'0000'
-                if (order["content"]["result"].ToString()=="0000")
+                 if (order["content"]["result"].ToString()=="0000")
                 {
                     //orderMid = order["content"]["orderMid"].ToString();
                     //orderOid = order["content"]["orderOid"].ToString();
@@ -270,14 +270,14 @@ namespace KKday.API.WMS.Controllers {
                     //CallJsonPay2 rdsJson = (CallJsonPay2)status.pmchSslRequest.json;
                     //string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
                     //rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
-                    return order["content"]["result"].ToString();
+                    return order.ToString();
                 }
                 else 
                 {
                     Website.Instance.logger.Debug($"bookingStep1:qq");//要改
                     status.status = "Error";
                     status.msgErr = "error bookingSetp1_1";//要改
-                    return order["content"]["result"].ToString();
+                    return order.ToString();
                 }
 
             }
