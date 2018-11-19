@@ -107,28 +107,28 @@ namespace KKday.Web.B2D.BE.Models.Repository
                 prices.Add(new FixedPricePackageDtlEx()
                 {
                     PKG_SEQ_NO = _pkg_seq,
-                    PRICE_COND = "price_1",
+                    PRICE_COND = "price1",
                     PRICE = p.price1
                 });
 
                 prices.Add(new FixedPricePackageDtlEx()
                 {
                     PKG_SEQ_NO = _pkg_seq,
-                    PRICE_COND = "price_2",
+                    PRICE_COND = "price2",
                     PRICE = p.price2
                 });
 
                 prices.Add(new FixedPricePackageDtlEx()
                 {
                     PKG_SEQ_NO = _pkg_seq,
-                    PRICE_COND = "price_3",
+                    PRICE_COND = "price3",
                     PRICE = p.price3
                 });
 
                 prices.Add(new FixedPricePackageDtlEx()
                 {
                     PKG_SEQ_NO = _pkg_seq,
-                    PRICE_COND = "price_4",
+                    PRICE_COND = "price4",
                     PRICE = p.price4
                 });
 
