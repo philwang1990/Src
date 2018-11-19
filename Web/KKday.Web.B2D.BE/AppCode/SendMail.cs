@@ -108,6 +108,7 @@ public class SendMail
             smtp.EnableSsl = true;
             smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtp.UseDefaultCredentials = false;
+            smtp.Credentials= new NetworkCredential("b2b@mailgun.kkday.com", "iloveB2B");
             smtp.Send(mail);
         }
         catch (Exception ex)

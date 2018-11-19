@@ -192,8 +192,8 @@ WHERE xid=:xid ";
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("xid", account.XID),
                     new NpgsqlParameter("gender_title", account.GENDER_TITLE),
-                    new NpgsqlParameter("name_last", account.NAME_FIRST),
-                    new NpgsqlParameter("name_first", account.NAME_LAST),
+                    new NpgsqlParameter("name_last", account.NAME_LAST),
+                    new NpgsqlParameter("name_first", account.NAME_FIRST),
                     new NpgsqlParameter("account_type", account.USER_TYPE),
                     new NpgsqlParameter("enable", account.ENABLE),
                     new NpgsqlParameter("tel", account.TEL),
