@@ -6,15 +6,24 @@ using System.Net.Http;
 using KKday.API.WMS.Models.Search;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace KKday.API.WMS.AppCode.Proxy {
     public class SearchProxy {
+
+        /// <summary>
+        /// Gets the prod list.
+        /// </summary>
+        /// <returns>The prod list.</returns>
+        /// <param name="rq">Rq.</param>
+
         // 取得商品列表
-        public static DataSet GetProductAsync(SearchRQModel rq) {
+        public static JObject GetProdList(SearchRQModel rq) {
 
-            DataSet ds = new DataSet();
+            JObject jsonObj = new JObject();
 
-            var _uri = "https://api-search.sit.kkday.com/v1/search/prod/";
+            var _uri = Website.Instance.Configuration["URL:KK_SEARCH"];
+       
 
             try {
 
@@ -27,7 +36,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
 
                     using (var client = new HttpClient(handler)) {
 
-                        #region Uri with QueryStrings
+                        #region RQ
 
                         string today = DateTime.Now.ToString("yyyyMMdd");
 
@@ -48,6 +57,9 @@ namespace KKday.API.WMS.AppCode.Proxy {
                             ["footprint_id"] = rq.footprint_id ?? "",
                             ["ip"] = rq.ip ?? "",
                             ["multiprice_platform"] = rq.multiprice_platform ?? "01",
+
+                            ["company_xid"]= rq.company_xid ?? "" 
+
                         };
 
                         // ===> using Microsoft.AspNetCore.WebUtilities;
@@ -87,29 +99,37 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         }
 
 
-                        #endregion Uri with QueryStrings
+                        #endregion RQ
 
                         using (HttpRequestMessage request =
                                new HttpRequestMessage(HttpMethod.Get, _uri)) {
-                            request.Headers.Add("x-auth-key", "kkdaysearchapi_Rfd_fsg+x+TcJy");
+                            request.Headers.Add("x-auth-key", Website.Instance.Configuration["KEY:SEARCH_API"]);
 
                             var response = client.SendAsync(request).Result;
+
+                            //與API串接失敗 
+                            if (response.StatusCode.ToString() != "OK")
+                            {
+                                throw new Exception(response.Content.ReadAsStringAsync().Result);
+                            }
+
                             jsonResult = response.Content.ReadAsStringAsync().Result;
 
                         }
                     }
 
-                    var jsonObj = JsonConvert.DeserializeObject(jsonResult);
+                    jsonObj = JObject.Parse(jsonResult);
                 }
 
 
             } catch (Exception ex) {
+        
+                Website.Instance.logger.FatalFormat($"getPkg  Error :{ex.Message},{ex.StackTrace}");
 
                 throw ex;
-                // Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
-            }
+             }
 
-            return ds;
+            return jsonObj;
         }
     }
 }
