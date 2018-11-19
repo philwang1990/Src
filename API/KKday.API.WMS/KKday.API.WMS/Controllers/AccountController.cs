@@ -37,10 +37,10 @@ namespace KKday.API.WMS.Controllers {
 
 
         [HttpPost("InsertUser")]
-        public ActionResult InsertUser(AccountModel acct)
+        public ActionResult RegisterIs4User(AccountModel acct)
         {
 
-            return Content(AccountRepository.InsertUser(acct).ToString(), "application/json");
+            return Content(AccountRepository.RegisterIs4User(acct).ToString(), "application/json");
         }
 
 
@@ -49,6 +49,23 @@ namespace KKday.API.WMS.Controllers {
         {
 
             return Content(AccountRepository.UpdatetUser(acct).ToString(), "application/json");
+        }
+
+        [HttpPost("RegisterUser")]
+        public RegisterRSModel RegisterUser([FromBody]RegisterRQModel register)
+        {
+            RegisterRSModel status = new RegisterRSModel();
+
+            try
+            {
+                Website.Instance.logger.Info($"WMS RegisterUser Start! B2D email:{register.EMAIL},pwd:{register.PASSWORD}");
+                status = AccountRepository.RegisterAccount(register);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return status;
         }
 
     }

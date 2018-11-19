@@ -216,82 +216,82 @@ namespace KKday.API.WMS.Controllers {
         }
 
 
-        //[HttpPost("bookingStep1")]
-        //public String bookingStep1([FromBody]DataKKdayModel data)
-        //{
-        //    try
-        //    {
-        //        //重新決定排除的餐食-還沒有做
-        //        //'0002': ['0001', '0002', '0003', '0004', '0005', '0006'], //素食
-        //        //'0003': ['0002'], //猶太餐
-        //        //'0004': ['0002', '0005'] //穆斯林餐
+        [HttpPost("bookingStep1")]
+        public String bookingStep1([FromBody]DataKKdayModel data)
+        {
+            try
+            {
+                //重新決定排除的餐食-還沒有做
+                //'0002': ['0001', '0002', '0003', '0004', '0005', '0006'], //素食
+                //'0003': ['0002'], //猶太餐
+                //'0004': ['0002', '0005'] //穆斯林餐
 
-        //        ApiSetting api = new ApiSetting();
-        //        api.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
-        //        api.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
-        //        api.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
-        //        api.locale = "zh-tw";
-        //        api.currency = "TWD";
-        //        api.ipaddress = "61.216.90.96";
+                ApiSetting api = new ApiSetting();
+                api.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
+                api.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
+                api.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
+                api.locale = "zh-tw";
+                api.currency = "TWD";
+                api.ipaddress = "61.216.90.96";
 
-        //        //假分銷商
-        //        distributorInfo fakeContact = DataSettingRepository.fakeContact();
-        //        ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, data.productOid);
+                //假分銷商
+                distributorInfo fakeContact = DataSettingRepository.fakeContact();
+                ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, data.productOid);
 
-        //        //DataSettingRepostory Ores = new DataSettingRepostory();
-        //         //= DataSettingRepostory.fakeDataModel(data);
-        //        string q = JsonConvert.SerializeObject(data);
+                //DataSettingRepostory Ores = new DataSettingRepostory();
+                 //= DataSettingRepostory.fakeDataModel(data);
+                string q = JsonConvert.SerializeObject(data);
 
-        //        //轉 ordermodel
-        //        OrderRepository res = new OrderRepository();
-        //        OrderKKdayModel ord = res.setOrderModel(data);
-        //        api.json = ord;
+                //轉 ordermodel
+                OrderRepository res = new OrderRepository();
+                OrderKKdayModel ord = res.setOrderModel(data);
+                api.json = ord;
 
-        //        string qq = JsonConvert.SerializeObject(api);
-        //        KKapiHelper kk = new KKapiHelper();
-        //        JObject order =kk.crtOrder(api);
+                string qq = JsonConvert.SerializeObject(api);
+                KKapiHelper kk = new KKapiHelper();
+                JObject order =kk.crtOrder(api);
 
-        //        string orderMid = "";
-        //        string orderOid = "";
-        //        returnStatus status = new returnStatus();
-        //        //要先判斷是不是result＝'0000'
-        //        if (order["content"]["result"].ToString()=="0000")
-        //        {
-        //            orderMid = order["content"]["orderMid"].ToString();
-        //            orderOid = order["content"]["orderOid"].ToString();
-        //            status.pmchSslRequest = BookingRepository.setPaymentInfo2(prod,ord, orderMid);
-        //            status.status = "OK";
+                string orderMid = "";
+                string orderOid = "";
+                returnStatus status = new returnStatus();
+                //要先判斷是不是result＝'0000'
+                if (order["content"]["result"].ToString()=="0000")
+                {
+                    //orderMid = order["content"]["orderMid"].ToString();
+                    //orderOid = order["content"]["orderOid"].ToString();
+                    //status.pmchSslRequest = BookingRepository.setPaymentInfo2(prod,ord, orderMid);
+                    //status.status = "OK";
 
-        //            //要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
-        //            string memUuid = Website.Instance.Configuration["KKAPI_INPUT:JSON:MEMBER_UUID"];
-        //            BookingRepository.setPayDtltoRedis(ord, orderMid, memUuid);
+                    ////要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
+                    //string memUuid = Website.Instance.Configuration["KKAPI_INPUT:JSON:MEMBER_UUID"];
+                    //BookingRepository.setPayDtltoRedis(ord, orderMid, memUuid);
 
-        //            //要存redis 因為付款後要從這個redis內容再進行payment驗證,可和上面整合存一個就好
-        //            CallJsonPay2 rdsJson = (CallJsonPay2)status.pmchSslRequest.json;
-        //            string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
-        //            rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
-        //            return "true";
-        //        }
-        //        else 
-        //        {
-        //            Website.Instance.logger.Debug($"bookingStep1:qq");//要改
-        //            status.status = "Error";
-        //            status.msgErr = "error bookingSetp1_1";//要改
-        //            return "false";
-        //        }
+                    ////要存redis 因為付款後要從這個redis內容再進行payment驗證,可和上面整合存一個就好
+                    //CallJsonPay2 rdsJson = (CallJsonPay2)status.pmchSslRequest.json;
+                    //string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
+                    //rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
+                    return order["content"]["result"].ToString();
+                }
+                else 
+                {
+                    Website.Instance.logger.Debug($"bookingStep1:qq");//要改
+                    status.status = "Error";
+                    status.msgErr = "error bookingSetp1_1";//要改
+                    return order["content"]["result"].ToString();
+                }
 
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        //error
-        //        Website.Instance.logger.Debug($"bookingStep1:{ex.ToString()}");
-        //        returnStatus status = new returnStatus();
-        //        status.status = "Error";
-        //        status.msgErr = ex.ToString();//要改
+            }
+            catch (Exception ex)
+            {
+                //error
+                Website.Instance.logger.Debug($"bookingStep1:{ex.ToString()}");
+                returnStatus status = new returnStatus();
+                status.status = "Error";
+                status.msgErr = ex.ToString();//要改
 
-        //        return "false";
-        //    }
-        //}
+                return "false";
+            }
+        }
 
         [HttpPost("paymentList")]
         public string paymentList([FromBody]List<payTypeValue> payTypeList)
