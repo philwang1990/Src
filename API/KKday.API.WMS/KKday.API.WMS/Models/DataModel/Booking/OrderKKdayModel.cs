@@ -149,8 +149,8 @@ namespace KKday.API.WMS.Models.DataModel.Booking
     public class RentCarModules
     {
         //OMDL_RENT_CAR
-        public pickUpInfo_forCar pickup { get; set; } //取車營業所 
-        public dropOffInfo_forCar dropff { get; set; }//還車營業所
+        public pickUpInfo_forCar pickUp { get; set; } //取車營業所 
+        public dropOffInfo_forCar dropOff { get; set; }//還車營業所
         public Boolean? isNeedFreeWiFi { get; set; } //是否需要免費Wifi機
         public Boolean? isNeedFreeGPS { get; set; } //是否需要免費GPS
     }

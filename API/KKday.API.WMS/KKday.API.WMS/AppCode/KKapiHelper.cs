@@ -518,11 +518,12 @@ namespace KKday.API.WMS.AppCode
 
 
             //回覆要再確認是否是true !
-            var obj = JObject.Parse(result);
+            //var obj = JObject.Parse(result);
 
-            string isSuccess = obj["isSuccess"].ToString();
+            //string isSuccess = JsonConvert.SerializeObject(obj);
 
-            return isSuccess;
+            //return isSuccess;
+            return result;
         }
 
 

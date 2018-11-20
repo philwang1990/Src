@@ -242,7 +242,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             dt1.minute = data.modules.carRentingData.moduleData.pickUp.datetime.minute;// 40;
             p.datetime = dt1;
 
-            rm.pickup = p;
+            rm.pickUp = p;
 
             dropOffInfo_forCar d = new dropOffInfo_forCar();
             d.officeID = data.modules.carRentingData.moduleData.dropOff.officeID;//  null;
@@ -252,7 +252,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             dt1.minute = data.modules.carRentingData.moduleData.dropOff.datetime.minute;// null;
             d.datetime = dt1;
 
-            rm.dropff = d;
+            rm.dropOff = d;
             rm.isNeedFreeGPS = data.modules.carRentingData.moduleData.isNeedFreeGPS;
             rm.isNeedFreeWiFi = data.modules.carRentingData.moduleData.isNeedFreeWiFi;// null;
 
