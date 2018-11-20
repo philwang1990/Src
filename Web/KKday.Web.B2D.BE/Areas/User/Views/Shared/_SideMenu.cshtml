@@ -1,47 +1,50 @@
-﻿@using Resources
+﻿@using Microsoft.AspNetCore.Http
+@using KKday.Web.B2D.BE.App_Code
+@using Resources
 @inject ILocalizer localizer
 @{
+    var email = Context.Session.GetString("B2D_ACCOUNT_EMAIL");
+    var usertype = Context.Session.GetString("B2D_ACCOUNT_USERTYPE");
 }
 
-<div id="wrapper" data-spy="scroll" data-target="#spy" class="">
-    <!-- Sidebar -->
-    <div id="sidebar-wrapper" class="">
-        <nav id="spy">
-            <ul class="sidebar-nav nav">
-                <li class="sidebar-brand active">
-                    <a href="#home" class="">前往訂購</a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/User/Account")" data-scroll="" class="">
-                        <span>@localizer.Text.Title_MyProfile</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/User/Voucher")" data-scroll="" class="">
-                        <span>@localizer.Text.Title_AddVoucher</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/User/Order")" data-scroll="" class="">
-                        <span>@localizer.Text.Title_MyOrder</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/User/Account/Password")" data-scroll="" class="">
-                        <span>@localizer.Text.Title_ChangePassword</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/User/Account/WebUser")" data-scroll="" class="">
-                        <span>@localizer.Text.Title_WebUser</span>
-                    </a>
-                </li>
-                <li class="">
-                    <a href="@Url.Content("~/User/Account/ApiUser")" data-scroll="" class="">
-                        <span>@localizer.Text.Title_ApiUser</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+<aside class="page-aside">
+    <div class="aside-box">
+        <h4 class="title">Hello, @User.Identity.Name</h4>
+        <div class="critical-info">
+            <i class="icons icon-user"></i>
+            <b>@usertype</b>
+        </div>
+        <div class="critical-info">
+            <i class="icons icon-envelope"></i>
+            @email
+        </div>
+        <div class="critical-info">
+            <i class="icons icon-home"></i>
+            Agent
+        </div>
+        <a href="index.html" class="btn btn-primary btn-block mt-10"><i class="fa fa-shopping-cart"></i>前往購買</a>
     </div>
-</div>
+    <ul class="page-menu">
+        <li>
+            <a href="@Url.Content("~/User/Account")">@localizer.Text.Title_MyProfile</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Account/Password")">@localizer.Text.Title_ChangePassword</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Order")">@localizer.Text.Title_MyOrder</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Voucher")">@localizer.Text.Title_AddVoucher</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Account/WebUser")">@localizer.Text.Title_WebUser</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Account/ApiUser")">@localizer.Text.Title_ApiUser</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/Login/LogOutAsync")">Logout</a>
+        </li>
+    </ul>
+</aside>

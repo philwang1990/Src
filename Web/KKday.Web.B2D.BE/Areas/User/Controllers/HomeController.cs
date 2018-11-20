@@ -26,7 +26,10 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
         public IActionResult Index()
         { 
             var userId = User.Identity.Name;
-           
+            var aesUserData = User.FindFirst(ClaimTypes.UserData).Value;
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+            ViewData["UserData"] = UserData;
             return View();
         }
 

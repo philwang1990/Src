@@ -13,12 +13,14 @@ using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
 using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Models.Model.Common;
+using KKday.Web.B2D.BE.Filters;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace KKday.Web.B2D.BE.Areas.User.Controllers
 {
     [Area("User")]
+    [TypeFilter(typeof(CultureFilter))]
     public class LoginController : Controller
     {
         private IMemoryCache _cache;
@@ -73,8 +75,13 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
                  
                 if (!IsKKdayUser)
                 {
-                    HttpContext.Session.SetString("B2D_COMPANY_LOCALE", ((B2dAccount)account).LOCALE);
+                    HttpContext.Session.SetString("B2D_COMPANY_LOCALE",((B2dAccount)account).LOCALE);
                     HttpContext.Session.SetString("B2D_COMPANY_CURRENCY", ((B2dAccount)account).CURRENCY);
+                    HttpContext.Session.SetString("B2D_ACCOUNT_EMAIL", ((B2dAccount)account).EMAIL);
+
+                    if (((B2dAccount)account).USER_TYPE == "01") ((B2dAccount)account).USER_TYPE_DESC = "管理者";
+                    else ((B2dAccount)account).USER_TYPE_DESC = "一般使用者";
+                    HttpContext.Session.SetString("B2D_ACCOUNT_USERTYPE", ((B2dAccount)account).USER_TYPE_DESC);
                 }
 
                 jsonData.Add("status", "OK");
