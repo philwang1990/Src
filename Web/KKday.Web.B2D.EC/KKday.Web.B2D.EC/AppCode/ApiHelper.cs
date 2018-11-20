@@ -10,14 +10,15 @@ using System.Collections.Generic;
 using StackExchange.Redis;
 using KKday.Web.B2D.EC.Models.Model.Product;
 using KKday.Web.B2D.EC.Models.Model.Booking.api;
-
+using KKday.Web.B2D.EC.Models.Model.Pmch;
+using KKday.Web.B2D.EC.Models.Model.Booking;
 
 namespace KKday.Web.B2D.EC.AppCode
 {
     public static class ApiHelper
     {
-   
-        public static ProductModuleModel getProdModule(string B2dXid, string state, string lang, string currency, string prodoid, string pkgoid ,ProdTitleModel title )
+
+        public static ProductModuleModel getProdModule(string B2dXid, string state, string lang, string currency, string prodoid, string pkgoid, ProdTitleModel title)
         {
             try
             {
@@ -66,12 +67,12 @@ namespace KKday.Web.B2D.EC.AppCode
             }
             catch (Exception ex)
             {
+                Website.Instance.logger.Debug($"apiHelpler_getProdModule_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
                 throw new Exception(title.result_code_9990);
             }
-
         }
 
-        public static ProductforEcModel getProdDtl(string B2dXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
+        public static ProductforEcModel getProdDtl(string B2dXid, string state, string lang, string currency, string prodoid, ProdTitleModel title)
         {
             try
             {
@@ -118,8 +119,9 @@ namespace KKday.Web.B2D.EC.AppCode
                 return obj;
 
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Website.Instance.logger.Debug($"apiHelpler_getProdDtl_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
                 throw new Exception(title.result_code_9990);
             }
         }
@@ -171,13 +173,14 @@ namespace KKday.Web.B2D.EC.AppCode
 
                 return obj;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Website.Instance.logger.Debug($"apiHelpler_getProdPkg_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
                 throw new Exception(title.result_code_9990);
             }
         }
 
-        public static PkgEventsModel getPkgEvent(string B2dXid, string state, string lang, string currency, string prodoid, string pkgoid,ProdTitleModel title)
+        public static PkgEventsModel getPkgEvent(string B2dXid, string state, string lang, string currency, string prodoid, string pkgoid, ProdTitleModel title)
         {
             try
             {
@@ -224,12 +227,14 @@ namespace KKday.Web.B2D.EC.AppCode
 
                 return obj;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Website.Instance.logger.Debug($"apiHelpler_getPkgEvent_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
                 throw new Exception(title.result_code_9990);
             }
         }
 
+        //寫入b2b 訂單
         public static insB2dOrderResult insB2dOrder(B2dOrderModel orders, ProdTitleModel title)
         {
             try
@@ -270,20 +275,213 @@ namespace KKday.Web.B2D.EC.AppCode
             }
             catch (Exception ex)
             {
+                Website.Instance.logger.Debug($"apiHelpler_insB2dOrder_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
                 throw new Exception(title.result_code_9990);
             }
         }
 
+        //寫入kkday 訂單
+        public static JObject orderNew( DataModel data, ProdTitleModel title)
+        {
+            try
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+           delegate (object s, X509Certificate certificate,
+           X509Chain chain, SslPolicyErrors sslPolicyErrors)
+           { return true; };
 
-    }
+                var pathUrl = Website.Instance.Configuration["B2DApiUrl:apiUri"];
 
-    public  class  ApiRequest
-    {
-        public string company_xid { get; set; }
-        public string locale_lang { get; set; }
-        public string current_currency { get; set; }
-        public string prod_no { get; set; }
-        public string pkg_no { get; set; }
-        public string state { get; set; }
+                string result;
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{pathUrl}booking/bookingStep1");
+
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(data);
+
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+                var obj = JObject.Parse(result);
+
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.Debug($"apiHelpler_orderNew_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
+                throw new Exception(title.result_code_9990);
+            }
+        }
+
+        //PMCH List 要呈現在頁面上可以選擇的付款方式～
+        public static PmchLstResponse getPaymentListRes(List<Country> countries, string prodOid,
+                                   string bookinSdate, string bookingEdate, string goSdate, string goEdate,
+                                    string memCountryCd, string lang, string mainCat, string ip, string prodHander, string currency,ProdTitleModel title)
+        {
+
+            ServicePointManager.ServerCertificateValidationCallback =
+           delegate (object s, X509Certificate certificate,
+           X509Chain chain, SslPolicyErrors sslPolicyErrors)
+           {
+               return true;
+           };
+
+            try
+            {
+                //PmchSslRequest call = new PmchSslRequest();
+                //call.ipaddress = "192.168.1.1";
+                //call.apiKey = "kkdayapi";
+                //call.userOid = "1";
+                //call.ver = "1.0.1";
+
+                //CallJsonGetPayList j = new CallJsonGetPayList();
+
+                List<payTypeValue> conditionList = new List<payTypeValue>();
+
+                conditionList.Add(new payTypeValue() { type = "01", value = countries[0].id.Split('-')[0].ToString() }); //continent
+                conditionList.Add(new payTypeValue() { type = "02", value = countries[0].id }); //country
+
+                foreach (City c in countries[0].cities)
+                {
+
+                    conditionList.Add(new payTypeValue() { type = "03", value = c.id }); //city
+                }
+
+                conditionList.Add(new payTypeValue() { type = "04", value = prodOid }); //product_oid
+                conditionList.Add(new payTypeValue() { type = "05", value = bookinSdate }); //book_s_date 2018-10-23
+                conditionList.Add(new payTypeValue() { type = "06", value = bookingEdate }); //book_e_date 2018-10-23
+                conditionList.Add(new payTypeValue() { type = "07", value = goSdate }); //go_s_date 2018-10-23
+                conditionList.Add(new payTypeValue() { type = "08", value = goEdate }); //go_e_date  2018-10-23  
+                conditionList.Add(new payTypeValue() { type = "09", value = "member" }); //operator
+                conditionList.Add(new payTypeValue() { type = "10", value = memCountryCd }); //member_country
+                conditionList.Add(new payTypeValue() { type = "11", value = lang }); //web_lang
+                conditionList.Add(new payTypeValue() { type = "12", value = mainCat }); //main_cat
+                conditionList.Add(new payTypeValue() { type = "13", value = ip }); //ip_address
+                conditionList.Add(new payTypeValue() { type = "14", value = prodHander }); //order_handler
+                conditionList.Add(new payTypeValue() { type = "15", value = currency }); //分銷商幣別
+                conditionList.Add(new payTypeValue() { type = "16", value = "SAFARI" }); //browser
+                conditionList.Add(new payTypeValue() { type = "17", value = "Macintosh" }); //device
+                                                                                            //conditionList.Add(new payTypeValue() { type = "18", value = prodContinent }); //system 不知給什麼
+                conditionList.Add(new payTypeValue() { type = "19", value = "B2D_WEB" }); //source_code
+
+                //j.conditionList = conditionList;
+                //call.json = j;
+
+                string result;
+                var pathUrl = Website.Instance.Configuration["B2DApiUrl:apiUri"];
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{pathUrl}Booking/paymentList"); ;
+
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(conditionList);
+
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+
+                }
+
+                PmchLstResponse pmchList = JsonConvert.DeserializeObject<PmchLstResponse>(result);
+
+                if(pmchList.isSuccess==false)
+                {
+                    throw new Exception("no pmch List");
+                }
+
+                return pmchList;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.Debug($"apiHelpler_getPaymentListRes_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
+                if (ex.Message.ToString().Equals("no pmch List"))
+                {
+                    throw new Exception("no pmch List");
+                }
+                else 
+                {
+                    throw new Exception(title.result_code_9990);
+                }
+            }
+        }
+
+
+        //PaymentValid
+        public static Boolean PaymentValid(string id,string jsondata)
+        {
+            try
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+           delegate (object s, X509Certificate certificate,
+           X509Chain chain, SslPolicyErrors sslPolicyErrors)
+           { return true; };
+
+                var pathUrl = Website.Instance.Configuration["B2DApiUrl:apiUri"];
+
+                string result;
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{pathUrl}Final/Step3?mid="+id+"&jsondata="+ jsondata);
+
+                httpWebRequest.ContentType = "application/x-www-form-urlencoded";
+                httpWebRequest.Method = "GET";
+
+                //using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                //{
+                //    string json = JsonConvert.SerializeObject(data);
+
+                //    streamWriter.Write(json);
+                //    streamWriter.Flush();
+                //    streamWriter.Close();
+                //}
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+                //var obj = JObject.Parse(result);
+
+                return Convert.ToBoolean(result);
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.Debug($"apiHelpler_PaymentValid_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
+                return  false;
+            }
+
+        }
+
+
+        public class ApiRequest
+        {
+            public string company_xid { get; set; }
+            public string locale_lang { get; set; }
+            public string current_currency { get; set; }
+            public string prod_no { get; set; }
+            public string pkg_no { get; set; }
+            public string state { get; set; }
+        }
     }
 }

@@ -80,6 +80,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string status { get; set; }
         public string jsonStr { get; set; }
         public string msgErr { get; set; }
+        public string url { get; set; }
         //public PmchSslRequest pmchSslRequest { get; set; }
         public PmchSslRequest3 pmchSslRequest { get; set; }
 
