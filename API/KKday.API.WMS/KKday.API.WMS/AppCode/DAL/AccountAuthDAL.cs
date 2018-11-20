@@ -34,6 +34,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
 
                     _account = new KKdayAccount()
                     {
+                        ACCOUNT_TYPE= "KKdayAccount",
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
                         EMAIL = dr.ToStringEx("email"),
@@ -74,6 +75,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
 
                         _account = new B2dAccount()
                         {
+                            ACCOUNT_TYPE = "B2dAccount",
                             XID = dr.ToInt64("xid"),
                             UUID = dr.ToStringEx("user_uuid"),
                             EMAIL = dr.ToStringEx("email"),
@@ -111,6 +113,7 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
 
                         _account = new B2dAccount()
                         {
+                            ACCOUNT_TYPE = "B2dAccount",
                             XID = dr.ToInt64("xid"),
                             UUID = dr.ToStringEx("user_uuid"),
                             EMAIL = dr.ToStringEx("email"),
