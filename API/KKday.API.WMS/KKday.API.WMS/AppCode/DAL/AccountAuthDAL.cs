@@ -58,7 +58,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                 {
                     sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
  a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
- b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency
+ b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, a.account_type
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status='03' --已核准
 WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
@@ -90,7 +90,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                             GENDER_TITLE = dr.ToStringEx("gender_title"),
                             JOB_TITLE = dr.ToStringEx("job_title"),
                             CURRENCY = dr.ToStringEx("currency"),
-                            LOCALE = dr.ToStringEx("locale")
+                            LOCALE = dr.ToStringEx("locale"),
+                            USER_TYPE = dr.ToStringEx("account_type")
                         };
                         _account.ACCOUNT_TYPE = "B2dAccount";
                         _account.ACCOUNT = info;
@@ -101,7 +102,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                     {
                         sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
  a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
- b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency
+ b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, a.account_type
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status!='03' --除了已核准外
 WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
@@ -125,7 +126,8 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                                 ENABLE = dr.ToBoolean("enable"),
                                 COMPANY_XID = dr.ToInt32("comp_xid"),
                                 CURRENCY = "",
-                                LOCALE = ""
+                                LOCALE = "",
+                                USER_TYPE = dr.ToStringEx("account_type")
                             };
 
                             _account.ACCOUNT_TYPE = "B2dAccount";
