@@ -408,6 +408,12 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string common_invalid_market_title { get; set; } //此商品不支援你所選的瀏覽語言
         public string common_invalid_order { get; set; } //訂單已失效，請重新訂購。error
 
+        public string common_payway { get; set; } //付款方式
+        public string booking_step1_by_credit_card { get; set; } //信用卡付款
+        public string booking_step1_citi_info { get; set; } //其他說明：持台灣發卡銀行的信用卡刷卡，不需加收國外交易手續費
+        public string booking_step1_need_to_know_before_payment { get; set; } //親愛的旅人，在確認付款前請確認您已經知道我們的
+
+
         //Index
         public string home_index2_btn_go { get; set; } //你要去哪裡？
         public string common_type_to_search { get; set; } //輸入城市、景點、體驗行程或活動名稱...

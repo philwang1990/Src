@@ -39,7 +39,7 @@
     <!--Intel Tel-->
     <script src="~/js/intlTelInput.min.js"></script>
     <script src="~/js/booking.kkday.js"></script>
-
+    <script src="~/js/jquery.payment.js"></script>
     <script type="text/javascript">
 
         var dataModel;
@@ -210,7 +210,9 @@
                 </div>
             </div>
                 <div class="board" id="board3">
-                    @await Html.PartialAsync("_payment")
+
+                         @await Html.PartialAsync("_payment")
+                     
                 </div>
             </div>
         </div>
