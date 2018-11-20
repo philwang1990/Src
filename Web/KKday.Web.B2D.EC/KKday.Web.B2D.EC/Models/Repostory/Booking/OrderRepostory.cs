@@ -1,6 +1,9 @@
 ﻿using System;
 using KKday.Web.B2D.EC.Models.Model.Booking;
 using System.Collections.Generic;
+using KKday.Web.B2D.EC.Models.Model.Pmch;
+using KKday.Web.B2D.EC.Models.Model.Product;
+
 namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 {
     public class OrderRepostory
@@ -10,7 +13,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
         }
 
 
-        public OrderModel setOrderModel(DataModel data)
+        public OrderModel setOrderModel(DataModel data,Pmgw pmgw,ProdTitleModel title)
         {
             OrderModel book = new OrderModel();
 
@@ -88,48 +91,46 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 
             Pmch pmchObj = new Pmch();
 
-            pmchObj.pmchOid = "1";
-            pmchObj.pmchCode = "CITI_CREDITCARD";
-            pmchObj.pmchPayURL = "citi/payment/auth";
-            pmchObj.is3D = "0";
-            pmchObj.acctdocReceiveMethod = "ONLINE_CITI";
+            pmchObj.pmchOid = pmgw.pmchOid;
+            pmchObj.pmchCode = pmgw.pmchCode;// "CITI_CREDITCARD";
+            pmchObj.pmchPayURL = pmgw.pmchPayURL;//   "citi/payment/auth";
+            pmchObj.is3D = pmgw.is3D;// "0";
+            pmchObj.acctdocReceiveMethod = pmgw.acctdocReceiveMethod;// "ONLINE_CITI";
 
             InterfaceSetting interSetting = new InterfaceSetting();
-            interSetting.isNeedCardInput = "true";
+            interSetting.isNeedCardInput = pmgw.interfaceSetting.isNeedCardInput;
 
             List<LogoList> loglList = new List<LogoList>();
-            LogoList logo = new LogoList();
-            logo.logoName = "JCB";
-            logo.logoUrl = "JCB_URL";
-            loglList.Add(logo);
 
-            logo = new LogoList();
-            logo.logoName = "MASTER";
-            logo.logoUrl = "MASTER_URL";
-            loglList.Add(logo);
-
-            logo = new LogoList();
-            logo.logoName = "VISA";
-            logo.logoUrl = "VISA_URL";
-            loglList.Add(logo);
-
+            foreach( LogoList2 l in pmgw.interfaceSetting.logoList)
+            {
+                LogoList logo = new LogoList();
+                logo.logoName = l.logoName;
+                logo.logoUrl = l.logoUrl;
+                loglList.Add(logo);
+            }
             interSetting.logoList = loglList;
 
             List<string> acceptedCardTypeListStr = new List<string>();
-            acceptedCardTypeListStr.Add("MASTERCARD");
-            acceptedCardTypeListStr.Add("JCB");
-            acceptedCardTypeListStr.Add("VISA");
+
+            foreach(string a in pmgw.interfaceSetting.acceptedCardTypeList)
+            {
+                acceptedCardTypeListStr.Add(a);
+            }
             interSetting.acceptedCardTypeList = acceptedCardTypeListStr;
 
-            interSetting.acceptedCurrency = "TWD";
+            interSetting.acceptedCurrency =pmgw.interfaceSetting.acceptedCurrency;
 
             List<string> otherInfoList = new List<string>();
-            otherInfoList.Add("01");
+            foreach (string o in pmgw.interfaceSetting.otherInfoList)
+            {
+                otherInfoList.Add(o);
+            }
 
             interSetting.otherInfoList = otherInfoList;
 
             pmchObj.interfaceSetting = interSetting;
-            pmchObj.title = "信用卡付款";
+            pmchObj.title = title.payment_pmch_name_CITI_CREDITCARD;//信用卡付款
             pmchObj.bg_class = null;
             List<string> card_classList = new List<string>();
             card_classList.Add("jcb_logo");

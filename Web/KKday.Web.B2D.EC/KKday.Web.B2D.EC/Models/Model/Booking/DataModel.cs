@@ -63,6 +63,12 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public List<CusDataInfo> travelerData { get; set; }
         public modulesData modules { get; set; }
 
+
+        public DataModel Clone()
+        {
+            return (DataModel)this.MemberwiseClone();
+        }
+
     }
 
 
