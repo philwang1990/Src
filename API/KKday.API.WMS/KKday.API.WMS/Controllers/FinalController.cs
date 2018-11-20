@@ -26,9 +26,9 @@ namespace KKday.API.WMS.Controllers
             return View();
         }
 
-        [HttpGet("PaymentValid")]
+        [HttpGet("Step3")]
         //付款後導回
-        public String PaymentValid(string mid,string jsondata)
+        public String Step3(string mid,string jsondata)
         {
             //回傳的連結有訂編 (記log)
             //透過訂編將redis 的資料抓回送出去的資料
