@@ -6,6 +6,10 @@ namespace KKday.API.WMS.Models.DataModel.User
         public B2dAccountModel()
         {
         }
+        public string result { get; set; }
+        public string result_msg { get; set; }
+        public string ACCOUNT_TYPE { get; set; } //使用者登入類型 KKDAY or B2D
+        public UserAccount ACCOUNT { get; set; }
     }
 
 
@@ -16,10 +20,7 @@ namespace KKday.API.WMS.Models.DataModel.User
     [Serializable]
     public class UserAccount
     {
-        public string result { get; set; }
-        public string result_msg { get; set; }
-
-        public string ACCOUNT_TYPE { get; set; } //使用者登入類型 KKDAY or B2D
+       
         public Int64 XID { get; set; }   //帳號流水號
         public string UUID { get; set; }   //會員識別流水號 
         public string EMAIL { get; set; }  //電子郵件信箱(帳號)

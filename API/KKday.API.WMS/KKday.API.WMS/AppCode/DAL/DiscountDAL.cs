@@ -81,9 +81,9 @@ FROM (
    GROUP BY A.xid
 )DISC
 INNER JOIN b2b.b2d_discount_mst MST ON DISC.mst_xid = MST.xid
-LEFT JOIN b2b.b2d_comp_disc_map MAPP ON  MST.xid = MAPP.disc_mst_xid
+LEFT JOIN b2b.b2d_discount_company_map MAPP ON  MST.xid = MAPP.disc_mst_xid
 LEFT JOIN b2b.b2d_company COMP ON MAPP.company_xid = COMP.xid
-LEFT JOIN b2b.b2d_discount_curr_amt AMT ON MAPP.disc_mst_xid = AMT.mst_xid AND AMT.currency = :COMPANY_CURRENCY
+LEFT JOIN b2b.b2d_discount_currency_amount AMT ON MAPP.disc_mst_xid = AMT.mst_xid AND AMT.currency = :COMPANY_CURRENCY
 WHERE  1=1
 AND  TO_DATE(TO_CHAR(current_date,'YYYY-MM-dd'),'YYYY-MM-dd') BETWEEN MST.S_DATE AND MST.E_DATE  AND MST.status='01'
 AND MAPP.company_xid = :COMPANY_XID
@@ -123,10 +123,10 @@ ORDER BY mst.xid";
             try
             {
                 String sql = @"SELECT a.prod_no,b.pkg_no,c.price_cond,c.price
-FROM b2b.b2d_fixedprice_prod a 
-LEFT JOIN b2b.b2d_fixedprice_prod_pkg b ON b.prod_xid = a.xid
-LEFT JOIN b2b.b2d_fixedprice_pkg_price c ON b.xid = c.pkg_xid
-WHERE a.company_xid = :COMPANY_XID AND a.prod_no=:PROD_NO ";
+FROM b2b.b2d_fixedprice_product a 
+LEFT JOIN b2b.b2d_fixedprice_product_package b ON b.prod_xid = a.xid
+LEFT JOIN b2b.b2d_fixedprice_package_price c ON b.xid = c.pkg_xid
+WHERE a.company_xid = :COMPANY_XID AND a.prod_no=:PROD_NO AND now() BETWEEN online_sdate AND online_edate";
 
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {

@@ -108,12 +108,12 @@ namespace KKday.API.WMS.Models.Repository {
 
         #region 使用者認證 Authentication
 
-        public static UserAccount AuthAccount(string email, string password)
+        public static B2dAccountModel AuthAccount(string email, string password)
         {
             // 檢查登入者身分
-            UserAccount account = AccountAuthDAL.UserAuth(email, Sha256Helper.Gethash(password));
+            B2dAccountModel account = AccountAuthDAL.UserAuth(email, Sha256Helper.Gethash(password));
             // 若無效身分則送出登入異常
-            if (!(account is KKdayAccount) && !(account is B2dAccount))
+            if (account.ACCOUNT is null)
             {
                 //若帳密有誤 僅傳送錯誤代碼 
                 account.result = "03";
@@ -124,12 +124,12 @@ namespace KKday.API.WMS.Models.Repository {
             return account;
         }
 
-        public static UserAccount AuthApiAccount(string email)
+        public static B2dAccountModel AuthApiAccount(string email)
         {
             // 檢查登入者身分
-            UserAccount account = AccountAuthDAL.UserApiAuth(email);
+            B2dAccountModel account = AccountAuthDAL.UserApiAuth(email);
             // 若無效身分則送出登入異常
-            if (!(account is B2dAccount))
+            if (account is null)
             {
                 //若帳密有誤 僅傳送錯誤代碼 
                 account.result = "03";

@@ -6,10 +6,11 @@ namespace KKday.API.WMS.AppCode.DAL
 {
     public class AccountAuthDAL
     {
-        public static UserAccount UserAuth(string email, string password)
+        public static B2dAccountModel UserAuth(string email, string password)
         {
             Npgsql.NpgsqlConnection conn = new Npgsql.NpgsqlConnection(Website.Instance.B2D_DB);
-            UserAccount _account = null;
+            UserAccount info = null;
+            B2dAccountModel _account = new B2dAccountModel();
 
             try
             {
@@ -32,9 +33,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
 
-                    _account = new KKdayAccount()
+                    info = new KKdayAccount()
                     {
-                        ACCOUNT_TYPE= "KKdayAccount",
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
                         EMAIL = dr.ToStringEx("email"),
@@ -50,6 +50,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                         LOCALE = dr.ToStringEx("locale")
 
                     };
+                    _account.ACCOUNT_TYPE = "KKdayAccount";
+                    _account.ACCOUNT = info;
                 }
                 // 檢查是否為分銷商有效使用者
                 else
@@ -73,9 +75,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                     {
                         DataRow dr = ds.Tables[0].Rows[0];
 
-                        _account = new B2dAccount()
+                        info = new B2dAccount()
                         {
-                            ACCOUNT_TYPE = "B2dAccount",
                             XID = dr.ToInt64("xid"),
                             UUID = dr.ToStringEx("user_uuid"),
                             EMAIL = dr.ToStringEx("email"),
@@ -91,6 +92,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                             CURRENCY = dr.ToStringEx("currency"),
                             LOCALE = dr.ToStringEx("locale")
                         };
+                        _account.ACCOUNT_TYPE = "B2dAccount";
+                        _account.ACCOUNT = info;
                     }
 
                     //待審中分銷商登入
@@ -109,22 +112,31 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                     };
 
                         ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, sqlParams);
-                        DataRow dr = ds.Tables[0].Rows[0];
 
-                        _account = new B2dAccount()
+                        if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                         {
-                            ACCOUNT_TYPE = "B2dAccount",
-                            XID = dr.ToInt64("xid"),
-                            UUID = dr.ToStringEx("user_uuid"),
-                            EMAIL = dr.ToStringEx("email"),
-                            NAME = dr.ToStringEx("name"),
-                            ENABLE = dr.ToBoolean("enable"),
-                            COMPANY_XID = dr.ToInt32("comp_xid"),
-                            CURRENCY = "",
-                            LOCALE = ""
-                        };
+                            DataRow dr = ds.Tables[0].Rows[0];
+                            info = new B2dAccount()
+                            {
+                                XID = dr.ToInt64("xid"),
+                                UUID = dr.ToStringEx("user_uuid"),
+                                EMAIL = dr.ToStringEx("email"),
+                                NAME = dr.ToStringEx("name"),
+                                ENABLE = dr.ToBoolean("enable"),
+                                COMPANY_XID = dr.ToInt32("comp_xid"),
+                                CURRENCY = "",
+                                LOCALE = ""
+                            };
+
+                            _account.ACCOUNT_TYPE = "B2dAccount";
+                            _account.ACCOUNT = info;
+                        }
+                            
                     }
                 }
+
+                _account.result = "00";
+                _account.result_msg = "Correct";
 
                 conn.Close();
             }
@@ -139,10 +151,12 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
         }
 
         //B2D API分銷商
-        public static UserAccount UserApiAuth(string email)
+        public static B2dAccountModel UserApiAuth(string email)
         {
             Npgsql.NpgsqlConnection conn = new Npgsql.NpgsqlConnection(Website.Instance.B2D_DB);
-            UserAccount _account = null;
+            UserAccount info = null;
+            B2dAccountModel _account = new B2dAccountModel();
+
 
             try
             {
@@ -168,11 +182,8 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
 
-                    _account = new B2dAccount()
+                    info = new B2dAccount()
                     {
-                        result = "00",
-                        result_msg = "OK",
-                        ACCOUNT_TYPE = "API",
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
                         EMAIL = dr.ToStringEx("email"),
@@ -190,7 +201,11 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
 
                     };
                 }
-               
+                _account.result = "00";
+                _account.result_msg = "Correct";
+                _account.ACCOUNT_TYPE = "ApiAccount";
+                _account.ACCOUNT = info;
+
                 conn.Close();
             }
             catch (Exception ex)
