@@ -82,10 +82,10 @@ namespace KKday.API.WMS.Controllers {
         /// <returns>The API user.</returns>
         /// <param name="email">Email.</param>
         [HttpGet("AuthApiUser")]
-        public UserAccount AuthApiUser(string email)
+        public B2dAccountModel AuthApiUser(string email)
         {
 
-            UserAccount ApiUser = new UserAccount();
+            B2dAccountModel ApiUser = new B2dAccountModel();
 
             try
             {
@@ -96,7 +96,8 @@ namespace KKday.API.WMS.Controllers {
             }
             catch (Exception ex)
             {
-                throw ex;
+                ApiUser.result = "10";
+                ApiUser.result_msg = "system error:" + ex.Message;
             }
             return ApiUser;
         }
@@ -146,10 +147,10 @@ namespace KKday.API.WMS.Controllers {
         //}
 
         [HttpGet("AuthUser")]
-        public UserAccount AuthUser(string email, string password)
+        public B2dAccountModel AuthUser(string email, string password)
         {
 
-            UserAccount user = new UserAccount();
+            B2dAccountModel user = new B2dAccountModel();
 
             try
             {
@@ -158,7 +159,9 @@ namespace KKday.API.WMS.Controllers {
             }
             catch (Exception ex)
             {
-                throw ex;
+                user.result = "10";
+                user.result_msg = "system error:" + ex.Message;
+
             }
             return user;
         }
