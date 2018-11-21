@@ -4,55 +4,36 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using KKday.Web.B2D.EC.Models;
-using KKday.Web.B2D.EC.Models.Model.Booking;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
-using KKday.Web.B2D.EC.Models.Repostory.Booking;
-using Microsoft.Extensions.Caching.Memory;
-using KKday.Web.B2D.EC.Models.Model.Pmch;
+using KKday.SearchProd.Models;
 
-namespace KKday.Web.B2D.EC.Controllers
+using KKday.API.WMS.Models.DataModel.Product;
+using KKday.SearchProd.Models.Model;
+using KKday.SearchProd.Models.Repostory;
+using KKday.Web.B2D.EC.Models;
+using KKday.Web.B2D.EC.AppCode;
+using KKday.Web.B2D.EC.Models.Model.Booking;
+using KKday.Web.B2D.EC.Models.Repostory.Booking;
+using KKday.Web.B2D.EC.Models.Model.Product;
+using Newtonsoft.Json;
+
+namespace KKday.SearchProd.Controllers
 {
     public class HomeController : Controller
     {
-        private static IMemoryCache _memoryCache;
-
-        public HomeController(IMemoryCache memoryCache)
-        {
-            _memoryCache = memoryCache;
-        }
-
-
         public IActionResult Index()
         {
-            var dd = Request.HttpContext.Connection.RemoteIpAddress;
+            var countries = CountryRepostory.GetCountries();
 
-            //string dd = GibberishAES.OpenSSLEncrypt("4093240835103617", "card%no$kk#@");
+            //假分銷商
+            distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
-            //string dd = GibberishAES.OpenSSLDecrypt("U2FsdGVkX18unCee5VKYXzSO56iLi3inWiLxOoZGLEY=","pmgw@%#@trans*no");
+            Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+            ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
-            //PmchSslReq pmch = new PmchSslReq();
 
-            //pmch.isSuccess = true;
-            //pmch.errorCode = "";
-            //pmch.errorMsg = "";
-            //pmch.pmgwTransNo = "PMGW000000000";
-            //pmch.pmgwMethod = "AUTH";
-            //pmch.transactionCode = "76767";
-            //pmch.payCurrency = "TWD";
-            //pmch.payAmount = 210;
-            //pmch.is3D = false;
-            //PmchSslMemberInfo mem = new PmchSslMemberInfo();
-            //mem.encodeCardNo = "3337";
-            //pmch.memberInfo = mem;
-            //pmch.isFraud = "0";
-            //pmch.riskNote = "";
+            ViewData["prodTitle"] = title;
 
-            //string d = JsonConvert.SerializeObject(pmch);
-
-            return View();
+            return View(countries);
         }
 
         public IActionResult About()
@@ -80,5 +61,4 @@ namespace KKday.Web.B2D.EC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-
 }

@@ -406,7 +406,70 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public string errorpage_index_check_here { get; set; }
         public string common_invalid_info { get; set; } //invalid URL or address.
         public string common_invalid_market_title { get; set; } //此商品不支援你所選的瀏覽語言
-        public string common_invalid_order { get; set; } //訂單已失效，請重新訂購。
+        public string common_invalid_order { get; set; } //訂單已失效，請重新訂購。error
+
+        public string common_payway { get; set; } //付款方式
+        public string booking_step1_by_credit_card { get; set; } //信用卡付款
+        public string booking_step1_citi_info { get; set; } //其他說明：持台灣發卡銀行的信用卡刷卡，不需加收國外交易手續費
+        public string booking_step1_need_to_know_before_payment { get; set; } //親愛的旅人，在確認付款前請確認您已經知道我們的
+
+
+        //Index
+        public string home_index2_btn_go { get; set; } //你要去哪裡？
+        public string common_type_to_search { get; set; } //輸入城市、景點、體驗行程或活動名稱...
+        public string common_popular_destinations_title { get; set; } //熱門目的地
+
+        //ProdList
+        public string product_productlist_filter_by_availability { get; set; } //篩選出發日期
+        public string product_productlist_select_date_range { get; set; } //選擇日期範圍
+        public string product_productlist_all_search_cat { get; set; } //所有商品類別
+        public string product_productlist_budget { get; set; } //價錢
+        public string product_productlist_duration { get; set; } //行程時間
+        public string product_productlist_hours { get; set; } //小時
+        public string product_productlist_days { get; set; } //日
+        public string product_productlist_day_more { get; set; } //日以上
+        public string product_productlist_guide_lang { get; set; } //導覽語言
+        public string product_productlist_all_guide_lang { get; set; } //全部
+        public string common_affiliate_index { get; set; } //首頁
+        public string product_productlist_experiences_found { get; set; } //項體驗行程
+        public string common_sort_title { get; set; } //排序
+        public string product_productlist_hot_high_to_low { get; set; } //KKday 推薦
+        public string product_productlist_hot_sort_title { get; set; } //熱門程度
+        public string product_productlist_score_high_to_low { get; set; } //評分: 高至低
+        public string product_productlist_price_low_to_high { get; set; } //價格：低 到 高
+        public string common_hours { get; set; } //小時
+        public string common_booked { get; set; } //個已訂購
+
+        //Header
+        public string common_selected_country { get; set; } //現在選擇國家
+        public string common_all_country { get; set; } //所有國家
+        public string common_btn_login { get; set; } //登入
+        public string common_btn_signup { get; set; } //註冊
+        public string common_log_in_kkday { get; set; } //登入KKday
+        public string common_login_sns { get; set; } //使用第三方帳戶登入
+        public string common_or { get; set; } //或
+        public string common_kkdayuser_login_title { get; set; } //KKday會員帳號登入
+        public string common_btn_forget_my_password { get; set; } //忘記密碼?
+        public string common_register_in_kkday { get; set; } //免費註冊
+        public string common_cw_login { get; set; } //企業會員登入
+
+        //Footer
+        public string common_know_kkday { get; set; } //認識KKday
+        public string common_who_we_are { get; set; } //關於KKday
+        public string common_terms_and_privacy { get; set; } //服務條款與隱私聲明
+        public string common_help { get; set; } //常見問題與幫助
+        public string common_media_report { get; set; } //媒體報導
+        public string common_for_travellers { get; set; } //給旅人
+        public string common_promise { get; set; } //三大保證
+        public string common_classic_ticket { get; set; } //合作夥伴
+        public string common_kkday_blog { get; set; } //官方部落格
+        public string common_for_partner { get; set; } //KKday 合作夥伴
+        public string common_be_partner { get; set; } //成為我們的夥伴
+        public string common_be_affiliate { get; set; } //聯盟行銷
+        public string common_job { get; set; } //工作機會
+        public string common_blogger_cooperative { get; set; } //部落客/攝影師合作計畫
+        public string common_be_corporator { get; set; } //企業福委旅遊合作
+        public string common_contact_us { get; set; } //聯絡我們
 
     }
 

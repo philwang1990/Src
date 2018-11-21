@@ -29,6 +29,8 @@ public sealed class Website
     public IServiceProvider ServiceProvider { get; private set; }
     public readonly ILog logger = LogManager.GetLogger(typeof(Website));
 
+    public string SqlConnectionString { get; private set; }
+    public string AesCryptKey { get; private set; }
     // 主機站台識別
     private string _stationID;
     public string StationID
@@ -55,6 +57,11 @@ public sealed class Website
         LoadLog4netConfig();
 
         logger.Debug("StartUp....!");
+
+        // 建立資料庫連線
+        this.SqlConnectionString = config["NPGSQL_Connection"];
+        // AES加解密專用Key
+        this.AesCryptKey = config["AesCryptKey"];
     }
 
     private void LoadLog4netConfig()
