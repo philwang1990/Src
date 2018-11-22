@@ -61,6 +61,7 @@ namespace KKday.API.WMS.Models.DataModel.User
         public string TEL_AREA { get; set; } // [顯示用] 國碼
         public string TEL { get; set; } //聯絡電話
         public string CURRENCY { get; set; } //幣別
-
+        public string COUNRTY_CODE { get; set; } //國碼
+        public Int64 KKDAY_CHANNEL_OID { get; set; } //Channel_oid
     }
 }

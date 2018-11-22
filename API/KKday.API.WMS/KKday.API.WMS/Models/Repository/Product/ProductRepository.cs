@@ -616,7 +616,8 @@ namespace KKday.API.WMS.Models.Repository.Product
                                 is_provided = (bool)x["isProvided"],
                                 meal_type = (string)x["mealType"],
                                 meal_type_name = (string)x["mealTypeName"]
-                            }).ToList();
+                        }).OrderBy(y =>y.meal_type).ToList();
+
                         ex.is_exclude = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["meal"]["options"]["excludeFood"]["isExcluded"];
                         ex.food_list = !ex.is_exclude ? null : ((JArray)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["meal"]["options"]["excludeFood"]["foods"])
                             .Select(x => new Food
@@ -632,9 +633,9 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                         GlassDiopter glass = new GlassDiopter();
                         glass.is_require = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["glassDiopter"]["isRequired"];
-                        glass.diopter_range_start = (string)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["glassDiopter"]["diopterRangeStart"];
-                        glass.diopter_range_end = (string)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["glassDiopter"]["diopterRangeEnd"];
-                        cus.glass_dopter = glass;
+                        glass.degree_range_start = (string)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["glassDiopter"]["diopterRangeStart"];
+                        glass.degree_range_end = (string)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["glassDiopter"]["diopterRangeEnd"];
+                        cus.glass_degree = glass;
 
                         module.module_cust_data = cus;
                     }

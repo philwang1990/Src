@@ -116,7 +116,7 @@ namespace KKday.API.WMS.Models.Repository {
             if (account.ACCOUNT is null)
             {
                 //若帳密有誤 僅傳送錯誤代碼 
-                account.result = "03";
+                account.result = "02";
                 account.result_msg = "Invalid User Login";
 
             }
@@ -132,7 +132,7 @@ namespace KKday.API.WMS.Models.Repository {
             if (account is null)
             {
                 //若帳密有誤 僅傳送錯誤代碼 
-                account.result = "03";
+                account.result = "02";
                 account.result_msg = "Invalid User Login";
 
             }
