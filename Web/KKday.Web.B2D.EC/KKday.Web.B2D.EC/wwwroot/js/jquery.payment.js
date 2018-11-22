@@ -238,7 +238,7 @@
       return;
     }
     $target = $(e.currentTarget);
-    val = $target.val() + digit;
+    val = $target.val();// + digit;
     if (/^\d$/.test(val) && (val !== '0' && val !== '1')) {
       e.preventDefault();
       return setTimeout(function() {
