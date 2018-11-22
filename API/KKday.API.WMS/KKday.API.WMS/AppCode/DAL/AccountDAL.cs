@@ -25,7 +25,8 @@ namespace KKday.API.WMS.AppCode.DAL
                     user_no, source_type, user_pass, status, xid)
                     VALUES (:user_no, :source_type, :user_pass, :status, Nextval('is4.user_xid_seq'));";
 
-
+                if (model.status == null)
+                    model.status = "00";
 
                 np = new NpgsqlParameter[]{
                      new NpgsqlParameter("user_no",model.user_no),

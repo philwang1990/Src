@@ -36,7 +36,7 @@ namespace KKday.API.WMS.Controllers {
         }
 
 
-        [HttpPost("InsertUser")]
+        [HttpPost("RegisterIs4User")]
         public ActionResult RegisterIs4User(AccountModel acct)
         {
 
