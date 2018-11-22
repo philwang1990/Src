@@ -28,7 +28,6 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
 
                 var ds = NpgsqlHelper.ExecuteDataset(conn, CommandType.Text, sqlStmt, sqlParams);
                 // 檢查是否為有效KKday使用者
-                // 檢查是否為有效KKday使用者
                 if (ds != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
                 {
                     DataRow dr = ds.Tables[0].Rows[0];
@@ -50,17 +49,21 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                         LOCALE = dr.ToStringEx("locale")
 
                     };
+
+                    _account.result = "00";
+                    _account.result_msg = "Correct";
                     _account.ACCOUNT_TYPE = "KKdayAccount";
                     _account.ACCOUNT = info;
                 }
                 // 檢查是否為分銷商有效使用者
                 else
                 {
-                    sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
+                    sqlStmt = @"
+                    SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
  a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
- b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, a.account_type
+ b.xid AS comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, a.account_type,b.comp_country,b.comp_tel,b.comp_tel_country_code,b.kkday_channel_oid
 FROM b2b.b2d_account a
-JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status='03' --已核准
+JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status='03'--已核准
 WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
 
                     sqlParams = new NpgsqlParameter[]{
@@ -91,8 +94,14 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                             JOB_TITLE = dr.ToStringEx("job_title"),
                             CURRENCY = dr.ToStringEx("currency"),
                             LOCALE = dr.ToStringEx("locale"),
-                            USER_TYPE = dr.ToStringEx("account_type")
+                            USER_TYPE = dr.ToStringEx("account_type"),
+                            TEL = dr.ToStringEx("comp_tel"),
+                            TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
+                            COUNRTY_CODE = dr.ToStringEx("comp_country")//,
+                            //KKDAY_CHANNEL_OID = dr.ToInt64("kkday_channel_oid")
                         };
+                        _account.result = "00";
+                        _account.result_msg = "Correct";
                         _account.ACCOUNT_TYPE = "B2dAccount";
                         _account.ACCOUNT = info;
                     }
@@ -102,7 +111,7 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                     {
                         sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
  a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
- b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, a.account_type
+ b.xid AS comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, a.account_type,b.comp_country,b.comp_tel,b.comp_tel_country_code,b.kkday_channel_oid
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status!='03' --除了已核准外
 WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
@@ -127,9 +136,13 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                                 COMPANY_XID = dr.ToInt32("comp_xid"),
                                 CURRENCY = "",
                                 LOCALE = "",
-                                USER_TYPE = dr.ToStringEx("account_type")
+                                USER_TYPE = dr.ToStringEx("account_type"),
+                                TEL = dr.ToStringEx("comp_tel"),
+                                TEL_AREA = dr.ToStringEx("comp_tel_country_code"),
+                                COUNRTY_CODE = dr.ToStringEx("comp_country")
                             };
-
+                            _account.result = "01";
+                            _account.result_msg = "Correct";
                             _account.ACCOUNT_TYPE = "B2dAccount";
                             _account.ACCOUNT = info;
                         }
@@ -137,16 +150,14 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                     }
                 }
 
-                _account.result = "00";
-                _account.result_msg = "Correct";
-
                 conn.Close();
             }
             catch (Exception ex)
             {
                 if (conn.State != ConnectionState.Closed) conn.Close();
                 Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
-                throw ex;
+                _account.result = "10";
+                _account.result_msg = "SystemError:" + ex.Message;
             }
 
             return _account;
@@ -214,7 +225,8 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
             {
                 if (conn.State != ConnectionState.Closed) conn.Close();
                 Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
-                throw ex;
+                _account.result = "10";
+                _account.result_msg = "SystemError:" + ex.Message;
             }
 
             return _account;

@@ -47,7 +47,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public Weight weight { get; set; }
         public ShoeSize shoe_size { get; set; }
         public Meal meal { get; set; }
-        public GlassDiopter glass_dopter { get; set; }
+        public GlassDiopter glass_degree { get; set; }
 
     }
 
@@ -186,8 +186,8 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class GlassDiopter 
     {
         public bool is_require { get; set; }
-        public string diopter_range_start { get; set; }
-        public string diopter_range_end { get; set; }
+        public string degree_range_start { get; set; }
+        public string degree_range_end { get; set; }
     }
 
     #endregion
