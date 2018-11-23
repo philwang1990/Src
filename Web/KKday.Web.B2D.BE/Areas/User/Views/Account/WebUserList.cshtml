@@ -48,7 +48,7 @@ else
                     <td>@item.USER_TYPE_DESC</td>
                     <td>@item.COMPANY_NAME #@item.COMPANY_XID</td>
                     <td>
-                        <a href="#" class="btn btn-danger btn-icon"><i class="fa fa-trash"></i></a>
+                        <a href="#" class="btn btn-danger btn-icon" onclick="AccountClose(@item.XID);"><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 }

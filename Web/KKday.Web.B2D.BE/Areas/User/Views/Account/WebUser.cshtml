@@ -363,7 +363,25 @@
     }
 
     function AccountClose(id) {
+    
         var query = encodeURI(JSON.stringify(query_params));
-        window.location.href = _root_path + "Account/AccountProfile_close/" + id + "?query=" + query;
+        $.ajax({
+            url: _root_path + 'Account/AccountProfile_close',
+            type: 'POST',
+            dataType: "json",
+            data:{xid:id},
+            error: function (data) {
+                console.log(data.responseText);
+            },
+            success: function(result) {
+                if(result == "OK") {
+                    alert('成功');
+                    window.location.href =_root_path + "Account/WebUser";
+                }
+                else {
+                    alert(result.msg);
+                }
+            }
+        });
     }
 </script>
