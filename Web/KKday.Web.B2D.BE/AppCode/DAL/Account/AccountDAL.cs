@@ -314,11 +314,12 @@ VALUES (:company_xid, :account_type, :enable, :password, :name_last, :name_first
             try
             {
                 string sqlStmt = @"UPDATE b2b.b2d_account
-SET enable = false
-WHERE xid=11:xid";
+SET enable = false,upd_user=:upd_user
+WHERE xid=:xid";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("xid", xid)
+                    new NpgsqlParameter("xid", xid),
+                    new NpgsqlParameter("upd_user", upd_user)
                 };
 
                 NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);

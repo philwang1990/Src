@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
@@ -199,6 +199,15 @@
     <Content Remove="wwwroot\css\sidenav.css" />
     <Content Remove="Areas\KKday\Views\Voucher\Index.cshtml" />
     <Content Remove="Areas\KKday\Views\Company\VouchApply.cshtml" />
+    <Content Remove="wwwroot\css\images\banner1.svg" />
+    <Content Remove="wwwroot\css\images\banner2.svg" />
+    <Content Remove="wwwroot\css\images\banner3.svg" />
+    <Content Remove="wwwroot\css\images\kkday_logo.png" />
+    <Content Remove="wwwroot\css\layout\footer.css.map" />
+    <Content Remove="wwwroot\css\layout\header.css.map" />
+    <Content Remove="wwwroot\css\pages\login.css.map" />
+    <Content Remove="wwwroot\css\pages\member.css.map" />
+    <Content Remove="wwwroot\css\sourcemaps\main.css.map" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Remove="Resources\KKday\Company\Index.resx" />
@@ -211,6 +220,11 @@
     <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\js\jquery.scrolling-tabs.min.js" />
     <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.css" />
     <None Include="wwwroot\lib\jquery-scrolling-tabs\dist\css\jquery.scrolling-tabs.min.css" />
+    <None Include="wwwroot\css\layout\footer.css.map" />
+    <None Include="wwwroot\css\layout\header.css.map" />
+    <None Include="wwwroot\css\pages\login.css.map" />
+    <None Include="wwwroot\css\pages\member.css.map" />
+    <None Include="wwwroot\css\sourcemaps\main.css.map" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Resources\Localizer.tt">
@@ -258,3 +272,4 @@
     </EmbeddedResource>
   </ItemGroup>
 </Project>
+

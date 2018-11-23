@@ -115,6 +115,7 @@ namespace KKday.Web.B2D.BE
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
+
             app.UseCookiePolicy();
             app.UseSession();
 

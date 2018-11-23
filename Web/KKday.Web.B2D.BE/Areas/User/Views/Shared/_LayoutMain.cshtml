@@ -1,23 +1,31 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using KKday.Web.B2D.BE.App_Code
+@using Resources
+@inject ILocalizer localizer
 @{ 
-
   var comp_locale = Context.Session.GetString("B2D_COMPANY_LOCALE");
   var comp_currency = Context.Session.GetString("B2D_COMPANY_CURRENCY");
-
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
     <title>@ViewData["Title"] - KKday.Web.B2D.BE</title>
+    <link href="img/favicon.png" rel="shortcut icon" type="image/png">
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
+        @*<link rel="stylesheet" href="~/css/site.css" />
         <link rel="stylesheet" href="~/css/sidemenu.css" />
+        <link rel="stylesheet" href="~/css/bootstrap.min.css">*@
+        <link rel="stylesheet" href="~/css/font-awesome.min.css">
+        <link rel="stylesheet" href="~/css/simple-line-icons.css">
+        <link rel="stylesheet" href="~/css/daterangepicker.css">
+        @*<link rel="stylesheet" href="~/css/webfont/zh-tw.css">*@
+        <link rel="stylesheet" href="~/css/main.css">
+        <link rel="stylesheet" href="~/css/pages/member.css">
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -28,10 +36,14 @@
     </environment>
         <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    </environment>
+        <environment include="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            @*<script src="~/js/jquery.min.js"></script>
+            <script src="~/js/bootstrap.min.js"></script>*@
+            <script src="~/js/moment.js"></script>
+            <script src="~/js/daterangepicker.js"></script>
+        </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
@@ -54,56 +66,78 @@
     @RenderSection("Stylesheet", required: false)
 </head>
 <body>
-
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <header>
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="User" asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding:0;">
-                   <img src="@Url.Content("~/images/kkday_logo.png")" style="height: inherit;display: inline-block; padding:4px;" /> | AGENT
-                </a>
+            <a href="@Url.Content("~/User")" class="logo">
+                <img src="~/images/logo_white.svg" alt="">
+            </a>
+            <ul class="menu">
+                <li class="dropdown member-dropdown">
+                    <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <div class="badge user-type">KKday 管理者</div>
+                        佩禎<i class="fa fa-angle-down hidden-sm hidden-xs"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
+                        <li><a href="@Url.Content("~/User/Account")">@localizer.Text.Title_MyProfile</a></li>
+                        <li><a href="@Url.Content("~/User/Account/Password")">@localizer.Text.Title_ChangePassword</a></li>
+                        <li><a href="@Url.Content("~/User/Order")">@localizer.Text.Title_MyOrder</a></li>
+                        <li><a href="@Url.Content("~/User/Voucher")">@localizer.Text.Title_AddVoucher</a></li>
+                        <li><a href="@Url.Content("~/User/Account/WebUser")">@localizer.Text.Title_WebUser</a></li>
+                        <li><a href="@Url.Content("~/User/Account/ApiUser")">@localizer.Text.Title_ApiUser</a></li>
+                        <li role="separator" class="divider hidden-sm hidden-xs"></li>
+                        <li class="logout"><a asp-action="LogOutAsync">Logout</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        @comp_locale</a>
+                </li>
+                <li>
+                    <a href="javascript:;" aria-haspopup="true" aria-expanded="false">
+                        @comp_currency</a>
+                </li>
+                <li class="visible-sm visible-xs">
+                    <a href="index.html" class="btn btn-primary btn-block mt-10"><i class="fa fa-shopping-cart"></i>前往購買</a>
+                </li>
+            </ul>
+            <div class="burger visible-sm visible-xs">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="visible-xs"><a href="javascript:void(0);">前往訂購</a></li>
-                    <li class="visible-xs"><a asp-area="User" asp-controller="Account" asp-action="MyProfile">我的帳號</a></li>
-                    <li class="visible-xs"><a asp-area="User" asp-controller="Voucher" asp-action="Index">憑證補充資料</a></li> 
-                    <li class="visible-xs"><a asp-area="User" asp-controller="Order" asp-action="Index">我的訂單</a></li>
-                    <li class="visible-xs"><a asp-area="User" asp-controller="Account" asp-action="Password">更改密碼</a></li>
-                    <li class="visible-xs"><a asp-area="User" asp-controller="Account" asp-action="Index">子帳戶設定</a></li>  
-                 
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">@User.Identity.Name</a></li>
-                    <li><a href="javascript:void(0);">幣別: @comp_locale</a></li>
-                    <li><a href="javascript:void(0);">語系: @comp_currency</a></li>
-                    <li><a asp-area="" asp-controller="Login" asp-action="LogOutAsync">Logout</a></li></ul>
-            </div>
+            <div class="clearfix"></div>
         </div>
-    </nav> 
+    </header>
 
     <partial name="_CookieConsentPartial" />
 
-    <!-- Sidebar -->
-    <div id="wrapper" data-spy="scroll" data-target="#spy" class="">
-        <!-- Sidebar-wrapper -->
-        <partial name="_SideMenu" />
-        <!-- Sidebar-wrapper -->
-
-        <!-- Page Content --> 
-        <div id="page-content-wrapper" class="container body-content">
-            @RenderBody() 
-
-            <hr />
-            <footer>
-                <p>&copy; @DateTime.Today.Year - KKday 同業分銷平台</p>
-            </footer>
+    <div class="page-wrap member-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 hidden-sm hidden-xs">
+                    <partial name="_SideMenu" />
+                </div>
+                <div class="col-md-9">
+                    @RenderBody()
+                </div>
+            </div>
         </div>
-         <!-- Page Content -->
     </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-push-6">
+                    <ul class="footer-link">
+                        <li><a href="#">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-sm-pull-6">
+                    <div class="copyright">COPYRIGHT © 2018 KKday All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
 
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)

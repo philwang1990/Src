@@ -8,9 +8,10 @@ using System.Text.RegularExpressions;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using System.IO;
+using System.Text;
 //using MemcachedProviders.Cache;
 
-namespace EZFly.Web.Prod.DPKG.AppCode.Tools
+namespace KKday.API.WMS.AppCode
 {    
     public static class ExtensionMethod
     {
@@ -28,6 +29,22 @@ namespace EZFly.Web.Prod.DPKG.AppCode.Tools
         }
     }
 
+
+    public static class MD5Tool
+    {
+        public static string GetMD5(string str)
+        {
+            var md5 = System.Security.Cryptography.MD5.Create();
+            byte[] data = md5.ComputeHash(Encoding.UTF8.GetBytes(str));
+            StringBuilder sBuilder = new StringBuilder();
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+            return sBuilder.ToString();
+        }
+
+    }
 
     ////////////////////////////////
 
@@ -103,6 +120,24 @@ namespace EZFly.Web.Prod.DPKG.AppCode.Tools
             {
                 throw ex;
             }
+        }
+
+        public static String yyyy_mm_dd(string yyyyMMdd)
+        {
+            try
+            {
+                string yyyy = yyyyMMdd.Substring(0, 4);
+                string MM = yyyyMMdd.Substring(4, 2);
+                string dd = yyyyMMdd.Substring(6, 2);
+
+                return string.Format("{0}-{1}-{2}", yyyy, MM, dd);
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+
+
         }
 
         public static DateTime yyyyMMddHHmmss2DateTime(string yyyyMMddHHmmss)

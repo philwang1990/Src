@@ -345,7 +345,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         #endregion API帳號區塊
 
         // 關閉帳號
-        public IActionResult AccountProfile_close(Int64 id)
+        public IActionResult AccountProfile_close(Int64 xid)
         {
             try
             {
@@ -353,7 +353,10 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
                 var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
                 var acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository));
 
-                //acctRepos.CloseAccount(id);
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+                acctRepos.CloseAccount(xid,UserData.EMAIL);
 
                 ViewData["QueryParams"] = queryArgc;
 
