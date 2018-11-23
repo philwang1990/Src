@@ -46,7 +46,7 @@ namespace KKday.API.WMS.AppCode
 
                 }
                 var values = JsonConvert.DeserializeObject<Dictionary<string, string>>(frontEnd);
-
+                kkrds.Close();
                 return values;
             }
             catch (Exception ex)
@@ -60,22 +60,25 @@ namespace KKday.API.WMS.AppCode
         public void SetProdInfotoRedis(string obj ,string redisKey, int expireMinute)
         {
             //kkredis  
-            string kkredis = Website.Instance.Configuration["IP:REDIS_KKDAY"];
+            string kkredis = Website.Instance.Configuration["IP:REDIS_SOP"];
             ConnectionMultiplexer kkrds = ConnectionMultiplexer.Connect(kkredis);
+
             IDatabase db = kkrds.GetDatabase();
-           
             db.StringSet(redisKey, obj, TimeSpan.FromMinutes(expireMinute));
+            kkrds.Close();
 
         }
 
         public string  getProdInfotoRedis( string redisKey)
         {
             //kkredis  
-            string kkredis = Website.Instance.Configuration["IP:REDIS_KKDAY"];
+            string kkredis = Website.Instance.Configuration["IP:REDIS_SOP"];
             ConnectionMultiplexer kkrds = ConnectionMultiplexer.Connect(kkredis);
             IDatabase db = kkrds.GetDatabase();
 
             string obj = db.StringGet(redisKey);
+
+            kkrds.Close();
             return obj;
         }
 
