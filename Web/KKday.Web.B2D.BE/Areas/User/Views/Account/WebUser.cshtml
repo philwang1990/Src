@@ -113,108 +113,98 @@
 <div id="add_account" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                <h4 class="modal-title">@localizer.Text.AddAccount</h4>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>@localizer.Text.Email<span class="text-danger">*</span></label>
-                            <input type="email" id="new_email" name="new_email" class="form-control" placeholder="example@domain.com">
+            <form id="add_form">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                    <h4 class="modal-title">@localizer.Text.AddAccount</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.Email<span class="text-danger">*</span></label>
+                                <input type="email" id="new_email" name="new_email" class="form-control" placeholder="example@domain.com">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>@localizer.Text.NewPassword<span class="text-danger">*</span></label>
-                            <input type="password" id="new_password" name="new_password" class="form-control">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.Tel<span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="new_tel" name="new_tel">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-12">
-                        <div class="form-group">
-                            <label>@localizer.Text.PasswordAgain<span class="text-danger">*</span></label>
-                            <input type="password" id="new_password_again" name="new_password_again" class="form-control">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.NewPassword<span class="text-danger">*</span></label>
+                                <input type="password" id="new_password" name="new_password" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-2">
-                        <div class="form-group">
-                            <label>@localizer.Text.GenderTitle<span class="text-danger">*</span></label>
-                            <select class="form-control" id="new_gendertitle" name="new_gendertitle">
-                                <option value="">@localizer.Text.Select</option>
-                                <option value="miss">Miss</option>
-                                <option value="mr">Mr</option>
-                                <option value="mrs">Mrs</option>
-                                <option value="ms">Ms</option>
-                            </select>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.PasswordAgain<span class="text-danger">*</span></label>
+                                <input type="password" id="new_password_again" name="new_password_again" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="form-group">
-                            <label>@localizer.Text.NameLast<span class="text-danger">*</span></label>
-                            <input type="text" id="new_namelast" name="new_namelast" class="form-control">
+                        <div class="col-sm-2">
+                            <div class="form-group">
+                                <label>@localizer.Text.GenderTitle<span class="text-danger">*</span></label>
+                                <select class="form-control" id="new_gendertitle" name="new_gendertitle">
+                                    <option value="">@localizer.Text.Select</option>
+                                    <option value="miss">Miss</option>
+                                    <option value="mr">Mr</option>
+                                    <option value="mrs">Mrs</option>
+                                    <option value="ms">Ms</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-5">
-                        <div class="form-group">
-                            <label>@localizer.Text.NameFirst<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="new_namefirst" name="new_namefirst">
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>@localizer.Text.NameLast<span class="text-danger">*</span></label>
+                                <input type="text" id="new_namelast" name="new_namelast" class="form-control">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <label>@localizer.Text.CountryANDTelCode<span class="text-danger">*</span></label>
-                            <select id="new_countryarea" name="new_countryarea" class="form-control">
-                                <option value="">@localizer.Text.Select</option>
-                                @foreach (var country in countryAreas.OrderBy(c => c.telArea))
-                                {
-                                    <option value="@(country.telArea + "," + country.countryCode)"> @country.countryName (+@(country.telArea))</option>
-                                }
-                            </select>
+                        <div class="col-sm-5">
+                            <div class="form-group">
+                                <label>@localizer.Text.NameFirst<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="new_namefirst" name="new_namefirst">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-8">
-                        <div class="form-group">
-                            <label>@localizer.Text.Tel<span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" id="new_tel" name="new_tel">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.Department<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="new_department" name="new_department">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>@localizer.Text.Department<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="new_department" name="new_department">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.JobTitle<span class="text-danger">*</span></label>
+                                <input type="text" class="form-control" id="new_jobtitle" name="new_jobtitle">
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>@localizer.Text.JobTitle<span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="new_jobtitle" name="new_jobtitle">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.UserType<span class="text-danger">*</span></label>
+                                <select id="new_type" name="new_type" class="form-control">
+                                    <option value="00">@localizer.Text.UserRole_00</option>
+                                    <option value="01">@localizer.Text.UserRole_01</option>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>@localizer.Text.UserType<span class="text-danger">*</span></label>
-                            <select id="new_type" name="new_type" class="form-control">
-                                <option value="00">@localizer.Text.UserRole_00</option>
-                                <option value="01">@localizer.Text.UserRole_01</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-sm-6">
-                        <div class="form-group">
-                            <label>@localizer.Text.Status<span class="text-danger">*</span></label>
-                            <select id="new_enable" name="new_enable" class="form-control">
-                                <option value="true">@localizer.Text.Enable</option>
-                                <option value="false">@localizer.Text.Disable</option>
-                            </select>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label>@localizer.Text.Status<span class="text-danger">*</span></label>
+                                <select id="new_enable" name="new_enable" class="form-control">
+                                    <option value="true">@localizer.Text.Enable</option>
+                                    <option value="false">@localizer.Text.Disable</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                <button type="button" class="btn btn-primary">新增</button>
-            </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="AccountAdd();">新增</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
