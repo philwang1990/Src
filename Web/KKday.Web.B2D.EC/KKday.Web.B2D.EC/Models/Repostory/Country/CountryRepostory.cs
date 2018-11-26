@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 //using kkday.EC.Test.Models.Repostory;
-using KKday.API.WMS.Models.DataModel.Product;
+//using KKday.API.WMS.Models.DataModel.Product;
 using KKday.SearchProd.AppCode;
 using KKday.SearchProd.Models.Model;
 using Newtonsoft.Json;
@@ -17,7 +17,7 @@ namespace KKday.SearchProd.Models.Repostory
 
         #region WMS-API
 
-        //public static List<CountryInfo> GetCountries()
+        //private static List<CountryInfo> FetchCountries()
         //{
         //    #region Call CountryProxy
 
@@ -70,11 +70,32 @@ namespace KKday.SearchProd.Models.Repostory
         //    return country_list;
         //}
 
+        ////Index頁面用(第一次)
+        //public static List<CountryInfo> GetCountries()
+        //{ 
+        //    var country_list = FetchCountries(); 
+        //    return country_list; 
+        //}
+
+        //public static List<CountryInfo> GetCountries(string key1)
+        //{
+        //    var country_list = FetchCountries();
+
+        //    // Search Country, if it's matched
+        //    var _country = country_list.Where(l => l.CountryName.Equals(key1)).ToList();
+
+        //    // Search city, if it's matched get countryInfo
+        //    var _city = country_list.Where(s => s.Cities.Where(c => c.CityName.Equals(key1)).Count() > 0).ToList();
+
+        //    return (List<CountryInfo>)((_country.Count() > 0) ? _country : _city);
+        //}
+
+
         #endregion
 
         #region KK-API
 
-        private static List<TravelLine> FetchCountries() 
+        private static List<TravelLine> FetchCountries(string locale) 
         {
             List<TravelLine> tl_list = new List<TravelLine>();
 
@@ -88,7 +109,7 @@ namespace KKday.SearchProd.Models.Repostory
                 ["apiKey"] = "kkdayapi",
                 ["userOid"] = "1",
                 ["ver"] = "1.0.1",
-                ["locale"] = "zh-tw",
+                ["locale"] = locale //,
                 //["json"]= "",
                 //["currency"] = "TWD"
             };
@@ -151,20 +172,20 @@ namespace KKday.SearchProd.Models.Repostory
         }
 
         //Index頁面用(第一次)
-        public static List<TravelLine> GetCountries()
+        public static List<TravelLine> GetCountries(string locale)
         { 
-            var tl_list = FetchCountries(); 
+            var tl_list = FetchCountries(locale); 
             return tl_list; 
         }
 
-        //ProdList頁面用(第N次)
-        public static List<CountryInfo> GetCountries(string key1)
+        ////ProdList頁面用(第N次)
+        public static List<CountryInfo> GetCountries(string key1, string locale)
         {
-            var tl_list = FetchCountries();
+            var tl_list = FetchCountries(locale);
 
             // Search Country, if it's matched
             var new_country = tl_list.SelectMany(l => l.Countries.Where(s => s.CountryName.Equals(key1)).ToList()).ToList();
-           
+
             // Search city, if it's matched get countryInfo
             var new_country2 = tl_list.SelectMany(l => l.Countries.Where(s => s.Cities.Where(c => c.CityName.Equals(key1)).Count() > 0).ToList()).ToList();
 

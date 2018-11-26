@@ -3,7 +3,6 @@ using System.Collections.Generic;
 
 namespace KKday.SearchProd.Models.Model
 {
-
     public class TravelLine
     {
         public string TlName { get; set; }

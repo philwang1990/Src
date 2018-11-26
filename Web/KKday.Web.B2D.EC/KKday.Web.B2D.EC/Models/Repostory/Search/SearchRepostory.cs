@@ -9,7 +9,7 @@ using KKday.SearchProd.AppCode;
 using KKday.Web.B2D.EC.AppCode;
 using Microsoft.AspNetCore.WebUtilities;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq; 
 using KKday.Web.B2D.EC.Models.Model.Product;
 
 namespace KKday.SearchProd.Models.Repostory

@@ -5,8 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KKday.SearchProd.Models;
-
-using KKday.API.WMS.Models.DataModel.Product;
+//using KKday.API.WMS.Models.DataModel.Product;
 using KKday.SearchProd.Models.Model;
 using KKday.SearchProd.Models.Repostory;
 using KKday.Web.B2D.EC.Models;
@@ -15,19 +14,29 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
 using KKday.Web.B2D.EC.Models.Repostory.Booking;
 using KKday.Web.B2D.EC.Models.Model.Product;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using KKday.Web.B2D.EC.Models.Repostory.Account;
+using KKday.Web.B2D.EC.Models.Model.Account;
+using System.Security.Claims;
 
 namespace KKday.SearchProd.Controllers
 {
+    [Authorize(Policy="UserOnly")]
     public class HomeController : Controller
     {
         public IActionResult Index()
         {
-            var countries = CountryRepostory.GetCountries();
-
             //假分銷商
-            distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+            //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
-            Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+            //B2d分銷商資料
+            var aesUserData = User.FindFirst(ClaimTypes.UserData).Value;
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+            //取得可售商品之國家&城市
+            string locale = UserData.LOCALE;
+            var countries = CountryRepostory.GetCountries(locale);
+            //取挖字
+            Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE); //fakeContact.lang, UserData.LOCALE
             ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
 

@@ -310,11 +310,6 @@ function intKKday(){
                 }
             })
 
-        $('#txtPayCardNum').on('paste', function(e) {
-          //$(e.target).keyup(e);
-            reFormatCardNumber(e);
-        });
-
         //***Booking JS End**//
 
         function scrollToTop() {

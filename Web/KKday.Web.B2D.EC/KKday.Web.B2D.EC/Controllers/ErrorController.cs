@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using KKday.Web.B2D.EC.AppCode;
 using KKday.Web.B2D.EC.Models;
+using KKday.Web.B2D.EC.Models.Model.Account;
 using KKday.Web.B2D.EC.Models.Model.Booking;
 using KKday.Web.B2D.EC.Models.Model.Product;
 using KKday.Web.B2D.EC.Models.Repostory.Booking;
@@ -19,10 +21,14 @@ namespace KKday.Web.B2D.EC.Controllers
         // GET: /<controller>/
         public IActionResult Index(ErrorViewModel errorModel)
         {
-            distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+            //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+
+            //B2d分銷商資料
+            var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
 
             //取挖字
-            Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+            Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE);
 
             ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 

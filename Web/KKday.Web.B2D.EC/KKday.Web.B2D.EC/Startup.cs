@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KKday.Web.B2D.EC.Models.Repostory.Account;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,6 +50,15 @@ namespace KKday.Web.B2D.EC
 
                 });
 
+            // 指定Cookie授權政策區分不同身分者
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("KKdayOnly", policy => policy.RequireClaim("UserType", "KKDAY"));
+                options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER"));
+            });
+
+            services.AddSingleton<AccountRepository>();  //
+
             services.AddMemoryCache();
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddSessionStateTempDataProvider();
@@ -74,7 +84,8 @@ namespace KKday.Web.B2D.EC
             app.UseCookiePolicy();
             app.UseSession();
 
-
+            // 啟用 Cookie 使用者驗證
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
@@ -85,7 +96,7 @@ namespace KKday.Web.B2D.EC
                 //);
                 routes.MapRoute(
                 name: "default",
-                template: "{controller=Login}/{action=Index}/{id?}");
+                template: "{controller=Home}/{action=Index}/{id?}");
 
                 routes.MapRoute(
                   name: "Product",

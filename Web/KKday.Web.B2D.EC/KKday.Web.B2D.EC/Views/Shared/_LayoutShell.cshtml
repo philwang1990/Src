@@ -31,23 +31,40 @@
                 @*<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">KKday.Web.B2D.BE</a>*@
                 <div>
                     <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand" style="padding:0;">
-                        <img src="@Url.Content("~/images/kkday_logo.png")" style="height: inherit;display: inline-block; padding:4px;" />
+                        <img src="@Url.Content("~/images/logo_white.svg")" style="height: inherit;display: inline-block; padding:4px;" />
                     </a>
                 </div>
             </div>
         </div>
    </nav>
     <partial name="_CookieConsentPartial" />
-    <div class="container body-content">
-        @RenderBody()
+    @RenderBody()
+    @*<div class="container body-content">
+
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Today.Year - KKday 同業分銷平台</p>
-        </footer>
-    </div>
+
+    </div>*@
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-push-6">
+                    <ul class="footer-link">
+                        <li><a href="#">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-sm-pull-6">
+                    <div class="copyright">COPYRIGHT © 2018 KKday All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
     <environment include="Development">
-        <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*<script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
+
+        <script src="~/js/jquery.min.js"></script>
+        <script src="~/js/bootstrap.min.js"></script>
+
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">

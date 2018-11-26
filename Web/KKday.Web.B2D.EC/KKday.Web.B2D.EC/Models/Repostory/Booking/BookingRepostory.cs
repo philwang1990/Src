@@ -9,24 +9,23 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using KKday.Web.B2D.EC.Models.Model.Booking.api;
+using KKday.Web.B2D.EC.Models.Model.Account;
 
 namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 {
     public static class BookingRepostory
     {
 
-        public static DataModel setDefaultBookingInfo(string guid,DataModel data ,ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, distributorInfo distributor,Pmgw pmgw)
+        public static DataModel setDefaultBookingInfo(DataModel data ,ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, B2dAccount UserData)
         {
-            string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
-
             data.productOid = confirm.prodOid;
             data.packageOid = confirm.pkgOid;
-            data.contactFirstname = distributor.firstName;
-            data.contactLastname = distributor.lastName;
-            data.contactEmail = distributor.email;
-            data.telCountryCd = distributor.areatel;
-            data.contactTel = distributor.tel;
-            data.contactCountryCd = distributor.countryCd;
+            data.contactFirstname = UserData.NAME_FIRST; 
+            data.contactLastname = UserData.NAME_LAST;
+            data.contactEmail = UserData.EMAIL; 
+            data.telCountryCd = UserData.TEL_AREA; 
+            data.contactTel = UserData.TEL; 
+            data.contactCountryCd = UserData.COUNRTY_CODE; 
             data.lstGoDt = confirm.selDate;
             if (confirm.pkgEvent != null) data.eventOid = confirm.pkgEvent;
 
@@ -34,7 +33,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.price2Qty = confirm.price2Qty == null ? 0 : confirm.price2Qty;
             data.price3Qty = confirm.price3Qty==null?0: confirm.price3Qty;
             data.price4Qty = confirm.price4Qty == null ? 0 : confirm.price4Qty;
-            data.payMethod = pmgw.acctdocReceiveMethod;// "ONLINE_CITI";這個地方接pmch要改
+            data.payMethod = "ONLINE_CITI";//這個地方接pmch要改
             data.hasRank = pkg.is_unit_pirce == "RANK" ? "Y" : "N";
             //data.productUrlOid = 
             data.productName = prod.prod_name;
@@ -52,35 +51,35 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.productMainCat = prod.prod_type;
             data.productOrderHandler = prod.prod_hander;
             data.payPmchOid = "1";
-            data.currency = distributor.currency;
+            data.currency = UserData.CURRENCY; 
             //先接直客價!!
             data.currPriceTotal = ((pkg.price1_b2c * confirm.price1Qty)+ (pkg.price2_b2c * confirm.price2Qty) + (pkg.price3_b2c * confirm.price3Qty) + (pkg.price4_b2c * confirm.price4Qty));// 263;// (pkg.price1 * confirm.price1Qty) +(pkg.price2 * confirm.price2Qty) +(pkg.price3 * confirm.price3Qty) + (pkg.price4 * confirm.price4Qty);
             data.crtDevice = "Macintosh";
             data.crtBrowser = "Safari";
             data.crtBrowserVersion = "12.0";
-            data.memberUuid = memUuid;
-            data.deviceId = guid;
-            data.tokenKey = MD5Tool.GetMD5(memUuid + guid + Website.Instance.Configuration["kkdayKey:memuuidToken"].ToString()) ;// "897af29c45ed180451c2e6bfa81333b6";
+            data.memberUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
             data.riskStatus = "01";
-
+            data.tokenKey = "897af29c45ed180451c2e6bfa81333b6";
+            data.deviceId = "3c2ab71448224d1d7148350f7972e96e";
             data.multipricePlatform = "01";
             data.sourceCode = "WEB";
             data.sourceParam1 = "";
             data.allowedCardNumberArray = new string[]{};
 
             //senddata
-            data.modules.sendData.moduleData.receiverTel.telCountryCode = distributor.areatel;
-            data.modules.sendData.moduleData.receiverTel.telNumber = distributor.tel;
+            data.modules.sendData.moduleData.receiverTel.telCountryCode = UserData.TEL_AREA; 
+            data.modules.sendData.moduleData.receiverTel.telNumber = UserData.TEL;
 
             //contact
-            data.modules.contactData.moduleData.contactTel.telCountryCode = distributor.areatel;
+            data.modules.contactData.moduleData.contactTel.telCountryCode = UserData.TEL_AREA;
 
             //rendCar 寫在 js
 
             return data;
+
         }
 
-        //舊版
+
         public static PmchSslRequest setPaymentInfo(ProductModel prod,OrderModel orderModel,string orderMid)
         {
             PmchSslRequest pmch = new PmchSslRequest();
@@ -110,7 +109,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 
             CreditCardInfo credit = new CreditCardInfo();
             credit.cardHolder = "phil";
-            credit.cardNo = GibberishAES.OpenSSLEncrypt("", Website.Instance.Configuration["kkdayKey:cardNo"].ToString());
+            credit.cardNo = GibberishAES.OpenSSLEncrypt("4093240835103617", "card%no$kk#@");
             credit.cardType = "VISA";
             credit.cardCvv = "143";
             credit.cardExp = "202310";
@@ -142,7 +141,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
         }
 
         //新版
-        public static PmchSslRequest3 setPaymentInfo2(ProductModel prod, DataModel data, string orderMid, distributorInfo fakeContact, Pmgw pmgw,string memUuid)
+        public static PmchSslRequest3 setPaymentInfo2(ProductModel prod, OrderModel orderModel, string orderMid)
         {
             PmchSslRequest3 pmch = new PmchSslRequest3();
 
@@ -154,45 +153,46 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 
             CallJsonPay2 json = new CallJsonPay2();
 
-            json.pmch_oid =  pmgw.pmchOid;
+            json.pmch_oid = orderModel.payPmchOid;
             json.is_3d = "0";
-            json.pay_currency = data.currency;
-            json.pay_amount = Convert.ToDouble(data.currPriceTotal);
-            json.return_url = Website.Instance.Configuration["payRtnUrl:returnUrl"].ToString() + orderMid;
-            json.cancel_url = Website.Instance.Configuration["payRtnUrl:returnUrl"].ToString() + orderMid;
-            json.user_locale = fakeContact.lang;// "zh-tw";
+            json.pay_currency = orderModel.currency;
+            json.pay_amount = Convert.ToDouble(orderModel.currPriceTotal);
+            json.return_url = "https://localhost:5001/Final/Step3/" + orderMid;
+            json.cancel_url = "https://localhost:5001/Final/Cancel/" + orderMid;
+            json.user_locale = "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
 
             if (prod.img_list.Count > 0)
             {
-                json.logo_url = Website.Instance.Configuration["kkUrl:imgUrl"].ToString() + prod.img_list[0].img_kkday_url;
+                json.logo_url = "https://img.sit.kkday.com" + prod.img_list[0].img_kkday_url;
             }
             else
             {
                 json.logo_url = "";
             }
 
+
             payment_source_info pay = new payment_source_info();
             pay.source_type = "KKDAY";
             pay.order_mid = orderMid;
 
             json.payment_source_info = pay;
+
             credit_card_info credit = new credit_card_info();
-            credit.card_holder = data.card.cardHolder;
-            credit.card_no = data.card.cardNo.Replace(" ","");
-            credit.card_type = data.card.cardType;//"VISA";
-            credit.card_cvv =  data.card.cardCvv;
-            data.card.expiry = data.card.expiry.Replace(" ", "").Replace("/", "");
-            credit.card_exp ="20" +data.card.expiry.Substring(2, 2) + data.card.expiry.Substring(0, 2);// "202312";
+            credit.card_holder = "phil";
+            credit.card_no = GibberishAES.OpenSSLEncrypt("4095296335832921", "card%no$kk#@");
+            credit.card_type = "VISA";
+            credit.card_cvv = "133";
+            credit.card_exp = "202312";
 
             json.credit_card_info = credit;
 
             payer_info payer = new payer_info();
-            payer.first_name =fakeContact.firstName;
-            payer.last_name = fakeContact.lastName;
-            payer.phone = fakeContact.tel;
-            payer.email = fakeContact.email;
+            payer.first_name = "ming";
+            payer.last_name = "chen";
+            payer.phone = "0939650222";
+            payer.email = "phil.chang@kkday.com";
 
             json.payer_info = payer;
 
@@ -203,7 +203,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             json.product_info = prodInfo;
 
             member member = new member();
-            member.member_uuid = memUuid ;
+            member.member_uuid = orderModel.memberUuid;
             member.risk_status = "01";
             member.ip = "127.0.0.1";
 
@@ -214,15 +214,15 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
         }
 
 
-        public static void setPayDtltoRedis(DataModel data ,string orderMid,string memUuid)
+        public static void setPayDtltoRedis(OrderModel orderModel ,string orderMid,string memUuid)
         {
             PaymentDtl payDtl = new PaymentDtl();
 
-            payDtl.currency = data.currency;
+            payDtl.currency = orderModel.currency;
             payDtl.orderMid = orderMid;
-            payDtl.payMethod = data.payMethod;
-            payDtl.currTotalPrice =  Convert.ToDouble(data.currPriceTotal) ;
-            payDtl.paymentToken =MD5Tool.GetMD5(orderMid + memUuid + Website.Instance.Configuration["kkdayKey:payDtl"].ToString());
+            payDtl.payMethod = orderModel.payMethod;
+            payDtl.currTotalPrice =  Convert.ToDouble(orderModel.currPriceTotal) ;
+            payDtl.paymentToken =MD5Tool.GetMD5(orderMid + memUuid + "kk%$#@pay");
 
             string payDtlStr = JsonConvert.SerializeObject(payDtl);
             RedisHelper.SetProdInfotoRedis(payDtlStr, "b2d:ec:payDtl:" + orderMid, 60);
@@ -248,7 +248,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             prodShow.eventOid = confirm.pkgEvent;
             if(prod.img_list.Count>0)
             {
-                prodShow.photoUrl = Website.Instance.Configuration["kkUrl:imgUrl"].ToString() + prod.img_list[0].img_kkday_url;
+                prodShow.photoUrl = "https://img.sit.kkday.com" + prod.img_list[0].img_kkday_url;
             }
 
             prodShow.isRank = pkg.is_unit_pirce == "RANK" ? true : false;
@@ -429,22 +429,8 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 
         }
 
-        public static object orderNew(DataModel data, ProdTitleModel title)
-        {
-            try
-            {
-                object result = ApiHelper.orderNew(data,  title);
-                return result;
-            }
-            catch(Exception ex)
-            {
-                Website.Instance.logger.Debug($"bookingStep1_orderNewErr:{ JsonConvert.SerializeObject(ex.ToString())}");
-                throw new Exception(ex.Message.ToString());
-            }
-        }
-
         //成立b2d 訂單
-        public  static string insB2dOrder(ProdTitleModel title, ProductModel prod, PkgDetailModel pkg , confirmPkgInfo confirm, DataModel dataModel, distributorInfo Contact, DiscountRuleModel discRule)
+        public  static string insB2dOrder(ProdTitleModel title, ProductModel prod, PkgDetailModel pkg , confirmPkgInfo confirm, DataModel dataModel, B2dAccount UserData, DiscountRuleModel discRule)
         {
             try
             {
@@ -462,8 +448,8 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 
                 Source source = new Source();
                 source.booking_type = "WEB";
-                source.company_xid = Convert.ToInt32(Contact.companyXid);
-                source.channel_oid = Convert.ToInt32(Contact.channelOid);
+                source.company_xid = Convert.ToInt32(UserData.COMPANY_XID); 
+                source.channel_oid = Convert.ToInt32(UserData.KKDAY_CHANNEL_OID);
                 source.connect_tel = dataModel.contactTel;
                 source.connect_mail = dataModel.contactEmail;
                 source.connect_name = dataModel.asiaMileMemberLastName + " " + dataModel.contactFirstname;
@@ -519,13 +505,13 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 if (dataModel.travelerData.Count == 1)
                 {
                     //依priceTeype寫入
-                    if (confirm.price1Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, "price1", lstSeqno, 1, Convert.ToInt32(confirm.price1Qty), discRule));
+                    if (confirm.price1Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price1", lstSeqno, 1, Convert.ToInt32(confirm.price1Qty), discRule));
                     lstSeqno = lstSeqno+1;
-                    if (confirm.price2Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, "price2", lstSeqno, 1, Convert.ToInt32(confirm.price2Qty), discRule));
+                    if (confirm.price2Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price2", lstSeqno, 1, Convert.ToInt32(confirm.price2Qty), discRule));
                     lstSeqno = lstSeqno+1;
-                    if (confirm.price3Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, "price3", lstSeqno, 1, Convert.ToInt32(confirm.price3Qty), discRule));
+                    if (confirm.price3Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price3", lstSeqno, 1, Convert.ToInt32(confirm.price3Qty), discRule));
                     lstSeqno = lstSeqno+1;
-                    if (confirm.price4Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, "price4", lstSeqno, 1, Convert.ToInt32(confirm.price4Qty), discRule));
+                    if (confirm.price4Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price4", lstSeqno, 1, Convert.ToInt32(confirm.price4Qty), discRule));
                 }
                 else
                 {
@@ -536,7 +522,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                         else if (ii < (confirm.price1Qty + confirm.price2Qty)) { priceType = "price2"; }
                         else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty)) { priceType = "price3"; }
                         else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty)) { priceType = "price4"; }
-                        lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, priceType, lstSeqno,  cusSeqno, 1, discRule));
+                        lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, priceType, lstSeqno,  cusSeqno, 1, discRule));
                         lstSeqno = lstSeqno+1;
                         cusSeqno = cusSeqno+1;
                     }
@@ -567,7 +553,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             }
         }
 
-        public static OrderLst insOrderListTemp(ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, DataModel dataModel, distributorInfo Contact,string priceType,int lstSeqno,int? cusSeqno,int prodQty, DiscountRuleModel discRule)
+        public static OrderLst insOrderListTemp(ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, DataModel dataModel, B2dAccount UserData,string priceType,int lstSeqno,int? cusSeqno,int prodQty, DiscountRuleModel discRule)
         {
             OrderLst lstTemp = new OrderLst();
             //lstTemp.lst_seqno = lstSeqno;
@@ -576,7 +562,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             lstTemp.prod_amt = Convert.ToDouble( priceType == "price1" ? pkg.price1 : priceType == "price2" ? pkg.price2 : priceType == "price3" ? pkg.price3 : pkg.price4);
             lstTemp.prod_name = prod.prod_name;
             lstTemp.prod_b2c_amt = Convert.ToDouble(priceType == "price1" ? pkg.price1_b2c : priceType == "price2" ? pkg.price2_b2c : priceType == "price3" ? pkg.price3_b2c : pkg.price4_b2c);
-            lstTemp.prod_currency = Contact.currency;
+            lstTemp.prod_currency = UserData.CURRENCY;
             lstTemp.prod_cond1 = priceType;
             lstTemp.prod_cond2 = pkg.unit;
             lstTemp.events = confirm.pkgEvent;
@@ -597,7 +583,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 if (priceType == "price4") discAmt = Convert.ToDouble(pkg.price4_org - pkg.price4);
 
                 rule.disc_amt = discAmt;
-                rule.disc_currency = Contact.currency;
+                rule.disc_currency = UserData.CURRENCY;
                 rule.disc_name = discRule.disc_name;
                 rule.disc_note = "";
                 //rule.lst_seqno = lstSeqno;
@@ -610,27 +596,5 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             return lstTemp;
         }
 
-
-        //卡號先加密
-        public static DataModel setCardEncrypt(DataModel data)
-        {
-            if(data.card !=null)
-            {
-                if(data.card.cardNo!=null)
-                {
-                    //卡別
-                    int cardNum = Convert.ToInt32(data.card.cardNo.Substring(0, 3));
-                    string cardType = data.card.cardNo.Substring(0, 1) == "4" ? "VISA" : data.card.cardNo.Substring(0, 1) == "5" ? "MASTER" :
-                                      data.card.cardNo.Substring(0, 1) == "1" && data.card.cardNo.Substring(0, 4) == "1800" ? "JCB" :
-                                      data.card.cardNo.Substring(0, 1) == "2" && data.card.cardNo.Substring(0, 4) == "2131" ? "JCB" :
-                                      data.card.cardNo.Substring(0, 1) == "3" && cardNum >= 300 && cardNum <= 399 ? "JCB" : "";
-
-                    data.card.cardType = cardType;
-                    data.card.cardNo = GibberishAES.OpenSSLEncrypt(data.card.cardNo, Website.Instance.Configuration["kkdayKey:cardNo"].ToString());
-                }
-            }
-
-            return data;
-        }
     }
 }
