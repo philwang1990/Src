@@ -42,6 +42,7 @@ namespace KKday.API.WMS.Controllers
             //md5($pmgw_trans_no.$pmgw_method.$trans_curr_cd.$trans_amt.$pmch_ref_no.$key);
             //PmchSslResponse res = JsonConvert.DeserializeObject<PmchSslResponse>(jsondata); //舊版
             PmchSslResponse2 res = JsonConvert.DeserializeObject<PmchSslResponse2>(jsondata); //新版
+            res.data.pmgw_trans_no = res.data.pmgw_trans_no.Replace(" ", "+");
             string transNo = GibberishAES.OpenSSLDecrypt(res.data.pmgw_trans_no, Website.Instance.Configuration["PMCH:TRANS_NO"]);
             //CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
             CallJsonPay2 req = JsonConvert.DeserializeObject<CallJsonPay2>(rds.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + mid)); //using KKday.Web.B2D.EC.AppCode;
@@ -58,7 +59,7 @@ namespace KKday.API.WMS.Controllers
             string result = helper.PaymentValid(transNo, pmgwValidToken);
 
             var obj = JObject.Parse(result);
-            if (obj["isSuccess"].ToString() == "true")
+            if (obj["isSuccess"].ToString() == "True")
             {
                 //如果ok就upd
                 distributorInfo fakeContact = DataSettingRepository.fakeContact();
