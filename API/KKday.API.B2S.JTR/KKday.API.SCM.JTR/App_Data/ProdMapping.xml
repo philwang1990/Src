@@ -134,7 +134,7 @@
     <kkday_price_type>price1</kkday_price_type>
     <jtr_prod_no>11433189</jtr_prod_no>
   </item>
-    <!-- KKday_prod_no: 18566--> 
+    <!-- KKday_prod_no: 18566 京成 Skyliner 車票 串接形式為pdf url 所以移除
     <item>
   <kkday_prod_pkg>66760</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
@@ -177,7 +177,7 @@
   <kkday_prod_pkg>66766</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
     <jtr_prod_no>23898607</jtr_prod_no>
-  </item> 
+  </item> --> 
     <!-- KKday_prod_no: 19691--> 
   <item>
   <kkday_prod_pkg>75833</kkday_prod_pkg>
