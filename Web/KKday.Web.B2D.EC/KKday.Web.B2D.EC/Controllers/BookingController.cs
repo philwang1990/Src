@@ -96,6 +96,22 @@ namespace KKday.Web.B2D.EC.Controllers
                     pkgEvent = ApiHelper.getPkgEvent(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, confirm.prodOid, confirm.pkgOid,title);
 
                 }
+
+                //pmgw
+                PmchLstResponse pmchRes = ApiHelper.getPaymentListRes(prod.countries, prod.prod_no.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("yyyy-MM-dd"),
+                DateTimeTool.yyyyMMdd2DateTime(confirm.selDate).ToString("yyyy-MM-dd"), DateTimeTool.yyyyMMdd2DateTime(confirm.selDate).ToString("yyyy-MM-dd"), fakeContact.countryCd, fakeContact.lang,
+                                                                    prod.prod_type, "127.0.0.1", prod.prod_hander, fakeContact.currency, title);
+
+                Pmgw pmgw = null;
+                if (fakeContact.currency == "TWD")
+                {
+                    pmgw = pmchRes.pmchlist.Where(x => x.acctdocReceiveMethod == "ONLINE_CITI" && x.pmchCode== "B2D_CITI_TWD").FirstOrDefault();
+                }
+                else 
+                {
+                    pmgw = pmchRes.pmchlist.Where(x => x.acctdocReceiveMethod == "ONLINE_HK_ADYEN").FirstOrDefault();
+                    //
+                }
                 //必須要設定人數
                 //var cusData = BookingRepostory.getCusDdate();
                 int totalCus = 0;
@@ -107,7 +123,6 @@ namespace KKday.Web.B2D.EC.Controllers
                 //將dataModel原型 以json str 帶到前台的hidden
                 DataModel dm = DataSettingRepostory.getDefaultDataModel(totalCus,guid);
                 dm = BookingRepostory.setDefaultBookingInfo(dm, prod, pkg, confirm, UserData);//這個地方接pmch要改
-
                 String dataModelStr = JsonConvert.SerializeObject(dm);
                 //dm.travelerData[0].meal.mealType
                 ViewData["dataModelStr"] = dataModelStr;
@@ -144,12 +159,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 ViewData["isEvent"] = isEvent;//
                 ViewData["isHl"] = isHl; //如果是N就不用做
                 ViewData["pkgCanUseDate"] = (isHl=="Y" && isEvent=="Y")?BookingRepostory.getPkgEventDate(pkgEvent, confirm.pkgOid,(confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty)):"";//要把這個套餐可以用的日期全抓出來
-
-                //測試取PMCHLsit
-                //KKapiHelper kk = new KKapiHelper();
-                //kk.PaymentListReq(prod.countries, prod.prod_no.ToString(), DateTime.Now.ToString("yyyy-MM-dd"), DateTime.Now.ToString("yyyy-MM-dd"),
-                //DateTimeTool.yyyyMMdd2DateTime(confirm.selDate).ToString("yyyy-MM-dd"), DateTimeTool.yyyyMMdd2DateTime(confirm.selDate).ToString("yyyy-MM-dd"), fakeContact.countryCd, fakeContact.lang,
-                //prod.prod_type, "127.0.0.1", prod.prod_hander, fakeContact.currency);
+                ViewData["pmgw"] = pmgw;
 
                 //放到session
                 TempData["prod_" + guid] = JsonConvert.SerializeObject(prod);
@@ -160,6 +170,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 TempData["pkg_" + guid] = JsonConvert.SerializeObject(pkg);
                 TempData["pkgsDiscRule_" + guid] = JsonConvert.SerializeObject(pkgs.discount_rule);
                 TempData["prodShow_"+guid] = JsonConvert.SerializeObject(show);
+                TempData["pmgw_"+guid] = JsonConvert.SerializeObject(pmgw);
 
                 return View();
             }
@@ -246,7 +257,11 @@ namespace KKday.Web.B2D.EC.Controllers
         {
             try
             {
-                Website.Instance.logger.Debug($"bookingStep1_inputdata:{ JsonConvert.SerializeObject(data)}");
+                data = BookingRepostory.setCardEncrypt(data);
+                //log時把卡號移除
+                DataModel dataTemp = data.Clone();
+                dataTemp.card = null;
+                Website.Instance.logger.Debug($"bookingStep1_inputdata:{ JsonConvert.SerializeObject(dataTemp)}");
 
                 ApiSetting api = new ApiSetting();
                 api.apiKey = "kkdayapi";
@@ -283,6 +298,10 @@ namespace KKday.Web.B2D.EC.Controllers
                 if (string.IsNullOrEmpty(discRuleStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
                 DiscountRuleModel rule = JsonConvert.DeserializeObject<DiscountRuleModel>(discRuleStr);
 
+                string pmgwStr = TempData["pmgw_" + data.guidNo] as string;
+                if(string.IsNullOrEmpty(pmgwStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
+                Pmgw pmgw = JsonConvert.DeserializeObject<Pmgw>(pmgwStr);
+
                 string showStr = TempData["prodShow_" + data.guidNo] as string;
                 if (string.IsNullOrEmpty(showStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
                 //BookingShowProdModel show = JsonConvert.DeserializeObject<BookingShowProdModel>(showStr);
@@ -292,22 +311,18 @@ namespace KKday.Web.B2D.EC.Controllers
                 //排除餐食 
                 data = BookingRepostory.exculdeFood(prod, data, module);
 
-                //DataSettingRepostory Ores = new DataSettingRepostory();
-                //data = DataSettingRepostory.fakeDataModel(data);
-                //string q = JsonConvert.SerializeObject(data);
-                //string b2bOrder = BookingRepostory.insB2dOrder(title, prod, pkg, confirm, data, fakeContact,rule);
+                string b2bOrder = BookingRepostory.insB2dOrder(title, prod, pkg, confirm, data, fakeContact,rule);
 
                 //轉 ordermodel
-                OrderRepostory res = new OrderRepostory();
-                OrderModel ord = res.setOrderModel(data);
-                api.json = ord;
+                //OrderRepostory res = new OrderRepostory();
+                //OrderModel ord = res.setOrderModel(data,pmgw,title);
+                //api.json = ord;
+                //string orderModelStr = JsonConvert.SerializeObject(api);
+                //Website.Instance.logger.Debug($"bookingStep1_ordernewdata:{ JsonConvert.SerializeObject(orderModelStr)}");
 
-                string orderModelStr = JsonConvert.SerializeObject(api);
-
-                Website.Instance.logger.Debug($"bookingStep1_ordernewdata:{ JsonConvert.SerializeObject(orderModelStr)}");
-
-                KKapiHelper kk = new KKapiHelper();
-                JObject order =kk.crtOrder(api);
+                //KKapiHelper kk = new KKapiHelper();
+                //JObject order =kk.crtOrder(api);
+                JObject order =ApiHelper.orderNew(data, title);
 
                 string orderMid = "";
                 string orderOid = "";
@@ -315,18 +330,19 @@ namespace KKday.Web.B2D.EC.Controllers
                 //要先判斷是不是result＝'0000'
                 if (order["content"]["result"].ToString()=="0000")
                 {
+                    string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
                     orderMid = order["content"]["orderMid"].ToString();
                     orderOid = order["content"]["orderOid"].ToString();
-                    status.pmchSslRequest = BookingRepostory.setPaymentInfo2(prod,ord, orderMid);
+                    status.pmchSslRequest = BookingRepostory.setPaymentInfo2(prod,data, orderMid,fakeContact,pmgw,memUuid);
                     status.status = "OK";
+                    status.url = pmgw.pmchPayURL;
 
                     //要把BookingShowProdModel 帶到訂購final頁
                     RedisHelper.SetProdInfotoRedis(showStr, "b2d:ec:order:final:prodShow:" + orderMid, 60);
                     RedisHelper.SetProdInfotoRedis(JsonConvert.SerializeObject(data), "b2d:ec:order:final:orderData:" + orderMid, 60);
 
                     //要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
-                    string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
-                    BookingRepostory.setPayDtltoRedis(ord, orderMid, memUuid);
+                    BookingRepostory.setPayDtltoRedis(data, orderMid, memUuid);
 
                     //要存redis 因為付款後要從這個redis內容再進行payment驗證,可和上面整合存一個就好
                     //CallJsonPay rdsJson = (CallJsonPay)status.pmchSslRequest.json;
@@ -346,7 +362,7 @@ namespace KKday.Web.B2D.EC.Controllers
             catch (Exception ex)
             {
                 //error
-                Website.Instance.logger.Debug($"bookingStep1_err:ordernew失敗->{ex.ToString()}");
+                Website.Instance.logger.Debug($"bookingStep1_err:ordernew失敗->{ex.Message.ToString()}");
                 returnStatus status = new returnStatus();
                 status.status = "Error";
                 status.msgErr = "error bookingSetp1_1";//要改
