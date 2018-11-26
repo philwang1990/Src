@@ -119,15 +119,7 @@ $(function () {
     //觸發scrollToTop
     $('.scroll-top-wrapper').on('click', scrollToTop);
 
-    $('.sorting .dropdown-menu li a').on('click',function(){
-        var $value = $(this).text();
 
-        $(this).parent('li').addClass('active');
-
-        $(this).parent('li').siblings('li').removeClass('active');
-
-        $(this).parents('.dropdown-menu').siblings('.btn-default').find('span').text($value);
-    });
 
     //Layout-CitySearch
     $("#sub2").click(function(){

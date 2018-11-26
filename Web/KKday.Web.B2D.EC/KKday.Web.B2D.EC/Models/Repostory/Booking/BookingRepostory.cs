@@ -9,22 +9,23 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using KKday.Web.B2D.EC.Models.Model.Booking.api;
+using KKday.Web.B2D.EC.Models.Model.Account;
 
 namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 {
     public static class BookingRepostory
     {
 
-        public static DataModel setDefaultBookingInfo(DataModel data ,ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, distributorInfo distributor)
+        public static DataModel setDefaultBookingInfo(DataModel data ,ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, B2dAccount UserData)
         {
             data.productOid = confirm.prodOid;
             data.packageOid = confirm.pkgOid;
-            data.contactFirstname = distributor.firstName;
-            data.contactLastname = distributor.lastName;
-            data.contactEmail = distributor.email;
-            data.telCountryCd = distributor.areatel;
-            data.contactTel = distributor.tel;
-            data.contactCountryCd = distributor.countryCd;
+            data.contactFirstname = UserData.NAME_FIRST; 
+            data.contactLastname = UserData.NAME_LAST;
+            data.contactEmail = UserData.EMAIL; 
+            data.telCountryCd = UserData.TEL_AREA; 
+            data.contactTel = UserData.TEL; 
+            data.contactCountryCd = UserData.COUNRTY_CODE; 
             data.lstGoDt = confirm.selDate;
             if (confirm.pkgEvent != null) data.eventOid = confirm.pkgEvent;
 
@@ -50,7 +51,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.productMainCat = prod.prod_type;
             data.productOrderHandler = prod.prod_hander;
             data.payPmchOid = "1";
-            data.currency = distributor.currency;
+            data.currency = UserData.CURRENCY; 
             //先接直客價!!
             data.currPriceTotal = ((pkg.price1_b2c * confirm.price1Qty)+ (pkg.price2_b2c * confirm.price2Qty) + (pkg.price3_b2c * confirm.price3Qty) + (pkg.price4_b2c * confirm.price4Qty));// 263;// (pkg.price1 * confirm.price1Qty) +(pkg.price2 * confirm.price2Qty) +(pkg.price3 * confirm.price3Qty) + (pkg.price4 * confirm.price4Qty);
             data.crtDevice = "Macintosh";
@@ -66,11 +67,11 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.allowedCardNumberArray = new string[]{};
 
             //senddata
-            data.modules.sendData.moduleData.receiverTel.telCountryCode = distributor.areatel;
-            data.modules.sendData.moduleData.receiverTel.telNumber = distributor.tel;
+            data.modules.sendData.moduleData.receiverTel.telCountryCode = UserData.TEL_AREA; 
+            data.modules.sendData.moduleData.receiverTel.telNumber = UserData.TEL;
 
             //contact
-            data.modules.contactData.moduleData.contactTel.telCountryCode = distributor.areatel;
+            data.modules.contactData.moduleData.contactTel.telCountryCode = UserData.TEL_AREA;
 
             //rendCar 寫在 js
 
@@ -429,7 +430,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
         }
 
         //成立b2d 訂單
-        public  static string insB2dOrder(ProdTitleModel title, ProductModel prod, PkgDetailModel pkg , confirmPkgInfo confirm, DataModel dataModel, distributorInfo Contact, DiscountRuleModel discRule)
+        public  static string insB2dOrder(ProdTitleModel title, ProductModel prod, PkgDetailModel pkg , confirmPkgInfo confirm, DataModel dataModel, B2dAccount UserData, DiscountRuleModel discRule)
         {
             try
             {
@@ -447,8 +448,8 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 
                 Source source = new Source();
                 source.booking_type = "WEB";
-                source.company_xid = Convert.ToInt32(Contact.companyXid);
-                source.channel_oid = Convert.ToInt32(Contact.channelOid);
+                source.company_xid = Convert.ToInt32(UserData.COMPANY_XID); 
+                source.channel_oid = Convert.ToInt32(UserData.KKDAY_CHANNEL_OID);
                 source.connect_tel = dataModel.contactTel;
                 source.connect_mail = dataModel.contactEmail;
                 source.connect_name = dataModel.asiaMileMemberLastName + " " + dataModel.contactFirstname;
@@ -504,13 +505,13 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 if (dataModel.travelerData.Count == 1)
                 {
                     //依priceTeype寫入
-                    if (confirm.price1Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, "price1", lstSeqno, 1, Convert.ToInt32(confirm.price1Qty), discRule));
+                    if (confirm.price1Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price1", lstSeqno, 1, Convert.ToInt32(confirm.price1Qty), discRule));
                     lstSeqno = lstSeqno+1;
-                    if (confirm.price2Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, "price2", lstSeqno, 1, Convert.ToInt32(confirm.price2Qty), discRule));
+                    if (confirm.price2Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price2", lstSeqno, 1, Convert.ToInt32(confirm.price2Qty), discRule));
                     lstSeqno = lstSeqno+1;
-                    if (confirm.price3Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, "price3", lstSeqno, 1, Convert.ToInt32(confirm.price3Qty), discRule));
+                    if (confirm.price3Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price3", lstSeqno, 1, Convert.ToInt32(confirm.price3Qty), discRule));
                     lstSeqno = lstSeqno+1;
-                    if (confirm.price4Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, "price4", lstSeqno, 1, Convert.ToInt32(confirm.price4Qty), discRule));
+                    if (confirm.price4Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price4", lstSeqno, 1, Convert.ToInt32(confirm.price4Qty), discRule));
                 }
                 else
                 {
@@ -521,7 +522,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                         else if (ii < (confirm.price1Qty + confirm.price2Qty)) { priceType = "price2"; }
                         else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty)) { priceType = "price3"; }
                         else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty)) { priceType = "price4"; }
-                        lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, Contact, priceType, lstSeqno,  cusSeqno, 1, discRule));
+                        lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, priceType, lstSeqno,  cusSeqno, 1, discRule));
                         lstSeqno = lstSeqno+1;
                         cusSeqno = cusSeqno+1;
                     }
@@ -552,7 +553,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             }
         }
 
-        public static OrderLst insOrderListTemp(ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, DataModel dataModel, distributorInfo Contact,string priceType,int lstSeqno,int? cusSeqno,int prodQty, DiscountRuleModel discRule)
+        public static OrderLst insOrderListTemp(ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, DataModel dataModel, B2dAccount UserData,string priceType,int lstSeqno,int? cusSeqno,int prodQty, DiscountRuleModel discRule)
         {
             OrderLst lstTemp = new OrderLst();
             //lstTemp.lst_seqno = lstSeqno;
@@ -561,7 +562,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             lstTemp.prod_amt = Convert.ToDouble( priceType == "price1" ? pkg.price1 : priceType == "price2" ? pkg.price2 : priceType == "price3" ? pkg.price3 : pkg.price4);
             lstTemp.prod_name = prod.prod_name;
             lstTemp.prod_b2c_amt = Convert.ToDouble(priceType == "price1" ? pkg.price1_b2c : priceType == "price2" ? pkg.price2_b2c : priceType == "price3" ? pkg.price3_b2c : pkg.price4_b2c);
-            lstTemp.prod_currency = Contact.currency;
+            lstTemp.prod_currency = UserData.CURRENCY;
             lstTemp.prod_cond1 = priceType;
             lstTemp.prod_cond2 = pkg.unit;
             lstTemp.events = confirm.pkgEvent;
@@ -582,7 +583,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 if (priceType == "price4") discAmt = Convert.ToDouble(pkg.price4_org - pkg.price4);
 
                 rule.disc_amt = discAmt;
-                rule.disc_currency = Contact.currency;
+                rule.disc_currency = UserData.CURRENCY;
                 rule.disc_name = discRule.disc_name;
                 rule.disc_note = "";
                 //rule.lst_seqno = lstSeqno;

@@ -16,6 +16,8 @@ using System.Diagnostics;
 using KKday.Web.B2D.EC.Models.Model.Pmch;
 //using KKday.Web.B2D.EC.Models.Repostory.Booking;
 using Microsoft.Extensions.Primitives;
+using KKday.Web.B2D.EC.Models.Model.Account;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -29,10 +31,14 @@ namespace KKday.Web.B2D.EC.Controllers
             try
             {
                 //假分銷商
-                distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+                //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+
+                //B2d分銷商資料
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
 
                 //取挖字
-                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+                Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE); //fakeContact.lang, UserData.LOCALE
                 ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
                 if (guid == null) throw new Exception(title.common_data_error);
@@ -41,9 +47,9 @@ namespace KKday.Web.B2D.EC.Controllers
                 if (confirm ==null) throw new Exception(title.common_data_error);
 
                 //從 api取 
-                ProductModuleModel module = ProductRepostory.getProdModule(fakeContact.companyXid,fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid,confirm.pkgOid,title);
-                ProductModel prod = ProductRepostory.getProdDtl(fakeContact.companyXid,fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid,title);
-                PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid,title);
+                ProductModuleModel module = ProductRepostory.getProdModule(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, confirm.prodOid,confirm.pkgOid, title);
+                ProductModel prod = ProductRepostory.getProdDtl(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, confirm.prodOid, title);
+                PackageModel pkgs = ProductRepostory.getProdPkg(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, confirm.prodOid, title);
 
                 if (prod.result !="0000") {
                     Website.Instance.logger.Debug($"booking_index_getProdDtl_err:prodOid->{confirm.prodOid} ,msg-> {prod.result_msg}");
@@ -87,7 +93,7 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 if(isEvent =="Y")
                 {
-                    pkgEvent = ApiHelper.getPkgEvent(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid, confirm.pkgOid,title);
+                    pkgEvent = ApiHelper.getPkgEvent(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, confirm.prodOid, confirm.pkgOid,title);
 
                 }
                 //必須要設定人數
@@ -100,7 +106,7 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 //將dataModel原型 以json str 帶到前台的hidden
                 DataModel dm = DataSettingRepostory.getDefaultDataModel(totalCus,guid);
-                dm = BookingRepostory.setDefaultBookingInfo(dm, prod, pkg, confirm, fakeContact);//這個地方接pmch要改
+                dm = BookingRepostory.setDefaultBookingInfo(dm, prod, pkg, confirm, UserData);//這個地方接pmch要改
 
                 String dataModelStr = JsonConvert.SerializeObject(dm);
                 //dm.travelerData[0].meal.mealType
@@ -111,7 +117,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 RentCar rentCar = module.module_rent_car;
                 if (rentCar == null) { rentCar = new RentCar(); rentCar.is_require = false; }
                 ViewData["confirmPkgInfo"] = confirm;
-                ViewData["contactInfo"] = fakeContact;
+                ViewData["contactInfo"] = UserData;
                 ViewData["cusData"] = module.module_cust_data;
                 ViewData["guide"] = module.module_guide_lang_list;
                 ViewData["wifi"] = module.module_sim_wifi;
@@ -132,7 +138,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 ViewData["sendInfoType"] = sendInfoType;
                 ViewData["CutOfDay"] = prod.before_order_day;
                 ViewData["cusAgeRange"] = cusAgeRange;
-                BookingShowProdModel show = BookingRepostory.setBookingShowProd(prod, pkg, confirm, fakeContact.currency, pkgEvent,title);
+                BookingShowProdModel show = BookingRepostory.setBookingShowProd(prod, pkg, confirm, UserData.CURRENCY, pkgEvent,title); 
                 ViewData["prodShow"] = show;
 
                 ViewData["isEvent"] = isEvent;//
@@ -251,7 +257,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 api.ipaddress = "61.216.90.96";
 
                 //假分銷商
-                distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+                //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
                 string prodStr = TempData["prod_" + data.guidNo] as string;
                 if (string.IsNullOrEmpty(prodStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }

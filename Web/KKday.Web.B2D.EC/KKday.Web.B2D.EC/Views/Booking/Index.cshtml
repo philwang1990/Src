@@ -1,5 +1,6 @@
 ﻿@using KKday.Web.B2D.EC.Models.Model.Product
 @using KKday.Web.B2D.EC.Models.Model.Booking
+@using KKday.Web.B2D.EC.Models.Model.Account
 
 
 @{ 
@@ -90,7 +91,7 @@
     var contactData = (ContactData)ViewData["contactData"];
 
     var flightInfo = (FlightInfo)ViewData["flightInfo"];
-    var contactInfo = (distributorInfo)ViewData["contactInfo"];
+    var contactInfo = (B2dAccount)ViewData["contactInfo"];
     var dataModelStr = ViewData["dataModelStr"];
     var cutOfDay = ViewData["CutOfDay"];
     var cusAgeRange = ViewData["cusAgeRange"];

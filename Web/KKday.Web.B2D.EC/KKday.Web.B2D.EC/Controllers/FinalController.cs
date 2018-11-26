@@ -10,6 +10,8 @@ using KKday.Web.B2D.EC.AppCode;
 using KKday.Web.B2D.EC.Models.Repostory.Booking;
 using KKday.Web.B2D.EC.Models.Model.Booking;
 using KKday.Web.B2D.EC.Models.Model.Product;
+using KKday.Web.B2D.EC.Models.Model.Account;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -28,7 +30,8 @@ namespace KKday.Web.B2D.EC.Controllers
         //付款後導回
         public IActionResult Step3(string id,string jsondata)
         {
-            distributorInfo fakeContact = null;
+            //distributorInfo fakeContact = null;
+            B2dAccount UserData = null;
             if (id !=null)
             {
                 //回傳的連結有訂編 (記log)
@@ -58,12 +61,18 @@ namespace KKday.Web.B2D.EC.Controllers
                 string isSuccess = helper.PaymentValid(transNo, pmgwValidToken);
 
                 //如果ok就upd
-                fakeContact = DataSettingRepostory.fakeContact();
+                //fakeContact = DataSettingRepostory.fakeContact();
+
+                //B2d分銷商資料
+                //var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                //var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+
                 //helper.PayUpdSuccessUpdOrder(id, transNo, payDtl, req, res, fakeContact);//舊版
-                helper.PayUpdSuccessUpdOrder2(id, transNo, payDtl, req, res, fakeContact); //新版
+                helper.PayUpdSuccessUpdOrder2(id, transNo, payDtl, req, res, UserData); //新版
             }
             //取挖字
-            Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+            Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE);
             ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
             BookingShowProdModel prodShow = null;
@@ -87,9 +96,14 @@ namespace KKday.Web.B2D.EC.Controllers
         //付款中途停止導回
         public IActionResult Failure(string id)
         {
-            distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+            //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+
+            //B2d分銷商資料
+            var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
             //取挖字
-            Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+            Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE);
             ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
             BookingShowProdModel prodShow = null;

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace KKday.Web.B2D.EC.Models.Model.Account
 {
     /// <summary>
@@ -6,7 +8,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Account
     /// </summary>
 
     [Serializable]
-    public class UserAccount
+    public class UserAccount 
     {
         public Int64 XID { get; set; }   //帳號流水號
         public string UUID { get; set; }   //會員識別流水號 
@@ -49,5 +51,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Account
         public string TEL { get; set; } //聯絡電話
         public string CURRENCY { get; set; } //幣別
         public string PASSWORD { get; set; } //密碼
+        public string COUNRTY_CODE { get; set; } //國藉
+        //public string LANG { get; set; }
+        public string KKDAY_CHANNEL_OID { get; set; } //channelOid
     }
 }

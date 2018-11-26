@@ -12,17 +12,23 @@ using KKday.Web.B2D.EC.Models.Repostory.Booking;
 using KKday.Web.B2D.EC.AppCode;
 using KKday.Web.B2D.EC.Models.Model.Product;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using KKday.Web.B2D.EC.Models.Model.Account;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace KKday.SearchProd.Controllers
 {
+    [Authorize(Policy = "UserOnly")]
     public class SearchController : Controller
     {
+
+
         string[] _durations = null;
         // GET: /<controller>/
         public IActionResult ProdList(string pg, string cat_main, string cat_sub, string key1, string pricerange,
-              string currency, string lang, string datefilter, string budget, string[] duration, string[] guidelang)
+               string datefilter, string budget, string[] duration, string[] guidelang) //string currency, string lang,
         {
             //string[] amounts = Request.Form.GetValues(duration);
 
@@ -36,9 +42,19 @@ namespace KKday.SearchProd.Controllers
             }
 
             //假分銷商
-            distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+            //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
-            Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+            //B2d分銷商資料
+            var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+            //分銷商語系
+            string locale = UserData.LOCALE;
+            //分銷商幣別
+            string currency = UserData.CURRENCY;
+            //取得可售商品之國家&城市
+            var countries = CountryRepostory.GetCountries(locale);
+
+            Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE);
             ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
             List<ProductBaseModel> prodList = null;
@@ -54,11 +70,11 @@ namespace KKday.SearchProd.Controllers
                 Stats stats = new Stats();                //out 參數 (接收返回的stats參數)
 
                 //取得資料
-                prodList = SearchRepostory.GetProduct("zh-tw", "TWD", key1, offset, size, datefilter, budget, _durations, guidelang, cat_main, cat_sub,
+                prodList = SearchRepostory.GetProduct(locale, currency, key1, offset, size, datefilter, budget, _durations, guidelang, cat_main, cat_sub,
                                                                     out total_count, out total_pages, out stats, out facets);
 
-                List<CountryInfo> countries = new List<CountryInfo>();
-                countries = CountryRepostory.GetCountries(key1);
+                List<CountryInfo> country = new List<CountryInfo>();
+                country = CountryRepostory.GetCountries(key1, locale);
 
                 //傳入VIEW的參數
                 ViewData["total_count"] = total_count;
@@ -71,7 +87,7 @@ namespace KKday.SearchProd.Controllers
                 ViewData["stats"] = stats;
                 ViewData["pricerange"] = !string.IsNullOrEmpty(pricerange) ? pricerange : string.Format("{0};{1}", stats.price.min, stats.price.max);
                 ViewData["budget"] = !string.IsNullOrEmpty(budget) ? budget : string.Format("{0};{1}", stats.price.min, stats.price.max);
-                ViewData["countries"] = countries;
+                ViewData["country"] = country;
                 ViewData["prodTitle"] = title;
             }
 

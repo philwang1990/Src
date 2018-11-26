@@ -16,6 +16,8 @@ using KKday.Web.B2D.EC.Models.Model.Booking;
 using KKday.Web.B2D.EC.Models.Repostory.Booking;
 using KKday.Web.B2D.EC.Models;
 using System.Diagnostics;
+using KKday.Web.B2D.EC.Models.Model.Account;
+using System.Security.Claims;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,19 +47,22 @@ namespace KKday.Web.B2D.EC.Controllers
                 //要把挖字存成一個物件並帶到view去
                 //logs Website.Instance.logger.Info($"[PAY]kkOrderNo:{bookRQ.order.orderMid},priceType:{lst.price_type},jtrTktNo:{payRS.code},jtrErr:{payRS.error_msg}");
                 //假分銷商
-                distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+                //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+
+                //B2d分銷商資料
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+                //取挖字
+                Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE); //fakeContact.lang, UserData.LOCALE
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
                 //fakeContact.state = "CN";
 
-                //取挖字
-                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
-                //ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
-                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
-
-                if (id == null) throw new Exception("商品不存在");
+                if (id == null) throw new Exception("商品不存在"); 
 
                 //從 api取 
-                ProductforEcModel prod = ProductRepostory.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id,title);
+                ProductforEcModel prod = ProductRepostory.getProdDtl(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, id,title);
 
                 if (prod.result != "0000")
                 {
@@ -71,7 +76,7 @@ namespace KKday.Web.B2D.EC.Controllers
                     }
                 }
 
-                PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id,title);
+                PackageModel pkgs = ProductRepostory.getProdPkg(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, id,title);
 
                 if (pkgs.result != "0000") throw new Exception(prod.result_msg);//不正確就導錯誤頁,但api還未處理怎麼回傳
 
@@ -91,9 +96,9 @@ namespace KKday.Web.B2D.EC.Controllers
                 string allCanUseDate = "";
 
 
-                prod = ProductRepostory.getProdOtherInfo(prod, id, fakeContact.lang, fakeContact.currency, uikey);
+                prod = ProductRepostory.getProdOtherInfo(prod, id, UserData.LOCALE, UserData.CURRENCY, uikey);
                 prod.guidNo = pkgs.guid;
-                List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, fakeContact.lang, fakeContact.currency, uikey, out allCanUseDate);
+                List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, UserData.LOCALE, UserData.CURRENCY, uikey, out allCanUseDate);
 
                 TempData["ProdTitleKeep"] = JsonConvert.SerializeObject(uikey);
 
@@ -103,7 +108,7 @@ namespace KKday.Web.B2D.EC.Controllers
                     prod.policy_list = prod.policy_list.OrderByDescending(o => o.is_over).OrderByDescending(o => o.days).ToList();
                 }
 
-                ProductModuleModel module = ProductRepostory.getProdModule(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, id, "",title);
+                ProductModuleModel module = ProductRepostory.getProdModule(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, id, "",title);
                 if(module != null && module.module_venue_info != null){
                     if(module.module_venue_info.venue_type == "01")
                     {
@@ -117,7 +122,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 ViewData["pkgs"] = pkgs;
                 ViewData["allCanUseDate"] = allCanUseDate;
                 ViewData["pkgDate"] = prodPkgDateList;
-                ViewData["currency"] = fakeContact.currency;
+                ViewData["currency"] = UserData.CURRENCY;
 
                 return View();
             }
@@ -137,31 +142,34 @@ namespace KKday.Web.B2D.EC.Controllers
         {
             try
             {
-                distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+                //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
                 //先確認是否有selDate ,如果沒有表示是第一次
                 //如果有 selDate要依selDate決定可用的套餐
 
+                //B2d分銷商資料
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
 
                 string allCanUseDate = "";
 
                 //取挖字
-                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+                Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE);
 
                 ProdTitleModel title = ProductRepostory.getProdTitle(uikey);
                 ViewData["prodTitle"] = title;
-                ViewData["currency"] = fakeContact.currency;//先從這裡取得幣別就不用再抓prod
+                ViewData["currency"] = UserData.CURRENCY;//先從這裡取得幣別就不用再抓prod
 
                 //ProductforEcModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodQury.prodOid);
                 //prod = prodRep.getProdInfo(prod, prodQury.prodOid, fakeContact.lang, fakeContact.currency, uikey); //prod.guidNo = guid;
                 //ViewData["prodInfo"] = prod;
 
-                PackageModel pkgs = ProductRepostory.getProdPkg(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodQury.prodOid,title);
+                PackageModel pkgs = ProductRepostory.getProdPkg(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, prodQury.prodOid,title);
 
                 Int64 nowDatetime = Convert.ToInt64(DateTime.Now.ToString("yyyyMMddHHmmss"));
                 pkgs.pkgs = pkgs.pkgs.Where(x => nowDatetime >= Convert.ToInt64(x.online_s_date) && Convert.ToInt64(x.online_e_date) > nowDatetime).ToList();
 
                 Website.Instance.logger.Debug($"product_reflashPkg_err:{JsonConvert.SerializeObject(pkgs)}");
-                List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, fakeContact.lang, fakeContact.currency, uikey, out allCanUseDate);
+                List<PkgDateforEcModel> prodPkgDateList = ProductRepostory.getProdPkgDate(pkgs, UserData.LOCALE, UserData.CURRENCY, uikey, out allCanUseDate);
 
                 //設定每個pkg裡面可以使用的日期有那些
                 pkgs = ProductRepostory.InitPkg(prodQury, title, pkgs, prodPkgDateList);
@@ -234,7 +242,11 @@ namespace KKday.Web.B2D.EC.Controllers
         {
             try
             {
-                distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+                //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
+
+                //B2d分銷商資料
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
                 //取挖字
                 String json = TempData["ProdTitleKeep"] as string;
                 if (string.IsNullOrEmpty(json))
@@ -244,7 +256,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(json);
                 TempData.Keep();
 
-                PkgEventsModel getEventTime = ProductRepostory.getEvent(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, prodEvent.prodno, prodEvent.pkgno,title);
+                PkgEventsModel getEventTime = ProductRepostory.getEvent(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, prodEvent.prodno, prodEvent.pkgno,title);
                 if(getEventTime.result == "0000"){
                     var result = getEventTime.events.Where(x => x.day == prodEvent.DateSelected);
                     //result = new List<Event> { };

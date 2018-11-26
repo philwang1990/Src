@@ -17,7 +17,7 @@ namespace KKday.Web.B2D.EC.AppCode
     public static class ApiHelper
     {
    
-        public static ProductModuleModel getProdModule(string B2dXid, string state, string lang, string currency, string prodoid, string pkgoid ,ProdTitleModel title )
+        public static ProductModuleModel getProdModule(long B2dXid, string state, string lang, string currency, string prodoid, string pkgoid ,ProdTitleModel title )
         {
             try
             {
@@ -71,7 +71,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
         }
 
-        public static ProductforEcModel getProdDtl(string B2dXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
+        public static ProductforEcModel getProdDtl(long B2dXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
         {
             try
             {
@@ -124,7 +124,7 @@ namespace KKday.Web.B2D.EC.AppCode
             }
         }
 
-        public static PackageModel getProdPkg(string B2dXid, string state, string lang, string currency, string prodoid, ProdTitleModel title)
+        public static PackageModel getProdPkg(long B2dXid, string state, string lang, string currency, string prodoid, ProdTitleModel title)
         {
 
             try
@@ -177,7 +177,7 @@ namespace KKday.Web.B2D.EC.AppCode
             }
         }
 
-        public static PkgEventsModel getPkgEvent(string B2dXid, string state, string lang, string currency, string prodoid, string pkgoid,ProdTitleModel title)
+        public static PkgEventsModel getPkgEvent(long B2dXid, string state, string lang, string currency, string prodoid, string pkgoid,ProdTitleModel title)
         {
             try
             {
@@ -279,7 +279,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
     public  class  ApiRequest
     {
-        public string company_xid { get; set; }
+        public long company_xid { get; set; }
         public string locale_lang { get; set; }
         public string current_currency { get; set; }
         public string prod_no { get; set; }
