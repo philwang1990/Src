@@ -1,10 +1,11 @@
 ﻿function setInit() {
-
     $(".confirmBar").hide();
     $(".minPriceBar").show();
 
     if ($("#hdnIsEcSale").val() == "True") reflashPkg();
     else{ $("#option-spy").hide(); }
+
+
 }
 
 
@@ -560,8 +561,14 @@ function dtInit(option) {
         } else {
             dateArr = ($("#hdnAllCanUseDate").val()).split(",");
         }
+    } else if (option === "3") {
+        if ($("#hdnPkgOid").val() != "") {
+            dateArr = ($("#hdnPkgDate_" + $("#hdnPkgOid").val()).val()).split(",");
+        } else {
+            dateArr = ($("#hdnAllCanUseDate").val()).split(",");
+        }
     } else {
-        //do nothing
+
     }
 
     $('#select-date input').daterangepicker({

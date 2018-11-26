@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using KKday.Web.B2D.EC.Models.Model.Account;
@@ -37,9 +38,8 @@ namespace KKday.Web.B2D.EC.Controllers
             try
             {
                 //var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
-                //var account = accountRepo.GetAccount(loginModel.Email, loginModel.Password);
-                AccountRepository acct = new AccountRepository();
-                var account = acct.GetAccount(loginModel.Email, loginModel.Password);
+
+                var account = AccountRepository.GetAccount(loginModel.Email, loginModel.Password);
                 var IsKKdayUser = account is KKdayAccount ? true : false;
 
                 var strChiperAcct = AesCryptHelper.aesEncryptBase64(JsonConvert.SerializeObject(account), Website.Instance.AesCryptKey);
@@ -49,11 +49,14 @@ namespace KKday.Web.B2D.EC.Controllers
                     new Claim(ClaimTypes.Name, account.NAME),
                     new Claim("Account", account.EMAIL),
                     new Claim("UUID", account.UUID),
-                    new Claim("UserType", IsKKdayUser ? "KKDAY" : "USER"),
+                    new Claim("UserType", IsKKdayUser ? "KKDAY" : "USER"),   
                     new Claim("Locale", account.LOCALE),
                     new Claim("Currency", IsKKdayUser ? "" : ((B2dAccount)account).CURRENCY),
                     new Claim(ClaimTypes.UserData,strChiperAcct), // 以AES加密JSON格式把使用者資料保存於Cookie
                 };
+
+                //var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                //var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
 
                 var userIdentity = new ClaimsIdentity(claims, "login");
 
@@ -77,7 +80,7 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 jsonData.Add("status", "OK");
                 //Just redirect to our index after logging in. 
-                jsonData.Add("url", IsKKdayUser ? Url.Content("~/KKday/") : Url.Content("~/User"));
+                jsonData.Add("url", IsKKdayUser ? Url.Content("~/KKday/") : Url.Content("~/"));
             }
             catch (Exception ex)
             {

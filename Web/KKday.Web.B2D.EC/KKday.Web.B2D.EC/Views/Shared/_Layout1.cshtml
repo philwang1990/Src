@@ -14,6 +14,7 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css.map" />
         @*<link rel="stylesheet" href="~/css/site.css" />*@
         @*<link rel="stylesheet" href="~/css/custom.css" />*@
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-datepicker.css" />
@@ -74,7 +75,7 @@
             <button type="button" class="close">×</button>
         </div>
     </div>
-     <header class="header">
+    <header class="header">
         <div class="container-fluid">
             <div class="row">
                 <div class="header-container row">
@@ -83,134 +84,134 @@
                             <img src="@Url.Content("~/images/kkday_logo_final.svg")" class="header-logo">
                         </a>
                         <form id="form3" action="@Url.Content("~/Search/ProdList")" method="post">
-                        <input type="hidden" id="q_city_key" name="key1" />
-                        @*<input type="hidden" id="key2" name="key1" />  點擊的查詢條件*@
-                        <div class="kksearch">
-                            <div class="kksearch-header visible-xs">
-                                <h4 class="text-center">搜尋</h4>
-                                <span class="close-search visible-xs">
-                                    <i class="fa fa-angle-left fa-3x"></i>
-                                </span>
-                            </div>
-                            <div class="input-group">
-                                <input type="text" id="key" class="form-control" placeholder="@prodTitle.common_type_to_search">
-                                <span class="clear-input"><i class="fa fa-times-circle fa-lg"></i></span>
-                                <span class="input-group-btn">
-                                    <button class="btn btn-primary" type="submit" id="sub2"><i class="fa fa-search fa-lg"></i></button>
-                                </span>
-                            </div>
-                            <div class="search-dropdown">
-                                <div class="default-suggest">
-                                    <h4 class="title">@prodTitle.common_popular_destinations_title</h4>
-                                    <ul>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('首爾')"><span class="hot">首爾</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('東京')"><span class="hot">東京</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('香港')"><span class="hot">香港</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('曼谷')"><span class="hot">曼谷</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('花蓮')"><span class="hot">花蓮</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('紐約')"><span class="hot">紐約</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('倫敦')"><span class="hot">倫敦</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('沙巴-亞庇')"><span class="hot">沙巴-亞庇</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('釜山')"><span>釜山</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('沖繩')"><span>沖繩</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('北海道')"><span>北海道</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('大阪')"><span>大阪</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('巴黎')"><span>巴黎</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('清邁')"><span>清邁</span></a></li>
-                                        <li><a href="javascript:void(0);" onclick="quicksearch('雪梨')"><span>雪梨</span></a></li>
-                                    </ul>
+                            <input type="hidden" id="q_city_key" name="key1" />
+                            @*<input type="hidden" id="key2" name="key1" />  點擊的查詢條件*@
+                            <div class="kksearch">
+                                <div class="kksearch-header visible-xs">
+                                    <h4 class="text-center">搜尋</h4>
+                                    <span class="close-search visible-xs">
+                                        <i class="fa fa-angle-left fa-3x"></i>
+                                    </span>
                                 </div>
-                                @*<div class="city-suggest">
-                                    輸入”國家名稱“時只出現此區塊
-                                    <ul>
-                                        <li><a href="#"><span>台北</span></a></li>
-                                        <li><a href="#"><span>東京</span></a></li>
-                                        <li><a href="#"><span>京都</span></a></li>
-                                        <li><a href="#"><span>Athens</span></a></li>
-                                        <li><a href="#"><span>Berlin</span></a></li>
-                                        <li><a href="#"><span>Dominican Republic</span></a></li>
-                                        <li><a href="#"><span>Edinburgh</span></a></li>
-                                        <li><a href="#"><span>Hamburg</span></a></li>
-                                        <li><a href="#"><span>Hanoi</span></a></li>
-                                        <li><a href="#"><span>Ho Chi Minh City</span></a></li>
-                                        <li><a href="#"><span>Paris</span></a></li>
-                                        <li><a href="#"><span>Prague</span></a></li>
-                                        <li><a href="#"><span>Rome</span></a></li>
-                                        <li><a href="#"><span>San Francisco</span></a></li>
-                                        <li><a href="#"><span>Taichung</span></a></li>
-                                        <div class="clearfix"></div>
-                                    </ul>
-                                </div>*@
+                                <div class="input-group">
+                                    <input type="text" id="key" class="form-control" placeholder="@prodTitle.common_type_to_search">
+                                    <span class="clear-input"><i class="fa fa-times-circle fa-lg"></i></span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="submit" id="sub2"><i class="fa fa-search fa-lg"></i></button>
+                                    </span>
+                                </div>
+                                @*<div class="search-dropdown">
+                                        <div class="default-suggest">
+                                            <h4 class="title">@prodTitle.common_popular_destinations_title</h4>
+                                            <ul>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('首爾')"><span class="hot">首爾</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('東京')"><span class="hot">東京</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('香港')"><span class="hot">香港</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('曼谷')"><span class="hot">曼谷</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('花蓮')"><span class="hot">花蓮</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('紐約')"><span class="hot">紐約</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('倫敦')"><span class="hot">倫敦</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('沙巴-亞庇')"><span class="hot">沙巴-亞庇</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('釜山')"><span>釜山</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('沖繩')"><span>沖繩</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('北海道')"><span>北海道</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('大阪')"><span>大阪</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('巴黎')"><span>巴黎</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('清邁')"><span>清邁</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('雪梨')"><span>雪梨</span></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="city-suggest">
+                                        輸入”國家名稱“時只出現此區塊
+                                        <ul>
+                                            <li><a href="#"><span>台北</span></a></li>
+                                            <li><a href="#"><span>東京</span></a></li>
+                                            <li><a href="#"><span>京都</span></a></li>
+                                            <li><a href="#"><span>Athens</span></a></li>
+                                            <li><a href="#"><span>Berlin</span></a></li>
+                                            <li><a href="#"><span>Dominican Republic</span></a></li>
+                                            <li><a href="#"><span>Edinburgh</span></a></li>
+                                            <li><a href="#"><span>Hamburg</span></a></li>
+                                            <li><a href="#"><span>Hanoi</span></a></li>
+                                            <li><a href="#"><span>Ho Chi Minh City</span></a></li>
+                                            <li><a href="#"><span>Paris</span></a></li>
+                                            <li><a href="#"><span>Prague</span></a></li>
+                                            <li><a href="#"><span>Rome</span></a></li>
+                                            <li><a href="#"><span>San Francisco</span></a></li>
+                                            <li><a href="#"><span>Taichung</span></a></li>
+                                            <div class="clearfix"></div>
+                                        </ul>
+                                    </div>*@
                                 @*<div class="autosuggest">
-                                    <ul class="destination">
-                                        <li>
-                                            <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>chung</a>
-                                        </li>
-                                        <li>
-                                            <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>nan</a>
-                                        </li>
-                                        <li>
-                                            <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>pei</a>
-                                        </li>
-                                    </ul>
-                                    <ul class="experience">
-                                        <li>
-                                            <a href="#">
-                                                <span class="prod_name">
-                                                    Bangkok Dinosaur Planet Tickets - Over 30% Off
-                                                </span>
-                                                <span class="city">
-                                                    <i class="fa fa-map-marker"></i>Bankok
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="prod_name">
-                                                    <i class="fa fa-flash text-primary"></i>
-                                                    Universal Studios Singapore Ticket - Save 10%
-                                                </span>
-                                                <span class="city">
-                                                    <i class="fa fa-map-marker"></i>Taipei
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="prod_name">
-                                                    Day Trip From Seoul: Korean Demilitarized Zone (DMZ) One Day Tour
-                                                </span>
-                                                <span class="city">
-                                                    <i class="fa fa-map-marker"></i>Dominican Republic
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="prod_name">
-                                                    Nami Island with Petite France, Gangchon Rail Bike, Flower Garden
-                                                </span>
-                                                <span class="city">
-                                                    <i class="fa fa-map-marker"></i>Seoul
-                                                </span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="prod_name">
-                                                    <i class="fa fa-flash text-primary"></i>
-                                                    Korea Everland Theme Park Entry Ticket (QR code)
-                                                </span>
-                                                <span class="city">
-                                                    <i class="fa fa-map-marker"></i>Seoul
-                                                </span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>*@
-                                <span class="dropdown-arrow hidden-xs"></span>
+                                            <ul class="destination">
+                                                <li>
+                                                    <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>chung</a>
+                                                </li>
+                                                <li>
+                                                    <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>nan</a>
+                                                </li>
+                                                <li>
+                                                    <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>pei</a>
+                                                </li>
+                                            </ul>
+                                            <ul class="experience">
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            Bangkok Dinosaur Planet Tickets - Over 30% Off
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Bankok
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            <i class="fa fa-flash text-primary"></i>
+                                                            Universal Studios Singapore Ticket - Save 10%
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Taipei
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            Day Trip From Seoul: Korean Demilitarized Zone (DMZ) One Day Tour
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Dominican Republic
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            Nami Island with Petite France, Gangchon Rail Bike, Flower Garden
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Seoul
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            <i class="fa fa-flash text-primary"></i>
+                                                            Korea Everland Theme Park Entry Ticket (QR code)
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Seoul
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <span class="dropdown-arrow hidden-xs"></span>
+                                    </div>*@
                             </div>
-                        </div>
                         </form>
                     </div>
                     <div class="col-xs-4 text-right">
@@ -485,10 +486,10 @@
             </ul>
         </div>
     </div>
-
+    @RenderBody()
 
     <div class="container body-content" style="width:100%">
-        @RenderBody()
+
     </div>
 
     <footer>

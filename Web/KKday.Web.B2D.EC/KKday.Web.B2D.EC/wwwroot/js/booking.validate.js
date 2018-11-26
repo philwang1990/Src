@@ -67,24 +67,10 @@ $.validator.addMethod("contactlName", function (value, element) {
 }, $("#booking_step1_english_error").val());
 
 
-$.validator.addMethod("payCardNumber", function (value, element) {
-           if($("#txtPayCardNum").is(":visible")==true)
-           {
-             if ( value.replace(" ","").replace(" ","").replace(" ","").match(/^([0-9]){16}$/))
-              {return true;}else{
-              return false; }
-           }
-           else
-           {
-             return true;
-           }
-          }, $("#booking_step1_length_error_1").val()+"16"+ $("#booking_step1_length_error_2").val());
-
-
-
 
 function initModule2()
 {
+
     $("#form1").validate({
         rules: {
             txtLocalFname: "required",
@@ -123,10 +109,6 @@ function chkValid()
    $("#board2").removeClass("active").addClass("active");
    $("#board3").removeClass("active").addClass("active");
 
-   var payRadio= $('input:radio[name="payment"]:checked').val();
-   if(payRadio==null) return false;
-
-
    ReParseValidation();
    formVaildate();
 
@@ -148,16 +130,6 @@ function chkValid()
             chkchk=false; 
          }
        
-    });
-
-  $(".payFormClass").each(function () {
-   
-         var id =$(this).attr("id");
-         if($("#"+id).valid()==false) 
-         {
-            chkchk=false; 
-         }
-      
     });
 
    if(chkchk==false) 
@@ -189,7 +161,7 @@ function toStep1() {
         success: function (result) {if(result.status=="OK"){
 
                console.log(result.pmchSslRequest);
-               sendPayment(result.pmchSslRequest,result.url);
+               sendPayment(result.pmchSslRequest);
  
             } else{
                  alert(result.msgErr);
@@ -203,13 +175,12 @@ function toStep1() {
     });
 }
 
-function sendPayment(callPmchReq,url)
+function sendPayment(callPmchReq)
 {
-     //v1/channel/citi/auth
     //https://pmch.sit.kkday.com/citi/payment/auth
     //https://payment.kkday.com/v1/channel/adyen/auth
     var newForm = $('<form>', {
-                       'action': "https://payment.sit.kkday.com/" +url,
+                       'action': "https://payment.sit.kkday.com/v1/channel/citi/auth",
                        'target': '_self',
                        'method': 'post'
                    }).append(jQuery('<input>', {
@@ -443,26 +414,6 @@ function formVaildate()
                     selEvent2 :{required : $("#booking_step1_required_error").val()},
                     selEvent3 :{required : $("#booking_step1_required_error").val()}
 
-                    },
-                errorClass: "error_msg"
-            });
-     });
-
-
-    $(".payFormClass").each(function () {
-     
-          $(this).validate({
-                rules: {
-                    txtPayHolderName: {required : $("#txtPayHolderName").is(":visible")==true},
-                    txtPayCardNum:  { payCardNumber :true ,required : $("#txtPayCardNum").is(":visible")==true },
-                    txtPayExpireDate :{required : $("#txtPayExpireDate").is(":visible")==true},
-                    txtPayCvc :{required : $("#txtPayCvc").is(":visible")==true}
-               },
-                messages: {
-                    txtPayHolderName: $("#booking_step1_required_error").val(),
-                    txtPayCardNum: {required:$("#booking_step1_required_error").val()} ,
-                    txtPayExpireDate :{required : $("#booking_step1_required_error").val()},
-                    txtPayCvc :{required : $("#booking_step1_required_error").val()}
                     },
                 errorClass: "error_msg"
             });

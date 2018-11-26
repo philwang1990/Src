@@ -11,6 +11,7 @@ using StackExchange.Redis;
 using KKday.Web.B2D.EC.Models.Model.Booking;
 using KKday.Web.B2D.EC.Models.Model.Product;
 using KKday.Web.B2D.EC.Models.Model.Pmch;
+using KKday.Web.B2D.EC.Models.Model.Account;
 
 namespace KKday.Web.B2D.EC.AppCode
 {
@@ -524,7 +525,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
 
         //PMCH 驗證過了，付款成功，變更訂單狀態為已付款可處 舊版
-        public void PayUpdSuccessUpdOrder(string orderMid,string pmgwTransNo, PaymentDtl payDtl, CallJsonPay req, PmchSslResponse res, distributorInfo fakeContact)
+        public void PayUpdSuccessUpdOrder(string orderMid,string pmgwTransNo, PaymentDtl payDtl, CallJsonPay req, PmchSslResponse res, B2dAccount UserData)
         {
             try
             {
@@ -549,9 +550,9 @@ namespace KKday.Web.B2D.EC.AppCode
 
                 PaySuccessUpdOrder p = new PaySuccessUpdOrder();
 
-                p.memberUuid = fakeContact.memberUuid;
-                p.tokenKey = fakeContact.tokenKey;
-                p.deviceId = fakeContact.deviceId;
+                p.memberUuid = UserData.UUID; 
+                //p.tokenKey = fakeContact.tokenKey;
+                //p.deviceId = fakeContact.deviceId;
                 p.currency = payDtl.currency;
                 p.currTotalPrice = payDtl.currTotalPrice.ToString();
                 p.is3D = (req.is3D == "0"? false : true);
@@ -586,7 +587,7 @@ namespace KKday.Web.B2D.EC.AppCode
         }
 
         //PMCH 驗證過了，付款成功，變更訂單狀態為已付款可處 新版
-        public void PayUpdSuccessUpdOrder2(string orderMid, string pmgwTransNo, PaymentDtl payDtl, CallJsonPay2 req, PmchSslResponse2 res, distributorInfo fakeContact)
+        public void PayUpdSuccessUpdOrder2(string orderMid, string pmgwTransNo, PaymentDtl payDtl, CallJsonPay2 req, PmchSslResponse2 res, B2dAccount UserData)
         {
             try
             {
@@ -611,9 +612,9 @@ namespace KKday.Web.B2D.EC.AppCode
 
                 PaySuccessUpdOrder p = new PaySuccessUpdOrder();
 
-                p.memberUuid = fakeContact.memberUuid;
-                p.tokenKey = fakeContact.tokenKey;
-                p.deviceId = fakeContact.deviceId;
+                p.memberUuid = UserData.UUID; 
+                //p.tokenKey = fakeContact.tokenKey; 
+                //p.deviceId = fakeContact.deviceId; 
                 p.currency = payDtl.currency;
                 p.currTotalPrice = payDtl.currTotalPrice.ToString();
                 p.is3D = (req.is_3d == "0" ? false : true);

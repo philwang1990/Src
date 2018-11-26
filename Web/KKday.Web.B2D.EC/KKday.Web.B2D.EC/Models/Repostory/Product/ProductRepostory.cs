@@ -11,7 +11,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
     public static class ProductRepostory
     {
         //查商品
-        public static ProductforEcModel getProdDtl(string companyXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
+        public static ProductforEcModel getProdDtl(long companyXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
         }
 
         //查套餐
-        public static PackageModel getProdPkg(string companyXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
+        public static PackageModel getProdPkg(long companyXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
         {
             try
             {
@@ -611,7 +611,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
 
 
         //模組
-        public static ProductModuleModel getProdModule(string B2dXid, string state, string lang, string currency, string prodoid, string pkgoid, ProdTitleModel title)
+        public static ProductModuleModel getProdModule(long B2dXid, string state, string lang, string currency, string prodoid, string pkgoid, ProdTitleModel title)
         {
             try
             {
@@ -638,7 +638,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             return obj;
         }
 
-        public static PkgEventsModel getEvent(string companyXid, string state, string lang, string currency, string prodoid, string pkgoid,ProdTitleModel title)
+        public static PkgEventsModel getEvent(long companyXid, string state, string lang, string currency, string prodoid, string pkgoid,ProdTitleModel title)
         {
             try
             {

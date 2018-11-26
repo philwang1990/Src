@@ -1,5 +1,6 @@
 ﻿@using KKday.Web.B2D.EC.Models.Model.Product
 @using KKday.Web.B2D.EC.Models.Model.Booking
+@using KKday.Web.B2D.EC.Models.Model.Account
 
 
 @{ 
@@ -39,7 +40,7 @@
     <!--Intel Tel-->
     <script src="~/js/intlTelInput.min.js"></script>
     <script src="~/js/booking.kkday.js"></script>
-    <script src="~/js/jquery.payment.js"></script>
+
     <script type="text/javascript">
 
         var dataModel;
@@ -90,7 +91,7 @@
     var contactData = (ContactData)ViewData["contactData"];
 
     var flightInfo = (FlightInfo)ViewData["flightInfo"];
-    var contactInfo = (distributorInfo)ViewData["contactInfo"];
+    var contactInfo = (B2dAccount)ViewData["contactInfo"];
     var dataModelStr = ViewData["dataModelStr"];
     var cutOfDay = ViewData["CutOfDay"];
     var cusAgeRange = ViewData["cusAgeRange"];
@@ -210,9 +211,7 @@
                 </div>
             </div>
                 <div class="board" id="board3">
-
-                         @await Html.PartialAsync("_payment")
-                     
+                    @await Html.PartialAsync("_payment")
                 </div>
             </div>
         </div>
