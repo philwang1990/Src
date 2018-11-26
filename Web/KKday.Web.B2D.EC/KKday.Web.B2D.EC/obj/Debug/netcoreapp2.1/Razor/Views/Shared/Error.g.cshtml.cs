@@ -71,7 +71,7 @@ using KKday.Web.B2D.EC.Models;
             WriteLiteral("\r\n\r\n\r\n<!DOCTYPE html>\r\n<html lang=\"zh-tw\">\r\n");
             EndContext();
             BeginContext(172, 11767, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8e55fc14ae444db68ee8de750a45e3ac", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3fa72be6851748c988bdd56e794b3f93", async() => {
                 BeginContext(178, 329, true);
                 WriteLiteral(@"
     <meta charset=""utf-8"">
@@ -84,7 +84,7 @@ using KKday.Web.B2D.EC.Models;
     ");
                 EndContext();
                 BeginContext(507, 54, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "ce0ac998bcfd4546851287a4a51ca8b7", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "03861ea5fe8642efa5faf2963bb0c08c", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -103,7 +103,7 @@ using KKday.Web.B2D.EC.Models;
                 WriteLiteral("\r\n    ");
                 EndContext();
                 BeginContext(567, 48, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "ede8f134df5642db8e3e0f5b04858bdb", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "7995a8172018483e8f5e62a61ed7edbf", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -122,7 +122,7 @@ using KKday.Web.B2D.EC.Models;
                 WriteLiteral("\r\n    ");
                 EndContext();
                 BeginContext(621, 57, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "34ad5a3a46c64635b4d9ad6dcdd2b24b", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "2cda1ca5cbc7410b97312fbf546fc9e1", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -141,7 +141,7 @@ using KKday.Web.B2D.EC.Models;
                 WriteLiteral("\r\n    ");
                 EndContext();
                 BeginContext(684, 47, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "fbfcf14cf43b40898db1577c26617483", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("link", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "0a679cb8078444c9b1fd02e3124e174d", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -168,7 +168,7 @@ using KKday.Web.B2D.EC.Models;
     ");
                 EndContext();
                 BeginContext(1120, 42, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "5491f5322cb243b38bad90c7850c011c", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "ab9475ad7cb24ee88eb4b64080dff7b4", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -186,7 +186,7 @@ using KKday.Web.B2D.EC.Models;
                 WriteLiteral("\r\n    <!-- Bootstrap 3.3.7 -->\r\n    ");
                 EndContext();
                 BeginContext(1198, 45, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bb3d6d5028ae4e828ca5a48231e03d09", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f97ca134f49b413bbfd480aa618bd572", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();
@@ -472,7 +472,7 @@ using KKday.Web.B2D.EC.Models;
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(11941, 1174, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "fdada9f314a44f59a865a853d6f061c0", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f90b942529fa4d41b1abb20c6f7c84cb", async() => {
                 BeginContext(11947, 506, true);
                 WriteLiteral(@"
     <div class=""container-fluid"" style=""margin:3.2rem 0;"">
@@ -495,7 +495,7 @@ using KKday.Web.B2D.EC.Models;
                     ");
                 EndContext();
                 BeginContext(12453, 51, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "d96dea7a6705416783237dc5a328c50b", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("img", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagOnly, "508a504848924ae19e1acab2d0794a87", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_Razor_TagHelpers_UrlResolutionTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.Razor.TagHelpers.UrlResolutionTagHelper>();

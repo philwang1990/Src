@@ -173,7 +173,7 @@ WriteAttributeValue("", 1411, prodTitle.booking_step1_shuttle_data_shuttle_date_
                                     ");
             EndContext();
             BeginContext(2659, 199, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "bda530aebf79425798dd6b3df394e40b", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d828fdb1daa74017a6bbd7c3d79b6961", async() => {
                 BeginContext(2707, 42, true);
                 WriteLiteral("\r\n                                        ");
                 EndContext();
@@ -231,7 +231,7 @@ WriteAttributeValue("", 1411, prodTitle.booking_step1_shuttle_data_shuttle_date_
             WriteLiteral("                                      ");
             EndContext();
             BeginContext(3428, 47, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "eee7ffc77b2743f79b68f41e23a6e0b1", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "a478aad38fa7455d8a24e849861a7841", async() => {
                 BeginContext(3452, 4, false);
 #line 59 "/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_shuttle.cshtml"
                                                         Write(hour);
@@ -292,7 +292,7 @@ WriteAttributeValue("", 1411, prodTitle.booking_step1_shuttle_data_shuttle_date_
             WriteLiteral("                                      ");
             EndContext();
             BeginContext(3701, 96, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "eeeeac1b776d475481297436065e892b", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "30cf7dd5891d4c84977add94f6b0a0d4", async() => {
                 BeginContext(3728, 60, false);
 #line 64 "/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_shuttle.cshtml"
                                                            Write(prodTitle.booking_step1_shuttle_data_customized_shuttle_time);
@@ -527,7 +527,7 @@ WriteAttributeValue("", 7134, prodTitle.booking_step1_shuttle_data_drop_off_loca
             WriteLiteral("                     <select class=\"form-control \" id=\"selShuttleLocationId\" name=\"selShuttleLocationId\" onchange=\"chgShuttleLocation(this)\">\r\n                         ");
             EndContext();
             BeginContext(7947, 184, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "d708df33c9ae4a4f8d46e815fac5cd83", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "da933ee93db7476495c0c15f40f1160c", async() => {
                 BeginContext(7995, 31, true);
                 WriteLiteral("\r\n                             ");
                 EndContext();
@@ -587,7 +587,7 @@ WriteAttributeValue("", 7134, prodTitle.booking_step1_shuttle_data_drop_off_loca
             WriteLiteral("                              ");
             EndContext();
             BeginContext(8758, 66, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "29d524c272d64ebea0f0c87de238e3c0", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "8158824d484244818627a3cc2e02ea58", async() => {
                 BeginContext(8782, 15, false);
 #line 149 "/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_shuttle.cshtml"
                                                 Write(d.location_name);
@@ -683,7 +683,7 @@ WriteAttributeValue("", 7134, prodTitle.booking_step1_shuttle_data_drop_off_loca
                      ");
             EndContext();
             BeginContext(9524, 176, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f0bf4bbc41d548fa897430db3065e40f", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "3237006a470e4eaf8f760d00e3ca255d", async() => {
                 BeginContext(9572, 27, true);
                 WriteLiteral("\r\n                         ");
                 EndContext();
@@ -728,7 +728,7 @@ WriteAttributeValue("", 7134, prodTitle.booking_step1_shuttle_data_drop_off_loca
             WriteLiteral("                         ");
             EndContext();
             BeginContext(9841, 46, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "09460b36adad45c180b5740a2cd556b6", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "e278dff7f2e74d2198c2d0bb732c5684", async() => {
                 BeginContext(9864, 1, true);
                 WriteLiteral(" ");
                 EndContext();
@@ -781,7 +781,7 @@ WriteAttributeValue("", 7134, prodTitle.booking_step1_shuttle_data_drop_off_loca
             WriteLiteral("                         ");
             EndContext();
             BeginContext(10059, 97, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0aee2a72dbe743048a5a3a7ffc8fee32", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("option", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "b1eddb17ce8f44afb40f5ff1fc8e0d93", async() => {
                 BeginContext(10086, 61, false);
 #line 175 "/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_shuttle.cshtml"
                                               Write(prodTitle.booking_step1_shuttle_data_customized_charter_route);

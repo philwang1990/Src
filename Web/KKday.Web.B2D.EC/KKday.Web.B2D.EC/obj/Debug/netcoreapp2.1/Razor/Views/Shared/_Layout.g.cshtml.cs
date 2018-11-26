@@ -54,7 +54,7 @@ using KKday.Web.B2D.EC.Models;
             WriteLiteral("<!DOCTYPE html>\r\n<html>\r\n");
             EndContext();
             BeginContext(25, 2070, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "abdce5de87e94f068f986d2d653442e3", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("head", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "64021dc14f7e421a91e540ae33b40333", async() => {
                 BeginContext(31, 269, true);
                 WriteLiteral(@"
     <meta charset=""utf-8"">
@@ -276,7 +276,7 @@ WriteAttributeValue("", 1917, Url.Content("~/js/vue-affix.min.js"), 1917, 37, fa
             WriteLiteral("\r\n");
             EndContext();
             BeginContext(2097, 36978, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "6a00b2ac7b244b17ade9674476ed78d5", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("body", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "c25393b0da7e414c8c350d2e22679f08", async() => {
                 BeginContext(2103, 558, true);
                 WriteLiteral(@"
     <div class=""header-sheet"">

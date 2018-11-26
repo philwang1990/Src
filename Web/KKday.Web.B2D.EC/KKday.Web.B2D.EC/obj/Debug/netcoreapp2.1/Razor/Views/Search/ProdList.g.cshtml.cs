@@ -218,7 +218,7 @@ WriteAttributeValue("", 2419, Url.Content("~/css/custom1.css"), 2419, 33, false)
                 WriteLiteral("\r\n    ");
                 EndContext();
                 BeginContext(2484, 82, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "91e1d2940515430d929666f3ae8da0e3", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("script", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "94a4da2a826d469eb8b472630b3ce544", async() => {
                 }
                 );
                 __Microsoft_AspNetCore_Mvc_TagHelpers_ScriptTagHelper = CreateTagHelper<global::Microsoft.AspNetCore.Mvc.TagHelpers.ScriptTagHelper>();
@@ -332,7 +332,7 @@ WriteAttributeValue("", 3460, Url.Content("~/js/ion.rangeSlider.min.js"), 3460, 
             WriteLiteral("\r\n<section class=\"wrapper\">\r\n    ");
             EndContext();
             BeginContext(3554, 19907, false);
-            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "82da63b0f0804e938c383eadcb756543", async() => {
+            __tagHelperExecutionContext = __tagHelperScopeManager.Begin("form", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0729b4297c194639b31742b2aa051574", async() => {
                 BeginContext(3650, 2, true);
                 WriteLiteral("\r\n");
                 EndContext();
@@ -883,7 +883,7 @@ WriteAttributeValue("", 13602, lang.id, 13602, 8, false);
                             <li>");
                 EndContext();
                 BeginContext(14325, 50, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "f7e7a4ed94f84764a504948876d0cb51", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0de6eb1dc15446aa9de92194c3f4acd4", async() => {
                     BeginContext(14339, 32, false);
 #line 231 "/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Search/ProdList.cshtml"
                                         Write(prodTitle.common_affiliate_index);
@@ -974,7 +974,7 @@ WriteAttributeValue("", 13602, lang.id, 13602, 8, false);
                 WriteLiteral("                            ");
                 EndContext();
                 BeginContext(18374, 3888, false);
-                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "2dbe65a3b1b44ccd9b8c0d8c28e1f29a", async() => {
+                __tagHelperExecutionContext = __tagHelperScopeManager.Begin("a", global::Microsoft.AspNetCore.Razor.TagHelpers.TagMode.StartTagAndEndTag, "0604816d26364d1285121a0e98cb8be2", async() => {
                     BeginContext(18426, 181, true);
                     WriteLiteral("\r\n                                <div class=\"row\">\r\n                                    <div class=\"col-sm-5 col-lg-4\">\r\n                                        <div class=\"img-bg\"");
                     EndContext();
