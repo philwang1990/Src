@@ -19,7 +19,7 @@ namespace KKday.API.WMS.AppCode
             try
             {
                 //kkredis  
-                string kkredis = Website.Instance.Configuration["IP:REDIS_KKDAY"];
+                string kkredis = Website.Instance.Configuration["IP:REDIS_SOP"];
                 ConnectionMultiplexer kkrds = ConnectionMultiplexer.Connect(kkredis);
                 IDatabase db = kkrds.GetDatabase();
 
