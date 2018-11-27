@@ -389,7 +389,8 @@
         cvcLength: [3],
         luhn: true
     }, {
-        type: 'mastercard',
+        //type: 'mastercard',
+        type: 'master',
         pattern: /^5[0-5]/,
         format: defaultFormat,
         length: [16],
@@ -440,8 +441,12 @@
             if (card.pattern.test(num)) {
                 console.log(card.type);
                 var cardLogoList = $('#cardLogoList').val();
-                if (cardLogoList.indexOf(card.type.toUpperCase()) > 0) {
-                    //console.log('found cards.');
+                if (cardLogoList.indexOf(card.type.toUpperCase()) >= 0) {
+                    //card type found //hide msg
+                    $('#cardNoMsg')
+                        .hide()
+                        .parent()
+                        .removeClass('has-error');
                 } else {
                     var msgId = $('#cardNoMsg').data('msg-support');
                     $('#cardNoMsg')
