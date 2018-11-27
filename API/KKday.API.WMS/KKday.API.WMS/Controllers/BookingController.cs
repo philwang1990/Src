@@ -230,9 +230,9 @@ namespace KKday.API.WMS.Controllers {
                 api.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 api.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 api.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
-                api.locale = "zh-tw";
-                api.currency = "TWD";
-                api.ipaddress = "61.216.90.96";
+                api.locale = data.locale;
+                api.currency = data.currency;
+                api.ipaddress = data.ipaddress ;
 
                 //假分銷商
                 distributorInfo fakeContact = DataSettingRepository.fakeContact();

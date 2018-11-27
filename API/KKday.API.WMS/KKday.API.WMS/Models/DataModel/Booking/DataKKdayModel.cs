@@ -62,6 +62,9 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public List<CusDataInfo> travelerData { get; set; }
         public modulesData modules { get; set; }
 
+        public string locale { get; set; }
+        public string ipaddress { get; set; }
+
     }
 
 
