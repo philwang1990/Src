@@ -18,8 +18,8 @@ namespace KKday.API.WMS.Controllers
     public class FinalController : Controller
     {
 
-        //static RedisHelper rds = new RedisHelper();
-        private static RedisHelper rds;
+        static RedisHelper rds = new RedisHelper();
+        //private static RedisHelper rds;
         // GET: /<controller>/
 
         public IActionResult Index()

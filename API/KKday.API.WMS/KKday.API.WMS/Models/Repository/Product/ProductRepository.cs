@@ -22,8 +22,8 @@ namespace KKday.API.WMS.Models.Repository.Product
         static string _VOUCHER_EXCHANGE_TYPE = "VOUCHER_EXCHANGE_TYPE";
         static string _SEARCH_TYPE = "PRODUCT";
 
-        private static RedisHelper rds;
-        //static RedisHelper rds = new RedisHelper();
+        //private static RedisHelper rds;
+        static RedisHelper rds = new RedisHelper();
 
         /// <summary>
         /// Gets the prod dtl.

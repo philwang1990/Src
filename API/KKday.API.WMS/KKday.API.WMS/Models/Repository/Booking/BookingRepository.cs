@@ -23,7 +23,8 @@ namespace KKday.API.WMS.Models.Repository.Booking
     public class BookingRepository
     {
 
-        private static RedisHelper rds;
+        //private static RedisHelper rds;
+        static RedisHelper rds = new RedisHelper();
 
         public static OrderNoModel InsertOrder(OrderModel queryRQ)
         {

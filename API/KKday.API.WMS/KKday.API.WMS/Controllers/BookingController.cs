@@ -22,8 +22,8 @@ namespace KKday.API.WMS.Controllers {
 
     [Route("api/[controller]")]
     public class BookingController : Controller {
-        //RedisHelper rds = new RedisHelper();
-        private static RedisHelper rds;
+        RedisHelper rds = new RedisHelper();
+        //private static RedisHelper rds;
 
         [HttpPost("InsertOrder")]
         public OrderNoModel InsertOrder([FromBody]OrderModel queryRQ)

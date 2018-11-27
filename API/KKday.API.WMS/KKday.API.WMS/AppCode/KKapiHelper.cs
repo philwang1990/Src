@@ -16,8 +16,8 @@ namespace KKday.API.WMS.AppCode
 {
     public class KKapiHelper
     {
-        //static RedisHelper rds = new RedisHelper();
-        private static RedisHelper rds;
+        static RedisHelper rds = new RedisHelper();
+        //private static RedisHelper rds;
 
         public JObject callKKapiProdInfo(string lang, string currency, string oid)
         {

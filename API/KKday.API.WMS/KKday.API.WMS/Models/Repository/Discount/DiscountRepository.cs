@@ -10,8 +10,8 @@ using Newtonsoft.Json.Linq;
 namespace KKday.API.WMS.Models.Repository.Discount {
     public class DiscountRepository {
 
-        //static RedisHelper rds = new RedisHelper();
-        private static RedisHelper rds;
+        static RedisHelper rds = new RedisHelper();
+        //private static RedisHelper rds;
 
         //1. 先過濾此商品是否存在黑名單
         public static bool GetProdBlackWhite(string prod_no) {

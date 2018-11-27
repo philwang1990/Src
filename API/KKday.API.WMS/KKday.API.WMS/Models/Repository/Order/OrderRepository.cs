@@ -14,7 +14,8 @@ namespace KKday.API.WMS.Models.Repository.Order
 {
     public class OrderRepository
     {
-        private static RedisHelper rds;
+        //private static RedisHelper rds;
+        static RedisHelper rds = new RedisHelper();
 
         public static OrderListModel GetOrders(QueryOrderModel queryRQ)
         {
