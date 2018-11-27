@@ -43,46 +43,49 @@ namespace KKday.API.WMS.Models.Repository.Booking
             try
             {
                 // 先將 order_cus order_lst  seq設0
-                BookingDAL.InitialSeqs();
+                //BookingDAL.InitialSeqs();
 
                 BookingDAL.InsertOrders(obj, trans, ref order_no);
 
-                if (obj["source"]  != null)
-                    BookingDAL.InsertOrderSource(obj["source"] as JObject, trans, order_no);
+                if (obj["order_discount_rule"] != null)
+                    BookingDAL.InsertOrderDiscountRule(obj["order_discount_rule"] as JObject, trans, order_no);
 
-                if (obj["order_cus"]  != null)
-                {
-                    JArray order_cus = (JArray)obj["order_cus"];
+                //if (obj["source"]  != null)
+                //    BookingDAL.InsertOrderSource(obj["source"] as JObject, trans, order_no);
 
-                    foreach (var item in order_cus)
-                    {
-                        BookingDAL.InsertOrderCus(item as JObject, trans, order_no, ref cus_seqno);
-                    } // foreach
-                } // if
+                //if (obj["order_cus"]  != null)
+                //{
+                //    JArray order_cus = (JArray)obj["order_cus"];
 
-                if (obj["order_lst"]  != null)
-                {
-                    JArray order_lst = (JArray)obj["order_lst"];
+                //    foreach (var item in order_cus)
+                //    {
+                //        BookingDAL.InsertOrderCus(item as JObject, trans, order_no, ref cus_seqno);
+                //    } // foreach
+                //} // if
 
-                    foreach (var item in order_lst)
-                    {
-                        BookingDAL.InsertOrderLst(item as JObject, trans, order_no, cus_seqno, ref lst_seqno,ref discount_xid);
+                //if (obj["order_lst"]  != null)
+                //{
+                //    JArray order_lst = (JArray)obj["order_lst"];
 
-                        if (item["order_discount_rule"] as JObject  != null )
-                        {
-                            BookingDAL.InsertOrderDiscountRule(item["order_discount_rule"] as JObject, trans, order_no, lst_seqno, discount_xid);
+                //    foreach (var item in order_lst)
+                //    {
+                //        BookingDAL.InsertOrderLst(item as JObject, trans, order_no, cus_seqno, ref lst_seqno,ref discount_xid);
 
-                            //if (item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject != null)
-                            //{
-                            //    BookingDAL.InsertOrderDiscountRuleDtl(item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject, trans, order_no, lst_seqno);
+                //        if (item["order_discount_rule"] as JObject  != null )
+                //        {
+                //            BookingDAL.InsertOrderDiscountRule(item["order_discount_rule"] as JObject, trans, order_no, lst_seqno, discount_xid);
 
-                            //} // if
+                //            //if (item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject != null)
+                //            //{
+                //            //    BookingDAL.InsertOrderDiscountRuleDtl(item["order_discount_rule_mst"]["order_discount_rule_dtl"] as JObject, trans, order_no, lst_seqno);
 
-                        } // if
+                //            //} // if
 
-                    } // foreach
+                //        } // if
 
-                } // if
+                //    } // foreach
+
+                //} // if
 
 
                 trans.Commit();
