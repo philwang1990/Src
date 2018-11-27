@@ -111,7 +111,8 @@ namespace KKday.API.WMS.Models.Repository {
         public static B2dAccountModel AuthAccount(string email, string password)
         {
             // 檢查登入者身分
-            B2dAccountModel account = AccountAuthDAL.UserAuth(email, Sha256Helper.Gethash(password));
+            //B2dAccountModel account = AccountAuthDAL.UserAuth(email, Sha256Helper.Gethash(password));
+            B2dAccountModel account = AccountAuthDAL.UserAuth(email, password);
             // 若無效身分則送出登入異常
             if (account.ACCOUNT is null)
             {

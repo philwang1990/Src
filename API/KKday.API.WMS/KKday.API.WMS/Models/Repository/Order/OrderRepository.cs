@@ -16,30 +16,30 @@ namespace KKday.API.WMS.Models.Repository.Order
     {
         public static OrderListModel GetOrders(QueryOrderModel queryRQ)
         {
-            queryRQ.option.kkday_orders = new List<string>();
+            queryRQ.option.orders = new List<string>();
 
             OrderListModel orderList = new OrderListModel();
             orderList.order = new List<DataModel.Order.Order>();
             DataModel.Order.Order order = new DataModel.Order.Order();
 
-            string[] orders = queryRQ.option.orders;
+            string[] orders = queryRQ.option.kkday_orders;
             string orderMid = "", order_no = "";
             JObject obj = null;
 
             //step1.b2d order_no 與 kkday order mapping 驗證是否為此分銷商的訂單
-            //用b2d order_no 找出 kkday orderMid
-            foreach (string item in orders)
-            {
-                bool isOrder = OrderDAL.CheckOrder(queryRQ.company_xid, item, ref orderMid);
-                if (!isOrder)
-                {
-                    orderList.result = "10";
-                    orderList.result_msg = $"Bad Request:OrderNo-{order} is not available";
-                    return orderList;
-                }
+            //用b2d kkday orderMid 找出 order_no
+            //foreach (string item in orders)
+            //{
+            //    bool isOrder = OrderDAL.CheckOrder(queryRQ.company_xid, item,ref order_no);
+            //    if (!isOrder)
+            //    {
+            //        orderList.result = "10";
+            //        orderList.result_msg = $"Bad Request:OrderNo-{item} is not available";
+            //        return orderList;
+            //    }
 
-                queryRQ.option.kkday_orders.Add(orderMid);
-            }
+            //    queryRQ.option.orders.Add(order_no);
+            //}
 
             try
             {
@@ -61,7 +61,7 @@ namespace KKday.API.WMS.Models.Repository.Order
                 foreach(var jOrder in jOrders)
                 {
                     //用kkday orderMid 找出 b2d orderNo
-                    bool isOrder = OrderDAL.CheckOrder(queryRQ.company_xid, (string)jOrder["order"]["orderMid"], (string)jOrder["order"]["orderOid"], ref order_no);
+                    bool isOrder = OrderDAL.CheckOrder(queryRQ.company_xid, ref order_no, (string)jOrder["order"]["orderMid"]);
                     if (!isOrder)
                     {
                         orderList.result = "10";
@@ -86,7 +86,7 @@ namespace KKday.API.WMS.Models.Repository.Order
             return orderList;
         }
 
-        public static OrderInfoModel GetOrderInfo(QueryOrderModel queryRQ,string order_no)
+        public static OrderInfoModel GetOrderInfo(QueryOrderModel queryRQ,string orderMid)
         {
             OrderInfoModel info = new OrderInfoModel();
             info.order_modules = new List<modules>();
@@ -94,20 +94,20 @@ namespace KKday.API.WMS.Models.Repository.Order
 
             var obj = new JObject();
 
-            string orderMid = "";
+            string order_no = "";
 
             try
             {
                 //step1.b2d order_no 與 kkday order mapping 驗證是否為此分銷商的訂單
-                bool isOrder = OrderDAL.CheckOrder(queryRQ.company_xid, order_no,ref orderMid);
+                bool isOrder = OrderDAL.CheckOrder(queryRQ.company_xid, ref order_no ,orderMid);
                 if (!isOrder)
                 {
                     info.result = "10";
-                    info.result_msg = $"Bad Request:OrderNo-{order_no} is not available";
+                    info.result_msg = $"Bad Request:OrderNo-{orderMid} is not available";
                     return info;
                 }
 
-                //step2.查詢訂單資料
+                //step2.JAVA API 查詢訂單資料
                 obj = OrderProxy.getOrderInfo(queryRQ, orderMid);
 
                 RedisHelper rds = new RedisHelper();
