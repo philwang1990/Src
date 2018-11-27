@@ -10,7 +10,8 @@ using Newtonsoft.Json.Linq;
 namespace KKday.API.WMS.Models.Repository.Discount {
     public class DiscountRepository {
 
-        static RedisHelper rds = new RedisHelper();
+        //static RedisHelper rds = new RedisHelper();
+        private static RedisHelper rds;
 
         //1. 先過濾此商品是否存在黑名單
         public static bool GetProdBlackWhite(string prod_no) {
@@ -21,11 +22,11 @@ namespace KKday.API.WMS.Models.Repository.Discount {
             try
             {
                 //黑名單規則塞入redis
-                string _blackRedis = rds.getProdInfotoRedis($"b2d:discount:blcakList:{prod_no}");
+                string _blackRedis = rds.getRedis($"b2d:discount:blcakList:{prod_no}");
                 if (string.IsNullOrEmpty(_blackRedis))
                 {
                     obj = DiscountDAL.GetBlackList();
-                    rds.SetProdInfotoRedis(obj.ToString(), $"b2d:discount:blcakList:{prod_no}", 1440);
+                    rds.SetRedis(obj.ToString(), $"b2d:discount:blcakList:{prod_no}", 1440);
                 }
                 else
                 {
@@ -73,11 +74,11 @@ namespace KKday.API.WMS.Models.Repository.Discount {
             {
 
                 //固定價規則塞入redis
-                string _fixedRedis = rds.getProdInfotoRedis($"b2d:discount:fixedPriceList:{company_xid}_{prod_no}");
+                string _fixedRedis = rds.getRedis($"b2d:discount:fixedPriceList:{company_xid}_{prod_no}");
                 if (string.IsNullOrEmpty(_fixedRedis))
                 {
                     objFixed = DiscountDAL.GetFixedPriceList(company_xid, prod_no);
-                    rds.SetProdInfotoRedis(objFixed.ToString(), $"b2d:discount:fixedPriceList:{company_xid}_{prod_no}", 1440);
+                    rds.SetRedis(objFixed.ToString(), $"b2d:discount:fixedPriceList:{company_xid}_{prod_no}", 1440);
                 }
                 else
                 {
@@ -129,11 +130,11 @@ namespace KKday.API.WMS.Models.Repository.Discount {
 
 
                 //套價規塞入redis
-                string _ruleRedis = rds.getProdInfotoRedis($"b2d:discount:ruleList:{company_xid}_{company_currency}");
+                string _ruleRedis = rds.getRedis($"b2d:discount:ruleList:{company_xid}_{company_currency}");
                 if (string.IsNullOrEmpty(_ruleRedis))
                 {
                     objRules = DiscountDAL.GetDiscRuleList(company_xid, company_currency);
-                    rds.SetProdInfotoRedis(objFixed.ToString(), $"b2d:discount:ruleList:{company_xid}_{company_currency}", 1440);
+                    rds.SetRedis(objFixed.ToString(), $"b2d:discount:ruleList:{company_xid}_{company_currency}", 1440);
                 }
                 else
                 {

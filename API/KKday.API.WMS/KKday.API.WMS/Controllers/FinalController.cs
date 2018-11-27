@@ -18,7 +18,8 @@ namespace KKday.API.WMS.Controllers
     public class FinalController : Controller
     {
 
-        static RedisHelper rds = new RedisHelper();
+        //static RedisHelper rds = new RedisHelper();
+        private static RedisHelper rds;
         // GET: /<controller>/
 
         public IActionResult Index()
@@ -34,7 +35,7 @@ namespace KKday.API.WMS.Controllers
             //回傳的連結有訂編 (記log)
             //透過訂編將redis 的資料抓回送出去的資料
             //取b2dredis 內的paymentDtl
-            string payDtlStr = rds.getProdInfotoRedis("b2d:ec:payDtl:" + mid);
+            string payDtlStr = rds.getRedis("b2d:ec:payDtl:" + mid);
             PaymentDtl  payDtl= JsonConvert.DeserializeObject<PaymentDtl>(payDtlStr);
 
             //從kkday redis 取出
@@ -45,7 +46,7 @@ namespace KKday.API.WMS.Controllers
             res.data.pmgw_trans_no = res.data.pmgw_trans_no.Replace(" ", "+");
             string transNo = GibberishAES.OpenSSLDecrypt(res.data.pmgw_trans_no, Website.Instance.Configuration["PMCH:TRANS_NO"]);
             //CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
-            CallJsonPay2 req = JsonConvert.DeserializeObject<CallJsonPay2>(rds.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + mid)); //using KKday.Web.B2D.EC.AppCode;
+            CallJsonPay2 req = JsonConvert.DeserializeObject<CallJsonPay2>(rds.getRedis("b2d:ec:pmchSslRequest:" + mid)); //using KKday.Web.B2D.EC.AppCode;
 
             string token = Website.Instance.Configuration["PMCH:TOKEN"];
             string pmgwMethod = res.data.pmgw_method;

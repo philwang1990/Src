@@ -16,10 +16,14 @@ namespace KKday.API.WMS.Models.Repository.Product
         public ProductRepository()
         {
         }
+
+
         //code language type
         static string _VOUCHER_EXCHANGE_TYPE = "VOUCHER_EXCHANGE_TYPE";
         static string _SEARCH_TYPE = "PRODUCT";
-        static RedisHelper rds = new RedisHelper();
+
+        private static RedisHelper rds;
+        //static RedisHelper rds = new RedisHelper();
 
         /// <summary>
         /// Gets the prod dtl.
@@ -99,7 +103,7 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                 product.b2c_price = (double)obj["content"]["product"]["minSalePrice"];
                 product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.company_xid), queryRQ.current_currency, (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString(), ProductRepository._SEARCH_TYPE, null, ref disc);
-
+                
                 product.order_email = obj["content"]["product"]["orderEmail"].ToString();
                 product.prod_hander = obj["content"]["supplier"]["orderHandler"].ToString();
 
@@ -431,7 +435,7 @@ namespace KKday.API.WMS.Models.Repository.Product
             try
             {
 
-                string _moduleRedis = rds.getProdInfotoRedis($"b2d:Product:module:{queryRQ.prod_no}_{queryRQ.pkg_no}");
+                string _moduleRedis = rds.getRedis($"b2d:Product:module:{queryRQ.prod_no}_{queryRQ.pkg_no}");
                 if (string.IsNullOrEmpty(_moduleRedis))
                 {
 
@@ -1076,7 +1080,7 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                     //WMS旅規 塞入redis
                     string module_data = JsonConvert.SerializeObject(module);
-                    rds.SetProdInfotoRedis(module_data, $"b2d:Product:module:{queryRQ.prod_no}_{queryRQ.pkg_no}", 180);
+                    rds.SetRedis(module_data, $"b2d:Product:module:{queryRQ.prod_no}_{queryRQ.pkg_no}", 180);
 
                 }
                 else

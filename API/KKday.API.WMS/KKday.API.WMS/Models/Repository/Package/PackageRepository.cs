@@ -15,7 +15,8 @@ namespace KKday.API.WMS.Models.Repository.Package {
     /// </summary>
     public class PackageRepository {
 
-        static RedisHelper rds = new RedisHelper();
+        //static RedisHelper rds = new RedisHelper();
+        private static RedisHelper rds;
 
         static string _SEARCH_TYPE = "PACKAGE";
 
@@ -234,7 +235,7 @@ namespace KKday.API.WMS.Models.Repository.Package {
                 pkg.discount_rule = disc;
                 pkg.guid = Guid.NewGuid().ToString();
 
-                rds.SetProdInfotoRedis(JsonConvert.SerializeObject(pkg_price), "b2d:pkgsPrice:"+pkg.guid,1440); // 將 pkg_price 存入redis 
+                rds.SetRedis(JsonConvert.SerializeObject(pkg_price), "b2d:pkgsPrice:"+pkg.guid,1440); // 將 pkg_price 存入redis 
 
 
                 //依套餐取回『可售日期』

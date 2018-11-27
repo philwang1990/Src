@@ -12,6 +12,11 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using KKday.API.WMS.AppCode;
+using Microsoft.AspNetCore.Http;
+
 
 namespace KKday.API.WMS {
     public class Startup {
@@ -44,6 +49,9 @@ namespace KKday.API.WMS {
 
 
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IRedisHelper, RedisHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

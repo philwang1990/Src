@@ -16,7 +16,8 @@ namespace KKday.API.WMS.AppCode
 {
     public class KKapiHelper
     {
-        static RedisHelper rds = new RedisHelper();
+        //static RedisHelper rds = new RedisHelper();
+        private static RedisHelper rds;
 
         public JObject callKKapiProdInfo(string lang, string currency, string oid)
         {
@@ -27,9 +28,9 @@ namespace KKday.API.WMS.AppCode
 
             string result;
 
-            if (rds.getProdInfotoRedis("bid:test:prodinfo" + oid) != null)
+            if (rds.getRedis("bid:test:prodinfo" + oid) != null)
             {
-                result = rds.getProdInfotoRedis("bid:test:prodinfo" + oid);
+                result = rds.getRedis("bid:test:prodinfo" + oid);
             }
             else
             {
@@ -70,7 +71,7 @@ namespace KKday.API.WMS.AppCode
                     result = streamReader.ReadToEnd();
                 }
 
-                rds.SetProdInfotoRedis(result, "bid:test:prodinfo" + oid, 30);
+                rds.SetRedis(result, "bid:test:prodinfo" + oid, 30);
             }
 
 
@@ -108,9 +109,9 @@ namespace KKday.API.WMS.AppCode
             string result;
 
 
-            if (rds.getProdInfotoRedis("bid:test:prodPkg" + oid) != null)
+            if (rds.getRedis("bid:test:prodPkg" + oid) != null)
             {
-                result = rds.getProdInfotoRedis("bid:test:prodPkg" + oid);
+                result = rds.getRedis("bid:test:prodPkg" + oid);
 
             }
             else
@@ -152,7 +153,7 @@ namespace KKday.API.WMS.AppCode
                     result = streamReader.ReadToEnd();
                 }
 
-                rds.SetProdInfotoRedis(result, "bid:test:prodPkg" + oid, 30);
+                rds.SetRedis(result, "bid:test:prodPkg" + oid, 30);
 
             }
 
@@ -176,9 +177,9 @@ namespace KKday.API.WMS.AppCode
             string result;
 
 
-            if (rds.getProdInfotoRedis("bid:test:prodPkgDate" + oid) != null)
+            if (rds.getRedis("bid:test:prodPkgDate" + oid) != null)
             {
-                result = rds.getProdInfotoRedis("bid:test:prodPkgDate" + oid);
+                result = rds.getRedis("bid:test:prodPkgDate" + oid);
 
             }
             else
@@ -219,7 +220,7 @@ namespace KKday.API.WMS.AppCode
                     result = streamReader.ReadToEnd();
                 }
 
-                rds.SetProdInfotoRedis(result, "bid:test:prodPkgDate" + oid, 30);
+                rds.SetRedis(result, "bid:test:prodPkgDate" + oid, 30);
             }
 
             //result = "{\"content\":{\"result\":\"0000\",\"msg\":\"正確\",\"saleDt\":[{\"pkgOidObj\":\"42517\",\"day\":\"20180925\"},{\"pkgOidObj\":\"42206\",\"day\":\"20180926\"},{\"pkgOidObj\":\"42206\",\"day\":\"20180927\"},{\"pkgOidObj\":\"42206\",\"day\":\"20180928\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181001\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181002\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181003\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181004\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181005\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181008\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181009\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181010\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181011\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181012\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181015\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181016\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181017\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181018\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181019\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181022\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181023\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181024\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181025\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181026\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181029\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181030\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181031\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181101\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181102\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181105\"},{\"pkgOidObj\":\"42517\",\"day\":\"20181106\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181107\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181108\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181109\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181114\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181115\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181116\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181121\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181122\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181123\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181128\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181129\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181130\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181205\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181206\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181207\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181212\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181213\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181214\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181219\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181220\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181221\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181226\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181227\"},{\"pkgOidObj\":\"42206\",\"day\":\"20181228\"}],\"pkgMiniPrice\":10.53000,\"pkgGoDt\":\"20180925\",\"pkgOid\":42517,\"pkgTodayDt\":\"20180921\"}}";
@@ -241,9 +242,9 @@ namespace KKday.API.WMS.AppCode
 
             string result;
 
-            if (rds.getProdInfotoRedis("bid:test:prodModuleBooking" + oid) != null)
+            if (rds.getRedis("bid:test:prodModuleBooking" + oid) != null)
             {
-                result = rds.getProdInfotoRedis("bid:test:prodModuleBooking" + oid);
+                result = rds.getRedis("bid:test:prodModuleBooking" + oid);
             }
             else
             {
@@ -297,7 +298,7 @@ namespace KKday.API.WMS.AppCode
                     result = streamReader.ReadToEnd();
                 }
 
-                rds.SetProdInfotoRedis(result, "bid:test:prodModuleBooking" + oid, 30);
+                rds.SetRedis(result, "bid:test:prodModuleBooking" + oid, 30);
             }
 
 

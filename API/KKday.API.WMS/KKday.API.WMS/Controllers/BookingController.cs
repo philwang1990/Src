@@ -22,7 +22,8 @@ namespace KKday.API.WMS.Controllers {
 
     [Route("api/[controller]")]
     public class BookingController : Controller {
-        RedisHelper rds = new RedisHelper();
+        //RedisHelper rds = new RedisHelper();
+        private static RedisHelper rds;
 
         [HttpPost("InsertOrder")]
         public OrderNoModel InsertOrder([FromBody]OrderModel queryRQ)
@@ -56,7 +57,7 @@ namespace KKday.API.WMS.Controllers {
             {
                 if (guid == null) throw new Exception("err");
 
-                confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>(rds.getProdInfotoRedis("bid:ec:confirm:" + guid));
+                confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>(rds.getRedis("bid:ec:confirm:" + guid));
                 //confirm.pkgEvent = "1";
                 if (confirm == null) throw new Exception("err");
 

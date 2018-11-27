@@ -23,7 +23,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
     public class BookingRepository
     {
 
-
+        private static RedisHelper rds;
 
         public static OrderNoModel InsertOrder(OrderModel queryRQ)
         {
@@ -322,7 +322,8 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
         public static void setPayDtltoRedis(OrderKKdayModel orderModel, string orderMid, string memUuid)
         {
-            RedisHelper rds = new RedisHelper();
+            //RedisHelper rds = new RedisHelper();
+
             PaymentDtl payDtl = new PaymentDtl();
 
             payDtl.currency = orderModel.currency;
@@ -332,7 +333,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             payDtl.paymentToken = MD5Tool.GetMD5(orderMid + memUuid + "kk%$#@pay");
 
             string payDtlStr = JsonConvert.SerializeObject(payDtl);
-            rds.SetProdInfotoRedis(payDtlStr, "b2d:ec:payDtl:" + orderMid, 60);
+            rds.SetRedis(payDtlStr, "b2d:ec:payDtl:" + orderMid, 60);
         }
 
         //組出booking 頁右邊顯示的內容

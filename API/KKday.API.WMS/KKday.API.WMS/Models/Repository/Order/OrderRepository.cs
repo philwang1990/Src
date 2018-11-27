@@ -14,6 +14,8 @@ namespace KKday.API.WMS.Models.Repository.Order
 {
     public class OrderRepository
     {
+        private static RedisHelper rds;
+
         public static OrderListModel GetOrders(QueryOrderModel queryRQ)
         {
             queryRQ.option.orders = new List<string>();
@@ -110,7 +112,7 @@ namespace KKday.API.WMS.Models.Repository.Order
                 //step2.JAVA API 查詢訂單資料
                 obj = OrderProxy.getOrderInfo(queryRQ, orderMid);
 
-                RedisHelper rds = new RedisHelper();
+                //RedisHelper rds = new RedisHelper();
                 Dictionary<string, string> uikey = rds.klingonGet("frontend", queryRQ.locale_lang);
 
                 if (obj["content"]["result"].ToString() != "0000")

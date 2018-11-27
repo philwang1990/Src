@@ -26,7 +26,9 @@ namespace KKday.API.WMS.AppCode.Proxy
         private static string _PMDL_VENUE = "PMDL_VENUE";
         private static string _PMDL_EXCHANGE = "PMDL_EXCHANGE";
 
-        static RedisHelper rds = new RedisHelper();
+        //private static RedisHelper rds;
+
+        //static RedisHelper rds = new RedisHelper();
 
         //取得商品detail
         public static JObject getProd(QueryProductModel query_lst)
