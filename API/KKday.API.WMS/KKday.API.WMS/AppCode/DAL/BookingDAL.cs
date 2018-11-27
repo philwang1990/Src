@@ -40,14 +40,14 @@ namespace KKday.API.WMS.AppCode.DAL
             String sql = null;
             NpgsqlParameter[] np = null;
 
-            sql = @"select  replace('KOD'|| to_char(Nextval('b2b.b2d_order_no_seq') ,'9999999999999'),' ','0') order_no;";
+            sql = @"select  Nextval('b2b.b2d_order_no_seq') order_no;";
             DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.B2D_DB, CommandType.Text, sql, np);
             //ds.AcceptChanges();
             order_no = ds.Tables[0].Rows[0]["order_no"].ToString() ;
 
             sql = @"INSERT INTO b2b.orders(
-    order_no, kkday_order_oid, kkday_order_mid, order_date, order_type, order_status, order_amt, order_b2c_amt, connect_name, connect_tel, connect_mail, order_note)
-    VALUES (:order_no, :kkday_order_oid, :kkday_order_mid, to_timestamp(:order_date,'MM/DD/YYYY HH24:mi:SS' ), :order_type, :order_status, :order_amt, :order_b2c_amt, :connect_name, :connect_tel, :connect_mail, :order_note); ";
+    order_no, kkday_order_oid, kkday_order_mid, order_date, order_type, order_status, order_amt, order_b2c_amt, connect_name, connect_tel, connect_mail, order_note, company_xid, channel_oid, booking_type, crt_datetime)
+    VALUES (:order_no, :kkday_order_oid, :kkday_order_mid, to_timestamp(:order_date,'MM/DD/YYYY HH24:mi:SS' ), :order_type, :order_status, :order_amt, :order_b2c_amt, :connect_name, :connect_tel, :connect_mail, :order_note, :company_xid, :channel_oid, :booking_type, :crt_datetime); ";
 
 
             np = new NpgsqlParameter[]{
@@ -62,7 +62,11 @@ namespace KKday.API.WMS.AppCode.DAL
                      new NpgsqlParameter("connect_name",obj["connect_name"].ToString()),
                      new NpgsqlParameter("connect_tel",obj["connect_tel"].ToString()),
                      new NpgsqlParameter("connect_mail",obj["connect_mail"].ToString()),
-                     new NpgsqlParameter("order_note",obj["order_note"].ToString())
+                     new NpgsqlParameter("order_note",obj["order_note"].ToString()),
+                     new NpgsqlParameter("company_xid",obj["company_xid"].ToString()),
+                     new NpgsqlParameter("channel_oid",obj["channel_oid"].ToString()),
+                     new NpgsqlParameter("booking_type",obj["booking_type"].ToString()),
+                     new NpgsqlParameter("crt_datetime",DateTime.Now)
                     };
 
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
@@ -199,18 +203,25 @@ namespace KKday.API.WMS.AppCode.DAL
             return NpgsqlHelper.ExecuteNonQuery(trans, CommandType.Text, sql, np);
         }
 
-        public static int InsertOrderDiscountRule(JObject obj, NpgsqlTransaction trans, String order_no, List<int> lst_seqno,int discount_xid)
+        public static int InsertOrderDiscountRule(JObject obj, NpgsqlTransaction trans, String order_no)
         {
             String sql = null;
             NpgsqlParameter[] np = null;
+
+            sql = @"select  Nextval('b2b.b2d_discount_mst_xid_seq')  discount_xid;";
+            DataSet ds = NpgsqlHelper.ExecuteDataset(Website.Instance.B2D_DB, CommandType.Text, sql, np);
+            ds = NpgsqlHelper.ExecuteDataset(Website.Instance.B2D_DB, CommandType.Text, sql, np);
+            //ds.AcceptChanges();
+            int discount_xid = Convert.ToInt32(ds.Tables[0].Rows[0]["discount_xid"]);
+
             sql = @"INSERT INTO b2b.order_discount_rule(
-    xid, lst_seqno, disc_name, disc_amt, disc_currency, disc_note, order_no)
-    VALUES (:xid, :lst_seqno, :disc_name, :disc_amt, :disc_currency, :disc_note, :order_no); ";
+    xid, disc_name, disc_amt, disc_currency, disc_note, order_no)
+    VALUES (:xid, :disc_name, :disc_amt, :disc_currency, :disc_note, :order_no); ";
 
 
             np = new NpgsqlParameter[]{
                      new NpgsqlParameter("xid",discount_xid),
-                     new NpgsqlParameter("lst_seqno",lst_seqno[lst_seqno.Count-1]),
+                     //new NpgsqlParameter("lst_seqno",lst_seqno[lst_seqno.Count-1]),
                      new NpgsqlParameter("disc_name",obj["disc_name"].ToString()),
                      new NpgsqlParameter("disc_amt",(int)obj["disc_amt"]),
                      new NpgsqlParameter("disc_currency",obj["disc_currency"].ToString()),
@@ -254,22 +265,38 @@ namespace KKday.API.WMS.AppCode.DAL
 
             sql = @"UPDATE b2b.orders 
                     SET kkday_order_oid = :kkday_order_oid, kkday_order_mid= :kkday_order_mid
-                    FROM b2b.orders a LEFT JOIN b2b.order_source b on a.order_no = b.order_no
                     WHERE 1=1
-                    AND b2b.orders.order_no = :order_no 
-                    AND b.order_no = :order_no2 
-                    AND b.company_xid = :company_xid ; ";
+                    AND order_no = :order_no 
+                    AND company_xid = :company_xid ; ";
 
 
 
             np = new NpgsqlParameter[]{
              new NpgsqlParameter("kkday_order_oid",model.order_oid),
              new NpgsqlParameter("kkday_order_mid",model.order_mid),
-             new NpgsqlParameter("order_no2",model.order_no),
              new NpgsqlParameter("order_no",model.order_no),
              new NpgsqlParameter("company_xid",model.company_xid)
 
             };
+
+            //sql = @"UPDATE b2b.orders 
+            //        SET kkday_order_oid = :kkday_order_oid, kkday_order_mid= :kkday_order_mid
+            //        FROM b2b.orders a LEFT JOIN b2b.order_source b on a.order_no = b.order_no
+            //        WHERE 1=1
+            //        AND b2b.orders.order_no = :order_no 
+            //        AND b.order_no = :order_no2 
+            //        AND b.company_xid = :company_xid ; ";
+
+
+
+            //np = new NpgsqlParameter[]{
+            // new NpgsqlParameter("kkday_order_oid",model.order_oid),
+            // new NpgsqlParameter("kkday_order_mid",model.order_mid),
+            // new NpgsqlParameter("order_no2",model.order_no),
+            // new NpgsqlParameter("order_no",model.order_no),
+            // new NpgsqlParameter("company_xid",model.company_xid)
+
+            //};
 
             //sql = @"UPDATE b2b.orders set kkday_order_oid = :kkday_order_oid, kkday_order_mid= :kkday_order_mid
             //        WHERE 1=1
