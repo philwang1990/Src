@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KKday.Web.B2D.EC.AppCode;
 using KKday.Web.B2D.EC.Models.Repostory.Account;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
@@ -57,6 +58,8 @@ namespace KKday.Web.B2D.EC
                 options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER"));
             });
 
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IRedisHelper, RedisHelper>();
             services.AddSingleton<AccountRepository>();  //
 
             services.AddMemoryCache();

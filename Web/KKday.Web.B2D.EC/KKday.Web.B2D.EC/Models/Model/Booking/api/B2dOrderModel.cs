@@ -29,8 +29,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking.api
     {
         //public string order_no { get; set; }//訂單編號
         public string booking_type { get; set; }//訂單來源(api/web)
-        public int company_xid { get; set; }//分銷商xid
-        public int channel_oid { get; set; }//KKday old
+        public long company_xid { get; set; }//分銷商xid
+        public string channel_oid { get; set; }//KKday old
         public string connect_name { get; set; }//訂購人姓名
         public string connect_tel { get; set; }//訂購人聯絡電話
         public string connect_mail { get; set; }//訂購人聯絡信箱

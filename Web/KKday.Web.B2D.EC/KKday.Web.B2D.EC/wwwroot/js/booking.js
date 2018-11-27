@@ -221,8 +221,6 @@ function DateSetting()
 
        $(".event").attr('disabled','disabled');
  }
-
-
      
 }
 
@@ -532,6 +530,16 @@ function setdataModel()
         }
         dataModel.eventBackupData =eventBackup;
     }
+
+    //pay
+    if($("#txtPayHolderName").val()!="" &&  $("#txtPayHolderName").is(":visible")==true)
+        dataModel.card.cardHolder  =$("#txtPayHolderName").val();
+    if($("#txtPayCardNum").val()!="" &&  $("#txtPayCardNum").is(":visible")==true)
+        dataModel.card.cardNo  =$("#txtPayCardNum").val().replace(" ","").replace(" ","").replace(" ","");
+    if($("#txtPayExpireDate").val()!="" &&  $("#txtPayExpireDate").is(":visible")==true)
+        dataModel.card.expiry  =$("#txtPayExpireDate").val().replace("/","");
+    if($("#txtPayCvc").val()!="" &&  $("#txtPayCvc").is(":visible")==true)
+        dataModel.card.cardCvv  =$("#txtPayCvc").val();
 
     dataModel.note = $("#txtOrdNote").val();
 

@@ -58,10 +58,17 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public string multipricePlatform { get; set; }
         public string sourceCode { get; set; }
         public string sourceParam1 { get; set; }
-
+        public string ip { get; set; }  //原本主檔 json要帶的
+        public string locale { get; set; } //原本主檔 json要帶的
 
         public List<CusDataInfo> travelerData { get; set; }
         public modulesData modules { get; set; }
+
+
+        public DataModel Clone()
+        {
+            return (DataModel)this.MemberwiseClone();
+        }
 
     }
 
@@ -100,8 +107,8 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
     public class moduleData_Shuttle
     {
         public string shuttleDate { get; set; }
-        public designatedLocationInfo  designatedLocation { get; set; }
-        public designatedByCustomerInfo   designatedByCustomer { get; set; }
+        public designatedLocationInfo designatedLocation { get; set; }
+        public designatedByCustomerInfo designatedByCustomer { get; set; }
         public charterRouteInfo charterRoute { get; set; }
     }
 
@@ -155,7 +162,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public shipInfoInfo shipInfo { get; set; }
     }
 
-    public class contactDataM 
+    public class contactDataM
     {
         public string moduleType { get; set; } //OMDL_CONTACT_DATA
         public moduleData_contactData moduleData { get; set; }
@@ -167,7 +174,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public contactNameInfo contactName { get; set; }
         public contactTelInfo contactTel { get; set; }
         public contactAppInfo contactApp { get; set; }
-     
+
     }
 
     public class otherDataM
@@ -444,7 +451,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public shoeSizeInfo shoeSize { get; set; }
         public mealInfo meal { get; set; }
         public double? glassDiopter { get; set; }
-       
+
 
     }
 
@@ -474,17 +481,20 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
         public string lastName { get; set; }
     }
 
-    public class heightInfo {
+    public class heightInfo
+    {
         public string unit { get; set; }
         public double? value { get; set; }
     }
 
-    public class weightInfo{
+    public class weightInfo
+    {
         public string unit { get; set; }
         public double? value { get; set; }
     }
 
-    public class shoeSizeInfo{
+    public class shoeSizeInfo
+    {
         public string type { get; set; }
         public string unit { get; set; }
         public double? value { get; set; }
@@ -494,10 +504,11 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
     {
         public string mealType { get; set; }
         public string[] excludeFoodType { get; set; }
-        public foodAllergyInfo foodAllergy { get ;set;}
+        public foodAllergyInfo foodAllergy { get; set; }
     }
 
-    public class foodAllergyInfo {
+    public class foodAllergyInfo
+    {
         public Boolean isFoodAllergy { get; set; }
         public string allergenList { get; set; }
     }

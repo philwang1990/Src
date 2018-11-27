@@ -6,13 +6,13 @@
 function toSuccess()
 {
   var newForm = $('<form>', {
-                       'action': "https://localhost:5001/Final/Success/18KK102673551",
+                       'action': "https://localhost:5001/Final/Step3/18KK112074910",
                        'target': '_self',
                        'method': 'post'
                    }).append(jQuery('<input>', {
                        'name': 'jsondata',
                        'id' :'jsondata',
-                       'value':JSON.stringify({"isSuccess":true,"pmgwTransNo":"U2FsdGVkX19X8zoD1GYITT+shtmeku9z+0tfxvONi2w=","pmgwMethod":"AUTH","transactionCode":"007558","payCurrency":"TWD","payAmount":"263","is3D":false,"isFraud":"0","riskNote":"","memberInfo":{"encodeCardNo":"************3617"}}),
+                       'value':JSON.stringify({"metadata":{"status":"0000","desc":""},"data":{"pmgw_trans_no":"U2FsdGVkX1/bo/sZkGkaxiMsYa39gnPWk66gq3lSFzQ=","is_3d":false,"pmgw_method":"AUTH","transaction_code":"013604","pay_currency":"TWD","pay_amount":263,"is_fraud":0,"risk_note":"","member_info":{"encode_card_no":"************2782"}}}),
                        'type': 'hidden'
                        }));
     $(document.body).append(newForm);
