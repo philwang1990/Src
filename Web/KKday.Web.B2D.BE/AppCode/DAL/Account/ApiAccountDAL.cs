@@ -130,7 +130,7 @@ LIMIT :Size OFFSET :Skip";
             try
             {
                 string sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.account_type, a.gender_title,
- a.name_first, a.name_last, a.name_first || a.name_last AS name, a.department, a.job_title,
+ a.name_first, a.name_last, a.name_last || a.name_first AS name, a.department, a.job_title,
  a.tel, a.enable, b.xid AS comp_xid, b.comp_name, b.comp_locale, b.comp_currency,
  b.comp_tel_country_code
 FROM b2b.b2d_account_api a
@@ -180,7 +180,7 @@ WHERE a.xid=:xid";
         }
 
         // 修改API使用者
-        public static void UpdateAccount_Api(B2dApiAccount account, string upd_user)
+        public static void UpdateAccount_Api(B2dAccount account, string upd_user)
         {
             try
             {
@@ -213,7 +213,7 @@ WHERE xid=:xid ";
         }
 
         // 新增API使用者
-        public static void InsertApiAccount_Api(B2dApiAccount account, string crt_user)
+        public static void InsertApiAccount_Api(B2dAccount account, string crt_user)
         {
             try
             {
@@ -256,12 +256,13 @@ VALUES (:user_uuid, :source, :company_xid, :account_type, :enable, :password, :n
         {
             try
             {
-                string sqlStmt = @"UPDATE b2b.b2d_account
-SET enable = false
-WHERE xid=11:xid";
+                string sqlStmt = @"UPDATE b2b.b2d_account_api
+SET enable = false,upd_user=:upd_user
+WHERE xid=:xid";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("xid", xid)
+                    new NpgsqlParameter("xid", xid),
+                    new NpgsqlParameter("upd_user", upd_user)
                 };
 
                 NpgsqlHelper.ExecuteNonQuery(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt, sqlParams);
@@ -301,6 +302,48 @@ WHERE LOWER(email)=LOWER(:email) ";
                 Website.Instance._log.FatalFormat("{0}.{1}", ex.Message, ex.StackTrace);
                 throw ex;
             }
+        }
+
+        // 取token用帳密
+        public static B2dApiAccount GetApiAccount(Int64 xid)
+        {
+            B2dApiAccount account = new B2dApiAccount();
+
+            var sqlStmt = @"SELECT email,password
+FROM b2b.b2d_account_api
+WHERE xid=" + xid;
+
+            DataSet ds= NpgsqlHelper.ExecuteDataset(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt);
+            if(ds!=null)
+            {
+                foreach(DataRow dr in ds.Tables[0].Rows)
+                {
+                    account.EMAIL = dr.ToStringEx("email");
+                    account.PASSWORD = dr.ToStringEx("password");
+                }
+
+            }
+            return account;
+        }
+
+        // 快取時間
+        public static Int64 GetCacheTime(Int64 comp_xid)
+        {
+            var sqlStmt = @"select cache_ttl from b2b.b2d_company
+            where xid=" + comp_xid;
+
+            Int64 cache_time= Convert.ToInt32(NpgsqlHelper.ExecuteScalar(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt));
+            return cache_time;
+        }
+
+        // 更改快取時間
+        public static void UpdCacheTime(Int64 time, Int64 comp_xid)
+        {
+            var sqlStmt = @"Update b2b.b2d_company
+SET cache_ttl=" + time +
+"where xid=" + comp_xid;
+
+            NpgsqlHelper.ExecuteScalar(Website.Instance.SqlConnectionString, CommandType.Text, sqlStmt);
         }
     }
 }

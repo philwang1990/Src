@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.AppCode;
+using KKday.Web.B2D.BE.Commons;
 using KKday.Web.B2D.BE.Filters;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
@@ -25,10 +26,11 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
     [Authorize(Policy = "UserOnly")]
     public class AccountController : Controller
     {
+        // 列表顯示行數
         const int PAGE_SIZE = 5;
 
+        // 挖字
         readonly ILocalizer _localizer;
-
         public AccountController(ILocalizer localizer)
         {
             _localizer = localizer;
@@ -69,7 +71,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             return View(_profile);
         }
 
-        // 修改帳號資料
+        // 修改我的帳號資料（與子帳戶共用）
         [HttpPost]
         [AllowAnonymous]
         public IActionResult UpdateProfile([FromBody] B2dAccount acc)
@@ -101,7 +103,9 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             return View();
         }
 
-        // 子帳戶設定列表
+        #region 子帳號區塊
+
+        // 子帳戶列表
         public IActionResult WebUser(string query)
         {
             var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
@@ -134,7 +138,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
 
             return View(_accounts);
         }
-        // 子帳戶單一帳號
+        // 子帳戶單一帳號細節
         public IActionResult WebUserProfile(Int64 id)
         {
             try
@@ -174,6 +178,99 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
                 return Json(ex.ToString());
             }
         }
+        // 修改子帳號資料與主帳號共用
+        // 更改使用者密碼
+        [HttpPost]
+        public IActionResult UpdatePassword(string mail, string password)
+        {
+            Contract.Ensures(Contract.Result<IActionResult>() != null);
+            Dictionary<string, string> jsonData = new Dictionary<string, string>();
+
+            try
+            {
+                var _strAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                if (string.IsNullOrEmpty(_strAccount))
+                {
+                    throw new Exception("Invalid account to updated password");
+                }
+
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var accountRepo = services.First(o => o.GetType() == typeof(B2dAccountRepository));
+                accountRepo.SetNewPassword(mail, password);
+
+                jsonData.Add("status", "OK");
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+        // 關閉帳號
+        public IActionResult AccountProfile_close(Int64 xid)
+        {
+            try
+            {
+                var queryArgc = System.Web.HttpUtility.UrlEncode(this.Request.Query["query"].ToString());
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository));
+
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+                acctRepos.CloseAccount(xid, UserData.EMAIL);
+
+                ViewData["QueryParams"] = queryArgc;
+
+                return Json("OK");
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+        // 刷新頁面
+        [HttpPost]
+        public async System.Threading.Tasks.Task<IActionResult> Refresh([FromBody]QueryParamsModel queryParams)
+        {
+            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+
+            try
+            {
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository));
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+                //更新分頁資料
+                if (queryParams.RecountFlag)
+                {
+                    queryParams = acctRepos.GetQueryParamModel(UserData.COMPANY_XID, queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                }
+                ViewData["QUERY_PARAMS"] = queryParams;
+
+                var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
+                var _accounts = acctRepos.GetAccounts(UserData.COMPANY_XID, queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
+
+                jsonData["query_params"] = JsonConvert.SerializeObject(queryParams);
+                jsonData["content"] = await this.RenderViewAsync<List<B2dAccount>>("WebUserList", _accounts, true);
+                jsonData["status"] = "OK";
+            }
+            catch (Exception ex)
+            {
+                jsonData.Clear();
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", ex.Message);
+            }
+
+            return Json(jsonData);
+        }
+
+        #endregion 子帳號區塊
 
         #region API帳號區塊
 
@@ -199,13 +296,14 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
 
             ViewData["QUERY_PARAMS"] = queryParams;
             ViewData["QUERY_PARAMS_JSON"] = JsonConvert.SerializeObject(queryParams);
+            ViewData["CACHETIME"] = B2dApiAccountRepository.GetCache(UserData.COMPANY_XID);
 
             var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
             var _accounts = acctRepos.GetAccounts(UserData.COMPANY_XID, queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
 
             return View(_accounts);
         }
-        // API單一帳號
+        // API單一帳號細節
         public IActionResult ApiUserProfile(Int64 id)
         {
             try
@@ -262,6 +360,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
                 var UserData = JsonConvert.DeserializeObject<B2dApiAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
                 var crt_user = UserData.EMAIL;
                 acc.COMPANY_XID = UserData.COMPANY_XID;
+                acc.TEL_AREA = UserData.TEL_AREA;
 
                 accountRepo.InsertAccount(acc, crt_user);
                 return Json("OK");
@@ -271,33 +370,26 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
                 return Json(ex.ToString());
             }
         }
-
-
+        // 更改API使用者密碼
         [HttpPost]
-        public async System.Threading.Tasks.Task<IActionResult> Refresh([FromBody]QueryParamsModel queryParams)
+        public IActionResult UpdatePassword_Api(string mail, string password)
         {
-            Dictionary<string, object> jsonData = new Dictionary<string, object>();
+            Contract.Ensures(Contract.Result<IActionResult>() != null);
+            Dictionary<string, string> jsonData = new Dictionary<string, string>();
 
             try
             {
-                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
-                var acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository));
-                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
-                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
-
-                //更新分頁資料
-                if (queryParams.RecountFlag)
+                var _strAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
+                if (string.IsNullOrEmpty(_strAccount))
                 {
-                    queryParams = acctRepos.GetQueryParamModel(UserData.COMPANY_XID, queryParams.Filter, queryParams.Sorting, PAGE_SIZE, queryParams.Paging.current_page);
+                    throw new Exception("Invalid account to updated password");
                 }
-                ViewData["QUERY_PARAMS"] = queryParams;
 
-                var skip = (queryParams.Paging.current_page - 1) * queryParams.Paging.page_size;
-                var _accounts = acctRepos.GetAccounts(UserData.COMPANY_XID, queryParams.Filter, skip, queryParams.Paging.page_size, queryParams.Sorting);
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var accountRepo = services.First(o => o.GetType() == typeof(B2dApiAccountRepository));
+                accountRepo.SetNewPassword(mail, password);
 
-                jsonData["query_params"] = JsonConvert.SerializeObject(queryParams);
-                jsonData["content"] = await this.RenderViewAsync<List<B2dAccount>>("WebUserList", _accounts, true);
-                jsonData["status"] = "OK";
+                jsonData.Add("status", "OK");
             }
             catch (Exception ex)
             {
@@ -308,7 +400,69 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
 
             return Json(jsonData);
         }
+        // 取得現有token
+        public IActionResult ApiAccount_GetToken(Int64 xid)
+        {
+            Dictionary<string, string> jsonData = new Dictionary<string, string>();
 
+            var token = "恭喜取得";//CommonProxy.GetApiToken(xid);
+
+            jsonData.Add("token", token);
+            jsonData.Add("status", "OK");
+
+            return Json(jsonData);
+        }
+        // 重取token
+        public IActionResult New_ApiAccount_Token(Int64 xid)
+        {
+            Dictionary<string, string> jsonData = new Dictionary<string, string>();
+
+            var account = B2dApiAccountRepository.GetApiAccount(xid);
+            var token = CommonProxy.GetApiToken(account.EMAIL,account.PASSWORD);
+
+            jsonData.Add("token", token.access_token);
+            jsonData.Add("status", "OK");
+
+            return Json(jsonData);
+        }
+        // 更改快取時間
+        public IActionResult Update_CacheTime(Int64 time)
+        {
+            Dictionary<string, string> jsonData = new Dictionary<string, string>();
+            var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+            B2dApiAccountRepository.UpdateCacheTime(time,UserData.COMPANY_XID);
+
+            jsonData.Add("status", "OK");
+
+            return Json(jsonData);
+        }
+        // 關閉API帳號
+        public IActionResult ApiAccountProfile_close(Int64 xid)
+        {
+            try
+            {
+                var queryArgc = System.Web.HttpUtility.UrlEncode(this.Request.Query["query"].ToString());
+                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
+                var acctRepos = services.First(o => o.GetType() == typeof(B2dApiAccountRepository));
+
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+                acctRepos.CloseAccount(xid, UserData.EMAIL);
+
+                ViewData["QueryParams"] = queryArgc;
+
+                return Json("OK");
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
+                throw ex;
+            }
+        }
+        // 刷新API頁面
         [HttpPost]
         public async System.Threading.Tasks.Task<IActionResult> ApiRefresh([FromBody]QueryParamsModel queryParams)
         {
@@ -344,94 +498,6 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
 
         #endregion API帳號區塊
 
-        // 關閉帳號
-        public IActionResult AccountProfile_close(Int64 xid)
-        {
-            try
-            {
-                var queryArgc = System.Web.HttpUtility.UrlEncode(this.Request.Query["query"].ToString());
-                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
-                var acctRepos = services.First(o => o.GetType() == typeof(B2dAccountRepository));
-
-                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
-                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
-
-                acctRepos.CloseAccount(xid,UserData.EMAIL);
-
-                ViewData["QueryParams"] = queryArgc;
-
-                return Json("OK");
-            }
-            catch (Exception ex)
-            {
-                Website.Instance.logger.FatalFormat("{0},{1}", ex.Message, ex.StackTrace);
-                throw ex;
-            }
-        }
-
-        // 更改使用者密碼
-        [HttpPost]
-        public IActionResult UpdatePassword(string mail,string password)
-        {
-            Contract.Ensures(Contract.Result<IActionResult>() != null);
-            Dictionary<string, string> jsonData = new Dictionary<string, string>();
-
-            try
-            {
-                var _strAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
-                if (string.IsNullOrEmpty(_strAccount))
-                {
-                    throw new Exception("Invalid account to updated password");
-                }
-
-                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
-                var accountRepo = services.First(o => o.GetType() == typeof(B2dAccountRepository));
-                if(mail==null) accountRepo.SetNewPassword(_strAccount, password, 01);
-                else accountRepo.SetNewPassword(mail, password, 01);
-
-                jsonData.Add("status", "OK");
-            }
-            catch (Exception ex)
-            {
-                jsonData.Clear();
-                jsonData.Add("status", "FAIL");
-                jsonData.Add("msg", ex.Message);
-            }
-
-            return Json(jsonData);
-        }
-
-        // 更改API使用者密碼
-        [HttpPost]
-        public IActionResult UpdatePassword_Api(string mail, string password)
-        {
-            Contract.Ensures(Contract.Result<IActionResult>() != null);
-            Dictionary<string, string> jsonData = new Dictionary<string, string>();
-
-            try
-            {
-                var _strAccount = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == "Account").Select(c => c.Value)).FirstOrDefault();
-                if (string.IsNullOrEmpty(_strAccount))
-                {
-                    throw new Exception("Invalid account to updated password");
-                }
-
-                var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
-                var accountRepo = services.First(o => o.GetType() == typeof(B2dApiAccountRepository));
-                accountRepo.SetNewPassword(mail, password, 02);
-
-                jsonData.Add("status", "OK");
-            }
-            catch (Exception ex)
-            {
-                jsonData.Clear();
-                jsonData.Add("status", "FAIL");
-                jsonData.Add("msg", ex.Message);
-            }
-
-            return Json(jsonData);
-        }
-
         #region 分銷商註冊
 
         // 註冊頁面
@@ -457,6 +523,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
             return View();
         }
 
+        // 註冊分銷商
         [HttpPost]
         [AllowAnonymous]
         public IActionResult InsertCompany([FromBody] RegisterModel reg)

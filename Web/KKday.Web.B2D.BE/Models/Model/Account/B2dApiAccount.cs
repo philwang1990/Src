@@ -6,5 +6,6 @@ namespace KKday.Web.B2D.BE.Models.Model.Account
     {
         public string SOURCE { get; set; }        //來源
         public string TOKEN { get; set; }         //API TOKEN
+        public string CACHE_TIME { get; set; }    //快取時間(分)
     }
 }

@@ -20,7 +20,7 @@
         <div class="col-md-9">
             <div class="board">
                 <div class="page-head">
-                    <h1>子帳號管理</h1>
+                    <h1>@localizer.Text.Title_WebUser</h1>
                 </div>
                 <!-- search  -->
                 <div class="page-search">
@@ -69,41 +69,11 @@
         </div>
     </div> -->
 
-                <a href="#" class="btn-add" data-toggle="modal" data-target="#add_account"><i class="icons icon-plus"></i>新增子帳號</a>
+                <a href="#" class="btn-add" data-toggle="modal" data-target="#add_account"><i class="icons icon-plus"></i>@localizer.Text.AddAccount</a>
                 <div id="list_panel" class="table-responsive">
                     @await Html.PartialAsync("WebUserList", Model)
                 </div>
-                    <!--分頁-->
-                <ul class="pagination">
-                    @if (query_params.Paging.total_pages > 1)
-                    {
-                        <li><a href="javascript:Refresh(1, false);"><i class="a fa-angle-left"></i></a></li>
-                    }
 
-                    @if (query_params != null)
-                    {
-                        for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
-                        {
-                            var pgIdx = nIdx + 1;
-                            if (pgIdx == query_params.Paging.current_page)
-                            {
-                                <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
-                            }
-                            else
-                            {
-                                <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx, false);">@pgIdx</a></li>
-                            }
-                        }
-                    }
-
-                    @if (query_params.Paging.total_pages > 1)
-                    {
-                        <li>
-                            <a href="javascript:Refresh(@query_params.Paging.total_pages, false);"><i class="a fa-angle-right"></i></a>
-                        </li>
-                    }
-                </ul>
-                    <!--分頁-->
             </div>
         </div>
     </div>
@@ -144,7 +114,7 @@
                                 <input type="password" id="new_password_again" name="new_password_again" class="form-control">
                             </div>
                         </div>
-                        <div class="col-sm-2">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label>@localizer.Text.GenderTitle<span class="text-danger">*</span></label>
                                 <select class="form-control" id="new_gendertitle" name="new_gendertitle">
@@ -156,13 +126,13 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label>@localizer.Text.NameLast<span class="text-danger">*</span></label>
                                 <input type="text" id="new_namelast" name="new_namelast" class="form-control">
                             </div>
                         </div>
-                        <div class="col-sm-5">
+                        <div class="col-sm-4">
                             <div class="form-group">
                                 <label>@localizer.Text.NameFirst<span class="text-danger">*</span></label>
                                 <input type="text" class="form-control" id="new_namefirst" name="new_namefirst">
@@ -201,8 +171,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary" onclick="AccountAdd();">新增</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@localizer.Text.Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="AccountAdd();">@localizer.Text.Insert</button>
                 </div>
             </form>
         </div>

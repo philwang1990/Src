@@ -82,10 +82,12 @@
     <!-- Genernel -->
     <data name="KKday_CopyRight" xml:space="preserve"><value>KKday 同業分銷平台</value></data>
     <data name="Add" xml:space="preserve"><value>加入</value></data>
+    <data name="Back" xml:space="preserve"><value>返回上一頁</value></data>
     <data name="Insert" xml:space="preserve"><value>新增</value></data>
     <data name="Update" xml:space="preserve"><value>修改</value></data>
     <data name="Cancel" xml:space="preserve"><value>取消</value></data>
     <data name="Edit" xml:space="preserve"><value>編輯</value></data>
+    <data name="Save" xml:space="preserve"><value>儲存</value></data>
     <data name="Delete" xml:space="preserve"><value>刪除</value></data>
     <data name="ID" xml:space="preserve"><value>序號</value></data>
     <data name="Name" xml:space="preserve"><value>名稱</value></data>
@@ -130,6 +132,7 @@
     <data name="Currency" xml:space="preserve"><value>幣別</value></data>
     <data name="Locale" xml:space="preserve"><value>語系</value></data>
     <data name="OnlyTaiwan" xml:space="preserve"><value>僅台灣同業使用</value></data>
+    <data name="CacheTime" xml:space="preserve"><value>快取時間(分)</value></data>
     
     <!-- Search -->
     <data name="Search_Name" xml:space="preserve"><value>請輸入姓名</value></data>

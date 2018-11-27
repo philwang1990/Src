@@ -54,8 +54,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                 // 檢查是否為分銷商有效使用者
                 else {
                         sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
-a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
-b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, a.account_type
+a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,a.account_type,
+b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, b.cache_ttl
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status='03' --已核准
 WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
@@ -96,8 +96,8 @@ WHERE enable=true AND LOWER(email)=LOWER(:email) AND password=:password";
                     else
                     {
                         sqlStmt = @"SELECT a.xid, a.user_uuid, a.email, a.name_first, a.name_last,
- a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,
- b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, a.account_type
+ a.name_last || a.name_first AS name, a.department, a.job_title, a.enable, a.gender_title,a.account_type,
+ b.xid as comp_xid, b.comp_name, b.comp_locale AS locale, b.comp_currency AS currency, b.cache_ttl
 FROM b2b.b2d_account a
 JOIN b2b.b2d_company b ON a.company_xid=b.xid AND b.status!='03' --除了已核准外
 WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
@@ -119,8 +119,8 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                             USER_TYPE = dr.ToStringEx("account_type"),
                             ENABLE = dr.ToBoolean("enable"),
                             COMPANY_XID=dr.ToInt32("comp_xid"),
-                            CURRENCY = "",
-                            LOCALE = ""
+                            CURRENCY = dr.ToStringEx("currency"),
+                            LOCALE = dr.ToStringEx("locale")
                         };
                     }
                 }

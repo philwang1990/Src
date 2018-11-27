@@ -1,12 +1,12 @@
 ﻿@using Microsoft.AspNetCore.Http
 @using KKday.Web.B2D.BE.App_Code
+@using System.Security.Claims
 @using Resources
 @inject ILocalizer localizer
-@{ 
-  var comp_locale = Context.Session.GetString("B2D_COMPANY_LOCALE");
-  var comp_currency = Context.Session.GetString("B2D_COMPANY_CURRENCY");
+@{
+    var comp_locale = Context.Session.GetString("B2D_COMPANY_LOCALE");
+    var comp_currency = Context.Session.GetString("B2D_COMPANY_CURRENCY");
 }
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,13 +14,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
     <title>@ViewData["Title"] - KKday.Web.B2D.BE</title>
     <link href="img/favicon.png" rel="shortcut icon" type="image/png">
-
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         @*<link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/sidemenu.css" />
-        <link rel="stylesheet" href="~/css/bootstrap.min.css">*@
-        <link rel="stylesheet" href="~/css/font-awesome.min.css">
+            <link rel="stylesheet" href="~/css/sidemenu.css" />
+            <link rel="stylesheet" href="~/css/bootstrap.min.css">*@
+        @*<link rel="stylesheet" href="~/css/font-awesome.min.css">*@
         <link rel="stylesheet" href="~/css/simple-line-icons.css">
         <link rel="stylesheet" href="~/css/daterangepicker.css">
         @*<link rel="stylesheet" href="~/css/webfont/zh-tw.css">*@
@@ -34,36 +33,34 @@
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/sidemenu.css" asp-append-version="true" />
     </environment>
-        <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-        <environment include="Development">
-            <script src="~/lib/jquery/dist/jquery.js"></script>
-            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-            @*<script src="~/js/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*<script src="~/js/jquery.min.js"></script>
             <script src="~/js/bootstrap.min.js"></script>*@
-            <script src="~/js/moment.js"></script>
-            <script src="~/js/daterangepicker.js"></script>
-        </environment>
+        <script src="~/js/moment.js"></script>
+        <script src="~/js/daterangepicker.js"></script>
+    </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"
                 crossorigin="anonymous"
-                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
-        </script>
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"></script>
         <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
                 asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
                 asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
                 crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"></script>
     </environment>
-    <script type="text/javascript" src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.js")"></script> 
-
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.js")"></script>
     <script type="text/javascript">
         var _root_path = '@Url.Content("~/")';
     </script>
     @RenderSection("Stylesheet", required: false)
+
+
 </head>
 <body>
     <header>
@@ -74,8 +71,8 @@
             <ul class="menu">
                 <li class="dropdown member-dropdown">
                     <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <div class="badge user-type">KKday 管理者</div>
-                        佩禎<i class="fa fa-angle-down hidden-sm hidden-xs"></i>
+                        <div class="badge user-type">@User.FindFirst("UserType").Value</div>
+                        @User.FindFirst(ClaimTypes.Name).Value<i class="fa fa-angle-down hidden-sm hidden-xs"></i>
                     </a>
                     <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
                         <li><a href="@Url.Content("~/User/Account")">@localizer.Text.Title_MyProfile</a></li>
@@ -90,11 +87,13 @@
                 </li>
                 <li>
                     <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @comp_locale</a>
+                        @User.FindFirst("Locale").Value
+                    </a>
                 </li>
                 <li>
                     <a href="javascript:;" aria-haspopup="true" aria-expanded="false">
-                        @comp_currency</a>
+                        @User.FindFirst("Currency").Value
+                    </a>
                 </li>
                 <li class="visible-sm visible-xs">
                     <a href="index.html" class="btn btn-primary btn-block mt-10"><i class="fa fa-shopping-cart"></i>前往購買</a>
@@ -143,3 +142,4 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+

@@ -6,186 +6,192 @@
 @{
     Layout = "_LayoutMain";
     var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+    var cache_time = ViewData["CACHETIME"];
 }
 <script type="text/javascript">
   var query_params = @Html.Raw(ViewData["QUERY_PARAMS_JSON"].ToString());
 </script>
 
-<nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="@Url.Content("~/")">Home</a></li>
-        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.Title_ApiUser</li>
-    </ol>
-</nav>
-
 <div class="container">
     <div class="row">
-        <div class="col-xs-12">
-            <h4>@localizer.Text.Title_ApiUser</h4>
-
-            <!-- search -->
-                <div class="search-tab row" style="margin-bottom: 20px;">
-                    <form id="search">
-                        <div class="col-xs-12 col-sm-2">
-                            <label>@localizer.Text.Name</label>
-                            <input type="text" id="name" class="form-control" placeholder="@localizer.Text.Search_Name" aria-label="name" aria-describedby="basic-addon1">
-                        </div>
-
-                        <div class="col-xs-12 col-sm-2">
-                            <label>@localizer.Text.Email</label>
-                            <input type="text" id="email" class="form-control" placeholder="@localizer.Text.Search_Email" aria-label="email" aria-describedby="basic-addon1">
-                        </div>
-
-                        <div class="col-xs-12 col-sm-2">
-                            <label>@localizer.Text.Status</label>.
-                            <select id="status" class="selectpicker form-control">
-                                <option value="">-- Select --</option>
-                                <option value="0">@localizer.Text.Disable</option>
-                                <option value="1">@localizer.Text.Enable</option>
-                            </select>
-                        </div>
-
-                        <div class="col-xs-12 col-sm-2">
-                            <label> </label>
-                            <input type="Submit" name="submit" value="@localizer.Text.Search" onclick="Refresh(1, true); return false;" class="btn btn-info cst-btn form-control">
-                        </div>
-                    </form>
+        <div class="col-md-9">
+            <div class="board">
+                <div class="page-head">
+                    <h1>@localizer.Text.Title_ApiUser</h1>
                 </div>
-            <!-- search  -->
-
-            <div class="row">
-                <a href="#" class="btn" data-title="@localizer.Text.AddAccount" data-toggle="modal" data-target="#add"><i class="fas fa-plus"></i>@localizer.Text.AddAccount</a>
-
-            </div>
-        </div>
-
-        <div class="col-xs-12">
-            <div id="list_panel" class="table-responsive">
-                @await Html.PartialAsync("ApiUserList", Model)
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- 新增子帳號 -->
-<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
-                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.AddAccount</h4>
-            </div>
-            <div class="modal-body">
-                <form id="add_form">
+                <!-- search -->
+                <div class="page-search">
                     <div class="row">
-
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>@localizer.Text.Email</label>
-                                <input type="text" id="new_email" name="new_email" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>@localizer.Text.NewPassword</label>
-                                <input type="password" id="new_password" name="new_password" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>@localizer.Text.PasswordAgain</label>
-                                <input type="password" id="new_password_again" name="new_password_again" class="form-control">
-                            </div>
-                        </div>
                         <div class="col-sm-4">
                             <div class="form-group">
-                                <label>@localizer.Text.GenderTitle<span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <select id="new_gendertitle" name="new_gendertitle" class="form-control">
-                                        <option value="">@localizer.Text.Select</option>
-                                        <option value="miss">Miss</option>
-                                        <option value="mr">Mr</option>
-                                        <option value="mrs">Mrs</option>
-                                        <option value="ms">Ms</option>
-                                    </select>
-                                </div>
+                                <label>@localizer.Text.Search_Name</label>
+                                <input type="text" id="name" class="form-control" placeholder="@localizer.Text.Search_Name">
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <label>@localizer.Text.NameLast<span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="text" id="new_namelast" name="new_namelast" class="form-control">
-                                </div>
+                                <label>@localizer.Text.Search_Email</label>
+                                <input type="email" id="email" class="form-control" placeholder="@localizer.Text.Search_Email">
                             </div>
                         </div>
-                        <div class="col-sm-4">
+                        <div class="col-sm-3">
                             <div class="form-group">
-                                <label>@localizer.Text.NameFirst<span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="text" id="new_namefirst" name="new_namefirst" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        @*<div class="col-sm-5">
-                            <div class="form-group">
-                                <label>@localizer.Text.CountryANDTelCode<span class="text-danger">*</span></label>
-                                <label id="new_countryarea" name="new_countryarea" class="form-control">@countryAreas</label>
+                                <label>@localizer.Text.Status</label>
+                                <select id="status" class="form-control">
                                     <option value="">@localizer.Text.Select</option>
-                                    @foreach (var country in countryAreas.OrderBy(c => c.telArea))
-                                    {
-                                        <option value="@(country.telArea + "," + country.countryCode)"> @country.countryName (+@(country.telArea))</option>
-                                    }
-                            </div>
-                        </div>*@
-                        <div class="col-sm-12">
-                            <div class="form-group">
-                                <label>@localizer.Text.Tel<span class="text-danger">*</span></label>
-                                <input type="text" id="new_tel" name="new_tel" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>@localizer.Text.Department<span class="text-danger">*</span></label>
-                                <input type="text" id="new_department" name="new_department" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>@localizer.Text.JobTitle<span class="text-danger">*</span></label>
-                                <input type="text" id="new_jobtitle" name="new_jobtitle" class="form-control" />
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>人員角色<span class="text-danger">*</span></label>
-                                <select id="new_type" name="new_type" class="form-control">
-                                    <option value="00">@localizer.Text.UserRole_00</option>
-                                    <option value="01">@localizer.Text.UserRole_01</option>
+                                    <option value="1">@localizer.Text.Enable</option>
+                                    <option value="0">@localizer.Text.Disable</option>
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label>@localizer.Text.Status<span class="text-danger">*</span></label>
-                                <select id="new_enable" name="new_enable" class="form-control">
-                                    <option value="true">@localizer.Text.Enable</option>
-                                    <option value="false">@localizer.Text.Disable</option>
-                                </select>
-                            </div>
+                        <div class="col-sm-2 text-right">
+                            <input type="Submit" name="submit" value="@localizer.Text.Search" onclick="Refresh(1, true); return false;" class="btn btn-primary">
                         </div>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer ">
-                <button id="btn_insert" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="AccountAdd();">
-                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Insert
-                </button>
+                </div>
+                <!-- search -->
+                <!-- 空白狀態 -->
+                <!-- <div class="empty">
+                  <div class="empty-title">
+                      <img class="empty-img" src="img/empty_list/product_list.svg">
+                      <div class="empty-title">沒有符合條件的資料！</div>
+                  </div>
+                </div> -->
+                <!-- 空白狀態 -->
+                <!-- 排序 -->
+                <!-- <span class="text-light">排序：</span>
+                <div class="dropdown sort">
+                    <a href="#" data-toggle="dropdown">依照筆畫<i class="fa fa-angle-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li class="active">
+                            <a href="javascript:;">依照筆畫</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">排序方法 A</a>
+                        </li>
+                        <li>
+                            <a href="javascript:;">排序方法 B</a>
+                        </li>
+                    </ul>
+                </div> -->
+                <!-- 排序 -->
+                <div class="cache-time">
+                    <strong>@localizer.Text.CacheTime：</strong>
+                    <label id="cache_time">@cache_time</label>
+                    <input type="text" id="cache_time_edit" class="edit-time-input" placeholder="@cache_time" style="display:none">
+                    <a href="javascript:;" id="edit_time" onclick="editTime();">@localizer.Text.Edit</a>
+                    <a href="javascript:;" id="save_time" onclick="saveTime()">@localizer.Text.Save</a>
+                </div>
+
+                <a href="#" class="btn-add" data-toggle="modal" data-target="#add_account"><i class="icons icon-plus"></i>@localizer.Text.AddAccount</a>
+
+                <div id="list_panel" class="table-responsive">
+                    @await Html.PartialAsync("ApiUserList", Model)
+                </div>
+
+                <!-- 新增子帳號 -->
+                <div id="add_account" class="modal fade" tabindex="-1" role="dialog">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <form id="add_form">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                                    <h4 class="modal-title">@localizer.Text.AddAccount</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.Email<span class="text-danger">*</span></label>
+                                                <input type="email" id="new_email" name="new_email" class="form-control" placeholder="example@domain.com">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.Tel<span class="text-danger">*</span></label>
+                                                <input type="tel" id="new_tel" name="new_tel" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.NewPassword<span class="text-danger">*</span></label>
+                                                <input type="password" id="new_password" name="new_password" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.PasswordAgain<span class="text-danger">*</span></label>
+                                                <input type="password" id="new_password_again" name="new_password_again" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.GenderTitle<span class="text-danger">*</span></label>
+                                                <select class="form-control" id="new_gendertitle" name="new_gendertitle">
+                                                    <option value="">@localizer.Text.Select</option>
+                                                    <option value="miss">Miss</option>
+                                                    <option value="mr">Mr</option>
+                                                    <option value="mrs">Mrs</option>
+                                                    <option value="ms">Ms</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.NameLast<span class="text-danger">*</span></label>
+                                                <input type="text" id="new_namelast" name="new_namelast" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.NameFirst<span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="new_namefirst" name="new_namefirst">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.Department</label>
+                                                <input type="text" class="form-control" id="new_department" name="new_department">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.JobTitle</label>
+                                                <input type="text" class="form-control" id="new_jobtitle" name="new_jobtitle">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.UserType<span class="text-danger">*</span></label>
+                                                <select id="new_type" name="new_type" class="form-control">
+                                                    <option value="00">@localizer.Text.UserRole_00</option>
+                                                    <option value="01">@localizer.Text.UserRole_01</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>@localizer.Text.Status<span class="text-danger">*</span></label>
+                                                <select id="new_enable" name="new_enable" class="form-control">
+                                                    <option value="true">@localizer.Text.Enable</option>
+                                                    <option value="false">@localizer.Text.Disable</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">@localizer.Text.Cancel</button>
+                                    <button type="button" class="btn btn-primary" onclick="ApiAccountAdd();">@localizer.Text.Insert</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- 新增子帳號 -->
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 <script type="text/javascript">
@@ -197,7 +203,7 @@ $(function(){
                 $(this).prop("checked", true);
             });
 
-        } 
+        }
         else {
             $("#mytable input[type=checkbox]").each(function () {
                 $(this).prop("checked", false);
@@ -205,6 +211,7 @@ $(function(){
         }
     });
 
+    $('#save_time').hide();
     $("[data-toggle=tooltip]").tooltip();
 
     //初始化驗證規則
@@ -216,7 +223,6 @@ $(function(){
                 new_gendertitle:"required",
                 new_namelast:"required",
                 new_namefirst:"required",
-                new_countryarea:"required",
                 new_tel:{required: true,phoneStyle:true},
                 new_type:"required",
                 new_enable:"required"
@@ -229,145 +235,206 @@ $(function(){
                     new_gendertitle:"不可為空",
                     new_namelast:"不可為空",
                     new_namefirst:"不可為空",
-                    new_countryarea:"不可為空",
                     new_tel:{required:"不可為空"},
                     new_department:"不可為空",
                     new_jobtitle:"不可為空",
                     new_type:"不可為空",
                     new_enable:"不可為空"
         }
-    }); 
-});
+    });
 
-    $.validator.addMethod("phoneStyle", function( value, element )
-    {
-       var str = value;
-       var result = false;
-
-       if(str.length > 0){
-           var patt_phone = /^[\d\-\(\)\#]{1,}$/;
-           result = patt_phone.test(str);
-       }
-       else result = true;
-
-       return result;
-    }, "電話號碼不符合格式，僅接受數字、#-()等符號");
-
-    function Refresh(page, is_recount) {
-        query_params.filter = JSON.stringify({ name:$.trim($("#name").val().toLowerCase()), email:$("#email").val().toLowerCase(), company: $("#company").val(), status:$("#status").val() });
-        query_params.sorting = $("#sorting").val();
-        if (page!==undefined) query_params.Paging.current_page = page;
-        query_params.RecountFlag= is_recount;
-        //console.log("Params: " + JSON.stringify(query_params));
+    $('#api_key').on('show.bs.modal', function(e) { 
+        var id=19;
 
         $.ajax({
-            type: "POST",
-            url: _root_path + "Account/ApiRefresh",
-            contentType: "application/json",
-            data: JSON.stringify(query_params),
+                url: _root_path + 'Account/ApiAccount_GetToken',
+                type: 'POST',
+                dataType: "json",
+                data:{xid:id},
+                error: function (data) {
+                    console.log(data.responseText);
+                },
+                success: function(result) {
+                    if(result.status == "OK") {
+                        $('#api_key_show').html(result.token);
+                    }
+                    else {
+                        alert(result.msg);
+                    }
+                }
+        });
+    });
+});
+
+$.validator.addMethod("phoneStyle", function( value, element )
+{
+   var str = value;
+   var result = false;
+
+   if(str.length > 0){
+       var patt_phone = /^[\d\-\(\)\#]{1,}$/;
+       result = patt_phone.test(str);
+   }
+   else result = true;
+
+   return result;
+}, "電話號碼不符合格式，僅接受數字、#-()等符號");
+
+function Refresh(page, is_recount) {
+    query_params.filter = JSON.stringify({ name:$.trim($("#name").val().toLowerCase()), email:$("#email").val().toLowerCase(), company: $("#company").val(), status:$("#status").val() });
+    query_params.sorting = $("#sorting").val();
+    if (page!==undefined) query_params.Paging.current_page = page;
+    query_params.RecountFlag= is_recount;
+    //console.log("Params: " + JSON.stringify(query_params));
+
+    $.ajax({
+        type: "POST",
+        url: _root_path + "Account/ApiRefresh",
+        contentType: "application/json",
+        data: JSON.stringify(query_params),
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+            console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+        },
+        success: function (result) {
+            // console.log("result: " + JSON.stringify(result));
+            if(result.status == "OK") {
+                $("#list_panel").html(result.content);
+                query_params = JSON.parse(result.query_params);
+            }
+        }
+    });
+
+}
+
+function AccountEdit(id) {
+    var query = encodeURI(JSON.stringify(query_params));
+    window.location.href = _root_path + "Account/ApiUserProfile/" + id + "?query=" + query;
+}
+
+function ApiAccountAdd() {
+if($('#add_form').valid())
+    {
+        var query = {
+                        EMAIL:$('#new_email').val(),
+                        PASSWORD:$('#new_password').val(),
+                        TITLE:$('#new_gendertitle').val(),
+                        NAME_FIRST:$('#new_namefirst').val(),
+                        NAME_LAST:$('#new_namelast').val(),
+                        TEL:$('#new_tel').val(),
+                        DEPARTMENT:$('#new_department').val(),
+                        JOB_TITLE:$('#new_jobtitle').val(),
+                        USER_TYPE:$('#new_type').val(),
+                        ENABLE:$('#new_enable').val()
+        };
+
+        $.ajax({
+                    url: _root_path + 'Account/InsertApiUser',
+                    type: 'POST',
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(query),
+                    failure: function (data) {
+                        console.log(data.responseText);
+                    },
+                    error: function (data) {
+                        console.log(data.responseText);
+                    },
+                    success: function(result) {
+                        if(result == "OK") {
+                            alert('新增成功');
+                            window.location.href =_root_path + "Account/ApiUser";
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    }
+        });
+    }
+}
+
+function ApiAccountClose(id) {
+
+    var query = encodeURI(JSON.stringify(query_params));
+    $.ajax({
+        url: _root_path + 'Account/ApiAccountProfile_close',
+        type: 'POST',
+        dataType: "json",
+        data:{xid:id},
+        error: function (data) {
+            console.log(data.responseText);
+        },
+        success: function(result) {
+            if(result == "OK") {
+                alert('成功');
+                window.location.href =_root_path + "Account/ApiUser";
+            }
+            else {
+                alert(result.msg);
+            }
+        }
+    });
+}
+
+function UpdToken(idd) {
+
+    var id=2;
+
+    $.ajax({
+        url: _root_path + 'Account/New_ApiAccount_Token',
+        type: 'POST',
+        dataType: "json",
+        data:{xid:id},
+        error: function (data) {
+            console.log(data.responseText);
+        },
+        success: function(result) {
+            if(result.status == "OK") {
+                $('#api_key_show').html(result.token);
+            }
+            else {
+                alert(result.msg);
+            }
+        }
+    });
+}
+
+function editTime()
+{
+    $('#cache_time').hide();
+    $('#cache_time_edit').show();
+    $('#edit_time').hide();
+    $('#save_time').show();
+
+}
+
+function saveTime()
+{
+    var new_time=$('#cache_time_edit').val();
+
+    $.ajax({
+            url: _root_path + 'Account/Update_CacheTime',
+            type: 'POST',
             dataType: "json",
-            error: function (jqXHR, textStatus, errorThrown) {
-                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
-                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            data:{time:new_time},
+            error: function (data) {
+                console.log(data.responseText);
             },
-            success: function (result) {
-                // console.log("result: " + JSON.stringify(result));
+            success: function(result) {
                 if(result.status == "OK") {
-                    $("#list_panel").html(result.content);
-                    query_params = JSON.parse(result.query_params);
-                    window.location.href = "@Url.Content("~/User/Account/ApiUser")";
+                    alert('成功');
+                    $('#cache_time_edit').hide();
+                    $('#edit_time').show();
+                    $('#save_time').hide();
+                    $('#cache_time').show();
+                    $('#cache_time').text(new_time);
+
+                }
+                else {
+                    alert(result.msg);
                 }
             }
         });
-
-    }
-
-    function AccountEdit(id) {
-        var query = encodeURI(JSON.stringify(query_params));
-        window.location.href = _root_path + "Account/ApiUserProfile/" + id + "?query=" + query;
-    }
-
-    function ApiAccountAdd() {
-    if($('#add_form').valid())
-        {
-            var query = {
-                            EMAIL:$('#new_email').val(),
-                            PASSWORD:$('#new_password').val(),
-                            TITLE:$('#new_gendertitle').val(),
-                            NAME_FIRST:$('#new_namefirst').val(),
-                            NAME_LAST:$('#new_namelast').val(),
-                            TEL_AREA:$('#new_countryarea').val(),
-                            TEL:$('#new_tel').val(),
-                            DEPARTMENT:$('#new_department').val(),
-                            JOB_TITLE:$('#new_jobtitle').val(),
-                            USER_TYPE:$('#new_type').val(),
-                            ENABLE:$('#new_enable').val()
-            };
-
-            $.ajax({
-                        url: _root_path + 'Account/InsertApiUser',
-                        type: 'POST',
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify(query),
-                        failure: function (data) {
-                            console.log(data.responseText);
-                        },
-                        error: function (data) {
-                            console.log(data.responseText);
-                        },
-                        success: function(result) {
-                            if(result == "OK") {
-                                alert('新增成功');
-                                window.location.href =_root_path + "Account/ApiUser";
-                            }
-                            else {
-                                alert(result.msg);
-                            }
-                        }
-            });
-        }
-    }
-
-    function AccountAdd() {
-        if($('#add_form').valid())
-        {
-            var query = {
-                            EMAIL:$('#new_email').val(),
-                            PASSWORD:$('#new_password').val(),
-                            GENDER_TITLE:$('#new_gendertitle').val(),
-                            NAME_FIRST:$('#new_namefirst').val(),
-                            NAME_LAST:$('#new_namelast').val(),
-                            TEL:$('#new_tel').val(),
-                            DEPARTMENT:$('#new_department').val(),
-                            JOB_TITLE:$('#new_jobtitle').val(),
-                            USER_TYPE:$('#new_type').val(),
-                            ENABLE:$('#new_enable').val()
-            };
-
-            $.ajax({
-                        url: _root_path + 'Account/InsertApiUser',
-                        type: 'POST',
-                        contentType: "application/json",
-                        dataType: "json",
-                        data: JSON.stringify(query),
-                        failure: function (data) {
-                            console.log(data.responseText);
-                        },
-                        error: function (data) {
-                            console.log(data.responseText);
-                        },
-                        success: function(result) {
-                            if(result == "OK") {
-                                alert('新增成功');
-                                window.location.href =_root_path + "Account/ApiUser";
-                            }
-                            else {
-                                alert(result.msg);
-                            }
-                        }
-            });
-        }
-    }
-
+}
 </script>

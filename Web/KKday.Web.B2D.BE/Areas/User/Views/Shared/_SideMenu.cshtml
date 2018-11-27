@@ -3,8 +3,7 @@
 @using Resources
 @inject ILocalizer localizer
 @{
-    var email = Context.Session.GetString("B2D_ACCOUNT_EMAIL");
-    var usertype = Context.Session.GetString("B2D_ACCOUNT_USERTYPE");
+    var user_type = User.FindFirst("UserType").Value;
 }
 
 <aside class="page-aside">
@@ -12,17 +11,17 @@
         <h4 class="title">Hello, @User.Identity.Name</h4>
         <div class="critical-info">
             <i class="icons icon-user"></i>
-            <b>@usertype</b>
+            <b>@(user_type.Equals("ADMIN") ? localizer.Text.UserRole_01 : localizer.Text.UserRole_00)</b>
         </div>
         <div class="critical-info">
             <i class="icons icon-envelope"></i>
-            @email
+            @User.FindFirst("ACCOUNT").Value
         </div>
         <div class="critical-info">
             <i class="icons icon-home"></i>
             Agent
         </div>
-        <a href="index.html" class="btn btn-primary btn-block mt-10"><i class="fa fa-shopping-cart"></i>前往購買</a>
+        <a href="index.html" class="btn btn-primary btn-block mt-10"><i class="fa fa-shopping-cart"></i>@localizer.Text.Title_GoBooking</a>
     </div>
     <ul class="page-menu">
         <li>

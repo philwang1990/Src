@@ -213,19 +213,5 @@ namespace KKday.Web.B2D.BE.Models.Repository
                 throw ex;
             }
         }
-
-        public bool SetNewPassword(string account, string password,Int64 from)
-        {
-            try
-            {
-                AccountDAL.UpdatePassword(account, password, from);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
     }
 }

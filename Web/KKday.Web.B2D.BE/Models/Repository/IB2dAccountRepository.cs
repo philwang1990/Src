@@ -33,6 +33,5 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         //更新使用者密碼
         bool SetNewPassword(string acct, string password);
-        bool SetNewPassword(string acct, string password,Int64 from);
     }
 }

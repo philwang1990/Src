@@ -58,7 +58,7 @@ namespace KKday.Web.B2D.BE
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("KKdayOnly", policy => policy.RequireClaim("UserType", "KKDAY"));
-                options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER"));
+                options.AddPolicy("UserOnly", policy =>  policy.RequireClaim("UserType", "USER", "ADMIN"));
             });
 
             #region Dependency Injection Regisgter -- begin

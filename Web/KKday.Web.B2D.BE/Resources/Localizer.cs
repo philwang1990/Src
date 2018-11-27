@@ -192,6 +192,8 @@
 
 		public string Add { get { return GetString("Add"); } }
 
+		public string Back { get { return GetString("Back"); } }
+
 		public string Insert { get { return GetString("Insert"); } }
 
 		public string Update { get { return GetString("Update"); } }
@@ -199,6 +201,8 @@
 		public string Cancel { get { return GetString("Cancel"); } }
 
 		public string Edit { get { return GetString("Edit"); } }
+
+		public string Save { get { return GetString("Save"); } }
 
 		public string Delete { get { return GetString("Delete"); } }
 
@@ -285,6 +289,8 @@
 		public string Locale { get { return GetString("Locale"); } }
 
 		public string OnlyTaiwan { get { return GetString("OnlyTaiwan"); } }
+
+		public string CacheTime { get { return GetString("CacheTime"); } }
 
 		public string Search_Name { get { return GetString("Search_Name"); } }
 

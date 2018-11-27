@@ -27,14 +27,14 @@ namespace KKday.Web.B2D.BE.Models.Repository
         // [共用]修改分銷商單一帳號資訊
         public void UpdateAccount(B2dAccount acct, string upd_user)
         {
-            B2dApiAccount acc = acct as B2dApiAccount;
+            B2dAccount acc = acct as B2dAccount;
             ApiAccountDAL.UpdateAccount_Api(acc, upd_user);
         }
 
         // [共用]新增API帳號資訊
         public void InsertAccount(B2dAccount acct, string crt_user)
         {
-            B2dApiAccount acc = acct as B2dApiAccount;
+            B2dAccount acc = acct as B2dAccount;
             if (acc.PASSWORD != null)
             {
                 acc.PASSWORD = Sha256Helper.Gethash(acc.PASSWORD);
@@ -157,6 +157,32 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return account_list;
         }
 
+        // 取拿Token用帳密
+        public static B2dApiAccount GetApiAccount(Int64 xid)
+        {
+            B2dApiAccount account = ApiAccountDAL.GetApiAccount(xid);
+            return account;
+        }
+
+        // 取API token
+        public string GetToken(Int64 xid)
+        {
+            var token = "這是token唷";
+            return token;
+        }
+
+        // 取快取時間
+        public static Int64 GetCache(Int64 comp_xid)
+        {
+            return ApiAccountDAL.GetCacheTime(comp_xid);
+        }
+
+        // 更改快取時間
+        public static void UpdateCacheTime(Int64 time, Int64 comp_xid)
+        {
+            ApiAccountDAL.UpdCacheTime(time,comp_xid);
+        }
+
         #endregion 分銷商使用者區塊 
 
         #region Fields Mapping
@@ -208,21 +234,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
         {
             try
             {
-                // 呼叫WMS-API設定使用者新密碼
-
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public bool SetNewPassword(string account, string password, Int64 from)
-        {
-            try
-            {
-                AccountDAL.UpdatePassword(account, password, from);
+                ApiAccountDAL.UpdatePassword_Api(account, password);
                 return true;
             }
             catch (Exception ex)
