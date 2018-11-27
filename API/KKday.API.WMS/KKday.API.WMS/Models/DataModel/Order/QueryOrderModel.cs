@@ -23,7 +23,7 @@ namespace KKday.API.WMS.Models.DataModel.Order
         public string prod_Edate { get; set; }
         public string order_Sdate { get; set; }
         public string order_Edate { get; set; }
-        public string[] orders { get; set; }
-        public List<string> kkday_orders { get; set; }
+        public string[] kkday_orders { get; set; }
+        public List<string>  orders{ get; set; }
     }
 }

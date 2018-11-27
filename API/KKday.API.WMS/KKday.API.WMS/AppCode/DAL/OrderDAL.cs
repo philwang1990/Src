@@ -16,8 +16,7 @@ namespace KKday.API.WMS.AppCode.DAL
 
                 String sql = @"select kkday_order_mid 
 from b2b.orders a
-join b2b.order_source b on a.order_no = b.order_no 
-where b.company_xid = :COMPANY_XID and a.order_no =:ORDER_NO ";
+where a.company_xid = :COMPANY_XID and a.order_no =:ORDER_NO ";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                         new NpgsqlParameter("COMPANY_XID", xid),
@@ -39,7 +38,7 @@ where b.company_xid = :COMPANY_XID and a.order_no =:ORDER_NO ";
             return check;
         }
         //orderMid(KODxxxx>>18KKxxxxx) 找出 order_no 
-        public static bool CheckOrder(Int64 xid, string orderMid, string  orderOid ,ref string order_no)
+        public static bool CheckOrder(Int64 xid, ref string order_no,string orderMid)
         {
             bool check = false;
 
@@ -48,12 +47,11 @@ where b.company_xid = :COMPANY_XID and a.order_no =:ORDER_NO ";
 
                 String sql = @"select a.order_no 
 from b2b.orders a
-join b2b.order_source b on a.order_no = b.order_no 
-where b.company_xid = :COMPANY_XID and a.kkday_order_oid =:ORDER_OID and a.kkday_order_mid=:ORDER_MID";
+where a.company_xid = :COMPANY_XID and a.kkday_order_mid=:ORDER_MID";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("COMPANY_XID", xid),
-                    new NpgsqlParameter("ORDER_OID", orderOid),
+                    //new NpgsqlParameter("ORDER_OID", orderOid),
                     new NpgsqlParameter("ORDER_MID", orderMid)
                     };
 
