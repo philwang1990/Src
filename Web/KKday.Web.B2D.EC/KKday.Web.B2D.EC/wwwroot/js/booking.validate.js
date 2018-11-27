@@ -67,10 +67,24 @@ $.validator.addMethod("contactlName", function (value, element) {
 }, $("#booking_step1_english_error").val());
 
 
+$.validator.addMethod("payCardNumber", function (value, element) {
+           if($("#txtPayCardNum").is(":visible")==true)
+           {
+             if ( value.replace(" ","").replace(" ","").replace(" ","").match(/^([0-9]){16}$/))
+              {return true;}else{
+              return false; }
+           }
+           else
+           {
+             return true;
+           }
+          }, $("#booking_step1_length_error_1").val()+"16"+ $("#booking_step1_length_error_2").val());
+
+
+
 
 function initModule2()
 {
-
     $("#form1").validate({
         rules: {
             txtLocalFname: "required",
@@ -109,6 +123,10 @@ function chkValid()
    $("#board2").removeClass("active").addClass("active");
    $("#board3").removeClass("active").addClass("active");
 
+   var payRadio= $('input:radio[name="payment"]:checked').val();
+   if(payRadio==null) return false;
+
+
    ReParseValidation();
    formVaildate();
 
@@ -132,6 +150,16 @@ function chkValid()
        
     });
 
+  $(".payFormClass").each(function () {
+   
+         var id =$(this).attr("id");
+         if($("#"+id).valid()==false) 
+         {
+            chkchk=false; 
+         }
+      
+    });
+
    if(chkchk==false) 
    {
      return false;
@@ -145,7 +173,7 @@ function chkValid()
 //booking step1
 function toStep1() {
 
-    alert("test");
+    //alert("test");
     var jqxhr = $.ajax({
         type: "POST",
         url: _root_path + "Booking/bookingStep1/",
@@ -156,31 +184,26 @@ function toStep1() {
         async: true,
         //timeout: 60000,
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('要改');
+                 location.href =_root_path + "Final/Failure/"
         },
         success: function (result) {if(result.status=="OK"){
-
-               console.log(result.pmchSslRequest);
-               sendPayment(result.pmchSslRequest);
+               sendPayment(result.pmchSslRequest,result.url);
  
             } else{
-                 alert(result.msgErr);
+                 alert("booking-err:"+result.msgErr);
+                 location.href =_root_path + "Home/"
             };
              
         },
         complete: function () {
-             
-
         }
     });
 }
 
-function sendPayment(callPmchReq)
+function sendPayment(callPmchReq,url)
 {
-    //https://pmch.sit.kkday.com/citi/payment/auth
-    //https://payment.kkday.com/v1/channel/adyen/auth
     var newForm = $('<form>', {
-                       'action': "https://payment.sit.kkday.com/v1/channel/citi/auth",
+                       'action': url,
                        'target': '_self',
                        'method': 'post'
                    }).append(jQuery('<input>', {
@@ -414,6 +437,26 @@ function formVaildate()
                     selEvent2 :{required : $("#booking_step1_required_error").val()},
                     selEvent3 :{required : $("#booking_step1_required_error").val()}
 
+                    },
+                errorClass: "error_msg"
+            });
+     });
+
+
+    $(".payFormClass").each(function () {
+     
+          $(this).validate({
+                rules: {
+                    txtPayHolderName: {required : $("#txtPayHolderName").is(":visible")==true},
+                    txtPayCardNum:  { payCardNumber :true ,required : $("#txtPayCardNum").is(":visible")==true },
+                    txtPayExpireDate :{required : $("#txtPayExpireDate").is(":visible")==true},
+                    txtPayCvc :{required : $("#txtPayCvc").is(":visible")==true}
+               },
+                messages: {
+                    txtPayHolderName: $("#booking_step1_required_error").val(),
+                    txtPayCardNum: {required:$("#booking_step1_required_error").val()} ,
+                    txtPayExpireDate :{required : $("#booking_step1_required_error").val()},
+                    txtPayCvc :{required : $("#booking_step1_required_error").val()}
                     },
                 errorClass: "error_msg"
             });

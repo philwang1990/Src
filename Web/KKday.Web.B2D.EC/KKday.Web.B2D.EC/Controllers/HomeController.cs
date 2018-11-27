@@ -18,12 +18,23 @@ using Microsoft.AspNetCore.Authorization;
 using KKday.Web.B2D.EC.Models.Repostory.Account;
 using KKday.Web.B2D.EC.Models.Model.Account;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using KKday.Web.B2D.EC.Models.Repostory.Common;
 
 namespace KKday.SearchProd.Controllers
 {
     [Authorize(Policy="UserOnly")]
     public class HomeController : Controller
     {
+        ICompositeViewEngine ViewEngine;
+        private static IRedisHelper RedisHelper;
+
+        public HomeController(ICompositeViewEngine viewEngine, IRedisHelper _redisHelper)
+        {
+            ViewEngine = viewEngine;
+            RedisHelper = _redisHelper;
+        }
+
         public IActionResult Index()
         {
             //假分銷商
@@ -36,7 +47,7 @@ namespace KKday.SearchProd.Controllers
             string locale = UserData.LOCALE;
             var countries = CountryRepostory.GetCountries(locale);
             //取挖字
-            Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE); //fakeContact.lang, UserData.LOCALE
+            Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, UserData.LOCALE); //fakeContact.lang, UserData.LOCALE
             ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
 

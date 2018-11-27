@@ -9,6 +9,8 @@ namespace KKday.Web.B2D.EC.Models
         public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
 
         public ErrorType ErrorType { get; set; }
+
+        public string ErrorMessage { get; set; } = "";
     }
 
     public enum ErrorType
