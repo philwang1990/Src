@@ -15,6 +15,8 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Authorization;
 using KKday.Web.B2D.EC.Models.Model.Account;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using KKday.Web.B2D.EC.Models.Repostory.Common;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -23,7 +25,14 @@ namespace KKday.SearchProd.Controllers
     [Authorize(Policy = "UserOnly")]
     public class SearchController : Controller
     {
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private static IRedisHelper RedisHelper;
 
+        public SearchController(IHttpContextAccessor _httpContextAccessor, IRedisHelper _redisHelper)
+        {
+            httpContextAccessor = _httpContextAccessor;
+            RedisHelper = _redisHelper;
+        }
 
         string[] _durations = null;
         // GET: /<controller>/
@@ -54,7 +63,7 @@ namespace KKday.SearchProd.Controllers
             //取得可售商品之國家&城市
             var countries = CountryRepostory.GetCountries(locale);
 
-            Dictionary<string, string> uikey = RedisHelper.getuiKey(UserData.LOCALE);
+            Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, UserData.LOCALE);
             ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
             List<ProductBaseModel> prodList = null;

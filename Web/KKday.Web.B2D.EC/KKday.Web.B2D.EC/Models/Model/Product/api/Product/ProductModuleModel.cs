@@ -46,7 +46,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public Weight weight { get; set; }
         public ShoeSize shoe_size { get; set; }
         public Meal meal { get; set; }
-        public GlassDiopter glass_dopter { get; set; }
+        public GlassDegree glass_degree { get; set; }
 
     }
 
@@ -182,11 +182,11 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
         public bool is_require_FoodAllergy { get; set; } //過敏   
     }
 
-    public class GlassDiopter
+    public class GlassDegree
     {
         public bool is_require { get; set; }
-        public string diopter_range_start { get; set; }
-        public string diopter_range_end { get; set; }
+        public string degree_range_start { get; set; }
+        public string degree_range_end { get; set; }
     }
 
     #endregion

@@ -11,11 +11,11 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
     public static class ProductRepostory
     {
         //查商品
-        public static ProductforEcModel getProdDtl(long companyXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
+        public static ProductforEcModel getProdDtl(long companyXid, string state, string lang, string currency, string prodoid, ProdTitleModel title)
         {
             try
             {
-                return ApiHelper.getProdDtl(companyXid, state, lang, currency, prodoid,title);
+                return ApiHelper.getProdDtl(companyXid, state, lang, currency, prodoid, title);
             }
             catch (Exception ex)
             {
@@ -26,11 +26,11 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
         }
 
         //查套餐
-        public static PackageModel getProdPkg(long companyXid, string state, string lang, string currency, string prodoid,ProdTitleModel title)
+        public static PackageModel getProdPkg(long companyXid, string state, string lang, string currency, string prodoid, ProdTitleModel title)
         {
             try
             {
-                return ApiHelper.getProdPkg(companyXid, state, lang, currency, prodoid,title);
+                return ApiHelper.getProdPkg(companyXid, state, lang, currency, prodoid, title);
             }
             catch (Exception ex)
             {
@@ -79,7 +79,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
         }
 
         //取消政策條列化
-        public static ProductforEcModel  setCancelPolicy(ProductforEcModel prod, Dictionary<string, string> uiKey)
+        public static ProductforEcModel setCancelPolicy(ProductforEcModel prod, Dictionary<string, string> uiKey)
         {
             List<CancelPolicy> policyList = new List<CancelPolicy>();
             CancelPolicy policy = null;
@@ -87,7 +87,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             int i = 0;
             int preDate = 0;
 
-            foreach( Policy p in prod.policy_list )
+            foreach (Policy p in prod.policy_list)
             {
                 policy = new CancelPolicy();
                 policy.sort = i;
@@ -109,7 +109,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
                 i++;
             }
 
-            policyList= policyList.OrderByDescending(x => x.sort).ToList();
+            policyList = policyList.OrderByDescending(x => x.sort).ToList();
             prod.cancelPolicyList = policyList;
 
             return prod;
@@ -346,7 +346,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             title.booking_step1_rent_car_drop_off_date = uiKey["booking_step1_rent_car_drop_off_date"];
             title.booking_step1_rent_car_drop_off_date_placeholder = uiKey["booking_step1_rent_car_drop_off_date_placeholder"];
             title.booking_step1_car_psgr = uiKey["booking_step1_car_psgr"];
-            title.booking_step1_car_psgr_carry_luggage_quantity=uiKey["booking_step1_car_psgr_carry_luggage_quantity"];
+            title.booking_step1_car_psgr_carry_luggage_quantity = uiKey["booking_step1_car_psgr_carry_luggage_quantity"];
             title.booking_step1_car_psgr_carry_luggage = uiKey["booking_step1_car_psgr_carry_luggage"];
             title.booking_step1_car_psgr_checked_luggage = uiKey["booking_step1_car_psgr_checked_luggage"];
             title.booking_step1_car_psgr_child_seat_quantity = uiKey["booking_step1_car_psgr_child_seat_quantity"];
@@ -433,7 +433,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             return title;
         }
 
-      
+
         //套餐日期 一開始先全抓
         public static List<PkgDateforEcModel> getProdPkgDate(PackageModel pkg, string lang, string currency, Dictionary<string, string> uikey, out string allCanUseDate)
         {
@@ -443,7 +443,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             //要判斷是否是0000
             PkgSaleDateModel sale_dates = pkg.sale_dates;
 
-            foreach(SaleDt s in sale_dates.saleDt)
+            foreach (SaleDt s in sale_dates.saleDt)
             {
                 string pkgOid = s.pkg_no.ToString();
                 DateTime day = DateTimeTool.yyyyMMdd2DateTime(s.sale_day);
@@ -524,7 +524,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
                         {
                             if (pkgOid.Equals(pkgDate.pkgOid))
                             {
-                                if (pkgDate.day.IndexOf(prodQury.selDate.Replace("/","-")) > -1)
+                                if (pkgDate.day.IndexOf(prodQury.selDate.Replace("/", "-")) > -1)
                                 {
                                     if (pkg.status == "Y")
                                     {
@@ -615,7 +615,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
         {
             try
             {
-                return  ApiHelper.getProdModule(B2dXid,state, lang, currency, prodoid, pkgoid, title);
+                return ApiHelper.getProdModule(B2dXid, state, lang, currency, prodoid, pkgoid, title);
             }
             catch (Exception ex)
             {
@@ -625,24 +625,24 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
         }
 
         //
-        public static JObject  getModuleBooking(string oid, string lang, string currency) 
-        {
-            KKapiHelper api = new KKapiHelper();
-            var obj = (JObject)api.callKKapiProdModuleBooking(lang, currency, oid);
+        //public static JObject  getModuleBooking(string oid, string lang, string currency) 
+        //{
+        //KKapiHelper api = new KKapiHelper();
+        //var obj = (JObject)api.callKKapiProdModuleBooking(lang, currency, oid);
 
-            //finishStatus 一定要是9
-            //customerDataType 01 入住代表人 02 每個人
-            //把已選到的場次時間去掉，以免 step1 備選場次又被選到
-            //拿寄送資料的城市清單
+        //finishStatus 一定要是9
+        //customerDataType 01 入住代表人 02 每個人
+        //把已選到的場次時間去掉，以免 step1 備選場次又被選到
+        //拿寄送資料的城市清單
 
-            return obj;
-        }
+        //return obj;
+        //}
 
-        public static PkgEventsModel getEvent(long companyXid, string state, string lang, string currency, string prodoid, string pkgoid,ProdTitleModel title)
+        public static PkgEventsModel getEvent(long companyXid, string state, string lang, string currency, string prodoid, string pkgoid, ProdTitleModel title)
         {
             try
             {
-                return ApiHelper.getPkgEvent(companyXid, state, lang, currency, prodoid, pkgoid,title);
+                return ApiHelper.getPkgEvent(companyXid, state, lang, currency, prodoid, pkgoid, title);
             }
             catch (Exception ex)
             {
@@ -651,6 +651,6 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
 
             }
         }
-    
+
     }
 }
