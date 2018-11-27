@@ -55,7 +55,7 @@ namespace KKday.Web.B2D.EC
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("KKdayOnly", policy => policy.RequireClaim("UserType", "KKDAY"));
-                options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER"));
+                options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER", "ADMIN"));
             });
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

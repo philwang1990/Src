@@ -76,6 +76,7 @@
                     <h2><strong>@prodTitle.home_index2_btn_go</strong></h2>
                     <form id="form1" action="@Url.Content("~/Search/ProdList")" method="post">
                         <input type="hidden" id="key1" name="key1" />  @*點擊的查詢條件*@
+                        <input type="hidden" id="citykey" name="citykey" /> 
                         <div class="search-area">
                             <div class="input-group">
                                 <input type="text" class="form-control input-lg" id="key" placeholder="@prodTitle.common_type_to_search">
@@ -260,7 +261,10 @@
                     <div class="col-md-11" id="cities">
                         @foreach (var ct in na.Cities)
                         {
-                            <a herf="javascript:void(0);" onclick="quicksearch('@ct.CityName');">@ct.CityName</a>
+                            if (ct.CityName != "所有城市")
+                            {
+                                <a herf="javascript:void(0);" onclick="quicksearch('@ct.CityCode');">@ct.CityName</a>
+                            }
                         }
                     </div>
                 </div>
@@ -356,11 +360,12 @@
 
     })
 
-    //將值塞進input(hidden)由form發動
-    function quicksearch(key1)
+    //將值塞進input(hidden)由form發動  citykey
+    function quicksearch(citykey)
     {
         console.log("call quick search");
-        $("#key1").val(key1);
+        $("#citykey").val(citykey);
+        alert(citykey);
         @*$("#key2").val($("#countries").val());*@
         $("#form1").submit();
     }

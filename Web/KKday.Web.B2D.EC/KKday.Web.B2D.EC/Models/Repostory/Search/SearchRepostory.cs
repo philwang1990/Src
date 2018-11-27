@@ -27,7 +27,7 @@ namespace KKday.SearchProd.Models.Repostory
         /// <param name="size">Size.</param>
         /// <param name="total_count">Total count.</param>
         /// <param name="total_pages">Total pages.</param>
-        public static List<ProductBaseModel> GetProduct(string lang, string currency, string filter,
+        public static List<ProductBaseModel> GetProduct(string lang, string currency, string filter, string citykey,
             int skip, int size, string datefilter, string budgetfilter, string[] durations, string[] guidelang, string cat_main, string cat_sub,
                 out int total_count, out int total_pages, out Stats stats, out Facets facets) 
         {
@@ -79,6 +79,7 @@ namespace KKday.SearchProd.Models.Repostory
                             ["start"] = skip,        //計算從第幾筆開始
                             ["count"] = size,        //分頁筆數
                             ["q"] = filter,          //查詢條件
+                            ["city_key"] = citykey,
                             ["stats"] = new string[] { "price" },
                             ["facets"] = new string[] { "cat_main", "cat", "guide_lang" },  //, "total_time", "sale_dt"
                             ["company_xid"] = "1"
