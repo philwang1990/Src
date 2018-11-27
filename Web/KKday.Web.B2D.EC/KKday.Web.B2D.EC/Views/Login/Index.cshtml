@@ -1,0 +1,140 @@
+﻿@page
+@{
+    Layout = "_LayoutShell";
+}
+
+@section Stylesheet{
+
+    <link rel="stylesheet" href="~/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/css/simple-line-icons.css">
+    <link rel="stylesheet" href="~/css/webfont/zh-tw.css">
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/css/login.css">
+}
+
+<div class="login-body" style="background-image: url(/images/bg_login.jpg)">
+    <div class="page-wrap login-wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-lg-offset-4 col-md-offset-3 col-md-6 col-sm-8 col-sm-offset-2">
+                    <form id="login-form" method="post" role="form" style="display: block;">
+                        <div class="board">
+                            <h1 class="title">登入</h1>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" id="email" class="form-control" placeholder="Email" value="south@ymail.com" tabindex="1">
+                            </div>
+                            <div class="form-group has-error">
+                                <label>密碼</label>
+                                <a href="@Url.Content("~/Login/ForgetPassword")" tabindex="5" class="btn-link pull-right">忘記密碼？</a>
+                                <input type="password" id="password" class="form-control" placeholder="Password" value="88888888" tabindex="2">
+                                @*<div class="tip">密碼錯誤</div>*@
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" tabindex="3">
+                                    記得我
+                                </label>
+                            </div>
+                            @*<a href="#" class="btn btn-primary btn-block" tabindex="4">登入</a>*@
+                            <input type="button" name="login-submit" id="login-submit" tabindex="4" class="btn btn-primary btn-block" value="Log In" onclick="UserAuth();">
+                            <div class="text-center mt-20">
+                                還不是會員？<a href="register.html">免費註冊</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*<div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <h4>Login</h4>
+                            </div>
+
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form id="login-form" method="post" role="form" style="display: block;">
+                                    <div class="form-group">
+                                        <input type="text" id="email" tabindex="1" class="form-control" placeholder="Email" value="south@ymail.com">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="password" id="password" tabindex="2" class="form-control" placeholder="Password" value="88888888">
+                                    </div>
+                                    <div class="form-group text-center">
+                                        <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
+                                        <label for="remember"> Remember Me</label>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="button" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In" onclick="UserAuth();">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="text-center">
+                                                    <a href="@Url.Content("~/Login/ForgetPassword")" tabindex="5" class="forgot-password">忘記密碼?</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <div class="text-center">
+                                                    <a href="@Url.Content("~/Account/Register")" tabindex="5" class="register">免費註冊</a>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+<script type="text/javascript">
+   function UserAuth() {
+       $.ajax({
+            url: _root_path + 'Login/AuthenAsync',
+            type: 'GET',
+            data: {
+              Email: $('#email').val(), Password: $('#password').val()
+            },
+            error: function(xhr) {aa1a
+              alert('Ajax request 發生錯誤');
+            },
+            success: function(result) {
+                if(result.status == "OK") {
+                    window.location.href = result.url;
+                }
+                else {
+                    alert(result.msg);
+                }
+            }
+          });
+   }
+
+</script>

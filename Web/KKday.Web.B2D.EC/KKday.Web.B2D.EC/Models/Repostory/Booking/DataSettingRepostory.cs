@@ -180,30 +180,30 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
         }
 
         //假聯絡人
-        public static distributorInfo fakeContact()
-        {
+        //public static distributorInfo fakeContact()
+        //{
 
-            distributorInfo fake = new distributorInfo()
-            {
-                companyXid = "1",
-                channelOid = "111",
-                userid = "2",
-                firstName = "sharon",
-                lastName = "chang",
-                areatel = "886",
-                tel = "3939889",
-                email = "bid@kkday.com",
-                countryCd = "TW",
-                lang = "zh-tw",
-                currency = "TWD",
-                state="TW",
-                memberUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719",
-                tokenKey = "897af29c45ed180451c2e6bfa81333b6",
-                deviceId = "3c2ab71448224d1d7148350f7972e96e"
-            };
+        //    distributorInfo fake = new distributorInfo()
+        //    {
+        //        companyXid = "1",
+        //        channelOid = "111",
+        //        userid = "2",
+        //        firstName = "sharon",
+        //        lastName = "chang",
+        //        areatel = "886",
+        //        tel = "3939889",
+        //        email = "bid@kkday.com",
+        //        countryCd = "TW",
+        //        lang = "zh-tw",
+        //        currency = "TWD",
+        //        state="TW",
+        //        memberUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719",
+        //        tokenKey = "897af29c45ed180451c2e6bfa81333b6",
+        //        deviceId = "3c2ab71448224d1d7148350f7972e96e"
+        //    };
 
-            return fake;
-        }
+        //    return fake;
+        //}
 
         //假國攷
         //public static List<Country> fakeCountry()

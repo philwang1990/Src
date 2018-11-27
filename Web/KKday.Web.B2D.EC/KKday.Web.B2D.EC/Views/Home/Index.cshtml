@@ -1,145 +1,385 @@
-﻿@{
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.SearchProd.Models.Model
 
+@*WMS-API*@
+@*@model List<CountryInfo>;*@
+@*KK-API*@
+@model List<TravelLine>;
+
+@{
+    Layout = "_Layout4";
+    ViewData["Title"] = "Home Page";
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
 }
 
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/flat-ui.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/font-awesome.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/owl.carousel.min.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/custom.css")">
+}
 
 @section Scripts{
-
-    <style type="text/css">
-        .show {
-            position: absolute;
-            left: 800px;
-            top: 200px;
-            z-index: 99;
-        }
-
-        .disabledClass {
-            pointer-events: none;
-        }
-    </style>
-    @*<link href="@(Url.Content("~/css/jquery-ui-theme-redmond/jquery-ui-1.10.3.custom.css"))" rel="stylesheet" type="text/css" />*@
-
-
-    @*
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>*@
-
-    @*
-        <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>*@
-
-    @*<script type="text/javascript" src="@(Url.Content("~/js/jquery-ui-1.10.3.custom.js"))"></script>
-        <script type="text/javascript" src="@(Url.Content("~/js/jquery-ui.js"))"></script>*@
-    <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
-    @*<script type="text/javascript" src="@Url.Content("/js/booking.validate.js")"></script>*@
-    <script type="text/javascript" src="@Url.Content("/js/pmch.js")"></script>
-
-    <script type="text/javascript">
-
-            $(function () {
-
-                //alert('test');
-                //sendPayment("{\"apiKey\":\"kkdayapi\",\"userOid\":\"1\",\"ver\":\"1.0.1\",\"ipaddress\":\"127.0.0.1\",\"json\":{\"pmchOid\":\"1\",\"is3D\":\"0\",\"payCurrency\":\"TWD\",\"payAmount\":263.0,\"returnURL\":\"https://localhost:5001/Home\",\"cancelURL\":\"https://localhost:5001/Home\",\"userLocale\":\"zh-tw\",\"paymentParam1\":\"\",\"paymentParam2\":\"\",\"paymentSourceInfo\":{\"sourceType\":\"KKDAY\",\"orderMid\":\"18KK102473420\"},\"creditCardInfo\":{\"cardHolder\":\"phil\",\"cardType\":\"VISA\",\"cardNo\":\"4093240835103617\",\"cardCvv\":\"143\",\"cardExp\":\"202310\"},\"payerInfo\":{\"firstName\":\"ming\",\"lastName\":\"chen\",\"phone\":\"0939650222\",\"email\":\"phil.chang@kkday.com\"},\"productInfo\":{\"prodOid\":\"20140\",\"prodName\":\"浪漫水金九\"}}}");
-                //toSuccess();
-            });
-
-    </script>
-
-
+    <script src="@Url.Content("~/js/jquery.min.js")"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="@Url.Content("~/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/js/jquery.kkday.js")"></script>
+    <script src="@Url.Content("~/js/owl.carousel.2.2.1.min.js")"></script>
 }
 
 
+<section class="welcome">
+    <div class="container-fluid welcome-page text-center">
+        <div id="kkCarousel" class="carousel slide row" data-ride="carousel">
 
-<div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="6000">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img src="~/images/banner1.svg" alt="ASP.NET" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how to build ASP.NET apps that can run anywhere.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525028&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
+            <!-- Wrapper for slides (先不做)-->
+            <div class="carousel-inner" role="listbox">
+                <div class="item active">
+                    <div id="bigimg0" class="img" style="background-image:@Url.Content("~/images/event01.jpg");"></div>
+                    <div class="carousel-caption">
+                        <h2 class="welcome-page-slogan"><a class="hide" href="#" target="_blank"></a></h2>
+                    </div>
+                    <span class="image-editor">Photo by TW MKT</span>
+                </div>
+                <div class="item">
+                    <div id="bigimg1" class="img" style="background-image:@Url.Content("~/images/event02.jpg");"></div>
+                    <div class="carousel-caption">
+                        <h2 class="welcome-page-slogan"><a class="hide" href="#" target="_blank"></a></h2>
+                    </div>
+                    <span class="image-editor">Photo by TW MKT</span>
+                </div>
+                <div class="item ">
+                    <div id="bigimg2" class="img" style="background-image:@Url.Content("~/images/event03.jpg");"></div>
+                    <div class="carousel-caption">
+                        <h2 class="welcome-page-slogan"><a class="hide" href="#" target="_blank"></a></h2>
+                    </div>
+                    <span class="image-editor">Photo by HK MKT</span>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <a class="left carousel-control" href="#kkCarousel" role="button" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="right carousel-control" href="#kkCarousel" role="button" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+
+        <div class="row welcome-page-action">
+            <div class="col-xs-12 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2">
+                <!-- <div class="search-shadow"></div> -->
+                <div class="kksearch">
+                    <h2><strong>@prodTitle.home_index2_btn_go</strong></h2>
+                    <form id="form1" action="@Url.Content("~/Search/ProdList")" method="post">
+                        <input type="hidden" id="key1" name="key1" />  @*點擊的查詢條件*@
+                        <input type="hidden" id="citykey" name="citykey" /> 
+                        <div class="search-area">
+                            <div class="input-group">
+                                <input type="text" class="form-control input-lg" id="key" placeholder="@prodTitle.common_type_to_search">
+                                @*<input type="text" class="form-control input-lg" placeholder="Products" id="key" />*@
+                                <span class="clear-input"><i class="fa fa-times-circle fa-lg"></i></span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary" type="submit" id="sub1"><i class="fa fa-search fa-lg"></i></button>
+                                </span>
+                            </div>
+                            @*<div class="search-dropdown">
+                                    <div class="default-suggest">
+                                        <h4 class="title">@prodTitle.common_popular_destinations_title</h4>
+                                        <ul>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('首爾')"><span class="hot">首爾</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('東京')"><span class="hot">東京</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('香港')"><span class="hot">香港</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('曼谷')"><span class="hot">曼谷</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('花蓮')"><span class="hot">花蓮</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('紐約')"><span class="hot">紐約</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('倫敦')"><span class="hot">倫敦</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('沙巴-亞庇')"><span class="hot">沙巴-亞庇</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('釜山')"><span>釜山</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('沖繩')"><span>沖繩</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('北海道')"><span>北海道</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('大阪')"><span>大阪</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('巴黎')"><span>巴黎</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('清邁')"><span>清邁</span></a></li>
+                                            <li><a href="javascript:void(0);" onclick="quicksearch('雪梨')"><span>雪梨</span></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="city-suggest">輸入”國家名稱“時只出現此區塊
+                                        <ul>
+                                            <li><a href="#"><span>台北</span></a></li>
+                                            <li><a href="#"><span>東京</span></a></li>
+                                            <li><a href="#"><span>京都</span></a></li>
+                                            <li><a href="#"><span>Athens</span></a></li>
+                                            <li><a href="#"><span>Berlin</span></a></li>
+                                            <li><a href="#"><span>Dominican Republic</span></a></li>
+                                            <li><a href="#"><span>Edinburgh</span></a></li>
+                                            <li><a href="#"><span>Hamburg</span></a></li>
+                                            <li><a href="#"><span>Hanoi</span></a></li>
+                                            <li><a href="#"><span>Ho Chi Minh City</span></a></li>
+                                            <li><a href="#"><span>Paris</span></a></li>
+                                            <li><a href="#"><span>Prague</span></a></li>
+                                            <li><a href="#"><span>Rome</span></a></li>
+                                            <li><a href="#"><span>San Francisco</span></a></li>
+                                            <li><a href="#"><span>Taichung</span></a></li>
+                                            <div class="clearfix"></div>
+                                        </ul>
+                                    </div>
+                                    <div class="autosuggest">
+                                        <ul class="destination">
+                                            <li>
+                                                <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>chung</a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>nan</a>
+                                            </li>
+                                            <li>
+                                                <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>pei</a>
+                                            </li>
+                                        </ul>
+                                        <ul class="experience">
+                                            <li>
+                                                <a href="#">
+                                                    <span class="prod_name">
+                                                        Bangkok Dinosaur Planet Tickets - Over 30% Off
+                                                    </span>
+                                                    <span class="city">
+                                                        <i class="fa fa-map-marker"></i>Bankok
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="prod_name">
+                                                        <i class="fa fa-flash text-primary"></i>
+                                                        Universal Studios Singapore Ticket - Save 10%
+                                                    </span>
+                                                    <span class="city">
+                                                        <i class="fa fa-map-marker"></i>Taipei
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="prod_name">
+                                                        Day Trip From Seoul: Korean Demilitarized Zone (DMZ) One Day Tour
+                                                    </span>
+                                                    <span class="city">
+                                                        <i class="fa fa-map-marker"></i>Dominican Republic
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="prod_name">
+                                                        Nami Island with Petite France, Gangchon Rail Bike, Flower Garden
+                                                    </span>
+                                                    <span class="city">
+                                                        <i class="fa fa-map-marker"></i>Seoul
+                                                    </span>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    <span class="prod_name">
+                                                        <i class="fa fa-flash text-primary"></i>
+                                                        Korea Everland Theme Park Entry Ticket (QR code)
+                                                    </span>
+                                                    <span class="city">
+                                                        <i class="fa fa-map-marker"></i>Seoul
+                                                    </span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>*@
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="item">
-            <img src="~/images/banner2.svg" alt="Visual Studio" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    There are powerful new features in Visual Studio for building modern web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525030&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
-            </div>
-        </div>
-        <div class="item">
-            <img src="~/images/banner3.svg" alt="Microsoft Azure" class="img-responsive" />
-            <div class="carousel-caption" role="option">
-                <p>
-                    Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
-                    <a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkID=525027&clcid=0x409">
-                        Learn More
-                    </a>
-                </p>
+
+    </div>
+</section>
+
+@*<div class="container" id="cont1">
+        <div class="row">
+            @*不回傳值，直接導新頁
+            <div class="col-md-6">
+                <h2>Search Products</h2>
+                <form id="form1" action="@Url.Content("~/Search/ProdList")" method="post">
+                    <input type="hidden" id="key1" name="key1" />  @*點擊的查詢條件
+
+                    <div id="custom-search-input">
+                        <div class="input-group col-lg">
+                            <input type="text" class="form-control input-lg" placeholder="Products" id="key" />
+                            <span class="input-group-btn">
+                                <button class="btn btn-info btn-lg" type="submit" id="sub1">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
+*@
+
+@*//WMS-API*@
+@*<div class="container" id="cont2">
+        @foreach (var countries in Model)
+        {
+            <div class="row" style="margin-bottom: 8px;">
+                <div class="col-md-1" id="countries" name="@countries.CountryName">
+                    @countries.CountryName
+                </div>
+
+                <div class="col-md-11" id="cities">
+                    @foreach (var city in countries.Cities)
+                    {
+                        <a herf="javascript:void(0);" onclick="quicksearch('@city.CityName');">@city.CityName</a>
+                    }
+                </div>
+            </div>
+        }
+</div>*@
+
+@*//KK-API*@
+<div class="container" id="cont2">
+        @foreach (var tl in Model)
+        {
+            foreach (var na in tl.Countries)
+            {
+                <div class="row" style="margin-bottom: 8px; ">
+                    <div class="col-md-1" id="countries">
+                        @na.CountryName
+                    </div>
+
+                    <div class="col-md-11" id="cities">
+                        @foreach (var ct in na.Cities)
+                        {
+                            if (ct.CityName != "所有城市")
+                            {
+                                <a herf="javascript:void(0);" onclick="quicksearch('@ct.CityCode');">@ct.CityName</a>
+                            }
+                        }
+                    </div>
+                </div>
+
+            }
+        }
 </div>
 
-<div class="row">
-    <div class="col-md-3">
-        <h2>Application uses</h2>
-        <ul>
-            <li>Sample pages using ASP.NET Core MVC</li>
-            <li>Theming using <a href="https://go.microsoft.com/fwlink/?LinkID=398939">Bootstrap</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>How to</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398600">Add a Controller and View</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699315">Manage User Secrets using Secret Manager.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699316">Use logging to log a message.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699317">Add packages using NuGet.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699319">Target development, staging or production environment.</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Overview</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=518008">Conceptual overview of what is ASP.NET Core</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=699320">Fundamentals of ASP.NET Core such as Startup and middleware.</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398602">Working with Data</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkId=398603">Security</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699321">Client side development</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699322">Develop on different platforms</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=699323">Read more on the documentation site</a></li>
-        </ul>
-    </div>
-    <div class="col-md-3">
-        <h2>Run &amp; Deploy</h2>
-        <ul>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517851">Run your app</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=517853">Run tools such as EF migrations and more</a></li>
-            <li><a href="https://go.microsoft.com/fwlink/?LinkID=398609">Publish to Microsoft Azure Web Apps</a></li>
-        </ul>
-    </div>
+
+<div class="scroll-top-wrapper">
+    <span class="scroll-top-inner">
+        <i class="fa fa-2x fa-angle-up"></i>
+    </span>
 </div>
 
+<script type="text/javascript">
+
+    $(function(){
+
+    //按下實體Button後將值塞進input(hidden)由form發動
+    $(function(){
+        $("#sub1").click(function(){
+            $("#key1").val($("#key").val());
+            $("#form1").submit();
+        });
+    });
 
 
+    //For New Search Block
+    $(document).on('click',function(e){
+        $('.search-dropdown').hide();
+    });
+
+    $('.search-dropdown').on('click',function(e){
+        e.stopPropagation();
+    });
+
+    $('.kksearch .input-group input').on('focus click',function(e){
+        $('.search-dropdown').show();
+        e.stopPropagation();
+
+        var $html = $('html, body');
+        var $top = $(this).offset().top;
+        var $time = 500;
+
+        $html.animate({scrollTop: $top -100}, $time);
+
+    });
+
+    $('.kksearch .input-group input').on('change keydown keyup paste move remove',function(){
+
+        var $value = $(this).val();
+
+        if($value.length == 0){
+            $('.default-suggest').show();
+            $('.autosuggest').hide();
+        }else{
+            $('.autosuggest').show();
+            $('.default-suggest').hide();
+        }
+    });
+
+
+    $('.open-search').on('click',function(e){
+        e.stopPropagation();
+
+        $('.kksearch').addClass('slideIn');
+        $('.kksearch input').focus();
+
+    });
+
+    $('.close-search').on('click',function(){
+
+        $('.kksearch').removeClass('slideIn');
+
+    });
+
+    //Scroll 滾動至最上層
+    $(document).on( 'scroll', function(){
+
+        // 手機版不顯示
+        if ($(window).width() < 768 ) return;
+
+        // 電腦版
+        if ($(window).scrollTop() > 100) {
+            $('.scroll-top-wrapper').addClass('show');
+        } else {
+            $('.scroll-top-wrapper').removeClass('show');
+        }
+    });
+
+    $('.scroll-top-wrapper').on('click', scrollToTop);
+
+    })
+
+    //將值塞進input(hidden)由form發動  citykey
+    function quicksearch(citykey)
+    {
+        console.log("call quick search");
+        $("#citykey").val(citykey);
+        alert(citykey);
+        @*$("#key2").val($("#countries").val());*@
+        $("#form1").submit();
+    }
+
+    //Scroll 滾動至最上層
+    function scrollToTop()
+    {
+        verticalOffset = typeof(verticalOffset) != 'undefined' ? verticalOffset : 0;
+        element = $('body');
+        offset = element.offset();
+        offsetTop = offset.top;
+        $('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
+    }
+
+
+
+</script>
