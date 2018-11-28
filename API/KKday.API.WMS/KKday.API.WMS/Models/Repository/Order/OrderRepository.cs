@@ -26,7 +26,7 @@ namespace KKday.API.WMS.Models.Repository.Order
             DataModel.Order.Order order = new DataModel.Order.Order();
 
             string[] orders = queryRQ.option.kkday_orders;
-            string orderMid = "", order_no = "";
+
             JObject obj = null;
 
             //step1.b2d order_no 與 kkday order mapping 驗證是否為此分銷商的訂單
@@ -63,14 +63,15 @@ namespace KKday.API.WMS.Models.Repository.Order
 
                 foreach(var jOrder in jOrders)
                 {
+                    string order_no = "";
                     //用kkday orderMid 找出 b2d orderNo
                     bool isOrder = OrderDAL.CheckOrder(queryRQ.company_xid, ref order_no, (string)jOrder["order"]["orderMid"]);
-                    if (!isOrder)
-                    {
-                        orderList.result = "10";
-                        orderList.result_msg = $"Bad Request:OrderNo is not mapping";
-                        return orderList;
-                    }
+                    //if (!isOrder)
+                    //{
+                    //    orderList.result = "10";
+                    //    orderList.result_msg = $"Bad Request:OrderNo is not mapping";
+                    //    return orderList;
+                    //}
 
                     var objOrder = jOrder["order"].ToObject<DataModel.Order.Order>();
                     objOrder.orderNo = order_no;
