@@ -1,16 +1,18 @@
 ﻿@using KKday.Web.B2D.EC.Models.Model.Product
 @{
-    Layout = "_Layout";
-    ViewData["Title"] = "Product Page";
 
+    
+    
     var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
     var prod = (ProductforEcModel)ViewData["prod"];
     var pkgs = (PackageModel)ViewData["pkgs"];
     var allCanUseDate = (string)ViewData["allCanUseDate"];
     var currency = (string)ViewData["currency"];
     var moduleVenue = (VenueInfo)ViewData["moduleVenue"];
-    @*var priceType = ViewBag["priceType"] as string;*@
     var priceType = (string)ViewData["priceType"];
+
+    ViewBag.Title = prod.prod_name;
+    Layout = "_Layout";
 }
 @section Scripts{
     <link rel="stylesheet" href="@Url.Content("/css/daterangepicker.css")" type="text/css" />
@@ -93,7 +95,6 @@
                                         countryName += $"<a href=\"https://www.kkday.com/zh-tw/product/productlist/{country.id}?countryname={country.name}\">{(countryName.Length > 0 ? ", " : "")}{country.name}</a>";
                                         foreach (var city in country.cities)
                                         {
-                                            //https://www.kkday.com/zh-tw/product/productlist/A05-001?countryname=%E7%BE%8E%E5%9C%8B&cityname=%E7%B4%90%E7%B4%84&city=A05-001-00001
                                             cityName += $"<a href=\"https://www.kkday.com/zh-tw/product/productlist/{country.id}?countryname={country.name}&cityname={city.name}&city={city.id}\">{(cityName.Length > 0 ? ", " : "")}{city.name}</a>";
                                         }
                                     }
@@ -139,12 +140,12 @@
                         @if (prod.countries != null)
                         {
                             <span>@prod.countries[0].name</span>
-
-                            @foreach (City c in prod.countries[0].cities)
+                            
+                            @if (prod.countries[0].cities != null && prod.countries[0].cities.Any())
                             {
-                                <span>,@c.name</span>
+                                var cityStr = String.Join(", ", prod.countries[0].cities.Select(x => x.name));
+                                <span>, @cityStr</span>
                             }
-
                         }
                         @prod.locationCountry @prod.locationCity
                     </div>
@@ -153,9 +154,11 @@
                         <div class="critical-info guide-lang">
                             <i class="icons icon-globe"></i>
                             @prodTitle.common_guide_can_speak：
-                            @foreach (GuideLanguage g in prod.guide_lang_list)
+
+                            @if (prod.guide_lang_list != null && prod.guide_lang_list.Any())
                             {
-                                <span>@g.lang_name </span>
+                                var langStr = String.Join(", ", prod.guide_lang_list.Select(x => x.lang_name));
+                                <span>@langStr</span>
                             }
                         </div>
                     }

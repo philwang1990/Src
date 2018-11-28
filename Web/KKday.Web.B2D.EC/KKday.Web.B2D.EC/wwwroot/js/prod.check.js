@@ -825,3 +825,15 @@ function formatWeekDayStr(weekDays) {
 function ChangePriceTxt() {
     
 }
+
+function toggleDescription(select) {
+    $(select).next('div').toggle();
+
+    if ($(select).next('div').is(":hidden")) {
+        $(select).find('i').removeClass('icon-arrow-up');
+        $(select).find('i').addClass('icon-arrow-down');
+    } else {
+        $(select).find('i').removeClass('icon-arrow-down');
+        $(select).find('i').addClass('icon-arrow-up');
+    }
+}
