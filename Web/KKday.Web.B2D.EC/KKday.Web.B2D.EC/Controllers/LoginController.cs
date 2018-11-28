@@ -38,9 +38,10 @@ namespace KKday.Web.B2D.EC.Controllers
             try
             {
                 //var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
-
                 var account = AccountRepository.GetAccount(loginModel.Email, loginModel.Password);
+                //分流-KKdayUser&UserAdmin
                 var IsKKdayUser = account is KKdayAccount ? true : false;
+                var IsUserAdmin = (account is B2dAccount && ((B2dAccount)account).USER_TYPE.Equals("01")) ? true : false;
 
                 var strChiperAcct = AesCryptHelper.aesEncryptBase64(JsonConvert.SerializeObject(account), Website.Instance.AesCryptKey);
 
@@ -49,7 +50,7 @@ namespace KKday.Web.B2D.EC.Controllers
                     new Claim(ClaimTypes.Name, account.NAME),
                     new Claim("Account", account.EMAIL),
                     new Claim("UUID", account.UUID),
-                    new Claim("UserType", IsKKdayUser ? "KKDAY" : "USER"),   
+                    new Claim("UserType", IsKKdayUser ? "KKDAY" : (IsUserAdmin ? "ADMIN":"USER") ),
                     new Claim("Locale", account.LOCALE),
                     new Claim("Currency", IsKKdayUser ? "" : ((B2dAccount)account).CURRENCY),
                     new Claim(ClaimTypes.UserData,strChiperAcct), // 以AES加密JSON格式把使用者資料保存於Cookie
