@@ -64,6 +64,10 @@ namespace KKday.API.WMS.Models.DataModel.Booking
 
         public string locale { get; set; }
         public string ipaddress { get; set; }
+        public string company_xid { get; set; }//分銷商xid
+        public string channel_oid { get; set; }//KKday old
+        public string booking_type { get; set; }//訂單來源(api/web)
+        public string guidNo { get; set; }
 
     }
 
