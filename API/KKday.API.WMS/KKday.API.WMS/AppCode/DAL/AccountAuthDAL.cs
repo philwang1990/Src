@@ -182,7 +182,7 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                     JOIN b2b.b2d_company B ON A.company_xid = B.xid
                     WHERE A.enable = TRUE                      
                     AND A.email = :email
-                    AND B.status = '01'";
+                    ";
 
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[]{
@@ -200,17 +200,17 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                         XID = dr.ToInt64("xid"),
                         UUID = dr.ToStringEx("user_uuid"),
                         EMAIL = dr.ToStringEx("email"),
-                        NAME = dr.ToStringEx("name"),
+                        NAME = dr.ToStringEx("name_last")+ dr.ToStringEx("name_first"),
                         NAME_FIRST = dr.ToStringEx("name_first"),
                         NAME_LAST = dr.ToStringEx("name_last"),
-                        COMPANY_XID = dr.ToInt64("comp_xid"),
+                        COMPANY_XID = dr.ToInt64("company_xid"),
                         COMPANY_NAME = dr.ToStringEx("comp_name"),
                         DEPARTMENT = dr.ToStringEx("department"),
                         ENABLE = dr.ToBoolean("enable"),
                         GENDER_TITLE = dr.ToStringEx("gender_title"),
                         JOB_TITLE = dr.ToStringEx("job_title"),
-                        CURRENCY = dr.ToStringEx("currency"),
-                        LOCALE = dr.ToStringEx("locale")
+                        CURRENCY = dr.ToStringEx("comp_currency"),
+                        LOCALE = dr.ToStringEx("comp_locale")
 
                     };
                 }
