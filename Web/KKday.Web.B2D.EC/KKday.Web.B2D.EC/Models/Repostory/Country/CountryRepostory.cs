@@ -178,8 +178,8 @@ namespace KKday.SearchProd.Models.Repostory
             return tl_list; 
         }
 
-        ////ProdList頁面用(第N次)
-        public static List<CountryInfo> GetCountries(string key1, string locale)
+        //ProdList頁面用(第N次)
+        public static List<CountryInfo> GetCountries(string key1, string citykey, string locale)
         {
             var tl_list = FetchCountries(locale);
 
@@ -189,7 +189,17 @@ namespace KKday.SearchProd.Models.Repostory
             // Search city, if it's matched get countryInfo
             var new_country2 = tl_list.SelectMany(l => l.Countries.Where(s => s.Cities.Where(c => c.CityName.Equals(key1)).Count() > 0).ToList()).ToList();
 
-            return (List<CountryInfo>)((new_country.Count() > 0) ? new_country : new_country2);
+            //Search citykey, if it's matched get countrInfo
+            var new_citykey = tl_list.SelectMany(l => l.Countries.Where(s => s.Cities.Where(c => c.CityCode.Equals(citykey)).Count() > 0).ToList()).ToList();
+
+            var final_country = (List<CountryInfo>)((new_country.Count() > 0) ? new_country : ((new_citykey.Count() > 0)? new_citykey: new_country2));
+
+            //判斷國家裡面的城市名稱或代碼條件符合
+            final_country.SelectMany(f => f.Cities.Where(c => c.CityCode.Equals(citykey) || c.CityName.Equals(key1)).ToList()).ToList().ForEach(c => {
+                c.IsSelceted = true;
+            });
+
+            return final_country;
         }
 
         #endregion

@@ -37,10 +37,8 @@ namespace KKday.SearchProd.Controllers
         string[] _durations = null;
         // GET: /<controller>/
         public IActionResult ProdList(string pg, string cat_main, string cat_sub, string key1, string citykey, string pricerange,
-               string datefilter, string budget, string[] duration, string[] guidelang) //string currency, string lang,
+               string datefilter, string budget, string[] duration, string[] guidelang)
         {
-            //string[] amounts = Request.Form.GetValues(duration);
-
             //紀錄目前頁次
             int active_page_idx = Convert.ToInt32(pg ?? "1");
             //紀緣分割後的durations
@@ -49,9 +47,6 @@ namespace KKday.SearchProd.Controllers
             {
                 _durations = duration.Select(s => s.Replace("-", ",")).ToArray();
             }
-
-            //假分銷商
-            //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
             //B2d分銷商資料
             var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
@@ -83,15 +78,15 @@ namespace KKday.SearchProd.Controllers
                                                                     out total_count, out total_pages, out stats, out facets);
 
                 List<CountryInfo> country = new List<CountryInfo>();
-                country = CountryRepostory.GetCountries(key1, locale);
-
-                //傳入VIEW的參數
+                country = CountryRepostory.GetCountries(key1, citykey, locale);
+                 
+                //傳入VIEW的參數 
                 ViewData["total_count"] = total_count;
                 ViewData["active_page_idx"] = active_page_idx;
                 ViewData["total_pages"] = total_pages;
                 ViewData["key"] = key1;
                 ViewData["facets"] = facets;
-                ViewData["duration"] = duration;
+                ViewData["duration"] = duration; 
                 ViewData["guidelang"] = guidelang;
                 ViewData["stats"] = stats;
                 ViewData["pricerange"] = !string.IsNullOrEmpty(pricerange) ? pricerange : string.Format("{0};{1}", stats.price.min, stats.price.max);
@@ -102,14 +97,5 @@ namespace KKday.SearchProd.Controllers
 
             return View(prodList);
         }
-
-        //public IActionResult AreaList(string key1)
-        //{
-        //    List<TravelLine> countries = new List<TravelLine>();
-        //    countries = CountryRepostory.GetCountries(key1);
-
-        //    return View(countries);
-        //}
-
     }
 }
