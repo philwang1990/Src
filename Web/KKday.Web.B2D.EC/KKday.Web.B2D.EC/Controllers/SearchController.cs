@@ -36,7 +36,7 @@ namespace KKday.SearchProd.Controllers
 
         string[] _durations = null;
         // GET: /<controller>/
-        public IActionResult ProdList(string pg, string cat_main, string cat_sub, string key1, string pricerange,
+        public IActionResult ProdList(string pg, string cat_main, string cat_sub, string key1, string citykey, string pricerange,
                string datefilter, string budget, string[] duration, string[] guidelang) //string currency, string lang,
         {
             //string[] amounts = Request.Form.GetValues(duration);
@@ -69,7 +69,7 @@ namespace KKday.SearchProd.Controllers
             List<ProductBaseModel> prodList = null;
 
             //查詢條件不為空值才查
-            if (!string.IsNullOrEmpty(key1))
+            if (!string.IsNullOrEmpty(key1) || !string.IsNullOrEmpty(citykey))
             {
                 int offset = (active_page_idx - 1) * 20;  //計算從第幾筆開始
                 int size = 20;                            //分頁筆數
@@ -79,7 +79,7 @@ namespace KKday.SearchProd.Controllers
                 Stats stats = new Stats();                //out 參數 (接收返回的stats參數)
 
                 //取得資料
-                prodList = SearchRepostory.GetProduct(locale, currency, key1, offset, size, datefilter, budget, _durations, guidelang, cat_main, cat_sub,
+                prodList = SearchRepostory.GetProduct(locale, currency, key1, citykey, offset, size, datefilter, budget, _durations, guidelang, cat_main, cat_sub,
                                                                     out total_count, out total_pages, out stats, out facets);
 
                 List<CountryInfo> country = new List<CountryInfo>();

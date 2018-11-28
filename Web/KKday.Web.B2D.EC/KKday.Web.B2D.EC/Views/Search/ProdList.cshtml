@@ -86,7 +86,10 @@
                                 <ul class="dropdown-menu">
                                     @foreach (var city in @country.Cities)
                                     {
-                                        <li><a herf="javascript:void(0);" onclick="qSearch('@city.CityName');">@city.CityName</a></li>
+                                        if (city.CityName != "所有城市")
+                                        {
+                                            <li><a herf="javascript:void(0);" onclick="qSearch('@city.CityName');">@city.CityName</a></li>
+                                        }
                                     }
 
                                     @*<li>
@@ -147,7 +150,7 @@
                                                     {
                                                         if (catsub.id.Substring(0, 5) == catmain.id)
                                                         {
-                                                            if (catsub.count >= 0)
+                                                            if (catsub.count >= 0 )
                                                             {
                                                                 <a herf="javascript:void(0);" onclick="QuerySubKey('@catsub.id');">@catsub.name (@catsub.count)</a>
                                                             }
