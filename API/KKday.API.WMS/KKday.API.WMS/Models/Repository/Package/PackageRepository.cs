@@ -15,8 +15,8 @@ namespace KKday.API.WMS.Models.Repository.Package {
     /// </summary>
     public class PackageRepository {
 
-        //static RedisHelper rds = new RedisHelper();
-        private static RedisHelper rds;
+        static RedisHelper rds = new RedisHelper();
+        //private static RedisHelper rds;
 
         static string _SEARCH_TYPE = "PACKAGE";
 
