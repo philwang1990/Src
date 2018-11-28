@@ -46,8 +46,8 @@ namespace KKday.API.WMS.AppCode.DAL
             order_no = ds.Tables[0].Rows[0]["order_no"].ToString() ;
 
             sql = @"INSERT INTO b2b.orders(
-    order_no, kkday_order_oid, kkday_order_mid, order_date, order_type, order_status, order_amt, order_b2c_amt, connect_name, connect_tel, connect_mail, order_note, company_xid, channel_oid, booking_type, crt_datetime)
-    VALUES (:order_no, :kkday_order_oid, :kkday_order_mid, to_timestamp(:order_date,'MM/DD/YYYY HH24:mi:SS' ), :order_type, :order_status, :order_amt, :order_b2c_amt, :connect_name, :connect_tel, :connect_mail, :order_note, :company_xid, :channel_oid, :booking_type, :crt_datetime); ";
+    order_no, kkday_order_oid, kkday_order_mid, order_date, order_type, order_status, order_amt, order_b2c_amt, contact_name, contact_tel, contact_mail, order_note, company_xid, channel_oid, booking_type, crt_datetime)
+    VALUES (:order_no, :kkday_order_oid, :kkday_order_mid, to_timestamp(:order_date,'MM/DD/YYYY HH24:mi:SS' ), :order_type, :order_status, :order_amt, :order_b2c_amt, :contact_name, :contact_tel, :contact_mail, :order_note, :company_xid, :channel_oid, :booking_type, :crt_datetime); ";
 
 
             np = new NpgsqlParameter[]{
@@ -59,9 +59,9 @@ namespace KKday.API.WMS.AppCode.DAL
                      new NpgsqlParameter("order_status",obj["order_status"].ToString()),
                      new NpgsqlParameter("order_amt",(int)obj["order_amt"]),
                      new NpgsqlParameter("order_b2c_amt",(int)obj["order_b2c_amt"]),
-                     new NpgsqlParameter("connect_name",obj["connect_name"].ToString()),
-                     new NpgsqlParameter("connect_tel",obj["connect_tel"].ToString()),
-                     new NpgsqlParameter("connect_mail",obj["connect_mail"].ToString()),
+                     new NpgsqlParameter("contact_name",obj["contact_name"].ToString()),
+                     new NpgsqlParameter("contact_tel",obj["contact_tel"].ToString()),
+                     new NpgsqlParameter("contact_mail",obj["contact_mail"].ToString()),
                      new NpgsqlParameter("order_note",obj["order_note"].ToString()),
                      new NpgsqlParameter("company_xid",obj["company_xid"].ToString()),
                      new NpgsqlParameter("channel_oid",obj["channel_oid"].ToString()),
@@ -86,8 +86,8 @@ namespace KKday.API.WMS.AppCode.DAL
 
 
             sql = @"INSERT INTO b2b.order_source(
-    order_no, booking_type, company_xid, channel_oid, connect_name, connect_tel, connect_mail, order_note, client_ip, source_pk1, source_pk2, source_pk3, source_pk4, crt_datetime)
-    VALUES (:order_no, :booking_type, :company_xid, :channel_oid, :connect_name, :connect_tel, :connect_mail, :order_note, :client_ip, :source_pk1, :source_pk2, :source_pk3, :source_pk4, :crt_datetime); ";
+    order_no, booking_type, company_xid, channel_oid, contact_name, contact_tel, contact_mail, order_note, client_ip, source_pk1, source_pk2, source_pk3, source_pk4, crt_datetime)
+    VALUES (:order_no, :booking_type, :company_xid, :channel_oid, :contact_name, :contact_tel, :contact_mail, :order_note, :client_ip, :source_pk1, :source_pk2, :source_pk3, :source_pk4, :crt_datetime); ";
 
 
             np = new NpgsqlParameter[]{
@@ -95,9 +95,9 @@ namespace KKday.API.WMS.AppCode.DAL
                      new NpgsqlParameter("booking_type",obj["booking_type"].ToString()),
                      new NpgsqlParameter("company_xid",(int)obj["company_xid"]),
                      new NpgsqlParameter("channel_oid",(int)obj["channel_oid"]),
-                     new NpgsqlParameter("connect_name",obj["connect_name"].ToString()),
-                     new NpgsqlParameter("connect_tel",obj["connect_tel"].ToString()),
-                     new NpgsqlParameter("connect_mail",obj["connect_mail"].ToString()),
+                     new NpgsqlParameter("contact_name",obj["contact_name"].ToString()),
+                     new NpgsqlParameter("contact_tel",obj["contact_tel"].ToString()),
+                     new NpgsqlParameter("contact_mail",obj["contact_mail"].ToString()),
                      new NpgsqlParameter("order_note",obj["order_note"].ToString()),
                      new NpgsqlParameter("client_ip",obj["client_ip"].ToString()),
                      new NpgsqlParameter("source_pk1",obj["source_pk1"].ToString()),
