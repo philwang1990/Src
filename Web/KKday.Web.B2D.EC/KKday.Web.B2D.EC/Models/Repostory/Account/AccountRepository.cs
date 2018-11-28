@@ -15,7 +15,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Account
         public static UserAccount GetAccount(string email, string password) 
         {
             // 檢查登入者身分
-            string jsonResult = AccountProxy.GetUserAccount(email, Sha256Helper.Gethash(password));
+            string jsonResult = AccountProxy.GetUserAccount(email, password);
             UserAccount account = null;
             var jobjAcct = JObject.Parse(jsonResult);
  

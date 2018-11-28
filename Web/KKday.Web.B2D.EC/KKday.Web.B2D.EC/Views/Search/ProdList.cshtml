@@ -77,10 +77,11 @@
                     <div class="col-sm-8">
                         @foreach (var country in countries)
                         {
+                            var sel_city = country.Cities.Where(c => c.IsSelceted == true).FirstOrDefault();
                             <h3><a href="#">@country.CountryName</a></h3>
                             <div class="dropdown btn-group dropdown-scroll">
                                 <a class="city-dropdown dropdown-toggle" data-toggle="dropdown">
-                                    @ViewData["key"]
+                                    @(sel_city.CityName)
                                     <i class="fa fa-angle-down"></i>
                                 </a>
                                 <ul class="dropdown-menu">
