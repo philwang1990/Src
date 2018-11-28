@@ -19,9 +19,9 @@ namespace KKday.API.WMS.Models.DataModel.Booking
         public string order_status { get; set; }//訂單狀態
         public double order_amt { get; set; }//總金額
         public double order_b2c_amt { get; set; }//直客總金額
-        public string connect_name { get; set; }//訂購人姓名
-        public string connect_tel { get; set; }//訂購人聯絡電話
-        public string connect_mail { get; set; }//訂購人聯絡信箱
+        public string contact_name { get; set; }//訂購人姓名
+        public string contact_tel { get; set; }//訂購人聯絡電話
+        public string contact_mail { get; set; }//訂購人聯絡信箱
         public string order_note { get; set; }//訂單備註
         public DateTime crt_dateime { get; set; }//成立時間
 
@@ -37,9 +37,9 @@ namespace KKday.API.WMS.Models.DataModel.Booking
     //    public string booking_type { get; set; }//訂單來源(api/web)
     //    public int company_xid { get; set; }//分銷商xid
     //    public int channel_oid { get; set; }//KKday old
-    //    public string connect_name { get; set; }//訂購人姓名
-    //    public string connect_tel { get; set; }//訂購人聯絡電話
-    //    public string connect_mail { get; set; }//訂購人聯絡信箱
+    //    public string contact_name { get; set; }//訂購人姓名
+    //    public string contact_tel { get; set; }//訂購人聯絡電話
+    //    public string contact_mail { get; set; }//訂購人聯絡信箱
     //    public string order_note { get; set; }//訂單備註
     //    public string client_ip { get; set; }//IP位置
     //    public string source_pk1 { get; set; }//
