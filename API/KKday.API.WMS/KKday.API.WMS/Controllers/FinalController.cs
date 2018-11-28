@@ -27,14 +27,15 @@ namespace KKday.API.WMS.Controllers
             return View();
         }
 
-        [HttpGet("Step3")]
+        [HttpPost("Step3")]
         //付款後導回
-        public String Step3(string mid,string jsondata)
+        public String Step3(string mid, string jsondata)
         {
-            //jsondata = jsondata.Replace(@"\","");
+            jsondata = jsondata.Replace(@"\","");
             //回傳的連結有訂編 (記log)
             //透過訂編將redis 的資料抓回送出去的資料
             //取b2dredis 內的paymentDtl
+
             string payDtlStr = rds.getRedis("b2d:ec:payDtl:" + mid);
             PaymentDtl  payDtl= JsonConvert.DeserializeObject<PaymentDtl>(payDtlStr);
 
