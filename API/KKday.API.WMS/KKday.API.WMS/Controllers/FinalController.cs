@@ -31,7 +31,7 @@ namespace KKday.API.WMS.Controllers
         //付款後導回
         public String Step3(string mid, string jsondata)
         {
-            jsondata = jsondata.Replace(@"\","");
+            //jsondata = jsondata.Replace(@"\","");
             //回傳的連結有訂編 (記log)
             //透過訂編將redis 的資料抓回送出去的資料
             //取b2dredis 內的paymentDtl
@@ -44,7 +44,7 @@ namespace KKday.API.WMS.Controllers
             //md5($pmgw_trans_no.$pmgw_method.$trans_curr_cd.$trans_amt.$pmch_ref_no.$key);
             //PmchSslResponse res = JsonConvert.DeserializeObject<PmchSslResponse>(jsondata); //舊版
             PmchSslResponse2 res = JsonConvert.DeserializeObject<PmchSslResponse2>(jsondata); //新版
-            res.data.pmgw_trans_no = res.data.pmgw_trans_no.Replace(" ", "+");
+            //res.data.pmgw_trans_no = res.data.pmgw_trans_no.Replace(" ", "+");
             string transNo = GibberishAES.OpenSSLDecrypt(res.data.pmgw_trans_no, Website.Instance.Configuration["PMCH:TRANS_NO"]);
             //CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
             CallJsonPay2 req = JsonConvert.DeserializeObject<CallJsonPay2>(rds.getRedis("b2d:ec:pmchSslRequest:" + mid)); //using KKday.Web.B2D.EC.AppCode;
