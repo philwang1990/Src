@@ -282,13 +282,13 @@ namespace KKday.Web.B2D.EC.Controllers
                 dataTemp.card = null;
                 Website.Instance.logger.Debug($"bookingStep1_inputdata:{ JsonConvert.SerializeObject(dataTemp)}");
 
-                ApiSetting api = new ApiSetting();
-                api.apiKey = "kkdayapi";
-                api.userOid = "1";
-                api.ver = "1.0.1";
-                api.locale =  UserData.LOCALE;
-                api.currency = UserData.CURRENCY;
-                api.ipaddress = ip;
+                //ApiSetting api = new ApiSetting();
+                //api.apiKey = "kkdayapi";
+                //api.userOid = "1";
+                //api.ver = "1.0.1";
+                //api.locale =  UserData.LOCALE;
+                //api.currency = UserData.CURRENCY;
+                //api.ipaddress = ip;
 
                 string prodStr = TempData["prod_" + data.guidNo] as string;
                 if (string.IsNullOrEmpty(prodStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
@@ -327,7 +327,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 //排除餐食 
                 data = BookingRepostory.exculdeFood(prod, data, module);
 
-                string b2bOrder = BookingRepostory.insB2dOrder(title, prod, pkg, confirm, data, UserData, rule);
+                //string b2bOrder = BookingRepostory.insB2dOrder(title, prod, pkg, confirm, data, UserData, rule);
 
                 //轉 ordermodel
                 //OrderRepostory res = new OrderRepostory();
@@ -338,6 +338,10 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 //KKapiHelper kk = new KKapiHelper();
                 //JObject order =kk.crtOrder(api);
+                data.company_xid = UserData.COMPANY_XID.ToString();
+                data.channel_oid = UserData.KKDAY_CHANNEL_OID;
+                data.locale = UserData.LOCALE;
+                data.ip = ip;
                 JObject order = ApiHelper.orderNew(data, title);
 
                 string orderMid = "";
@@ -351,7 +355,11 @@ namespace KKday.Web.B2D.EC.Controllers
                     string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
                     orderMid = order["content"]["orderMid"].ToString();
                     orderOid = order["content"]["orderOid"].ToString();
-                    status.pmchSslRequest = BookingRepostory.setPaymentInfo2(prod, data, orderMid, UserData, pmgw, memUuid);
+
+                    //upd B2bOrder
+                    //BookingRepostory.updB2dOrder(UserData.COMPANY_XID, orderOid, orderMid, b2bOrder, title);
+
+                    status.pmchSslRequest = BookingRepostory.setPaymentInfo2(prod, data, orderMid, UserData, pmgw, memUuid,ip);
                     status.status = "OK";
                     status.url = Website.Instance.Configuration["kkUrl:pmchUrl"].ToString() + pmgw.pmchPayURL; //pmchUrl
 
@@ -360,7 +368,7 @@ namespace KKday.Web.B2D.EC.Controllers
                     RedisHelper.SetRedis(JsonConvert.SerializeObject(data), "b2d:ec:order:final:orderData:" + orderMid, 60);
 
                     //要存redis 付款主要資訊，最後訂單 upd時要使用,可和下面整合存一個就
-                    BookingRepostory.setPayDtltoRedis(data, orderMid, memUuid, RedisHelper);
+                    BookingRepostory.setPayDtltoRedis(data, orderMid, UserData.UUID, RedisHelper);
 
                     //要存redis 因為付款後要從這個redis內容再進行payment驗證,可和上面整合存一個就好
                     //CallJsonPay rdsJson = (CallJsonPay)status.pmchSslRequest.json;

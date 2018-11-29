@@ -119,6 +119,8 @@ function ReParseValidation() {
 
 function chkValid()
 {
+   //$(e).prop('disabled', true);
+
    $("#board1").removeClass("active").addClass("active");
    $("#board2").removeClass("active").addClass("active");
    $("#board3").removeClass("active").addClass("active");
@@ -162,7 +164,8 @@ function chkValid()
 
    if(chkchk==false) 
    {
-     return false;
+       //$(e).prop('disabled', false);
+       return false;
    }
 
   setdataModel();
@@ -281,7 +284,8 @@ function formVaildate()
                     selGlass :{required : $("#booking_step1_required_error").val()},
                     selMealType:{required : $("#booking_step1_required_error").val()}
                     },
-                errorClass: "error_msg"
+                errorClass: "has-error"
+               
             });
         });
 
@@ -438,7 +442,7 @@ function formVaildate()
                     selEvent3 :{required : $("#booking_step1_required_error").val()}
 
                     },
-                errorClass: "error_msg"
+                errorClass: "has-error"
             });
      });
 
@@ -458,7 +462,7 @@ function formVaildate()
                     txtPayExpireDate :{required : $("#booking_step1_required_error").val()},
                     txtPayCvc :{required : $("#booking_step1_required_error").val()}
                     },
-                errorClass: "error_msg"
+                errorClass: "has-error"
             });
         });
         
