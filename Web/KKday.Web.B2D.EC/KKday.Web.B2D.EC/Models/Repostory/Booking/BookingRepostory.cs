@@ -143,15 +143,15 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
         }
 
         //新版
-        public static PmchSslRequest3 setPaymentInfo2(ProductModel prod, DataModel data, string orderMid, B2dAccount UserData, Pmgw pmgw, string memUuid)
+        public static PmchSslRequest3 setPaymentInfo2(ProductModel prod, DataModel data, string orderMid, B2dAccount UserData, Pmgw pmgw, string memUuid ,string ip)
         {
             PmchSslRequest3 pmch = new PmchSslRequest3();
 
             pmch.api_key = "kkdayapi";
             pmch.user_oid = "1";
             pmch.ver = "1.0.1";
-            pmch.lang_code = "zh-tw";
-            pmch.ipaddress = "127.0.0.1";
+            pmch.lang_code =UserData.LOCALE;
+            pmch.ipaddress = ip;
 
             CallJsonPay2 json = new CallJsonPay2();
 
@@ -160,7 +160,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             json.pay_currency = data.currency;
             json.pay_amount = Convert.ToDouble(data.currPriceTotal);
             json.return_url = Website.Instance.Configuration["payRtnUrl:returnUrl"].ToString() + orderMid;
-            json.cancel_url = Website.Instance.Configuration["payRtnUrl:returnUrl"].ToString() + orderMid;
+            json.cancel_url = Website.Instance.Configuration["payRtnUrl:cancelUrl"].ToString() + orderMid;
             json.user_locale = UserData.LOCALE;// "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
@@ -461,21 +461,42 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 order.connect_tel = dataModel.contactTel;
                 order.order_note = dataModel.note;
 
-                Source source = new Source();
-                source.booking_type = "WEB";
-                source.company_xid = UserData.COMPANY_XID;
-                source.channel_oid = UserData.KKDAY_CHANNEL_OID;
-                source.connect_tel = dataModel.contactTel;
-                source.connect_mail = dataModel.contactEmail;
-                source.connect_name = dataModel.asiaMileMemberLastName + " " + dataModel.contactFirstname;
-                source.order_note = dataModel.note;
-                source.client_ip = "127.0.0.1";
-                source.crt_time = DateTime.Now;
+                OrderDiscountRule rule = new OrderDiscountRule();
 
-                order.source = source;
+                if (discRule.isRule == true)
+                {
+                    double discAmt = 0;
+                    if (confirm.price1Qty > 0) discAmt = discAmt + Convert.ToDouble((pkg.price1_org - pkg.price1)*confirm.price1Qty);
+                    if (confirm.price2Qty > 0) discAmt = discAmt + Convert.ToDouble((pkg.price2_org - pkg.price2) * confirm.price2Qty);
+                    if (confirm.price3Qty > 0) discAmt = discAmt + Convert.ToDouble((pkg.price3_org - pkg.price3) * confirm.price2Qty);
+                    if (confirm.price4Qty > 0) discAmt = discAmt + Convert.ToDouble((pkg.price4_org - pkg.price4) * confirm.price3Qty);
 
-                List<OrderCus> cusList = new List<OrderCus>();
-                List<OrderLst> lstList = new List<OrderLst>();
+                    rule.disc_amt = discAmt;
+                    rule.disc_currency = UserData.CURRENCY;
+                    rule.disc_name = discRule.disc_name;
+                    rule.disc_note = "";
+                    order.order_discount_rule = rule;
+                }
+                else
+                {
+                    order.order_discount_rule = rule;
+                }
+
+                //Source source = new Source();
+                //source.booking_type = "WEB";
+                //source.company_xid = UserData.COMPANY_XID;
+                //source.channel_oid = UserData.KKDAY_CHANNEL_OID;
+                //source.connect_tel = dataModel.contactTel;
+                //source.connect_mail = dataModel.contactEmail;
+                //source.connect_name = dataModel.asiaMileMemberLastName + " " + dataModel.contactFirstname;
+                //source.order_note = dataModel.note;
+                //source.client_ip = "127.0.0.1";
+                //source.crt_time = DateTime.Now;
+
+                //order.source = source;
+
+                //List<OrderCus> cusList = new List<OrderCus>();
+                //List<OrderLst> lstList = new List<OrderLst>();
 
                 //NORANK 且 （只有一個代表人 或 不要代表人）    ->只塞一筆order_lst
                 //NORANK 且要填所有旅客資料->只塞1~*筆order_lst
@@ -483,69 +504,69 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
                 //RANK 且 （只有一個代表人 或 不要代表人）    ->只塞1~*筆order_lst
                 //RANK 且要填所有旅客資料     ->只塞1~*筆order_lst
 
-                int? cusSeqno = 1;
-                int lstSeqno = 1;
+                //int? cusSeqno = 1;
+                //int lstSeqno = 1;
 
-                string priceType = "";
-                int ii = 0;
-                //滿足cus
-                foreach (CusDataInfo cus in dataModel.travelerData)
-                {
-                    if (ii < confirm.price1Qty) { priceType = "price1"; }
-                    else if (ii < (confirm.price1Qty + confirm.price2Qty)) { priceType = "price2"; }
-                    else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty)) { priceType = "price3"; }
-                    else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty)) { priceType = "price4"; }
-                    OrderCus cusTemp = new OrderCus();
-                    //cusTemp.cus_seqno = Convert.ToInt32(cusSeqno);
-                    cusTemp.cus_type = priceType;
-                    cusTemp.cus_mail = "";
-                    cusTemp.cus_name_e_first = cus.englishName.firstName;
-                    cusTemp.cus_name_e_last = cus.englishName.lastName;
-                    cusTemp.cus_sex = cus.gender;
-                    cusTemp.cus_tel = "";
+                //string priceType = "";
+                //int ii = 0;
+                ////滿足cus
+                //foreach (CusDataInfo cus in dataModel.travelerData)
+                //{
+                //    if (ii < confirm.price1Qty) { priceType = "price1"; }
+                //    else if (ii < (confirm.price1Qty + confirm.price2Qty)) { priceType = "price2"; }
+                //    else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty)) { priceType = "price3"; }
+                //    else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty)) { priceType = "price4"; }
+                //    OrderCus cusTemp = new OrderCus();
+                //    //cusTemp.cus_seqno = Convert.ToInt32(cusSeqno);
+                //    cusTemp.cus_type = priceType;
+                //    cusTemp.cus_mail = "";
+                //    cusTemp.cus_name_e_first = cus.englishName.firstName;
+                //    cusTemp.cus_name_e_last = cus.englishName.lastName;
+                //    cusTemp.cus_sex = cus.gender;
+                //    cusTemp.cus_tel = "";
 
-                    cusList.Add(cusTemp);
-                    cusSeqno = cusSeqno + 1;
-                    ii = ii + 1;
-                }
+                //    cusList.Add(cusTemp);
+                //    cusSeqno = cusSeqno + 1;
+                //    ii = ii + 1;
+                //}
 
-                if (dataModel.travelerData.Count == 0)
-                {
-                    cusSeqno = null;
-                }
-                else
-                {
-                    cusSeqno = 1;
-                }
+                //if (dataModel.travelerData.Count == 0)
+                //{
+                //    cusSeqno = null;
+                //}
+                //else
+                //{
+                //    cusSeqno = 1;
+                //}
 
-                if (dataModel.travelerData.Count == 1)
-                {
-                    //依priceTeype寫入
-                    if (confirm.price1Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price1", lstSeqno, 1, Convert.ToInt32(confirm.price1Qty), discRule));
-                    lstSeqno = lstSeqno + 1;
-                    if (confirm.price2Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price2", lstSeqno, 1, Convert.ToInt32(confirm.price2Qty), discRule));
-                    lstSeqno = lstSeqno + 1;
-                    if (confirm.price3Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price3", lstSeqno, 1, Convert.ToInt32(confirm.price3Qty), discRule));
-                    lstSeqno = lstSeqno + 1;
-                    if (confirm.price4Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price4", lstSeqno, 1, Convert.ToInt32(confirm.price4Qty), discRule));
-                }
-                else
-                {
-                    //依每一個row寫入
-                    for (ii = 0; ii < dataModel.travelerData.Count; ii++)
-                    {
-                        if (ii < confirm.price1Qty) { priceType = "price1"; }
-                        else if (ii < (confirm.price1Qty + confirm.price2Qty)) { priceType = "price2"; }
-                        else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty)) { priceType = "price3"; }
-                        else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty)) { priceType = "price4"; }
-                        lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, priceType, lstSeqno, cusSeqno, 1, discRule));
-                        lstSeqno = lstSeqno + 1;
-                        cusSeqno = cusSeqno + 1;
-                    }
-                }
+                //if (dataModel.travelerData.Count == 1)
+                //{
+                //    //依priceTeype寫入
+                //    if (confirm.price1Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price1", lstSeqno, 1, Convert.ToInt32(confirm.price1Qty), discRule));
+                //    lstSeqno = lstSeqno + 1;
+                //    if (confirm.price2Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price2", lstSeqno, 1, Convert.ToInt32(confirm.price2Qty), discRule));
+                //    lstSeqno = lstSeqno + 1;
+                //    if (confirm.price3Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price3", lstSeqno, 1, Convert.ToInt32(confirm.price3Qty), discRule));
+                //    lstSeqno = lstSeqno + 1;
+                //    if (confirm.price4Qty > 0) lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, "price4", lstSeqno, 1, Convert.ToInt32(confirm.price4Qty), discRule));
+                //}
+                //else
+                //{
+                //    //依每一個row寫入
+                //    for (ii = 0; ii < dataModel.travelerData.Count; ii++)
+                //    {
+                //        if (ii < confirm.price1Qty) { priceType = "price1"; }
+                //        else if (ii < (confirm.price1Qty + confirm.price2Qty)) { priceType = "price2"; }
+                //        else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty)) { priceType = "price3"; }
+                //        else if (ii < (confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty)) { priceType = "price4"; }
+                //        lstList.Add(insOrderListTemp(prod, pkg, confirm, dataModel, UserData, priceType, lstSeqno, cusSeqno, 1, discRule));
+                //        lstSeqno = lstSeqno + 1;
+                //        cusSeqno = cusSeqno + 1;
+                //    }
+                //}
 
-                order.order_cus = cusList;
-                order.order_lst = lstList;
+                //order.order_cus = cusList;
+                //order.order_lst = lstList;
 
                 Website.Instance.logger.Debug($"bookingStep1_insB2dOrder:{ JsonConvert.SerializeObject(order)}");
 
@@ -570,48 +591,83 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             }
         }
 
-        public static OrderLst insOrderListTemp(ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, DataModel dataModel, B2dAccount UserData, string priceType, int lstSeqno, int? cusSeqno, int prodQty, DiscountRuleModel discRule)
+        //UPDb2d 訂單
+
+        public static Boolean updB2dOrder(long companyXid,string orderOid,string orderMid ,string b2bOrderNo,ProdTitleModel title)
         {
-            OrderLst lstTemp = new OrderLst();
-            //lstTemp.lst_seqno = lstSeqno;
-            //lstTemp.cus_seqno = cusSeqno;
-            lstTemp.prod_no = prod.prod_no.ToString();
-            lstTemp.prod_amt = Convert.ToDouble(priceType == "price1" ? pkg.price1 : priceType == "price2" ? pkg.price2 : priceType == "price3" ? pkg.price3 : pkg.price4);
-            lstTemp.prod_name = prod.prod_name;
-            lstTemp.prod_b2c_amt = Convert.ToDouble(priceType == "price1" ? pkg.price1_b2c : priceType == "price2" ? pkg.price2_b2c : priceType == "price3" ? pkg.price3_b2c : pkg.price4_b2c);
-            lstTemp.prod_currency = UserData.CURRENCY;
-            lstTemp.prod_cond1 = priceType;
-            lstTemp.prod_cond2 = pkg.unit;
-            lstTemp.events = confirm.pkgEvent;
-            lstTemp.pkg_date = confirm.selDate;
-            //lstTemp.discount_xid = 0;
-            lstTemp.pkg_no = pkg.pkg_no;
-            lstTemp.pkg_name = pkg.pkg_name;
-            lstTemp.prod_qty = prodQty;
+            UpdateB2dOrderModel order = new UpdateB2dOrderModel();
 
-            OrderDiscountRule rule = new OrderDiscountRule();
+            order.company_xid = companyXid.ToString();
+            order.order_no = b2bOrderNo;
+            order.order_mid = orderMid;
+            order.order_oid = orderOid;
 
-            if (discRule.isRule == true)
+            try
             {
-                double discAmt = 0;
-                if (priceType == "price1") discAmt = pkg.price1_org - pkg.price1;
-                if (priceType == "price2") discAmt = pkg.price2_org - pkg.price2;
-                if (priceType == "price3") discAmt = Convert.ToDouble(pkg.price3_org - pkg.price3);
-                if (priceType == "price4") discAmt = Convert.ToDouble(pkg.price4_org - pkg.price4);
+                Website.Instance.logger.Debug($"bookingStep1_insB2dOrder:{ JsonConvert.SerializeObject(order)}");
 
-                rule.disc_amt = discAmt;
-                rule.disc_currency = UserData.CURRENCY;
-                rule.disc_name = discRule.disc_name;
-                rule.disc_note = "";
-                //rule.lst_seqno = lstSeqno;
-                lstTemp.order_discount_rule = rule;
+                updB2dOrderResult result = ApiHelper.updB2dOrder(order, title);
+                if (result.result == "0000")
+                {
+
+                    Website.Instance.logger.Debug($"bookingStep1_insB2dOrderResult:{ JsonConvert.SerializeObject(result)}");
+                    return true;
+                }
+                else
+                {
+                    Website.Instance.logger.Debug($"bookingStep1_insB2dOrderResult:{ JsonConvert.SerializeObject(result)}");
+                    throw new Exception(result.result_msg);
+                }
             }
-            else
+            catch(Exception ex)
             {
-                lstTemp.order_discount_rule = rule;
+                Website.Instance.logger.Debug($"bookingStep1_insB2dOrderErr:{ JsonConvert.SerializeObject(ex.ToString())}");
+                throw new Exception(ex.Message.ToString());
             }
-            return lstTemp;
         }
+
+        //public static OrderLst insOrderListTemp(ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, DataModel dataModel, B2dAccount UserData, string priceType, int lstSeqno, int? cusSeqno, int prodQty, DiscountRuleModel discRule)
+        //{
+        //    OrderLst lstTemp = new OrderLst();
+        //    //lstTemp.lst_seqno = lstSeqno;
+        //    //lstTemp.cus_seqno = cusSeqno;
+        //    lstTemp.prod_no = prod.prod_no.ToString();
+        //    lstTemp.prod_amt = Convert.ToDouble(priceType == "price1" ? pkg.price1 : priceType == "price2" ? pkg.price2 : priceType == "price3" ? pkg.price3 : pkg.price4);
+        //    lstTemp.prod_name = prod.prod_name;
+        //    lstTemp.prod_b2c_amt = Convert.ToDouble(priceType == "price1" ? pkg.price1_b2c : priceType == "price2" ? pkg.price2_b2c : priceType == "price3" ? pkg.price3_b2c : pkg.price4_b2c);
+        //    lstTemp.prod_currency = UserData.CURRENCY;
+        //    lstTemp.prod_cond1 = priceType;
+        //    lstTemp.prod_cond2 = pkg.unit;
+        //    lstTemp.events = confirm.pkgEvent;
+        //    lstTemp.pkg_date = confirm.selDate;
+        //    //lstTemp.discount_xid = 0;
+        //    lstTemp.pkg_no = pkg.pkg_no;
+        //    lstTemp.pkg_name = pkg.pkg_name;
+        //    lstTemp.prod_qty = prodQty;
+
+        //    OrderDiscountRule rule = new OrderDiscountRule();
+
+        //    if (discRule.isRule == true)
+        //    {
+        //        double discAmt = 0;
+        //        if (priceType == "price1") discAmt = pkg.price1_org - pkg.price1;
+        //        if (priceType == "price2") discAmt = pkg.price2_org - pkg.price2;
+        //        if (priceType == "price3") discAmt = Convert.ToDouble(pkg.price3_org - pkg.price3);
+        //        if (priceType == "price4") discAmt = Convert.ToDouble(pkg.price4_org - pkg.price4);
+
+        //        rule.disc_amt = discAmt;
+        //        rule.disc_currency = UserData.CURRENCY;
+        //        rule.disc_name = discRule.disc_name;
+        //        rule.disc_note = "";
+        //        //rule.lst_seqno = lstSeqno;
+        //        lstTemp.order_discount_rule = rule;
+        //    }
+        //    else
+        //    {
+        //        lstTemp.order_discount_rule = rule;
+        //    }
+        //    return lstTemp;
+        //}
 
 
         //卡號先加密

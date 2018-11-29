@@ -6,6 +6,9 @@ namespace KKday.Web.B2D.EC.Models.Model.Booking
     //前端接收 fill data的model
     public class DataModel
     {
+        public string company_xid { get; set; }//分銷商xid
+        public string channel_oid { get; set; }//KKday old
+        public string booking_type { get; set; }//訂單來源(api/web)
         public string guidNo { get; set; }
         public string productOid { get; set; }
         public string packageOid { get; set; }

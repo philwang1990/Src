@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="~/css/custom.css" type="text/css">
     <style>
 
-        .error_msg {
+        .has-error {
             color: Red;
         }
     </style>
@@ -206,7 +206,14 @@
                                 </div>
                             </div>
                         </form>
-
+                        <div class="mt-15">
+                            <a href="javascript:;"
+                               class="btn btn-primary"
+                               id="board2_btn"
+                               data-href="#board3">
+                                 @prodTitle.common_next_step
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="board" id="board3">
@@ -216,11 +223,7 @@
                 </div>
             </div>
         </div>
-
-        <br />
-        <input type="button" value="先從這裡成立訂單" onclick="chkValid()" />
-        <br />
-
+        
         @Html.Hidden("booking_step1_length_error_1", prodTitle.booking_step1_length_error_1)
         @Html.Hidden("booking_step1_length_error_2", prodTitle.booking_step1_length_error_2)
         @Html.Hidden("booking_step1_required_error", prodTitle.booking_step1_required_error)

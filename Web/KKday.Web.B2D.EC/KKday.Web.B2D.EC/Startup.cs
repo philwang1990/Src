@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -66,6 +67,7 @@ namespace KKday.Web.B2D.EC
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddSessionStateTempDataProvider();
 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +83,8 @@ namespace KKday.Web.B2D.EC
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            //當用戶輸入的網址找不到時↓
+            app.UseStatusCodePagesWithRedirects("~/404.html"); //或直接給http開頭的絕對URL
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

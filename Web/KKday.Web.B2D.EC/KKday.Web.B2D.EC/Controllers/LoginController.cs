@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using KKday.Web.B2D.EC.AppCode;
 using KKday.Web.B2D.EC.Models.Model.Account;
 using KKday.Web.B2D.EC.Models.Model.Login;
 using KKday.Web.B2D.EC.Models.Repostory.Account;
@@ -38,7 +40,8 @@ namespace KKday.Web.B2D.EC.Controllers
             try
             {
                 //var accountRepo = (AccountRepository)HttpContext.RequestServices.GetService(typeof(AccountRepository));
-                var account = AccountRepository.GetAccount(loginModel.Email, loginModel.Password);
+                var encPassword = WebUtility.UrlEncode(Sha256Helper.Gethash(loginModel.Password));
+                var account = AccountRepository.GetAccount(loginModel.Email, encPassword);
                 //分流-KKdayUser&UserAdmin
                 var IsKKdayUser = account is KKdayAccount ? true : false;
                 var IsUserAdmin = (account is B2dAccount && ((B2dAccount)account).USER_TYPE.Equals("01")) ? true : false;

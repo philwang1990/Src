@@ -119,6 +119,8 @@ function ReParseValidation() {
 
 function chkValid()
 {
+   //$(e).prop('disabled', true);
+
    $("#board1").removeClass("active").addClass("active");
    $("#board2").removeClass("active").addClass("active");
    $("#board3").removeClass("active").addClass("active");
@@ -162,7 +164,8 @@ function chkValid()
 
    if(chkchk==false) 
    {
-     return false;
+       //$(e).prop('disabled', false);
+       return false;
    }
 
   setdataModel();
@@ -281,7 +284,18 @@ function formVaildate()
                     selGlass :{required : $("#booking_step1_required_error").val()},
                     selMealType:{required : $("#booking_step1_required_error").val()}
                     },
-                errorClass: "error_msg"
+                errorClass: "has-error",
+                errorPlacement: function(error, element) { 
+                  if($(element).attr("name")=="txtBirtyday")
+                  {
+                    error.appendTo(element.parent().parent());  
+                  }
+                  else
+                  {
+                     error.appendTo(element.parent());  
+                  }
+               }
+               
             });
         });
 
@@ -323,7 +337,7 @@ function formVaildate()
                     selGuide :{required : $("#selGuide").is(":visible")==true},
 
                     selRentCarPickupOfiice :{required : $("#selRentCarPickupOfiice").is(":visible")==true},
-                    txtRendCarPickUpDate :{required : $("#txtRendCarPickUpDate").is(":visible")==true},
+
                     selRentCarPickUpHour :{required : $("#selRentCarPickUpHour").is(":visible")==true},
                     selRentCarPickUpMinute :{required : $("#selRentCarPickUpMinute").is(":visible")==true},
                     rentCarwifi :{required : $("#rdoGpsTrue").is(":visible")==true},
@@ -397,7 +411,7 @@ function formVaildate()
                     selGuide :{required : $("#booking_step1_required_error").val()},
 
                     selRentCarPickupOfiice :{required : $("#booking_step1_required_error").val()},
-                    txtRendCarPickUpDate :{required : $("#booking_step1_required_error").val()},
+                    
                     selRentCarPickUpHour :{required : $("#booking_step1_required_error").val()},
                     selRentCarPickUpMinute :{required : $("#booking_step1_required_error").val()},
                     rentCarwifi :{required : $("#booking_step1_required_error").val()},
@@ -438,7 +452,22 @@ function formVaildate()
                     selEvent3 :{required : $("#booking_step1_required_error").val()}
 
                     },
-                errorClass: "error_msg"
+                errorClass: "has-error",
+                errorPlacement: function(error, element) {  
+                  if($(element).attr("name")=="txtSendDataChkinDate" || 
+                     $(element).attr("name")=="txtSendDataChkoutDate" ||
+                     $(element).attr("name")=="txtShttleDate" ||    
+                     $(element).attr("name")=="txtRendCarPickUpDate" ||
+                     $(element).attr("name")=="txtArrDate" ||
+                     $(element).attr("name")=="txtSendDataChkoutDate" )
+                  {
+                    error.appendTo(element.parent().parent());  
+                  }
+                  else
+                  {
+                     error.appendTo(element.parent());  
+                  }
+               }
             });
      });
 
@@ -458,7 +487,7 @@ function formVaildate()
                     txtPayExpireDate :{required : $("#booking_step1_required_error").val()},
                     txtPayCvc :{required : $("#booking_step1_required_error").val()}
                     },
-                errorClass: "error_msg"
+                errorClass: "has-error"
             });
         });
         
