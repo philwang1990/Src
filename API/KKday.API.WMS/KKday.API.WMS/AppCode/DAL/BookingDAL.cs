@@ -63,7 +63,7 @@ namespace KKday.API.WMS.AppCode.DAL
                      new NpgsqlParameter("contact_tel",obj["contact_tel"].ToString()),
                      new NpgsqlParameter("contact_mail",obj["contact_mail"].ToString()),
                      new NpgsqlParameter("order_note",obj["order_note"].ToString()),
-                     new NpgsqlParameter("company_xid",obj["company_xid"].ToString()),
+                     new NpgsqlParameter("company_xid",(int)obj["company_xid"]),
                      new NpgsqlParameter("channel_oid",obj["channel_oid"].ToString()),
                      new NpgsqlParameter("booking_type",obj["booking_type"].ToString()),
                      new NpgsqlParameter("crt_datetime",DateTime.Now)
@@ -272,10 +272,10 @@ namespace KKday.API.WMS.AppCode.DAL
 
 
             np = new NpgsqlParameter[]{
-             new NpgsqlParameter("kkday_order_oid",model.order_oid),
-             new NpgsqlParameter("kkday_order_mid",model.order_mid),
-             new NpgsqlParameter("order_no",model.order_no),
-             new NpgsqlParameter("company_xid",model.company_xid)
+                 new NpgsqlParameter("kkday_order_oid",model.order_oid),
+                 new NpgsqlParameter("kkday_order_mid",model.order_mid),
+                 new NpgsqlParameter("order_no",model.order_no),
+                new NpgsqlParameter("company_xid",int.Parse(model.company_xid))
 
             };
 

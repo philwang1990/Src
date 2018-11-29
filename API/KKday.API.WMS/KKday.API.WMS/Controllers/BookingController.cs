@@ -42,12 +42,12 @@ namespace KKday.API.WMS.Controllers {
         }
 
         [HttpPost("UpdateOrder")]
-        public ActionResult UpdateOrder([FromBody]UpdateOrderModel queryRQ)
+        public OrderNoModel UpdateOrder([FromBody]UpdateOrderModel queryRQ)
         {
 
             Website.Instance.logger.Info($"WMS UpdateOrder Start! ");
 
-            return Content(BookingRepository.UpdateOrder(queryRQ).ToString(), "application/json");
+            return BookingRepository.UpdateOrder(queryRQ);
         }
 
         // GET: /<controller>/
@@ -236,8 +236,8 @@ namespace KKday.API.WMS.Controllers {
                 api.ipaddress = data.ipaddress ;
 
                 //假分銷商
-                distributorInfo fakeContact = DataSettingRepository.fakeContact();
-                ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, data.productOid);
+                //distributorInfo fakeContact = DataSettingRepository.fakeContact();
+                //ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, data.productOid);
 
                 //DataSettingRepostory Ores = new DataSettingRepostory();
                  //= DataSettingRepostory.fakeDataModel(data);
@@ -271,14 +271,48 @@ namespace KKday.API.WMS.Controllers {
                     //CallJsonPay2 rdsJson = (CallJsonPay2)status.pmchSslRequest.json;
                     //string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
                     //rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
-                    return order.ToString();
+
+                    //轉 ordermodel
+                    OrderModel ordModel = BookingRepository.setOrderModel(data);
+                    OrderNoModel ordNoModel = InsertOrder(ordModel);
+                    if (ordNoModel.result == "0000")
+                    {
+                        UpdateOrderModel UpdOrdModel = BookingRepository.setUpdOrdModel(data, ordNoModel.order_no,order);
+
+                        OrderNoModel updResult = UpdateOrder(UpdOrdModel);
+
+
+                        if (updResult.result == "0000")
+                        {
+                            return order.ToString();
+                        }
+                        else
+                        {
+                            Website.Instance.logger.Debug($"UpdateOrder:error");//要改
+                            status.status = "Error";
+                            status.msgErr = updResult.ToString(); //要改
+                            return JsonConvert.SerializeObject(status);
+                        }
+
+                    }
+                    else 
+                    {
+                        Website.Instance.logger.Debug($"InsertOrder:error");//要改
+                        status.status = "Error";
+                        status.msgErr = ordNoModel.ToString(); //要改
+                        return JsonConvert.SerializeObject(status);
+                    }
+
+
+
+                    //return order.ToString();
                 }
                 else 
                 {
-                    Website.Instance.logger.Debug($"bookingStep1:qq");//要改
+                    Website.Instance.logger.Debug($"bookingStep1:error");//要改
                     status.status = "Error";
-                    status.msgErr = "error bookingSetp1_1";//要改
-                    return order.ToString();
+                    status.msgErr = order.ToString(); //要改
+                    return JsonConvert.SerializeObject(status);
                 }
 
             }
@@ -290,7 +324,7 @@ namespace KKday.API.WMS.Controllers {
                 status.status = "Error";
                 status.msgErr = ex.ToString();//要改
 
-                return "false";
+                return ex.ToString();
             }
         }
 

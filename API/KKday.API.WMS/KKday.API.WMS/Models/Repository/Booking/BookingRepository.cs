@@ -121,21 +121,29 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
         }
 
-        public static JObject UpdateOrder(UpdateOrderModel model)
+        public static OrderNoModel UpdateOrder(UpdateOrderModel model)
         {
             int count = 0;
+            OrderNoModel orderNo = new OrderNoModel();
 
             try
             {
 
                 count = BookingDAL.UpdateOrder(model);
+                orderNo.result = "0000";
+                orderNo.result_msg = "OK";
+                orderNo.count = count.ToString();
 
-                return JObject.Parse("{ \"result\":  \"0000\",\"result_msg\": \"OK\",\"count\":" + count.ToString() + "}");
+
+                return orderNo;
             }
             catch (Exception ex)
             {
+                orderNo.result = "10001";
+                orderNo.result_msg = "UpdateOrder  Error :"+ex.Message + ","+ex.StackTrace ;
+                orderNo.count = count.ToString();
 
-                return JObject.Parse("{ \"result\":  \"10001\",\"result_msg\": \"InsertOrder  Error :\"" + ex.Message + "," + ex.StackTrace + ",\"count\":" + count + "}");
+                return orderNo;
 
             }
         }
@@ -499,6 +507,48 @@ namespace KKday.API.WMS.Models.Repository.Booking
                 return result;
             }
         }
+
+        public static OrderModel setOrderModel(DataKKdayModel data)
+        {
+            OrderModel orderModel = new OrderModel();
+            OrderDiscountRule orderRule = new OrderDiscountRule();
+
+            orderModel.company_xid = data.company_xid ;
+            orderModel.channel_oid = data.channel_oid;
+            orderModel.booking_type = data.booking_type;
+            orderModel.order_date = DateTime.Now;
+            orderModel.order_type = "B2D";
+            orderModel.order_status = "NW";
+            orderModel.order_amt = (double)data.currPriceTotal;
+            orderModel.order_b2c_amt = (double)data.currPriceTotal;
+            orderModel.contact_name = data.contactFirstname + data.contactLastname;
+            orderModel.contact_tel = data.contactTel;
+            orderModel.contact_mail = data.contactEmail;
+            orderModel.order_note = data.note;
+
+            orderRule.disc_name = "name";
+            orderRule.disc_amt = 100;
+            orderRule.disc_currency = "cur";
+            orderRule.disc_note = "note";
+            //orderRule.order_no = oreder_no;
+
+            orderModel.order_discount_rule = orderRule;
+
+            return orderModel;
+
+        }
+
+        public static UpdateOrderModel setUpdOrdModel(DataKKdayModel data,string order_no, JObject order)
+        {
+            UpdateOrderModel updOrderModel = new UpdateOrderModel();
+            updOrderModel.order_no = order_no;
+            updOrderModel.order_oid = order["content"]["orderOid"].ToString();
+            updOrderModel.order_mid = order["content"]["orderMid"].ToString();
+            updOrderModel.company_xid = data.company_xid;
+
+            return updOrderModel;
+        }
+
 
     }
 }
