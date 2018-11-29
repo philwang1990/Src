@@ -30,13 +30,12 @@ namespace KKday.Web.B2D.EC.Controllers
         public IActionResult Index(ErrorViewModel errorModel)
         {
             //B2d分銷商資料
-            //var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
-            //var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+            var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
 
 
             //取挖字
-            //Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, UserData.LOCALE);// RedisHelper.getuiKey(fakeContact.lang);
-            Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, "zh-tw");// RedisHelper.getuiKey(fakeContact.lang);
+            Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, UserData.LOCALE);// RedisHelper.getuiKey(fakeContact.lang);
 
             ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
