@@ -325,6 +325,53 @@ namespace KKday.Web.B2D.EC.AppCode
             }
         }
 
+        //upd b2b 訂單
+        public static updB2dOrderResult updB2dOrder(UpdateB2dOrderModel orders, ProdTitleModel title)
+        {
+            try
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+           delegate (object s, X509Certificate certificate,
+           X509Chain chain, SslPolicyErrors sslPolicyErrors)
+           { return true; };
+
+                var pathUrl = Website.Instance.Configuration["B2DApiUrl:apiUri"];
+
+                string result;
+
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{pathUrl}Booking/UpdateOrder");
+
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(orders);
+
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+
+                updB2dOrderResult obj = JsonConvert.DeserializeObject<updB2dOrderResult>(result);
+
+                return obj;
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.Debug($"apiHelpler_insB2dOrder_err:{ JsonConvert.SerializeObject(ex.Message.ToString())}");
+                throw new Exception(title.result_code_9990);
+            }
+        }
+
+
         //PMCH List 要呈現在頁面上可以選擇的付款方式～
         public static PmchLstResponse getPaymentListRes(List<Country> countries, string prodOid,
                                    string bookinSdate, string bookingEdate, string goSdate, string goEdate,
@@ -428,7 +475,7 @@ namespace KKday.Web.B2D.EC.AppCode
 
 
         //PaymentValid
-        public static Boolean PaymentValid(string id, string jsondata)
+        public static Boolean PaymentValid(string id, PmchSslResponse2 res)
         {
             try
             {
@@ -441,19 +488,23 @@ namespace KKday.Web.B2D.EC.AppCode
 
                 string result;
 
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{pathUrl}Final/Step3?mid=" + id + "&jsondata=" + jsondata);
+                PmchValid valid = new PmchValid();
+                valid.mid = id;
+                valid.jsondata = res;
 
-                httpWebRequest.ContentType = "application/x-www-form-urlencoded";
-                httpWebRequest.Method = "GET";
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{pathUrl}Final/Step3");
 
-                //using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
-                //{
-                //    string json = JsonConvert.SerializeObject(data);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Method = "POST";
 
-                //    streamWriter.Write(json);
-                //    streamWriter.Flush();
-                //    streamWriter.Close();
-                //}
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string json = JsonConvert.SerializeObject(valid);
+
+                    streamWriter.Write(json);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
 
@@ -461,9 +512,16 @@ namespace KKday.Web.B2D.EC.AppCode
                 {
                     result = streamReader.ReadToEnd();
                 }
-                //var obj = JObject.Parse(result);
+                var obj = JObject.Parse(result);
 
-                return Convert.ToBoolean(result);
+                if(obj["isSuccess"].ToString()=="true")
+                {
+                    return true;
+                }
+                else 
+                {
+                    return false;
+                }
             }
             catch (Exception ex)
             {
