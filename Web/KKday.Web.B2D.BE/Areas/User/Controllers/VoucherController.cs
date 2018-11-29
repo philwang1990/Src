@@ -98,6 +98,10 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
                 var vouchRepos = HttpContext.RequestServices.GetService<VouchAddonRepository>();
                 var upd_user = User.FindFirst("Account").Value;
 
+                var aesUserData = User.FindFirst(ClaimTypes.UserData).Value;
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+                vouch_addon.COMPANY_XID = UserData.COMPANY_XID;
+
                 //更新分銷商公司資料
                 vouchRepos.UpdateVouchAddon(vouch_addon, upd_user);
                 jsonData["status"] = "OK";
