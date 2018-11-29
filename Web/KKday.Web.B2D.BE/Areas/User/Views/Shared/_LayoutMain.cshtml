@@ -17,9 +17,9 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         @*<link rel="stylesheet" href="~/css/site.css" />
-            <link rel="stylesheet" href="~/css/sidemenu.css" />
-            <link rel="stylesheet" href="~/css/bootstrap.min.css">*@
-        @*<link rel="stylesheet" href="~/css/font-awesome.min.css">*@
+        <link rel="stylesheet" href="~/css/sidemenu.css" />
+        <link rel="stylesheet" href="~/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/css/font-awesome.min.css">*@
         <link rel="stylesheet" href="~/css/simple-line-icons.css">
         <link rel="stylesheet" href="~/css/daterangepicker.css">
         @*<link rel="stylesheet" href="~/css/webfont/zh-tw.css">*@
@@ -38,7 +38,7 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         @*<script src="~/js/jquery.min.js"></script>
-            <script src="~/js/bootstrap.min.js"></script>*@
+        <script src="~/js/bootstrap.min.js"></script>*@
         <script src="~/js/moment.js"></script>
         <script src="~/js/daterangepicker.js"></script>
     </environment>
@@ -70,7 +70,7 @@
             </a>
             <ul class="menu">
                 <li class="dropdown member-dropdown">
-                    <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
                         <div class="badge user-type">@User.FindFirst("UserType").Value</div>
                         @User.FindFirst(ClaimTypes.Name).Value<i class="fa fa-angle-down hidden-sm hidden-xs"></i>
                     </a>
@@ -86,13 +86,11 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        @User.FindFirst("Locale").Value
+                    <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">@User.FindFirst("Locale").Value
                     </a>
                 </li>
                 <li>
-                    <a href="javascript:;" aria-haspopup="true" aria-expanded="false">
-                        @User.FindFirst("Currency").Value
+                    <a href="javascript:;" aria-haspopup="true" aria-expanded="false">@User.FindFirst("Currency").Value
                     </a>
                 </li>
                 <li class="visible-sm visible-xs">
@@ -142,4 +140,3 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
-

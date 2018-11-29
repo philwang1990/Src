@@ -256,10 +256,10 @@ $(function(){
                 },
                 success: function(result) {
                     if(result.status == "OK") {
-                        $('#api_key_show').html(result.token);
+                        $('#loading').text(result.token);
                     }
                     else {
-                        alert(result.msg);
+                        $('#loading').text(result.msg);
                     }
                 }
         });
@@ -394,7 +394,7 @@ function UpdToken(idd) {
                 $('#api_key_show').html(result.token);
             }
             else {
-                alert(result.msg);
+                $('#api_key_show').html(result.msg);
             }
         }
     });

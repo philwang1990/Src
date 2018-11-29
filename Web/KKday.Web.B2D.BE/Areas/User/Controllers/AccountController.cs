@@ -405,24 +405,39 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         {
             Dictionary<string, string> jsonData = new Dictionary<string, string>();
 
-            var token = "恭喜取得";//CommonProxy.GetApiToken(xid);
+            var token = B2dApiAccountRepository.GetToken(xid);
 
-            jsonData.Add("token", token);
-            jsonData.Add("status", "OK");
+            if (token != "")
+            {
+                jsonData.Add("token", token);
+                jsonData.Add("status", "OK");
+            }
 
+            else
+            {
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg", "請重新取得Token");
+            }
             return Json(jsonData);
         }
-        // 重取token
+        // 取得新token
         public IActionResult New_ApiAccount_Token(Int64 xid)
         {
             Dictionary<string, string> jsonData = new Dictionary<string, string>();
 
             var account = B2dApiAccountRepository.GetApiAccount(xid);
-            var token = CommonProxy.GetApiToken(account.EMAIL,account.PASSWORD);
+            var token = B2dApiAccountRepository.GetNewToken(account.EMAIL,account.PASSWORD);
 
-            jsonData.Add("token", token.access_token);
-            jsonData.Add("status", "OK");
-
+            if (token.access_token != null)
+            {
+                jsonData.Add("token", token.access_token);
+                jsonData.Add("status", "OK");
+            }
+            else 
+            {
+                jsonData.Add("status", "FAIL");
+                jsonData.Add("msg",token.error_description);
+            }
             return Json(jsonData);
         }
         // 更改快取時間

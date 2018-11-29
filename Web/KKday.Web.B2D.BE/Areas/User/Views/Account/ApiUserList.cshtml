@@ -92,10 +92,10 @@ else
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">API Key</h4>
             </div>
-            <label id="api_key_show" class="modal-body break-all">等啊等啊等</label>
-            <div class="modal-footer text-center">
-                <button type="button" class="btn btn-primary" onclick="UpdToken();">更新Token</button>
-            </div>
+            <div class="modal-body break-all" id="api_key_show"><span id="loading">讀取中</span></div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-primary" onclick="UpdToken();">更新Token</button>
+                </div>
         </div>
     </div>
 </div>

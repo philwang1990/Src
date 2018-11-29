@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using KKday.Web.B2D.BE.AppCode;
 using KKday.Web.B2D.BE.AppCode.DAL.Account;
+using KKday.Web.B2D.BE.Commons;
 using KKday.Web.B2D.BE.Models.Model.Account;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using Newtonsoft.Json.Linq;
@@ -158,17 +159,28 @@ namespace KKday.Web.B2D.BE.Models.Repository
         }
 
         // 取拿Token用帳密
-        public static B2dApiAccount GetApiAccount(Int64 xid)
+        public static B2dUserProfile GetApiAccount(Int64 xid)
         {
-            B2dApiAccount account = ApiAccountDAL.GetApiAccount(xid);
+            B2dUserProfile account = ApiAccountDAL.GetAccount_Api(xid);
             return account;
         }
 
         // 取API token
-        public string GetToken(Int64 xid)
+        public static string GetToken(Int64 xid)
         {
-            var token = "這是token唷";
-            return token;
+            return ApiAccountDAL.GetToken(xid);
+        }
+
+        // 取新API token
+        public static GetTokenResponseModel GetNewToken(string account,string password)
+        {
+            var RS= CommonProxy.GetApiToken(account, password);
+
+            if(RS.access_token != null)
+            {
+                ApiAccountDAL.SetApiToken(account, RS.access_token);
+            }
+            return RS;
         }
 
         // 取快取時間
