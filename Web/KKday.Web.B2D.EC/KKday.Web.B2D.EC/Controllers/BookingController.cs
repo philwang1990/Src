@@ -14,14 +14,13 @@ using static KKday.Web.B2D.EC.Controllers.ProductController;
 using KKday.Web.B2D.EC.Models;
 using System.Diagnostics;
 using KKday.Web.B2D.EC.Models.Model.Pmch;
-//using KKday.Web.B2D.EC.Models.Repostory.Booking;
 using Microsoft.Extensions.Primitives;
 using Microsoft.AspNetCore.Http;
 using KKday.Web.B2D.EC.Models.Repostory.Common;
 using System.Security.Claims;
 using KKday.Web.B2D.EC.Models.Model.Account;
 using Microsoft.AspNetCore.Authorization;
-
+using KKday.Web.B2D.EC.Models.Model.UserAgent;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace KKday.Web.B2D.EC.Controllers
@@ -43,8 +42,6 @@ namespace KKday.Web.B2D.EC.Controllers
         {
             try
             {
-                var dd =Request.Headers["User-Agent"].ToString();
-
                 //B2d分銷商資料
                 var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
                 var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
@@ -273,7 +270,8 @@ namespace KKday.Web.B2D.EC.Controllers
             {
                 string memUuid = Website.Instance.Configuration["kkdayKey:uuid"];
 
-                Request.Headers["User-Agent"].ToString();
+                string userAgent = Request.Headers["User-Agent"].ToString();
+                UserAgent ua = new UserAgent(userAgent);
 
                 //B2d分銷商資料
                 var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
@@ -319,7 +317,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 //BookingShowProdModel show = JsonConvert.DeserializeObject<BookingShowProdModel>(showStr);
 
                 TempData.Keep();
-                data = BookingRepostory.setDefaultBookingInfo(memUuid, data, prod, pkg, confirm, UserData, pmgw);
+                data = BookingRepostory.setDefaultBookingInfo(memUuid,ua, data, prod, pkg, confirm, UserData, pmgw);
 
                 //排除餐食 
                 data = BookingRepostory.exculdeFood(prod, data, module);

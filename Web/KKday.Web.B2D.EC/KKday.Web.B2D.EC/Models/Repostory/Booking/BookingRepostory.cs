@@ -10,13 +10,13 @@ using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using KKday.Web.B2D.EC.Models.Model.Booking.api;
 using KKday.Web.B2D.EC.Models.Model.Account;
-
+using KKday.Web.B2D.EC.Models.Model.UserAgent;
 namespace KKday.Web.B2D.EC.Models.Repostory.Booking
 {
     public static class BookingRepostory
     {
 
-        public static DataModel setDefaultBookingInfo(string memUuid,DataModel data, ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, B2dAccount  UserData, Pmgw pmgw)
+        public static DataModel setDefaultBookingInfo(string memUuid,UserAgent ua,DataModel data, ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, B2dAccount  UserData, Pmgw pmgw)
         {
             data.productOid = confirm.prodOid;
             data.packageOid = confirm.pkgOid;
@@ -54,9 +54,9 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.currency = UserData.CURRENCY;
             //先接直客價!!
             data.currPriceTotal = ((pkg.price1_b2c * confirm.price1Qty) + (pkg.price2_b2c * confirm.price2Qty) + (pkg.price3_b2c * confirm.price3Qty) + (pkg.price4_b2c * confirm.price4Qty));// 263;// (pkg.price1 * confirm.price1Qty) +(pkg.price2 * confirm.price2Qty) +(pkg.price3 * confirm.price3Qty) + (pkg.price4 * confirm.price4Qty);
-            data.crtDevice = "Macintosh";
-            data.crtBrowser = "Safari";
-            data.crtBrowserVersion = "12.0";
+            data.crtDevice = ua.OS.Name;// "Macintosh";
+            data.crtBrowser = ua.Browser.Name;// "Safari";
+            data.crtBrowserVersion = ua.Browser.Version;// "12.0";
             data.memberUuid = memUuid;
             data.deviceId = data.guidNo;
             data.tokenKey = MD5Tool.GetMD5(memUuid + data.deviceId + Website.Instance.Configuration["kkdayKey:memuuidToken"].ToString());// "897af29c45ed180451c2e6bfa81333b6";
