@@ -249,11 +249,11 @@
     //旅人資料區域中，旅客資料規格化的每一塊欄位Focus時區塊的變化
     $('.traveler-con .form-control,.traveler-con input').on('click focus', function() {
 
-        var $this = $(this);
-        var $con = $this.closest('.traveler-con');
+        //var $this = $(this);
+        //var $con = $this.closest('.traveler-con');
 
-        $('.traveler-con').removeClass('active');
-        $con.addClass('active');
+        //$('.traveler-con').removeClass('active');
+        //$con.addClass('active');
 
     })
 

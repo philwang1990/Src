@@ -256,6 +256,12 @@ namespace KKday.Web.B2D.EC.Models.Model.Pmch
     }
 
 
+    public class PmchValid
+    {
+        public string mid { get; set; }
+        public PmchSslResponse2 jsondata { get; set; }
+
+    }
 
     public class PmchSslResponse2
     {

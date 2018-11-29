@@ -34,7 +34,7 @@
                     cardList += $"{logo.logoName},";
                     <img src="~/images/payment/ic_@(logo.logoName.ToLower()).svg" class="pay-kind-img">
                 }
-                @Html.Hidden("cardLogoList", cardList.Substring(0, cardList.Length - 1));
+                @Html.Hidden("cardLogoList", cardList.Substring(0, cardList.Length - 1))
             </div>
             <div class="card-info" style="display:none">
                 <b>@prodTitle.booking_step1_amount_of_money<span class="price">@prodShow.currency  @prodShow.totoalPrice  </span></b>
