@@ -16,6 +16,7 @@ using System.Security.Claims;
 using KKday.Web.B2D.EC.Models.Model.Account;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Features;
+using KKday.Web.B2D.EC.Models;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -45,70 +46,88 @@ namespace KKday.Web.B2D.EC.Controllers
                     consentFeature.GrantConsent();
 
                     TempData[id+"forward"] = jsondata;
+                    Website.Instance.logger.Debug($"bookingStep3_{id}_forward:{jsondata}");
                     return RedirectToAction("Step3", "Final", new { id = id });
                 }
                 else
                 {
+                    Website.Instance.logger.Debug($"bookingStep3_{id}_forward:nojasondata");
                     return RedirectToAction("Failure", "Final", new { id = id });
                 }
             }
             catch( Exception ex)
             {
-                return RedirectToAction("Failure", "Final",new {id=id});
+                Website.Instance.logger.Debug($"bookingStep3_index_err:"+ex.Message.ToString());
+                //return RedirectToAction("Failure", "Final",new {id=id});
+                ViewData["errMsg"] = ex.Message.ToString();
+                Website.Instance.logger.Debug($"Final_Index_err:{ex.Message.ToString()}");
+                //導到錯誤頁
+                return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Order_Fail });
+
             }
         }
 
         //付款後導回
         public IActionResult Step3( string id)
         {
-            BookingShowProdModel prodShow = null;
-            DataModel orderData = null;
-            Boolean chkSuccess = true;
-
-            //B2d分銷商資料
-            string jsondata = TempData[id+"forward"] as string;
-            if (string.IsNullOrEmpty(jsondata)) { chkSuccess = false; }
-
-            B2dAccount UserData = null;
-                    
-            if (id != null && jsondata != null && chkSuccess == true)
+            try
             {
-                PmchSslResponse2 res = JsonConvert.DeserializeObject<PmchSslResponse2>(jsondata); //新版
-                Website.Instance.logger.Debug($",bookingStep3_id:{id},bookingStep3_jsondata:{jsondata}");
-                if (res.metadata.status != "0000") //授權失敗,直接跳付款失敗
+                BookingShowProdModel prodShow = null;
+                DataModel orderData = null;
+                Boolean chkSuccess = true;
+
+                //B2d分銷商資料
+                string jsondata = TempData[id + "forward"] as string;
+                if (string.IsNullOrEmpty(jsondata)) { chkSuccess = false; }
+
+                B2dAccount UserData = null;
+
+                if (id != null && jsondata != null && chkSuccess == true)
                 {
-                    chkSuccess = false;
+                    PmchSslResponse2 res = JsonConvert.DeserializeObject<PmchSslResponse2>(jsondata); //新版
+                    Website.Instance.logger.Debug($",bookingStep3_id:{id},bookingStep3_jsondata:{jsondata}");
+                    if (res.metadata.status != "0000") //授權失敗,直接跳付款失敗
+                    {
+                        chkSuccess = false;
+                    }
+                    else
+                    {
+                        Boolean chk = ApiHelper.PaymentValid(id, res);
+                        if (chk == false) { chkSuccess = false; }
+                    }
+
+                    string prodShowStr = RedisHelper.getRedis("b2d:ec:order:final:prodShow:" + id);
+                    if (prodShowStr != null) prodShow = JsonConvert.DeserializeObject<BookingShowProdModel>(prodShowStr);
+                    string orderDataStr = RedisHelper.getRedis("b2d:ec:order:final:orderData:" + id);
+                    if (orderDataStr != null) orderData = JsonConvert.DeserializeObject<DataModel>(orderDataStr);
                 }
                 else
                 {
-                    Boolean chk = ApiHelper.PaymentValid(id, res);
-                    if (chk == false) { chkSuccess = false; }
+                    chkSuccess = false;
                 }
 
-                string prodShowStr = RedisHelper.getRedis("b2d:ec:order:final:prodShow:" + id);
-                if (prodShowStr != null) prodShow = JsonConvert.DeserializeObject<BookingShowProdModel>(prodShowStr);
-                string orderDataStr = RedisHelper.getRedis("b2d:ec:order:final:orderData:" + id);
-                if (orderDataStr != null) orderData = JsonConvert.DeserializeObject<DataModel>(orderDataStr);
+                //取挖字
+                //B2d分銷商資料
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+                Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, UserData.LOCALE);// RedisHelper.getuiKey(fakeContact.lang);
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
+
+                ViewData["chkSuccess"] = chkSuccess;
+                ViewData["prodShow"] = prodShow;
+                ViewData["orderData"] = orderData;
+                ViewData["prodTitle"] = title;
+
+                return View("Success");
             }
-            else
+            catch(Exception ex)
             {
-                chkSuccess = false;
+                ViewData["errMsg"] = ex.Message.ToString();
+                Website.Instance.logger.Debug($"Final_Step3_err:{ex.Message.ToString()}");
+                //導到錯誤頁
+                return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Order_Fail });
             }
-
-            //取挖字
-            //B2d分銷商資料
-            var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
-            UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
-
-            Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper,UserData.LOCALE);// RedisHelper.getuiKey(fakeContact.lang);
-            ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
-
-            ViewData["chkSuccess"] = chkSuccess;
-            ViewData["prodShow"] = prodShow;
-            ViewData["orderData"] = orderData;
-            ViewData["prodTitle"] = title;
-
-            return View("Success");
         }
 
 
@@ -116,36 +135,46 @@ namespace KKday.Web.B2D.EC.Controllers
         //public IActionResult Failure(string id)
         public IActionResult Failure(string id)
         {
-            BookingShowProdModel prodShow = null;
-            DataModel orderData = null;
-            Boolean chkSuccess = true;
-
-            Website.Instance.logger.Debug($",bookingFailure_id:{id}");
-
-            if (id != null )
+            try
             {
-                string prodShowStr = RedisHelper.getRedis("b2d:ec:order:final:prodShow:" + id);
-                if (prodShowStr != null) prodShow = JsonConvert.DeserializeObject<BookingShowProdModel>(prodShowStr);
-                string orderDataStr = RedisHelper.getRedis("b2d:ec:order:final:orderData:" + id);
-                if (orderDataStr != null) orderData = JsonConvert.DeserializeObject<DataModel>(orderDataStr);
+                BookingShowProdModel prodShow = null;
+                DataModel orderData = null;
+                Boolean chkSuccess = true;
+
+                Website.Instance.logger.Debug($",bookingFailure_id:{id}");
+
+                if (id != null)
+                {
+                    string prodShowStr = RedisHelper.getRedis("b2d:ec:order:final:prodShow:" + id);
+                    if (prodShowStr != null) prodShow = JsonConvert.DeserializeObject<BookingShowProdModel>(prodShowStr);
+                    string orderDataStr = RedisHelper.getRedis("b2d:ec:order:final:orderData:" + id);
+                    if (orderDataStr != null) orderData = JsonConvert.DeserializeObject<DataModel>(orderDataStr);
+                }
+                else
+                {
+                    chkSuccess = false;
+                }
+                //B2d分銷商資料
+                var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
+                var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+
+                //取挖字
+                Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, UserData.LOCALE); ;//RedisHelper.getuiKey(fakeContact.lang);
+                ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
+
+                ViewData["chkSuccess"] = chkSuccess;
+                ViewData["prodShow"] = prodShow;
+                ViewData["orderData"] = orderData;
+                ViewData["prodTitle"] = title;
+                return View("Success");
             }
-            else
+            catch(Exception ex)
             {
-                chkSuccess = false;
+                ViewData["errMsg"] = ex.Message.ToString();
+                Website.Instance.logger.Debug($"Final_Step3_err:{ex.Message.ToString()}");
+                //導到錯誤頁
+                return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Order_Fail });
             }
-            //B2d分銷商資料
-            var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
-            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
-
-            //取挖字
-            Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, UserData.LOCALE); ;//RedisHelper.getuiKey(fakeContact.lang);
-            ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
-
-            ViewData["chkSuccess"] = chkSuccess;
-            ViewData["prodShow"] = prodShow;
-            ViewData["orderData"] = orderData;
-            ViewData["prodTitle"] = title;
-            return View("Success");
         }
     }
 }

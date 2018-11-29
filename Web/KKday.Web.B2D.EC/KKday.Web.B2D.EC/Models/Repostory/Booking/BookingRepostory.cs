@@ -16,10 +16,8 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
     public static class BookingRepostory
     {
 
-        public static DataModel setDefaultBookingInfo(string guid, DataModel data, ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, B2dAccount  UserData, Pmgw pmgw)
+        public static DataModel setDefaultBookingInfo(string memUuid,DataModel data, ProductModel prod, PkgDetailModel pkg, confirmPkgInfo confirm, B2dAccount  UserData, Pmgw pmgw)
         {
-            string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
-
             data.productOid = confirm.prodOid;
             data.packageOid = confirm.pkgOid;
             data.contactFirstname = UserData.NAME_FIRST;
@@ -35,7 +33,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.price2Qty = confirm.price2Qty == null ? 0 : confirm.price2Qty;
             data.price3Qty = confirm.price3Qty == null ? 0 : confirm.price3Qty;
             data.price4Qty = confirm.price4Qty == null ? 0 : confirm.price4Qty;
-            data.payMethod = pmgw.acctdocReceiveMethod;// "ONLINE_CITI";這個地方接pmch要改
+            data.payMethod = pmgw.acctdocReceiveMethod;
             data.hasRank = pkg.is_unit_pirce == "RANK" ? "Y" : "N";
             //data.productUrlOid = 
             data.productName = prod.prod_name;
@@ -60,8 +58,8 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.crtBrowser = "Safari";
             data.crtBrowserVersion = "12.0";
             data.memberUuid = memUuid;
-            data.deviceId = guid;
-            data.tokenKey = MD5Tool.GetMD5(memUuid + guid + Website.Instance.Configuration["kkdayKey:memuuidToken"].ToString());// "897af29c45ed180451c2e6bfa81333b6";
+            data.deviceId = data.guidNo;
+            data.tokenKey = MD5Tool.GetMD5(memUuid + data.deviceId + Website.Instance.Configuration["kkdayKey:memuuidToken"].ToString());// "897af29c45ed180451c2e6bfa81333b6";
             data.riskStatus = "01";
 
             data.multipricePlatform = "01";

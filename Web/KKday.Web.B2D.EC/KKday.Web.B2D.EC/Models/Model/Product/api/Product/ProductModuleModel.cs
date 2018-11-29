@@ -238,7 +238,7 @@ namespace KKday.Web.B2D.EC.Models.Model.Product
     public class SimWifi
     {
         public bool is_require { get; set; }
-        public MobileModleNumber mobile_modle_no { get; set; }
+        public MobileModleNumber mobile_model_no { get; set; }
         public MobileIMEI mobile_IMEI { get; set; }
         public ActivationDate activation_date { get; set; }
     }
