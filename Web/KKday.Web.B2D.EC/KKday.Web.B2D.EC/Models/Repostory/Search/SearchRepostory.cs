@@ -79,11 +79,17 @@ namespace KKday.SearchProd.Models.Repostory
                             ["start"] = skip,        //計算從第幾筆開始
                             ["count"] = size,        //分頁筆數
                             ["q"] = filter,          //查詢條件
-                            ["city_key"] = citykey,
+                            //["city_key"] = citykey,
                             ["stats"] = new string[] { "price" },
                             ["facets"] = new string[] { "cat_main", "cat", "guide_lang" },  //, "total_time", "sale_dt"
                             ["company_xid"] = "1"
                         };
+
+                        //城市
+                        if (citykey != null && citykey.Length > 0)
+                        {
+                            query.Add("city_keys", new string[] { citykey });
+                        }
 
                         #region 加入Filter
 
@@ -119,7 +125,7 @@ namespace KKday.SearchProd.Models.Repostory
                         if (cat_main != null && cat_main.Length > 0)
                         {
                             query.Add("cat_main_keys", new string[] { cat_main });
-                        } 
+                        }
 
                         #endregion
 

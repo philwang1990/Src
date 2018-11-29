@@ -20,6 +20,7 @@ namespace KKday.SearchProd.Models.Model
     {
         public string CityName { get; set; }
         public string CityCode { get; set; }
+        public bool IsSelceted { get; set; }
     }
 
 }
