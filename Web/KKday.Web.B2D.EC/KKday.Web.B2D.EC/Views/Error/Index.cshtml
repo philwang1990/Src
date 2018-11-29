@@ -4,6 +4,19 @@
     string common_more_experiences = ViewBag.common_more_experiences as string;
 }
 
+@section Scripts{
+<script type="text/javascript">
+        @*$(document).ready(function() {
+            var errMsg = ViewBag.error_alert;
+            alert(errMsg);
+        });*@
+        $(function () {
+            var errMsg = '@ViewBag.error_alert';
+            if(errMsg.length > 0) {alert(errMsg);}
+        });
+</script>
+}
+
 <section class="wrapper" id="invalidProductApp">
     <div class="container">
         <div class="empty-list">
