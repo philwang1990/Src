@@ -65,11 +65,11 @@
 <section class="wrapper">
     <form id="form2" action="@Url.Content("~/Search/ProdList/")" method="post" onsubmit="Submit();">
         @*return false;*@
-        <input type="hidden" id="city_key" name="key1" value="@ViewData["key"]" />
+        <input type="hidden" id="keyword" name="key1" value="@ViewData["key"]" />
         <input type="hidden" id="pg_idx" name="pg" value="@active_page_idx" />
         <input type="hidden" id="catmain_key" name="cat_main" />
         <input type="hidden" id="catsub_key" name="cat_sub" />
-        @*<input type="hidden" id="city_key" name="key1" />*@
+        <input type="hidden" id="citykey" name="citykey" value="@ViewData["citycode"]" />
 
         <div class="pageTitle city-banner">
             <div class="container">
@@ -89,16 +89,9 @@
                                     {
                                         if (city.CityName != "所有城市")
                                         {
-                                            <li><a herf="javascript:void(0);" onclick="qSearch('@city.CityName');">@city.CityName</a></li>
+                                            <li><a herf="javascript:void(0);" onclick="qSearch('@city.CityCode');">@city.CityName</a></li>
                                         }
                                     }
-
-                                    @*<li>
-                                            <a href="###">東京</a>
-                                        </li>
-                                        <li>
-                                            <a href="###">沖繩</a>
-                                        </li>*@
                                 </ul>
                                 <span class="dropdown-arrow dropdown-arrow-inverse"></span>
                             </div>
@@ -151,7 +144,7 @@
                                                     {
                                                         if (catsub.id.Substring(0, 5) == catmain.id)
                                                         {
-                                                            if (catsub.count >= 0 )
+                                                            if (catsub.count >= 0)
                                                             {
                                                                 <a herf="javascript:void(0);" onclick="QuerySubKey('@catsub.id');">@catsub.name (@catsub.count)</a>
                                                             }
@@ -303,7 +296,7 @@
                     {
                         <div class="product-listview">
                             @*<a href="https://www.kkday.com/zh-tw/product/@prod.prod_no" target="_blank">*@
-                            <a href="~/Product/@prod.prod_no")" target="_blank">
+                            <a href="~/Product/@prod.prod_no" )" target="_blank">
                                 <div class="row">
                                     <div class="col-sm-5 col-lg-4">
                                         <div class="img-bg" style="background-image: url('@prod.prod_img_url'); "></div>
@@ -323,7 +316,7 @@
                                                 {
                                                     foreach (var city in country.cities)
                                                     {
-                                                       <span>@city.name </span> 
+                                                        <span>@city.name </span>
                                                     }
                                                 }
                                             </div>

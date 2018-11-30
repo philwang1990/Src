@@ -84,8 +84,7 @@
                             <img src="@Url.Content("~/images/kkday_logo_final.svg")" class="header-logo">
                         </a>
                         <form id="form3" action="@Url.Content("~/Search/ProdList")" method="post">
-                            <input type="hidden" id="q_city_key" name="key1" />
-                            @*<input type="hidden" id="key2" name="key1" />  點擊的查詢條件*@
+                            <input type="hidden" id="req_citykey" name="citykey" />
                             <div class="kksearch">
                                 <div class="kksearch-header visible-xs">
                                     <h4 class="text-center">搜尋</h4>
@@ -94,7 +93,7 @@
                                     </span>
                                 </div>
                                 <div class="input-group">
-                                    <input type="text" id="key" class="form-control" placeholder="@prodTitle.common_type_to_search">
+                                    <input type="text" id="req_key" name="key1" value="@ViewData["key"]" class="form-control" placeholder="@prodTitle.common_type_to_search">
                                     <span class="clear-input"><i class="fa fa-times-circle fa-lg"></i></span>
                                     <span class="input-group-btn">
                                         <button class="btn btn-primary" type="submit" id="sub2"><i class="fa fa-search fa-lg"></i></button>

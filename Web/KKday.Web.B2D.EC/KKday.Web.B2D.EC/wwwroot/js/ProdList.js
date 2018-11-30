@@ -123,15 +123,15 @@ $(function () {
 
     //Layout-CitySearch
     $("#sub2").click(function(){
-        $("#q_city_key").val($("#key").val());
+        $("#requery_key").val($("#key").val());
         $("#form3").submit();
     });
 
 })
 
-function qSearch(key1)
+function qSearch(citykey)
 {
-    $("#city_key").val(key1);
+    $("#citykey").val(citykey);
     //alert($("#city_key").val());
     $("#form2").submit();
 }
@@ -191,6 +191,6 @@ function scrollToTop() {
 //Layout-CitySearch
 function quicksearch(key1)
 {
-    $("#q_city_key").val(key1);
+    $("#requery_key").val(key1);
     $("#form3").submit();
 }
