@@ -218,14 +218,64 @@ namespace KKday.API.WMS.Controllers {
 
 
         [HttpPost("bookingStep1")]
-        public String bookingStep1([FromBody]DataKKdayModel data)
+        public BookingRSModel bookingStep1([FromBody]DataKKdayModel data)
         {
+            BookingRSModel bookingRS = new BookingRSModel();
+            double  calAmt = 0; // 計算金額
+            double  b2cAmt = 0; // 計算金額
+
             try
             {
+                //先查看價格是否正確
+                PkgPriceModel pkgPrice = JsonConvert.DeserializeObject<PkgPriceModel>(rds.getRedis("b2d:pkgsPrice:" + data.guidNo));
+                if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則
+                {
+                    foreach (var i in pkgPrice.pkgs)
+                    {
+                        if( i.pkg_no == data.packageOid )
+                        {
+                            calAmt += (double)data.price1Qty * (double)i.price1;
+                            calAmt += (double)data.price2Qty * (double)i.price2;
+                            calAmt += (double)data.price3Qty * (double)i.price3;
+                            calAmt += (double)data.price4Qty * (double)i.price4;
+                            b2cAmt += (double)data.price1Qty * (double)i.price1_b2c;
+                            b2cAmt += (double)data.price2Qty * (double)i.price2_b2c;
+                            b2cAmt += (double)data.price3Qty * (double)i.price3_b2c;
+                            b2cAmt += (double)data.price4Qty * (double)i.price4_b2c;
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var i in pkgPrice.pkgs)
+                    {
+                        if (i.pkg_no == data.packageOid)
+                        {
+                            calAmt += (double)data.price1Qty * (double)i.price1_b2c;
+                            calAmt += (double)data.price2Qty * (double)i.price2_b2c;
+                            calAmt += (double)data.price3Qty * (double)i.price3_b2c;
+                            calAmt += (double)data.price4Qty * (double)i.price4_b2c;
+                        }
+                    }
+                }
+
+                if (calAmt != data.currPriceTotal)
+                {
+                    Website.Instance.logger.Debug($"currPriceTotal:error");//要改
+                    bookingRS.result = "10001";
+                    bookingRS.result_msg = "金額有誤"; //要改
+                    return bookingRS;
+                }
+
+                if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則時 currPriceTotal 要換成直客價 不然order new 會有問題
+                    data.currPriceTotal = b2cAmt;
+
+
                 //重新決定排除的餐食-還沒有做
                 //'0002': ['0001', '0002', '0003', '0004', '0005', '0006'], //素食
                 //'0003': ['0002'], //猶太餐
                 //'0004': ['0002', '0005'] //穆斯林餐
+
 
                 ApiSetting api = new ApiSetting();
                 api.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
@@ -252,9 +302,9 @@ namespace KKday.API.WMS.Controllers {
                 KKapiHelper kk = new KKapiHelper();
                 JObject order =kk.crtOrder(api);
 
-                string orderMid = "";
-                string orderOid = "";
-                returnStatus status = new returnStatus();
+                //string orderMid = "";
+                //string orderOid = "";
+                //returnStatus status = new returnStatus();
                 //要先判斷是不是result＝'0000'
                  if (order["content"]["result"].ToString()=="0000")
                 {
@@ -273,7 +323,7 @@ namespace KKday.API.WMS.Controllers {
                     //rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
 
                     //轉 ordermodel
-                    OrderModel ordModel = BookingRepository.setOrderModel(data);
+                    OrderModel ordModel = BookingRepository.setOrderModel(data, pkgPrice, calAmt);
                     OrderNoModel ordNoModel = InsertOrder(ordModel);
                     if (ordNoModel.result == "0000")
                     {
@@ -284,23 +334,25 @@ namespace KKday.API.WMS.Controllers {
 
                         if (updResult.result == "0000")
                         {
-                            return order.ToString();
+                            bookingRS.result = "0000";
+                            bookingRS.result_msg = "OK"; //要改
+                            return bookingRS;
                         }
                         else
                         {
                             Website.Instance.logger.Debug($"UpdateOrder:error");//要改
-                            status.status = "Error";
-                            status.msgErr = updResult.ToString(); //要改
-                            return JsonConvert.SerializeObject(status);
+                            bookingRS.result = "10001";
+                            bookingRS.result_msg = updResult.ToString(); //要改
+                            return bookingRS;
                         }
 
                     }
                     else 
                     {
                         Website.Instance.logger.Debug($"InsertOrder:error");//要改
-                        status.status = "Error";
-                        status.msgErr = ordNoModel.ToString(); //要改
-                        return JsonConvert.SerializeObject(status);
+                        bookingRS.result = "10001";
+                        bookingRS.result_msg = ordNoModel.ToString(); //要改
+                        return bookingRS;
                     }
 
 
@@ -310,9 +362,9 @@ namespace KKday.API.WMS.Controllers {
                 else 
                 {
                     Website.Instance.logger.Debug($"bookingStep1:error");//要改
-                    status.status = "Error";
-                    status.msgErr = order.ToString(); //要改
-                    return JsonConvert.SerializeObject(status);
+                    bookingRS.result = "10001";
+                    bookingRS.result_msg = order.ToString(); //要改
+                    return bookingRS;
                 }
 
             }
@@ -320,11 +372,10 @@ namespace KKday.API.WMS.Controllers {
             {
                 //error
                 Website.Instance.logger.Debug($"bookingStep1:{ex.ToString()}");
-                returnStatus status = new returnStatus();
-                status.status = "Error";
-                status.msgErr = ex.ToString();//要改
+                bookingRS.result = "10001";
+                bookingRS.result_msg = ex.ToString();//要改
 
-                return ex.ToString();
+                return bookingRS;
             }
         }
 
