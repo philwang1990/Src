@@ -14,6 +14,7 @@ namespace KKday.API.WMS.Models.DataModel.Discount
         public string currency { get; set; } // 幣別
         public double? amt { get; set; } // 金額
         public string disc_dtl_xid { get; set; } // dtl_xid
+        public double disc_price { get; set; }
 
 
     }
