@@ -176,7 +176,7 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                 // 連接Posgresql
                 conn.Open();
 
-                String sqlStmt = @"SELECT B.comp_name,comp_locale,B.comp_currency,
+                String sqlStmt = @"SELECT B.comp_name,comp_locale,B.comp_currency,B.comp_country state,
                     B.contact_user_email, B.payment_type, A.*
                     FROM b2b.b2d_account_api A
                     JOIN b2b.b2d_company B ON A.company_xid = B.xid
