@@ -69,6 +69,7 @@
     <Folder Include="wwwroot\lib\bootstrap-select\" />
     <Folder Include="wwwroot\lib\bootstrap-select\css\" />
     <Folder Include="wwwroot\lib\bootstrap-select\js\" />
+    <Folder Include="Models\Model\Order\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="Areas\User\Models\Common\User\ApplicationDbContext.cs" />

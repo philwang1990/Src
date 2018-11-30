@@ -13,6 +13,7 @@
 }
 else
 {
+    <input type="hidden" id="xid"/>
     <!--LIST-->
     <table class="table table-striped table-middle">
         <thead>
@@ -44,7 +45,7 @@ else
                     </td>
                     <td>@item.USER_TYPE_DESC</td>
                     <td>@item.COMPANY_NAME #@item.COMPANY_XID</td>
-                    <td><a href="#" class="btn btn-default btn-icon" id="get_api_key" data-toggle="modal" data-target="#api_key"><i class="fa fa-key"></i></a></td>
+                    <td><a href="#" class="btn btn-default btn-icon" id="get_api_key" data-id="@item.XID" data-toggle="modal" data-target="#api_key"><i class="fa fa-key"></i></a></td>
                     <td><a href="#" class="btn btn-danger btn-icon" onclick="ApiAccountClose(@item.XID);"><i class="fa fa-trash"></i></a></td>
                 </tr>
             }
@@ -86,13 +87,14 @@ else
 }
 
 <div id="api_key" class="modal fade" tabindex="-1" role="dialog">
+    <input type="hidden" id="xid" />
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title">API Key</h4>
             </div>
-            <div class="modal-body break-all" id="api_key_show"><span id="loading">讀取中</span></div>
+            <div class="modal-body break-all" id="api_key_show"><span id="loading"></span></div>
                 <div class="modal-footer text-center">
                     <button type="button" class="btn btn-primary" onclick="UpdToken();">更新Token</button>
                 </div>
@@ -103,13 +105,9 @@ else
 <script>
 $(function(){
     // 模擬編輯快取時間
-    function editTime() {
-        $('.edit-time').hide();
-        $('.edit-time-input, .edit-time-input + a').show();
+    function GetXid(xid){
+        $('#xid').val(xid);
     }
-    function saveTime() {
-        $('.edit-time').show();
-        $('.edit-time-input, .edit-time-input + a').hide();
-    }
+
 });
 </script>

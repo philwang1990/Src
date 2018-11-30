@@ -244,8 +244,9 @@ $(function(){
     });
 
     $('#api_key').on('show.bs.modal', function(e) { 
-        var id=19;
-
+        $('#loading').html("讀取中...");
+        var btn = $(e.relatedTarget),id = btn.data('id');
+        $('#xid').val(id);
         $.ajax({
                 url: _root_path + 'Account/ApiAccount_GetToken',
                 type: 'POST',
@@ -259,7 +260,7 @@ $(function(){
                         $('#loading').text(result.token);
                     }
                     else {
-                        $('#loading').text(result.msg);
+                        $('#loading').html(result.msg);
                     }
                 }
         });
@@ -377,9 +378,9 @@ function ApiAccountClose(id) {
     });
 }
 
-function UpdToken(idd) {
+function UpdToken() {
 
-    var id=2;
+    var id=$('#xid').val();
 
     $.ajax({
         url: _root_path + 'Account/New_ApiAccount_Token',
