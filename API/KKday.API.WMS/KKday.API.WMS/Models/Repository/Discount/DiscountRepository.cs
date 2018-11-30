@@ -23,7 +23,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
             {
                 //黑名單規則塞入redis
                 string _blackRedis = rds.getRedis($"b2d:discount:blcakList:{prod_no}");
-                if (string.IsNullOrEmpty(_blackRedis))
+                if (string.IsNullOrEmpty(_blackRedis) || _blackRedis == "{}")
                 {
                     obj = DiscountDAL.GetBlackList();
                     rds.SetRedis(obj.ToString(), $"b2d:discount:blcakList:{prod_no}", 1440);
@@ -75,7 +75,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
 
                 //固定價規則塞入redis
                 string _fixedRedis = rds.getRedis($"b2d:discount:fixedPriceList:{company_xid}_{prod_no}");
-                if (string.IsNullOrEmpty(_fixedRedis))
+                if (string.IsNullOrEmpty(_fixedRedis) || _fixedRedis == "{}")
                 {
                     objFixed = DiscountDAL.GetFixedPriceList(company_xid, prod_no);
                     rds.SetRedis(objFixed.ToString(), $"b2d:discount:fixedPriceList:{company_xid}_{prod_no}", 1440);
@@ -131,7 +131,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
 
                 //套價規塞入redis
                 string _ruleRedis = rds.getRedis($"b2d:discount:ruleList:{company_xid}_{company_currency}");
-                if (string.IsNullOrEmpty(_ruleRedis))
+                if (string.IsNullOrEmpty(_ruleRedis) || _ruleRedis =="{}")
                 {
                     objRules = DiscountDAL.GetDiscRuleList(company_xid, company_currency);
                     rds.SetRedis(objFixed.ToString(), $"b2d:discount:ruleList:{company_xid}_{company_currency}", 1440);

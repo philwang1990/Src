@@ -235,6 +235,8 @@ namespace KKday.API.WMS.Models.Repository.Package {
                 pkg.discount_rule = disc;
                 pkg.guid = Guid.NewGuid().ToString();
 
+                pkg_price.discount_rule = disc;
+
                 rds.SetRedis(JsonConvert.SerializeObject(pkg_price), "b2d:pkgsPrice:"+pkg.guid,1440); // 將 pkg_price 存入redis 
 
 
