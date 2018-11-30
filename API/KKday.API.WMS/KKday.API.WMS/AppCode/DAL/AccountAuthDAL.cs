@@ -210,7 +210,8 @@ WHERE enable=false AND LOWER(email)=LOWER(:email) AND password=:password";
                         GENDER_TITLE = dr.ToStringEx("gender_title"),
                         JOB_TITLE = dr.ToStringEx("job_title"),
                         CURRENCY = dr.ToStringEx("comp_currency"),
-                        LOCALE = dr.ToStringEx("comp_locale")
+                        LOCALE = dr.ToStringEx("comp_locale"),
+                        STATE = dr.ToStringEx("state")
 
                     };
                 }
