@@ -508,7 +508,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             }
         }
 
-        public static OrderModel setOrderModel(DataKKdayModel data)
+        public static OrderModel setOrderModel(DataKKdayModel data, PkgPriceModel pkgPrice,double calAmt)
         {
             OrderModel orderModel = new OrderModel();
             OrderDiscountRule orderRule = new OrderDiscountRule();
@@ -519,20 +519,23 @@ namespace KKday.API.WMS.Models.Repository.Booking
             orderModel.order_date = DateTime.Now;
             orderModel.order_type = "B2D";
             orderModel.order_status = "NW";
-            orderModel.order_amt = (double)data.currPriceTotal;
+            orderModel.order_amt = calAmt;
             orderModel.order_b2c_amt = (double)data.currPriceTotal;
             orderModel.contact_name = data.contactFirstname + data.contactLastname;
             orderModel.contact_tel = data.contactTel;
             orderModel.contact_mail = data.contactEmail;
             orderModel.order_note = data.note;
 
-            orderRule.disc_name = "name";
-            orderRule.disc_amt = 100;
-            orderRule.disc_currency = "cur";
-            orderRule.disc_note = "note";
-            //orderRule.order_no = oreder_no;
+            if (pkgPrice.discount_rule.isRule == true)
+            {
+                orderRule.disc_name = pkgPrice.discount_rule.disc_name ;
+                orderRule.disc_amt = (double)pkgPrice.discount_rule.amt ;
+                orderRule.disc_currency = pkgPrice.discount_rule.currency ;
+                orderRule.disc_note = pkgPrice.discount_rule.disc_type ;
+                //orderRule.order_no = oreder_no;
 
-            orderModel.order_discount_rule = orderRule;
+                orderModel.order_discount_rule = orderRule;
+            }
 
             return orderModel;
 
