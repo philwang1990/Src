@@ -14,14 +14,13 @@ using static KKday.Web.B2D.EC.Controllers.ProductController;
 using KKday.Web.B2D.EC.Models;
 using System.Diagnostics;
 using KKday.Web.B2D.EC.Models.Model.Pmch;
-//using KKday.Web.B2D.EC.Models.Repostory.Booking;
 using Microsoft.Extensions.Primitives;
 using Microsoft.AspNetCore.Http;
 using KKday.Web.B2D.EC.Models.Repostory.Common;
 using System.Security.Claims;
 using KKday.Web.B2D.EC.Models.Model.Account;
 using Microsoft.AspNetCore.Authorization;
-
+using KKday.Web.B2D.EC.Models.Model.UserAgent;
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace KKday.Web.B2D.EC.Controllers
@@ -108,7 +107,6 @@ namespace KKday.Web.B2D.EC.Controllers
                 if (isEvent == "Y")
                 {
                     pkgEvent = ApiHelper.getPkgEvent(UserData.COMPANY_XID, UserData.COUNRTY_CODE, UserData.LOCALE, UserData.CURRENCY, confirm.prodOid, confirm.pkgOid, title);
-
                 }
 
                 //pmgw
@@ -124,7 +122,6 @@ namespace KKday.Web.B2D.EC.Controllers
                 else
                 {
                     pmgw = pmchRes.pmchlist.Where(x => x.acctdocReceiveMethod == "ONLINE_HK_ADYEN").FirstOrDefault();
-                    //
                 }
                 //必須要設定人數
                 //var cusData = BookingRepostory.getCusDdate();
@@ -136,7 +133,7 @@ namespace KKday.Web.B2D.EC.Controllers
 
                 //將dataModel原型 以json str 帶到前台的hidden
                 DataModel dm = DataSettingRepostory.getDefaultDataModel(totalCus, guid);
-                dm = BookingRepostory.setDefaultBookingInfo(guid, dm, prod, pkg, confirm, UserData, pmgw);//這個地方接pmch要改
+                dm.guidNo = guid;
                 String dataModelStr = JsonConvert.SerializeObject(dm);
                 //dm.travelerData[0].meal.mealType
                 ViewData["dataModelStr"] = dataModelStr;
@@ -191,7 +188,7 @@ namespace KKday.Web.B2D.EC.Controllers
             catch (Exception ex)
             {
                 ViewData["errMsg"] = ex.Message.ToString();
-                Website.Instance.logger.Debug($"booking_index_err:{ex.ToString()}");
+                Website.Instance.logger.Debug($"booking_index_err:{ex.Message.ToString()}");
                 //導到錯誤頁
                 return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Invalid_Common });
                 //return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
@@ -271,6 +268,11 @@ namespace KKday.Web.B2D.EC.Controllers
         {
             try
             {
+                string memUuid = Website.Instance.Configuration["kkdayKey:uuid"];
+
+                string userAgent = Request.Headers["User-Agent"].ToString();
+                UserAgent ua = new UserAgent(userAgent);
+
                 //B2d分銷商資料
                 var aesUserData = User.Identities.SelectMany(i => i.Claims.Where(c => c.Type == ClaimTypes.UserData).Select(c => c.Value)).FirstOrDefault();
                 var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
@@ -281,14 +283,6 @@ namespace KKday.Web.B2D.EC.Controllers
                 DataModel dataTemp = data.Clone();
                 dataTemp.card = null;
                 Website.Instance.logger.Debug($"bookingStep1_inputdata:{ JsonConvert.SerializeObject(dataTemp)}");
-
-                //ApiSetting api = new ApiSetting();
-                //api.apiKey = "kkdayapi";
-                //api.userOid = "1";
-                //api.ver = "1.0.1";
-                //api.locale =  UserData.LOCALE;
-                //api.currency = UserData.CURRENCY;
-                //api.ipaddress = ip;
 
                 string prodStr = TempData["prod_" + data.guidNo] as string;
                 if (string.IsNullOrEmpty(prodStr)) { throw new Exception("資料錯誤，請重新讀取頁"); }
@@ -323,21 +317,11 @@ namespace KKday.Web.B2D.EC.Controllers
                 //BookingShowProdModel show = JsonConvert.DeserializeObject<BookingShowProdModel>(showStr);
 
                 TempData.Keep();
+                data = BookingRepostory.setDefaultBookingInfo(memUuid,ua, data, prod, pkg, confirm, UserData, pmgw);
 
                 //排除餐食 
                 data = BookingRepostory.exculdeFood(prod, data, module);
 
-                //string b2bOrder = BookingRepostory.insB2dOrder(title, prod, pkg, confirm, data, UserData, rule);
-
-                //轉 ordermodel
-                //OrderRepostory res = new OrderRepostory();
-                //OrderModel ord = res.setOrderModel(data,pmgw,title);
-                //api.json = ord;
-                //string orderModelStr = JsonConvert.SerializeObject(api);
-                //Website.Instance.logger.Debug($"bookingStep1_ordernewdata:{ JsonConvert.SerializeObject(orderModelStr)}");
-
-                //KKapiHelper kk = new KKapiHelper();
-                //JObject order =kk.crtOrder(api);
                 data.company_xid = UserData.COMPANY_XID.ToString();
                 data.channel_oid = UserData.KKDAY_CHANNEL_OID;
                 data.locale = UserData.LOCALE;
@@ -352,7 +336,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 //要先判斷是不是result＝'0000'
                 if (order["content"]["result"].ToString() == "0000")
                 {
-                    string memUuid = "051794b8-db2a-4fe7-939f-31ab1ee2c719";
+
                     orderMid = order["content"]["orderMid"].ToString();
                     orderOid = order["content"]["orderOid"].ToString();
 

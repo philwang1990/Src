@@ -514,7 +514,7 @@ namespace KKday.Web.B2D.EC.AppCode
                 }
                 var obj = JObject.Parse(result);
 
-                if(obj["isSuccess"].ToString()=="true")
+                if(obj["isSuccess"].ToString()=="True")
                 {
                     return true;
                 }

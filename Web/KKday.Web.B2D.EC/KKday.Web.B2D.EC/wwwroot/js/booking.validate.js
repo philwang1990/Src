@@ -81,8 +81,6 @@ $.validator.addMethod("payCardNumber", function (value, element) {
           }, $("#booking_step1_length_error_1").val()+"16"+ $("#booking_step1_length_error_2").val());
 
 
-
-
 function initModule2()
 {
     $("#form1").validate({
@@ -117,16 +115,16 @@ function ReParseValidation() {
 }
 
 
-function chkValid()
+function chkValid(e)
 {
-   //$(e).prop('disabled', true);
+   $(e).prop('disabled', true);
 
    $("#board1").removeClass("active").addClass("active");
    $("#board2").removeClass("active").addClass("active");
    $("#board3").removeClass("active").addClass("active");
 
    var payRadio= $('input:radio[name="payment"]:checked').val();
-   if(payRadio==null) return false;
+   if(payRadio==null){  $(e).prop('disabled', false); return false; }
 
 
    ReParseValidation();
@@ -149,7 +147,6 @@ function chkValid()
          {
             chkchk=false; 
          }
-       
     });
 
   $(".payFormClass").each(function () {
@@ -159,12 +156,11 @@ function chkValid()
          {
             chkchk=false; 
          }
-      
     });
 
    if(chkchk==false) 
    {
-       //$(e).prop('disabled', false);
+       $(e).prop('disabled', false);
        return false;
    }
 
@@ -196,7 +192,6 @@ function toStep1() {
                  alert("booking-err:"+result.msgErr);
                  location.href =_root_path + "Home/"
             };
-             
         },
         complete: function () {
         }
@@ -254,8 +249,6 @@ function formVaildate()
                     selShoeSizeW: {required : $("#selShoeSizeW_"+i).is(":visible")==true},
                     selShoeSizeC: {required : $("#selShoeSizeC_"+i).is(":visible")==true},
                     selGlass: {required : $("#selGlass_"+i).is(":visible")==true}
-
- 
                 },
                 messages: {
                     txtEngLast: {required : $("#booking_step1_required_error").val()},
@@ -286,7 +279,7 @@ function formVaildate()
                     },
                 errorClass: "has-error",
                 errorPlacement: function(error, element) { 
-                  if($(element).attr("name")=="txtBirtyday")
+                  if($(element).attr("name")=="txtBirtyday" || $(element).attr("name")=="txtPassDate")
                   {
                     error.appendTo(element.parent().parent());  
                   }
@@ -301,7 +294,7 @@ function formVaildate()
 
 
      $(".otherFormClass").each(function () {
-     
+    
           $(this).validate({
                 rules: {
                     txtOtherModleNo: {required : $("#txtOtherActDate").is(":visible")==true},
