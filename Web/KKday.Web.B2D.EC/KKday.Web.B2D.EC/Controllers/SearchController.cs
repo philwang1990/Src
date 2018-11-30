@@ -79,14 +79,33 @@ namespace KKday.SearchProd.Controllers
 
                 List<CountryInfo> country = new List<CountryInfo>();
                 country = CountryRepostory.GetCountries(key1, citykey, locale);
-                 
+
+                //當城市或國家不為空，則清除查詢關鍵字
+                if (country != null && country.Count() > 0)
+                {
+                    //已選城市的判斷
+                    if (!string.IsNullOrEmpty(citykey))
+                    {
+                        var cd3 = country.SelectMany(co => co.Cities.Where(ci => ci.IsSelceted == true).ToList()).ToList().First();
+                        string citycd = cd3.CityCode;
+                        ViewData["citycode"] = citycd;
+                    }
+                    else
+                    {
+                        var city = country.FirstOrDefault().Cities.FirstOrDefault();
+                        city.IsSelceted = true;
+                        ViewData["citycode"] = city.CityCode;
+                    }
+                    key1 = null;
+                }
+
                 //傳入VIEW的參數 
                 ViewData["total_count"] = total_count;
                 ViewData["active_page_idx"] = active_page_idx;
                 ViewData["total_pages"] = total_pages;
                 ViewData["key"] = key1;
                 ViewData["facets"] = facets;
-                ViewData["duration"] = duration; 
+                ViewData["duration"] = duration;
                 ViewData["guidelang"] = guidelang;
                 ViewData["stats"] = stats;
                 ViewData["pricerange"] = !string.IsNullOrEmpty(pricerange) ? pricerange : string.Format("{0};{1}", stats.price.min, stats.price.max);
