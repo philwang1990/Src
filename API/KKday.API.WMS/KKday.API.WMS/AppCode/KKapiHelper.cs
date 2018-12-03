@@ -40,7 +40,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
 
                 CallModules call = new CallModules();
-                call.ipaddress = "192.168.1.1";
+                call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -122,7 +122,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
 
                 CallModules call = new CallModules();
-                call.ipaddress = "192.168.1.1";
+                call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -190,7 +190,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
 
                 CallModules call = new CallModules();
-                call.ipaddress = "192.168.1.1";
+                call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -255,7 +255,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
 
                 CallModules call = new CallModules();
-                call.ipaddress = "192.168.1.1";
+                call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -411,7 +411,7 @@ namespace KKday.API.WMS.AppCode
            { return true; };
 
             PmchSslRequest call = new PmchSslRequest();
-            call.ipaddress = "192.168.1.1";
+            call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
             call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
             call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
             call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -485,7 +485,7 @@ namespace KKday.API.WMS.AppCode
            { return true; };
 
             PmchSslRequest2 call = new PmchSslRequest2();
-            call.ipaddress = "192.168.1.1";
+            call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
             call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
             call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
             call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -546,7 +546,7 @@ namespace KKday.API.WMS.AppCode
                 string result;
 
                 PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
-                mst.ipaddress = "192.168.1.1";
+                mst.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 mst.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 mst.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 mst.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -604,7 +604,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
                 string result;
                 PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
-                mst.ipaddress = "192.168.1.1";
+                mst.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 mst.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 mst.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 mst.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
