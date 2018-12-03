@@ -222,7 +222,7 @@ namespace KKday.API.WMS.Controllers {
         {
             BookingRSModel bookingRS = new BookingRSModel();
             double  calAmt = 0; // 計算金額
-            double  b2cAmt = 0; // 計算金額
+            //double  b2cAmt = 0; // 計算金額
 
             try
             {
@@ -237,36 +237,48 @@ namespace KKday.API.WMS.Controllers {
 
 
                 PkgPriceModel pkgPrice = JsonConvert.DeserializeObject<PkgPriceModel>(rds.getRedis("b2d:pkgsPrice:" + data.guidNo));
-                if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則
+                //if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則
+                //{
+                //    foreach (var i in pkgPrice.pkgs)
+                //    {
+                //        if( i.pkg_no == data.packageOid )
+                //        {
+                //            calAmt += (double)data.price1Qty * (double)i.price1;
+                //            calAmt += (double)data.price2Qty * (double)i.price2;
+                //            calAmt += (double)data.price3Qty * (double)i.price3;
+                //            calAmt += (double)data.price4Qty * (double)i.price4;
+                //            b2cAmt += (double)data.price1Qty * (double)i.price1_b2c;
+                //            b2cAmt += (double)data.price2Qty * (double)i.price2_b2c;
+                //            b2cAmt += (double)data.price3Qty * (double)i.price3_b2c;
+                //            b2cAmt += (double)data.price4Qty * (double)i.price4_b2c;
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    foreach (var i in pkgPrice.pkgs)
+                //    {
+                //        if (i.pkg_no == data.packageOid)
+                //        {
+                //            calAmt += (double)data.price1Qty * (double)i.price1_b2c;
+                //            calAmt += (double)data.price2Qty * (double)i.price2_b2c;
+                //            calAmt += (double)data.price3Qty * (double)i.price3_b2c;
+                //            calAmt += (double)data.price4Qty * (double)i.price4_b2c;
+                //        }
+                //    }
+                //}
+
+                foreach (var i in pkgPrice.pkgs)
                 {
-                    foreach (var i in pkgPrice.pkgs)
+                    if (i.pkg_no == data.packageOid)
                     {
-                        if( i.pkg_no == data.packageOid )
-                        {
-                            calAmt += (double)data.price1Qty * (double)i.price1;
-                            calAmt += (double)data.price2Qty * (double)i.price2;
-                            calAmt += (double)data.price3Qty * (double)i.price3;
-                            calAmt += (double)data.price4Qty * (double)i.price4;
-                            b2cAmt += (double)data.price1Qty * (double)i.price1_b2c;
-                            b2cAmt += (double)data.price2Qty * (double)i.price2_b2c;
-                            b2cAmt += (double)data.price3Qty * (double)i.price3_b2c;
-                            b2cAmt += (double)data.price4Qty * (double)i.price4_b2c;
-                        }
+                        calAmt += (double)data.price1Qty * (double)i.price1;
+                        calAmt += (double)data.price2Qty * (double)i.price2;
+                        calAmt += (double)data.price3Qty * (double)i.price3;
+                        calAmt += (double)data.price4Qty * (double)i.price4;
                     }
                 }
-                else
-                {
-                    foreach (var i in pkgPrice.pkgs)
-                    {
-                        if (i.pkg_no == data.packageOid)
-                        {
-                            calAmt += (double)data.price1Qty * (double)i.price1_b2c;
-                            calAmt += (double)data.price2Qty * (double)i.price2_b2c;
-                            calAmt += (double)data.price3Qty * (double)i.price3_b2c;
-                            calAmt += (double)data.price4Qty * (double)i.price4_b2c;
-                        }
-                    }
-                }
+
 
                 if (calAmt != data.currPriceTotal)
                 {
@@ -276,8 +288,8 @@ namespace KKday.API.WMS.Controllers {
                     return bookingRS;
                 }
 
-                if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則時 currPriceTotal 要換成直客價 不然order new 會有問題
-                    data.currPriceTotal = b2cAmt;
+                //if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則時 currPriceTotal 要換成直客價 不然order new 會有問題
+                    //data.currPriceTotal = b2cAmt;
 
 
                 //重新決定排除的餐食-還沒有做
