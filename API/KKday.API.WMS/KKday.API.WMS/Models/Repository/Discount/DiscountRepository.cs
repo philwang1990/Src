@@ -196,7 +196,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         disc.currency = null;
                         disc.disc_dtl_xid = null;
                         disc.disc_type = null;
-                        disc.disc_price = 0;
+
                     }
                         
                     else 
@@ -209,7 +209,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         disc.currency = ruList[0].currency ;
                         disc.disc_dtl_xid = ruList[0].disc_dtl_xid ;
                         disc.disc_type = ruList[0].disc_type;
-                        disc.disc_price = ruList[0].disc_price;
+
                     }
                         
                 }
