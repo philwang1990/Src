@@ -39,7 +39,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             JObject obj = JObject.Parse(json_data);
             List<int> cus_seqno = new List<int>();
             List<int> lst_seqno = new List<int>();
-            int discount_xid = 0;
+            //int discount_xid = 0;
 
             try
             {
@@ -48,7 +48,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
                 BookingDAL.InsertOrders(obj, trans, ref order_no);
 
-                if (obj["order_discount_rule"] != null)
+                if (obj["order_discount_rule"].ToString() != "" )
                     BookingDAL.InsertOrderDiscountRule(obj["order_discount_rule"] as JObject, trans, order_no);
 
                 //if (obj["source"]  != null)

@@ -227,6 +227,15 @@ namespace KKday.API.WMS.Controllers {
             try
             {
                 //先查看價格是否正確
+                if(rds.getRedis("b2d:pkgsPrice:" + data.guidNo) == null)
+                {
+                    Website.Instance.logger.Debug($"getRedis:error");//要改
+                    bookingRS.result = "10001";
+                    bookingRS.result_msg = "在redis上找不到資料"; //要改
+                    return bookingRS;
+                }
+
+
                 PkgPriceModel pkgPrice = JsonConvert.DeserializeObject<PkgPriceModel>(rds.getRedis("b2d:pkgsPrice:" + data.guidNo));
                 if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則
                 {
@@ -336,6 +345,9 @@ namespace KKday.API.WMS.Controllers {
                         {
                             bookingRS.result = "0000";
                             bookingRS.result_msg = "OK"; //要改
+                            bookingRS.order_oid = UpdOrdModel.order_oid;
+                            bookingRS.order_mid = UpdOrdModel.order_mid;
+                            bookingRS.order_no = UpdOrdModel.order_no;
                             return bookingRS;
                         }
                         else
@@ -351,7 +363,7 @@ namespace KKday.API.WMS.Controllers {
                     {
                         Website.Instance.logger.Debug($"InsertOrder:error");//要改
                         bookingRS.result = "10001";
-                        bookingRS.result_msg = ordNoModel.ToString(); //要改
+                        bookingRS.result_msg = ordNoModel.result_msg; //要改
                         return bookingRS;
                     }
 
