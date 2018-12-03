@@ -42,19 +42,16 @@
                 @if (pkg.chkDateCanSell == null)
                 {
                     <a id="PkgOption_@pkg.pkg_no" onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
-                    @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','first');">@prodTitle.product_index_select</button>*@
                 }
                 else
                 {
                     @if (pkg.chkDateCanSell == "1")
                     {
                         <a id="PkgOption_@pkg.pkg_no" onclick="PkgSelect(this);BookingEvent();" data-pkg-name="@pkg.pkg_name" data-pkg-no="@pkg.pkg_no" class="btn btn-success select-option">@prodTitle.product_index_select</a>
-                        @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showprice');">@prodTitle.product_index_select</button>*@
                     }
                     else if (pkg.chkDateCanSell == "2")
                     {
                         <a id="PkgOption_@pkg.pkg_no" class="btn btn-success select-option disabled">@pkg.NoSellTextShow</a>
-                        @*<button type="button" class="btn btn-info" onclick="chgPkgInfo('@pkg.pkg_no','showPkgDate');">選擇其他日期</button>*@
                     }
                     else
                     {
