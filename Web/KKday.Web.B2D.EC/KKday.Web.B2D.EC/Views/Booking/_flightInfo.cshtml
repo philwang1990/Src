@@ -5,6 +5,7 @@
     var flightInfo = (FlightInfo)ViewData["flightInfo"];
     var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
     var flightInfoType = (string)ViewData["flightInfoType"];
+    var countryName = (string)ViewData["nationName"]; 
 }
 
 @if (flightInfo != null)
@@ -14,7 +15,7 @@
         <!--arrival-->     
         <div class="traveler-con">
             <div class="sub-title">
-                <label>@prodTitle.booking_step1_flight_info_arrival_info </label>
+                <label>@prodTitle.booking_step1_flight_info_arrival_info.Replace("%s",countryName) </label>
             </div>
 
         <div class="row">
@@ -101,7 +102,7 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group">
                          <div class="input-group date" id='datepickerArrDate' >
-                          <input type="text" class="form-control" id="txtArrDate" name="txtArrDate" placeholder="@prodTitle.booking_step1_flight_info_arrival_time_placeholder" readonly="readonly" />
+                          <input type="text" class="form-control date-info2" id="txtArrDate" name="txtArrDate" placeholder="@prodTitle.booking_step1_flight_info_arrival_time_placeholder" readonly="readonly" />
                           <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>  
                         </div>
@@ -146,7 +147,7 @@
                           </div>
                         </div>
 
-            }
+                     }
 
                     </div>
 
@@ -183,7 +184,7 @@
     {
     <div class="traveler-con">
         <div class="sub-title">
-            <label>@prodTitle.booking_step1_flight_info_departure_info </label>
+            <label>@prodTitle.booking_step1_flight_info_departure_info.Replace("%s",countryName) </label>
         </div>
 
     <div class="row">
@@ -268,7 +269,7 @@
                     <div class="col-md-4 col-sm-6 col-xs-12">
                         <div class="form-group">
                             <div class="input-group date" id='datepickerArrDate' >
-                             <input type="text" class="form-control" id="txtDepDate" name="txtDepDate" placeholder="@prodTitle.booking_step1_flight_info_departure_time_placeholder" readonly="readonly" />
+                             <input type="text" class="form-control date-info2" id="txtDepDate" name="txtDepDate" placeholder="@prodTitle.booking_step1_flight_info_departure_time_placeholder" readonly="readonly" />
                              <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                            </div> 
                         </div>
@@ -278,7 +279,8 @@
                     {
                         <!--抵達時-->
                         <div class="col-sm-6 col-xs-12">
-                            <div class="time-select">
+                          <div class="time-select">
+                           <div class="form-group">
                             <select class="form-control " id="selDepHour" name="selDepHour">
                                 <option value=null disabled selected="selected">
                                     --
@@ -289,12 +291,13 @@
                                     <option value="@ii">@ii</option>
                                 }
                             </select>
-                            <span>@prodTitle.common_hr</span>
+                           </div>
+                            <span class="time-gap">@prodTitle.common_hr</span>
 
                         @if (flightInfo.departure.is_require_Minute == true)
                         {
                         <!--抵達分-->
-
+                           <div class="form-group">
                             <select class="form-control " id="selDepMinute" name="selDepMinute">
                                 <option value=null disabled selected="selected">
                                     --
@@ -305,7 +308,8 @@
                                     <option value="@ii">@ii</option>
                                 }
                             </select>
-                            <span>@prodTitle.common_min</span>
+                           </div>
+                            <span class="time-gap">@prodTitle.common_min</span>
                              
                         }
                         </div>

@@ -172,7 +172,6 @@ function chkValid(e)
 //booking step1
 function toStep1() {
 
-    //alert("test");
     var jqxhr = $.ajax({
         type: "POST",
         url: _root_path + "Booking/bookingStep1/",
@@ -300,7 +299,6 @@ function formVaildate()
                     txtOtherModleNo: {required : $("#txtOtherActDate").is(":visible")==true},
                     txtOtherImei:  { othImei :true ,required : $("#txtOtherImei").is(":visible")==true },
                     selOtherLocation :{required : $("#selOtherLocation").is(":visible")==true},
-                    
                     txtSendDataRcefName :{required : $("#txtSendDataRcefName").is(":visible")==true},
                     txtSendDataRcelName :{required : $("#txtSendDataRcelName").is(":visible")==true},
                     selSendDataCountryCode :{required : $("#selSendDataCountryCode").is(":visible")==true},
@@ -318,7 +316,6 @@ function formVaildate()
                     txtSendDataBookingOrdNo :{required : $("#txtSendDataBookingOrdNo").is(":visible")==true},
                     txtSendDataChkinDate :{required : $("#txtSendDataChkinDate").is(":visible")==true},
                     txtSendDataChkoutDate :{required : $("#txtSendDataChkoutDate").is(":visible")==true},
-
                     txtContactfName :{contactfName: true,required : $("#txtContactfName").is(":visible")==true},
                     txtContactlName :{contactfName:true,required : $("#txtContactlName").is(":visible")==true},
                     contact_phone :{required : $("#rdoContactPhone1").is(":visible")==true},
@@ -326,11 +323,8 @@ function formVaildate()
                     contact_app :{required : $("#rdoContactApp1").is(":visible")==true},
                     selContactApp :{required : $("#selContactApp").is(":visible")==true},
                     txtContactAppAccount :{required : $("#txtContactAppAccount").is(":visible")==true},
-
                     selGuide :{required : $("#selGuide").is(":visible")==true},
-
                     selRentCarPickupOfiice :{required : $("#selRentCarPickupOfiice").is(":visible")==true},
-
                     selRentCarPickUpHour :{required : $("#selRentCarPickUpHour").is(":visible")==true},
                     selRentCarPickUpMinute :{required : $("#selRentCarPickUpMinute").is(":visible")==true},
                     rentCarwifi :{required : $("#rdoGpsTrue").is(":visible")==true},
@@ -339,7 +333,6 @@ function formVaildate()
                     txtRendCarPickUpDate :{required : $("#txtRendCarPickUpDate").is(":visible")==true},
                     selRentCarPickUpHour :{required : $("#selRentCarPickUpHour").is(":visible")==true},
                     selRentCarPickUpMinute :{required : $("#selRentCarPickUpMinute").is(":visible")==true},
-                    
                     txtShttleDate:{required : $("#txtShttleDate").is(":visible")==true},
                     selShuttlePickUpTime:{required : $("#selShuttlePickUpTime").is(":visible")==true},
                     selShuttleCusHour:{required : $("#selShuttleCusHour").is(":visible")==true},
@@ -348,7 +341,6 @@ function formVaildate()
                     txtShuttleDropOffLocation:{required : $("#txtShuttleDropOffLocation").is(":visible")==true},
                     selShuttleLocationId:{required : $("#txtShttleDate").is(":visible")==true},
                     selShuttleCharterRoute:{required : $("#selShuttleCharterRoute").is(":visible")==true},
-
                     selArrFlightType:{required : $("#selArrFlightType").is(":visible")==true},
                     selArrAirport:{required : $("#selArrAirport").is(":visible")==true},
                     txtArrTerminalNo:{required : $("#txtArrTerminalNo").is(":visible")==true},
@@ -392,7 +384,6 @@ function formVaildate()
                     txtSendDataBookingOrdNo :{required : $("#booking_step1_required_error").val()},
                     txtSendDataChkinDate :{required : $("#booking_step1_required_error").val()},
                     txtSendDataChkoutDate :{required : $("#booking_step1_required_error").val()},
-
                     txtContactfName :{required : $("#booking_step1_required_error").val()},
                     txtContactlName :{required : $("#booking_step1_required_error").val()},
                     contact_phone:{required : $("#booking_step1_required_error").val()},
@@ -400,11 +391,8 @@ function formVaildate()
                     contact_app:{required : $("#booking_step1_required_error").val()},
                     selContactApp:{required : $("#booking_step1_required_error").val()},
                     txtContactAppAccount:{required : $("#booking_step1_required_error").val()},
-
                     selGuide :{required : $("#booking_step1_required_error").val()},
-
                     selRentCarPickupOfiice :{required : $("#booking_step1_required_error").val()},
-                    
                     selRentCarPickUpHour :{required : $("#booking_step1_required_error").val()},
                     selRentCarPickUpMinute :{required : $("#booking_step1_required_error").val()},
                     rentCarwifi :{required : $("#booking_step1_required_error").val()},
@@ -413,7 +401,6 @@ function formVaildate()
                     txtRendCarPickUpDate :{required : $("#booking_step1_required_error").val()},
                     selRentCarPickUpHour :{required : $("#booking_step1_required_error").val()},
                     selRentCarPickUpMinute :{required : $("#booking_step1_required_error").val()},
-
                     txtShttleDate :{required : $("#booking_step1_required_error").val()},
                     selShuttlePickUpTime :{required : $("#booking_step1_required_error").val()},
                     selShuttleCusHour :{required : $("#booking_step1_required_error").val()},
@@ -422,7 +409,6 @@ function formVaildate()
                     txtShuttleDropOffLocation :{required : $("#booking_step1_required_error").val()},
                     selShuttleLocationId:{required : $("#booking_step1_required_error").val()},
                     selShuttleCharterRoute:{required : $("#booking_step1_required_error").val()},
-
                     selArrFlightType:{required : $("#booking_step1_required_error").val()},
                     selArrAirport:{required : $("#booking_step1_required_error").val()},
                     txtArrTerminalNo:{required : $("#booking_step1_required_error").val()},

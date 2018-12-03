@@ -52,8 +52,8 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Booking
             data.productOrderHandler = prod.prod_hander;
             data.payPmchOid = "1";
             data.currency = UserData.CURRENCY;
-            //先接直客價!!
-            data.currPriceTotal = ((pkg.price1_b2c * confirm.price1Qty) + (pkg.price2_b2c * confirm.price2Qty) + (pkg.price3_b2c * confirm.price3Qty) + (pkg.price4_b2c * confirm.price4Qty));// 263;// (pkg.price1 * confirm.price1Qty) +(pkg.price2 * confirm.price2Qty) +(pkg.price3 * confirm.price3Qty) + (pkg.price4 * confirm.price4Qty);
+
+            data.currPriceTotal = ((pkg.price1 * confirm.price1Qty) + (pkg.price2 * confirm.price2Qty) + (pkg.price3 * confirm.price3Qty) + (pkg.price4 * confirm.price4Qty));// 263;// (pkg.price1 * confirm.price1Qty) +(pkg.price2 * confirm.price2Qty) +(pkg.price3 * confirm.price3Qty) + (pkg.price4 * confirm.price4Qty);
             data.crtDevice = ua.OS.Name;// "Macintosh";
             data.crtBrowser = ua.Browser.Name;// "Safari";
             data.crtBrowserVersion = ua.Browser.Version;// "12.0";

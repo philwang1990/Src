@@ -84,7 +84,7 @@ namespace KKday.Web.B2D.EC
                 app.UseHsts();
             }
             //當用戶輸入的網址找不到時↓
-            app.UseStatusCodePagesWithRedirects("~/404.html"); //或直接給http開頭的絕對URL
+            //app.UseStatusCodePagesWithRedirects("~/404.html"); //或直接給http開頭的絕對URL
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
