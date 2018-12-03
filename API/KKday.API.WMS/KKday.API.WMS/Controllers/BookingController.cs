@@ -222,7 +222,7 @@ namespace KKday.API.WMS.Controllers {
         {
             BookingRSModel bookingRS = new BookingRSModel();
             double  calAmt = 0; // 計算金額
-            //double  b2cAmt = 0; // 計算金額
+            double  b2cAmt = 0; // 計算直客價金額
 
             try
             {
@@ -276,6 +276,10 @@ namespace KKday.API.WMS.Controllers {
                         calAmt += (double)data.price2Qty * (double)i.price2;
                         calAmt += (double)data.price3Qty * (double)i.price3;
                         calAmt += (double)data.price4Qty * (double)i.price4;
+                        b2cAmt += (double)data.price1Qty * (double)i.price1_b2c;
+                        b2cAmt += (double)data.price2Qty * (double)i.price2_b2c;
+                        b2cAmt += (double)data.price3Qty * (double)i.price3_b2c;
+                        b2cAmt += (double)data.price4Qty * (double)i.price4_b2c;
                     }
                 }
 
@@ -288,8 +292,8 @@ namespace KKday.API.WMS.Controllers {
                     return bookingRS;
                 }
 
-                //if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則時 currPriceTotal 要換成直客價 不然order new 會有問題
-                    //data.currPriceTotal = b2cAmt;
+                if (pkgPrice.discount_rule.isRule == true) //  currPriceTotal 要換成直客價 不然order new 會有問題
+                    data.currPriceTotal = b2cAmt;
 
 
                 //重新決定排除的餐食-還沒有做
