@@ -154,6 +154,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         rule.amt = (double)item["amt"];
                         rule.disc_price = System.Math.Round((b2d_price * (1 + rule.disc_percent / 100)) + rule.amt, MidpointRounding.AwayFromZero);
                         rule.disc_name = (string)item["disc_name"];
+                        rule.disc_type = (string)item["disc_type"];
                         ruList.Add(rule);
                     }
 
@@ -173,6 +174,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         rule.disc_name = (string)item["disc_name"];
                         rule.currency = (string)item["currency"];
                         rule.disc_dtl_xid = (string)item["disc_dtl_xid"];
+                        rule.disc_type = (string)item["disc_type"];
                         ruList.Add(rule);
                     }
 
@@ -193,6 +195,8 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         disc.amt = null;
                         disc.currency = null;
                         disc.disc_dtl_xid = null;
+                        disc.disc_type = null;
+                        disc.disc_price = 0;
                     }
                         
                     else 
@@ -204,6 +208,8 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         disc.amt = ruList[0].amt;
                         disc.currency = ruList[0].currency ;
                         disc.disc_dtl_xid = ruList[0].disc_dtl_xid ;
+                        disc.disc_type = ruList[0].disc_type;
+                        disc.disc_price = ruList[0].disc_price;
                     }
                         
                 }
