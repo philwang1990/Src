@@ -38,7 +38,6 @@ $(function () {
 
     $('.main-category li.dropdown').hover(
         function(){
-            console.log();
             $(this).addClass('open');
             $(this).children('.sub-category').show();
         },
@@ -145,22 +144,18 @@ function ReQuery(page)
 //主分類查詢
 function QueryMainKey(catmain_key)
 {
-    console.log(catmain_key)
     $("#catmain_key").val(catmain_key);
     $("#form2").submit();
 }
 //次分類查詢
 function QuerySubKey(catsub_key)
 {
-    console.log(catsub_key)
     $("#catsub_key").val(catsub_key);
     $("#form2").submit();
 }
 //Dynamic input
 function Submit()
 {
-    console.log("SubmitForm");
-
     //duration
     $('#duration li label.checked span').each(function(){
         $('<input>').attr({

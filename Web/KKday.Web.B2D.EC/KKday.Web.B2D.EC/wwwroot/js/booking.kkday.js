@@ -376,12 +376,10 @@
     }];
 
     function cardFromNumber(num) {
-        console.log(num);
         var card, _i, _len;
         for (_i = 0, _len = cards.length; _i < _len; _i++) {
             card = cards[_i];
             if (card.pattern.test(num)) {
-                console.log(card.type);
                 var cardLogoList = $('#cardLogoList').val();
                 if (cardLogoList.indexOf(card.type.toUpperCase()) >= 0) {
                     //card type found //hide msg
