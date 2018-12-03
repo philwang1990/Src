@@ -7,20 +7,17 @@
 @model List<TravelLine>;
 
 @{
-    Layout = "_Layout4";
+    Layout = "_Layout";
     ViewData["Title"] = "Home Page";
     var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
 }
 
-@section styles{
+@section Scripts{
     <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/flat-ui.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/font-awesome.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/owl.carousel.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/custom.css")">
-}
-
-@section Scripts{
     <script src="@Url.Content("~/js/jquery.min.js")"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="@Url.Content("~/js/bootstrap.min.js")"></script>
