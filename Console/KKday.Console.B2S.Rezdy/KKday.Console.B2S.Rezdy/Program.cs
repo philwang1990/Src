@@ -2,10 +2,8 @@
 using KKday.Consoles.B2S.Rezdy.ProductRepository;
 using KKday.Consoles.B2S.Rezdy.PackageRepository;
 using KKday.Consoles.B2S.Rezdy.ModuleRepository;
-using System.IO;
-using System.Reflection;
 using log4net;
-using log4net.Config;
+using KKday.Consoles.B2S.Rezdy.AppCode;
 
 namespace KKday.Consoles.B2S.Rezdy
 {
@@ -20,10 +18,11 @@ namespace KKday.Consoles.B2S.Rezdy
         {
             try
             {
-                product.Main();
+                //product.Main();
+                package.Main();
 
                 //initial log4net
-                KKday.Consoles.B2S.Rezdy.AppCode.CommonTool.LoadLog4netConfig();
+                CommonTool.LoadLog4netConfig();
 
                 Console.WriteLine("Done!");
             }

@@ -1,0 +1,21 @@
+﻿<Properties StartupConfiguration="{F5AF5155-FC36-489D-98AD-C6B81B027863}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.Console.B2S.Rezdy/ModuleRepository.cs">
+    <Files>
+      <File FileName="KKday.Console.B2S.Rezdy/Program.cs" Line="23" Column="34" />
+      <File FileName="KKday.Console.B2S.Rezdy/Models/Package/RezdyPackageModel.cs" Line="2" Column="34" />
+      <File FileName="KKday.Console.B2S.Rezdy/AppCode/CommonTool.cs" Line="32" Column="30" />
+      <File FileName="KKday.Console.B2S.Rezdy/PackageRepository.cs" Line="17" Column="1" />
+      <File FileName="KKday.Console.B2S.Rezdy/ProductRepository.cs" Line="2" Column="15" />
+      <File FileName="KKday.Console.B2S.Rezdy/ModuleRepository.cs" Line="5" Column="23" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/caizhiliang/Documents/GitHub/snowchoy/Src/Console/KKday.Console.B2S.Rezdy/KKday.Console.B2S.Rezdy/PackageRepository.cs" relfile="KKday.Console.B2S.Rezdy/PackageRepository.cs" line="23" column="93" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.KKday.Console.B2S.Rezdy PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -1,6 +1,8 @@
 ﻿using System;
 using log4net;
-using log4net.Config;
+using KKday.Consoles.B2S.Rezdy.AppCode;
+using KKday.Consoles.B2S.Rezdy.Models.Package;
+using Newtonsoft.Json;
 
 namespace KKday.Consoles.B2S.Rezdy.PackageRepository
 {
@@ -13,9 +15,12 @@ namespace KKday.Consoles.B2S.Rezdy.PackageRepository
             try
             {
                 //initial log4net
-                KKday.Consoles.B2S.Rezdy.AppCode.CommonTool.LoadLog4netConfig();
+                CommonTool.LoadLog4netConfig();
 
-                //do something
+                var get = CommonTool.GetData("https://api.rezdy.com/latest/availability?apiKey=0b3d137cc1db4108a92c309fa7d7f6da&productCode=PVVRFE&startTimeLocal=2018-11-01 00:00:00&endTimeLocal=2019-12-31 00:00:00");
+                //RezdyPackageModel
+
+                RezdyPackageModel obj = JsonConvert.DeserializeObject<RezdyPackageModel>(get);
             }
             catch (Exception ex)
             {
