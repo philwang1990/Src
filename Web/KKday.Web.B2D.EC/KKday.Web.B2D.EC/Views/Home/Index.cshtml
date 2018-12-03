@@ -261,10 +261,7 @@
                     <div class="col-md-11" id="cities">
                         @foreach (var ct in na.Cities)
                         {
-                            if (ct.CityName != "所有城市")
-                            {
                                 <a herf="javascript:void(0);" onclick="quicksearch('@ct.CityCode');">@ct.CityName</a>
-                            }
                         }
                     </div>
                 </div>
