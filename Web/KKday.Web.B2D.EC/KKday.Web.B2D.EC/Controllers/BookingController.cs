@@ -131,6 +131,11 @@ namespace KKday.Web.B2D.EC.Controllers
                     if (module.module_cust_data.is_require == true) totalCus = (module.module_cust_data.cus_type == "01") ? 1 : Convert.ToInt32(confirm.price1Qty + confirm.price2Qty + confirm.price3Qty + confirm.price4Qty);
                 }
 
+                //滿足國家
+                List<Country> country = prod.countries;
+                string nationName ="";
+                if (country.Count > 0) nationName= country[0].name;
+
                 //將dataModel原型 以json str 帶到前台的hidden
                 DataModel dm = DataSettingRepostory.getDefaultDataModel(totalCus, guid);
                 dm.guidNo = guid;
@@ -155,6 +160,7 @@ namespace KKday.Web.B2D.EC.Controllers
                 ViewData["carPsgr"] = module.module_car_pasgr; //車輛資料
                 ViewData["sendData"] = module.module_send_data;
                 ViewData["contactData"] = module.module_contact_data;
+                ViewData["nationName"] = nationName;
 
                 ViewData["guid"] = guid;
                 ViewData["prodTitle"] = title;
@@ -191,8 +197,6 @@ namespace KKday.Web.B2D.EC.Controllers
                 Website.Instance.logger.Debug($"booking_index_err:{ex.Message.ToString()}");
                 //導到錯誤頁
                 return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Invalid_Common });
-                //return View("~/Views/Shared/Error.cshtml", new ErrorViewModel
-                //{ RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
             }
         }
 
@@ -336,10 +340,8 @@ namespace KKday.Web.B2D.EC.Controllers
                 //要先判斷是不是result＝'0000'
                 if (order["content"]["result"].ToString() == "0000")
                 {
-
                     orderMid = order["content"]["orderMid"].ToString();
                     orderOid = order["content"]["orderOid"].ToString();
-
                     //upd B2bOrder
                     //BookingRepostory.updB2dOrder(UserData.COMPANY_XID, orderOid, orderMid, b2bOrder, title);
 
@@ -373,13 +375,12 @@ namespace KKday.Web.B2D.EC.Controllers
             }
             catch (Exception ex)
             {
-                //error
                 Website.Instance.logger.Debug($"bookingStep1_err_ordernew失敗:{ex.Message.ToString()}");
-                returnStatus status = new returnStatus();
-                status.status = "Error";
-                status.msgErr = ex.Message.ToString();
+                ViewData["errMsg"] = ex.Message.ToString();
+                Website.Instance.logger.Debug($"booking_index_err:{ex.Message.ToString()}");
 
-                return Json(status);
+                //導到錯誤頁
+                return RedirectToAction("Index", "Error", new ErrorViewModel { ErrorType = ErrorType.Order_Fail ,ErrorMessage= ex.Message.ToString() });
             }
         }
     }

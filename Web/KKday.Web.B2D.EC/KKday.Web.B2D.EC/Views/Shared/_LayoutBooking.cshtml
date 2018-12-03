@@ -1,0 +1,83 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>@ViewBag.Titl</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+
+    <link href="@Url.Content("~/images/favicon.png")" rel="shortcut icon" type="image/ico">
+
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/flat-ui.css")" type="text/css" />
+    @*<link rel="stylesheet" href="@Url.Content("~/css/font-awesome/css/font-awesome.min.css")" type="text/css" />*@
+    <link rel="stylesheet" href="@Url.Content("~/css/font-awesome.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrapValidator.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap-modal-carousel.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/owl.theme.default.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/owl.carousel.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/simple-line-icons.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/custom.css")" type="text/css" />
+
+    <!-- jQuery 2.0.0 -->
+    <script src="@Url.Content("~/js/jquery.min.js")"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="@Url.Content("~/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/js/bootstrapValidator.js")"></script>
+    <script src="@Url.Content("~/js/jquery.kkday.js")"></script>
+    <script src="@Url.Content("~/js/owl.carousel.2.2.1.min.js")"></script>
+    <script src="@Url.Content("~/js/moment.js")"></script>
+    <script src="@Url.Content("~/js/vue.min.js")"></script>
+    <script src="@Url.Content("~/js/vue-affix.min.js")"></script>
+    @*取得網站相對根目錄路徑*@
+    <script type="text/javascript">
+        var _root_path = '@Url.Content("~/")';
+    </script>
+</head>
+<body>
+    @*<div class="header-sheet">
+        <div class="container">
+            <div class="content">我們將使用cookie等資訊來優化您的體驗，繼續瀏覽即表示您同意我們使用。欲瞭解詳細內容，請詳閱<a href="#" target="_blank">隱私權政策與條款</a></div>
+            <button type="button" class="close">×</button>
+        </div>
+    </div>*@
+    <header class="header fix">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="header-container row">
+                    <div class="col-xs-8">
+                        <a href="index.html">
+                            <img src="~/images/kkday_logo_final.svg" class="header-logo">
+                        </a>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <div class="table-row">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container body-content" style="width:100%;padding-left:0;padding-right:0;">
+        @RenderBody()
+    </div>
+    <footer class="booking-footer">
+        <div class="container">
+            <div id="contact-kkday-row">
+                <div class="cr-font text-right" id="footer-company-info">
+                    <h8 class="text-muted">COPYRIGHT © 2016 KKday All rights reserved.</h8>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ./footer -->
+    <!-- scroll to top -->
+    @*<div class="scroll-top-wrapper">
+        <span class="scroll-top-inner">
+            <i class="fa fa-2x fa-angle-up"></i>
+        </span>
+    </div>*@
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

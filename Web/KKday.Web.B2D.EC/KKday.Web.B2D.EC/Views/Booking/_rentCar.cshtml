@@ -50,56 +50,65 @@
                       <div class="col-md-4 col-sm-6 col-xs-12">
                           <div class="form-group">
                               <div class="input-group date" onclick="">
-                                  <input type="text" value="@useDate" class="form-control" placeholder="@prodTitle.booking_step1_rent_car_pick_up_date_placeholder" id="txtRendCarPickUpDate" name="txtRendCarPickUpDate" readonly="readonly" />
+                                  <input type="text" value="@useDate" class="form-control date-info2" placeholder="@prodTitle.booking_step1_rent_car_pick_up_date_placeholder" id="txtRendCarPickUpDate" name="txtRendCarPickUpDate" readonly="readonly" />
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                               </div>
                           </div>
                       </div>
                       <div class="col-sm-6 col-xs-12">
-                          <div class="form-group form-select">
-                              <select class="form-control" id="selRentCarPickUpHour" name="selRentCarPickUpHour" onchange="chgRentCarHour('P',this)">
-                                  <option :value=null disabled selected="selected">
-                                      --
-                                  </option>
-                              </select>
+                          <div class="time-select">
+                              <div class="form-group form-select">
+                                  <select class="form-control" id="selRentCarPickUpHour" name="selRentCarPickUpHour" onchange="chgRentCarHour('P',this)">
+                                      <option :value=null disabled selected="selected">
+                                          --
+                                      </option>
+                                  </select>
+                              </div>
+                              <span class="time-gap">@prodTitle.common_hr</span>
+                              <div class="form-group form-select">
+                                  <select class="form-control" id="selRentCarPickUpMinute" name="selRentCarPickUpMinute">
+                                      <option :value="null" disabled selected="selected">
+                                          --
+                                      </option>
+                                  </select>
+                              </div>
+                              <span class="time-gap">@prodTitle.common_min</span>
                           </div>
-                          <div class="form-group form-select">
-                              <select class="form-control" id="selRentCarPickUpMinute" name="selRentCarPickUpMinute">
-                                  <option :value="null" disabled selected="selected">
-                                      --
-                                  </option>
-                              </select>
-                          </div>
+                        </div>
                       </div>
-                      <div class="form-group">
-                          <!-- 是否需要免費Wi-Fi機 -->
-                          <label>@prodTitle.booking_step1_rent_car_is_need_free_wifi</label>
-                          <div class="form-inline">
-                              <label>
-                                  <input type="radio" name="rentCarwifi" value="true" id="rdoWifiTrue">
-                                  @prodTitle.common_need
-                              </label>
-                              <label>
-                                  <input type="radio" name="rentCarwifi" vaule="false" id="rdoWifiFalse">
-                                  @prodTitle.common_no_need
-                              </label>
+                      <div class="row">
+
+                         <div class="col-sm-6 col-xs-12">
+                          <div class="form-group">
+                              <!-- 是否需要免費Wi-Fi機 -->
+                              <label>@prodTitle.booking_step1_rent_car_is_need_free_wifi</label>
+                              <div class="form-inline">
+                                  <label>
+                                      <input type="radio" name="rentCarwifi" value="true" id="rdoWifiTrue">
+                                      @prodTitle.common_need
+                                  </label>
+                                  <label>
+                                      <input type="radio" name="rentCarwifi" vaule="false" id="rdoWifiFalse">
+                                      @prodTitle.common_no_need
+                                  </label>
+                              </div>
                           </div>
-                       </div>
-                       <div class="form-group">
-                          <!-- 是否需要免費GPS -->
-                          <label>@prodTitle.booking_step1_rent_car_is_need_free_gps</label>
-                          <div class="form-inline">
-                              <label>
-                                  <input type="radio"  name="rentCargps" :value="true" id="rdoGpsTrue">
-                                  @prodTitle.common_need 
-                              </label>
-                              <label>
-                                  <input type="radio"  name="rentCargps" :value="false" id="rdoGpsFalse">
-                                  @prodTitle.common_no_need 
-                              </label>
-                          </div>
-                     </div>
-                  </div>
+                          <div class="form-group">
+                              <!-- 是否需要免費GPS -->
+                              <label>@prodTitle.booking_step1_rent_car_is_need_free_gps</label>
+                              <div class="form-inline">
+                                  <label>
+                                      <input type="radio" name="rentCargps" :value="true" id="rdoGpsTrue">
+                                      @prodTitle.common_need
+                                  </label>
+                                  <label>
+                                      <input type="radio" name="rentCargps" :value="false" id="rdoGpsFalse">
+                                      @prodTitle.common_no_need
+                                  </label>
+                              </div>
+                           </div>
+                        </div>
+                    </div>
               </div>
               <div class="row">
                   <!-- 還車地點 -->
@@ -127,18 +136,21 @@
                       <div class="row">
                           <div class="col-md-4 col-sm-6 col-xs-12">
                               <div class="input-group date" onclick="">
-                                  <input type="text" class="form-control" placeholder="@prodTitle.booking_step1_rent_car_pick_up_date_placeholder" id="txtRendCarDropOffDate" name="txtRendCarDropOffDate" readonly="readonly" />
+                                  <input type="text" class="form-control date-info2" placeholder="@prodTitle.booking_step1_rent_car_pick_up_date_placeholder" id="txtRendCarDropOffDate" name="txtRendCarDropOffDate" readonly="readonly" />
                                   <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                               </div>
                           </div>
                           <div class="col-sm-6 col-xs-12">
+                              <div class="time-select">
                               <div class="form-group form-select">
                                   <select class="form-control" id="selRentCarDropOffHour" name="selRentCarDropOffHour" onchange="chgRentCarHour('D',this)">
                                       <option :value="null" disabled selected="selected">
                                           --
                                       </option>
                                   </select>
+
                               </div>
+                              <span class="time-gap">@prodTitle.common_hr</span>
                               <div class="form-group form-select">
                                   <select class="form-control" id="selRentCarDropoffMinute" name="selRentCarDropoffMinute">
                                       <option :value="null" disabled selected="selected">
@@ -146,6 +158,8 @@
                                       </option>
                                   </select>
                               </div>
+                              <span class="time-gap">@prodTitle.common_min</span>
+                             </div>
                           </div>
                       </div>
                   </div>

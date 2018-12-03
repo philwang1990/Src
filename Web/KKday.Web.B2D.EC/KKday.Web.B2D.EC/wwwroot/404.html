@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-tw">
 <head>
 	<meta charset="utf-8">
@@ -25,15 +25,13 @@
 	<!-- Bootstrap 3.3.7 -->
 	<script src="js/bootstrap.min.js"></script>
 	
-	<script>
+    <script>$(function(){
 
-		$(function(){
-		   
 		// 不管有沒有登入都會用到的script
 
 			// namespace Scope
 			var Scope = Scope || {};
-            
+
 			var SideNav = function() {};
 
 			SideNav.prototype = {
@@ -159,19 +157,19 @@
 		    });
 
 		    $('.search-dropdown').on('click',function(e){
-				e.stopPropagation(); 
+				e.stopPropagation();
 		    });
 
 		 	$('.kksearch .input-group input').on('focus click',function(e){
-	    		$('.search-dropdown').show();	 
-	    		e.stopPropagation(); 
+	    		$('.search-dropdown').show();
+	    		e.stopPropagation();
 
 		    });
 
 			$('.kksearch .input-group input').on('change keydown keyup paste move remove',function(){
 
 				var $value = $(this).val();
-			 	
+
 			 	if($value.length == 0){
 			 		$('.default-suggest').show();
 			 		$('.autosuggest').hide();
@@ -182,8 +180,8 @@
 			});
 
 			$('.open-search').on('click',function(e){
-				
-				e.stopPropagation(); 
+
+				e.stopPropagation();
 
 				$('.kksearch').addClass('slideIn');
 				$('.kksearch input').focus();
@@ -198,7 +196,7 @@
 
 			//Clear input's value
 			$('input').on('change keyup keydown paste move',function(){
-				
+
 				var $inputValue = $(this).val();
 				var $clear = $(this).siblings('.clear-input');
 
@@ -221,7 +219,7 @@
 
 		   	//倒數秒數
 		   	var pauseSec=8;
-			
+
 			$('#sec').html(pauseSec);
 			goindex( pauseSec ) ;
 
@@ -245,7 +243,7 @@
 		    });
 
 		    $('.scroll-top-wrapper').on('click', scrollToTop);
-		
+
 		});
 
 		function scrollToTop() {
@@ -254,7 +252,7 @@
 		    offset = element.offset();
 		    offsetTop = offset.top;
 		    $('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
-		} 
+		}
 
 		function goindex (sec){
 			$('#sec').html( sec ) ;
@@ -263,8 +261,7 @@
 				location.href='/home' ;
 			else
 				setTimeout('goindex("'+sec+'")',1000) ;
-		}
-	</script>
+		}</script>
 
 </head>
 <body>

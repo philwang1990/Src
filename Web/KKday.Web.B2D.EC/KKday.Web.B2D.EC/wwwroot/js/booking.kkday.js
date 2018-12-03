@@ -1,4 +1,4 @@
-﻿function intKKday() {
+﻿$(function() {
     // namespace Scope
     var Scope = Scope || {};
 
@@ -230,21 +230,7 @@
     })
 
 
-    //Radio是否選項底下有子項目要展開時（ex:APP聯絡方式）
-    $('.radio-has-son input').on('click', function() {
 
-        var $this = $(this);
-        var $parent = $this.parent().parent('.radio-has-son');
-        var $input = $parent.siblings('.form-group-son');
-
-        if ($this.val() == 'yes') {
-            $input.removeClass('hide');
-
-        } else {
-            $input.addClass('hide');
-
-        }
-    })
 
     //旅人資料區域中，旅客資料規格化的每一塊欄位Focus時區塊的變化
     $('.traveler-con .form-control,.traveler-con input').on('click focus', function() {
@@ -257,54 +243,10 @@
 
     })
 
-    //包車路線 Dropdown menu （若有選項過長不適合使用<select>呈現的也可以用這個）
-    $('.input-dropdown-menu li a').on('click', function() {
-        var $value = $(this).text();
 
-        $(this).parent('li').addClass('active');
 
-        $(this).parent('li').siblings('li').removeClass('active');
 
-        $(this).parents('.input-dropdown-menu').siblings('.input-dropdown').text($value);
 
-        if ($(this).hasClass('customize')) {
-
-            $('#charter_group').removeClass('hidden');
-
-        } else {
-
-            $('#charter_group').addClass('hidden');
-
-        }
-    })
-
-    //自訂接駁時間
-    $('#select_pickup').on('change', function() {
-        var $val = $(this).val();
-        var $time = $('#pickup_time');
-
-        if ($val == 'customize') {
-
-            $time.removeClass('hidden');
-
-        } else {
-
-            $time.addClass('hidden');
-
-        }
-    })
-
-    //鞋碼尺寸 (此onchange 適用單一開關事件)
-    $('.select_shoe').on('change', function() {
-        var $val = $(this).val();
-        var $size = $(this).parent().parent().parent().find('.shoe_size');
-
-        if ($val != '0') {
-
-            $size.removeClass('hidden');
-
-        }
-    })
 
     $('#txtPayCardNum')
         .on('paste', function(e) {
@@ -459,4 +401,4 @@
             }
         }
     };
-}
+});
