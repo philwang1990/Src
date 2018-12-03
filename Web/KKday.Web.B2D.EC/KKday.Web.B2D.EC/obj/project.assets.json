@@ -2724,11 +2724,11 @@
           "lib/netstandard2.0/Npgsql.dll": {}
         }
       },
-      "Pipelines.Sockets.Unofficial/1.0.0": {
+      "Pipelines.Sockets.Unofficial/1.0.7": {
         "type": "package",
         "dependencies": {
-          "System.Buffers": "4.5.0",
-          "System.IO.Pipelines": "4.5.0"
+          "System.Buffers": "4.4.0",
+          "System.IO.Pipelines": "4.5.1"
         },
         "compile": {
           "lib/netcoreapp2.1/Pipelines.Sockets.Unofficial.dll": {}
@@ -2965,12 +2965,12 @@
           }
         }
       },
-      "StackExchange.Redis/2.0.495": {
+      "StackExchange.Redis/2.0.513": {
         "type": "package",
         "dependencies": {
-          "Pipelines.Sockets.Unofficial": "1.0.0",
+          "Pipelines.Sockets.Unofficial": "1.0.7",
           "System.Diagnostics.PerformanceCounter": "4.5.0",
-          "System.IO.Pipelines": "4.5.0",
+          "System.IO.Pipelines": "4.5.1",
           "System.Threading.Channels": "4.5.0"
         },
         "compile": {
@@ -3534,7 +3534,7 @@
           }
         }
       },
-      "System.IO.Pipelines/4.5.0": {
+      "System.IO.Pipelines/4.5.1": {
         "type": "package",
         "compile": {
           "ref/netstandard1.3/System.IO.Pipelines.dll": {}
@@ -4758,11 +4758,10 @@
   },
   "libraries": {
     "log4net/2.0.8": {
-      "sha512": "dwvu/YELc2nF5gjAnJMXJToYXVdK8Ma0BfLTEugMTM6l8kFysL9Np5LnwhUV6EKTkbRmVTa0/X1/8oSICcoHHw==",
+      "sha512": "N41MQGHZImiCfn0cUuSBjZxrcNfIQCuCgQP0rpgB3J/NWponEh3lc1LxJEuIsPAR9Oc1jVvfkNNFCY1C5hf9LA==",
       "type": "package",
       "path": "log4net/2.0.8",
       "files": [
-        ".signature.p7s",
         "lib/net20-full/log4net.dll",
         "lib/net20-full/log4net.xml",
         "lib/net35-client/log4net.dll",
@@ -7462,17 +7461,21 @@
         "npgsql.nuspec"
       ]
     },
-    "Pipelines.Sockets.Unofficial/1.0.0": {
-      "sha512": "kTXPvlD+R++0IeWfyg1gNx4APrtVxASTUIhkGw4yaLIJCCw/kUjIhyS6JdcknTZ1qU0CCFnCLU/UPRVNWMvp0g==",
+    "Pipelines.Sockets.Unofficial/1.0.7": {
+      "sha512": "hTcF8OrTXJYFkJuu3ZwPLnXZdhHrd5CIGEJSZxXLdsX7lDApssIq5XpV8/Lobxu99nmVE6BMZKFnHDg0U29IEA==",
       "type": "package",
-      "path": "pipelines.sockets.unofficial/1.0.0",
+      "path": "pipelines.sockets.unofficial/1.0.7",
       "files": [
         ".signature.p7s",
+        "lib/net461/Pipelines.Sockets.Unofficial.dll",
+        "lib/net461/Pipelines.Sockets.Unofficial.xml",
+        "lib/net472/Pipelines.Sockets.Unofficial.dll",
+        "lib/net472/Pipelines.Sockets.Unofficial.xml",
         "lib/netcoreapp2.1/Pipelines.Sockets.Unofficial.dll",
         "lib/netcoreapp2.1/Pipelines.Sockets.Unofficial.xml",
         "lib/netstandard2.0/Pipelines.Sockets.Unofficial.dll",
         "lib/netstandard2.0/Pipelines.Sockets.Unofficial.xml",
-        "pipelines.sockets.unofficial.1.0.0.nupkg.sha512",
+        "pipelines.sockets.unofficial.1.0.7.nupkg.sha512",
         "pipelines.sockets.unofficial.nuspec"
       ]
     },
@@ -7742,10 +7745,10 @@
         "version.txt"
       ]
     },
-    "StackExchange.Redis/2.0.495": {
-      "sha512": "BYWPA6QiE9175XOT+GmTeGBAgaN5lkYgC0sNqFI3PwXAOO+w7Z4vcjRJifhw/nt7MTJgBK4bo2G14f9/75OgQw==",
+    "StackExchange.Redis/2.0.513": {
+      "sha512": "/YpnZ9r8VM+yyg7UxStmCoyOyhMDgQ7IkGo64HwPMtcIcgUgbZSxRPY/2h/rOY6y/quEhl3yGiD9Lt0INOd8pA==",
       "type": "package",
-      "path": "stackexchange.redis/2.0.495",
+      "path": "stackexchange.redis/2.0.513",
       "files": [
         ".signature.p7s",
         "lib/net461/StackExchange.Redis.dll",
@@ -7754,7 +7757,7 @@
         "lib/net472/StackExchange.Redis.xml",
         "lib/netstandard2.0/StackExchange.Redis.dll",
         "lib/netstandard2.0/StackExchange.Redis.xml",
-        "stackexchange.redis.2.0.495.nupkg.sha512",
+        "stackexchange.redis.2.0.513.nupkg.sha512",
         "stackexchange.redis.nuspec"
       ]
     },
@@ -8156,7 +8159,7 @@
       ]
     },
     "System.Configuration.ConfigurationManager/4.5.0": {
-      "sha512": "+2SYYKwbN0n+9SrBanflZdaVleFkytEfTNzOu+f3SK0vROMMrorpw1UJyHJQ1ZooughRxPmLj8Fh5N2tSe7sdA==",
+      "sha512": "NIY8VUJuSNeXPrV5wjQBKKMcd/vctzEGzQuY15zt3/j7Vd4PXfk/QVIOBlqU1/ONRRUu0dsdk5uUTLSSNY+now==",
       "type": "package",
       "path": "system.configuration.configurationmanager/4.5.0",
       "files": [
@@ -8473,7 +8476,7 @@
       ]
     },
     "System.Diagnostics.PerformanceCounter/4.5.0": {
-      "sha512": "a5vOZXb+Km4KoSKYr64QY2NkGS+MbRLOd88SSjPF3UkyiNp+7tJbsKxokoOvvIlHMFQDkL4NTkwUA7FlhjK+hg==",
+      "sha512": "eT8/JtodKzx0rnDwe8hdQE8FPM6m9djYy7B2IXEHTu6pfmtTYtsh7ekYG9dATqiVxMWrVZq5fu5hWdPfr0FVwg==",
       "type": "package",
       "path": "system.diagnostics.performancecounter/4.5.0",
       "files": [
@@ -8506,11 +8509,10 @@
       ]
     },
     "System.Diagnostics.Process/4.1.0": {
-      "sha512": "4dlFhzwmI3hl32P+8c9hnytYtV7Xldhsokm5i7Fvv5PmTS68TQCfsuJrREIyF9N1B8zlsSomp7AVrXLe45kKFQ==",
+      "sha512": "mpVZ5bnlSs3tTeJ6jYyDJEIa6tavhAd88lxq1zbYhkkCu0Pno2+gHXcvZcoygq2d8JxW3gojXqNJMTAshduqZA==",
       "type": "package",
       "path": "system.diagnostics.process/4.1.0",
       "files": [
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -8655,11 +8657,10 @@
       ]
     },
     "System.Diagnostics.TraceSource/4.0.0": {
-      "sha512": "bGUeY5wiCHYSWbYZS3QjbaQ1hNoJ1RQBQMB3E0Cgh6AH//4rXfXIOHKIW46HDOsTEDoNfvFNDXphL5W5B/XMwQ==",
+      "sha512": "6WVCczFZKXwpWpzd/iJkYnsmWTSFFiU24Xx/YdHXBcu+nFI/ehTgeqdJQFbtRPzbrO3KtRNjvkhtj4t5/WwWsA==",
       "type": "package",
       "path": "system.diagnostics.tracesource/4.0.0",
       "files": [
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9246,11 +9247,10 @@
       ]
     },
     "System.IO.FileSystem.Watcher/4.0.0": {
-      "sha512": "b3KVTcliK4JBOowkcHvwpufp9Mgxku9HKUyNH+x/JgWcciB/TPPFubcV2c9R1ZKFlZw+MNj5xoXf3qLIlVPNow==",
+      "sha512": "qM4Wr3La+RYb/03B0mZZjbA7tHsGzDffnuXP8Sl48HW2JwCjn3kfD5qdw0sqyNNowUipcJMi9/q6sMUrOIJ6UQ==",
       "type": "package",
       "path": "system.io.filesystem.watcher/4.0.0",
       "files": [
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9287,10 +9287,10 @@
         "system.io.filesystem.watcher.nuspec"
       ]
     },
-    "System.IO.Pipelines/4.5.0": {
-      "sha512": "Kq9eZWVKN9khHhkatLWLLxYCs3j9qSNMZELqn2YG1YsCMv6bPmAtaN0CfA6l7vxFbiV02C996Dy7yHO8DkaJLg==",
+    "System.IO.Pipelines/4.5.1": {
+      "sha512": "o2i4j7WotG7K1BZlOW9iPjyfOrZEU7WRO/l1Chj1CVjV9U7XUqDciv1NQ21Wu8saIchin+aM6DzayH/M0ONcFg==",
       "type": "package",
-      "path": "system.io.pipelines/4.5.0",
+      "path": "system.io.pipelines/4.5.1",
       "files": [
         ".signature.p7s",
         "LICENSE.TXT",
@@ -9302,7 +9302,7 @@
         "lib/netstandard2.0/System.IO.Pipelines.dll",
         "lib/netstandard2.0/System.IO.Pipelines.xml",
         "ref/netstandard1.3/System.IO.Pipelines.dll",
-        "system.io.pipelines.4.5.0.nupkg.sha512",
+        "system.io.pipelines.4.5.1.nupkg.sha512",
         "system.io.pipelines.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -9622,11 +9622,10 @@
       ]
     },
     "System.Net.NameResolution/4.0.0": {
-      "sha512": "gwBjwj3HNnHBBbSQtKdLZtn3+wAJIRPOlA/7iCNhIW7qcWWjlaLQd79AUlmTEc6pArB7uLWBTe7UmyemgUJFqQ==",
+      "sha512": "JdqRdM1Qym3YehqdKIi5LHrpypP4JMfxKQSNCJ2z4WawkG0il+N3XfNeJOxll2XrTnG7WgYYPoeiu/KOwg0DQw==",
       "type": "package",
       "path": "system.net.nameresolution/4.0.0",
       "files": [
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9740,11 +9739,10 @@
       ]
     },
     "System.Net.Requests/4.0.11": {
-      "sha512": "qNQBFFZsSX63hK3TKVJsnBa9WWP8Nwyzo9iFFHBF49FAeGANGNxB6ECedbWVODbUUOdnhQpwC0Wd/WGw84pv8Q==",
+      "sha512": "vxGt7C0cZixN+VqoSW4Yakc1Y9WknmxauDqzxgpw/FnBdz4kQNN51l4wxdXX5VY1xjqy//+G+4CvJWp1+f+y6Q==",
       "type": "package",
       "path": "system.net.requests/4.0.11",
       "files": [
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -9858,11 +9856,10 @@
       ]
     },
     "System.Net.WebHeaderCollection/4.0.1": {
-      "sha512": "uhHcCDWjrpuEM1BbMKk5NV6Ya7GCg9vO0udwG/ev9ZmJXMDhOgqVWVjyazEVMOKtl7Qbt8r/2Yo4o/xYb6lANQ==",
+      "sha512": "XX2TIAN+wBSAIV51BU2FvvXMdstUa8b0FBSZmDWjZdwUMmggQSifpTOZ5fNH20z9ZCg2fkV1L5SsZnpO2RQDRQ==",
       "type": "package",
       "path": "system.net.webheadercollection/4.0.1",
       "files": [
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -11374,7 +11371,7 @@
       ]
     },
     "System.Security.Cryptography.ProtectedData/4.5.0": {
-      "sha512": "s/MFK8BvgtejZj5a8qAPDXEGBtWkpFX98qwQP/wqVa9CgIC7LrKHxDFdlN5x6afGAb0ZVBVGIZlCdBLnO2QjZw==",
+      "sha512": "wZGwRoLGTuEQBOYXlZmEK41OfmO+vYWbLk7q5ePoFqs6vOKP2kUsOeviEjQoR6MbW9udlDjx9iWhcWOTzSj05w==",
       "type": "package",
       "path": "system.security.cryptography.protecteddata/4.5.0",
       "files": [
@@ -11975,11 +11972,10 @@
       ]
     },
     "System.Threading.Overlapped/4.0.1": {
-      "sha512": "UeBx2TvawhzKeyUOMZbfpsBgofJ1gypHqfTIhJNS+lxhpO3dw2yUPPri2uBMnxsXOZqYj+rnBC4XvmkSYmyqSw==",
+      "sha512": "f7aLuLkBoCQM2kng7zqLFBXz9Gk48gDK8lk1ih9rH/1arJJzZK9gJwNvPDhL6Ps/l6rwOr8jw+4FCHL0KKWiEg==",
       "type": "package",
       "path": "system.threading.overlapped/4.0.1",
       "files": [
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/net46/System.Threading.Overlapped.dll",
@@ -12201,11 +12197,10 @@
       ]
     },
     "System.Threading.ThreadPool/4.0.10": {
-      "sha512": "pA0DnoJ59NlilSdLLwPLKECkTaVF4lbPSM70UqdJQgzJ0r3UHthhlN1T4TmrN6uiXDwPcc2+rI4+5FGtMCdj3g==",
+      "sha512": "IMXgB5Vf/5Qw1kpoVgJMOvUO1l32aC+qC3OaIZjWJOjvcxuxNWOK2ZTWWYXfij22NHxT2j1yWX5vlAeQWld9vA==",
       "type": "package",
       "path": "system.threading.threadpool/4.0.10",
       "files": [
-        ".signature.p7s",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -12660,29 +12655,29 @@
       "Microsoft.NETCore.App >= 2.1.0",
       "Newtonsoft.Json >= 11.0.2",
       "Npgsql >= 4.0.3",
-      "StackExchange.Redis >= 2.0.495",
+      "StackExchange.Redis >= 2.0.513",
       "log4net >= 2.0.8",
       "log4net.Ext.Json >= 2.0.8.3"
     ]
   },
   "packageFolders": {
-    "/Users/caizhiliang/.nuget/packages/": {},
+    "/Users/phil/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/KKday.Web.B2D.EC.csproj",
+      "projectUniqueName": "/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/KKday.Web.B2D.EC.csproj",
       "projectName": "KKday.Web.B2D.EC",
-      "projectPath": "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/KKday.Web.B2D.EC.csproj",
-      "packagesPath": "/Users/caizhiliang/.nuget/packages/",
-      "outputPath": "/Users/caizhiliang/Documents/GitHub/erichu62/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj",
+      "projectPath": "/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/KKday.Web.B2D.EC.csproj",
+      "packagesPath": "/Users/phil/.nuget/packages/",
+      "outputPath": "/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/caizhiliang/.config/NuGet/NuGet.Config"
+        "/Users/phil/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
@@ -12719,7 +12714,7 @@
           },
           "StackExchange.Redis": {
             "target": "Package",
-            "version": "2.0.495"
+            "version": "2.0.513"
           },
           "Npgsql": {
             "target": "Package",

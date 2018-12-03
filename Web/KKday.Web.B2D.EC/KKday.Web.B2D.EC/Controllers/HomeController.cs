@@ -4,55 +4,56 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using KKday.SearchProd.Models;
+//using KKday.API.WMS.Models.DataModel.Product;
+using KKday.SearchProd.Models.Model;
+using KKday.SearchProd.Models.Repostory;
 using KKday.Web.B2D.EC.Models;
+using KKday.Web.B2D.EC.AppCode;
 using KKday.Web.B2D.EC.Models.Model.Booking;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Linq;
 using KKday.Web.B2D.EC.Models.Repostory.Booking;
-using Microsoft.Extensions.Caching.Memory;
-using KKday.Web.B2D.EC.Models.Model.Pmch;
+using KKday.Web.B2D.EC.Models.Model.Product;
+using Newtonsoft.Json;
+using Microsoft.AspNetCore.Authorization;
+using KKday.Web.B2D.EC.Models.Repostory.Account;
+using KKday.Web.B2D.EC.Models.Model.Account;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using KKday.Web.B2D.EC.Models.Repostory.Common;
 
-namespace KKday.Web.B2D.EC.Controllers
+namespace KKday.SearchProd.Controllers
 {
+    [Authorize(Policy="UserOnly")]
     public class HomeController : Controller
     {
-        private static IMemoryCache _memoryCache;
+        ICompositeViewEngine ViewEngine;
+        private static IRedisHelper RedisHelper;
 
-        public HomeController(IMemoryCache memoryCache)
+        public HomeController(ICompositeViewEngine viewEngine, IRedisHelper _redisHelper)
         {
-            _memoryCache = memoryCache;
+            ViewEngine = viewEngine;
+            RedisHelper = _redisHelper;
         }
-
 
         public IActionResult Index()
         {
-            var dd = Request.HttpContext.Connection.RemoteIpAddress;
+            //假分銷商
+            //distributorInfo fakeContact = DataSettingRepostory.fakeContact();
 
-            //string dd = GibberishAES.OpenSSLEncrypt("4093240835103617", "card%no$kk#@");
+            //B2d分銷商資料
+            var aesUserData = User.FindFirst(ClaimTypes.UserData).Value;
+            var UserData = JsonConvert.DeserializeObject<B2dAccount>(AesCryptHelper.aesDecryptBase64(aesUserData, Website.Instance.AesCryptKey));
+            //取得可售商品之國家&城市
+            string locale = UserData.LOCALE;
+            var countries = CountryRepostory.GetCountries(locale);
+            //取挖字
+            Dictionary<string, string> uikey = CommonRepostory.getuiKey(RedisHelper, UserData.LOCALE); //fakeContact.lang, UserData.LOCALE
+            ProdTitleModel title = JsonConvert.DeserializeObject<ProdTitleModel>(JsonConvert.SerializeObject(uikey));
 
-            //string dd = GibberishAES.OpenSSLDecrypt("U2FsdGVkX18unCee5VKYXzSO56iLi3inWiLxOoZGLEY=","pmgw@%#@trans*no");
 
-            //PmchSslReq pmch = new PmchSslReq();
+            ViewData["prodTitle"] = title;
 
-            //pmch.isSuccess = true;
-            //pmch.errorCode = "";
-            //pmch.errorMsg = "";
-            //pmch.pmgwTransNo = "PMGW000000000";
-            //pmch.pmgwMethod = "AUTH";
-            //pmch.transactionCode = "76767";
-            //pmch.payCurrency = "TWD";
-            //pmch.payAmount = 210;
-            //pmch.is3D = false;
-            //PmchSslMemberInfo mem = new PmchSslMemberInfo();
-            //mem.encodeCardNo = "3337";
-            //pmch.memberInfo = mem;
-            //pmch.isFraud = "0";
-            //pmch.riskNote = "";
-
-            //string d = JsonConvert.SerializeObject(pmch);
-
-            return View();
+            return View(countries);
         }
 
         public IActionResult About()
@@ -80,5 +81,4 @@ namespace KKday.Web.B2D.EC.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
     }
-
 }
