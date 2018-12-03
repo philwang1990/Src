@@ -292,8 +292,9 @@ namespace KKday.API.WMS.Controllers {
                     return bookingRS;
                 }
 
-                if (pkgPrice.discount_rule.isRule == true) //  currPriceTotal 要換成直客價 不然order new 會有問題
-                    data.currPriceTotal = b2cAmt;
+                //if (pkgPrice.discount_rule.isRule == true) //  currPriceTotal 要換成直客價 不然order new 會有問題
+                //data.currPriceTotal = b2cAmt;
+                data.currPriceTotal = b2cAmt; // currPriceTotal 要換成直客價 不然order new 會有問題
 
 
                 //重新決定排除的餐食-還沒有做
