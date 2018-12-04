@@ -17,4 +17,10 @@
     <PackageReference Include="log4net.Ext.Json" Version="2.0.8.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AppCode\新增資料夾\AbstractComparer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\..\..\Downloads\ObjectsComparer-master\ObjectsComparer\ObjectsComparer\ObjectsComparer.csproj" />
+  </ItemGroup>
 </Project>
