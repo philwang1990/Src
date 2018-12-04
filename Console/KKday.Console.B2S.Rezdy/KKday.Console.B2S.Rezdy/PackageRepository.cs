@@ -21,6 +21,8 @@ namespace KKday.Consoles.B2S.Rezdy.PackageRepository
                 //RezdyPackageModel
 
                 RezdyPackageModel obj = JsonConvert.DeserializeObject<RezdyPackageModel>(get);
+
+
             }
             catch (Exception ex)
             {
