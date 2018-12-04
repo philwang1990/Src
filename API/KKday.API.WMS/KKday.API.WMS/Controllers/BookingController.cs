@@ -288,7 +288,7 @@ namespace KKday.API.WMS.Controllers {
                 {
                     Website.Instance.logger.Debug($"currPriceTotal:error");//要改
                     bookingRS.result = "10001";
-                    bookingRS.result_msg = "金額有誤"; //要改
+                    bookingRS.result_msg = "金額有誤："+ data.currPriceTotal ; //要改
                     return bookingRS;
                 }
 
@@ -391,8 +391,8 @@ namespace KKday.API.WMS.Controllers {
                 else 
                 {
                     Website.Instance.logger.Debug($"bookingStep1:error");//要改
-                    bookingRS.result = "10001";
-                    bookingRS.result_msg = order.ToString(); //要改
+                    bookingRS.result = order["content"]["result"].ToString();
+                    bookingRS.result_msg = order["content"]["msg"].ToString(); //要改
                     return bookingRS;
                 }
 
