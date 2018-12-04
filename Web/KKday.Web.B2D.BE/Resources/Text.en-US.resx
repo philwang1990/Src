@@ -82,10 +82,12 @@
     <!-- Genernel -->
     <data name="KKday_CopyRight" xml:space="preserve"><value>KKday Business to Distribution Platform</value></data>
     <data name="Add" xml:space="preserve"><value>Add</value></data>
+    <data name="Back" xml:space="preserve"><value>Back</value></data>
     <data name="Insert" xml:space="preserve"><value>Insert</value></data>
     <data name="Update" xml:space="preserve"><value>Update</value></data>
     <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
     <data name="Edit" xml:space="preserve"><value>Edit</value></data>
+    <data name="Save" xml:space="preserve"><value>Save</value></data>
     <data name="Delete" xml:space="preserve"><value>Delete</value></data>
     <data name="ID" xml:space="preserve"><value>ID</value></data>
     <data name="Name" xml:space="preserve"><value>Name</value></data>
@@ -129,6 +131,7 @@
     <data name="Currency" xml:space="preserve"><value>Currency</value></data>
     <data name="Locale" xml:space="preserve"><value>Locale</value></data>
     <data name="OnlyTaiwan" xml:space="preserve"><value>Taiwan Only</value></data>
+    <data name="CacheTime" xml:space="preserve"><value>Cache Time(min)</value></data>
     
     <!-- Search -->
     <data name="Search_Name" xml:space="preserve"><value>Please enter your username</value></data>

@@ -161,6 +161,12 @@ namespace KKday.Web.B2D.BE.Resources {
             }
         }
         
+        internal static string Back {
+            get {
+                return ResourceManager.GetString("Back", resourceCulture);
+            }
+        }
+        
         internal static string Insert {
             get {
                 return ResourceManager.GetString("Insert", resourceCulture);
@@ -182,6 +188,12 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        internal static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
             }
         }
         
@@ -434,6 +446,12 @@ namespace KKday.Web.B2D.BE.Resources {
         internal static string OnlyTaiwan {
             get {
                 return ResourceManager.GetString("OnlyTaiwan", resourceCulture);
+            }
+        }
+        
+        internal static string CacheTime {
+            get {
+                return ResourceManager.GetString("CacheTime", resourceCulture);
             }
         }
         

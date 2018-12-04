@@ -8,7 +8,7 @@ namespace KKday.Web.B2D.BE.AppCode.DAL.Voucher
 {
     public class VoucherAddonDAL
     {
-        // 取得折扣主規則
+        // 取得
         public static B2dVoucherAddon GetVoucherAddon(Int64 comp_xid)
         {
             try
@@ -29,10 +29,10 @@ WHERE company_xid=:company_xid";
                     XID = dr.ToInt64("xid"),
                     COMPANY_XID = dr.ToInt64("company_xid"),
                     COMPANY_NAME = dr.ToStringEx("company_name"),
-                    EMAIL = dr.ToStringEx("email"),
-                    LOGO_URL = dr.ToStringEx("logo_url"),
-                    TEL = dr.ToStringEx("tel"),
-                    ADDRESS = dr.ToStringEx("address") 
+                    EMAIL = dr.ToStringEx("company_email"),
+                    LOGO_URL = dr.ToStringEx("company_logo_url"),
+                    TEL = dr.ToStringEx("company_tel"),
+                    ADDRESS = dr.ToStringEx("company_address") 
                 };
 
                 return vouchAddon;
@@ -49,16 +49,16 @@ WHERE company_xid=:company_xid";
         {
             try
             {
-                string sqlStmt = @"UPDATE b2b.b2d_voucher_addon SET email=:email, tel=:tel, 
- company_name=:company_name, address=:address, upd_user=:upd_user, upd_datetime=now()
+                string sqlStmt = @"UPDATE b2b.b2d_voucher_addon SET company_email=:company_email, company_tel=:company_tel, 
+ company_name=:company_name, company_address=:company_address, upd_user=:upd_user, upd_datetime=now()
 WHERE company_xid=:company_xid";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
                     new NpgsqlParameter("company_xid", addon.COMPANY_XID),
-                    new NpgsqlParameter("email", (object)addon.EMAIL ?? DBNull.Value),
-                    new NpgsqlParameter("tel", (object)addon.TEL ?? DBNull.Value),
+                    new NpgsqlParameter("company_email", (object)addon.EMAIL ?? DBNull.Value),
+                    new NpgsqlParameter("company_tel", (object)addon.TEL ?? DBNull.Value),
                     new NpgsqlParameter("company_name", (object)addon.COMPANY_NAME ?? DBNull.Value),
-                    new NpgsqlParameter("address", (object)addon.ADDRESS ?? DBNull.Value),
+                    new NpgsqlParameter("company_address", (object)addon.ADDRESS ?? DBNull.Value),
                     new NpgsqlParameter("upd_user", upd_user)
                 };
 

@@ -17,7 +17,7 @@ else
 {
     <!--LIST-->
     <div class="table-responsive">
-    <table class="table table-striped">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>
@@ -35,26 +35,57 @@ else
             <tbody>
                 @foreach (var item in Model)
                 {
-                <tr>
-                    <td>
-                        <input type="checkbox">
-                    <td>@item.XID</td>
-                    </td>
-                    <td>
-                        <a href="javascript:AccountEdit(@item.XID);"> @item.NAME_LAST@item.NAME_FIRST </a>
-                    </td>
-                    <td>@item.EMAIL</td>
-                    <td>@(item.ENABLE ? localizer.Text.Enable : localizer.Text.Disable)</td>
-                    <td>@item.USER_TYPE_DESC</td>
-                    <td>@item.COMPANY_NAME #@item.COMPANY_XID</td>
-                    <td>
-                        <a href="#" class="btn btn-danger btn-icon" onclick="AccountClose(@item.XID);"><i class="fa fa-trash"></i></a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            <input type="checkbox">
+                        <td>@item.XID</td>
+                        </td>
+                        <td>
+                            <a href="javascript:AccountEdit(@item.XID);"> @item.NAME_LAST@item.NAME_FIRST </a>
+                        </td>
+                        <td>@item.EMAIL</td>
+                        <td>@(item.ENABLE ? localizer.Text.Enable : localizer.Text.Disable)</td>
+                        <td>@item.USER_TYPE_DESC</td>
+                        <td>@item.COMPANY_NAME #@item.COMPANY_XID</td>
+                        <td>
+                            <a href="#" class="btn btn-danger btn-icon" onclick="AccountClose(@item.XID);"><i class="fa fa-trash"></i></a>
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
     <!--LIST-->
 
+    <!--分頁-->
+    <ul class="pagination">
+        @if (query_params.Paging.total_pages > 1)
+        {
+            <li><a href="javascript:Refresh(1, false);"><i class="fa fa-angle-left"></i></a></li>
+        }
+
+        @if (query_params != null)
+        {
+            for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
+            {
+                var pgIdx = nIdx + 1;
+                if (pgIdx == query_params.Paging.current_page)
+                {
+                    <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+                }
+                else
+                {
+                    <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx, false);">@pgIdx</a></li>
+                }
+            }
+        }
+
+        @if (query_params.Paging.total_pages > 1)
+        {
+            <li>
+                <a href="javascript:Refresh(@query_params.Paging.total_pages, false);"><i class="fa fa-angle-right"></i></a>
+            </li>
+        }
+    </ul>
+    <!--分頁-->
 }

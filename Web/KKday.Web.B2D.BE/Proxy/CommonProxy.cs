@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Models.Model.Common;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Npgsql;
 
 namespace KKday.Web.B2D.BE.Commons
 {
@@ -209,5 +211,41 @@ namespace KKday.Web.B2D.BE.Commons
             }
 
         }
+
+        // 取得APItoken
+        public static GetTokenResponseModel GetApiToken(string account,string password)
+        {
+            HttpClient client = new HttpClient();
+            GetTokenResponseModel RS = new GetTokenResponseModel();
+
+            try
+            {
+                //IS4 application/ x - www - form - urlencoded 這個模式 抓取RQ
+                //FormUrlEncodedContent 方法，將其轉換成為具有 application/x-www-form-urlencoded 編碼表示格式。
+                client.DefaultRequestHeaders.Accept.Add(
+                   new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/x-www-form-urlencoded"));
+
+                //  方法一： 使用字串名稱用法
+                var formData = new FormUrlEncodedContent(new[] {
+                new KeyValuePair<string, string>("client_id", "KKDAY_B2D"),
+                new KeyValuePair<string, string>("client_secret", "secret"),
+                new KeyValuePair<string, string>("grant_type", "password"),
+                new KeyValuePair<string, string>("username", account),
+                new KeyValuePair<string, string>("password", password)
+            });
+
+            HttpResponseMessage response = client.PostAsync($"{Website.Instance.Configuration["WMS_API:URL:GetApiToken"]}", formData).Result;
+                RS = JsonConvert.DeserializeObject<GetTokenResponseModel>(response.Content.ReadAsStringAsync().Result);
+
+            }
+            catch (Exception ex)
+            {
+                Website.Instance.logger.FatalFormat($"getToke  Error :{ex.Message},{ex.StackTrace}");
+                throw ex;
+            }
+
+            return RS;
+        }
+
     }
 }
