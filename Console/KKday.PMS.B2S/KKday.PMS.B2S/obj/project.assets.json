@@ -315,6 +315,18 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "ObjectsComparer/1.2.1": {
+        "type": "package",
+        "dependencies": {
+          "System.Dynamic.Runtime": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/ObjectsComparer.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/ObjectsComparer.dll": {}
+        }
+      },
       "runtime.native.System/4.0.0": {
         "type": "package",
         "dependencies": {
@@ -1635,29 +1647,15 @@
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlDocument.dll": {}
         }
-      },
-      "ObjectsComparer/1.2.1": {
-        "type": "project",
-        "framework": ".NETStandard,Version=v2.0",
-        "dependencies": {
-          "System.Dynamic.Runtime": "4.3.0"
-        },
-        "compile": {
-          "bin/placeholder/ObjectsComparer.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/ObjectsComparer.dll": {}
-        }
       }
     }
   },
   "libraries": {
     "log4net/2.0.8": {
-      "sha512": "dwvu/YELc2nF5gjAnJMXJToYXVdK8Ma0BfLTEugMTM6l8kFysL9Np5LnwhUV6EKTkbRmVTa0/X1/8oSICcoHHw==",
+      "sha512": "N41MQGHZImiCfn0cUuSBjZxrcNfIQCuCgQP0rpgB3J/NWponEh3lc1LxJEuIsPAR9Oc1jVvfkNNFCY1C5hf9LA==",
       "type": "package",
       "path": "log4net/2.0.8",
       "files": [
-        ".signature.p7s",
         "lib/net20-full/log4net.dll",
         "lib/net20-full/log4net.xml",
         "lib/net35-client/log4net.dll",
@@ -2268,6 +2266,19 @@
         "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
         "newtonsoft.json.12.0.1.nupkg.sha512",
         "newtonsoft.json.nuspec"
+      ]
+    },
+    "ObjectsComparer/1.2.1": {
+      "sha512": "DpV8osvwkLQkgNKI80Q6g9GKhRNcUHMZCzHvrVXgMT64h0/rF+/o7xHSP85hSxCb9hG3oyTtrAX3RxLJQ0QGJw==",
+      "type": "package",
+      "path": "objectscomparer/1.2.1",
+      "files": [
+        ".signature.p7s",
+        "lib/net45/ObjectsComparer.dll",
+        "lib/netstandard1.6/ObjectsComparer.dll",
+        "lib/netstandard2.0/ObjectsComparer.dll",
+        "objectscomparer.1.2.1.nupkg.sha512",
+        "objectscomparer.nuspec"
       ]
     },
     "runtime.native.System/4.0.0": {
@@ -5756,11 +5767,6 @@
         "system.xml.xmldocument.4.0.1.nupkg.sha512",
         "system.xml.xmldocument.nuspec"
       ]
-    },
-    "ObjectsComparer/1.2.1": {
-      "type": "project",
-      "path": "../../../../../../../Downloads/ObjectsComparer-master/ObjectsComparer/ObjectsComparer/ObjectsComparer.csproj",
-      "msbuildProject": "../../../../../../../Downloads/ObjectsComparer-master/ObjectsComparer/ObjectsComparer/ObjectsComparer.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -5773,23 +5779,23 @@
     ]
   },
   "packageFolders": {
-    "/Users/caizhiliang/.nuget/packages/": {},
+    "/Users/cengshenghao/.nuget/packages/": {},
     "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/caizhiliang/Documents/GitHub/snowchoy/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/KKday.PMS.B2S.csproj",
+      "projectUniqueName": "/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/KKday.PMS.B2S.csproj",
       "projectName": "KKday.PMS.B2S",
-      "projectPath": "/Users/caizhiliang/Documents/GitHub/snowchoy/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/KKday.PMS.B2S.csproj",
-      "packagesPath": "/Users/caizhiliang/.nuget/packages/",
-      "outputPath": "/Users/caizhiliang/Documents/GitHub/snowchoy/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj",
+      "projectPath": "/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/KKday.PMS.B2S.csproj",
+      "packagesPath": "/Users/cengshenghao/.nuget/packages/",
+      "outputPath": "/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/caizhiliang/.config/NuGet/NuGet.Config"
+        "/Users/cengshenghao/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
@@ -5799,11 +5805,7 @@
       },
       "frameworks": {
         "netcoreapp2.1": {
-          "projectReferences": {
-            "/Users/caizhiliang/Downloads/ObjectsComparer-master/ObjectsComparer/ObjectsComparer/ObjectsComparer.csproj": {
-              "projectPath": "/Users/caizhiliang/Downloads/ObjectsComparer-master/ObjectsComparer/ObjectsComparer/ObjectsComparer.csproj"
-            }
-          }
+          "projectReferences": {}
         }
       },
       "warningProperties": {
@@ -5824,6 +5826,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[12.0.1, )"
+          },
+          "ObjectsComparer": {
+            "target": "Package",
+            "version": "[1.2.1, )"
           },
           "log4net": {
             "target": "Package",

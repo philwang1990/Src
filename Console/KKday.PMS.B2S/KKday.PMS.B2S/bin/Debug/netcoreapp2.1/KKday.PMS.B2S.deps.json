@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "d16637fb3c9d112ab8beaa51600213fe5bfe942d"
+    "signature": "a570233c1ded0433b0e2a990633a07d1089789dd"
   },
   "compilationOptions": {},
   "targets": {
@@ -95,6 +95,17 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
             "assemblyVersion": "12.0.0.0",
             "fileVersion": "12.0.1.22727"
+          }
+        }
+      },
+      "ObjectsComparer/1.2.1": {
+        "dependencies": {
+          "System.Dynamic.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ObjectsComparer.dll": {
+            "assemblyVersion": "1.2.1.0",
+            "fileVersion": "1.2.1.0"
           }
         }
       },
@@ -955,14 +966,6 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.0.11"
         }
-      },
-      "ObjectsComparer/1.2.1": {
-        "dependencies": {
-          "System.Dynamic.Runtime": "4.3.0"
-        },
-        "runtime": {
-          "ObjectsComparer.dll": {}
-        }
       }
     }
   },
@@ -975,7 +978,7 @@
     "log4net/2.0.8": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-dwvu/YELc2nF5gjAnJMXJToYXVdK8Ma0BfLTEugMTM6l8kFysL9Np5LnwhUV6EKTkbRmVTa0/X1/8oSICcoHHw==",
+      "sha512": "sha512-N41MQGHZImiCfn0cUuSBjZxrcNfIQCuCgQP0rpgB3J/NWponEh3lc1LxJEuIsPAR9Oc1jVvfkNNFCY1C5hf9LA==",
       "path": "log4net/2.0.8",
       "hashPath": "log4net.2.0.8.nupkg.sha512"
     },
@@ -1006,6 +1009,13 @@
       "sha512": "sha512-jmVyoEyk0In8r+AObYQyFKVFm7uSRzE0XSHSbEtBJcZDMV6DqJoyB4FLcHwprPVhAh826so0db3DIKXVnpGoPA==",
       "path": "newtonsoft.json/12.0.1",
       "hashPath": "newtonsoft.json.12.0.1.nupkg.sha512"
+    },
+    "ObjectsComparer/1.2.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-DpV8osvwkLQkgNKI80Q6g9GKhRNcUHMZCzHvrVXgMT64h0/rF+/o7xHSP85hSxCb9hG3oyTtrAX3RxLJQ0QGJw==",
+      "path": "objectscomparer/1.2.1",
+      "hashPath": "objectscomparer.1.2.1.nupkg.sha512"
     },
     "runtime.native.System/4.0.0": {
       "type": "package",
@@ -1503,11 +1513,6 @@
       "sha512": "sha512-2eZu6IP+etFVBBFUFzw2w6J21DqIN5eL9Y8r8JfJWUmV28Z5P0SNU01oCisVHQgHsDhHPnmq2s1hJrJCFZWloQ==",
       "path": "system.xml.xmldocument/4.0.1",
       "hashPath": "system.xml.xmldocument.4.0.1.nupkg.sha512"
-    },
-    "ObjectsComparer/1.2.1": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
     }
   }
 }
