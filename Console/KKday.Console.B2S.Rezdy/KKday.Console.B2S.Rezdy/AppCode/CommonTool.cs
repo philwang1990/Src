@@ -66,7 +66,4 @@ namespace KKday.Consoles.B2S.Rezdy.AppCode
             }
         }
     }
-
-
-
 }
