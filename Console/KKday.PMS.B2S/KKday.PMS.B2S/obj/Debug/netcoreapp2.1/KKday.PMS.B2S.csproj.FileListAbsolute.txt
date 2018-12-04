@@ -25,3 +25,14 @@
 /Users/caizhiliang/Documents/GitHub/snowchoy/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.csproj.CopyComplete
 /Users/caizhiliang/Documents/GitHub/snowchoy/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.dll
 /Users/caizhiliang/Documents/GitHub/snowchoy/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.pdb
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.csproj.CoreCompileInputs.cache
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.AssemblyInfoInputs.cache
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.AssemblyInfo.cs
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/bin/Debug/netcoreapp2.1/KKday.PMS.B2S.deps.json
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/bin/Debug/netcoreapp2.1/KKday.PMS.B2S.runtimeconfig.json
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/bin/Debug/netcoreapp2.1/KKday.PMS.B2S.runtimeconfig.dev.json
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/bin/Debug/netcoreapp2.1/KKday.PMS.B2S.dll
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/bin/Debug/netcoreapp2.1/KKday.PMS.B2S.pdb
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.csprojAssemblyReference.cache
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.dll
+/Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/obj/Debug/netcoreapp2.1/KKday.PMS.B2S.pdb
