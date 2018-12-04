@@ -181,7 +181,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
         // 修改子帳號資料與主帳號共用
         // 更改使用者密碼
         [HttpPost]
-        public IActionResult UpdatePassword(string mail, string password)
+        public IActionResult UpdatePassword(string uuid, string password)
         {
             Contract.Ensures(Contract.Result<IActionResult>() != null);
             Dictionary<string, string> jsonData = new Dictionary<string, string>();
@@ -196,7 +196,7 @@ namespace KKday.Web.B2D.BE.Areas.User.Views
 
                 var services = HttpContext.RequestServices.GetServices<IB2dAccountRepository>();
                 var accountRepo = services.First(o => o.GetType() == typeof(B2dAccountRepository));
-                accountRepo.SetNewPassword(mail, password);
+                accountRepo.SetNewPassword(uuid, password);
 
                 jsonData.Add("status", "OK");
             }

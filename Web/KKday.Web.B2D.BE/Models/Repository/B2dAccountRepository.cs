@@ -201,11 +201,11 @@ namespace KKday.Web.B2D.BE.Models.Repository
 
         #endregion Fields Mapping
 
-        public bool SetNewPassword(string account, string password)
+        public bool SetNewPassword(string uuid, string password)
         {
             try
             {
-                AccountDAL.UpdatePassword(account, password);
+                AccountDAL.UpdatePassword(uuid, password);
                 return true;
             }
             catch (Exception ex)
