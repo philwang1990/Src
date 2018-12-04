@@ -18,11 +18,26 @@ namespace KKday.Consoles.B2S.Rezdy
         {
             try
             {
-                //product.Main();
-                package.Main();
-
                 //initial log4net
                 CommonTool.LoadLog4netConfig();
+
+                var accounts = new[] { new { id = 1, name = "thisisname" } };
+                var suppliers = new[] { new { id = 1, suppliername = "rezdy" } };
+
+                foreach (var account in accounts)
+                {
+                    foreach (var supplier in suppliers)
+                    {
+                        //商品明細
+                        product.Main();
+
+                        //套餐
+                        package.Main();
+
+                        //旅規
+                        module.Main();
+                    }
+                }
 
                 Console.WriteLine("Done!");
             }
