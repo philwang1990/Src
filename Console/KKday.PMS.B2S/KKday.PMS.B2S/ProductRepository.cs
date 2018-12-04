@@ -22,6 +22,9 @@ namespace KKday.PMS.B2S.ProductRepository
 
                 RezdyProductModel obj = JsonConvert.DeserializeObject<RezdyProductModel>(get);
 
+                SCMProductModel obj2 = new SCMProductModel();
+                obj2.json.deviceId = "1";
+
                 //do something
             }
             catch (Exception ex)
