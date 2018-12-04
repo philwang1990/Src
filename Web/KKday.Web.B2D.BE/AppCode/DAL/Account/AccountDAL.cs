@@ -334,7 +334,7 @@ WHERE xid=:xid";
         }
 
         // 更改密碼
-        public static void UpdatePassword(string email, string psw)
+        public static void UpdatePassword(string uuid, string psw)
         {
             try
             {
@@ -344,10 +344,10 @@ WHERE xid=:xid";
                 var chiperPasswod = Convert.ToBase64String(crypto);//把加密後的字串從Byte[]轉為字串
 
                 string sqlStmt = @"UPDATE b2b.b2d_account SET password=:password
-WHERE LOWER(email)=LOWER(:email) ";
+WHERE user_uuid=:user_uuid ";
 
                 NpgsqlParameter[] sqlParams = new NpgsqlParameter[] {
-                    new NpgsqlParameter("email", email),
+                    new NpgsqlParameter("user_uuid", uuid),
                     new NpgsqlParameter("password", chiperPasswod)
                 };
 
