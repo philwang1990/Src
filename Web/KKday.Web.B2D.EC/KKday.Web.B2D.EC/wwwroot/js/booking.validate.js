@@ -67,10 +67,22 @@ $.validator.addMethod("contactlName", function (value, element) {
 }, $("#booking_step1_english_error").val());
 
 
+$.validator.addMethod("payCardNumber", function (value, element) {
+           if($("#txtPayCardNum").is(":visible")==true)
+           {
+             if ( value.replace(" ","").replace(" ","").replace(" ","").match(/^([0-9]){16}$/))
+              {return true;}else{
+              return false; }
+           }
+           else
+           {
+             return true;
+           }
+          }, $("#booking_step1_length_error_1").val()+"16"+ $("#booking_step1_length_error_2").val());
+
 
 function initModule2()
 {
-
     $("#form1").validate({
         rules: {
             txtLocalFname: "required",
@@ -103,11 +115,17 @@ function ReParseValidation() {
 }
 
 
-function chkValid()
+function chkValid(e)
 {
+   $(e).prop('disabled', true);
+
    $("#board1").removeClass("active").addClass("active");
    $("#board2").removeClass("active").addClass("active");
    $("#board3").removeClass("active").addClass("active");
+
+   var payRadio= $('input:radio[name="payment"]:checked').val();
+   if(payRadio==null){  $(e).prop('disabled', false); return false; }
+
 
    ReParseValidation();
    formVaildate();
@@ -129,12 +147,21 @@ function chkValid()
          {
             chkchk=false; 
          }
-       
+    });
+
+  $(".payFormClass").each(function () {
+   
+         var id =$(this).attr("id");
+         if($("#"+id).valid()==false) 
+         {
+            chkchk=false; 
+         }
     });
 
    if(chkchk==false) 
    {
-     return false;
+       $(e).prop('disabled', false);
+       return false;
    }
 
   setdataModel();
@@ -145,7 +172,6 @@ function chkValid()
 //booking step1
 function toStep1() {
 
-    alert("test");
     var jqxhr = $.ajax({
         type: "POST",
         url: _root_path + "Booking/bookingStep1/",
@@ -156,31 +182,25 @@ function toStep1() {
         async: true,
         //timeout: 60000,
         error: function (jqXHR, textStatus, errorThrown) {
-            alert('要改');
+                 location.href =_root_path + "Final/Failure/"
         },
         success: function (result) {if(result.status=="OK"){
-
-               console.log(result.pmchSslRequest);
-               sendPayment(result.pmchSslRequest);
+               sendPayment(result.pmchSslRequest,result.url);
  
             } else{
-                 alert(result.msgErr);
+                 alert("booking-err:"+result.msgErr);
+                 location.href =_root_path + "Home/"
             };
-             
         },
         complete: function () {
-             
-
         }
     });
 }
 
-function sendPayment(callPmchReq)
+function sendPayment(callPmchReq,url)
 {
-    //https://pmch.sit.kkday.com/citi/payment/auth
-    //https://payment.kkday.com/v1/channel/adyen/auth
     var newForm = $('<form>', {
-                       'action': "https://payment.sit.kkday.com/v1/channel/citi/auth",
+                       'action': url,
                        'target': '_self',
                        'method': 'post'
                    }).append(jQuery('<input>', {
@@ -228,8 +248,6 @@ function formVaildate()
                     selShoeSizeW: {required : $("#selShoeSizeW_"+i).is(":visible")==true},
                     selShoeSizeC: {required : $("#selShoeSizeC_"+i).is(":visible")==true},
                     selGlass: {required : $("#selGlass_"+i).is(":visible")==true}
-
- 
                 },
                 messages: {
                     txtEngLast: {required : $("#booking_step1_required_error").val()},
@@ -258,19 +276,29 @@ function formVaildate()
                     selGlass :{required : $("#booking_step1_required_error").val()},
                     selMealType:{required : $("#booking_step1_required_error").val()}
                     },
-                errorClass: "error_msg"
+                errorClass: "has-error",
+                errorPlacement: function(error, element) { 
+                  if($(element).attr("name")=="txtBirtyday" || $(element).attr("name")=="txtPassDate")
+                  {
+                    error.appendTo(element.parent().parent());  
+                  }
+                  else
+                  {
+                     error.appendTo(element.parent());  
+                  }
+               }
+               
             });
         });
 
 
      $(".otherFormClass").each(function () {
-     
+    
           $(this).validate({
                 rules: {
                     txtOtherModleNo: {required : $("#txtOtherActDate").is(":visible")==true},
                     txtOtherImei:  { othImei :true ,required : $("#txtOtherImei").is(":visible")==true },
                     selOtherLocation :{required : $("#selOtherLocation").is(":visible")==true},
-                    
                     txtSendDataRcefName :{required : $("#txtSendDataRcefName").is(":visible")==true},
                     txtSendDataRcelName :{required : $("#txtSendDataRcelName").is(":visible")==true},
                     selSendDataCountryCode :{required : $("#selSendDataCountryCode").is(":visible")==true},
@@ -288,7 +316,6 @@ function formVaildate()
                     txtSendDataBookingOrdNo :{required : $("#txtSendDataBookingOrdNo").is(":visible")==true},
                     txtSendDataChkinDate :{required : $("#txtSendDataChkinDate").is(":visible")==true},
                     txtSendDataChkoutDate :{required : $("#txtSendDataChkoutDate").is(":visible")==true},
-
                     txtContactfName :{contactfName: true,required : $("#txtContactfName").is(":visible")==true},
                     txtContactlName :{contactfName:true,required : $("#txtContactlName").is(":visible")==true},
                     contact_phone :{required : $("#rdoContactPhone1").is(":visible")==true},
@@ -296,11 +323,8 @@ function formVaildate()
                     contact_app :{required : $("#rdoContactApp1").is(":visible")==true},
                     selContactApp :{required : $("#selContactApp").is(":visible")==true},
                     txtContactAppAccount :{required : $("#txtContactAppAccount").is(":visible")==true},
-
                     selGuide :{required : $("#selGuide").is(":visible")==true},
-
                     selRentCarPickupOfiice :{required : $("#selRentCarPickupOfiice").is(":visible")==true},
-                    txtRendCarPickUpDate :{required : $("#txtRendCarPickUpDate").is(":visible")==true},
                     selRentCarPickUpHour :{required : $("#selRentCarPickUpHour").is(":visible")==true},
                     selRentCarPickUpMinute :{required : $("#selRentCarPickUpMinute").is(":visible")==true},
                     rentCarwifi :{required : $("#rdoGpsTrue").is(":visible")==true},
@@ -309,7 +333,6 @@ function formVaildate()
                     txtRendCarPickUpDate :{required : $("#txtRendCarPickUpDate").is(":visible")==true},
                     selRentCarPickUpHour :{required : $("#selRentCarPickUpHour").is(":visible")==true},
                     selRentCarPickUpMinute :{required : $("#selRentCarPickUpMinute").is(":visible")==true},
-                    
                     txtShttleDate:{required : $("#txtShttleDate").is(":visible")==true},
                     selShuttlePickUpTime:{required : $("#selShuttlePickUpTime").is(":visible")==true},
                     selShuttleCusHour:{required : $("#selShuttleCusHour").is(":visible")==true},
@@ -318,7 +341,6 @@ function formVaildate()
                     txtShuttleDropOffLocation:{required : $("#txtShuttleDropOffLocation").is(":visible")==true},
                     selShuttleLocationId:{required : $("#txtShttleDate").is(":visible")==true},
                     selShuttleCharterRoute:{required : $("#selShuttleCharterRoute").is(":visible")==true},
-
                     selArrFlightType:{required : $("#selArrFlightType").is(":visible")==true},
                     selArrAirport:{required : $("#selArrAirport").is(":visible")==true},
                     txtArrTerminalNo:{required : $("#txtArrTerminalNo").is(":visible")==true},
@@ -362,7 +384,6 @@ function formVaildate()
                     txtSendDataBookingOrdNo :{required : $("#booking_step1_required_error").val()},
                     txtSendDataChkinDate :{required : $("#booking_step1_required_error").val()},
                     txtSendDataChkoutDate :{required : $("#booking_step1_required_error").val()},
-
                     txtContactfName :{required : $("#booking_step1_required_error").val()},
                     txtContactlName :{required : $("#booking_step1_required_error").val()},
                     contact_phone:{required : $("#booking_step1_required_error").val()},
@@ -370,11 +391,8 @@ function formVaildate()
                     contact_app:{required : $("#booking_step1_required_error").val()},
                     selContactApp:{required : $("#booking_step1_required_error").val()},
                     txtContactAppAccount:{required : $("#booking_step1_required_error").val()},
-
                     selGuide :{required : $("#booking_step1_required_error").val()},
-
                     selRentCarPickupOfiice :{required : $("#booking_step1_required_error").val()},
-                    txtRendCarPickUpDate :{required : $("#booking_step1_required_error").val()},
                     selRentCarPickUpHour :{required : $("#booking_step1_required_error").val()},
                     selRentCarPickUpMinute :{required : $("#booking_step1_required_error").val()},
                     rentCarwifi :{required : $("#booking_step1_required_error").val()},
@@ -383,7 +401,6 @@ function formVaildate()
                     txtRendCarPickUpDate :{required : $("#booking_step1_required_error").val()},
                     selRentCarPickUpHour :{required : $("#booking_step1_required_error").val()},
                     selRentCarPickUpMinute :{required : $("#booking_step1_required_error").val()},
-
                     txtShttleDate :{required : $("#booking_step1_required_error").val()},
                     selShuttlePickUpTime :{required : $("#booking_step1_required_error").val()},
                     selShuttleCusHour :{required : $("#booking_step1_required_error").val()},
@@ -392,7 +409,6 @@ function formVaildate()
                     txtShuttleDropOffLocation :{required : $("#booking_step1_required_error").val()},
                     selShuttleLocationId:{required : $("#booking_step1_required_error").val()},
                     selShuttleCharterRoute:{required : $("#booking_step1_required_error").val()},
-
                     selArrFlightType:{required : $("#booking_step1_required_error").val()},
                     selArrAirport:{required : $("#booking_step1_required_error").val()},
                     txtArrTerminalNo:{required : $("#booking_step1_required_error").val()},
@@ -415,7 +431,42 @@ function formVaildate()
                     selEvent3 :{required : $("#booking_step1_required_error").val()}
 
                     },
-                errorClass: "error_msg"
+                errorClass: "has-error",
+                errorPlacement: function(error, element) {  
+                  if($(element).attr("name")=="txtSendDataChkinDate" || 
+                     $(element).attr("name")=="txtSendDataChkoutDate" ||
+                     $(element).attr("name")=="txtShttleDate" ||    
+                     $(element).attr("name")=="txtRendCarPickUpDate" ||
+                     $(element).attr("name")=="txtArrDate" ||
+                     $(element).attr("name")=="txtSendDataChkoutDate" )
+                  {
+                    error.appendTo(element.parent().parent());  
+                  }
+                  else
+                  {
+                     error.appendTo(element.parent());  
+                  }
+               }
+            });
+     });
+
+
+    $(".payFormClass").each(function () {
+     
+          $(this).validate({
+                rules: {
+                    txtPayHolderName: {required : $("#txtPayHolderName").is(":visible")==true},
+                    txtPayCardNum:  { payCardNumber :true ,required : $("#txtPayCardNum").is(":visible")==true },
+                    txtPayExpireDate :{required : $("#txtPayExpireDate").is(":visible")==true},
+                    txtPayCvc :{required : $("#txtPayCvc").is(":visible")==true}
+               },
+                messages: {
+                    txtPayHolderName: $("#booking_step1_required_error").val(),
+                    txtPayCardNum: {required:$("#booking_step1_required_error").val()} ,
+                    txtPayExpireDate :{required : $("#booking_step1_required_error").val()},
+                    txtPayCvc :{required : $("#booking_step1_required_error").val()}
+                    },
+                errorClass: "has-error"
             });
         });
         

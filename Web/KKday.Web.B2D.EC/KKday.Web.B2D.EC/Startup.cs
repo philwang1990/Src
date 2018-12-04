@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using KKday.Web.B2D.EC.AppCode;
+using KKday.Web.B2D.EC.Models.Repostory.Account;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,9 +37,36 @@ namespace KKday.Web.B2D.EC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // 新增 Cookie 驗證服務
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.Cookie.Name = ".B2D.User.SharedCookie";
+                    options.LoginPath = "/Login/";
+                    // options.Cookie.Domain = "kkday.com";
+
+                    options.Events.OnValidatePrincipal = (context) =>
+                    {
+                        return Task.CompletedTask;
+                    };
+
+                });
+
+            // 指定Cookie授權政策區分不同身分者
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("KKdayOnly", policy => policy.RequireClaim("UserType", "KKDAY"));
+                options.AddPolicy("UserOnly", policy => policy.RequireClaim("UserType", "USER", "ADMIN"));
+            });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IRedisHelper, RedisHelper>();
+            services.AddSingleton<AccountRepository>();  //
+
             services.AddMemoryCache();
             services.AddSession();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1).AddSessionStateTempDataProvider();
+
 
         }
 
@@ -52,13 +83,16 @@ namespace KKday.Web.B2D.EC
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            //當用戶輸入的網址找不到時↓
+            //app.UseStatusCodePagesWithRedirects("~/404.html"); //或直接給http開頭的絕對URL
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
             app.UseSession();
 
-
+            // 啟用 Cookie 使用者驗證
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

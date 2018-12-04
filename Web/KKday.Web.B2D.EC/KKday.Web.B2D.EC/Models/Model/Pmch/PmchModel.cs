@@ -32,6 +32,48 @@ namespace KKday.Web.B2D.EC.Models.Model.Pmch
     #endregion
 
 
+    #region pmchlist回傳值
+
+    public class PmchLstResponse
+    {
+        public Boolean isSuccess { get; set; }
+        public List<Pmgw> pmchlist { get; set; }
+    }
+
+    public class Pmgw
+    {
+        public string pmchOid { get; set; }
+        public string pmchCode { get; set; }
+        public string pmchPayURL { get; set; }
+        public string is3D { get; set; }
+        public string acctdocReceiveMethod { get; set; }
+        public string version { get; set; }
+        public InterfaceSetting2 interfaceSetting { get; set; }
+    }
+
+    public class InterfaceSetting2
+    {
+        public string isNeedCardInput { get; set; }
+        public List<LogoList2> logoList { get; set; }
+        public List<string>acceptedCardTypeList { get; set; }
+        public string acceptedCurrency { get; set; }
+        public List<string> otherInfoList { get; set; }
+    }
+
+    public class LogoList2
+    {
+        public string logoName { get; set; }
+        public string logoUrl { get; set; }
+        public List<string> AcceptedCardTypeList { get;set; }
+    }
+
+
+
+
+
+    #endregion 
+
+
     public class PmchSslRequest
     {
         public string apiKey { get; set; }
@@ -214,6 +256,12 @@ namespace KKday.Web.B2D.EC.Models.Model.Pmch
     }
 
 
+    public class PmchValid
+    {
+        public string mid { get; set; }
+        public PmchSslResponse2 jsondata { get; set; }
+
+    }
 
     public class PmchSslResponse2
     {

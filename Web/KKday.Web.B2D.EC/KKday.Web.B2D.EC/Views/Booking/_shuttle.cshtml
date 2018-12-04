@@ -30,7 +30,7 @@
                     <div class="form-group">
                         <label>@prodTitle.booking_step1_shuttle_data_shuttle_date</label>
                         <div class="input-group date" id='datepickerShuttleDate'>
-                            <input type="text"  value="@useDate" class="form-control" id="txtShttleDate" name="txtShuttleDate" placeholder="@prodTitle.booking_step1_shuttle_data_shuttle_date_placeholder" readonly="readonly" disabled="disabled" />
+                            <input type="text"  value="@useDate" class="form-control date-info2" id="txtShttleDate" name="txtShuttleDate" placeholder="@prodTitle.booking_step1_shuttle_data_shuttle_date_placeholder" readonly="readonly" disabled="disabled" />
                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                         </div>
                     </div>
@@ -67,31 +67,30 @@
                                 </select>
                                </div>
                             </div>
+                           @if (venue.designated_by_customer !=null)
+                            {
+                              @if (venue.designated_by_customer.pick_up.time.custom.is_allow == true)
+                               {
+                                 <!--旅客自行輸入接駁時間-->
+                                @Html.Hidden("hdnShuttle_CustomTime", venue.designated_by_customer.pick_up.time.custom.time_range_start + "%" + venue.designated_by_customer.pick_up.time.custom.time_range_end)
+                                <div class="col-sm-6 col-xs-12  shuttleCustomTime">
+                                  <div class="time-select">
+                                    <div class="form-group">
+                                     <select class="form-control " id="selShuttleCusHour" name="selShuttleCusHour" onchange="chgCustomHour(this)">
+                                     </select>
+                                    </div>
+                                    <span class="time-gap">@prodTitle.common_hr</span>
+                                    <div class="form-group">
+                                    <select class="form-control " id="selShuttleCusMinute" name="selShuttleCusMinute">
+                                    </select>
+                                    </div>
+                                   <span class="time-gap">@prodTitle.common_min</span>
+                                 </div>
+                                </div>
+                               }
+                            }
                        </div>
                     }
-
-                    @if (venue.designated_by_customer !=null)
-                    {
-                        @if (venue.designated_by_customer.pick_up.time.custom.is_allow == true)
-                        {
-                          <!--旅客自行輸入接駁時間-->
-                        @Html.Hidden("hdnShuttle_CustomTime", venue.designated_by_customer.pick_up.time.custom.time_range_start + "%" + venue.designated_by_customer.pick_up.time.custom.time_range_end)
-                        <div class="col-sm-6 col-xs-12  shuttleCustomTime">
-                            <div class="time-select">
-                                <div class="form-group">
-                                 <select class="form-control " id="selShuttleCusHour" name="selShuttleCusHour" onchange="chgCustomHour(this)">
-                                 </select>
-                                </div>
-                                <span class="time-gap">@prodTitle.common_hr</span>
-                                <div class="form-group">
-                                <select class="form-control " id="selShuttleCusMinute" name="selShuttleCusMinute">
-                                </select>
-                                </div>
-                               <span class="time-gap">@prodTitle.common_min</span>
-                            </div>
-                        </div>
-                        }
-                     }
                    </div>
                 </div>
               </div>

@@ -1,8 +1,4 @@
-﻿
-
-
-
-function initModule()
+﻿function initModule()
 {
     //javascript obj;
     dataModel = JSON.parse($("#hdndataModelStr").val());
@@ -12,7 +8,6 @@ function initModule()
     DateSetting();
     
 }
-
 
 function DateSetting()
 {
@@ -45,12 +40,8 @@ function DateSetting()
     });
    });
     
-    //暫時預設日期
-    ///$("[id^=txtBirtyday_]").datepicker({ 
-       //  format: 'yyyymmdd'
-    //});
 
-    $("[id^=txtPassDate_]").daterangepicker({ 
+    $(".date-info1").daterangepicker({ 
          autoUpdateInput: false,
          singleDatePicker: true,
          showDropdowns: true,
@@ -59,27 +50,14 @@ function DateSetting()
          },
     });
 
-    $("[id^=txtPassDate_]").on('apply.daterangepicker', function(ev, picker) { 
+    $(".date-info1").on('apply.daterangepicker', function(ev, picker) { 
         $(this).val(picker.startDate.format('YYYY-MM-DD'));
     });
-
-    //other
-    $("#txtOtherActDate").daterangepicker({
-         autoUpdateInput: false,
-         singleDatePicker: true,
-         showDropdowns: true,
-         locale: {
-            format: 'YYYY-MM-DD'
-         },
-    });
-
-    $("#txtOtherActDate").on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-    });
+   
 
     var cutOfDay =$("#hdnCutOfDay").val();
     //send
-    $("#txtSendDataChkinDate").daterangepicker({ 
+    $(".date-info2").daterangepicker({ 
          autoUpdateInput: false,
          singleDatePicker: true,
          showDropdowns: true,
@@ -89,99 +67,10 @@ function DateSetting()
          minDate: moment().add(cutOfDay, 'days')
     });
 
-    $("#txtSendDataChkinDate").on('apply.daterangepicker', function(ev, picker) { 
+    $(".date-info2").on('apply.daterangepicker', function(ev, picker) { 
         $(this).val(picker.startDate.format('YYYY-MM-DD'));
     });
-
-    $("#txtSendDataChkoutDate").daterangepicker({ 
-         autoUpdateInput: false,
-         singleDatePicker: true,
-         showDropdowns: true,
-         locale: {
-            format: 'YYYY-MM-DD'
-         },
-        minDate: moment().add(cutOfDay, 'days')
-    });
-
-    $("#txtSendDataChkoutDate").on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-    });
-
-    //rentCar
-    $("#txtRendCarPickUpDate").daterangepicker({ 
-         autoUpdateInput: false,
-         singleDatePicker: true,
-         showDropdowns: true,
-         locale: {
-            format: 'YYYY-MM-DD'
-         },
-         minDate: moment().add(cutOfDay, 'days')
-    });
-
-    $("#txtRendCarPickUpDate").on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-    });
-
-    $("#txtRendCarPickUpDate").daterangepicker({ 
-         autoUpdateInput: false,
-         singleDatePicker: true,
-         showDropdowns: true,
-         locale: {
-            format: 'YYYY-MM-DD'
-         },
-         minDate: moment().add(cutOfDay, 'days')
-    });
-
-
-    $("#txtRendCarPickUpDate").on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-    });
-
-    $("#txtShttleDate").daterangepicker({ 
-         autoUpdateInput: false,
-         singleDatePicker: true,
-         showDropdowns: true,
-         locale: {
-            format: 'YYYY-MM-DD'
-         },
-         minDate: moment().add(cutOfDay, 'days')
-    });
-
-    $("#txtShttleDate").on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-    });
-
-     //flight
-     $("#txtArrDate").daterangepicker({ 
-         autoUpdateInput: false,
-         singleDatePicker: true,
-         showDropdowns: true,
-         locale: {
-            format: 'YYYY-MM-DD'
-         },
-          minDate: moment().add(cutOfDay, 'days')
-         });
-
-     $("#txtArrDate").on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-    });
-
-     $("#txtDepDate").daterangepicker({ 
-         autoUpdateInput: false,
-         singleDatePicker: true,
-         showDropdowns: true,
-         locale: {
-            format: 'YYYY-MM-DD'
-         },
-          minDate: moment().add(cutOfDay, 'days')
-         });
-
-     $("#txtDepDate").on('apply.daterangepicker', function(ev, picker) { 
-        $(this).val(picker.startDate.format('YYYY-MM-DD'));
-     });
-
-
-
+    
     if($("#hdnIsEvent").val()=="Y" && $("#hdnIsHl").val()=="Y")
     {
         var dateArr = [''];
@@ -221,8 +110,6 @@ function DateSetting()
 
        $(".event").attr('disabled','disabled');
  }
-
-
      
 }
 
@@ -532,6 +419,16 @@ function setdataModel()
         }
         dataModel.eventBackupData =eventBackup;
     }
+
+    //pay
+    if($("#txtPayHolderName").val()!="" &&  $("#txtPayHolderName").is(":visible")==true)
+        dataModel.card.cardHolder  =$("#txtPayHolderName").val();
+    if($("#txtPayCardNum").val()!="" &&  $("#txtPayCardNum").is(":visible")==true)
+        dataModel.card.cardNo  =$("#txtPayCardNum").val().replace(" ","").replace(" ","").replace(" ","");
+    if($("#txtPayExpireDate").val()!="" &&  $("#txtPayExpireDate").is(":visible")==true)
+        dataModel.card.expiry  =$("#txtPayExpireDate").val().replace("/","");
+    if($("#txtPayCvc").val()!="" &&  $("#txtPayCvc").is(":visible")==true)
+        dataModel.card.cardCvv  =$("#txtPayCvc").val();
 
     dataModel.note = $("#txtOrdNote").val();
 

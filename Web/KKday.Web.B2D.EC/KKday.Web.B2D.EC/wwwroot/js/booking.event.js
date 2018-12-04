@@ -169,7 +169,7 @@ function chgCustomHour(e)
            }
          }
       $("select[id^=selShuttleCusMinute]").empty().append(options);
-      $("select[id^=selShuttleCusMinute]").val("--");
+      //$("select[id^=selShuttleCusMinute]").val("--");
 
     }
     else 
@@ -177,7 +177,7 @@ function chgCustomHour(e)
       var options = "";
       options += '<option value=null disabled selected="selected">--</option>';
       $("select[id^=selRentCarPickUpMinute]").empty().append(options);
-      $("select[id^=selRentCarPickUpMinute]").val("--");
+      //$("select[id^=selRentCarPickUpMinute]").val("--");
     }
 }
 
@@ -299,7 +299,7 @@ function chgRentCarHour(s,e)
                }
              }
           $("select[id^=selRentCarPickUpMinute]").empty().append(options);
-          $("select[id^=selRentCarPickUpMinute]").val("--");
+         $("select[id^=selRentCarPickUpMinute]").val("--");
  
         }
         else 
@@ -312,7 +312,7 @@ function chgRentCarHour(s,e)
    }
    else
    {
-     var info = $("#hdnPickup_"+$("#hdnSelPickUpId").val()).val();
+     var info = $("#hdnPickup_"+$("#hdnSelDropOffId").val()).val();
         if (info!="" && e !=null)
         {
              var sh =info.split('%')[0]; if( parseInt(sh)<10 )sh="0"+sh;
@@ -349,8 +349,8 @@ function chgRentCarHour(s,e)
                   options += '<option value="' + iii + '">' + iii + '</option>';
                }
              }
-          $("select[id^=selRentCarPickUpMinute]").empty().append(options);
-          $("select[id^=selRentCarPickUpMinute]").val("--");
+          $("select[id^=selRentCarDropoffMinute]").empty().append(options);
+          $("select[id^=selRentCarDropoffMinute]").val("--");
  
         }
         else 

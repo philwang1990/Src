@@ -8,7 +8,7 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="StackExchange.Redis" Version="2.0.495" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.513" />
     <PackageReference Include="Npgsql" Version="4.0.3" />
     <PackageReference Include="log4net.Ext.Json" Version="2.0.8.3" />
   </ItemGroup>
@@ -22,6 +22,8 @@
     <Compile Remove="AppCode\NetCor RenderPartialViewToString.cs" />
     <Compile Remove="AppCode\NetCor RenderPartialViewToString.cs" />
     <Compile Remove="Models\Repostory\Product\ProductRepostory %28複製%29.cs" />
+    <Compile Remove="Models\Model\Search\ProductBaseModel.cs" />
+    <Compile Remove="Views\Login\Login.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="AppCode\" />
@@ -40,9 +42,12 @@
     <Folder Include="Models\Model\Product\api\Product\" />
     <Folder Include="Models\Model\Product\api\Package\" />
     <Folder Include="Models\Model\Pmch\" />
-    <Folder Include="Views\Final\" />
-    <Folder Include="Views\Template\" />
-    <Folder Include="Views\Error\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Models\Model\Login\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="Models\Model\Account\" />
+    <Folder Include="AppCode\DAL\" />
+    <Folder Include="AppCode\DAL\Account\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Views\Product\Index2.cshtml" />
@@ -64,6 +69,6 @@
     <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.el.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.en-AU.js" />
     <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.en-CA.js" />
-    <Content Remove="wwwroot\css\font-awesome\css\font-awesome-ie7.css" />
+    <Content Remove="Views\TmpSearch\TmpProdList.cshtml" />
   </ItemGroup>
 </Project>
