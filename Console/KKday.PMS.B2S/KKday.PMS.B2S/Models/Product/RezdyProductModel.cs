@@ -6,7 +6,7 @@ namespace KKday.PMS.B2S.Models.Product
     public class RezdyProductModel
     {
         public requestStatus RequestStatus { get; set; }
-        public List<products> Products { get; set; }
+        public products Products { get; set; }
     }
 
     public class requestStatus

@@ -19,6 +19,8 @@ namespace KKday.PMS.B2S.Models.Product
         public string tokenKey { get; set; }
         public string productName { get; set; }
         public string timezone { get; set; }
+        public string masterLang { get; set; }
+        public string mainCat { get; set; }
         public string supplierNote { get; set; }
         public string tagCd { get; set; }
     }
