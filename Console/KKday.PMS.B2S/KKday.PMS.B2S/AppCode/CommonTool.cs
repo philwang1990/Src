@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace KKday.PMS.B2S.AppCode
@@ -132,7 +133,37 @@ namespace KKday.PMS.B2S.AppCode
             return obj;
         }
 
+        public static async Task<string> GetDataNew(string url)
+        {
+            try
+            {
+                ServicePointManager.ServerCertificateValidationCallback =
+                 delegate (object s, X509Certificate certificate,
+                X509Chain chain, SslPolicyErrors sslPolicyErrors)
+                 { return true; };
+
+                string result;
+
+                var request = (HttpWebRequest)WebRequest.Create(url);
+                request.ContentType = "application/json";
+                request.Method = "GET";
+
+                using (var response = (HttpWebResponse)await request.GetResponseAsync())
+                {
+                    using (var streamReader = new StreamReader(response.GetResponseStream()))
+                    {
+                        result = streamReader.ReadToEnd();
+                    }
+                }
+
+                return result;
+
+            }
+            catch (Exception ex)
+            {
+                _log.Error($"GetData:{ JsonConvert.SerializeObject(ex.Message)}");
+                throw ex;
+            }
+        }
     }
-
-
 }
