@@ -1,0 +1,46 @@
+input.form-control.parsley-success,
+select.form-control.parsley-success,
+textarea.form-control.parsley-success {
+	border-color: #26bec9;
+	color: #26bec9;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error {
+	border-color: #ef7a70;
+	color: #ef7a70;
+}
+
+.parsley-errors-list.filled {
+	color: #ef7a70;
+	font-size: 15px;
+	list-style-type: none;
+	padding: 0;
+}
+
+/*changing color of the placeholder depends on browser type*/
+input.form-control.parsley-error::-webkit-input-placeholder {
+	/*WebKit browser*/
+	color: #ef7a70;
+}
+input.form-control.parsley-error:-moz-placeholder {
+	/* Mozilla Firefox 4 to 18 */
+	color: #ef7a70;
+	opacity: 1;
+}
+input.form-control.parsley-error::-moz-placeholder {
+	/* Mozilla Firefox 19+ */
+	color: #ef7a70;
+	opacity: 1;
+}
+input.form-control.parsley-error:-ms-input-placeholder {
+	/* Internet Explorer 10+ */
+	color: #ef7a70;
+}
+
+/* Spin Buttons modified */
+input[type="number"].form-control::-webkit-outer-spin-button,
+input[type="number"].form-control::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+}

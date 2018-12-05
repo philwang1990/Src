@@ -1,0 +1,89 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.513" />
+    <PackageReference Include="Npgsql" Version="4.0.3" />
+    <PackageReference Include="log4net.Ext.Json" Version="2.0.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="AppCode.cs" />
+    <Compile Remove="Views\Product\Index.cshtml.cs" />
+    <Compile Remove="Models\ProductModel.cs" />
+    <Compile Remove="Models\BookingModel.cs" />
+    <Compile Remove="AppCode\ViewRenderExtension.cs" />
+    <Compile Remove="AppCode\NetCor RenderPartialViewToString.cs" />
+    <Compile Remove="AppCode\NetCor RenderPartialViewToString.cs" />
+    <Compile Remove="Models\Repostory\Product\ProductRepostory %28複製%29.cs" />
+    <Compile Remove="Models\Model\Search\ProductBaseModel.cs" />
+    <Compile Remove="Views\Login\Login.cs" />
+    <Compile Remove="Models\Model\Account\B2dApiAccount.cs" />
+    <Compile Remove="Models\Model\Account\B2dUserProfile.cs" />
+    <Compile Remove="Models\Model\Account\RegisterModel.cs" />
+    <Compile Remove="Models\Model\Booking\BookingModel.cs" />
+    <Compile Remove="Models\Model\Booking\BookingShowProdModel.cs" />
+    <Compile Remove="Models\Model\Booking\DataModel.cs" />
+    <Compile Remove="Models\Model\Booking\OrderModel.cs" />
+    <Compile Remove="Models\Model\Booking\api\B2dOrderModel.cs" />
+    <Compile Remove="Models\Model\Login\LoginModel.cs" />
+    <Compile Remove="Models\Model\Pmch\PmchModel.cs" />
+    <Compile Remove="Models\Model\Product\ProdTitleModel.cs" />
+    <Compile Remove="Models\Model\Product\ProductforEcModel.cs" />
+    <Compile Remove="Models\Model\Product\api\Package\DiscountRuleModel.cs" />
+    <Compile Remove="Models\Model\Product\api\Package\PackageModel.cs" />
+    <Compile Remove="Models\Model\Product\api\Package\PkgEventsModel.cs" />
+    <Compile Remove="Models\Model\Product\api\Package\PkgSaleDateModel.cs" />
+    <Compile Remove="Models\Model\Product\api\Product\ProdBaseModel.cs" />
+    <Compile Remove="Models\Model\Product\api\Product\ProductModel.cs" />
+    <Compile Remove="Models\Model\Product\api\Product\ProductModuleModel.cs" />
+    <Compile Remove="Models\Model\Search\AreaModel.cs" />
+    <Compile Remove="Models\Model\Search\ProductModel.cs" />
+    <Compile Remove="Models\Model\Search\SearchProductModel.cs" />
+    <Compile Remove="Models\Model\UserAgent\ClientBrowser.cs" />
+    <Compile Remove="Models\Model\UserAgent\ClientOS.cs" />
+    <Compile Remove="Models\Model\UserAgent\MatchExpression.cs" />
+    <Compile Remove="Models\Model\UserAgent\UserAgent.cs" />
+    <Compile Remove="Models\Repostory\Account\AccountRepository.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="AppCode\" />
+    <Folder Include="logs\" />
+    <Folder Include="Views\Product\" />
+    <Folder Include="logs\KKday.Web.B2D.EC\" />
+    <Folder Include="wwwroot\lib\bootstrap\dist\js\locales\" />
+    <Folder Include="Views\Booking\" />
+    <Folder Include="Views\Login\" />
+    <Folder Include="Views\Account\" />
+    <Folder Include="AppCode\DAL\" />
+    <Folder Include="AppCode\DAL\Account\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Product\Index2.cshtml" />
+    <Content Remove="logs\KKday.Web.B2D.EC\KKday.API.B2S.JTR2018-09-13.json" />
+    <Content Remove="logs\KKday.Web.B2D.EC\KKday.Web.B2D.EC.json" />
+    <Content Remove="logs\KKday.Web.B2D.EC\KKday.API.B2S.JTR2018-09-12.json" />
+    <Content Remove="property{LogName}2018-09-13.json" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.ar-tn.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.az.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.bg.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.bn.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.br.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.bs.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.ca.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.cs.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.cy.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.da.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.de.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.el.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.en-AU.js" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\js\locales\bootstrap-datepicker.en-CA.js" />
+    <Content Remove="Views\TmpSearch\TmpProdList.cshtml" />
+  </ItemGroup>
+</Project>

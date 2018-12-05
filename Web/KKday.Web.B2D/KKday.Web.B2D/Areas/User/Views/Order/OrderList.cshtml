@@ -1,0 +1,87 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Order
+@using Resources
+
+@inject ILocalizer localizer
+@model OrderListModel
+
+@{
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+}
+
+@if (Model == null || Model.ORDERS == null || Model.ORDERS.Count < 1)
+{
+    <span>@localizer.Text.Data_Not_Found</span>
+}
+else
+{
+    <!--LIST-->
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox">
+                    </th>
+                    <th>訂單編號</th>
+                    <th>訂單日期</th>
+                    <th>出發日期</th>
+                    <th>商品名稱</th>
+                    <th class="text-center">數量</th>
+                    <th>取消訂單</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ORDERS)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox">
+                        </td>
+                        <td class="no-wrap">
+                            <div class="badge badge-info">@item.ORDER_STATUS</div>
+                            <br>
+                            @item.ORDER_MID
+                        </td>
+                        <td class="no-wrap">@item.ORDER_DATE</td>
+                        <td class="no-wrap">@item.PROD_SDATE</td>
+                        <td>@item.PROD_NAME</td>
+                        <td class="text-center">@item.QTY</td>
+                        <td>
+                            <a href="#" class="btn btn-danger btn-xs">取消訂單</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <!--LIST-->
+
+    <!-- page buttons -->
+    <ul class="pagination">
+        @if (Model.PAGES > 1)
+        {
+            <li><a href="javascript:Refresh(1, false);"><i class="a fa-angle-left"></i></a></li>
+        }
+
+        @for (int nIdx = 0; nIdx < Model.PAGES; nIdx++)
+        {
+            var pgIdx = nIdx + 1;
+            if (pgIdx == Model.CURRENT_PAGE)
+            {
+                <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+            }
+            else
+            {
+                <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx, false);">@pgIdx</a></li>
+            }
+        }
+
+        @if (Model.PAGES > 1)
+        {
+            <li>
+                <a href="javascript:Refresh(@Model.PAGES, false);"><i class="a fa-angle-right"></i></a>
+            </li>
+        }
+    </ul>
+}

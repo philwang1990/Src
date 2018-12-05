@@ -1,0 +1,197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                            <xsd:attribute ref="xml:space" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string" />
+                            <xsd:attribute name="name" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+                            <xsd:attribute ref="xml:space" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    
+    <!-- Currency -->
+    <data name="CURR_AUD" xml:space="preserve"><value>澳幣</value></data>
+    <data name="CURR_CAD" xml:space="preserve"><value>加拿大幣</value></data>
+    <data name="CURR_CNY" xml:space="preserve"><value>人民幣</value></data>
+    <data name="CURR_EUR" xml:space="preserve"><value>歐元</value></data>
+    <data name="CURR_GBP" xml:space="preserve"><value>英鎊</value></data>
+    <data name="CURR_HKD" xml:space="preserve"><value>港幣</value></data>
+    <data name="CURR_IDR" xml:space="preserve"><value>印尼盾</value></data>
+    <data name="CURR_JPY" xml:space="preserve"><value>日圓</value></data>
+    <data name="CURR_KRW" xml:space="preserve"><value>韓圓</value></data>
+    <data name="CURR_MYR" xml:space="preserve"><value>馬來西亞令吉</value></data>
+    <data name="CURR_NZD" xml:space="preserve"><value>紐西蘭元</value></data>
+    <data name="CURR_PHP" xml:space="preserve"><value>菲律賓比索</value></data>
+    <data name="CURR_SGD" xml:space="preserve"><value>新加坡幣</value></data>
+    <data name="CURR_THB" xml:space="preserve"><value>泰銖</value></data>
+    <data name="CURR_TWD" xml:space="preserve"><value>新臺幣</value></data>
+    <data name="CURR_USD" xml:space="preserve"><value>美元</value></data>
+    <data name="CURR_VND" xml:space="preserve"><value>越南盾</value></data> 
+  
+    <!-- Genernel -->
+    <data name="KKday_CopyRight" xml:space="preserve"><value>KKday 同業分銷平台</value></data>
+    <data name="Add" xml:space="preserve"><value>加入</value></data>
+    <data name="Back" xml:space="preserve"><value>返回上一頁</value></data>
+    <data name="Insert" xml:space="preserve"><value>新增</value></data>
+    <data name="Update" xml:space="preserve"><value>修改</value></data>
+    <data name="Cancel" xml:space="preserve"><value>取消</value></data>
+    <data name="Edit" xml:space="preserve"><value>編輯</value></data>
+    <data name="Save" xml:space="preserve"><value>儲存</value></data>
+    <data name="Delete" xml:space="preserve"><value>刪除</value></data>
+    <data name="ID" xml:space="preserve"><value>序號</value></data>
+    <data name="Name" xml:space="preserve"><value>名稱</value></data>
+    <data name="UserName" xml:space="preserve"><value>使用者名稱</value></data>
+    <data name="Country" xml:space="preserve"><value>國家</value></data>
+    <data name="Status" xml:space="preserve"><value>狀態</value></data>
+    <data name="Sorting" xml:space="preserve"><value>排序</value></data>
+    <data name="Promotion" xml:space="preserve"><value>優惠</value></data>
+    <data name="Discount" xml:space="preserve"><value>折扣</value></data>
+    <data name="Repricing" xml:space="preserve"><value>重定價</value></data>
+    <data name="Search" xml:space="preserve"><value>搜尋</value></data>
+    <data name="Query" xml:space="preserve"><value>查詢</value></data>
+    <data name="Data_Not_Found" xml:space="preserve"><value>查無資料</value></data>
+    <data name="Yes" xml:space="preserve"><value>是</value></data>
+    <data name="No" xml:space="preserve"><value>否</value></data>
+    <data name="Enable" xml:space="preserve"><value>有效</value></data>
+    <data name="Disable" xml:space="preserve"><value>無效</value></data>
+    <data name="Account" xml:space="preserve"><value>帳號</value></data>
+    <data name="Email" xml:space="preserve"><value>電子信箱</value></data>
+    <data name="ProductNo" xml:space="preserve"><value>產品編號</value></data>
+    <data name="ProductName" xml:space="preserve"><value>產品名稱</value></data>
+    <data name="Tel" xml:space="preserve"><value>聯絡電話</value></data>
+    <data name="ContactTel" xml:space="preserve"><value>聯絡電話</value></data>
+    <data name="Select" xml:space="preserve"><value>請選擇</value></data>
+    <data name="UpdateOK" xml:space="preserve"><value>修改完成</value></data>
+    <!-- Genernel User-->
+    <data name="Register" xml:space="preserve"><value>分銷商註冊</value></data>
+    <data name="UserProfile" xml:space="preserve"><value>基本資料</value></data>
+    <data name="CompanyProfile" xml:space="preserve"><value>公司資料</value></data>
+    <data name="GenderTitle" xml:space="preserve"><value>稱謂</value></data>
+    <data name="NameLast" xml:space="preserve"><value>姓氏</value></data>
+    <data name="NameFirst" xml:space="preserve"><value>名字</value></data>
+    <data name="JobTitle" xml:space="preserve"><value>職稱</value></data>
+    <data name="Department" xml:space="preserve"><value>部門</value></data>
+    <data name="CountryANDTelCode" xml:space="preserve"><value>公司所在國家及區碼</value></data>
+    <data name="TimeZone" xml:space="preserve"><value>公司所在時區(GMT)</value></data>
+    <data name="AddAccount" xml:space="preserve"><value>新增使用者</value></data>
+    <data name="ChangePassword" xml:space="preserve"><value>更改密碼</value></data>
+    <data name="NewPassword" xml:space="preserve"><value>請輸入密碼</value></data>
+    <data name="PasswordAgain" xml:space="preserve"><value>請再次輸入密碼</value></data>
+    <data name="CannotChange" xml:space="preserve"><value>(不可更改)</value></data>
+    <data name="Currency" xml:space="preserve"><value>幣別</value></data>
+    <data name="Locale" xml:space="preserve"><value>語系</value></data>
+    <data name="OnlyTaiwan" xml:space="preserve"><value>僅台灣同業使用</value></data>
+    <data name="CacheTime" xml:space="preserve"><value>快取時間(分)</value></data>
+    
+    <!-- Search -->
+    <data name="Search_Name" xml:space="preserve"><value>請輸入姓名</value></data>
+    <data name="Search_Name_Last" xml:space="preserve"><value>請輸入姓氏</value></data>
+    <data name="Search_Name_First" xml:space="preserve"><value>請輸入名字</value></data>
+    <data name="Search_Email" xml:space="preserve"><value>請輸入電子信箱</value></data>
+    <data name="Search_Tel" xml:space="preserve"><value>請輸入電話號碼</value></data>
+    <data name="Search_JobTitle" xml:space="preserve"><value>請輸入職稱</value></data>
+    <data name="Search_Department" xml:space="preserve"><value>請輸入部門</value></data>
+    
+    <!-- Sidebar -->
+    <data name="Title_Distributor" xml:space="preserve"><value>分銷商管理</value></data>
+    <data name="Title_VoucherApply" xml:space="preserve"><value>憑證補充</value></data>
+    <data name="Title_Order" xml:space="preserve"><value>訂單管理</value></data>
+    <data name="Title_B2dAccount" xml:space="preserve"><value>分銷商帳號</value></data>
+    <data name="Title_B2dApiAccount" xml:space="preserve"><value>分銷商API帳號</value></data>
+    <data name="Title_PriceBlacklist" xml:space="preserve"><value>牌價黑名單</value></data>
+    <data name="Title_PriceSetting" xml:space="preserve"><value>價格設定</value></data> 
+    <!-- Sidebar User -->
+    <data name="Title_GoBooking" xml:space="preserve"><value>前往訂購</value></data>
+    <data name="Title_MyProfile" xml:space="preserve"><value>我的帳號</value></data>
+    <data name="Title_AddVoucher" xml:space="preserve"><value>憑證補充資料</value></data>
+    <data name="Title_MyOrder" xml:space="preserve"><value>我的訂單</value></data>
+    <data name="Title_ChangePassword" xml:space="preserve"><value>更改密碼</value></data>
+    <data name="Title_WebUser" xml:space="preserve"><value>子帳戶設定</value></data>
+    <data name="Title_ApiUser" xml:space="preserve"><value>API子帳戶設定</value></data>
+    <data name="Title_WebUserProfile" xml:space="preserve"><value>子帳號內容</value></data>
+    <data name="Title_ApiUserProfile" xml:space="preserve"><value>API帳號內容</value></data>
+    
+    <!-- Account -->
+    <data name="UserType" xml:space="preserve"><value>使用者類型</value></data>
+    
+    <data name="UserRole_00" xml:space="preserve"><value>使用者</value></data>
+    <data name="UserRole_01" xml:space="preserve"><value>管理員</value></data>
+ 
+    <!-- Company -->
+    <data name="Company_Name" xml:space="preserve"><value>公司名稱</value></data>
+    <data name="Company_Invoice" xml:space="preserve"><value>統一編號</value></data>
+    <data name="Company_Url" xml:space="preserve"><value>公司網址</value></data>
+    <data name="Company_Address" xml:space="preserve"><value>公司地址</value></data>
+    <data name="Company_PromotionSetting" xml:space="preserve"><value>優惠設定</value></data>
+    <data name="Companyloggero" xml:space="preserve"><value>公司Logo圖片</value></data>
+    
+    <!-- Company_Progress -->
+    <data name="Company_Progress_00" xml:space="preserve"><value>已申請</value></data>
+    <data name="Company_Progress_01" xml:space="preserve"><value>審核中</value></data>
+    <data name="Company_Progress_02" xml:space="preserve"><value>待補件</value></data>
+    <data name="Company_Progress_03" xml:space="preserve"><value>已核准</value></data>
+    <data name="Company_Progress_04" xml:space="preserve"><value>未核准</value></data>
+    <data name="Company_Progress_NA" xml:space="preserve"><value>完成結果</value></data>
+    
+    <!-- Company_Status -->
+    <data name="Company_Status_00" xml:space="preserve"><value>已申請</value></data>
+    <data name="Company_Status_01" xml:space="preserve"><value>審核中</value></data>
+    <data name="Company_Status_02" xml:space="preserve"><value>待補件</value></data>
+    <data name="Company_Status_03" xml:space="preserve"><value>已核准</value></data>
+    <data name="Company_Status_04" xml:space="preserve"><value>未核准</value></data>
+    
+    <data name="FixedPrice" xml:space="preserve"><value>固定價</value></data>
+    <data name="FixedPriceSetting" xml:space="preserve"><value>固定價設定</value></data>
+    
+</root>

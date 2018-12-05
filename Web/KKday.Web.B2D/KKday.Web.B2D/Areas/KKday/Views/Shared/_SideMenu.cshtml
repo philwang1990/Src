@@ -1,0 +1,43 @@
+﻿@using Resources
+@inject ILocalizer localizer
+
+<!-- Sidebar -->
+<div id="sidebar-wrapper" class="">
+    <nav id="spy">
+        <ul class="sidebar-nav nav">
+            @*<li class="sidebar-brand active">
+                    <a href="#home" class=""><span class="fa fa-home solo">Home</span></a>
+                </li>*@
+            <li class="">
+                <a href="@Url.Content("~/KKday/Company")" data-scroll="" class="">
+                    <span>@localizer.Text.Title_Distributor</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Order")" data-scroll="" class="">
+                    <span>@localizer.Text.Title_Order</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Account")" data-scroll="" class="">
+                    <span>@localizer.Text.Title_B2dAccount</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/Account/ApiUser")" data-scroll="" class="">
+                    <span>@localizer.Text.Title_B2dApiAccount</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/ListPrice/BlackList")" data-scroll="" class="">
+                    <span>@localizer.Text.Title_PriceBlacklist</span>
+                </a>
+            </li>
+            <li class="">
+                <a href="@Url.Content("~/KKday/PriceSetting")" data-scroll="" class="">
+                    <span>@localizer.Text.Title_PriceSetting </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

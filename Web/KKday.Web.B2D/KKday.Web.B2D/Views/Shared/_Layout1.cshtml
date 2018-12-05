@@ -1,0 +1,586 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product;
+
+@{ 
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - KKday.Web.B2D.EC</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css.map" />
+        @*<link rel="stylesheet" href="~/css/site.css" />*@
+        @*<link rel="stylesheet" href="~/css/custom.css" />*@
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap-datepicker.css" />
+
+        <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/bootstrap-datepicker.css" />
+        <link rel="stylesheet" href="~/lib/bootstrap-datepicker/dist/css/daterangepicker.css" />
+
+        @*<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.css" />*@
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+
+    @RenderSection("styles", required: false)
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*<script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>*@
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/moment.min.js"></script>*@
+        @*<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.1/locale/zh-tw.js"></script>*@
+        @*<script scr="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>*@
+        @*<script src="~/lib/bootstrap/dist/js/locales/bootstrap-datepicker.zh-TW.js"></script>*@
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @*取得網站相對根目錄路徑*@
+    <script type="text/javascript">
+        var _root_path = '@Url.Content("~/")';
+    </script>
+
+
+</head>
+<body>
+    <div class="header-sheet">
+        <div class="container">
+            <div class="content">我們將使用cookie等資訊來優化您的體驗，繼續瀏覽即表示您同意我們使用。欲瞭解詳細內容，請詳閱<a href="#" target="_blank">隱私權政策與條款</a></div>
+            <button type="button" class="close">×</button>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="header-container row">
+                    <div class="col-xs-8">
+                        <a href="@Url.Content("~/Search/ProdList")">
+                            <img src="@Url.Content("~/images/kkday_logo_final.svg")" class="header-logo">
+                        </a>
+                        <form id="form3" action="@Url.Content("~/Search/ProdList")" method="post">
+                            <input type="hidden" id="req_citykey" name="citykey" />
+                            <div class="kksearch">
+                                <div class="kksearch-header visible-xs">
+                                    <h4 class="text-center">搜尋</h4>
+                                    <span class="close-search visible-xs">
+                                        <i class="fa fa-angle-left fa-3x"></i>
+                                    </span>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" id="req_key" name="key1" value="@ViewData["key"]" class="form-control" placeholder="@prodTitle.common_type_to_search">
+                                    <span class="clear-input"><i class="fa fa-times-circle fa-lg"></i></span>
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="submit" id="sub2"><i class="fa fa-search fa-lg"></i></button>
+                                    </span>
+                                </div>
+                                @*<div class="search-dropdown">
+                                        <div class="default-suggest">
+                                            <h4 class="title">@prodTitle.common_popular_destinations_title</h4>
+                                            <ul>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('首爾')"><span class="hot">首爾</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('東京')"><span class="hot">東京</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('香港')"><span class="hot">香港</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('曼谷')"><span class="hot">曼谷</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('花蓮')"><span class="hot">花蓮</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('紐約')"><span class="hot">紐約</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('倫敦')"><span class="hot">倫敦</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('沙巴-亞庇')"><span class="hot">沙巴-亞庇</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('釜山')"><span>釜山</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('沖繩')"><span>沖繩</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('北海道')"><span>北海道</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('大阪')"><span>大阪</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('巴黎')"><span>巴黎</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('清邁')"><span>清邁</span></a></li>
+                                                <li><a href="javascript:void(0);" onclick="quicksearch('雪梨')"><span>雪梨</span></a></li>
+                                            </ul>
+                                        </div>
+                                        <div class="city-suggest">
+                                        輸入”國家名稱“時只出現此區塊
+                                        <ul>
+                                            <li><a href="#"><span>台北</span></a></li>
+                                            <li><a href="#"><span>東京</span></a></li>
+                                            <li><a href="#"><span>京都</span></a></li>
+                                            <li><a href="#"><span>Athens</span></a></li>
+                                            <li><a href="#"><span>Berlin</span></a></li>
+                                            <li><a href="#"><span>Dominican Republic</span></a></li>
+                                            <li><a href="#"><span>Edinburgh</span></a></li>
+                                            <li><a href="#"><span>Hamburg</span></a></li>
+                                            <li><a href="#"><span>Hanoi</span></a></li>
+                                            <li><a href="#"><span>Ho Chi Minh City</span></a></li>
+                                            <li><a href="#"><span>Paris</span></a></li>
+                                            <li><a href="#"><span>Prague</span></a></li>
+                                            <li><a href="#"><span>Rome</span></a></li>
+                                            <li><a href="#"><span>San Francisco</span></a></li>
+                                            <li><a href="#"><span>Taichung</span></a></li>
+                                            <div class="clearfix"></div>
+                                        </ul>
+                                    </div>*@
+                                @*<div class="autosuggest">
+                                            <ul class="destination">
+                                                <li>
+                                                    <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>chung</a>
+                                                </li>
+                                                <li>
+                                                    <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>nan</a>
+                                                </li>
+                                                <li>
+                                                    <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>pei</a>
+                                                </li>
+                                            </ul>
+                                            <ul class="experience">
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            Bangkok Dinosaur Planet Tickets - Over 30% Off
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Bankok
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            <i class="fa fa-flash text-primary"></i>
+                                                            Universal Studios Singapore Ticket - Save 10%
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Taipei
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            Day Trip From Seoul: Korean Demilitarized Zone (DMZ) One Day Tour
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Dominican Republic
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            Nami Island with Petite France, Gangchon Rail Bike, Flower Garden
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Seoul
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#">
+                                                        <span class="prod_name">
+                                                            <i class="fa fa-flash text-primary"></i>
+                                                            Korea Everland Theme Park Entry Ticket (QR code)
+                                                        </span>
+                                                        <span class="city">
+                                                            <i class="fa fa-map-marker"></i>Seoul
+                                                        </span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <span class="dropdown-arrow hidden-xs"></span>
+                                    </div>*@
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <div class="table-row">
+                            <div class="table-cell">
+                                <button type="button" class="btn btn-link visible-xs open-search">
+                                    <span class="fa fa-search fa-lg"></span>
+                                </button>
+                            </div>
+                            <div class="table-cell">
+                                <button type="button" class="btn btn-link hidden-xs" id="switch-language-btn">
+                                    繁體中文<i class="fa fa-caret-down"></i>
+                                </button>
+                            </div>
+                            <div class="table-cell">
+                                <button type="button" class="btn btn-link hidden-xs" id="switch-currency-btn">
+                                    TWD<i class="fa fa-caret-down"></i>
+                                </button>
+                            </div>
+                            <div class="table-cell">
+                                <button type="button" class="account-user-photo" id="header-main-sidenav-button" style="background-image: url('../images/default_image.png')"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="main-sidenav" class="container-fluid kk-sidenav">
+        <div class="row">
+            <ul class="list-group nav-menu">
+                <li href="#" class="list-group-item asset-btn" id="close-main-sidenav">
+                    <span class="fa fa-times pull-left close-botton"></span>
+                </li>
+                <li class="list-group-item" href="order_list.html" id="check-order">
+                    <h5 class="li-text">訂單管理</h5>
+                </li>
+                <li class="list-group-item" href="msg_list.html" id="check-messages">
+                    <h5 class="li-text">訊息管理<span class="pull-right text-primary" id="unreadMsgNum">4</span></h5>
+                </li>
+                <li class="list-group-item" href="coupon_list.html" id="check-coupons">
+                    <h5 class="li-text">折扣券管理</h5>
+                </li>
+                <li class="list-group-item" href="wish_list.html" id="check-wishlist">
+                    <h5 class="li-text">我的收藏</h5>
+                </li>
+                <li class="list-group-item" href="notice_list.html" id="check-noticelist">
+                    <h5 class="li-text">開賣通知</h5>
+                </li>
+                <li class="list-group-item" href="member_basic.html" id="account-setting">
+                    <h5 class="li-text">帳號設定</h5>
+                </li>
+                <li class="list-group-item visible-xs" id="select-language">
+                    <h5 class="li-text">語言<span class="pull-right text-primary">繁體中文</span></h5>
+                </li>
+                <li class="list-group-item visible-xs" id="select-currency">
+                    <h5 class="li-text">幣別<span class="pull-right text-primary">TWD</span></h5>
+                </li>
+                <li class="list-group-item" id="logout" href="errorpage_index.html">
+                    <h5 class="li-text">登出</h5>
+                </li>
+                <li class="list-group-item visible-xs" href="#">
+                    <h5 class="li-text">手機版</h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="language-sidenav" class="container-fluid kk-sidenav">
+        <div class="row">
+            <ul class="list-group nav-menu" id="language-list">
+                <li href="#" class="list-group-item visible-xs asset-btn" id="language-return-main-sidenav">
+                    <span class="fa fa-chevron-left pull-left close-botton"></span>
+                </li>
+                <li href="#" class="list-group-item hidden-xs asset-btn" id="language-close-main-sidenav">
+                    <span class="fa fa-times pull-left close-botton"></span>
+                </li>
+                <li class="list-group-header">@prodTitle.common_selected_country</li>
+                <li class="list-group-item has-son open" name="zh-tw" href="#">
+                    <h5 class="li-text">
+                        台灣<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item active" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>繁體中文
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-header">@prodTitle.common_all_country</li>
+                <li class="list-group-item" name="en" href="#">
+                    <h5 class="li-text">
+                        International
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="zh-cn" href="#">
+                    <h5 class="li-text">
+                        中国<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>简体中文
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="zh-hk" href="#">
+                    <h5 class="li-text">
+                        香港<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>繁體中文
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="ko" href="#">
+                    <h5 class="li-text">
+                        대한민국<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>한국어
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="jp" href="#">
+                    <h5 class="li-text">
+                        日本<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>日本語
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item" name="en-sg" href="#">
+                    <h5 class="li-text">
+                        Singapore
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="zh-my" href="#">
+                    <h5 class="li-text">
+                        Malaysia<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>简体中文
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item" name="th" href="#">
+                    <h5 class="li-text">
+                        ประเทศไทย
+                    </h5>
+                </li>
+                <li class="list-group-item" name="vi" href="#">
+                    <h5 class="li-text">
+                        Việt Nam
+                    </h5>
+                </li>
+                <li class="list-group-item" name="id" href="#">
+                    <h5 class="li-text">
+                        Indonesia
+                    </h5>
+                </li>
+                <li class="list-group-item" name="ph" href="#">
+                    <h5 class="li-text">
+                        Philippines
+                    </h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="currency-sidenav" class="container-fluid kk-sidenav">
+        <div class="row">
+            <ul class="list-group nav-menu" id="currency-list">
+                <li href="#" class="list-group-item visible-xs asset-btn" id="currency-return-main-sidenav">
+                    <span class="fa fa-chevron-left pull-left close-botton"></span>
+                </li>
+                <li href="#" class="list-group-item hidden-xs asset-btn" id="currency-close-main-sidenav">
+                    <span class="fa fa-times pull-left close-botton"></span>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="USD">
+                    <h5 class="li-text">USD 美元</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="TWD">
+                    <h5 class="li-text">TWD 新臺幣</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="TRY">
+                    <h5 class="li-text">TRY 新土耳其里拉</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="THB">
+                    <h5 class="li-text">THB 泰銖</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="SGD">
+                    <h5 class="li-text">SGD 新加坡幣</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="PHP">
+                    <h5 class="li-text">PHP 菲律賓比索</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="NZD">
+                    <h5 class="li-text">NZD 紐西蘭元</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="MYR">
+                    <h5 class="li-text">MYR 馬來西亞令吉</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="KRW">
+                    <h5 class="li-text">KRW 韓圓  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="JPY">
+                    <h5 class="li-text">JPY 日圓  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="IDR">
+                    <h5 class="li-text">IDR 印尼盾</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="HKD">
+                    <h5 class="li-text">HKD 港幣  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="GBP">
+                    <h5 class="li-text">GBP 英鎊  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="EUR">
+                    <h5 class="li-text">EUR 歐元  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="CNY">
+                    <h5 class="li-text">CNY 人民幣</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="AUD">
+                    <h5 class="li-text">AUD 澳幣</h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+    @RenderBody()
+
+    <div class="container body-content" style="width:100%">
+
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6" id="footer-know-kkday">
+                    <h4>@prodTitle.common_know_kkday</h4>
+                    <ul class="list-unstyled">
+                        <li class="p"><a target="_blank" href="https://event.kkday.com/zh-tw/about/about">@prodTitle.common_who_we_are</a></li>
+                        <li class="p"><a target="_blank" href="https://event.kkday.com/zh-tw/about/privacy">@prodTitle.common_terms_and_privacy</a></li>
+                        <li class="p"><a target="_blank" href="https://help.kkday.com/zh-TW/support/home">@prodTitle.common_help</a></li>
+                        <li class="p"><a target="_blank" href="https://event.kkday.com/zh-tw/about/media-report">@prodTitle.common_media_report</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6" id="footer-for-travellers">
+                    <h4>@prodTitle.common_for_travellers</h4>
+                    <ul class="list-unstyled">
+                        <li class="p"><a target="_blank" href="https://event.kkday.com/zh-tw/about/why-kkday">@prodTitle.common_promise</a></li>
+                        <li class="p"><a target="_blank" href="https://event.kkday.com/zh-tw/about/links">@prodTitle.common_classic_ticket</a></li>
+                        <li class="p"><a target="_blank" href="https://blog.kkday.com/">@prodTitle.common_kkday_blog</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6" id="footer-for-partner">
+                    <h4>@prodTitle.common_for_partner</h4>
+                    <ul class="list-unstyled">
+                        <li class="p"><a target="_blank" href="https://www.kkday.com/zh-tw/kk/supplier">@prodTitle.common_be_partner</a></li>
+                        <li class="p"><a target="_blank" href="https://www.kkday.com/zh-tw/affiliate/">@prodTitle.common_be_affiliate</a></li>
+                        <li class="p"><a target="_blank" href="https://www.104.com.tw/jobbank/custjob/index.php?r=cust&j=4b41492c5d73502a595f422647353d6643f4149723b3d456e434941242424242194c67493816j98&jobsource=#info06">@prodTitle.common_job</a></li>
+                        <li class="p"><a target="_blank" href="https://event.kkday.com/zh-tw/blogger">@prodTitle.common_blogger_cooperative</a></li>
+                        <li class="p"><a target="_blank" href="https://event.kkday.com/zh-tw/corporate">@prodTitle.common_be_corporator</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <h4>@prodTitle.common_contact_us</h4>
+                    <div class="sns">
+                        <!-- zh-tw -->
+                        <ul class="list-unstyled">
+                            <li><a href="https://www.facebook.com/KKdayTaiwan/" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://www.youtube.com/channel/UC0WrywZgsEaZRZ2VOG0TpVg" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="https://www.instagram.com/kkdaytw/" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://twitter.com/kkdaytravel" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="http://blog.kkday.com/" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="https://www.pinterest.com/kkdayofficial/" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                            <li><a href="http://tumblr.kkday.com/" target="_blank"><i class="fa fa-tumblr"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div id="contact-kkday-row">
+                <div class="cr-font text-right" id="footer-company-info">
+                    <h8 class="text-muted">COPYRIGHT © 2016 KKday All rights reserved.</h8>
+                </div>
+            </div>
+        </div>
+        <div class="row twfooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <ul class="list-unstyled">
+                            <li>酷遊天國際旅行社股份有限公司</li>
+                            <li>甲種旅行業</li>
+                            <li>交觀甲第7774號</li>
+                            <li>統一編號 2497 7417</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <ul class="list-unstyled">
+                            <li>地址 台灣台北市萬華區成都路4號5樓</li>
+                            <li>電話 <a href="tel:+886223140003">02-2314-0003</a></li>
+                            <li>傳真 02-2786-1101</li>
+                            <li>e-mail <a href="mailto:service@kkday.com">service＠kkday.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <ul class="list-unstyled">
+                            <li>代表人 陳惟倫</li>
+                            <li>聯絡人 蘇姿亦</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ./footer -->
+    <!-- scroll to top -->
+    <div class="scroll-top-wrapper">
+        <span class="scroll-top-inner">
+            <i class="fa fa-2x fa-angle-up"></i>
+        </span>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,93 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@{
+    var wifi = (SimWifi)ViewData["wifi"];
+    var exchange = (List<Location>)ViewData["exchange"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+}
+
+<!--wifi 在 other內-->
+
+@if (wifi != null || exchange != null)
+{
+ <div class="traveler-con">
+    @if (wifi != null)
+    {
+        if (wifi.is_require == true)
+        {
+
+            <div class="sub-title">@prodTitle.booking_step1_other_data</div>
+            <div class="row">
+
+                @if (wifi.mobile_model_no.is_require == true)
+                {
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!-- 手機型號 -->
+                        <div class="form-group">
+                            <label>@prodTitle.booking_step1_other_data_mobile_model_number</label>
+                            <input type="text" class="form-control" id="txtOtherModleNo" name="txtOtherModleNo">
+                        </div>
+                    </div>
+                }
+
+                @if (wifi.mobile_IMEI.is_require == true)
+                {
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!-- IMEI -->
+                        <div class="form-group">
+                            <label>@prodTitle.booking_step1_other_data_imei</label>
+                            <input type="number" class="form-control" id="txtOtherImei" name="txtOtherImei">
+                        </div>
+                    </div>
+                }
+
+                @if (wifi.activation_date.is_require == true)
+                {
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <!--開通日期 -->
+                        <label>@prodTitle.booking_step1_other_data_activation_date</label>
+                        <div class="form-group">
+                            <div class="input-group date" id='divOtherDataActDate'>
+                                <input type="text" class="form-control date-info1" id="txtOtherActDate" name="txtOtherActDate" placeholder="@prodTitle.booking_step1_other_data_activation_date_placeholder" readonly="readonly" />
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        }
+
+    }
+
+    <!--exchange 在 other內  只有 exchangeType=05 lulu 才會給值-->
+    @if (exchange != null)
+    {
+        @if (exchange.Count > 0)
+        {
+            <div class="row">
+                <div class="col-sm-6 col-xs-12">
+                    <div class="form-group">
+                        <label>@prodTitle.booking_step1_other_data_exchange_location</label>
+                        <select class="form-control" id="selOtherLocation" name="selOtherLocation">
+                            <option value=null disabled selected="selected">
+                                @prodTitle.booking_step1_other_data_exchange_location_placeholder
+                            </option>
+                            @foreach (Location l in exchange)
+                            {
+                                <option value="@l.id">
+                                    @l.name
+                                </option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            </div>
+        }
+
+    }
+
+ </div>
+}

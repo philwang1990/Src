@@ -1,0 +1,326 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@{
+    var flightInfo = (FlightInfo)ViewData["flightInfo"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var flightInfoType = (string)ViewData["flightInfoType"];
+    var countryName = (string)ViewData["nationName"]; 
+}
+
+@if (flightInfo != null)
+{
+    if ((flightInfo.is_require == true && flightInfoType != "00") && flightInfoType != "01")  //return (this.PMDL_FLIGHT_INFO.isRequired && this.flightInfoType.value !== '00') && (this.flightInfoType.value !== '01');
+    {
+        <!--arrival-->     
+        <div class="traveler-con">
+            <div class="sub-title">
+                <label>@prodTitle.booking_step1_flight_info_arrival_info.Replace("%s",countryName) </label>
+            </div>
+
+        <div class="row">
+        @if (1 == 1) //flightInfo.arrival.is_require_FlightType == true
+        {
+              <div class="col-md-4 col-sm-6 col-xs-12">
+                <!-- 航班類型 -->
+                <div class="form-group">
+                <label>@prodTitle.booking_step1_flight_info_flight_type</label>
+                <select class="form-control " id="selArrFlightType" name="selArrFlightType">
+                    <option value=null disabled selected="selected">
+                        @prodTitle.booking_step1_flight_info_flight_type_placeholder
+                    </option>
+                    <option value="01">
+                        @prodTitle.booking_step1_flight_info_domestic_routes
+                    </option>
+                    <option value=02>
+                        @prodTitle.booking_step1_flight_info_international_routes
+                    </option>
+                </select>
+                </div>
+              </div>
+        }
+
+         @if (flightInfo.arrival.is_require_Airport == true)
+        {
+              <div class="col-md-4 col-sm-6 col-xs-12">
+                <!-- 抵達機場 -->
+                <div class="form-group">
+                <label>@prodTitle.booking_step1_flight_info_arrival_airport</label>
+                <select class="form-control " id="selArrAirport" name="selArrAirport">
+                    <option value=null disabled selected="selected">
+                        @prodTitle.booking_step1_flight_info_arrival_airport_placeholder
+                    </option>
+                    @foreach (Airport a in flightInfo.arrival.airport_list)
+                     {
+                        <option value="@a.airport_code" >@a.airport_name</option>
+                     }
+                </select>
+                </div>
+              </div>
+        }
+
+        @if (flightInfo.arrival.is_require_TerminalNo == true)
+        {
+              <div class="col-md-4 col-sm-6 col-xs-12">
+                  <!--航廈-->
+                  <div class="form-group">
+                   <label>@prodTitle.booking_step1_flight_info_terminal_no</label>
+                   <input type="text" class="form-control" id="txtArrTerminalNo" name="txtArrTerminalNo" placeholder=  "@prodTitle.booking_step1_flight_info_terminal_no_placeholder">
+                  </div>     
+               </div>
+        }
+        </div>
+        <div class="row">
+        @if (flightInfo.arrival.is_require_Airline == true)
+        {
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <!-- 航空公司名稱 -->
+            <div class="form-group">
+             <label>@prodTitle.booking_step1_flight_info_airline</label>
+             <input type="text" class="form-control" id="txtArrAirline" name="txtArrAirline" placeholder="@prodTitle.booking_step1_flight_info_airline_placeholder">
+            </div>
+          </div>
+        }
+        @if (flightInfo.arrival.is_require_FlightNo == true)
+        {
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <!-- 航班編號 -->
+            <div class="form-group">
+             <label>@prodTitle.booking_step1_flight_info_flight_no</label>
+             <input type="text" class="form-control" id="txtArrFlightNo" name="txtArrFlightNo" placeholder="@prodTitle.booking_step1_flight_info_flight_no_placeholder">
+            </div>
+         </div>
+        }
+        </div>
+
+        @if (flightInfo.arrival.is_require_Date == true)
+        {
+            <div class="form-group">
+                <!--抵達日期-->
+                <label>@prodTitle.booking_step1_flight_info_arrival_time</label>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                         <div class="input-group date" id='datepickerArrDate' >
+                          <input type="text" class="form-control date-info2" id="txtArrDate" name="txtArrDate" placeholder="@prodTitle.booking_step1_flight_info_arrival_time_placeholder" readonly="readonly" />
+                          <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                        </div>  
+                        </div>
+                    </div>
+
+                    @if (flightInfo.arrival.is_require_Hour == true)
+                    {
+                        <!--抵達時-->
+                        <div class="col-sm-6 col-xs-12">
+                          <div class="time-select">
+                            <div class="form-group">
+                            <select class="form-control " id="selArrHour" name="selArrHour">
+                                <option value=null disabled selected="selected">
+                                    --
+                                </option>
+                                @for (int i = 0; i < 24; i++)
+                                {
+                                    var ii = i.ToString(); if (i < 10) { ii = "0" + i.ToString(); }
+                                    <option value="@ii">@ii</option>
+                                }
+                             </select>
+                             </div>
+                            <span class="time-gap">@prodTitle.common_hr</span>
+
+                            @if (flightInfo.arrival.is_require_Minute == true)
+                             {
+                                <!--抵達分-->
+                                 <div class="form-group">
+                                    <select class="form-control " id="selArrMinute" name="selArrMinute">
+                                        <option value=null disabled selected="selected">
+                                            --
+                                        </option>
+                                        @for (int i = 0; i < 60; i++)
+                                        {
+                                            var ii = i.ToString(); if (i < 10) { ii = "0" + i.ToString(); }
+                                            <option value="@ii">@ii</option>
+                                        }
+                                    </select>
+                                  </div>
+                                  <span class="time-gap">@prodTitle.common_min</span>
+                             }
+                          </div>
+                        </div>
+
+                     }
+
+                    </div>
+
+
+                    @if (flightInfo.arrival.is_need_ApplyVisa == true)
+                    {
+                      <div class="row">
+                        <div class="col-sm-6 col-xs-12">
+                         <div class="form-group">
+                         <label>@prodTitle.booking_step1_is_visa_required</label>
+                          <!-- 是否辦理落地簽 -->
+                         <div class="form-inline">
+                             <label>
+                              <input type="radio" id="rdVisaTypeTrue" name="VisaType" value="true">
+                                 @prodTitle.common_yes 
+                             </label>
+                             <label>
+                              <input type="radio" id="rdVisaTypeFalse" name="VisaType" value="false">
+                                 @prodTitle.common_no
+                              </label>
+                         </div>
+                         </div>
+                        </div>
+                     </div>
+                    }
+
+            </div>
+
+        }
+        </div>
+    }
+        
+    if ((flightInfo.is_require == true && flightInfoType != "00") && flightInfoType != "02")
+    {
+    <div class="traveler-con">
+        <div class="sub-title">
+            <label>@prodTitle.booking_step1_flight_info_departure_info.Replace("%s",countryName) </label>
+        </div>
+
+    <div class="row">
+        @if (flightInfo.departure.is_require_FlightType == true)
+        {
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <!-- 航班類型 -->
+            <div class="form-group">
+                <label>@prodTitle.booking_step1_flight_info_flight_type</label>
+                <select class="form-control " id="selDepFlightType" name="selDepFlightType">
+                    <option value=null disabled selected="selected">
+                        @prodTitle.booking_step1_flight_info_flight_type_placeholder
+                    </option>
+                    <option value="01">
+                        @prodTitle.booking_step1_flight_info_domestic_routes
+                    </option>
+                    <option value=02>
+                        @prodTitle.booking_step1_flight_info_international_routes
+                    </option>
+                </select>
+            </div>
+          </div>
+        }
+
+        @if (flightInfo.departure.is_require_Airport == true)
+        {
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <!-- 抵達機場 -->
+            <div class="form-group">
+                <label>@prodTitle.booking_step1_flight_info_departure_airport</label>
+                <select class="form-control " id="selDepAirport" name="selDepAirport">
+                    <option value=null disabled selected="selected">
+                        @prodTitle.booking_step1_flight_info_departure_airport_placeholder
+                    </option>
+                    @foreach (Airport a in flightInfo.departure.airport_list)
+                    {
+                        <option value="@a.airport_code" >@a.airport_name</option>
+                    }
+                </select>
+            </div>
+          </div>
+        }
+
+        @if (flightInfo.departure.is_require_TerminalNo == true)
+        {
+          <div class="col-md-4 col-sm-6 col-xs-12">
+              <div class=form-group>
+                  <label>@prodTitle.booking_step1_flight_info_terminal_no</label>
+                  <input type="text" class="form-control" id="txtDepTerminalNo" name="txtDepTerminalNo" placeholder="@prodTitle.booking_step1_flight_info_terminal_no_placeholder">
+              </div>
+          </div>
+        }
+    </div>
+    <div class="row">
+        @if (flightInfo.departure.is_require_Airline == true)
+        {
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <!-- 航空公司名稱 -->
+            <div class="form-group">
+                 <label>@prodTitle.booking_step1_flight_info_airline</label>
+                 <input type="text" class="form-control" id="txtDepAirline" name="txtDepAirline" placeholder="@prodTitle.booking_step1_flight_info_airline_placeholder">
+            </div>
+          </div>
+        }
+        @if (flightInfo.departure.is_require_FlightNo == true)
+        {
+          <div class="col-md-4 col-sm-6 col-xs-12">
+            <!-- 航班編號 -->
+            <div class="form-group">
+                 <label>@prodTitle.booking_step1_flight_info_flight_no</label>
+                 <input type="text" class="form-control" id="txtDepFlightNo" name="txtDepFlightNo" placeholder="@prodTitle.booking_step1_flight_info_flight_no_placeholder"> 
+            </div>
+          </div>
+        }
+     </div>
+        @if (flightInfo.departure.is_require_Date == true)
+        {
+            <div class="form-group">
+                <!--抵達日期-->
+                <label>@prodTitle.booking_step1_flight_info_departure_time</label>
+                <div class="row">
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <div class="form-group">
+                            <div class="input-group date" id='datepickerArrDate' >
+                             <input type="text" class="form-control date-info2" id="txtDepDate" name="txtDepDate" placeholder="@prodTitle.booking_step1_flight_info_departure_time_placeholder" readonly="readonly" />
+                             <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                           </div> 
+                        </div>
+                    </div>
+
+                    @if (flightInfo.departure.is_require_Hour == true)
+                    {
+                        <!--抵達時-->
+                        <div class="col-sm-6 col-xs-12">
+                          <div class="time-select">
+                           <div class="form-group">
+                            <select class="form-control " id="selDepHour" name="selDepHour">
+                                <option value=null disabled selected="selected">
+                                    --
+                                </option>
+                                @for (int i = 0; i < 24; i++)
+                                {
+                                    var ii = i.ToString(); if (i < 10) { ii = "0" + i.ToString(); }
+                                    <option value="@ii">@ii</option>
+                                }
+                            </select>
+                           </div>
+                            <span class="time-gap">@prodTitle.common_hr</span>
+
+                        @if (flightInfo.departure.is_require_Minute == true)
+                        {
+                        <!--抵達分-->
+                           <div class="form-group">
+                            <select class="form-control " id="selDepMinute" name="selDepMinute">
+                                <option value=null disabled selected="selected">
+                                    --
+                                </option>
+                                @for (int i = 0; i < 60; i++)
+                                {
+                                    var ii = i.ToString(); if (i < 10) { ii = "0" + i.ToString(); }
+                                    <option value="@ii">@ii</option>
+                                }
+                            </select>
+                           </div>
+                            <span class="time-gap">@prodTitle.common_min</span>
+                             
+                        }
+                        </div>
+                        </div>
+                    }
+                   <!--沒有haveBeenInCountry-->
+
+                </div>
+            </div>
+        }
+
+     </div>
+    }
+}

@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+        <xsd:element name="root" msdata:IsDataSet="true">
+            <xsd:complexType>
+                <xsd:choice maxOccurs="unbounded">
+                    <xsd:element name="metadata">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" use="required" type="xsd:string" />
+                            <xsd:attribute name="type" type="xsd:string" />
+                            <xsd:attribute name="mimetype" type="xsd:string" />
+                            <xsd:attribute ref="xml:space" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="assembly">
+                        <xsd:complexType>
+                            <xsd:attribute name="alias" type="xsd:string" />
+                            <xsd:attribute name="name" type="xsd:string" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="data">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+                            <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+                            <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+                            <xsd:attribute ref="xml:space" />
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:element name="resheader">
+                        <xsd:complexType>
+                            <xsd:sequence>
+                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                            </xsd:sequence>
+                            <xsd:attribute name="name" type="xsd:string" use="required" />
+                        </xsd:complexType>
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:complexType>
+        </xsd:element>
+    </xsd:schema>
+    
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>2.0</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    
+    <!-- Currency -->
+    <data name="CURR_AUD" xml:space="preserve"><value>Australian Dollar</value></data>
+    <data name="CURR_CAD" xml:space="preserve"><value>Canadian Dollar</value></data>
+    <data name="CURR_CNY" xml:space="preserve"><value>Chinese Yuan</value></data>
+    <data name="CURR_EUR" xml:space="preserve"><value>Euro</value></data>
+    <data name="CURR_GBP" xml:space="preserve"><value>GBP</value></data>
+    <data name="CURR_HKD" xml:space="preserve"><value>Hong Kong Dollar</value></data>
+    <data name="CURR_IDR" xml:space="preserve"><value>Indonesian Rupiah</value></data>
+    <data name="CURR_JPY" xml:space="preserve"><value>Japan Yen</value></data>
+    <data name="CURR_KRW" xml:space="preserve"><value>Korean Round</value></data>
+    <data name="CURR_MYR" xml:space="preserve"><value>Malaysia Ringgit</value></data>
+    <data name="CURR_NZD" xml:space="preserve"><value>New Zealand Dollar</value></data>
+    <data name="CURR_PHP" xml:space="preserve"><value>Philippine Peso</value></data>
+    <data name="CURR_SGD" xml:space="preserve"><value>Singapore Dollar</value></data>
+    <data name="CURR_THB" xml:space="preserve"><value>Baht</value></data>
+    <data name="CURR_TWD" xml:space="preserve"><value>New Taiwan Dollar</value></data> 
+    <data name="CURR_USD" xml:space="preserve"><value>USD</value></data> 
+    <data name="CURR_VND" xml:space="preserve"><value>Vietnamese Dong</value></data>  
+    
+    <!-- Genernel -->
+    <data name="KKday_CopyRight" xml:space="preserve"><value>KKday Business to Distribution Platform</value></data>
+    <data name="Add" xml:space="preserve"><value>Add</value></data>
+    <data name="Back" xml:space="preserve"><value>Back</value></data>
+    <data name="Insert" xml:space="preserve"><value>Insert</value></data>
+    <data name="Update" xml:space="preserve"><value>Update</value></data>
+    <data name="Cancel" xml:space="preserve"><value>Cancel</value></data>
+    <data name="Edit" xml:space="preserve"><value>Edit</value></data>
+    <data name="Save" xml:space="preserve"><value>Save</value></data>
+    <data name="Delete" xml:space="preserve"><value>Delete</value></data>
+    <data name="ID" xml:space="preserve"><value>ID</value></data>
+    <data name="Name" xml:space="preserve"><value>Name</value></data>
+    <data name="Country" xml:space="preserve"><value>Country</value></data>
+    <data name="Status" xml:space="preserve"><value>Status</value></data>
+    <data name="Sorting" xml:space="preserve"><value>Sorting</value></data>
+    <data name="Promotion" xml:space="preserve"><value>Promotion</value></data>
+    <data name="Discount" xml:space="preserve"><value>Discount</value></data>
+    <data name="Repricing" xml:space="preserve"><value>RePricing</value></data>
+    <data name="Search" xml:space="preserve"><value>Search</value></data>
+    <data name="Query" xml:space="preserve"><value>Query</value></data>
+    <data name="Data_Not_Found" xml:space="preserve"><value>Data Not Found</value></data>
+    <data name="Yes" xml:space="preserve"><value>Yes</value></data>
+    <data name="No" xml:space="preserve"><value>No</value></data>
+    <data name="Enable" xml:space="preserve"><value>Enable</value></data>
+    <data name="Disable" xml:space="preserve"><value>Disable</value></data>
+    <data name="Account" xml:space="preserve"><value>Account</value></data>
+    <data name="Email" xml:space="preserve"><value>Email</value></data>
+    <data name="ProductNo" xml:space="preserve"><value>Product No</value></data>
+    <data name="ProductName" xml:space="preserve"><value>Product Name</value></data>
+    <data name="Tel" xml:space="preserve"><value>Telephone</value></data>
+    <data name="ContactTel" xml:space="preserve"><value>Contact Tel</value></data>
+    <data name="Select" xml:space="preserve"><value>Select</value></data>
+    <data name="UpdateOK" xml:space="preserve"><value>Update OK</value></data>
+    <!-- Genernel User-->
+    <data name="Register" xml:space="preserve"><value>Register</value></data>
+    <data name="UserProfile" xml:space="preserve"><value>User Profile</value></data>
+    <data name="CompanyProfile" xml:space="preserve"><value>Company Profile</value></data>
+    <data name="GenderTitle" xml:space="preserve"><value>Gender Title</value></data>
+    <data name="NameLast" xml:space="preserve"><value>Last Name</value></data>
+    <data name="NameFirst" xml:space="preserve"><value>First Name</value></data>
+    <data name="JobTitle" xml:space="preserve"><value>Job Title</value></data>
+    <data name="Department" xml:space="preserve"><value>Department</value></data>
+    <data name="CountryANDTelCode" xml:space="preserve"><value>Country And Tel Code</value></data>
+    <data name="TimeZone" xml:space="preserve"><value>Country Timezone(GMT)</value></data>
+    <data name="AddAccount" xml:space="preserve"><value>Add Account</value></data>
+    <data name="ChangePassword" xml:space="preserve"><value>Change Password</value></data>
+    <data name="NewPassword" xml:space="preserve"><value>password</value></data>
+    <data name="PasswordAgain" xml:space="preserve"><value>Password Again</value></data>
+    <data name="CannotChange" xml:space="preserve"><value>(Can't Change)</value></data>
+    <data name="Currency" xml:space="preserve"><value>Currency</value></data>
+    <data name="Locale" xml:space="preserve"><value>Locale</value></data>
+    <data name="OnlyTaiwan" xml:space="preserve"><value>Taiwan Only</value></data>
+    <data name="CacheTime" xml:space="preserve"><value>Cache Time(min)</value></data>
+    
+    <!-- Search -->
+    <data name="Search_Name" xml:space="preserve"><value>Please enter your username</value></data>
+    <data name="Search_Name_Last" xml:space="preserve"><value>Please enter your lastname</value></data>
+    <data name="Search_Name_First" xml:space="preserve"><value>Please enter your firstname</value></data>
+    <data name="Search_Email" xml:space="preserve"><value>Please enter your email</value></data>
+    <data name="Search_Tel" xml:space="preserve"><value>Please enter your phone number</value></data>
+    <data name="Search_JobTitle" xml:space="preserve"><value>Please enter your job title</value></data>
+    <data name="Search_Department" xml:space="preserve"><value>Please enter your department</value></data>
+    
+    <!-- Sidebar -->
+    <data name="Title_Distributor" xml:space="preserve"><value>Distributor</value></data>
+    <data name="Title_VoucherApply" xml:space="preserve"><value>Voucher Apply</value></data>
+    <data name="Title_Order" xml:space="preserve"><value>Order</value></data>
+    <data name="Title_B2dAccount" xml:space="preserve"><value>Account</value></data>
+    <data name="Title_B2dApiAccount" xml:space="preserve"><value>Api Account</value></data>
+    <data name="Title_PriceBlacklist" xml:space="preserve"><value>Price Blacklist</value></data>
+    <data name="Title_PriceSetting" xml:space="preserve"><value>Price Setting</value></data> 
+    <!-- Sidebar User -->
+    <data name="Title_GoBooking" xml:space="preserve"><value>Go Booking</value></data>
+    <data name="Title_MyProfile" xml:space="preserve"><value>My Profile</value></data>
+    <data name="Title_AddVoucher" xml:space="preserve"><value>Add Voucher</value></data>
+    <data name="Title_MyOrder" xml:space="preserve"><value>My Orders</value></data>
+    <data name="Title_ChangePassword" xml:space="preserve"><value>Change Password</value></data>
+    <data name="Title_WebUser" xml:space="preserve"><value>User Account Setting</value></data>
+    <data name="Title_ApiUser" xml:space="preserve"><value>API Account Setting</value></data>
+    <data name="Title_WebUserProfile" xml:space="preserve"><value>User Profile</value></data>
+    <data name="Title_ApiUserProfile" xml:space="preserve"><value>API Profile</value></data>
+    
+    <!-- Account -->
+    <data name="UserType" xml:space="preserve"><value>User Type</value></data>
+    
+    <data name="UserRole_00" xml:space="preserve"><value>User</value></data>
+    <data name="UserRole_01" xml:space="preserve"><value>Admin</value></data>
+    
+    <!-- Company -->
+    <data name="Company_Name" xml:space="preserve"><value>Company Name</value></data>
+    <data name="Company_Invoice" xml:space="preserve"><value>Company Invoice</value></data>
+    <data name="Company_Url" xml:space="preserve"><value>Company Url</value></data>
+    <data name="Company_Address" xml:space="preserve"><value>Company Address</value></data>
+    <data name="Company_PromotionSetting" xml:space="preserve"><value>Promotion Setting</value></data>
+    <data name="Companyloggero" xml:space="preserve"><value>Company Logo</value></data>
+    
+    <!-- Company_Progress -->
+    <data name="Company_Progress_00" xml:space="preserve"><value>Applied</value></data>
+    <data name="Company_Progress_01" xml:space="preserve"><value>Wait</value></data>
+    <data name="Company_Progress_02" xml:space="preserve"><value>Pending</value></data>
+    <data name="Company_Progress_03" xml:space="preserve"><value>Permit</value></data>
+    <data name="Company_Progress_04" xml:space="preserve"><value>Reject</value></data>
+    <data name="Company_Progress_NA" xml:space="preserve"><value>Final</value></data>
+    
+    <!-- Company_Status -->
+    <data name="Company_Status_00" xml:space="preserve"><value>Applied</value></data>
+    <data name="Company_Status_01" xml:space="preserve"><value>Wait</value></data>
+    <data name="Company_Status_02" xml:space="preserve"><value>Pending</value></data>
+    <data name="Company_Status_03" xml:space="preserve"><value>Permit</value></data>
+    <data name="Company_Status_04" xml:space="preserve"><value>Reject</value></data> 
+    
+    <data name="FixedPrice" xml:space="preserve"><value>Fixed Price</value></data>
+    <data name="FixedPriceSetting" xml:space="preserve"><value>Fixed Price Setting</value></data>
+    
+</root>
