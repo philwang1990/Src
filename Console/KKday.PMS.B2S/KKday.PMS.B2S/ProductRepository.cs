@@ -35,7 +35,7 @@ namespace KKday.PMS.B2S.ProductRepository
             }
         }
 
-        public RSModel New(ref long prodOid)
+        public RSModel New(SupplierLoginRSModel supplierLoginRSModel, ref long prodOid)
         {
             try
             {
@@ -50,14 +50,24 @@ namespace KKday.PMS.B2S.ProductRepository
                 RezdyProductModel obj = JsonConvert.DeserializeObject<RezdyProductModel>(get);
 
                 SCMProductModel scmModel = new SCMProductModel();
-                scmModel.json = new Json();
-                scmModel.json.supplierOid = "807";
-                scmModel.json.supplierUserUuid = "4c529bc6-af3c-47c4-986c-eef30cdaa1f0";
-                scmModel.json.deviceId = "11b501a87f4cf456f271e27395eb924b";
-                scmModel.json.tokenKey = "02991db50e2ee8d7e4ae87be81f5ebc7";
+                scmModel.json = new ScmProductJson();
+                scmModel.json.supplierOid = supplierLoginRSModel.supplierOid.ToString();
+                scmModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid ;
+                scmModel.json.deviceId = supplierLoginRSModel.deviceId;
+                scmModel.json.tokenKey = supplierLoginRSModel.tokenKey;
                 scmModel.json.productName = obj.Product.name;
                 scmModel.json.masterLang = scmModel.Locale;
-                scmModel.json.mainCat = "M01";
+                if(obj.Product.productType == "DAYTOUR")
+                  scmModel.json.mainCat = "M01";
+                else if (obj.Product.productType == "MULTIDAYTOUR")
+                    scmModel.json.mainCat = "M02";
+                else
+                {
+                    rsModel.result = "0001";
+                    rsModel.msg = "此商品為:"+ obj.Product.productType + " ,非DAYTOUR 也非MULTIDAYTOUR";
+                    return rsModel;
+                }
+
 
                 JObject productNew = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/new", JsonConvert.SerializeObject(scmModel));
 
@@ -75,6 +85,55 @@ namespace KKday.PMS.B2S.ProductRepository
                 return rsModel;
 
 
+            }
+            catch (Exception ex)
+            {
+                _log.Debug(ex.ToString());
+                throw ex;
+            }
+        }
+
+        public SupplierLoginRSModel setParameters(string supplierName, string email, string password)
+        {
+            try
+            {
+                SupplierLoginRQModel supplierLoginRQModel = new SupplierLoginRQModel();
+                SupplierLoginRSModel supplierLoginRSModel = new SupplierLoginRSModel();
+
+                supplierLoginRQModel.json = new SupplierLoginJson();
+                supplierLoginRQModel.json.email = email;
+                supplierLoginRQModel.json.password = password;
+                supplierLoginRQModel.json.deviceId = "deviceId";
+                supplierLoginRQModel.json.code = "";
+
+                JObject supplierLogin = CommonTool.GetDataPost("https://api.sit.kkday.com/api/supplier/login", JsonConvert.SerializeObject(supplierLoginRQModel));
+
+                if (supplierLogin["content"]["result"].ToString() != "0000")
+                {
+                    supplierLoginRSModel.result = supplierLogin["content"]["result"].ToString();
+                    supplierLoginRSModel.msg = supplierLogin["content"]["msg"].ToString();
+                    return supplierLoginRSModel;
+                }
+
+                supplierLoginRSModel.result = supplierLogin["content"]["result"].ToString();
+                supplierLoginRSModel.msg = supplierLogin["content"]["msg"].ToString();
+                supplierLoginRSModel.email = email;
+                supplierLoginRSModel.password = password;
+                supplierLoginRSModel.supplierUserUuid = supplierLogin["content"]["supplierUserUuid"].ToString();
+                supplierLoginRSModel.deviceId = "11b501a87f4cf456f271e27395eb924b";
+                supplierLoginRSModel.tokenKey = supplierLogin["content"]["tokenKey"].ToString();
+                foreach (var i in supplierLogin["content"]["supplierList"])
+                {
+                    if (i["supplier"]["supplierName"].ToString() == supplierName)
+                    {
+                        supplierLoginRSModel.supplierOid = (long)i["supplier"]["supplierOid"];
+                        break;
+                    }
+                }
+
+
+
+                return supplierLoginRSModel;
             }
             catch (Exception ex)
             {
