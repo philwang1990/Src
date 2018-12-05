@@ -1,0 +1,287 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Account
+@using Resources
+
+@inject ILocalizer localizer
+
+@model B2dAccount
+@{
+    Layout = "_layoutMain";
+}
+@section Stylesheet {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/jquery-scrolling-tabs/dist/css/jquery.scrolling-tabs.min.css")" /> 
+
+    <style type="text/css">
+        .error-text { color: red; }
+    </style>
+}
+
+@section Scripts {
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery-scrolling-tabs/dist/js/jquery.scrolling-tabs.min.js")"></script>
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page">@localizer.Text.Title_B2dAccount</li>
+        <li class="breadcrumb-item active" aria-current="page">使用者帳號內容</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <input type="hidden" id="xid" value="@Model.XID" />
+
+        <div class="col-xs-12">
+            <span style="font-size: 1.18em; display: block; margin: 16px 0 16px 0; color: #0174DF;">
+                @Model.COMPANY_NAME
+            </span>
+        </div>
+
+        <!-- Nav tabs --> 
+        <ul class="nav nav-tabs" role="tablist"> 
+            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">基本資料</a></li>         
+            <li role="presentation"><a href="#passwd" aria-controls="password" role="tab" data-toggle="tab">更改密碼</a></li>
+        </ul>
+
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active" id="profile">
+               <br />
+                <form id="form1">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>@localizer.Text.Email / @localizer.Text.Account</label>
+                            <div class="form-control">@Model.EMAIL</div>
+                        </div>
+
+                    </div> 
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            <label>姓<span class="text-danger">*</span></label>
+                            <input type="text" id="name_first" name="name" class="form-control" value="@Model.NAME_FIRST">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            <label>名<span class="text-danger">*</span></label>
+                            <input type="text" id="name_last" name="name" class="form-control" value="@Model.NAME_LAST">
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>稱謂</label>
+                            <select id="gender_title" class="form-control">
+                                <option value="">請選擇</option>
+                                <option value="miss">Miss</option>
+                                <option value="mr">Mr</option>
+                                <option value="mrs">Mrs</option>
+                                <option value="ms">Ms</option>
+                            </select>
+                        </div>
+                    </div> 
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>聯絡電話<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <div type="text" class="form-control">+@Model.TEL_AREA</div>
+                                <span class="input-group-addon" style="border-left: 0; border-right: 0;">電話</span>
+                                <input type="text" id="tel" class="form-control" value="@Model.TEL" placeholder="輸入電話號碼" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            <label>職務名稱</label>
+                            <input type="text" id="job_title" class="form-control" value="@Model.JOB_TITLE" placeholder="職務名稱">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            <label>部門</label>
+                            <input type="text" id="department" class="form-control" value="@Model.DEPARTMENT" placeholder="輸入部門">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-6">
+                        <div class="form-group">
+                            <label>人員角色<span class="text-danger">*</span></label>
+                            <select id="user_type" class="form-control">
+                                <option value="00">一般使用者</option>
+                                <option value="01">管理者</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="col-xs-12 col-sm-6">
+                         <div class="form-group">
+                            <label>狀態</label>
+                            <select id="status" class="form-control">
+                                <option value="False">@localizer.Text.Disable</option>
+                                <option value="True">@localizer.Text.Enable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 text-center">
+                        <button type="button" class="btn btn-success" onclick="UpdateAccount();">  @localizer.Text.Update</button>
+                    </div>
+
+                </form> 
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="passwd">
+                <br/>
+                <div class="col-sm-6 col-sm-offset-3">
+                    <form id="psw_form">   
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>新密碼</label>
+                                <input type="password" id="psw" name="psw" class="form-control" placeholder="請輸入新密碼">
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>新密碼確認</label>
+                                <input type="password" id="psw_confirm" name="psw_confirm" class="form-control" placeholder="請輸入新密碼驗證">
+                            </div>
+                        </div>
+                        <div class="col-sm-12 text-center">
+                            <button type="button" class="btn btn-success" onclick="UpdatePasswd('@Model.EMAIL');">  @localizer.Text.Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <button type="button" class="btn btn-default" onclick="window.history.go(-1);"> 回上一頁</button>
+        </div>
+    </div> <!-- row -->
+
+</div>
+
+ 
+<script type="text/javascript">
+    $.validator.addMethod("phoneStyle", function( value, element ) {
+       var str = value;
+       var result = false;
+
+       if(str.length > 0){
+           var patt_phone = /^[\d\-\(\)\#]{1,}$/;
+           result = patt_phone.test(str);
+       }
+       else result = true;
+       return result;
+   }, "電話號碼不符合格式，僅接受數字、#-()等符號");
+
+
+    $(function(){
+        $("#gender_title").val('@Model.GENDER_TITLE');
+        $("#user_type").val('@Model.USER_TYPE');
+        $("#status").val('@Model.ENABLE');
+
+        $('.tablist').scrollingTabs();
+
+        $("#psw_form").validate({
+            errorClass: "error-text",
+            errorElement: "small", 
+            rules: { 
+              psw : "required",
+              psw_confirm: { equalTo: "#psw" }
+            },
+            messages: {
+              psw: "密碼不可為空",
+              psw_confirm: "輸入密碼兩者不一致"
+            }
+        }); 
+    });
+
+    function UpdateAccount()
+    {
+       if(!confirm('Are you sure to update account profile?')) return false;
+
+       var userObj = { xid : $("#xid").val(),
+            name_first :$("#name_first").val(),
+            name_last :$("#name_last").val(),
+            department: $("#department").val(),
+            tel :$("#tel").val(),
+            gender_title :$("#gender_title").val(),
+            job_title :$("#job_title").val(),
+            user_type :$("#user_type").val(),
+            enable : $("#status").val() == "True" ? true : false
+        };
+
+        console.log("account: " + JSON.stringify(userObj));
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "Account/Update",
+            contentType: "application/json",
+            data: JSON.stringify(userObj),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    alert("Update OK!");
+
+                    var newForm = $('<form>', {
+                        'action': _root_path + "Account",
+                        'target': '_self',
+                        'method': 'post'
+                    }).append(jQuery('<input>', {
+                        'name': 'query',
+                        'value': /query=([^&#=]*)/.exec(window.location.search)[1],
+                        'type': 'hidden'
+                    }));
+                    newForm.submit();
+                } else {
+                    alert("Error: " + result.msg);
+                }
+            }
+        });
+
+        return false;
+    }
+
+    function UpdatePasswd(acct)
+    {
+        if(!$("#psw_form").valid()) return false;
+        if(!confirm('Are you sure to change user password?')) return false;
+
+        var userObj = { acct: acct, type: 'USER', psw: $("#psw").val() };
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "Account/UpdateAcctPasswd",
+            contentType: "application/json",
+            data: JSON.stringify(userObj),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    alert("Update OK!");
+                } else {
+                    alert("Error: " + result.msg);
+                }
+            }
+        });
+    }
+
+</script>
+ 

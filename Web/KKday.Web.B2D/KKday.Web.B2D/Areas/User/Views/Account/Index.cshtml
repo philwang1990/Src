@@ -1,0 +1,237 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Account
+@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Voucher
+@using Resources
+
+@inject ILocalizer localizer
+
+@{
+    Layout = "_LayoutMain";
+    var countryAreas = (List<CountryArea>)ViewData["CountryAreas"];
+    var countryLocales = (List<CountryLocale>)ViewData["CountryLocales"];
+    var vouch = (B2dVoucherAddon)ViewData["VouchAddOn"];
+}
+@model B2dUserProfile
+@section Scripts {
+    <script type="text/javascript" src="https://rawgit.com/flatlogic/bootstrap-tabcollapse/master/bootstrap-tabcollapse.js"></script>
+    <script type="text/javascript" src="@Url.Content("~/js/b2d-company-profile.js")" asp-append-version="true"></script>
+}
+<form id="form">
+    <div class="board">
+        <div class="page-head">
+            <h1>@localizer.Text.Title_MyProfile</h1>
+            <ul class="nav nav-tabs page-tab">
+                <li class="active"><a href="#tab1" data-toggle="tab">@localizer.Text.UserProfile</a></li>
+                <li><a href="#tab2" data-toggle="tab">@localizer.Text.CompanyProfile</a></li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="tab1">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label>@localizer.Text.GenderTitle</label>
+                            <input type="text" class="form-control" value="@Model.GENDER_TITLE" disabled="disabled" style="background-color:white"/>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>@localizer.Text.NameLast<span class="text-danger">*</span></label>
+                            <input type="text" id="name_last" name="name_last" class="form-control" placeholder="@localizer.Text.Search_Name_Last" value="@Model.NAME_LAST">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>@localizer.Text.NameFirst<span class="text-danger">*</span></label>
+                            <input type="text" id="name_first" name="name_first" class="form-control" placeholder="@localizer.Text.Search_Name_First" value="@Model.NAME_FIRST">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>@localizer.Text.Email</label>
+                            <input type="email" class="form-control" value="@Model.EMAIL" disabled="disabled" style="background-color:white"/>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>@localizer.Text.UserType</label>
+                            <input type="text" class="form-control" value="@Model.USER_TYPE_DESC" disabled="disabled" style="background-color:white">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@localizer.Text.Department</label>
+                            <input type="text" id="department" name="department" class="form-control" value="@Model.DEPARTMENT">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>@localizer.Text.JobTitle</label>
+                            <input type="text" id="job_title" name="job_title" class="form-control" value="@Model.JOB_TITLE">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>@localizer.Text.CountryANDTelCode</label>
+                            <input type="text" class="form-control" value="+@Model.TEL_AREA" disabled="disabled" style="background-color:white"/>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label>@localizer.Text.Tel<span class="text-danger">*</span></label>
+                            <input type="tel" id="tel" name="tel" class="form-control" placeholder="@localizer.Text.Search_Tel" value="@Model.TEL">
+                        </div>
+                    </div>
+                </div>
+                <div class="form-btns">
+                    <button class="btn btn-primary" onclick="UpdateProfile();">@localizer.Text.Update</button>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="tab2">
+                <div class="row">
+                    <div class="col-md-7">
+                        <div class="form-group">
+                            <label>@localizer.Text.Company_Name</label>
+                            <input type="text" class="form-control" value="@Model.COMPANY_NAME" disabled="disabled" style="background-color:white">
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>@localizer.Text.Company_Invoice</label>
+                            <input type="text" class="form-control" placeholder="@localizer.Text.OnlyTaiwan" value="@Model.INVOICE_NO" disabled="disabled" style="background-color:white">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@localizer.Text.Company_Url</label>
+                            <input type="text" class="form-control" placeholder="@localizer.Text.Search_Email" value="@Model.URL" disabled="disabled" style="background-color:white">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>@localizer.Text.Company_Address</label>
+                            <input type="text" class="form-control" value="@Model.ADDRESS" disabled="disabled" style="background-color:white">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script type="text/javascript">
+    //驗證規則擴充
+    $.validator.addMethod("phoneStyle", function( value, element ) 
+    {
+       var str = value;
+       var result = false;
+
+       if(str.length > 0){
+           var patt_phone = /^[\d\-\(\)\#]{1,}$/;
+           result = patt_phone.test(str);
+       }
+       else result = true;
+
+       return result;
+    }, "電話號碼不符合格式，僅接受數字、#-()等符號");
+
+    $(function() {
+        //初始化驗證規則
+        $('#form').validate({
+            rules:{
+                name_last: "required",
+                name_first: "required",
+                tel: {required: true,phoneStyle:true}
+            },
+
+            messages:{
+                name_last: "不可為空",
+                name_first: "不可為空",
+                url : "請輸入正確網址"
+            }
+        });
+
+    });
+
+
+    //修改帳號資訊
+    function UpdateProfile() {
+        if($('#form').valid())
+        {
+            var objProf = {
+                            XID:"@Model.XID",
+                            EMAIL:"@Model.EMAIL",
+                            GENDER_TITLE:"@Model.GENDER_TITLE",
+                            NAME_LAST:$('#name_last').val(),
+                            NAME_FIRST:$('#name_first').val(),
+                            ENABLE:"@Model.ENABLE",
+                            USER_TYPE:"@Model.USER_TYPE",
+                            DEPARTMENT:$('#department').val(),
+                            JOB_TITLE:$('#job_title').val(),
+                            TEL:$('#tel').val()
+                    };
+
+            $.ajax({
+                    url: _root_path + 'Account/UpdateProfile',
+                    type: 'POST',
+                    contentType: "application/json",
+                    dataType: "json",
+                    data: JSON.stringify(objProf),
+                    failure: function (data) {
+                        console.log(data.responseText);
+                    },
+                    error: function (data) {
+                        console.log(data.responseText);
+                    },
+                    success: function(result) {
+                        if(result == "OK") {
+                            alert('@localizer.Text.UpdateOK');
+                            window.location.href = "@Url.Content("~/User/Account")";
+                        }
+                        else {
+                            alert(result.msg);
+                        }
+                    }
+            });
+       }
+    }
+
+   @*//修改公司資訊
+   function UpdateCompany() {
+        var objComp = {
+                        XID:"@Model.COMPANY_XID",
+                        EMAIL:"@Model.EMAIL",
+                        INVOICE_NO:$('#invoice').val(),
+                        URL:$('#url').val(),
+                        ADDRESS:$('#address').val()
+                };
+
+        $.ajax({
+                url: _root_path + 'Company/UpdateCompany',
+                type: 'POST',
+                contentType: "application/json",
+                dataType: "json",
+                data: JSON.stringify(objComp),
+                failure: function (data) {
+                    console.log(data.responseText);
+                },
+                error: function (data) {
+                    console.log(data.responseText);
+                },
+                success: function(result) {
+                    if(result == "OK") {
+                        $('#CreatCompany').attr("disabled","true");
+                        alert('修改完成');
+                        window.location.href = result.url;
+                    }
+                    else {
+                        alert(result.msg);
+                    }
+                }
+        });
+   }*@
+
+    $(function(){
+        $('#myTab').tabCollapse();
+    });
+</script>
