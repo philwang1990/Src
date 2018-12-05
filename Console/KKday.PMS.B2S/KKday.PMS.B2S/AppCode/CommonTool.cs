@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Net.Security;
+using Newtonsoft.Json.Linq;
 
 namespace KKday.PMS.B2S.AppCode
 {
@@ -65,5 +66,73 @@ namespace KKday.PMS.B2S.AppCode
                 throw ex;
             }
         }
+
+        public static JObject GetDataPost(string url, string json_data)
+        {
+            var obj = new JObject();
+            try
+            {
+                string result = "";
+
+
+                using (var handler = new HttpClientHandler())
+                {
+                    handler.ClientCertificateOptions = ClientCertificateOption.Manual;
+                    handler.ServerCertificateCustomValidationCallback =
+                        (httpRequestMessage, cert, cetChain, policyErrors) =>
+                        {
+                            return true;
+                        };
+
+                    using (var client = new HttpClient(handler))
+                    {
+                        client.DefaultRequestHeaders.Accept.Add(
+                        new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+
+
+                        //string json_data = JsonConvert.SerializeObject(RQ);
+                        //string url = $"{Website.Instance.Configuration["URL:KK_MODEL"]}".Replace("{prod_no}", query_lst.prod_no);
+
+                        using (HttpContent content = new StringContent(json_data))
+                        {
+                            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+                            var response = client.PostAsync(url, content).Result;
+                            result = response.Content.ReadAsStringAsync().Result;
+
+                            //Website.Instance.logger.Info($"URL:{url},URL Response StatusCode:{response.StatusCode}");
+
+                            //與API串接失敗 
+                            if (response.StatusCode.ToString() != "OK")
+                            {
+                                throw new Exception(response.Content.ReadAsStringAsync().Result);
+                            }
+                            else
+                            {
+
+                                //rds.SetProdInfotoRedis(result, "bid:test:KKdayApi_getModule" + query_lst.b2d_xid);
+
+                            }
+                        }
+
+                    }
+
+                }
+
+                //}
+
+                obj = JObject.Parse(result);
+
+            }
+            catch (Exception ex)
+            {
+                //Website.Instance.logger.FatalFormat($"KKday API getMoudle Error :{ex.Message},{ex.StackTrace}");
+                throw ex;
+            }
+
+            return obj;
+        }
+
     }
+
+
 }

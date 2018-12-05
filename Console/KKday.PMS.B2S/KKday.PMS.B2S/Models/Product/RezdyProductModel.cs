@@ -6,7 +6,7 @@ namespace KKday.PMS.B2S.Models.Product
     public class RezdyProductModel
     {
         public requestStatus RequestStatus { get; set; }
-        public products Products { get; set; }
+        public product Product { get; set; }
     }
 
     public class requestStatus
@@ -15,7 +15,7 @@ namespace KKday.PMS.B2S.Models.Product
         public string version { get; set; }
     }
 
-    public class products
+    public class product
     {
         public string productType { get; set; }
         public string name { get; set; }
@@ -38,6 +38,7 @@ namespace KKday.PMS.B2S.Models.Product
         public long nquantityRequiredMaxame { get; set; }
         public List<images> Images { get; set; }
 
+        public List<String> videos { get; set; }
         public string bookingMode { get; set; }
         public bool charter { get; set; }
         public string terms { get; set; }
