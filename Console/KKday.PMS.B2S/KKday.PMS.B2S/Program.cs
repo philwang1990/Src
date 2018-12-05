@@ -18,6 +18,7 @@ namespace KKday.PMS.B2S
         {
             try
             {
+                long prodOid = 20442;
                 //initial log4net
                 CommonTool.LoadLog4netConfig();
 
@@ -28,6 +29,9 @@ namespace KKday.PMS.B2S
                 {
                     foreach (var supplier in suppliers)
                     {
+                        //建立商品
+                        //product.New(ref prodOid);
+
                         //商品明細
                         //product.Main();
 
