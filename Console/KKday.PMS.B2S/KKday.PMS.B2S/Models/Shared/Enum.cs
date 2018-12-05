@@ -2,6 +2,11 @@
 
 namespace KKday.PMS.B2S.Models.Shared.Enum
 {
+    public enum PMSSourse
+    {
+        Rezdy,
+    }
+
     public enum Step
     {
         //基本設定
