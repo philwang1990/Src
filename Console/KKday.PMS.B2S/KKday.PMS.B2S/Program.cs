@@ -4,6 +4,7 @@ using KKday.PMS.B2S.PackageRepository;
 using KKday.PMS.B2S.ModuleRepository;
 using log4net;
 using KKday.PMS.B2S.AppCode;
+using KKday.PMS.B2S.Models.Shared;
 
 namespace KKday.PMS.B2S
 {
@@ -20,6 +21,7 @@ namespace KKday.PMS.B2S
             {
                 //待補
                 long prodOid = 20442;
+                SupplierLoginRSModel supplierLoginRSModel = new SupplierLoginRSModel();
                 //initial log4net
                 CommonTool.LoadLog4netConfig();
 
@@ -30,15 +32,19 @@ namespace KKday.PMS.B2S
                 {
                     foreach (var supplier in suppliers)
                     {
+                        //prodOid = 0;
+
                         //待補
                         //"supplierOid":807,
                         //"supplierUserUuid":"4c529bc6-af3c-47c4-986c-eef30cdaa1f0",
                         //"deviceId":"11b501a87f4cf456f271e27395eb924b",
                         //"tokenKey":"02991db50e2ee8d7e4ae87be81f5ebc7"
 
+                        // 設定參數
+                        supplierLoginRSModel = product.setParameters("AAT Kings Tours", "op-llh@kkday.com", "123456");
 
                         //建立商品
-                        //product.New(ref prodOid);
+                        product.New(supplierLoginRSModel, ref prodOid);
 
                         //商品明細
                         //product.Main();
