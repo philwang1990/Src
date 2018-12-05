@@ -1,0 +1,33 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@{
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var currency = (string)ViewData["currency"];
+}
+@model ProductforEcModel
+
+
+<div class="row minPriceBar">
+    @prodTitle.common_per_person : @Model.b2d_price @currency   <br />
+    
+    @if (Model.prod_mkt.is_ec_sale == true)
+    {
+        <div class="row"><button type="button" class="btn btn-info" id="btnConfirm" onclick="chgPkgInfo('','')">@prodTitle.common_booking </button></div>
+    }
+    else
+    {
+       <div class="row"><button type = "button" class="btn btn-info" id="btnConfirm" disabled="disabled">@prodTitle.product_index_coming_soon </button></div>
+    }
+
+</div>
+
+<div class="row confirmBar">
+    @Html.Hidden("hdnConfirmPkgOid", "")
+    <label id="confirmName"></label><br />
+    <label id="confirmSelDate"></label> <br />
+    @prodTitle.common_total    @Model.prod_currency  <label id="confirmPrice">0</label>
+    <div class="row"><button type="button" class="btn btn-info" id="btnConfirm" onclick="btnConfirm()">立即預訂2</button></div>
+</div>
+
+<div class="row">@Model.confirmInfo</div>
+<div class="row">@Model.policy_no    @Model.policyInfo</div>
+

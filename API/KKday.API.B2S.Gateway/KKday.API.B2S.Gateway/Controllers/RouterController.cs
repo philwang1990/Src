@@ -43,7 +43,18 @@ namespace KKday.API.B2S.Gateway.Controllers
             try
             {
                 var xdoc = XDocument.Load(System.AppDomain.CurrentDomain.BaseDirectory + "//App_Data//RouteMapping.xml");
-                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() < 0) throw new Exception("Pakage Oid do not found suppiler mapping");
+
+                if (xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).Count() <= 0) 
+                {
+                    Metadata metadata = new Metadata();
+                    metadata.status = "JTR-10002";
+                    metadata.description = $"此套餐編號找不到串接的供應商，且不再即訂即付的商品項目中";
+                    bookRS.metadata = metadata;
+
+                    return Json(bookRS);
+
+                }
+
 
                 string sup = xdoc.Descendants("item").Where(x => x.Element("kkday_pkg_oid").Value.Contains(bookRQ.order.packageOid)).
                                             Select(x => x.Element("sup").Value).FirstOrDefault().ToString();
@@ -66,8 +77,12 @@ namespace KKday.API.B2S.Gateway.Controllers
             }
             catch (Exception ex)
             {
-                Website.Instance.logger.Fatal($"Gateway Error :{ex.Message},{ex.StackTrace}");
-                result = $"Gateway Error :{ex.Message}";
+
+                Metadata metadata = new Metadata();
+                metadata.status = "JTR-10002";
+                metadata.description = $"Gateway Error :{ex.Message}";
+                bookRS.metadata = metadata;
+
             }
 
             return result;

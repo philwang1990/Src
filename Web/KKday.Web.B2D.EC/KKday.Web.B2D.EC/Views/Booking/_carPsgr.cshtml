@@ -1,0 +1,185 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@{
+    var carPsgr = (CarPasgr)ViewData["carPsgr"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+}
+
+@if (carPsgr != null)
+{
+    @if (carPsgr.is_require == true)
+    {
+
+    <!--乘客資料-->
+    <div class="traveler-con">
+      <div class="sub-title">@prodTitle.booking_step1_car_psgr</div>
+        <div class="row">
+            <!-- 旅客數量 -->
+            @if (carPsgr.adul_qty.is_require == true)
+            {
+                <div class="col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <small>@prodTitle.common_adult (Age @carPsgr.adul_qty.age_range_start~@carPsgr.adul_qty.age_range_end)</small> <br />
+                        <select class="form-control " id="selCarPsgrAdtQty" name="selCarPsgrAdtQty">
+                            <option value=null disabled>--</option>
+                            @for (int ii = 0; ii <= 30; ii++)
+                            {
+                                <option value="@ii">@ii</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            }
+            <!-- 孩童 -->
+            @if (carPsgr.child_qty.is_require == true)
+            {
+                <div class="col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <small>@prodTitle.common_child (Age @carPsgr.child_qty.age_range_start~@carPsgr.child_qty.age_range_end)</small> <br />
+                        <select class="form-control " id="selCarPsgrChdQty" name="selCarPsgrChdQty">
+                            <option value=null disabled>--</option>
+                            @for (int ii = 0; ii <= 30; ii++)
+                            {
+                                <option value="@ii">@ii</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            }
+            <!-- 嬰兒 -->
+            @if (carPsgr.infant_qty.is_require == true)
+            {
+                <div class="col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <small>@prodTitle.common_infant (Age @carPsgr.infant_qty.age_range_start~@carPsgr.infant_qty.age_range_end)</small> <br />
+                        <select class="form-control " id="selCarPsgrInfQty" name="selCarPsgrInfQty">
+                            <option value=null disabled>--</option>
+                            @for (int ii = 0; ii <= 30; ii++)
+                            {
+                                <option value="@ii">@ii</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+            }
+
+        </div>
+        <!--行李數量  手提行李20吋以下 托運行李 (21吋以上)-->
+        <div class="sub-title">@prodTitle.booking_step1_car_psgr_carry_luggage_quantity</div>
+           <div class="row">
+               <div class="col-sm-4 col-xs-12">
+                   <div class="form-group">
+                       <label>@prodTitle.booking_step1_car_psgr_carry_luggage</label>
+                       <select class="form-control " id="selCarPsgrCarryLuggage" name="selCarPsgrCarryLuggage">
+                       <option value=null disabled>--</option>
+                        @for (int ii = 0; ii <= 30; ii++)
+                        {
+                            <option value="@ii">@ii</option>
+                        }
+                       </select>
+                   </div>
+               </div>
+               <div class="col-sm-4 col-xs-12">
+                   <div class="form-group">
+                       <label>@prodTitle.booking_step1_car_psgr_checked_luggage</label>
+                       <select class="form-control " id="selCarPsgrCheckedLuggage" name="selCarPsgrCheckedLuggage">
+                       <option value=null disabled>--</option>
+                       @for (int ii = 0; ii <= 30; ii++)
+                       {
+                           <option value="@ii">@ii</option>
+                       }
+                       </select>
+                   </div>
+               </div>
+            </div>
+
+        @if (carPsgr.child_safety_seat.is_require_supplierProvided == true || carPsgr.child_safety_seat.is_require_selfProvided == true)
+        {
+            <!--兒童座椅數量-->
+          <div class="sub-title">@prodTitle.booking_step1_car_psgr_child_seat_quantity</div>
+           <div class="row">
+               <div class="col-sm-4 col-xs-12">
+                   @if (carPsgr.child_safety_seat.is_require_supplierProvided == true)
+                   {
+                     <!--店家提供-->
+                    <div class="form-group">
+                        <label>@prodTitle.booking_step1_car_psgr_supplier_provided </label>
+                         <select class="form-control " id="selCarPsgrChdSupProvide" name="selCarPsgrChdSupProvide">
+                             <option value=null disabled>--</option>
+                           @for (int ii = 0; ii <= 30; ii++)
+                          {
+                            <option value="@ii">@ii</option>
+                          }
+                         </select>
+                     </div>
+                   }
+               </div>
+               <div class="col-sm-4 col-xs-12">
+                   @if (carPsgr.child_safety_seat.is_require_selfProvided == true)
+                   {
+                     <!--自備座椅-->
+                     <div class="form-group">
+                         <label>@prodTitle.booking_step1_car_psgr_self_provided</label>
+                         <select class="form-control " id="selCarPsgrChdSelfProvide" name="selCarPsgrChdSelfProvide">
+                         <option value=null disabled>--</option>
+                          @for (int ii = 0; ii <= 30; ii++)
+                          {
+                            <option value="@ii">@ii</option>
+                          }
+                         </select>
+                     </div>
+                   }
+               </div>
+            </div>
+        }
+
+
+         @if (carPsgr.infant_safety_seat.is_require_supplierProvided == true || carPsgr.infant_safety_seat.is_require_selfProvided == true)
+         {
+            <!--嬰兒座椅數量-->
+           <div class="sub-title">@prodTitle.booking_step1_car_psgr_infant_seat_quantity</div>
+            <div class="row">
+               <div class="col-sm-4 col-xs-12">
+                   @if (carPsgr.infant_safety_seat.is_require_supplierProvided == true)
+                   {
+                     <!--店家提供-->
+                     <div class="form-group">
+                         <label>@prodTitle.booking_step1_car_psgr_supplier_provided </label>
+                         <select class="form-control " id="selCarPsgrInfSupProvide" name="selCarPsgrInfSupProvide">
+                             <option value=null disabled>--</option>
+                           @for (int ii = 0; ii <= 30; ii++)
+                          {
+                            <option value="@ii">@ii</option>
+                          }
+                         </select>
+                     </div>
+                   }
+               </div>
+               <div class="col-sm-4 col-xs-12">
+                   @if (carPsgr.infant_safety_seat.is_require_selfProvided == true)
+                   {
+                     <!--自備座椅-->
+                     <div class="form-group">
+                         <label>@prodTitle.booking_step1_car_psgr_self_provided</label>
+                         <select class="form-control " id="selCarPsgrInfSelfProvide" name="selCarPsgrInfSelfProvide">
+                           <option value=null disabled>--</option>
+                           @for (int ii = 0; ii <= 30; ii++)
+                           {
+                            <option value="@ii">@ii</option>
+                           }
+                         </select>
+                     </div>
+                   }
+               </div>
+            </div>
+         }
+
+        
+    </div>
+
+
+    }
+}
+
+

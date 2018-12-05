@@ -1,0 +1,40 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@{
+    var mainCat = (string)ViewData["mainCat"];
+    var guide = (List<GuideLanguage>)ViewData["guide"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+}
+
+@if (guide != null)
+{
+    @if (mainCat != "03")
+    {
+
+     <div class="traveler-con">
+        <div class="sub-title">@prodTitle.common_guide_lang</div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group">
+                    <label>@prodTitle.booking_step1_product_guide_lang</label>
+                    <select class="form-control" id="selGuide" name="selGuide">
+                        <option value=null disabled selected="selected">
+                            @prodTitle.common_select_set
+                        </option>
+
+                        @foreach (GuideLanguage g in guide)
+                        {
+                         <option value="@g.lang_code">
+                            @g.lang_name
+                         </option>
+                        }
+                    </select>
+                </div>
+            </div>
+        </div>
+     </div>
+
+
+    }
+}

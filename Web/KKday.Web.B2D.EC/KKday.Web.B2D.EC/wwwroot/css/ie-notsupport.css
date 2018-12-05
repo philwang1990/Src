@@ -1,0 +1,74 @@
+﻿/* Styles for IE Not Support Page */
+body{
+	font-size: 14px !important;
+	line-height: 1.7;
+	background:url(../images/ie_notsupport/bg_1.jpg) !important;
+  background-size: cover !important;
+	}
+.header{
+  background: transparent !important;
+  }
+.header .header-logo{
+  height:60px !important;
+  }
+h1{
+	font-size: 24px;
+	}
+h5{
+	font-size:14px;
+	}
+.not-support-content > img{
+  width:100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: -1;
+  }
+.not-support-content > .container{
+  margin-top: 15vh;
+  margin-bottom: 15vh;
+  }
+.not-support-content h1{
+  margin-bottom: 30px;
+  }
+.not-support-content h1 img{
+  height: 24px;
+  vertical-align: middle;
+  top: -3px;
+  position: relative;
+  }
+.not-support-content > .container p{
+  width:50%;
+  margin-bottom: 40px;
+  }
+.not-support-content .browser-link{
+  margin-bottom: 30px;
+  }
+.not-support-content .browser-link span{
+  margin:10px 10px;
+  }
+.not-support-content .browser-link a img{
+  height: 16px;
+  top: -2px;
+  position: relative;
+  }
+@media screen and (max-width: 767px) {
+  .not-support-content > .container{
+    margin-top: 20px;
+    }
+  .not-support-content > .container p{
+    width:100%;
+    } 
+}
+@media screen and (max-width: 580px){
+  .not-support-content h1{
+    text-align: center;
+    }
+  .not-support-content .browser-link a{
+    width:100%;
+    }
+  .not-support-content .browser-link span{
+    display: block;
+    text-align: center;
+    }
+}

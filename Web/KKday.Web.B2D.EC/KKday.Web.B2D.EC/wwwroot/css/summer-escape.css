@@ -1,0 +1,348 @@
+﻿.brickk-wrapper section{
+	position:relative;
+}
+.brickk-wrapper{
+	background:#26bec9;
+}
+a.logo{
+	width:100px;
+	height: 44px;
+	display: inline-block;
+	background-repeat:none;
+	background-size: cover;
+	background-image: url(https://image.kkday.com/image/get/s1.kkday.com/campaign_441/20171013064347_wOwnZ/png);
+	float: left;
+}
+.brickk-wrapper section.banner{
+	background-image: url('../images/summerescape/banner-bg.jpg');
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position:bottom;
+	position: relative;
+	padding-bottom:63%;
+	margin-bottom:-10%;
+}
+.human{
+	background-image: url('../images/summerescape/human.png');
+	background-size:100% auto;
+	background-repeat: no-repeat;
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+.leave{
+	background-image: url('../images/summerescape/leave.png');
+	background-size:100% auto;
+	background-repeat: no-repeat;
+	position:absolute;
+	width:100%;
+	height:100%;
+}
+.banner-detail{
+	width:50%;
+	position:absolute;
+	bottom:40%;
+	left:50%;
+	transform:translateX(-50%);
+}
+.brickk-wrapper section.banner .deadline span{
+	display: inline-block;
+	padding:5px 15px;
+	color:#fff;
+	border:1.5px solid #fff;
+	text-shadow:0 0 4px rgba(0,0,0,0.2);
+	box-shadow:0 0 4px rgba(0,0,0,0.1);
+	position:absolute;
+	right:30px;
+	top:25px;
+}
+section#slogn-tab h2{
+	color:#fff;
+	margin-bottom:30px;
+}
+.brickk-tab ul.nav{
+	width: 100%;
+	border:none;
+	text-align: center;
+}
+.brickk-tab ul.nav > li{
+	display: inline-block;
+	font-weight: bold;
+	text-align: center;
+	border:none;
+	transition:all ease-in-out .3s;
+	float:none;
+	padding:8px 20px;
+	margin-right: 6px;
+	border-radius:20px;
+	background:rgba(0, 0, 0, 0.1);
+	color:#fff;
+	cursor: pointer;
+}
+.brickk-tab ul.nav > li.active {
+	color:#26bec9;
+	background:#fff;
+}
+section#slogn-tab .tab-pane{
+	margin:60px 0 40px 0;
+	text-align: center;
+}
+section#slogn-tab .tab-pane img.slogn-img{
+	height:180px;
+}
+section.board-area{
+	padding-bottom:150px;
+	text-align: center;
+	overflow:hidden;
+}
+section.board-area > .container{
+	position: relative;
+}
+.board-area .board-bg{
+	background-image: url('../images/summerescape/board-bg.png');
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position:absolute;
+	left:50%;
+	transform:translateX(-50%);
+	width:calc(100% + 120px);
+	height:100%;
+}
+.board-area .parallax{
+	background-image: url('../images/summerescape/parallax.png');
+	background-repeat: no-repeat;
+	background-size: 100%;
+	position:absolute;
+	left:50%;
+	transform:translateX(-50%);
+	width:calc(100% + 120px);
+	height:100%;
+}
+.board-area .board{
+	border:none;
+	padding:40px 0;
+	position: relative;
+}
+.board-img{
+	z-index:2;
+	position:absolute;
+}
+.board-img.left{
+	width:177px;
+	left:80px;
+	bottom:-20px;
+}
+.board-img.right{
+	width:184px;
+	right:70px;
+	bottom:-130px;
+}
+.board .description{
+	font-size:1.8rem;
+}
+.board .description .text-warning{
+	font-size: 2.8rem;
+	font-family:"Arial Rounded MT Bold",'Arial Rounded MT',sans-serif;
+}
+.main-title{
+	font-size:2.4rem;
+}
+.board .main-title{
+	margin-top:50px;
+	margin-bottom:20px;
+}
+.main-title span{
+	border-bottom:4px solid #FFC612;
+	padding-bottom:2px;
+}
+.prize{
+	position: relative;
+	text-align:center;
+	margin:15px 5px;
+	transition: .3s;
+	width:340px;
+	height:170px;
+	display: inline-block;
+}
+.prize:hover{
+	transform:translateY(-5px);
+}
+.prize > img{
+	width:100%;
+}
+.prize h4{
+	color:#999;
+}
+.prize.best h4{
+	color:rgba(255,255,255,.8);
+
+}
+.prize-detail{
+	width:100%;
+	position:absolute;
+	top:calc(50% - 3px);
+	left:50%;
+	transform: translateX(-50%) translateY(-50%);
+	z-index: 2;
+}
+.prize-price{
+	font-family:"Arial Rounded MT Bold",'Arial Rounded MT',sans-serif;
+	color:#666;
+}
+.prize.best .prize-price{
+	color:#fff;
+}
+.prize-price img{
+	height:45px;
+	vertical-align:bottom;
+	margin:5px 3px -5px 3px;
+}
+.quota{
+	background: rgba(102,102,102,0.8);
+	color:#fff;
+	font-weight:bold;
+	border-radius:50%;
+	display: inline-block;
+	width:60px;
+	height:60px;
+	line-height:60px;
+	position:absolute;
+	top:0px;
+	right:-10px;
+	font-size:1.6rem;
+}
+.board .btn-login{
+	background:#fc6b75;
+	color:#fff;
+	padding:12px 90px;
+	box-shadow: 0 6px 6px -1px #ed5660, 0 8px #c0343d, 0 12px 4px -1px rgba(0,0,0,.12);
+	font-size:1.6rem;
+	margin:30px 0;
+	transition:.3s;
+}
+.board .btn-login:hover,
+.board .btn-login:focus,
+.board .btn-login:active{
+	background-color:#ed5660;
+	box-shadow: 0 0 2px -1px #c0343d, 0 0 2px -1px rgba(0,0,0,.12);
+	transform: translateY(12px);
+}
+#policy{
+	background-color:#fff;
+	padding:150px 0 40px 0;
+	background-image: url('../images/summerescape/flowers.jpg');
+	background-size:auto 200px;
+	background-position:top center;
+	background-repeat: repeat-x;
+}
+#policy h4{
+	text-align: left;
+	font-size:16px;
+	margin-top:30px;
+}
+#policy ul,
+#policy ol{
+	padding:0 0 0 20px;
+}
+#policy li,
+#policy p{
+	font-size: 13px;
+	text-align: left;
+}
+footer{
+	background-color:#666;
+	padding: 30px 0px;
+}
+footer ul{
+	margin:0px;
+	padding: 0px 20px;
+	list-style: none;
+}
+footer ul.sns{
+	display: inline-block;
+}
+footer ul.sns li{
+	display: inline-block;
+	height: 40px;
+	width: 40px;
+	border-radius: 50%;
+	line-height: 40px;
+	text-align: center;
+	overflow: hidden;
+	margin:5px 1px;
+	font-size: 18px;
+}
+footer ul.sns li a{
+	display: block;
+	background:rgba(0,0,0,0.3);
+	color:#fff;
+}
+footer ul.sns li a:hover{
+	background:#26BDC8;
+}
+@media(max-width:1200px){
+	.board-img.right{
+		right:0;
+	}
+	.board-img.left{
+		left:-20px;
+	}
+}
+@media (max-width:991px){
+	section.board-area{
+		padding:10px 0;
+	}
+	.board{
+		padding:30px;
+	}
+	.prize{
+		margin:5px 0;
+	}
+}
+@media (max-width: 767px) {
+	footer{
+		text-align: center;
+	}
+	footer a.logo{
+		float: none;
+	}
+	footer span.partner{
+		position: static;
+		top: auto;
+		margin:10px 0px;
+	}
+}
+@media (max-width: 480px) {
+	.main-title{
+		font-size:2.2rem;
+	}
+	.description{
+		font-size: 1.4rem !important;
+	}
+	.prize{
+		width:100%;
+		height:auto;
+	}
+	.prize h4{
+		font-size: 1.4rem;
+	}
+	.prize-price{
+		font-size:1.2rem;
+	}
+	.prize-price img{
+		height: 40px;
+	}
+	.board .btn-login{
+		margin:20px 0;
+	}
+	#policy{
+		padding-top: 120px;
+	}
+	#policy h4{
+		margin-top:20px;
+		margin-bottom:5px;
+	}
+	footer .pull-right{
+		float: none !important;
+	}
+}
