@@ -33,6 +33,7 @@ namespace KKday.PMS.B2S
                     foreach (var supplier in suppliers)
                     {
                         //prodOid = 0;
+                        long supplierId = 807;
 
                         //待補
                         //"supplierOid":807,
@@ -50,7 +51,14 @@ namespace KKday.PMS.B2S
                         //product.Main();
 
                         //套餐
-                        package.Main();
+                        package.Main(
+                        Models.Shared.Enum.PMSSourse.Rezdy,
+                        prodOid,
+                        supplierId,
+                        "PVVRFE",
+                        Guid.Parse("4c529bc6-af3c-47c4-986c-eef30cdaa1f0"),
+                        "11b501a87f4cf456f271e27395eb924b",
+                        "02991db50e2ee8d7e4ae87be81f5ebc7");
 
                         //旅規
                         //module.Main();
