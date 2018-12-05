@@ -35,7 +35,7 @@ namespace KKday.PMS.B2S.ProductRepository
             }
         }
 
-        public RSModel New(SupplierLoginRSModel supplierLoginRSModel, ref long prodOid)
+        public RSModel New(SupplierLoginRSModel supplierLoginRSModel, ref long prodOid, ref RezdyProductModel rezdyProductModel)
         {
             try
             {
@@ -47,7 +47,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 var get = CommonTool.GetData("https://api.rezdy.com/latest/products/PUP3Q0?apiKey=0b3d137cc1db4108a92c309fa7d7f6da&supplierId=21470");
                 //RezdyProductModel
 
-                RezdyProductModel obj = JsonConvert.DeserializeObject<RezdyProductModel>(get);
+                rezdyProductModel = JsonConvert.DeserializeObject<RezdyProductModel>(get);
 
                 SCMProductModel scmModel = new SCMProductModel();
                 scmModel.json = new ScmProductJson();
@@ -55,16 +55,16 @@ namespace KKday.PMS.B2S.ProductRepository
                 scmModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid ;
                 scmModel.json.deviceId = supplierLoginRSModel.deviceId;
                 scmModel.json.tokenKey = supplierLoginRSModel.tokenKey;
-                scmModel.json.productName = obj.Product.name;
+                scmModel.json.productName = rezdyProductModel.Product.name;
                 scmModel.json.masterLang = scmModel.Locale;
-                if(obj.Product.productType == "DAYTOUR")
+                if(rezdyProductModel.Product.productType == "DAYTOUR")
                   scmModel.json.mainCat = "M01";
-                else if (obj.Product.productType == "MULTIDAYTOUR")
+                else if (rezdyProductModel.Product.productType == "MULTIDAYTOUR")
                     scmModel.json.mainCat = "M02";
                 else
                 {
                     rsModel.result = "0001";
-                    rsModel.msg = "此商品為:"+ obj.Product.productType + " ,非DAYTOUR 也非MULTIDAYTOUR";
+                    rsModel.msg = "此商品為:"+ rezdyProductModel.Product.productType + " ,非DAYTOUR 也非MULTIDAYTOUR";
                     return rsModel;
                 }
 
@@ -103,7 +103,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 supplierLoginRQModel.json = new SupplierLoginJson();
                 supplierLoginRQModel.json.email = email;
                 supplierLoginRQModel.json.password = password;
-                supplierLoginRQModel.json.deviceId = "deviceId";
+                supplierLoginRQModel.json.deviceId = "f46ffaed630f6351127dd36d13b2f8be";
                 supplierLoginRQModel.json.code = "";
 
                 JObject supplierLogin = CommonTool.GetDataPost("https://api.sit.kkday.com/api/supplier/login", JsonConvert.SerializeObject(supplierLoginRQModel));
@@ -119,8 +119,8 @@ namespace KKday.PMS.B2S.ProductRepository
                 supplierLoginRSModel.msg = supplierLogin["content"]["msg"].ToString();
                 supplierLoginRSModel.email = email;
                 supplierLoginRSModel.password = password;
-                supplierLoginRSModel.supplierUserUuid = supplierLogin["content"]["supplierUserUuid"].ToString();
-                supplierLoginRSModel.deviceId = "11b501a87f4cf456f271e27395eb924b";
+                supplierLoginRSModel.supplierUserUuid = new Guid(supplierLogin["content"]["supplierUserUuid"].ToString());
+                supplierLoginRSModel.deviceId = "f46ffaed630f6351127dd36d13b2f8be";
                 supplierLoginRSModel.tokenKey = supplierLogin["content"]["tokenKey"].ToString();
                 foreach (var i in supplierLogin["content"]["supplierList"])
                 {

@@ -14,7 +14,7 @@ namespace KKday.PMS.B2S.Models.Product
     public class ScmProductJson
     {
         public string supplierOid { get; set; }
-        public string supplierUserUuid { get; set; }
+        public Guid supplierUserUuid { get; set; }
         public string deviceId { get; set; }
         public string tokenKey { get; set; }
         public string productName { get; set; }
