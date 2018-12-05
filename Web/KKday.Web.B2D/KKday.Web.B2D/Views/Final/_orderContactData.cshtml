@@ -1,0 +1,62 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@{
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var orderData = (DataModel)ViewData["orderData"];
+    var chkSuccess = (Boolean)ViewData["chkSuccess"];
+}
+
+@if (orderData != null)
+{
+    <div class="title">
+        @prodTitle.booking_step1_contact
+        <a href="javascript:;" class="title-tool expand-info">
+            <i class="fa fa-angle-down"></i>
+        </a>
+    </div>
+    <div class="con">
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group must">
+                    <label>@prodTitle.booking_step1_contact_firstname</label>
+                    @orderData.contactFirstname
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group must">
+                    <label>@prodTitle.booking_step1_contact_lastname</label>
+                    @orderData.contactLastname
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group must">
+                    <label>@prodTitle.common_nationality</label>
+                    @orderData.contactCountryCd
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="form-group must">
+                    <label>@prodTitle.booking_step1_contact_tel</label>
+                    @orderData.contactTel
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-xs-12">
+                <div class="form-group must">
+                    <label>@prodTitle.booking_step1_contact_email</label>
+                    @orderData.contactEmail
+                </div>
+            </div>
+        </div>
+        @if (chkSuccess ==true)
+        {
+            <div class="mt-15">
+                <a :href="orderShowUrl" class="btn btn-primary">@prodTitle.booking_step3_order_detail</a>
+            </div>
+        }
+    </div>
+}

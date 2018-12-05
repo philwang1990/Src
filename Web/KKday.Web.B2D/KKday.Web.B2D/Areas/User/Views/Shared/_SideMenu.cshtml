@@ -1,0 +1,49 @@
+﻿@using Microsoft.AspNetCore.Http
+@using KKday.Web.B2D.BE.App_Code
+@using Resources
+@inject ILocalizer localizer
+@{
+    var user_type = User.FindFirst("UserType").Value;
+}
+
+<aside class="page-aside">
+    <div class="aside-box">
+        <h4 class="title">Hello, @User.Identity.Name</h4>
+        <div class="critical-info">
+            <i class="icons icon-user"></i>
+            <b>@(user_type.Equals("ADMIN") ? localizer.Text.UserRole_01 : localizer.Text.UserRole_00)</b>
+        </div>
+        <div class="critical-info">
+            <i class="icons icon-envelope"></i>
+            @User.FindFirst("ACCOUNT").Value
+        </div>
+        <div class="critical-info">
+            <i class="icons icon-home"></i>
+            Agent
+        </div>
+        <a href="index.html" class="btn btn-primary btn-block mt-10"><i class="fa fa-shopping-cart"></i>@localizer.Text.Title_GoBooking</a>
+    </div>
+    <ul class="page-menu">
+        <li>
+            <a href="@Url.Content("~/User/Account")">@localizer.Text.Title_MyProfile</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Account/Password")">@localizer.Text.Title_ChangePassword</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Order")">@localizer.Text.Title_MyOrder</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Voucher")">@localizer.Text.Title_AddVoucher</a>
+        </li>
+        <li id="Menu_05">
+            <a href="@Url.Content("~/User/Account/WebUser")">@localizer.Text.Title_WebUser</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/User/Account/ApiUser")">@localizer.Text.Title_ApiUser</a>
+        </li>
+        <li>
+            <a href="@Url.Content("~/Login/LogOutAsync")">Logout</a>
+        </li>
+    </ul>
+</aside>

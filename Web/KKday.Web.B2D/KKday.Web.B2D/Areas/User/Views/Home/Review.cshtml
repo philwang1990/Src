@@ -1,0 +1,67 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Company
+@using Resources
+@inject ILocalizer localizer
+@{
+    Layout = "_LayoutShell";
+}
+@model B2dCompany
+@section Stylesheet {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/jquery-scrolling-tabs/dist/css/jquery.scrolling-tabs.min.css")" />
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/css/progressbar.css")" />
+
+}
+
+<div role="tabpanel" class="tab-pane" id="review">
+    <div class="row" style="margin-top:16px;">
+        <div class="col-xs-12">
+            <ul id="progressbar" class="progressbar">
+                @* class : { current, active, danger } *@
+                <li class="@(string.Compare(Model.STATUS, "00") >= 0 ? "active" : "")">@localizer.Text.Company_Progress_00</li>
+                <li class="@(string.Compare(Model.STATUS, "01") >= 0 ? "active" : "")">@localizer.Text.Company_Progress_01</li>
+                <li class="@(string.Compare(Model.STATUS, "02") >= 0 ? "active" : "")">@localizer.Text.Company_Progress_02</li>
+                @if (Model.STATUS.Equals("03"))
+                {
+                    <li class="active">@localizer.Text.Company_Progress_03</li>
+                }
+                else if (Model.STATUS.Equals("04"))
+                {
+                    <li class="active">@localizer.Text.Company_Progress_04</li>
+                }
+                else
+                {
+                    <li class="">@localizer.Text.Company_Progress_NA</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top:16px;">
+    <div class="col-xs-12" style="margin-top:16px; margin-bottom:16px;">
+        <div class="col-xs-6 text-right">
+            <label>目前狀態 :</label>
+        </div>
+        <div class="col-xs-6">
+            @if (Model.STATUS.Equals("00"))
+            {
+                <span>@localizer.Text.Company_Status_00 (00)</span>
+            }
+            else if (Model.STATUS.Equals("01"))
+            {
+                <span>@localizer.Text.Company_Status_01 (01)</span>
+            }
+            else if (Model.STATUS.Equals("02"))
+            {
+                <span>@localizer.Text.Company_Status_02 (02)</span>
+            }
+            else if (Model.STATUS.Equals("03"))
+            {
+                <span>@localizer.Text.Company_Status_03 (03)</span>
+            }
+            else if (Model.STATUS.Equals("04"))
+            {
+                <span>@localizer.Text.Company_Status_04 (04)</span>
+            }
+        </div>
+    </div>
+</div>

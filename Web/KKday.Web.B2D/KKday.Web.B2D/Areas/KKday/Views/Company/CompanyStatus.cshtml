@@ -1,0 +1,29 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Company
+@using KKday.Web.B2D.BE.App_Code
+@using KKday.Web.B2D.BE.Models.Model.Common
+@using Resources
+
+@inject ILocalizer localizer
+@model string
+@{
+
+}
+
+<ul id="progressbar" class="progressbar">
+    @* class : { current, active, danger } *@
+    <li class="@(string.Compare(Model, "00") >= 0 ? "active" : "")">@localizer.Text.Company_Progress_00</li>
+    <li class="@(string.Compare(Model, "01") >= 0 ? "active" : "")">@localizer.Text.Company_Progress_01</li>
+    <li class="@(string.Compare(Model, "02") >= 0 ? "active" : "")">@localizer.Text.Company_Progress_02</li>
+    @if (Model.Equals("03"))
+    {
+        <li class="active">@localizer.Text.Company_Progress_03</li>
+    }
+    else if (Model.Equals("04"))
+    {
+        <li class="active">@localizer.Text.Company_Progress_04</li>
+    }
+    else
+    {
+        <li class="">@localizer.Text.Company_Progress_NA</li>
+    }
+</ul> 

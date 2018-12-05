@@ -13,6 +13,7 @@ namespace KKday.API.WMS.AppCode.Proxy
         public static GetTokenResponseModel getToke (string account, string password)
         {
             GetTokenResponseModel RS = new GetTokenResponseModel();
+
             try
             {
                 //IS4 application/ x - www - form - urlencoded 這個模式 抓取RQ

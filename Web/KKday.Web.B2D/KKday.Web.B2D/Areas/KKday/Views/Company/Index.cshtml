@@ -1,0 +1,238 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Company
+@using Resources
+@inject ILocalizer localizer
+@model List<B2dCompany>
+@{
+    Layout = "_LayoutMain";
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+}
+@section Stylesheet {
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <style type="text/css">
+        .modal-dialog {
+            width: whatever;
+        }
+    </style>
+
+}
+@section Scripts {
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+ @*<!-- (Optional) Latest compiled and minified JavaScript translation files -->
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/i18n/defaults-*.min.js"></script>*@
+}
+
+<script type="text/javascript">
+  var query_params = @Html.Raw(ViewData["QUERY_PARAMS_JSON"].ToString()); 
+</script>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.Title_Distributor</li>
+    </ol>
+
+</nav>
+
+
+<div class="container">
+    <div class="row">
+         
+        <div class="col-xs-12"> 
+            <h4>@localizer.Text.Title_Distributor</h4>
+
+            <div class="search-tab row" style="margin-bottom: 20px;">
+                <form>
+                    <div class="col-xs-12 col-sm-2">
+                        <label>@localizer.Text.Name</label>
+                        <input type="text" id="name" class="form-control" placeholder="公司名稱" aria-label="公司名稱" aria-describedby="basic-addon1">
+                    </div>                   
+
+                    <div class="col-xs-12 col-sm-2">
+                        <label>@localizer.Text.Country</label>
+                        <input type="text" id="country" class="form-control" placeholder="所在國家" aria-label="所在國家" aria-describedby="basic-addon1">                          
+                    </div> 
+
+                    <div class="col-xs-12 col-sm-2">
+                       <label>@localizer.Text.Status</label>
+                       <select id="status" class="selectpicker form-control">
+                          <option value="">-- Select --</option>
+                          <option value="00">@localizer.Text.Company_Status_00</option>
+                          <option value="01">@localizer.Text.Company_Status_01</option>
+                          <option value="02">@localizer.Text.Company_Status_02</option> 
+                          <option value="03">@localizer.Text.Company_Status_03</option> 
+                        </select>
+                    </div> 
+
+                    <div class="col-xs-12 col-sm-2">
+                       <label>@localizer.Text.Sorting </label>
+                       <select id="sorting" class="selectpicker form-control">
+                          <option value="">-- Select --</option>
+                          <option value="name">@localizer.Text.Name</option>
+                          <option value="status">@localizer.Text.Status</option>
+                          <option value="xid">@localizer.Text.ID</option>
+                          <option value="country">@localizer.Text.Country</option>
+                        </select>
+                    </div> 
+                   
+                    <div class="col-xs-12 col-sm-2">
+                        <label></label>
+                        <button class="btn btn-info cst-btn form-control" onclick="Refresh(1, true); return false;">@localizer.Text.Search</button>
+                    </div>
+                </form>
+
+            </div> 
+
+        </div>
+
+        <div class="col-xs-12">
+            <div id="list_panel" class="table-responsive"> 
+                @await Html.PartialAsync("CompanyList", Model)
+            </div> 
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Edit</h4>
+            </div>
+            <div class="modal-body">
+                <span>Loading...</span>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="return UpdateCompany();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Update
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-success"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<script type="text/javascript">
+    $(function(){
+     
+        $("#mytable #checkall").click(function () {
+            if ($("#mytable #checkall").is(':checked')) {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", true);
+                });
+
+            } else {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+
+        $("[data-toggle=tooltip]").tooltip();
+     
+        $('#edit').on('show.bs.modal', function(e) { 
+            var xid = $(e.relatedTarget).data('paragraphs');
+            var modal_body =  $(this).find('.modal-body'); 
+            $(modal_body).html("<span>Loading...</span>");
+            $.get(_root_path + "Company/RenderEdit?id=" + xid, function(result) {
+               $(modal_body).html(result);
+            });
+        });
+        
+        try {
+            console.log("--- fresh filter ---");
+            var conds = JSON.parse(query_params.Filter); 
+            $("#name").val(conds.name);
+            $("#country").val(conds.country);
+            $("#status").val(conds.status);
+
+            $("#sorting").val(query_params.Sorting);
+            // Refresh bootstrap-selector
+            $('.selectpicker').selectpicker('refresh');
+        }
+        catch(err) {
+        }
+    });
+
+    function Refresh(page, is_recount) {
+
+        query_params.Filter = JSON.stringify({ name:$("#name").val(), country:$("#country").val().toUpperCase(), status:$("#status").val() });
+        query_params.Sorting = $("#sorting").val();
+        if (page!==undefined) query_params.Paging.current_page = page;
+        query_params.RecountFlag= is_recount;
+        //console.log("Params: " + JSON.stringify(query_params));
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "Company/Refresh",
+            contentType: "application/json",
+            data: JSON.stringify(query_params),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    $("#list_panel").html(result.content);
+                    query_params = JSON.parse(result.query_params); 
+                }
+            }
+        });
+
+    }
+
+    function CompanyEdit(id) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "Company/Profile/" + id + "?query=" + query;
+    }
+
+    function CompanyPromotion(id, name) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "Company/Promotion/" + id + "?name=" + encodeURI(name) + "&query=" + query; 
+    }
+
+    function CompanyFixedPrice(id, name) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "FixedPrice/Prods/" + id + "?name=" + encodeURI(name) + "&query=" + query; 
+    }
+
+    function CompanyVouchApply(id, name) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "Company/VouchApply/" + id + "?name=" + encodeURI(name) + "&query=" + query; 
+    }
+
+     
+</script>

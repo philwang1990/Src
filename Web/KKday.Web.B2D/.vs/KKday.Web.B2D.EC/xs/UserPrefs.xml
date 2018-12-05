@@ -1,0 +1,46 @@
+﻿<Properties StartupConfiguration="{1DD131D3-DD02-4BFC-B4D2-DDE257561B7E}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.Web.B2D.EC/Controllers/ProductController.cs">
+    <Files>
+      <File FileName="KKday.Web.B2D.EC/Controllers/ProductController.cs" Line="108" Column="41" />
+      <File FileName="KKday.Web.B2D.EC/Views/Product/Index.cshtml" Line="84" Column="44" />
+      <File FileName="KKday.Web.B2D.EC/Views/Search/ProdList.cshtml" Line="73" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="../../../KKday.Web.B2D.EC/Controllers/ProductController.cs" line="53" offsetX="1197" offsetY="780" expression="prod" liveUpdate="False" />
+    <Watch file="../../../KKday.Web.B2D.EC/Controllers/ProductController.cs" line="53" offsetX="1197" offsetY="780" expression="prod" liveUpdate="False" />
+    <Watch file="../../../KKday.Web.B2D.EC/Controllers/ProductController.cs" line="53" offsetX="1197" offsetY="780" expression="prod" liveUpdate="False" />
+    <Watch file="../../../KKday.Web.B2D.EC/Controllers/ProductController.cs" line="53" offsetX="1197" offsetY="780" expression="prod" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
+  <MonoDevelop.Ide.ItemProperties.KKday.Web.B2D.EC PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" relfile="KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" line="348" column="13" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" relfile="KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" line="326" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" relfile="KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" line="341" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Booking/_flightInfo.cshtml" relfile="KKday.Web.B2D.EC/Views/Booking/_flightInfo.cshtml" line="49" column="62" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Controllers/BookingController.cs" relfile="KKday.Web.B2D.EC/Controllers/BookingController.cs" line="139" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/wwwroot/js/booking.js" relfile="KKday.Web.B2D.EC/wwwroot/js/booking.js" line="109" column="121" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/ApiHelper.cs" relfile="KKday.Web.B2D.EC/AppCode/ApiHelper.cs" line="61" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Views/Shared/Error.cshtml" relfile="KKday.Web.B2D.EC/Views/Shared/Error.cshtml" line="9" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Controllers/ProductController.cs" relfile="KKday.Web.B2D.EC/Controllers/ProductController.cs" line="100" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Controllers/BookingController.cs" relfile="KKday.Web.B2D.EC/Controllers/BookingController.cs" line="194" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Controllers/BookingController.cs" relfile="KKday.Web.B2D.EC/Controllers/BookingController.cs" line="169" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Models/Repostory/Booking/OrderRepostory.cs" relfile="KKday.Web.B2D.EC/Models/Repostory/Booking/OrderRepostory.cs" line="196" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Controllers/BookingController.cs" relfile="KKday.Web.B2D.EC/Controllers/BookingController.cs" line="164" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Models/Repostory/Booking/OrderRepostory.cs" relfile="KKday.Web.B2D.EC/Models/Repostory/Booking/OrderRepostory.cs" line="51" column="32" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/RedisHelper.cs" relfile="KKday.Web.B2D.EC/AppCode/RedisHelper.cs" line="47" column="1" />
+      <Breakpoint enabled="false" file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" relfile="KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" line="471" column="1" />
+      <Breakpoint file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" relfile="KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" line="469" column="1" />
+      <Breakpoint file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" relfile="KKday.Web.B2D.EC/AppCode/KKapiHelper.cs" line="459" column="1" />
+      <Breakpoint file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/wwwroot/js/booking.validate.js" relfile="KKday.Web.B2D.EC/wwwroot/js/booking.validate.js" line="189" column="1" />
+      <Breakpoint file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Controllers/BookingController.cs" relfile="KKday.Web.B2D.EC/Controllers/BookingController.cs" line="159" column="65" />
+      <Breakpoint file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/AccountProxy.cs" relfile="KKday.Web.B2D.EC/AppCode/AccountProxy.cs" line="62" column="1" />
+      <Breakpoint file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/CountryProxy.cs" relfile="KKday.Web.B2D.EC/AppCode/CountryProxy.cs" line="52" column="1" />
+      <Breakpoint file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/AppCode/CountryProxy.cs" relfile="KKday.Web.B2D.EC/AppCode/CountryProxy.cs" line="99" column="1" />
+      <Breakpoint file="/Users/phil/Desktop/Git/Src/Web/KKday.Web.B2D.EC/KKday.Web.B2D.EC/Controllers/ProductController.cs" relfile="KKday.Web.B2D.EC/Controllers/ProductController.cs" line="65" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

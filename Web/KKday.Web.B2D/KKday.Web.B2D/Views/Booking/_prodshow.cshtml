@@ -1,0 +1,86 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+@{
+    var prodShow = (BookingShowProdModel)ViewData["prodShow"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+}
+<aside class="active">
+    <a href="javascript:;" class="aside-toggle"><i class="icon-options-vertical icons"></i></a>
+    <div class="booking-prod">
+        <div class="pic" style="background-image:url(@prodShow.photoUrl)"></div>
+        <div class="title">@prodShow.prodName </div>
+        <hr>
+        <div class="sub-title">@prodTitle.common_options </div>
+        <div class="text">
+            @prodShow.pkgName
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="sub-title">@prodTitle.common_date</div>
+                <div class="text">@prodShow.sDate</div>
+            </div>
+            @if (string.IsNullOrEmpty(prodShow.eventOid) == false)
+            {
+                <div class="col-xs-6">
+                    <div class="sub-title">@prodTitle.order_show_event_time</div>
+                    <div class="text">@prodShow.eventTime </div>
+                </div>
+            }
+        </div>
+        <hr>
+        @if (prodShow.isRank == true)
+        {
+            <div class="sub-title">@prodTitle.common_order_num_of_travellers</div>
+            @if (prodShow.price1Qty > 0)
+            {
+                <div class="text">
+                    @prodTitle.common_adult x @prodShow.price1Qty
+                    <div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price1).ToString("N0")</div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            @if (prodShow.price2Qty > 0)
+            {
+                <div class="text">
+                    @prodTitle.common_child x @prodShow.price2Qty
+                    <div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price2).ToString("N0")</div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            @if (prodShow.price3Qty > 0)
+            {
+                <div class="text">
+                    @prodTitle.common_infant x @prodShow.price3Qty
+                    <div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price3).ToString("N0")</div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+            @if (prodShow.price4Qty > 0)
+            {
+                <div class="text">
+                    @prodTitle.common_elder x @prodShow.price4Qty
+                    <div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price4).ToString("N0")</div>
+                    <div class="clearfix"></div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="sub-title">@prodTitle.common_guest</div>
+            <div class="text">
+                @prodShow.unitText x @prodShow.price1Qty
+                <div class="pull-right price"><div class="pull-right price">@prodShow.currency  @Convert.ToDouble(prodShow.price1)</div></div>
+                <div class="clearfix"></div>
+            </div>
+        }
+        <hr>
+        <div class="pull-left">
+            <div class="sub-title">@prodTitle.common_total</div>
+        </div>
+        <div class="pull-right">
+            <div class="text-right text-lg price" id="total_price">@prodShow.currency  @prodShow.totoalPrice </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</aside>

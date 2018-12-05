@@ -1,0 +1,113 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.EC.Models.Model.Account
+@using Resources
+@inject ILocalizer localizer
+@model List<B2dAccount>
+@{
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+    var token = ViewData["TOKEN"];
+}
+@if (Model == null || Model.Count < 1)
+{
+    <span>@localizer.Text.Data_Not_Found</span>
+}
+else
+{
+    <input type="hidden" id="xid"/>
+    <!--LIST-->
+    <table class="table table-striped table-middle">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="checkall" /></th>
+                <th>@localizer.Text.Name</th>
+                <th>@localizer.Text.Email</th>
+                <th>@localizer.Text.Status</th>
+                <th>@localizer.Text.UserType</th>
+                <th>@localizer.Text.Company_Name</th>
+                <th>Api Key</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input type="checkbox" class="checkthis" /></td>
+                    <td>
+                        <a href="javascript:AccountEdit(@item.XID);"> @item.NAME_LAST@item.NAME_FIRST</a>
+                    </td>
+                    <td>@item.EMAIL</td>
+                    <td>
+                        @if (item.ENABLE == true)
+                        {<i class="fa fa-check-circle text-info"></i> @localizer.Text.Enable}
+                    else
+                    {<i class="fa fa-times-circle text-danger"></i> @localizer.Text.Disable}
+                    </td>
+                    <td>@item.USER_TYPE_DESC</td>
+                    <td>@item.COMPANY_NAME #@item.COMPANY_XID</td>
+                    <td><a href="#" class="btn btn-default btn-icon" id="get_api_key" data-id="@item.XID" data-toggle="modal" data-target="#api_key"><i class="fa fa-key"></i></a></td>
+                    <td><a href="#" class="btn btn-danger btn-icon" onclick="ApiAccountClose(@item.XID);"><i class="fa fa-trash"></i></a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <!--LIST-->
+
+    <!-- 分頁 -->
+    <ul class="pagination">
+        @if (query_params.Paging.total_pages > 1)
+        {
+            <li><a href="javascript:Refresh(1, false);"><i class="a fa-angle-left"></i></a></li>
+        }
+
+        @if (query_params != null)
+        {
+            for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
+            {
+                var pgIdx = nIdx + 1;
+                if (pgIdx == query_params.Paging.current_page)
+                {
+                    <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+                }
+                else
+                {
+                    <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx, false);">@pgIdx</a></li>
+                }
+            }
+        }
+
+        @if (query_params.Paging.total_pages > 1)
+        {
+            <li>
+                <a href="javascript:Refresh(@query_params.Paging.total_pages, false);"><i class="a fa-angle-right"></i></a>
+            </li>
+        }
+    </ul>
+    <!-- 分頁 -->
+}
+
+<div id="api_key" class="modal fade" tabindex="-1" role="dialog">
+    <input type="hidden" id="xid" />
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">API Key</h4>
+            </div>
+            <div class="modal-body break-all" id="api_key_show"><span id="loading"></span></div>
+                <div class="modal-footer text-center">
+                    <button type="button" class="btn btn-primary" onclick="UpdToken();">更新Token</button>
+                </div>
+        </div>
+    </div>
+</div>
+
+<script>
+$(function(){
+    // 模擬編輯快取時間
+    function GetXid(xid){
+        $('#xid').val(xid);
+    }
+
+});
+</script>
