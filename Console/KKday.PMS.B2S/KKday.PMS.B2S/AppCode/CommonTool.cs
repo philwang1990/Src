@@ -29,7 +29,7 @@ namespace KKday.PMS.B2S.AppCode
         }
 
 
-        public static string GetData(string url, String method)
+        public static string GetData(string url)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace KKday.PMS.B2S.AppCode
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
 
                 httpWebRequest.ContentType = "application/json";
-                httpWebRequest.Method = method;
+                httpWebRequest.Method = "GET";
 
 
                 var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();

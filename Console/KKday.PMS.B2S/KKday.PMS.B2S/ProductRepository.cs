@@ -17,7 +17,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 //initial log4net
                 CommonTool.LoadLog4netConfig();
 
-                var get = CommonTool.GetData("https://api.rezdy.com/latest/products/marketplace?apiKey=0b3d137cc1db4108a92c309fa7d7f6da&limit=1&supplierId=21470&productCode=P0KEEN","GET");
+                var get = CommonTool.GetData("https://api.rezdy.com/latest/products/marketplace?apiKey=0b3d137cc1db4108a92c309fa7d7f6da&limit=1&supplierId=21470&productCode=P0KEEN");
                 //RezdyProductModel
 
                 RezdyProductModel obj = JsonConvert.DeserializeObject<RezdyProductModel>(get);
@@ -41,7 +41,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 //initial log4net
                 CommonTool.LoadLog4netConfig();
 
-                var get = CommonTool.GetData("https://api.rezdy.com/latest/products/PUP3Q0?apiKey=0b3d137cc1db4108a92c309fa7d7f6da&supplierId=21470", "GET");
+                var get = CommonTool.GetData("https://api.rezdy.com/latest/products/PUP3Q0?apiKey=0b3d137cc1db4108a92c309fa7d7f6da&supplierId=21470");
                 //RezdyProductModel
 
                 RezdyProductModel obj = JsonConvert.DeserializeObject<RezdyProductModel>(get);
@@ -54,7 +54,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 scmModel.json.masterLang = scmModel.Locale;
                 scmModel.json.mainCat = "M01";
 
-                var get2 = CommonTool.GetData("https://api.sit.kkday.com/api/product/new", "POST");
+                var get2 = CommonTool.GetData("https://api.sit.kkday.com/api/product/new");
 
                 return obj;
 
