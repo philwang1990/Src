@@ -39,8 +39,11 @@ namespace KKday.PMS.B2S
                         // 設定參數
                         supplierLoginRSModel = product.setParameters("AAT Kings Tours", "op-llh@kkday.com", "123456");
 
-                        //建立商品
-                        product.New(supplierLoginRSModel, ref prodOid, ref rezdyProductModel);
+                        //抓取商品
+                        product.getProduct(ref rezdyProductModel);
+
+                        //建立SCM商品
+                        product.New(supplierLoginRSModel, ref prodOid, rezdyProductModel);
 
                         //商品明細
                         //product.Main();
