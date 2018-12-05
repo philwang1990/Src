@@ -6,12 +6,12 @@ namespace KKday.PMS.B2S.Models.Product
 {
     public class SCMProductModel : ScmBaseModel
     {
-        public Json json { get; set; }
+        public ScmProductJson json { get; set; }
 
 
     }
 
-    public class Json
+    public class ScmProductJson
     {
         public string supplierOid { get; set; }
         public string supplierUserUuid { get; set; }
