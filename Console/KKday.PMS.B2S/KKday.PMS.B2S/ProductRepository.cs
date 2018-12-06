@@ -45,7 +45,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 supplierLoginRQModel.json = new SupplierLoginJson();
                 supplierLoginRQModel.json.email = email;
                 supplierLoginRQModel.json.password = password;
-                supplierLoginRQModel.json.deviceId = "f46ffaed630f6351127dd36d13b2f8be";
+                supplierLoginRQModel.json.deviceId = System.Guid.NewGuid().ToString();
                 supplierLoginRQModel.json.code = "";
 
                 JObject supplierLogin = CommonTool.GetDataPost("https://api.sit.kkday.com/api/supplier/login", JsonConvert.SerializeObject(supplierLoginRQModel));
@@ -62,7 +62,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 supplierLoginRSModel.email = email;
                 supplierLoginRSModel.password = password;
                 supplierLoginRSModel.supplierUserUuid = new Guid(supplierLogin["content"]["supplierUserUuid"].ToString());
-                supplierLoginRSModel.deviceId = "f46ffaed630f6351127dd36d13b2f8be";
+                supplierLoginRSModel.deviceId = supplierLoginRQModel.json.deviceId;
                 supplierLoginRSModel.tokenKey = supplierLogin["content"]["tokenKey"].ToString();
                 foreach (var i in supplierLogin["content"]["supplierList"])
                 {
@@ -115,7 +115,7 @@ namespace KKday.PMS.B2S.ProductRepository
 
         }
 
-        public RSModel New(SupplierLoginRSModel supplierLoginRSModel, ref long prodOid, RezdyProductModel rezdyProductModel)
+        public RSModel createProduct(SupplierLoginRSModel supplierLoginRSModel, ref long prodOid, RezdyProductModel rezdyProductModel)
         {
             try
             {
