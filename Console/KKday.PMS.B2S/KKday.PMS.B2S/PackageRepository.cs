@@ -6,6 +6,7 @@ using KKday.PMS.B2S.AppCode;
 using KKday.PMS.B2S.Models.Package;
 using KKday.PMS.B2S.Models.Package.SCMPackageModel;
 using KKday.PMS.B2S.Models.Package.SCMPackageCalendarModel;
+using KKday.PMS.B2S.Models.Package.SCMPackageCalendarModifyModel;
 using KKday.PMS.B2S.Models.Package.SCMPackagePriceModel;
 using Newtonsoft.Json;
 using ObjectsComparer;
@@ -38,72 +39,50 @@ namespace KKday.PMS.B2S.PackageRepository
                 if (rezdyPackageModel != null && rezdyPackageModel.RequestStatus.Success && rezdyPackageModel.Sessions != null && rezdyPackageModel.Sessions.Any())
                 {
                     //start mapping
-                    int index = 0;
-                    foreach (var item in rezdyPackageModel.Sessions)
+
+                    long packageOid = 0;
+                    //create package
+                    #region Create Package
+
+                    ScmPackageModel scmPackageModel = new ScmPackageModel
                     {
-                        if (index > 0) break;
-                        long packageOid = 0;
-                        //create package
-                        #region Create Package
-
-                        ScmPackageModel scmPackageModel = new ScmPackageModel
+                        Json = new Models.Package.SCMPackageModel.Json
                         {
-                            Json = new Models.Package.SCMPackageModel.Json
+                            SupplierOid = supplierId,
+                            SupplierUserUuid = supplierUserUuid,
+                            DeviceId = deviceId,
+                            TokenKey = tokenKey,
+                            PackageNm = $"{rezdyPackageModel.Sessions.First().ProductCode}", //待確認
+                            PackageDesc = new PackageDesc
                             {
-                                SupplierOid = supplierId,
-                                SupplierUserUuid = supplierUserUuid,
-                                DeviceId = deviceId,
-                                TokenKey = tokenKey,
-                                PackageNm = $"{item.ProductCode}_{item.Id}", //待確認
-                                PackageDesc = new PackageDesc
-                                {
-                                    DescItems = new List<DescItem> { new DescItem { Content = new List<Content> { new Content {
-                                         Id = item.Id.ToString(), //待確認
-                                         Desc = item.Id.ToString() //待確認
+                                DescItems = new List<DescItem> { new DescItem { Content = new List<Content> { new Content {
+                                         Id = rezdyPackageModel.Sessions.First().Id.ToString(), //待確認
+                                         Desc = rezdyPackageModel.Sessions.First().Id.ToString() //待確認
                                      } } } }
-                                }
                             }
-                        };
-
-                        //Post
-                        var newPackageResult = CommonTool.GetDataPost($"https://api.sit.kkday.com/api/product/updatePkg/{prodOid}", JsonConvert.SerializeObject(scmPackageModel));
-                        if (newPackageResult["content"]["result"].ToString() != "0000")
-                        {
-                            throw new Exception("create package fail.");
                         }
+                    };
 
-                        packageOid = Convert.ToInt64(newPackageResult["content"]["packageOid"].ToString());
-                        #endregion
+                    //Post
+                    var newPackageResult = CommonTool.GetDataPost($"https://api.sit.kkday.com/api/product/updatePkg/{prodOid}", JsonConvert.SerializeObject(scmPackageModel));
+                    if (newPackageResult["content"]["result"].ToString() != "0000")
+                    {
+                        throw new Exception("create package fail.");
+                    }
 
-                        //create calendar
-                        #region Create Calendar
-                        Newtonsoft.Json.Linq.JObject calendarInitialResult = null;
-                        if (packageOid != 0)
+                    packageOid = Convert.ToInt64(newPackageResult["content"]["packageOid"].ToString());
+                    #endregion
+
+                    Newtonsoft.Json.Linq.JObject calendarInitialResult = null;
+
+                    #region Create Calendar
+                    if (packageOid != 0)
+                    {
+                        var availableDate = rezdyPackageModel.Sessions.Select(x => x.StartTimeLocal).OrderBy(date => date).ToList();
+
+                        ScmPackageCalendarModel scmPackageCalendarModel = new ScmPackageCalendarModel
                         {
-                            ScmPackageCalendarModel scmPackageCalendarModel = new ScmPackageCalendarModel
-                            {
-                                Json = new Models.Package.SCMPackageCalendarModel.Json
-                                {
-                                    SupplierOid = supplierId,
-                                    SupplierUserUuid = supplierUserUuid,
-                                    DeviceId = deviceId,
-                                    TokenKey = tokenKey,
-                                    ProdOid = prodOid,
-                                    PackageOid = packageOid,
-                                    StartDt = Convert.ToInt64(startDate.ToString("yyyyMMdd")), //待確認
-                                    EndDt = Convert.ToInt64(endDate.ToString("yyyyMMdd")), //待確認
-                                    WeekDays = "1,2,3,4,5,6" //待確認
-                                }
-                            };
-                            //Post
-                            calendarInitialResult = CommonTool.GetDataPost($"https://api.sit.kkday.com/api/1.0/pkg/cal/extend", JsonConvert.SerializeObject(scmPackageCalendarModel));
-                        }
-                        #endregion
-
-                        #region Creata Price
-                        if (packageOid != 0 && calendarInitialResult["content"]["result"].ToString() == "0000" && item.PriceOptions != null && item.PriceOptions.Any())
-                        {
-                            KKday.PMS.B2S.Models.Package.SCMPackagePriceModel.Json price = new KKday.PMS.B2S.Models.Package.SCMPackagePriceModel.Json
+                            Json = new Models.Package.SCMPackageCalendarModel.Json
                             {
                                 SupplierOid = supplierId,
                                 SupplierUserUuid = supplierUserUuid,
@@ -111,55 +90,114 @@ namespace KKday.PMS.B2S.PackageRepository
                                 TokenKey = tokenKey,
                                 ProdOid = prodOid,
                                 PackageOid = packageOid,
-                                PriceType = "RANK", //待確認
-                                CostCalcMethod = "NET", //待確認
-                                ProdCurrCd = "AUD", //待確認
-                                MinOrderQty = 1,
-                                MinOrderAdultQty = 0
-                            };
-
-                            foreach (var priceOption in item.PriceOptions)
-                            {
-                                var priceCondition = PassengerMapping(PMSSourse.Rezdy, priceOption.Label);
-
-                                if (priceCondition == "price1")
-                                {
-                                    price.Price1BegOld = 12;
-                                    price.Price1EndOld = 99;
-                                    price.Price1NetOrg = priceOption.Price;
-                                }
-                                else if (priceCondition == "price2")
-                                {
-                                    price.Price2BegOld = 1;
-                                    price.Price2EndOld = 11;
-                                    price.Price2NetOrg = priceOption.Price;
-                                }
-                                else if (priceCondition == "price3")
-                                {
-                                    //price.Price3BegOld = priceOption.Price + 10;
-                                    //price.Price3EndOld = priceOption.Price + 10;
-                                    price.Price3NetOrg = priceOption.Price;
-                                }
-                                else //price4
-                                {
-                                    //price.Price4BegOld = priceOption.Price + 10;
-                                    //price.Price4EndOld = priceOption.Price + 10;
-                                    price.Price4NetOrg = priceOption.Price;
-                                }
+                                StartDt = Convert.ToInt64(availableDate.Min().ToString("yyyyMMdd")), //待確認
+                                EndDt = Convert.ToInt64(availableDate.Max().ToString("yyyyMMdd")), //待確認
+                                WeekDays = "1,2,3,4,5,6,7" //待確認
                             }
+                        };
 
-                            SCMPackagePriceModel scmPackagePriceModel = new SCMPackagePriceModel
+                        //test missing date
+                        availableDate.RemoveAt(10);
+                        availableDate.RemoveAt(11);
+                        availableDate.RemoveAt(12);
+                        availableDate.RemoveAt(24);
+                        availableDate.RemoveAt(65);
+
+                        var missingDates = new List<DateTimeOffset>();
+                        for (int i = 0; i + 1 < availableDate.Count; i++)
+                        {
+                            var diff = (availableDate[i + 1] - availableDate[i]).TotalDays;
+                            for (int iToComplete = 1; iToComplete < diff; iToComplete++)
                             {
-                                Json = price
-                            };
-
-                            //Post
-                            CommonTool.GetDataPost("https://api.sit.kkday.com/api/1.0/pkg/price/update", JsonConvert.SerializeObject(scmPackagePriceModel));
+                                missingDates.Add(availableDate[i].AddDays(iToComplete));
+                            }
                         }
-                        #endregion
 
-                        index++;
+
+                        //Post
+                        calendarInitialResult = CommonTool.GetDataPost($"https://api.sit.kkday.com/api/1.0/pkg/cal/extend", JsonConvert.SerializeObject(scmPackageCalendarModel));
+
+
+                        foreach (var missingDate in missingDates)
+                        {
+                            ScmPackageCalendarModifyModel scmPackageCalendarModifyModel = new ScmPackageCalendarModifyModel
+                            {
+                                Json = new Models.Package.SCMPackageCalendarModifyModel.Json
+                                {
+                                    SupplierOid = supplierId,
+                                    SupplierUserUuid = supplierUserUuid,
+                                    DeviceId = deviceId,
+                                    TokenKey = tokenKey,
+                                    ProdOid = prodOid,
+                                    PackageOid = packageOid,
+                                    GoDt = Convert.ToInt64(missingDate.ToString("yyyyMMdd")),
+                                    IsUse = "N"
+                                }
+                            };
+                            //Post
+                            calendarInitialResult = CommonTool.GetDataPost("https://api.sit.kkday.com/api/1.0/pkg/cal/modify", JsonConvert.SerializeObject(scmPackageCalendarModifyModel));
+                        }
                     }
+                    #endregion
+
+                    #region Creata Price
+                    if (packageOid != 0 && calendarInitialResult["content"]["result"].ToString() == "0000" && 
+                    rezdyPackageModel.Sessions.First().PriceOptions != null && rezdyPackageModel.Sessions.First().PriceOptions.Any()) //待確認
+                    {
+                        KKday.PMS.B2S.Models.Package.SCMPackagePriceModel.Json price = new KKday.PMS.B2S.Models.Package.SCMPackagePriceModel.Json
+                        {
+                            SupplierOid = supplierId,
+                            SupplierUserUuid = supplierUserUuid,
+                            DeviceId = deviceId,
+                            TokenKey = tokenKey,
+                            ProdOid = prodOid,
+                            PackageOid = packageOid,
+                            PriceType = "RANK", //待確認
+                            CostCalcMethod = "NET", //待確認
+                            ProdCurrCd = "AUD", //待確認
+                            MinOrderQty = 1,
+                            MinOrderAdultQty = 0
+                        };
+
+                        foreach (var priceOption in rezdyPackageModel.Sessions.First().PriceOptions) //待確認
+                        {
+                            var priceCondition = PassengerMapping(PMSSourse.Rezdy, priceOption.Label);
+
+                            if (priceCondition == "price1")
+                            {
+                                price.Price1BegOld = 12;
+                                price.Price1EndOld = 99;
+                                price.Price1NetOrg = priceOption.Price;
+                            }
+                            else if (priceCondition == "price2")
+                            {
+                                price.Price2BegOld = 1;
+                                price.Price2EndOld = 11;
+                                price.Price2NetOrg = priceOption.Price;
+                            }
+                            //else if (priceCondition == "price3")
+                            //{
+                            //    //price.Price3BegOld = priceOption.Price + 10;
+                            //    //price.Price3EndOld = priceOption.Price + 10;
+                            //    price.Price3NetOrg = priceOption.Price;
+                            //}
+                            //else //price4
+                            //{
+                            //    //price.Price4BegOld = priceOption.Price + 10;
+                            //    //price.Price4EndOld = priceOption.Price + 10;
+                            //    price.Price4NetOrg = priceOption.Price;
+                            //}
+                        }
+
+                        SCMPackagePriceModel scmPackagePriceModel = new SCMPackagePriceModel
+                        {
+                            Json = price
+                        };
+
+                        //Post
+                        CommonTool.GetDataPost("https://api.sit.kkday.com/api/1.0/pkg/price/update", JsonConvert.SerializeObject(scmPackagePriceModel));
+                    }
+                    #endregion
                 }
 
                 #region Model Comparison
