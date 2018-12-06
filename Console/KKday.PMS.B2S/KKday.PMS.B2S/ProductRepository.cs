@@ -126,10 +126,11 @@ namespace KKday.PMS.B2S.ProductRepository
 
                 SCMProductModel scmModel = new SCMProductModel();
                 scmModel.json = new ScmProductJson();
-                scmModel.json.supplierOid = supplierLoginRSModel.supplierOid.ToString();
+                scmModel.json.supplierOid = supplierLoginRSModel.supplierOid;
                 scmModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid ;
                 scmModel.json.deviceId = supplierLoginRSModel.deviceId;
                 scmModel.json.tokenKey = supplierLoginRSModel.tokenKey;
+
                 scmModel.json.productName = rezdyProductModel.Product.name;
                 scmModel.json.masterLang = scmModel.Locale;
                 if(rezdyProductModel.Product.productType == "DAYTOUR")
@@ -174,9 +175,140 @@ namespace KKday.PMS.B2S.ProductRepository
             try
             {
                 RSModel rsModel = new RSModel();
+                JObject scmRSModel;
+                JObject countryList;
+                JObject cityList;
+                JObject countryModifyRSModel;
+                JObject setCostMethodRSModel;
                 SCMProductModel scmModel = new SCMProductModel();
-                scmModel.json.deviceId = "1";
+                scmModel.json = new ScmProductJson();
+                scmModel.json.supplierOid = supplierLoginRSModel.supplierOid;
+                scmModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
+                scmModel.json.deviceId = supplierLoginRSModel.deviceId;
+                scmModel.json.tokenKey = supplierLoginRSModel.tokenKey;
 
+                AreaRQModel areaModel = new AreaRQModel();
+                areaModel.json = new AreaJson();
+                areaModel.json.supplierOid = supplierLoginRSModel.supplierOid;
+                areaModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
+                areaModel.json.deviceId = supplierLoginRSModel.deviceId;
+                areaModel.json.tokenKey = supplierLoginRSModel.tokenKey;
+
+                CountryModifyRQModel countryModifyRQModelModel = new CountryModifyRQModel();
+                countryModifyRQModelModel.json = new CountryModifyJson();
+                countryModifyRQModelModel.json.supplierOid = supplierLoginRSModel.supplierOid;
+                countryModifyRQModelModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
+                countryModifyRQModelModel.json.deviceId = supplierLoginRSModel.deviceId;
+                countryModifyRQModelModel.json.tokenKey = supplierLoginRSModel.tokenKey;
+
+                scmModel.Currency = rezdyProductModel.Product.currency;
+                //scmModel.json.productName = rezdyProductModel.Product.name; // 商品名稱
+
+                string country = null;
+                string city = null;
+                if(rezdyProductModel.Product.timezone != null) 
+                { 
+                   foreach( var i in rezdyProductModel.Product.timezone.Split('/'))
+                    {
+                        if (country == null)
+                            country = i;
+                        else
+                            city = i;
+                    }
+
+                }
+
+
+                foreach (var i in new string[] { "A01", "A03", "A04", "A04", "A05", "A06", "A07", "A08", "A09" })
+                {
+                    areaModel.json.parentAreaCd = i;
+                    countryList = CommonTool.GetDataPost("https://api.sit.kkday.com/api/area", JsonConvert.SerializeObject(areaModel));
+                    foreach (var j in countryList["content"]["areaList"])
+                    {
+                        if (country == j["areaShortName"].ToString())
+                        {
+                            areaModel.json.parentAreaCd = j["areaCd"].ToString();
+                            cityList = CommonTool.GetDataPost("https://api.sit.kkday.com/api/area", JsonConvert.SerializeObject(areaModel));
+                            foreach (var k in cityList["content"]["areaList"])
+                            {
+                                if (city == k["areaShortName"].ToString())
+                                {
+                                    countryModifyRQModelModel.json.opType = "UPDATE";
+                                    countryModifyRQModelModel.json.cityCd = k["areaCd"].ToString();
+                                    countryModifyRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/country/modify/" + prodOid, JsonConvert.SerializeObject(countryModifyRQModelModel));
+                                    if (countryModifyRSModel["content"]["result"].ToString() != "0000")
+                                    {
+                                        rsModel.result = countryModifyRSModel["content"]["result"].ToString();
+                                        rsModel.msg = countryModifyRSModel["content"]["msg"].ToString();
+                                        return rsModel;
+                                    }
+
+                                    break;
+                                    
+                                }
+                            }
+
+                            break;
+                        }
+
+                    }
+                }
+
+
+                JObject timezone = CommonTool.GetDataPost("https://api.sit.kkday.com/api/comm/TIMEZONE", JsonConvert.SerializeObject(scmModel));
+                foreach(var i in timezone["content"]["codeList"])
+                {
+                    if (i["code"]["dataName"].ToString().StartsWith(rezdyProductModel.Product.timezone) == true)
+                    {
+                        scmModel.json.timezone = i["code"]["dataCd"].ToString(); // 商品時區
+                        break;
+                    }
+                }
+
+                SetCostMethodRQModel setCostMethodRQModel = new SetCostMethodRQModel();
+                setCostMethodRQModel.json = new SetCostMethodJson();
+                setCostMethodRQModel.json.supplierOid = supplierLoginRSModel.supplierOid;
+                setCostMethodRQModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
+                setCostMethodRQModel.json.deviceId = supplierLoginRSModel.deviceId;
+                setCostMethodRQModel.json.tokenKey = supplierLoginRSModel.tokenKey;
+                setCostMethodRQModel.json.costCalcMethod = "NET";
+                setCostMethodRQModel.json.prodCurrCd = "USD";
+                setCostMethodRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/setCostMethod/" + prodOid, JsonConvert.SerializeObject(setCostMethodRQModel));
+                if (setCostMethodRSModel["content"]["result"].ToString() != "0000")
+                {
+                    rsModel.result = setCostMethodRSModel["content"]["result"].ToString();
+                    rsModel.msg = setCostMethodRSModel["content"]["msg"].ToString();
+                    return rsModel;
+                }
+
+                // 有可能是 en-au 但是scm均為en 所以要作轉換
+                for ( int i = 0; i< rezdyProductModel.Product.Languages.Count;i++ )
+                {
+                    if (rezdyProductModel.Product.Languages[i].StartsWith("en") == true)
+                        rezdyProductModel.Product.Languages[i] = "en";
+                }
+
+                scmModel.json.guideLang = rezdyProductModel.Product.Languages ; // 提供解說服務
+                scmModel.json.keyWord = ""; // 自訂關鍵字 用逗號分隔 共三格 11,22,33
+                scmModel.json.orderEmail = supplierLoginRSModel.email; // 訂單通知 email 
+                scmModel.json.supplierNote = rezdyProductModel.Product.productCode; // 備註(店家內部使用) 對應到對方的productCode
+
+                //後面參數為model有null時 不顯示在model內
+                scmRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/modify/"+ prodOid, JsonConvert.SerializeObject(scmModel,
+                            Newtonsoft.Json.Formatting.None,
+                            new JsonSerializerSettings
+                            {
+                                NullValueHandling = NullValueHandling.Ignore
+                            }));
+                if (scmRSModel["content"]["result"].ToString() != "0000")
+                {
+                    rsModel.result = scmRSModel["content"]["result"].ToString();
+                    rsModel.msg = scmRSModel["content"]["msg"].ToString();
+                    return rsModel;
+                }
+
+                rsModel.result = scmRSModel["content"]["result"].ToString();
+                rsModel.msg = scmRSModel["content"]["msg"].ToString();
 
 
                 return rsModel;
