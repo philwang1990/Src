@@ -21,9 +21,13 @@ namespace KKday.PMS.B2S
             try
             {
                 //待補
-                long prodOid = 20442;
+                long prodOid = 20451;
                 SupplierLoginRSModel supplierLoginRSModel = new SupplierLoginRSModel();
                 RezdyProductModel rezdyProductModel = new RezdyProductModel();
+                RSModel getProductRSModel = new RSModel();
+                RSModel createProductRSModel = new RSModel();
+                RSModel setScmProductRSModel = new RSModel();
+
                 //initial log4net
                 CommonTool.LoadLog4netConfig();
 
@@ -38,25 +42,48 @@ namespace KKday.PMS.B2S
 
                         // 設定參數
                         supplierLoginRSModel = product.setParameters("AAT Kings Tours", "op-llh@kkday.com", "123456");
+                        if(supplierLoginRSModel.result == "0000")
+                        {
+                            //抓取商品
+                            getProductRSModel = product.getProduct(ref rezdyProductModel);
+                            if (getProductRSModel.result == "0000")
+                            {
+                                //建立SCM商品
+                                createProductRSModel = product.createProduct(supplierLoginRSModel, ref prodOid, rezdyProductModel);
+                                if (createProductRSModel.result == "0000")
+                                {
+                                    //商品明細
+                                    setScmProductRSModel = product.setScmProduct(supplierLoginRSModel, prodOid, rezdyProductModel);
 
-                        //建立商品
-                        product.New(supplierLoginRSModel, ref prodOid, ref rezdyProductModel);
+                                    //套餐
+                                    package.Main(
+                                    Models.Shared.Enum.PMSSourse.Rezdy,
+                                    prodOid,
+                                    supplierLoginRSModel.supplierOid,
+                                    "PVVRFE",
+                                    supplierLoginRSModel.supplierUserUuid,
+                                    supplierLoginRSModel.deviceId,
+                                    supplierLoginRSModel.tokenKey);
 
-                        //商品明細
-                        //product.Main();
+                                    //旅規
+                                    //module.Main();
+                                }
+                                else
+                                {
+                                    Console.WriteLine("建立商品錯誤:" + createProductRSModel.result);
+                                }
+                            }
+                            else
+                            {
+                                Console.WriteLine("抓取商品錯誤:"+ getProductRSModel.result);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("設定參數錯誤:"+ supplierLoginRSModel.result);
+                        }
 
-                        //套餐
-                        package.Main(
-                        Models.Shared.Enum.PMSSourse.Rezdy,
-                        prodOid,
-                        supplierLoginRSModel.supplierOid,
-                        "PVVRFE",
-                        supplierLoginRSModel.supplierUserUuid ,
-                        supplierLoginRSModel.deviceId,
-                        supplierLoginRSModel.tokenKey);
 
-                        //旅規
-                        //module.Main();
                     }
                 }
 
