@@ -11,35 +11,42 @@ using KKday.PMS.B2S.Models.Package.SCMPackagePriceModel;
 using Newtonsoft.Json;
 using ObjectsComparer;
 using KKday.PMS.B2S.Models.Shared.Enum;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.FileExtensions;
+using Microsoft.Extensions.Configuration.Json;
 
-namespace KKday.PMS.B2S.PackageRepository
+namespace KKday.PMS.B2S
 {
     public class PackageRepository
     {
         private readonly static ILog _log = LogManager.GetLogger(typeof(PackageRepository));
+        private readonly string connectUrl = "";
 
         public void Main(PMSSourse pms, long prodOid, long supplierId, string productCode, Guid supplierUserUuid, string deviceId, string tokenKey)
         {
             try
             {
-                //initial log4net
-                CommonTool.LoadLog4netConfig();
+                _log.Info("PackageRepository start..");
 
-                DateTime startDate = DateTime.Parse("2018-11-01 00:00:00");
-                DateTime endDate = DateTime.Parse("2019-12-31 00:00:00");
+                Startup startup = new Startup();
+                startup.Initial();
 
-                var get = CommonTool.GetDataNew("https://api.rezdy.com/latest/availability?" +
-                    "apiKey=0b3d137cc1db4108a92c309fa7d7f6da&" +
-                    $"productCode={productCode}&" +
-                    $"startTimeLocal={startDate.ToString("yyyy-MM-dd")} 00:00:00&" +
-                    $"endTimeLocal={endDate.ToString("yyyy-MM-dd")} 00:00:00");
+                DateTime startDate = DateTime.Now; //待確認
+                DateTime endDate = DateTime.Now.AddYears(3); //待確認
+
+                var get = CommonTool.GetDataNew(string.Format(startup.GetParameter(pms, ParameterType.Availability),
+                                                startup.GetParameter(pms, ParameterType.ApiKey),
+                                                productCode,
+                                                $"{startDate.ToString("yyyy-MM-dd")} 00:00:00",
+                                                $"{endDate.ToString("yyyy-MM-dd")} 00:00:00"));
+
+                Console.WriteLine("GetAvailabilityData..");
+                //_log.Info(get.Result);
 
                 var rezdyPackageModel = RezdyPackageModel.FromJson(get.Result);
 
                 if (rezdyPackageModel != null && rezdyPackageModel.RequestStatus.Success && rezdyPackageModel.Sessions != null && rezdyPackageModel.Sessions.Any())
                 {
-                    //start mapping
-
                     long packageOid = 0;
                     //create package
                     #region Create Package
@@ -64,7 +71,7 @@ namespace KKday.PMS.B2S.PackageRepository
                     };
 
                     //Post
-                    var newPackageResult = CommonTool.GetDataPost($"https://api.sit.kkday.com/api/product/updatePkg/{prodOid}", JsonConvert.SerializeObject(scmPackageModel));
+                    var newPackageResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_updatepkg), prodOid), JsonConvert.SerializeObject(scmPackageModel));
                     if (newPackageResult["content"]["result"].ToString() != "0000")
                     {
                         throw new Exception("create package fail.");
@@ -115,7 +122,7 @@ namespace KKday.PMS.B2S.PackageRepository
 
 
                         //Post
-                        calendarInitialResult = CommonTool.GetDataPost($"https://api.sit.kkday.com/api/1.0/pkg/cal/extend", JsonConvert.SerializeObject(scmPackageCalendarModel));
+                        calendarInitialResult = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_calendarextend), JsonConvert.SerializeObject(scmPackageCalendarModel));
 
 
                         foreach (var missingDate in missingDates)
@@ -135,7 +142,7 @@ namespace KKday.PMS.B2S.PackageRepository
                                 }
                             };
                             //Post
-                            calendarInitialResult = CommonTool.GetDataPost("https://api.sit.kkday.com/api/1.0/pkg/cal/modify", JsonConvert.SerializeObject(scmPackageCalendarModifyModel));
+                            calendarInitialResult = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_calendarmodify), JsonConvert.SerializeObject(scmPackageCalendarModifyModel));
                         }
                     }
                     #endregion
@@ -195,7 +202,7 @@ namespace KKday.PMS.B2S.PackageRepository
                         };
 
                         //Post
-                        CommonTool.GetDataPost("https://api.sit.kkday.com/api/1.0/pkg/price/update", JsonConvert.SerializeObject(scmPackagePriceModel));
+                        CommonTool.GetDataPost(startup.GetParameter(pms, ParameterType.KKdayApi_priceupdate), JsonConvert.SerializeObject(scmPackagePriceModel));
                     }
                     #endregion
                 }
