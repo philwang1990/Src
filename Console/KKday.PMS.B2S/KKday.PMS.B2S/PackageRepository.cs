@@ -20,7 +20,6 @@ namespace KKday.PMS.B2S
     public class PackageRepository
     {
         private readonly static ILog _log = LogManager.GetLogger(typeof(PackageRepository));
-        private readonly string connectUrl = "";
 
         public void Main(PMSSourse pms, long prodOid, long supplierId, string productCode, Guid supplierUserUuid, string deviceId, string tokenKey)
         {
@@ -38,7 +37,7 @@ namespace KKday.PMS.B2S
                                                 startup.GetParameter(pms, ParameterType.ApiKey),
                                                 productCode,
                                                 $"{startDate.ToString("yyyy-MM-dd")} 00:00:00",
-                                                $"{endDate.ToString("yyyy-MM-dd")} 00:00:00"));
+                                                $"{endDate.ToString("yyyy-MM-dd")} 23:59:00"));
 
                 Console.WriteLine("GetAvailabilityData..");
                 //_log.Info(get.Result);
@@ -202,7 +201,7 @@ namespace KKday.PMS.B2S
                         };
 
                         //Post
-                        CommonTool.GetDataPost(startup.GetParameter(pms, ParameterType.KKdayApi_priceupdate), JsonConvert.SerializeObject(scmPackagePriceModel));
+                        CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_priceupdate), JsonConvert.SerializeObject(scmPackagePriceModel));
                     }
                     #endregion
                 }
