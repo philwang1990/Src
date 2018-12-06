@@ -61,7 +61,7 @@ namespace KKday.PMS.B2S
                                 //if (createProductRSModel.result == "0000")
                                 {
                                     //商品明細
-                                    //setScmProductRSModel = product.setScmProduct(supplierLoginRSModel, prodOid, rezdyProductModel);
+                                    setScmProductRSModel = product.setScmProduct(supplierLoginRSModel, prodOid, rezdyProductModel);
 
                                     //套餐
                                     PackageRepository packageRepository = new PackageRepository();

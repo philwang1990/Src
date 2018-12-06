@@ -272,7 +272,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 setCostMethodRQModel.json.deviceId = supplierLoginRSModel.deviceId;
                 setCostMethodRQModel.json.tokenKey = supplierLoginRSModel.tokenKey;
                 setCostMethodRQModel.json.costCalcMethod = "NET";
-                setCostMethodRQModel.json.prodCurrCd = "USD";
+                setCostMethodRQModel.json.prodCurrCd = rezdyProductModel.Product.currency;
                 setCostMethodRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/setCostMethod/" + prodOid, JsonConvert.SerializeObject(setCostMethodRQModel));
                 if (setCostMethodRSModel["content"]["result"].ToString() != "0000")
                 {
