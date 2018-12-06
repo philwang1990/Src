@@ -89,7 +89,7 @@ namespace KKday.PMS.B2S.ProductRepository
             try
             {
                 RSModel rsModel = new RSModel();
-                var get = CommonTool.GetData("https://api.rezdy.com/latest/products/PUP3Q0?apiKey=0b3d137cc1db4108a92c309fa7d7f6da&supplierId=21470");
+                var get = CommonTool.GetData("https://api.rezdy.com/latest/products/PSSPVU?apiKey=0b3d137cc1db4108a92c309fa7d7f6da");
                 //RezdyProductModel
 
                 rezdyProductModel = JsonConvert.DeserializeObject<RezdyProductModel>(get);
@@ -160,6 +160,26 @@ namespace KKday.PMS.B2S.ProductRepository
                 return rsModel;
 
 
+            }
+            catch (Exception ex)
+            {
+                _log.Debug(ex.ToString());
+                throw ex;
+            }
+        }
+
+        public RSModel setScmProduct(SupplierLoginRSModel supplierLoginRSModel, long prodOid, RezdyProductModel rezdyProductModel)
+        {
+
+            try
+            {
+                RSModel rsModel = new RSModel();
+                SCMProductModel scmModel = new SCMProductModel();
+                scmModel.json.deviceId = "1";
+
+
+
+                return rsModel;
             }
             catch (Exception ex)
             {
