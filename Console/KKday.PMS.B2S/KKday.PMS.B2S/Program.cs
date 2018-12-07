@@ -53,11 +53,11 @@ namespace KKday.PMS.B2S
                         if (supplierLoginRSModel.result == "0000")
                         {
                             //抓取商品
-                            getProductRSModel = product.getProduct(ref rezdyProductModel);
+                            getProductRSModel = product.getProduct(PMSSourse.Rezdy, ref rezdyProductModel, "PSSPVU");
                             if (getProductRSModel.result == "0000")
                             {
                                 //建立SCM商品
-                                //createProductRSModel = product.createProduct(PMSSourse.Rezdy, supplierLoginRSModel, ref prodOid, rezdyProductModel);
+                                //createProductRSModel = product.createProduct(supplierLoginRSModel, ref prodOid, rezdyProductModel);
                                 //if (createProductRSModel.result == "0000")
                                 {
                                     //商品明細
@@ -139,6 +139,8 @@ namespace KKday.PMS.B2S
                     {
                         case ParameterType.ApiKey:
                             return this.configuration[$"{head}:Rezdy:apikey"];
+                        case ParameterType.ProductSearch:
+                            return this.configuration[$"{head}:Rezdy:ProductSearch"];
                         case ParameterType.Product:
                             return this.configuration[$"{head}:Rezdy:Product"];
                         case ParameterType.Pickups:
@@ -152,6 +154,24 @@ namespace KKday.PMS.B2S
                     head = "KKdayApi_Url";
                     switch (parameterType)
                     {
+                        case ParameterType.KKdayApi_supplierlogin:
+                            return this.configuration[$"{head}:supplierlogin"];
+                        case ParameterType.KKdayApi_productnew:
+                            return this.configuration[$"{head}:productnew"];
+                        case ParameterType.KKdayApi_area:
+                            return this.configuration[$"{head}:area"];
+                        case ParameterType.KKdayApi_countrymodify:
+                            return this.configuration[$"{head}:countrymodify"];
+                        case ParameterType.KKdayApi_timezone:
+                            return this.configuration[$"{head}:timezone"];
+                        case ParameterType.KKdayApi_setCostMethod:
+                            return this.configuration[$"{head}:setCostMethod"];
+                        case ParameterType.KKdayApi_productmodify:
+                            return this.configuration[$"{head}:productmodify"];
+                        case ParameterType.KKdayApi_updateDate:
+                            return this.configuration[$"{head}:updateDate"];
+                        case ParameterType.KKdayApi_voucherupdate:
+                            return this.configuration[$"{head}:voucherupdate"];
                         case ParameterType.KKdayApi_updatepkg:
                             return this.configuration[$"{head}:updatepkg"];
                         case ParameterType.KKdayApi_calendarextend:
@@ -160,8 +180,7 @@ namespace KKday.PMS.B2S
                             return this.configuration[$"{head}:calendarmodify"];
                         case ParameterType.KKdayApi_priceupdate:
                             return this.configuration[$"{head}:priceupdate"];
-                        case ParameterType.KKdayApi_voucherupdate:
-                            return this.configuration[$"{head}:voucherupdate"];
+                        
                         default:
                             return string.Empty;
                     }

@@ -55,12 +55,21 @@ namespace KKday.PMS.B2S.Models.Shared.Enum
 
     public enum ParameterType
     {
+        KKdayApi_supplierlogin,
+        KKdayApi_productnew,
+        KKdayApi_area,
+        KKdayApi_countrymodify,
+        KKdayApi_timezone,
+        KKdayApi_setCostMethod,
+        KKdayApi_productmodify,
+        KKdayApi_updateDate,
+        KKdayApi_voucherupdate,
         KKdayApi_updatepkg,
         KKdayApi_calendarextend,
         KKdayApi_calendarmodify,
         KKdayApi_priceupdate,
-        KKdayApi_voucherupdate,
         ApiKey,
+        ProductSearch,
         Product,
         Pickups,
         Availability

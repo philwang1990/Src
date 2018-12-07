@@ -14,33 +14,12 @@ namespace KKday.PMS.B2S.ProductRepository
     {
         private readonly static ILog _log = LogManager.GetLogger(typeof(ProductRepository));
 
-        public void Main()
-        {
-            try
-            {
-                //initial log4net
-                CommonTool.LoadLog4netConfig();
-
-                var get = CommonTool.GetData("https://api.rezdy.com/latest/products/marketplace?apiKey=0b3d137cc1db4108a92c309fa7d7f6da&limit=1&supplierId=21470&productCode=P0KEEN");
-                //RezdyProductModel
-
-                RezdyProductModel obj = JsonConvert.DeserializeObject<RezdyProductModel>(get);
-
-                SCMProductModel scmModel = new SCMProductModel();
-                scmModel.json.deviceId = "1";
-
-                //do something
-            }
-            catch (Exception ex)
-            {
-                _log.Debug(ex.ToString());
-            }
-        }
-
         public SupplierLoginRSModel setParameters(PMSSourse pms, string supplierName, string email, string password)
         {
             try
             {
+                Startup startup = new Startup();
+                startup.Initial();
                 SupplierLoginRQModel supplierLoginRQModel = new SupplierLoginRQModel();
                 SupplierLoginRSModel supplierLoginRSModel = new SupplierLoginRSModel();
 
@@ -50,7 +29,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 supplierLoginRQModel.json.deviceId = System.Guid.NewGuid().ToString();
                 supplierLoginRQModel.json.code = "";
 
-                JObject supplierLogin = CommonTool.GetDataPost("https://api.sit.kkday.com/api/supplier/login", JsonConvert.SerializeObject(supplierLoginRQModel));
+                JObject supplierLogin = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_supplierlogin), JsonConvert.SerializeObject(supplierLoginRQModel));
 
                 if (supplierLogin["content"]["result"].ToString() != "0000")
                 {
@@ -86,12 +65,14 @@ namespace KKday.PMS.B2S.ProductRepository
             }
         }
 
-        public RSModel getProduct(ref RezdyProductModel rezdyProductModel)
+        public RSModel getProduct(PMSSourse pms, ref RezdyProductModel rezdyProductModel, string productCode)
         {
             try
             {
+                Startup startup = new Startup();
+                startup.Initial();
                 RSModel rsModel = new RSModel();
-                var get = CommonTool.GetData("https://api.rezdy.com/latest/products/PSSPVU?apiKey=0b3d137cc1db4108a92c309fa7d7f6da");
+                var get = CommonTool.GetData(string.Format(startup.GetParameter(pms, ParameterType.ProductSearch), productCode, startup.GetParameter(pms, ParameterType.ApiKey)));
                 //RezdyProductModel
 
                 rezdyProductModel = JsonConvert.DeserializeObject<RezdyProductModel>(get);
@@ -117,13 +98,12 @@ namespace KKday.PMS.B2S.ProductRepository
 
         }
 
-        public RSModel createProduct(PMSSourse pms, SupplierLoginRSModel supplierLoginRSModel, ref long prodOid, RezdyProductModel rezdyProductModel)
+        public RSModel createProduct(SupplierLoginRSModel supplierLoginRSModel, ref long prodOid, RezdyProductModel rezdyProductModel)
         {
             try
             {
-
-                //initial log4net
-                CommonTool.LoadLog4netConfig();
+                Startup startup = new Startup();
+                startup.Initial();
                 RSModel rsModel = new RSModel();
 
                 SCMProductModel scmModel = new SCMProductModel();
@@ -147,7 +127,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 }
 
 
-                JObject productNew = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/new", JsonConvert.SerializeObject(scmModel));
+                JObject productNew = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productnew), JsonConvert.SerializeObject(scmModel));
 
                 if (productNew["content"]["result"].ToString() != "0000")
                 {
@@ -189,12 +169,12 @@ namespace KKday.PMS.B2S.ProductRepository
                 setStep2(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 商品分類
                 setStep3(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel, timezoneString); // 上架時間
                 setStep4(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 憑證設定
-                setStep5(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程說明
-                setStep6(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 照片及影片
-                setStep7(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程表
-                setStep8(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 集合地點
-                setStep9(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 費用包含細節
-                setStep10(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 兌換方式
+                //setStep5(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程說明
+                //setStep6(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 照片及影片
+                //setStep7(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程表
+                //setStep8(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 集合地點
+                //setStep9(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 費用包含細節
+                //setStep10(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 兌換方式
 
                 return rsModel;
             }
@@ -209,6 +189,8 @@ namespace KKday.PMS.B2S.ProductRepository
         {
             try
             {
+                Startup startup = new Startup();
+                startup.Initial();
                 RSModel rsModel = new RSModel();
                 JObject scmRSModel;
                 JObject countryList;
@@ -255,20 +237,20 @@ namespace KKday.PMS.B2S.ProductRepository
                 foreach (var i in new string[] { "A01", "A03", "A04", "A04", "A05", "A06", "A07", "A08", "A09" })
                 {
                     areaModel.json.parentAreaCd = i;
-                    countryList = CommonTool.GetDataPost("https://api.sit.kkday.com/api/area", JsonConvert.SerializeObject(areaModel));
+                    countryList = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_area), JsonConvert.SerializeObject(areaModel));
                     foreach (var j in countryList["content"]["areaList"])
                     {
                         if (country == j["areaShortName"].ToString())
                         {
                             areaModel.json.parentAreaCd = j["areaCd"].ToString();
-                            cityList = CommonTool.GetDataPost("https://api.sit.kkday.com/api/area", JsonConvert.SerializeObject(areaModel));
+                            cityList = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_area), JsonConvert.SerializeObject(areaModel));
                             foreach (var k in cityList["content"]["areaList"])
                             {
                                 if (city == k["areaShortName"].ToString())
                                 {
                                     countryModifyRQModelModel.json.opType = "UPDATE";
                                     countryModifyRQModelModel.json.cityCd = k["areaCd"].ToString(); // 區域（城巿）
-                                    countryModifyRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/country/modify/" + prodOid, JsonConvert.SerializeObject(countryModifyRQModelModel));
+                                    countryModifyRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_countrymodify), prodOid), JsonConvert.SerializeObject(countryModifyRQModelModel));
                                     if (countryModifyRSModel["content"]["result"].ToString() != "0000")
                                     {
                                         rsModel.result = countryModifyRSModel["content"]["result"].ToString();
@@ -288,7 +270,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 }
 
 
-                timezone = CommonTool.GetDataPost("https://api.sit.kkday.com/api/comm/TIMEZONE", JsonConvert.SerializeObject(scmModel));
+                timezone = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_timezone), JsonConvert.SerializeObject(scmModel));
                 foreach (var i in timezone["content"]["codeList"])
                 {
                     if (i["code"]["dataName"].ToString().StartsWith(rezdyProductModel.Product.timezone) == true)
@@ -307,7 +289,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 setCostMethodRQModel.json.tokenKey = supplierLoginRSModel.tokenKey;
                 setCostMethodRQModel.json.costCalcMethod = "NET"; //成本計算方式
                 setCostMethodRQModel.json.prodCurrCd = rezdyProductModel.Product.currency; //成本計算方式 幣別
-                setCostMethodRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/setCostMethod/" + prodOid, JsonConvert.SerializeObject(setCostMethodRQModel));
+                setCostMethodRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_setCostMethod), prodOid), JsonConvert.SerializeObject(setCostMethodRQModel));
                 if (setCostMethodRSModel["content"]["result"].ToString() != "0000")
                 {
                     rsModel.result = setCostMethodRSModel["content"]["result"].ToString();
@@ -328,7 +310,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 scmModel.json.supplierNote = rezdyProductModel.Product.productCode; // 備註(店家內部使用) 對應到對方的productCode
 
                 //後面參數為model有null時 不顯示在model內
-                scmRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/modify/" + prodOid, JsonConvert.SerializeObject(scmModel,
+                scmRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productmodify), prodOid), JsonConvert.SerializeObject(scmModel,
                             Newtonsoft.Json.Formatting.None,
                             new JsonSerializerSettings
                             {
@@ -360,6 +342,8 @@ namespace KKday.PMS.B2S.ProductRepository
         {
             try
             {
+                Startup startup = new Startup();
+                startup.Initial();
                 RSModel rsModel = new RSModel();
                 JObject scmRSModel;
 
@@ -370,7 +354,7 @@ namespace KKday.PMS.B2S.ProductRepository
                     scmModel.json.tagCd.Add("TAG_4_5"); // 商品分類 多日遊
 
                 //後面參數為model有null時 不顯示在model內
-                scmRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/modify/" + prodOid, JsonConvert.SerializeObject(scmModel,
+                scmRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productmodify), prodOid), JsonConvert.SerializeObject(scmModel,
                             Newtonsoft.Json.Formatting.None,
                             new JsonSerializerSettings
                             {
@@ -399,6 +383,8 @@ namespace KKday.PMS.B2S.ProductRepository
         {
             try
             {
+                Startup startup = new Startup();
+                startup.Initial();
                 RSModel rsModel = new RSModel();
                 JObject scmRSModel;
                 UpdateDateRQModel updateDateRQModel;
@@ -407,7 +393,7 @@ namespace KKday.PMS.B2S.ProductRepository
 
                 scmModel.json.confirmHour = "48"; // 自訂確認時間
                 //後面參數為model有null時 不顯示在model內
-                scmRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/modify/" + prodOid, JsonConvert.SerializeObject(scmModel,
+                scmRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productmodify), prodOid), JsonConvert.SerializeObject(scmModel,
                             Newtonsoft.Json.Formatting.None,
                             new JsonSerializerSettings
                             {
@@ -430,7 +416,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 updateDateRQModel.json.cutoffdayProcessTimezone = timezoneString; //每日結單時區
                 updateDateRQModel.json.begSaleDt = $"{DateTime.Now.ToString("yyyyMMdd")}0000";//自動上架日期
                 updateDateRQModel.json.endSaleDt = $"{DateTime.Now.AddYears(3).ToString("yyyyMMdd")}2359";//自動下架日期
-                updateDateRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/updateDate/" + prodOid, JsonConvert.SerializeObject(updateDateRQModel));
+                updateDateRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_updateDate), prodOid), JsonConvert.SerializeObject(updateDateRQModel));
                 if (updateDateRSModel["content"]["result"].ToString() != "0000")
                 {
                     rsModel.result = updateDateRSModel["content"]["result"].ToString();
@@ -475,10 +461,8 @@ namespace KKday.PMS.B2S.ProductRepository
                 voucherUpdateRQModel.json.moduleSetting.setting.voucherType = "02"; // 憑證類型 供應商憑證
 
                 //後面參數為model有null時 不顯示在model內
-                //voucherUpdateRSModel = CommonTool.GetDataPost("https://api.sit.kkday.com/api/product/" + prodOid + "/module/voucher/update", JsonConvert.SerializeObject(voucherUpdateRQModel));
-                voucherUpdateRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_voucherupdate),
-                                                prodOid),
-                                                JsonConvert.SerializeObject(voucherUpdateRQModel));
+                voucherUpdateRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_voucherupdate),prodOid),
+                                                              JsonConvert.SerializeObject(voucherUpdateRQModel));
                 if (voucherUpdateRSModel["content"]["result"].ToString() != "0000")
                 {
                     rsModel.result = voucherUpdateRSModel["content"]["result"].ToString();
