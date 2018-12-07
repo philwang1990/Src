@@ -4,280 +4,279 @@
 @{
     var sendData = (SendData)ViewData["sendData"];
     var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
-    var flightInfoType = (string)ViewData["flightInfoType"];
+    //var flightInfoType = (string)ViewData["flightInfoType"];
     var sendInfoType = (string)ViewData["sendInfoType"];
     //var uiKey = (Dictionary<string, string>)ViewData["uiKey"];
 }
 
 @if (sendData != null)
 {
-    @if (sendData.is_require == true &&  flightInfoType!="00") //flightInfoType!="00"
-   {
-    <!-- 寄送資料 -->
-    <div class="traveler-con">
-        <div class="sub-title">@prodTitle.booking_step1_send_data</div>
+    @if (sendData.is_require == true && sendInfoType != "00")
+    {
+        <!-- 寄送資料 -->   
+        <div class="traveler-con">
+            <div class="sub-title">@prodTitle.booking_step1_send_data</div>
 
-         @if (sendData.receiver_name.is_require_LastName == true)
-         {
-              <div class="row">
-                  <div class="col-md-4 col-sm-6 col-xs-12">
-                      <!-- 收件人名字 -->
-                      <div class="form-group">
-                        <label>@prodTitle.booking_step1_send_data_receiver_firstname</label>
-                        <input type="text" class="form-control" id="txtSendDataRcefName" name="txtSendDataRcefName" placeholder="@prodTitle.booking_step1_send_data_receiver_firstname_placeholder">
-                      </div>
-                  </div>
-                  <div class="col-md-4 col-sm-6 col-xs-12">
-                      <!-- 收件人姓氏 -->
-                      <div class="form-group">
-                        <label>@prodTitle.booking_step1_send_data_receiver_lastname</label>
-                        <input type="text" class="form-control" id="txtSendDataRcelName" name="txtSendDataRcelName" placeholder="@prodTitle.booking_step1_send_data_receiver_lastname_placeholder">
-                      </div>
-                  </div>
-              </div>
-
-              @if (sendData.receiver_address.is_require_Country == true && sendInfoType =="02")//&& sendInfoType =="02"
-              {
-                <label>@prodTitle.booking_step1_send_data_receive_address</label>
+            @if (sendData.receiver_name.is_require_LastName == true)
+            {
                 <div class="row">
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <!-- 收件國家 -->
+                        <!-- 收件人名字 -->
                         <div class="form-group">
-                            <label>@prodTitle.booking_step1_send_data_receive_address_country</label>
-                            <select class="form-control " id="selSendDataCountryCode" name="selSendDataCountryCode">
-                                <option value=null disabled selected="selected">
-                                    @prodTitle.booking_step1_send_data_receive_address_country_placeholder
-                                </option>
-                                @foreach (Country c in sendData.receiver_address.country_list)
-                                {
-                                    <option value="@c.id"> @c.name</option>
-                                }
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4 col-sm-6 col-xs-12">
-                        <!-- 收件城市 -->
-                        <div class="form-group">
-                            <label>@prodTitle.booking_step1_send_data_receive_address_city</label>
-                            <select class="form-control " id="selSendDataCityCode" name="selSendDataCityCode">
-                                <option value=null disabled selected="selected">
-                                    @prodTitle.booking_step1_send_data_receive_address_city_placeholder
-                                </option>
-                                @foreach (Country c in sendData.receiver_address.country_list)
-                                {
-                                    @foreach(City ct in c.cities)
-                                     {
-                                         <option value="@ct.id"> @ct.name</option>
-                                     }
-                                }
-                            </select>
+                            <label>@prodTitle.booking_step1_send_data_receiver_firstname</label>
+                            <input type="text" class="form-control" id="txtSendDataRcefName" name="txtSendDataRcefName" placeholder="@prodTitle.booking_step1_send_data_receiver_firstname_placeholder">
                         </div>
                     </div>
                     <div class="col-md-4 col-sm-6 col-xs-12">
-                        <!-- 郵遞區號 -->
+                        <!-- 收件人姓氏 -->
                         <div class="form-group">
-                          <label>@prodTitle.booking_step1_send_data_zip_colde</label>
-                          <input type="text" class="form-control" id="txtSendDataZipCode" name="txtSendDataZipCode">
+                            <label>@prodTitle.booking_step1_send_data_receiver_lastname</label>
+                            <input type="text" class="form-control" id="txtSendDataRcelName" name="txtSendDataRcelName" placeholder="@prodTitle.booking_step1_send_data_receiver_lastname_placeholder">
                         </div>
-                     </div>
-
-                    @if (sendData.receiver_address.is_require_Address == true)
-                    {
-
-                         <div class="col-md-8 col-sm-12 col-xs-12">
-                            <!--詳細地址-->
-                          <div class="form-group">
-                            <label>@prodTitle.booking_step1_send_data_receive_address_detail</label>
-                            <textarea rows="2" id="txtSendDataAdd" name="txtSendDataAdd" placeholder="@prodTitle.booking_step1_send_data_receive_address_placeholder" ></textarea>
-                          </div>
-                         </div>     
-                    }
-
-                </div>
-              }
-
-             @if (sendData.receiver_tel.is_require_TelNumber == true)
-             {
-                 <div class="row">
-                   <div class="col-md-4 col-sm-6 col-xs-12">
-                       <!-- 出發前可聯絡電話 -->
-                       <div class="form-group">
-                         <label>@prodTitle.booking_step1_send_data_receiver_tel</label>
-                         <input  type="text" class="form-control" id="txtSendDataReceiverTel" name="txtSendDataReceiverTel"  placeholder="@prodTitle.booking_step1_send_data_receiver_tel_placeholder" />
-                       </div>
-                   </div>
-                 </div>
-             }
-
-             @if (sendInfoType == "01") //01
-             {
-               <div class="row">
-                  @if (sendData.send_to_hotel.send_to_hotel_info.is_require_HotelName == true)
-                  {
-                      <div  class="col-sm-6 col-xs-12">
-                           <!-- 飯店名稱 -->
-                          <div class="form-group">
-                            <label>@prodTitle.booking_step1_send_data_hotel_name</label>
-                            <input type="text" class="form-control" id="txtSendDataHtlName" name="txtSendDataHtlName" placeholder="@prodTitle.booking_step1_send_data_hotel_name_placeholder">
-                          </div>
-                     </div>
-                  }
-                  @if (sendData.send_to_hotel.send_to_hotel_info.is_require_HotelTel == true)
-                  {
-
-                      <div  class="col-sm-6 col-xs-12">
-                          <!-- 飯店電話 -->
-                          <div class="form-group">
-                            <label>@prodTitle.booking_step1_send_data_hotel_tel</label>
-                            <input type="text" class="form-control" id="txtSendDataHtlTel" name="txtSendDataHtlTel" placeholder="@prodTitle.booking_step1_send_data_hotel_tel_placeholder">
-                          </div>
-                     </div>
-                  }
+                    </div>
                 </div>
 
-                <div class="row">
+                @if (sendData.receiver_address.is_require_Country == true && sendInfoType == "02")//&& sendInfoType =="02"
+                {
+                    <label>@prodTitle.booking_step1_send_data_receive_address</label>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <!-- 收件國家 -->
+                            <div class="form-group">
+                                <label>@prodTitle.booking_step1_send_data_receive_address_country</label>
+                                <select class="form-control " id="selSendDataCountryCode" name="selSendDataCountryCode">
+                                    <option value=null disabled selected="selected">
+                                        @prodTitle.booking_step1_send_data_receive_address_country_placeholder
+                                    </option>
+                                    @foreach (Country c in sendData.receiver_address.country_list)
+                                    {
+                                        <option value="@c.id"> @c.name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
 
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_HotelAddress == true)
-                    {
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <!-- 收件城市 -->
+                            <div class="form-group">
+                                <label>@prodTitle.booking_step1_send_data_receive_address_city</label>
+                                <select class="form-control " id="selSendDataCityCode" name="selSendDataCityCode">
+                                    <option value=null disabled selected="selected">
+                                        @prodTitle.booking_step1_send_data_receive_address_city_placeholder
+                                    </option>
+                                    @foreach (Country c in sendData.receiver_address.country_list)
+                                    {
+                                        @foreach (City ct in c.cities)
+                                        {
+                                            <option value="@ct.id"> @ct.name</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <!-- 郵遞區號 -->
+                            <div class="form-group">
+                                <label>@prodTitle.booking_step1_send_data_zip_colde</label>
+                                <input type="text" class="form-control" id="txtSendDataZipCode" name="txtSendDataZipCode">
+                            </div>
+                        </div>
 
-                       <div class="col-md-6 col-sm-12">
-                           <!-- 飯店地址 -->
-                           <div class="form-group">
-                             <label>@prodTitle.booking_step1_send_data_hotel_address</label>
-                             <textarea class="form-control"
-                                    rows="2" id="txtSendDataHtlAddress" name="txtSendDataHtlAddress"
-                                    placeholder="@prodTitle.booking_step1_send_data_hotel_address_placeholder">
+                        @if (sendData.receiver_address.is_require_Address == true)
+                        {
+
+                            <div class="col-md-8 col-sm-12 col-xs-12">
+                                <!--詳細地址-->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_receive_address_detail</label>
+                                    <textarea rows="2" id="txtSendDataAdd" name="txtSendDataAdd" placeholder="@prodTitle.booking_step1_send_data_receive_address_placeholder"></textarea>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
+                }
+
+                @if (sendData.receiver_tel.is_require_TelNumber == true)
+                {
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <!-- 出發前可聯絡電話 -->
+                            <div class="form-group">
+                                <label>@prodTitle.booking_step1_send_data_receiver_tel</label>
+                                <input type="text" class="form-control" id="txtSendDataReceiverTel" name="txtSendDataReceiverTel" placeholder="@prodTitle.booking_step1_send_data_receiver_tel_placeholder" />
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                @if (sendInfoType == "01") //01
+                {
+                    <div class="row">
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_HotelName == true)
+                        {
+                            <div class="col-sm-6 col-xs-12">
+                                <!-- 飯店名稱 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_hotel_name</label>
+                                    <input type="text" class="form-control" id="txtSendDataHtlName" name="txtSendDataHtlName" placeholder="@prodTitle.booking_step1_send_data_hotel_name_placeholder">
+                                </div>
+                            </div>
+                        }
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_HotelTel == true)
+                        {
+
+                            <div class="col-sm-6 col-xs-12">
+                                <!-- 飯店電話 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_hotel_tel</label>
+                                    <input type="text" class="form-control" id="txtSendDataHtlTel" name="txtSendDataHtlTel" placeholder="@prodTitle.booking_step1_send_data_hotel_tel_placeholder">
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                    <div class="row">
+
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_HotelAddress == true)
+                        {
+
+                            <div class="col-md-6 col-sm-12">
+                                <!-- 飯店地址 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_hotel_address</label>
+                                    <textarea class="form-control"
+                                              rows="2" id="txtSendDataHtlAddress" name="txtSendDataHtlAddress"
+                                              placeholder="@prodTitle.booking_step1_send_data_hotel_address_placeholder">
                              </textarea>
+                                </div>
                             </div>
-                       </div>
-                    }
+                        }
 
-                </div>
+                    </div>
 
-                <div class="row">
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BuyerPassportEnglishFirstName ==true)
-                    {
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                        <!-- 訂房人護照英文名字 -->
-                            <div class="form-group">
-                              <label>@prodTitle.booking_step1_send_data_buyer_passport_english_firstname</label>
-                              <input type="text" id="txtSendDataBuyerPassfName" name="txtSendDataBuyerPassfName"
-                               class="form-control"
-                               placeholder="@prodTitle.booking_step1_send_data_buyer_passport_english_firstname_placeholder">
-                             </div>
-                       </div>     
-                     }
-
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BuyerPassportEnglishLastName == true)
-                    {
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                        <!-- 訂房人護照英文姓氏 -->
-                           <div class="form-group">
-                             <label>@prodTitle.booking_step1_send_data_buyer_passport_english_lastname</label>
-                             <input type="text" id="txtSendDataBuyerPasslName" name="txtSendDataBuyerPasslName"
-                              class="form-control"
-                              placeholder="@prodTitle.booking_step1_send_data_buyer_passport_english_lastname_placeholder">
-                           </div>
-                         </div>      
-                     }
-                </div>
-                <div class="row">
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BuyerLocalFirstName == true)
-                    {
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                        <!-- 訂房人本國籍名字 -->
-                           <div class="form-group">
-                             <label>@prodTitle.booking_step1_send_data_buyer_local_firstname</label>
-                             <input
-                               type="text" id="txtSendDataBuyerLocalfName" name="txtSendDataBuyerLocalfName"
-                               class="form-control"
-                               placeholder="@prodTitle.booking_step1_send_data_buyer_local_firstname_placeholder">
-                           </div>
-                        </div>     
-                    }
-
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BuyerLocalLastName == true)
-                    {
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                        <!-- 訂房人本國籍姓氏 -->
-                            <div class="form-group">
-                              <label>@prodTitle.booking_step1_send_data_buyer_local_lastname</label>
-                              <input type="text" id="txtSendDatBuyerLocallName" name="txtSendDatBuyerLocallName"
-                                class="form-control"
-                                placeholder="@prodTitle.booking_step1_send_data_buyer_local_lastname_placeholder">
+                    <div class="row">
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BuyerPassportEnglishFirstName == true)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <!-- 訂房人護照英文名字 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_buyer_passport_english_firstname</label>
+                                    <input type="text" id="txtSendDataBuyerPassfName" name="txtSendDataBuyerPassfName"
+                                           class="form-control"
+                                           placeholder="@prodTitle.booking_step1_send_data_buyer_passport_english_firstname_placeholder">
+                                </div>
                             </div>
-                        </div>      
-                    }
-                </div>
+                        }
 
-                <div class="row">
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BookingWebsite == true)
-                    {
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <!-- 訂房網站 -->
-                            <div class="form-group">
-                              <label>@prodTitle.booking_step1_send_data_booking_website</label>
-                              <input type="text" id="txtSendDataBookingWebSite" name="txtSendDataBookingWebSite"
-                                   class="form-control"
-                                   placeholder="@prodTitle.booking_step1_send_data_booking_website_placeholder">
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BuyerPassportEnglishLastName == true)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <!-- 訂房人護照英文姓氏 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_buyer_passport_english_lastname</label>
+                                    <input type="text" id="txtSendDataBuyerPasslName" name="txtSendDataBuyerPasslName"
+                                           class="form-control"
+                                           placeholder="@prodTitle.booking_step1_send_data_buyer_passport_english_lastname_placeholder">
+                                </div>
                             </div>
-                        </div>
-                    }
-
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BookingOrderNo == true)
-                    {
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <!-- 訂房編號 -->
-                            <div class="form-group">
-                              <label>@prodTitle.booking_step1_send_data_booking_order_no</label>
-                              <input type="text" id="txtSendDataBookingOrdNo" name="txtSendDataBookingOrdNo"
-                                   class="form-control"
-                                   placeholder="@prodTitle.booking_step1_send_data_booking_order_no_placeholder">
+                        }
+                    </div>
+                    <div class="row">
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BuyerLocalFirstName == true)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <!-- 訂房人本國籍名字 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_buyer_local_firstname</label>
+                                    <input type="text" id="txtSendDataBuyerLocalfName" name="txtSendDataBuyerLocalfName"
+                                           class="form-control"
+                                           placeholder="@prodTitle.booking_step1_send_data_buyer_local_firstname_placeholder">
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
 
-                </div>
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BuyerLocalLastName == true)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <!-- 訂房人本國籍姓氏 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_buyer_local_lastname</label>
+                                    <input type="text" id="txtSendDatBuyerLocallName" name="txtSendDatBuyerLocallName"
+                                           class="form-control"
+                                           placeholder="@prodTitle.booking_step1_send_data_buyer_local_lastname_placeholder">
+                                </div>
+                            </div>
+                        }
+                    </div>
 
-                <div class="row">
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_CheckInDate == true)
-                    {
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <!-- 入住日期 -->
-                            <div class="form-group">
-                               <label>@prodTitle.booking_step1_send_data_check_in_date</label>
-                               <div class="input-group date" id='SendDataChkinDate' name="SendDataChkinDate">
-                                  <input type="text" class="form-control date-info2" id="txtSendDataChkinDate" name="txtSendDataChkinDate" placeholder="@prodTitle.booking_step1_send_data_check_in_date_placeholder" readonly="readonly" />
-                                  <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                               </div>     
-                             </div>
-                        </div>
-                    }
+                    <div class="row">
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BookingWebsite == true)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <!-- 訂房網站 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_booking_website</label>
+                                    <input type="text" id="txtSendDataBookingWebSite" name="txtSendDataBookingWebSite"
+                                           class="form-control"
+                                           placeholder="@prodTitle.booking_step1_send_data_booking_website_placeholder">
+                                </div>
+                            </div>
+                        }
 
-                    @if (sendData.send_to_hotel.send_to_hotel_info.is_require_CheckOutDate == true)
-                    {
-                        <!-- 退房日期 -->
-                        <div class="col-md-4 col-sm-6 col-xs-12">
-                            <div class="form-group">
-                              <label>@prodTitle.booking_step1_send_data_check_out_date</label>
-                              <div class="form-group">
-                                <div class="input-group date" id='SendDataChkoutDate' name="SendDataChkoutDate">
-                                    <input type="text" class="form-control date-info2" id="txtSendDataChkoutDate" name="txtSendDataChkoutDate" placeholder="@prodTitle.booking_step1_send_data_check_out_date_placeholder" readonly="readonly" />
-                                    <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                 </div>     
-                               </div>
-                             </div>
-                        </div>
-                    }
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_BookingOrderNo == true)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <!-- 訂房編號 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_booking_order_no</label>
+                                    <input type="text" id="txtSendDataBookingOrdNo" name="txtSendDataBookingOrdNo"
+                                           class="form-control"
+                                           placeholder="@prodTitle.booking_step1_send_data_booking_order_no_placeholder">
+                                </div>
+                            </div>
+                        }
 
-                </div>
+                    </div>
+
+                    <div class="row">
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_CheckInDate == true)
+                        {
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <!-- 入住日期 -->
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_check_in_date</label>
+                                    <div class="input-group date" id='SendDataChkinDate' name="SendDataChkinDate">
+                                        <input type="text" class="form-control date-info2" id="txtSendDataChkinDate" name="txtSendDataChkinDate" placeholder="@prodTitle.booking_step1_send_data_check_in_date_placeholder" readonly="readonly" />
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                        @if (sendData.send_to_hotel.send_to_hotel_info.is_require_CheckOutDate == true)
+                        {
+                            <!-- 退房日期 -->
+                            <div class="col-md-4 col-sm-6 col-xs-12">
+                                <div class="form-group">
+                                    <label>@prodTitle.booking_step1_send_data_check_out_date</label>
+                                    <div class="form-group">
+                                        <div class="input-group date" id='SendDataChkoutDate' name="SendDataChkoutDate">
+                                            <input type="text" class="form-control date-info2" id="txtSendDataChkoutDate" name="txtSendDataChkoutDate" placeholder="@prodTitle.booking_step1_send_data_check_out_date_placeholder" readonly="readonly" />
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+                    </div>
 
 
-             }
-         }
-  </div>
-  }
+                }
+            }
+        </div>
+    }
 }
 
 
