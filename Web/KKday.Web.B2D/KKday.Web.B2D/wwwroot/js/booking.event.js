@@ -10,24 +10,24 @@ function initModule3()
 function chgNation(i)
 {
 
-   if($("#selcusCountry_"+i).val()=="TW" &&  $("#selcusCountry_"+i).is(":visible")==true && $("#hdnNationTW_"+i).val()=="1")
+   if($("#selcusCountry_"+i).val()=="TW" && $("#hdnNationTW_"+i).val()=="Y")
    {
      $(".nationTW_"+i).show();
      $(".nationHKMO_"+i).hide();
-     $(".nationMTP_"+i).show();
+     $(".nationMTP_"+i).hide();
    }
-   else if( ($("#selcusCountry_"+i).val()=="HK" || $("#selcusCountry_"+i).val()=="MO" )  &&  $("#hdnNationHKMO_"+i).val()=="1")
+   else if( ($("#selcusCountry_"+i).val()=="HK" || $("#selcusCountry_"+i).val()=="MO" )  &&  $("#hdnNationHKMO_"+i).val()=="Y")
    {
      $(".nationTW_"+i).hide();
      $(".nationHKMO_"+i).show();
      $(".nationMTP_"+i).hide();
    }
-   //else if( $("#selcusCountry_"+i).val()=="CN"   &&  $("#hdnNationMTP_"+i).val()=="1")
-   //{
-     //$(".nationTW_"+i).hide();
-     //$(".nationHKMO_"+i).hide();
-     //$(".nationMTP_"+i).show();
-   //}
+   else if( $("#selcusCountry_"+i).val()=="CN"   &&  $("#hdnNationMTP_"+i).val()=="Y")
+   {
+     $(".nationTW_"+i).hide();
+     $(".nationHKMO_"+i).hide();
+     $(".nationMTP_"+i).show();
+   }
    else
    {
      $(".nationTW_"+i).hide();
