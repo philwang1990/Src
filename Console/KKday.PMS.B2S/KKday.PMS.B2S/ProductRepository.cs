@@ -169,7 +169,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 setStep2(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 商品分類
                 setStep3(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel, timezoneString); // 上架時間
                 setStep4(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 憑證設定
-                //setStep5(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程說明
+                setStep5(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程說明
                 //setStep6(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 照片及影片
                 //setStep7(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程表
                 //setStep8(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 集合地點
@@ -488,6 +488,30 @@ namespace KKday.PMS.B2S.ProductRepository
                 Startup startup = new Startup();
                 startup.Initial();
                 RSModel rsModel = new RSModel();
+                JObject scmRSModel;
+
+                scmModel.json.tagCd = new List<string>();
+                scmModel.json.introduction = rezdyProductModel.Product.shortDescription; // 商品概述
+                scmModel.json.productDesc = rezdyProductModel.Product.description; // 詳細內容
+
+                //後面參數為model有null時 不顯示在model內
+                scmRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productmodify), prodOid), JsonConvert.SerializeObject(scmModel,
+                            Newtonsoft.Json.Formatting.None,
+                            new JsonSerializerSettings
+                            {
+                                NullValueHandling = NullValueHandling.Ignore
+                            }));
+                if (scmRSModel["content"]["result"].ToString() != "0000")
+                {
+                    rsModel.result = scmRSModel["content"]["result"].ToString();
+                    rsModel.msg = scmRSModel["content"]["msg"].ToString();
+                    return rsModel;
+                }
+
+                rsModel.result = scmRSModel["content"]["result"].ToString();
+                rsModel.msg = scmRSModel["content"]["msg"].ToString();
+
+                return rsModel;
 
                 return rsModel;
             }
