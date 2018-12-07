@@ -59,6 +59,7 @@ namespace KKday.PMS.B2S.Models.Shared.Enum
         KKdayApi_calendarextend,
         KKdayApi_calendarmodify,
         KKdayApi_priceupdate,
+        KKdayApi_voucherupdate,
         ApiKey,
         Product,
         Pickups,

@@ -49,7 +49,7 @@ namespace KKday.PMS.B2S
                         //prodOid = 0;
 
                         // 設定參數
-                        supplierLoginRSModel = product.setParameters("AAT Kings Tours", "op-llh@kkday.com", "123456");
+                        supplierLoginRSModel = product.setParameters(PMSSourse.Rezdy, "AAT Kings Tours", "op-llh@kkday.com", "123456");
                         if (supplierLoginRSModel.result == "0000")
                         {
                             //抓取商品
@@ -57,7 +57,7 @@ namespace KKday.PMS.B2S
                             if (getProductRSModel.result == "0000")
                             {
                                 //建立SCM商品
-                                //createProductRSModel = product.createProduct(supplierLoginRSModel, ref prodOid, rezdyProductModel);
+                                //createProductRSModel = product.createProduct(PMSSourse.Rezdy, supplierLoginRSModel, ref prodOid, rezdyProductModel);
                                 //if (createProductRSModel.result == "0000")
                                 {
                                     //商品明細
@@ -102,6 +102,7 @@ namespace KKday.PMS.B2S
             {
                 //error log
                 _log.Error(ex.ToString());
+                throw ex;
             }
         }
 
@@ -159,6 +160,8 @@ namespace KKday.PMS.B2S
                             return this.configuration[$"{head}:calendarmodify"];
                         case ParameterType.KKdayApi_priceupdate:
                             return this.configuration[$"{head}:priceupdate"];
+                        case ParameterType.KKdayApi_voucherupdate:
+                            return this.configuration[$"{head}:voucherupdate"];
                         default:
                             return string.Empty;
                     }
