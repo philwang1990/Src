@@ -7,6 +7,7 @@ using KKday.PMS.B2S.Models.Shared.Enum;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace KKday.PMS.B2S.ProductRepository
 {
@@ -347,11 +348,11 @@ namespace KKday.PMS.B2S.ProductRepository
                 RSModel rsModel = new RSModel();
                 JObject scmRSModel;
 
-                scmModel.json.tagCd = new List<string>();
+                //scmModel.json.tagCd = new List<string>();
                 if (rezdyProductModel.Product.productType == "DAYTOUR")
-                    scmModel.json.tagCd.Add("TAG_4_4"); // 商品分類 一日遊
+                    scmModel.json.tagCd = new List<string>(new String[] { "TAG_4_4" }); // 商品分類 一日遊
                 else if (rezdyProductModel.Product.productType == "MULTIDAYTOUR")
-                    scmModel.json.tagCd.Add("TAG_4_5"); // 商品分類 多日遊
+                    scmModel.json.tagCd = new List<string>(new String[] { "TAG_4_5" }); // 商品分類 多日遊
 
                 //後面參數為model有null時 不顯示在model內
                 scmRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productmodify), prodOid), JsonConvert.SerializeObject(scmModel,
@@ -490,9 +491,8 @@ namespace KKday.PMS.B2S.ProductRepository
                 RSModel rsModel = new RSModel();
                 JObject scmRSModel;
 
-                scmModel.json.tagCd = new List<string>();
-                scmModel.json.introduction = rezdyProductModel.Product.shortDescription; // 商品概述
-                scmModel.json.productDesc = rezdyProductModel.Product.description; // 詳細內容
+                scmModel.json.introduction = Regex.Replace(rezdyProductModel.Product.shortDescription, "<.*?>", "\n"); // 商品概述  將html tag 都取代成 換行
+                scmModel.json.productDesc = Regex.Replace(rezdyProductModel.Product.description, "<.*?>", "\n"); // 詳細內容 將html tag 都取代成 換行
 
                 //後面參數為model有null時 不顯示在model內
                 scmRSModel = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productmodify), prodOid), JsonConvert.SerializeObject(scmModel,
@@ -513,7 +513,6 @@ namespace KKday.PMS.B2S.ProductRepository
 
                 return rsModel;
 
-                return rsModel;
             }
             catch (Exception ex)
             {
