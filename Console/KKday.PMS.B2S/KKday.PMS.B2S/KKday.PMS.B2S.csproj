@@ -12,6 +12,7 @@
     <Folder Include="Models\Package\" />
     <Folder Include="Models\Shared\" />
     <Folder Include="Models\Product\" />
+    <Folder Include="AppCode\DAL\" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="log4net" Version="2.0.8" />
@@ -21,8 +22,10 @@
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Npgsql" Version="4.0.4" />
   </ItemGroup>
   <ItemGroup>
     <Compile Remove="AppCode\新增資料夾\AbstractComparer.cs" />
+    <Compile Remove="AppCode\DAL\appsettings.json" />
   </ItemGroup>
 </Project>

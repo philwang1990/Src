@@ -15,7 +15,7 @@ namespace KKday.PMS.B2S.ProductRepository
     {
         private readonly static ILog _log = LogManager.GetLogger(typeof(ProductRepository));
 
-        public SupplierLoginRSModel setParameters(PMSSourse pms, string supplierName, string email, string password)
+        public SupplierLoginRSModel setParameters(PMSSourse pms, string supplierName, string kkday_supplier_oid, string email, string password)
         {
             try
             {
@@ -48,7 +48,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 supplierLoginRSModel.tokenKey = supplierLogin["content"]["tokenKey"].ToString();
                 foreach (var i in supplierLogin["content"]["supplierList"])
                 {
-                    if (i["supplier"]["supplierName"].ToString() == supplierName)
+                    if (i["supplier"]["supplierOid"].ToString() == kkday_supplier_oid)
                     {
                         supplierLoginRSModel.supplierOid = (long)i["supplier"]["supplierOid"];
                         break;
@@ -58,6 +58,39 @@ namespace KKday.PMS.B2S.ProductRepository
 
 
                 return supplierLoginRSModel;
+            }
+            catch (Exception ex)
+            {
+                _log.Debug(ex.ToString());
+                throw ex;
+            }
+        }
+
+        public RSModel getProductList(PMSSourse pms, ref RezdyProductListModel rezdyProductListModel, string supplierId, int offset)
+        {
+            try
+            {
+                Startup startup = new Startup();
+                startup.Initial();
+                RSModel rsModel = new RSModel();
+                var get = CommonTool.GetData(string.Format(startup.GetParameter(pms, ParameterType.Product),  startup.GetParameter(pms, ParameterType.ApiKey), supplierId) + "&limit=1&offset="+ offset);
+
+                //RezdyProductListModel
+
+                rezdyProductListModel = JsonConvert.DeserializeObject<RezdyProductListModel>(get);
+
+                if (rezdyProductListModel.RequestStatus.success == false)
+                {
+                    rsModel.result = "0001";
+                    rsModel.msg = "沒找到商品";
+
+                    return rsModel;
+                }
+
+                rsModel.result = "0000";
+                rsModel.msg = "正確";
+
+                return rsModel;
             }
             catch (Exception ex)
             {
@@ -218,7 +251,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 countryModifyRQModelModel.json.tokenKey = supplierLoginRSModel.tokenKey;
 
                 scmModel.Currency = rezdyProductModel.Product.currency;
-                //scmModel.json.productName = rezdyProductModel.Product.name; // 商品名稱
+                scmModel.json.productName = rezdyProductModel.Product.name; // 商品名稱
 
                 string country = null;
                 string city = null;
@@ -299,13 +332,13 @@ namespace KKday.PMS.B2S.ProductRepository
                 }
 
                 // 有可能是 en-au 但是scm均為en 所以要作轉換
-                for (int i = 0; i < rezdyProductModel.Product.Languages.Count; i++)
-                {
-                    if (rezdyProductModel.Product.Languages[i].StartsWith("en") == true)
-                        rezdyProductModel.Product.Languages[i] = "en";
-                }
+                //for (int i = 0; i < rezdyProductModel.Product.Languages.Count; i++)
+                //{
+                //    if (rezdyProductModel.Product.Languages[i].StartsWith("en") == true)
+                //        rezdyProductModel.Product.Languages[i] = "en";
+                //}
 
-                scmModel.json.guideLang = rezdyProductModel.Product.Languages; // 提供解說服務
+                //scmModel.json.guideLang = rezdyProductModel.Product.Languages; // 提供解說服務
                 scmModel.json.keyWord = ""; // 自訂關鍵字 用逗號分隔 共三格 11,22,33
                 scmModel.json.orderEmail = supplierLoginRSModel.email; // 訂單通知 email 
                 scmModel.json.supplierNote = rezdyProductModel.Product.productCode; // 備註(店家內部使用) 對應到對方的productCode

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.FileExtensions;
 using Microsoft.Extensions.Configuration.Json;
 using KKday.PMS.B2S.Models.Shared.Enum;
+using KKday.PMS.B2S.AppCode.DAL;
 
 namespace KKday.PMS.B2S
 {
@@ -34,65 +35,87 @@ namespace KKday.PMS.B2S
                 //待補
                 long prodOid = 20451;
                 SupplierLoginRSModel supplierLoginRSModel = new SupplierLoginRSModel();
+                RezdyProductListModel rezdyProductListModel = new RezdyProductListModel();
                 RezdyProductModel rezdyProductModel = new RezdyProductModel();
                 RSModel getProductRSModel = new RSModel();
+                RSModel getProductListRSModel = new RSModel();
                 RSModel createProductRSModel = new RSModel();
                 RSModel setScmProductRSModel = new RSModel();
+                int offset = 0; // 抓取productList會限定一次只抓一筆 故 offset從0開始抓
 
                 var accounts = new[] { new { id = 1, name = "thisisname" } };
-                var suppliers = new[] { new { id = 1, suppliername = "rezdy" } };
+                var pmsList = new[] { new { id = 1, pmsname = "Rezdy" } };
+                //var suppliers  ;
 
                 foreach (var account in accounts)
                 {
-                    foreach (var supplier in suppliers)
+                    foreach (var pms in pmsList)
                     {
                         //prodOid = 0;
+                        //抓取所有supplier清單
+                        var supplierList = SupplierDAL.GetSupplierList(pms.pmsname);
 
-                        // 設定參數
-                        supplierLoginRSModel = product.setParameters(PMSSourse.Rezdy, "AAT Kings Tours", "op-llh@kkday.com", "123456");
-                        if (supplierLoginRSModel.result == "0000")
+
+                        foreach (var supplier in supplierList["Table"])
                         {
-                            //抓取商品
-                            getProductRSModel = product.getProduct(PMSSourse.Rezdy, ref rezdyProductModel, "PSSPVU");
-                            if (getProductRSModel.result == "0000")
+                            // 設定參數
+
+                            supplierLoginRSModel = product.setParameters(PMSSourse.Rezdy, supplier["pms_supplier_name"].ToString(), supplier["kkday_supplier_oid"].ToString(), supplier["scm_account"].ToString(), supplier["scm_password"].ToString());
+                            if (supplierLoginRSModel.result == "0000")
                             {
-                                //建立SCM商品
-                                //createProductRSModel = product.createProduct(supplierLoginRSModel, ref prodOid, rezdyProductModel);
-                                //if (createProductRSModel.result == "0000")
+                                offset = 0;
+                                getProductListRSModel = product.getProductList(PMSSourse.Rezdy, ref rezdyProductListModel, supplier["pms_supplier_id"].ToString(), offset);
+                                //foreach (var prod in productList)
+                                while (getProductListRSModel.result == "0000" && rezdyProductListModel.Products.Count > 0)
                                 {
-                                    //商品明細
-                                    setScmProductRSModel = product.setScmProduct(supplierLoginRSModel, prodOid, rezdyProductModel);
+                                    rezdyProductModel.RequestStatus = rezdyProductListModel.RequestStatus;
+                                    rezdyProductModel.Product = rezdyProductListModel.Products[0]; // rezdyProductListModel.Product 每次只取一筆 把取到資料給 rezdyProductModel.Product
 
-                                    //套餐
-                                    PackageRepository packageRepository = new PackageRepository();
-                                    packageRepository.Main(
-                                    Models.Shared.Enum.PMSSourse.Rezdy,
-                                    prodOid,
-                                    supplierLoginRSModel.supplierOid,
-                                    "PVVRFE",
-                                    supplierLoginRSModel.supplierUserUuid,
-                                    supplierLoginRSModel.deviceId,
-                                    supplierLoginRSModel.tokenKey);
+                                    //抓取商品
+                                    //getProductRSModel = product.getProduct(PMSSourse.Rezdy, ref rezdyProductModel, "PSSPVU");
+                                    if (rezdyProductModel.Product != null)
+                                    {
+                                        //建立SCM商品
+                                        //createProductRSModel = product.createProduct(supplierLoginRSModel, ref prodOid, rezdyProductModel);
+                                        //if (createProductRSModel.result == "0000")
+                                        {
+                                            //商品明細
+                                            setScmProductRSModel = product.setScmProduct(supplierLoginRSModel, prodOid, rezdyProductModel);
 
-                                    //旅規
-                                    //module.Main();
+                                            //套餐
+                                            PackageRepository packageRepository = new PackageRepository();
+                                            packageRepository.Main(
+                                            Models.Shared.Enum.PMSSourse.Rezdy,
+                                            prodOid,
+                                            supplierLoginRSModel.supplierOid,
+                                            "PVVRFE",
+                                            supplierLoginRSModel.supplierUserUuid,
+                                            supplierLoginRSModel.deviceId,
+                                            supplierLoginRSModel.tokenKey);
+
+                                            //旅規
+                                            //module.Main();
+                                        }
+                                        //else
+                                        //{
+                                        //    Console.WriteLine("建立商品錯誤:" + createProductRSModel.result);
+                                        //}
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("抓取商品錯誤:" + getProductRSModel.result);
+                                    }
+
+                                    offset++;
+                                    getProductListRSModel = product.getProductList(PMSSourse.Rezdy, ref rezdyProductListModel, supplier["pms_supplier_id"].ToString(), offset);
                                 }
-                                //else
-                                //{
-                                //    Console.WriteLine("建立商品錯誤:" + createProductRSModel.result);
-                                //}
                             }
                             else
                             {
-                                Console.WriteLine("抓取商品錯誤:" + getProductRSModel.result);
+                                Console.WriteLine("設定參數錯誤:" + supplierLoginRSModel.result);
                             }
-                        }
-                        else
-                        {
-                            Console.WriteLine("設定參數錯誤:" + supplierLoginRSModel.result);
-                        }
 
-
+                        }
                     }
                 }
 
@@ -125,6 +148,7 @@ namespace KKday.PMS.B2S
                             .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
             configuration = builder.Build();
+            Website.Instance.Init(configuration);
         }
 
         public string GetParameter(PMSSourse pms, ParameterType parameterType)
