@@ -44,7 +44,12 @@ else
                             <a href="javascript:AccountEdit(@item.XID);"> @item.NAME_LAST@item.NAME_FIRST </a>
                         </td>
                         <td>@item.EMAIL</td>
-                        <td>@(item.ENABLE ? localizer.Text.Enable : localizer.Text.Disable)</td>
+                        <td>
+                            @if (item.ENABLE == true)
+                            {<i class="fa fa-check-circle text-info"></i> @localizer.Text.Enable}
+                            else
+                            {<i class="fa fa-times-circle text-danger"></i> @localizer.Text.Disable}
+                                            </td>
                         <td>@item.USER_TYPE_DESC</td>
                         <td>@item.COMPANY_NAME #@item.COMPANY_XID</td>
                         <td>
