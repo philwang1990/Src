@@ -79,34 +79,40 @@
                       <div class="row">
 
                          <div class="col-sm-6 col-xs-12">
-                          <div class="form-group">
-                              <!-- 是否需要免費Wi-Fi機 -->
-                              <label>@prodTitle.booking_step1_rent_car_is_need_free_wifi</label>
-                              <div class="form-inline">
-                                  <label>
-                                      <input type="radio" name="rentCarwifi" value="true" id="rdoWifiTrue">
-                                      @prodTitle.common_need
-                                  </label>
-                                  <label>
-                                      <input type="radio" name="rentCarwifi" vaule="false" id="rdoWifiFalse">
-                                      @prodTitle.common_no_need
-                                  </label>
+                             @if (rentCar.rent_office.is_ProvidedFreeWiFi == true)
+                             {
+                               <div class="form-group">
+                                  <!-- 是否需要免費Wi-Fi機 -->
+                                  <label>@prodTitle.booking_step1_rent_car_is_need_free_wifi</label>
+                                  <div class="form-inline">
+                                      <label>
+                                          <input type="radio" name="rentCarwifi" value="true" id="rdoWifiTrue">
+                                          @prodTitle.common_need
+                                      </label>
+                                      <label>
+                                          <input type="radio" name="rentCarwifi" vaule="false" id="rdoWifiFalse">
+                                          @prodTitle.common_no_need
+                                      </label>
+                                  </div>
                               </div>
-                          </div>
-                          <div class="form-group">
-                              <!-- 是否需要免費GPS -->
-                              <label>@prodTitle.booking_step1_rent_car_is_need_free_gps</label>
-                              <div class="form-inline">
-                                  <label>
-                                      <input type="radio" name="rentCargps" :value="true" id="rdoGpsTrue">
-                                      @prodTitle.common_need
-                                  </label>
-                                  <label>
-                                      <input type="radio" name="rentCargps" :value="false" id="rdoGpsFalse">
-                                      @prodTitle.common_no_need
-                                  </label>
-                              </div>
-                           </div>
+                             }
+                             @if (rentCar.rent_office.is_ProvidedFreeGPS == true)
+                             {
+                                 <div class="form-group">
+                                  <!-- 是否需要免費GPS -->
+                                  <label>@prodTitle.booking_step1_rent_car_is_need_free_gps</label>
+                                  <div class="form-inline">
+                                      <label>
+                                          <input type="radio" name="rentCargps" :value="true" id="rdoGpsTrue">
+                                          @prodTitle.common_need
+                                      </label>
+                                      <label>
+                                          <input type="radio" name="rentCargps" :value="false" id="rdoGpsFalse">
+                                          @prodTitle.common_no_need
+                                      </label>
+                                  </div>
+                               </div>
+                             }
                         </div>
                     </div>
               </div>

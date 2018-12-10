@@ -180,7 +180,7 @@ totalCusTemp = totalCusTemp + 1;
 }
 
              <!-- 台灣身分證字號 -->
-             @Html.Hidden("hdnNationTW_" + i, "1")
+             @Html.Hidden("hdnNationTW_" + i, cusData.nationality.nationality_id.is_require_TW==true?"Y":"N")
              <div class="row defaultHide nationTW_@i">
                  <div class="col-md-4 col-sm-6 col-xs-12">
                      <div class="form-group">
@@ -194,7 +194,7 @@ totalCusTemp = totalCusTemp + 1;
              </div>
 
              <!-- 港澳身分證字號 -->
-             @Html.Hidden("hdnNationHKMO_" + i, "1")
+             @Html.Hidden("hdnNationHKMO_" + i, cusData.nationality.nationality_id.is_require_HKMO==true?"Y":"N")
              <div class="row defaultHide nationHKMO_@i">
                  <div class="col-md-4 col-sm-6 col-xs-12">
                      <div class="form-group">
@@ -210,7 +210,7 @@ totalCusTemp = totalCusTemp + 1;
              </div>
 
              <!-- 台胞證字號 -->
-             @Html.Hidden("hdnNationMTP_" + i, "1")
+             @Html.Hidden("hdnNationMTP_" + i, cusData.nationality.nationality_id.is_require_MTP==true?"Y":"N")
              <div class="row defaultHide nationMTP_@i">
                  <div class="col-md-4 col-sm-6 col-xs-12">
                      <div class="form-group">
