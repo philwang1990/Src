@@ -5,6 +5,7 @@ namespace KKday.PMS.B2S.Models.Shared.Enum
     public enum PMSSourse
     {
         Rezdy,
+        KKday,
     }
 
     public enum Step
@@ -50,5 +51,27 @@ namespace KKday.PMS.B2S.Models.Shared.Enum
 
         //旅客聯絡資料
         PassengerContact = 13
+    }
+
+    public enum ParameterType
+    {
+        KKdayApi_supplierlogin,
+        KKdayApi_productnew,
+        KKdayApi_area,
+        KKdayApi_countrymodify,
+        KKdayApi_timezone,
+        KKdayApi_setCostMethod,
+        KKdayApi_productmodify,
+        KKdayApi_updateDate,
+        KKdayApi_voucherupdate,
+        KKdayApi_updatepkg,
+        KKdayApi_calendarextend,
+        KKdayApi_calendarmodify,
+        KKdayApi_priceupdate,
+        ApiKey,
+        ProductSearch,
+        Product,
+        Pickups,
+        Availability
     }
 }
