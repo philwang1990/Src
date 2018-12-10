@@ -8,6 +8,9 @@ using KKday.PMS.B2S.Models.Package.SCMPackageModel;
 using KKday.PMS.B2S.Models.Package.SCMPackageCalendarModel;
 using KKday.PMS.B2S.Models.Package.SCMPackageCalendarModifyModel;
 using KKday.PMS.B2S.Models.Package.SCMPackagePriceModel;
+using KKday.PMS.B2S.Models.Package.SCMPackageEventModel;
+using KKday.PMS.B2S.Models.Package.SCMPackageEventStatusModel;
+using KKday.PMS.B2S.Models.Package.SCMPackageStatusModel;
 using Newtonsoft.Json;
 using ObjectsComparer;
 using KKday.PMS.B2S.Models.Shared.Enum;
@@ -15,13 +18,14 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.FileExtensions;
 using Microsoft.Extensions.Configuration.Json;
 
+
 namespace KKday.PMS.B2S
 {
     public class PackageRepository
     {
         private readonly static ILog _log = LogManager.GetLogger(typeof(PackageRepository));
 
-        public void Main(PMSSourse pms, long prodOid, long supplierId, string productCode, Guid supplierUserUuid, string deviceId, string tokenKey)
+        public void Main(PMSSourse pms, long prodOid, long supplierId, string productCode, string currency, Guid supplierUserUuid, string deviceId, string tokenKey)
         {
             try
             {
@@ -49,7 +53,6 @@ namespace KKday.PMS.B2S
                     long packageOid = 0;
                     //create package
                     #region Create Package
-
                     ScmPackageModel scmPackageModel = new ScmPackageModel
                     {
                         Json = new Models.Package.SCMPackageModel.Json
@@ -58,7 +61,7 @@ namespace KKday.PMS.B2S
                             SupplierUserUuid = supplierUserUuid,
                             DeviceId = deviceId,
                             TokenKey = tokenKey,
-                            PackageNm = $"{rezdyPackageModel.Sessions.First().ProductCode}", //待確認
+                            PackageNm = $"{rezdyPackageModel.Sessions.First().ProductCode}{DateTime.Now.ToString("yyyyMMddHHmmss")}", //待確認
                             PackageDesc = new PackageDesc
                             {
                                 DescItems = new List<DescItem> { new DescItem { Content = new List<Content> { new Content {
@@ -70,13 +73,19 @@ namespace KKday.PMS.B2S
                     };
 
                     //Post
+                    Console.WriteLine($"posting new package..");
                     var newPackageResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_updatepkg), prodOid), JsonConvert.SerializeObject(scmPackageModel));
                     if (newPackageResult["content"]["result"].ToString() != "0000")
                     {
+                        //待確認
+                        //記失敗步驟
+                        //enum.Step
+
                         throw new Exception("create package fail.");
                     }
 
                     packageOid = Convert.ToInt64(newPackageResult["content"]["packageOid"].ToString());
+                    Console.WriteLine($"posting result: {newPackageResult["content"]["result"]}{newPackageResult["content"]["msg"]}, package oid {packageOid}");
                     #endregion
 
                     Newtonsoft.Json.Linq.JObject calendarInitialResult = null;
@@ -102,15 +111,15 @@ namespace KKday.PMS.B2S
                             }
                         };
 
-                        //test missing date
-                        availableDate.RemoveAt(10);
-                        availableDate.RemoveAt(11);
-                        availableDate.RemoveAt(12);
-                        availableDate.RemoveAt(24);
-                        availableDate.RemoveAt(65);
+                        ////test missing date
+                        //availableDate.RemoveAt(10);
+                        //availableDate.RemoveAt(11);
+                        //availableDate.RemoveAt(12);
+                        //availableDate.RemoveAt(24);
+                        //availableDate.RemoveAt(65);
 
                         var missingDates = new List<DateTimeOffset>();
-                        for (int i = 0; i + 1 < availableDate.Count; i++)
+                        for (int i = 0; (i + 1) < availableDate.Count; i++)
                         {
                             var diff = (availableDate[i + 1] - availableDate[i]).TotalDays;
                             for (int iToComplete = 1; iToComplete < diff; iToComplete++)
@@ -121,8 +130,9 @@ namespace KKday.PMS.B2S
 
 
                         //Post
+                        Console.WriteLine($"posting new calendar..");
                         calendarInitialResult = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_calendarextend), JsonConvert.SerializeObject(scmPackageCalendarModel));
-
+                        Console.WriteLine($"posting result: {calendarInitialResult["content"]["result"]}{calendarInitialResult["content"]["msg"]}");
 
                         foreach (var missingDate in missingDates)
                         {
@@ -141,13 +151,15 @@ namespace KKday.PMS.B2S
                                 }
                             };
                             //Post
+                            Console.WriteLine($"posting modify calendar..");
                             calendarInitialResult = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_calendarmodify), JsonConvert.SerializeObject(scmPackageCalendarModifyModel));
+                            Console.WriteLine($"posting result: {calendarInitialResult["content"]["result"]}{calendarInitialResult["content"]["msg"]}");
                         }
                     }
                     #endregion
 
                     #region Creata Price
-                    if (packageOid != 0 && calendarInitialResult["content"]["result"].ToString() == "0000" && 
+                    if (packageOid != 0 && calendarInitialResult["content"]["result"].ToString() == "0000" &&
                     rezdyPackageModel.Sessions.First().PriceOptions != null && rezdyPackageModel.Sessions.First().PriceOptions.Any()) //待確認
                     {
                         KKday.PMS.B2S.Models.Package.SCMPackagePriceModel.Json price = new KKday.PMS.B2S.Models.Package.SCMPackagePriceModel.Json
@@ -160,7 +172,7 @@ namespace KKday.PMS.B2S
                             PackageOid = packageOid,
                             PriceType = "RANK", //待確認
                             CostCalcMethod = "NET", //待確認
-                            ProdCurrCd = "AUD", //待確認
+                            ProdCurrCd = currency, //待確認
                             MinOrderQty = 1,
                             MinOrderAdultQty = 0
                         };
@@ -201,7 +213,87 @@ namespace KKday.PMS.B2S
                         };
 
                         //Post
-                        CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_priceupdate), JsonConvert.SerializeObject(scmPackagePriceModel));
+                        Console.WriteLine($"posting package prices..");
+
+                        _log.Debug($"prodOid:{prodOid}packageOid:{packageOid}Price send: "+JsonConvert.SerializeObject(scmPackagePriceModel));
+
+                        var newPackagePriceResult = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday,
+                                                                                                ParameterType.KKdayApi_priceupdate),
+                                                                                                JsonConvert.SerializeObject(scmPackagePriceModel));
+
+                        Console.WriteLine($"posting result: {newPackagePriceResult["content"]["result"]}{newPackagePriceResult["content"]["msg"]}");
+                    }
+                    #endregion
+
+                    #region Create Events
+                    bool eventPostResult = true;
+                    bool test = false;
+                    if (test)
+                    {
+                        //
+                        //var eventTimes = rezdyPackageModel.Sessions.Select(x => x.StartTimeLocal.ToString("HHmm")).GroupBy(g => g).ToList();
+                        var eventTimes = rezdyPackageModel.Sessions;
+
+                        foreach (var eventTime in eventTimes)
+                        {
+                            //Console.WriteLine(eventTime.Key);
+
+                            //var groupDates = (from date in rezdyPackageModel.Sessions
+                            //where date.StartTimeLocal.ToString("HHmm") == eventTime.Key
+                            //select date);
+
+                            //if (groupDates != null && groupDates.Any())
+                            {
+                                //foreach (var groupDate in groupDates)
+                                {
+                                    DateTimeOffset date = eventTime.StartTimeLocal;
+                                    string weekday = ((int)date.DayOfWeek).ToString();
+                                    ScmPackageEventModel scmPackageEventModel = new ScmPackageEventModel
+                                    {
+                                        Json = new KKday.PMS.B2S.Models.Package.SCMPackageEventModel.Json
+                                        {
+                                            ProdOid = prodOid,
+                                            PkgOid = packageOid,
+                                            PackageOid = packageOid,
+                                            BeginDate = date.ToString("yyyy-MM-dd"),
+                                            EndDate = date.ToString("yyyy-MM-dd"),
+                                            WeekDay = weekday == "0" ? "7" : weekday,
+                                            Time = $"{date.ToString("HHmm")}/{eventTime.SeatsAvailable}",
+                                            SupplierOid = supplierId,
+                                            SupplierUserUuid = supplierUserUuid,
+                                            DeviceId = deviceId,
+                                            TokenKey = tokenKey
+                                        }
+                                    };
+
+                                    //Post
+                                    Console.WriteLine($"posting event datetime {date.ToString("yyyy-MM-dd HH:mm")}");
+                                    var newEventsResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(
+                                                                                    PMSSourse.KKday,
+                                                                                    ParameterType.KKdayApi_newevent)),
+                                                                                    JsonConvert.SerializeObject(scmPackageEventModel));
+                                    if (newEventsResult["content"]["result"].ToString() != "0000")
+                                    {
+                                        //update package step
+                                        _log.Debug(JsonConvert.SerializeObject($"posting event datetime:{JsonConvert.SerializeObject(scmPackageEventModel)}"));
+                                        _log.Debug(JsonConvert.SerializeObject($"posting result: {JsonConvert.SerializeObject(newEventsResult)}"));
+                                        eventPostResult = false;
+                                        break;
+                                    }
+                                    Console.WriteLine($"posting result: {newEventsResult["content"]["result"]}{newEventsResult["content"]["msg"]}");
+                                }
+                            }
+                        }
+
+
+                        if (eventPostResult)
+                        {
+                            //Event status update
+                            EventStatusUpdate(startup, prodOid, packageOid, supplierId, supplierUserUuid, deviceId, tokenKey);
+
+                            //Package status update
+                            PackageStatusUpdate(startup, prodOid, packageOid, supplierId, supplierUserUuid, deviceId, tokenKey);
+                        }
                     }
                     #endregion
                 }
@@ -267,6 +359,58 @@ namespace KKday.PMS.B2S
                 _log.Debug(ex.ToString());
                 throw ex;
             }
+        }
+
+        private void PackageStatusUpdate(Startup startup, long prodOid, long packageOid, long supplierId, Guid supplierUserUuid, string deviceId, string tokenKey)
+        {
+            ScmPackageStatusModel scmPackageStatusModel = new ScmPackageStatusModel
+            {
+                Json = new Models.Package.SCMPackageStatusModel.Json
+                {
+                    PackageOid = packageOid,
+                    Status = "Y",
+                    SupplierOid = supplierId,
+                    SupplierUserUuid = supplierUserUuid,
+                    DeviceId = deviceId,
+                    TokenKey = tokenKey
+                }
+            };
+
+            //post
+            Console.WriteLine($"posting package status update..");
+            var updatePackageStatusResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(
+                                                            PMSSourse.KKday,
+                                                            ParameterType.KKdayApi_pkgstatus),
+                                                            prodOid),
+                                                            JsonConvert.SerializeObject(scmPackageStatusModel));
+            Console.WriteLine($"posting result: {updatePackageStatusResult["content"]["result"]}{updatePackageStatusResult["content"]["msg"]}");
+        }
+
+        private void EventStatusUpdate(Startup startup, long prodOid, long packageOid, long supplierId, Guid supplierUserUuid, string deviceId, string tokenKey)
+        {
+            ScmPackageEventStatusModel scmPackageEventStatusModel = new ScmPackageEventStatusModel
+            {
+                Json = new Models.Package.SCMPackageEventStatusModel.Json
+                {
+                    ProdOid = prodOid,
+                    PackageOid = packageOid,
+                    PkgOid = packageOid,
+                    Type = "EVENT",
+                    Status = "Y",
+                    SupplierOid = supplierId,
+                    SupplierUserUuid = supplierUserUuid,
+                    DeviceId = deviceId,
+                    TokenKey = tokenKey
+                }
+            };
+
+            //post
+            Console.WriteLine($"posting event status update..");
+            var updateEventStatusResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(
+                                                            PMSSourse.KKday,
+                                                            ParameterType.KKdayApi_eventstatus)),
+                                                            JsonConvert.SerializeObject(scmPackageEventStatusModel));
+            Console.WriteLine($"posting result: {updateEventStatusResult["content"]["result"]}{updateEventStatusResult["content"]["msg"]}");
         }
     }
 }

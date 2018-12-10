@@ -89,6 +89,7 @@ namespace KKday.PMS.B2S
                                             prodOid,
                                             supplierLoginRSModel.supplierOid,
                                             "PVVRFE",
+                                            rezdyProductModel.Product.currency,
                                             supplierLoginRSModel.supplierUserUuid,
                                             supplierLoginRSModel.deviceId,
                                             supplierLoginRSModel.tokenKey);
@@ -197,14 +198,19 @@ namespace KKday.PMS.B2S
                         case ParameterType.KKdayApi_voucherupdate:
                             return this.configuration[$"{head}:voucherupdate"];
                         case ParameterType.KKdayApi_updatepkg:
-                            return this.configuration[$"{head}:updatepkg"];
+                            return this.configuration[$"{head}:update_pkg"];
                         case ParameterType.KKdayApi_calendarextend:
-                            return this.configuration[$"{head}:calendarextend"];
+                            return this.configuration[$"{head}:calendar_extend"];
                         case ParameterType.KKdayApi_calendarmodify:
-                            return this.configuration[$"{head}:calendarmodify"];
+                            return this.configuration[$"{head}:calendar_modify"];
                         case ParameterType.KKdayApi_priceupdate:
-                            return this.configuration[$"{head}:priceupdate"];
-                        
+                            return this.configuration[$"{head}:price_update"];
+                        case ParameterType.KKdayApi_newevent:
+                            return this.configuration[$"{head}:new_event"];
+                        case ParameterType.KKdayApi_eventstatus:
+                            return this.configuration[$"{head}:event_status"];
+                        case ParameterType.KKdayApi_pkgstatus:
+                            return this.configuration[$"{head}:pkg_status"];
                         default:
                             return string.Empty;
                     }
