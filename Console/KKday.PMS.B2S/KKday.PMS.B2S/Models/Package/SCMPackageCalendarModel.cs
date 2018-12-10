@@ -57,12 +57,12 @@ namespace KKday.PMS.B2S.Models.Package.SCMPackageCalendarModel
 
     public partial class ScmPackageCalendarModel
     {
-        public static ScmPackageCalendarModel FromJson(string json) => JsonConvert.DeserializeObject<ScmPackageCalendarModel>(json, KKday.PMS.B2S.Models.Package. SCMPackageCalendarModel.Converter.Settings);
+        public static ScmPackageCalendarModel FromJson(string json) => JsonConvert.DeserializeObject<ScmPackageCalendarModel>(json, KKday.PMS.B2S.Models.Package.SCMPackageCalendarModel.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this ScmPackageCalendarModel self) => JsonConvert.SerializeObject(self, KKday.PMS.B2S.Models.Package. SCMPackageCalendarModel.Converter.Settings);
+        public static string ToJson(this ScmPackageCalendarModel self) => JsonConvert.SerializeObject(self, KKday.PMS.B2S.Models.Package.SCMPackageCalendarModel.Converter.Settings);
     }
 
     internal static class Converter

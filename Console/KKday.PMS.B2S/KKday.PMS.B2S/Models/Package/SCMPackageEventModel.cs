@@ -2,11 +2,11 @@
 //
 // To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
 //
-//    using KKday.PMS.B2S.Models.Package.SCMPackageModel;
+//    using KKday.PMS.B2S.Models.Package. SCMPackageEventModel;
 //
-//    var scmPackageModel = ScmPackageModel.FromJson(jsonString);
+//    var scmPackageEventModel = ScmPackageEventModel.FromJson(jsonString);
 
-namespace KKday.PMS.B2S.Models.Package.SCMPackageModel
+namespace KKday.PMS.B2S.Models.Package.SCMPackageEventModel
 {
     using System;
     using System.Collections.Generic;
@@ -16,19 +16,37 @@ namespace KKday.PMS.B2S.Models.Package.SCMPackageModel
     using Newtonsoft.Json.Converters;
     using KKday.PMS.B2S.Models.Shared;
 
-    public partial class ScmPackageModel : ScmBaseModel
+    public partial class ScmPackageEventModel : ScmBaseModel
     {
+
         [JsonProperty("json")]
         public Json Json { get; set; }
     }
 
     public partial class Json
     {
-        [JsonProperty("packageNm")]
-        public string PackageNm { get; set; }
+        [JsonProperty("prodOid")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long ProdOid { get; set; }
 
-        [JsonProperty("packageDesc")]
-        public PackageDesc PackageDesc { get; set; }
+        [JsonProperty("packageOid")]
+        public long PackageOid { get; set; }
+
+        [JsonProperty("beginDate")]
+        public string BeginDate { get; set; }
+
+        [JsonProperty("endDate")]
+        public string EndDate { get; set; }
+
+        [JsonProperty("weekDay")]
+        public string WeekDay { get; set; }
+
+        [JsonProperty("time")]
+        public string Time { get; set; }
+
+        [JsonProperty("pkgOid")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long PkgOid { get; set; }
 
         [JsonProperty("supplierOid")]
         public long SupplierOid { get; set; }
@@ -43,35 +61,14 @@ namespace KKday.PMS.B2S.Models.Package.SCMPackageModel
         public string TokenKey { get; set; }
     }
 
-    public partial class PackageDesc
+    public partial class ScmPackageEventModel
     {
-        [JsonProperty("descItems")]
-        public List<DescItem> DescItems { get; set; }
-    }
-
-    public partial class DescItem
-    {
-        [JsonProperty("content")]
-        public List<Content> Content { get; set; }
-    }
-
-    public partial class Content
-    {
-        [JsonProperty("desc")]
-        public string Desc { get; set; }
-
-        [JsonProperty("id")]
-        public string Id { get; set; }
-    }
-
-    public partial class ScmPackageModel
-    {
-        public static ScmPackageModel FromJson(string json) => JsonConvert.DeserializeObject<ScmPackageModel>(json, KKday.PMS.B2S.Models.Package.SCMPackageModel.Converter.Settings);
+        public static ScmPackageEventModel FromJson(string json) => JsonConvert.DeserializeObject<ScmPackageEventModel>(json, KKday.PMS.B2S.Models.Package.SCMPackageEventModel.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this ScmPackageModel self) => JsonConvert.SerializeObject(self, KKday.PMS.B2S.Models.Package.SCMPackageModel.Converter.Settings);
+        public static string ToJson(this ScmPackageEventModel self) => JsonConvert.SerializeObject(self, KKday.PMS.B2S.Models.Package.SCMPackageEventModel.Converter.Settings);
     }
 
     internal static class Converter
@@ -123,11 +120,11 @@ namespace KKday.PMS.B2S.Models.Package.SCMPackageModel
 //
 // To parse this JSON data, add NuGet 'Newtonsoft.Json' then do:
 //
-//    using KKday.PMS.B2S.Models.Package. SCMPackageStatusModel;
+//    using KKday.PMS.B2S.Models.Package. SCMPackageEventStatusModel;
 //
-//    var scmPackageStatusModel = ScmPackageStatusModel.FromJson(jsonString);
+//    var scmPackageEventStatusModel = ScmPackageEventStatusModel.FromJson(jsonString);
 
-namespace KKday.PMS.B2S.Models.Package.SCMPackageStatusModel
+namespace KKday.PMS.B2S.Models.Package.SCMPackageEventStatusModel
 {
     using System;
     using System.Collections.Generic;
@@ -137,7 +134,7 @@ namespace KKday.PMS.B2S.Models.Package.SCMPackageStatusModel
     using Newtonsoft.Json.Converters;
     using KKday.PMS.B2S.Models.Shared;
 
-    public partial class ScmPackageStatusModel : ScmBaseModel
+    public partial class ScmPackageEventStatusModel : ScmBaseModel
     {
         [JsonProperty("json")]
         public Json Json { get; set; }
@@ -145,12 +142,22 @@ namespace KKday.PMS.B2S.Models.Package.SCMPackageStatusModel
 
     public partial class Json
     {
-        [JsonProperty("packageOid")]
+        [JsonProperty("prodOid")]
         [JsonConverter(typeof(ParseStringConverter))]
+        public long ProdOid { get; set; }
+
+        [JsonProperty("packageOid")]
         public long PackageOid { get; set; }
+
+        [JsonProperty("type")]
+        public string Type { get; set; }
 
         [JsonProperty("status")]
         public string Status { get; set; }
+
+        [JsonProperty("pkgOid")]
+        [JsonConverter(typeof(ParseStringConverter))]
+        public long PkgOid { get; set; }
 
         [JsonProperty("supplierOid")]
         public long SupplierOid { get; set; }
@@ -165,14 +172,14 @@ namespace KKday.PMS.B2S.Models.Package.SCMPackageStatusModel
         public string TokenKey { get; set; }
     }
 
-    public partial class ScmPackageStatusModel
+    public partial class ScmPackageEventStatusModel
     {
-        public static ScmPackageStatusModel FromJson(string json) => JsonConvert.DeserializeObject<ScmPackageStatusModel>(json, KKday.PMS.B2S.Models.Package.SCMPackageStatusModel.Converter.Settings);
+        public static ScmPackageEventStatusModel FromJson(string json) => JsonConvert.DeserializeObject<ScmPackageEventStatusModel>(json, KKday.PMS.B2S.Models.Package.SCMPackageEventStatusModel.Converter.Settings);
     }
 
     public static class Serialize
     {
-        public static string ToJson(this ScmPackageStatusModel self) => JsonConvert.SerializeObject(self, KKday.PMS.B2S.Models.Package.SCMPackageStatusModel.Converter.Settings);
+        public static string ToJson(this ScmPackageEventStatusModel self) => JsonConvert.SerializeObject(self, KKday.PMS.B2S.Models.Package.SCMPackageEventStatusModel.Converter.Settings);
     }
 
     internal static class Converter
