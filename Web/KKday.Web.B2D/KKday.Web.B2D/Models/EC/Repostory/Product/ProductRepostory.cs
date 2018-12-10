@@ -620,6 +620,7 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Product
             }
             catch (Exception ex)
             {
+                var error = ex;
                 throw new Exception(title.result_code_9990);
             }
 

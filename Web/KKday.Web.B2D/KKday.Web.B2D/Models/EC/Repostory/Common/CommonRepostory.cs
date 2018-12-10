@@ -47,7 +47,9 @@ namespace KKday.Web.B2D.EC.Models.Repostory.Common
             }
             catch (Exception ex)
             {
-                return null;
+                Dictionary<string, string> error = new Dictionary<string, string>();
+                error["error"] = ex.ToString();
+                return error;
             }
         }
     }

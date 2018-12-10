@@ -18,7 +18,6 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using KKday.Web.B2D.EC.Models.Repostory.Common;
 using KKday.Web.B2D.BE.App_Code;
-using KKday.Web.B2D.BE.App_Code;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 

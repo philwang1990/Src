@@ -45,7 +45,7 @@ namespace KKday.Web.B2D.BE.Commons
                         };
 
                         string json_data = JsonConvert.SerializeObject(_params);
-                        string url = Website.Instance.Configuration["KKdayAPI:URL:CountryAreaAPI"];
+                        string url =string.Format("{0}{1}",Website.Instance.Configuration["KKdayAPI:URL:stage"], "country");
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -115,7 +115,7 @@ namespace KKday.Web.B2D.BE.Commons
                         };
 
                         string json_data = JsonConvert.SerializeObject(_params);
-                        string url = Website.Instance.Configuration["KKdayAPI:URL:CountryLangAPI"];
+                        string url = string.Format("{0}{1}",Website.Instance.Configuration["KKdayAPI:URL:stage"], "countryLang");
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -178,7 +178,7 @@ namespace KKday.Web.B2D.BE.Commons
                     {
                         client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
-                        string url = Website.Instance.Configuration["WMS_API:URL:CurrencyAPI"];
+                        string url = string.Format("{0}{1}",Website.Instance.Configuration["WMS_API:URL"],"Common/Currency");
                         url += "?locale=" + locale;
 
                         var response = client.GetAsync(url).Result;

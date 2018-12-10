@@ -40,7 +40,7 @@ namespace KKday.Web.B2D.BE.Proxy
                         };
                        
                         string json_data = JsonConvert.SerializeObject(_params);
-                        string url = Website.Instance.Configuration["WMS_API:URL:QueryPackage"];
+                        string url =string.Format("{0}{1}",Website.Instance.Configuration["WMS_API:URL"],"Product/Querypackage");
 
                         using (HttpContent content = new StringContent(json_data))
                         {

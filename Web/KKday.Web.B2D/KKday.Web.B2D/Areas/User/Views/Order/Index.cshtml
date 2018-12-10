@@ -66,6 +66,9 @@
     </div>
 
     <script>
+$(function(){
+    $('#Menu_03').addClass("active");
+});
 
 function Refresh(page, is_recount) {
 
@@ -117,6 +120,27 @@ function SearchOrder(){
         url: _root_path + "Order/SearchOrdersAsync",
         contentType: "application/json",
         data: JSON.stringify(obj),
+        dataType: "json",
+        error: function (jqXHR, textStatus, errorThrown) {
+            // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+            console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+        },
+        success: function (result) {
+            // console.log("result: " + JSON.stringify(result));
+            if(result.status == "OK") {
+                $("#list_panel").html(result.content);
+                query_params = JSON.parse(result.query_params);
+            }
+        }
+    });
+}
+
+    function GetOrderDetail(id){
+
+        $.ajax({
+        type: "POST",
+        url: _root_path + "Order/GetOrderDetail",
+        data: {mid:id},
         dataType: "json",
         error: function (jqXHR, textStatus, errorThrown) {
             // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
