@@ -17,12 +17,12 @@ namespace KKday.Web.B2D.BE.Models.Repository
         {
             OrderRQModel rq = new OrderRQModel()
             {
-                COMP_XID = acct.COMPANY_XID,
-                CHANNEL_OID = 456,//UserData.CHANNEL_OID,
-                LOCALE_LANG = acct.LOCALE,
-                CURRENT_CURRENCY = acct.CURRENCY,
-                STATE = "TW",//acct.CHANNEL_OID,
-                OPTION = option
+                company_xid = 123,//acct.COMPANY_XID,
+                channel_oid = 456,//UserData.CHANNEL_OID,
+                locale_lang = acct.LOCALE,
+                current_currency = acct.CURRENCY,
+                state = "TW",//acct.CHANNEL_OID,
+                option = option
             };
 
             var jsonResult = OrderProxy.GetOrderList(rq);
@@ -32,7 +32,7 @@ namespace KKday.Web.B2D.BE.Models.Repository
             //order_list = jsonObject["order"].ToObject<List<OrderModel>>();
 
             order_list.ORDERS = new List<OrderModel>();
-            order_list.PAGES = (Int32)jsonObject["order_qty"] / option.PAGE_SIZE + (((Int32)jsonObject["order_qty"] % option.PAGE_SIZE != 0) ? 1 : 0);
+            order_list.PAGES = (Int32)jsonObject["order_qty"] / option.page_size + (((Int32)jsonObject["order_qty"] % option.page_size != 0) ? 1 : 0);
             order_list.CURRENT_PAGE = (Int32)jsonObject["current_page"];
 
             foreach (JToken item in jsonObject["order"].AsJEnumerable())
@@ -56,81 +56,102 @@ namespace KKday.Web.B2D.BE.Models.Repository
             return order_list;
         }
 
-        public QueryParamsModel GetQueryParamModel(string filter, string sorting, int size, int current_page)
+        public static JObject GetOrderDetail(B2dAccount acct,string mid)
         {
-            var rec_count = GetAccountsCount(filter);
-            var total_pages = (int)(rec_count / size) + ((rec_count % size != 0) ? 1 : 0);
-
-            return new QueryParamsModel()
+            OrderRQModel rq = new OrderRQModel()
             {
-                Filter = filter,
-                Sorting = sorting,
-                Paging = new Pagination()
-                {
-                    current_page = current_page,
-                    total_pages = total_pages,
-                    page_size = size
-                }
+                company_xid = 123,//acct.COMPANY_XID,
+                locale_lang = "zh-tw",//acct.LOCALE,
+                current_currency = "TWD",//acct.CURRENCY,
+                state = "TW"//acct.COUNRTY_CODE,
             };
+
+            var jsonResult = OrderProxy.GetOrderDetail(rq,mid);
+
+            JObject jsonObject = JObject.Parse(jsonResult);
+
+            //OrderModel order = new OrderModel();
+            //order_list = jsonObject["order"].ToObject<List<OrderModel>>();
+
+            return jsonObject;
         }
 
-        // 取得共有多少筆訂單[分頁用]
-        public int GetAccountsCount(string filter)
-        {
-            try
-            {
-                var _filter = GetFieldFiltering(filter);
-                //var order_list= OrderProxy.GetOrderList(_filter);
+        //用不到
+        //public QueryParamsModel GetQueryParamModel(string filter, string sorting, int size, int current_page)
+        //{
+        //    var rec_count = GetAccountsCount(filter);
+        //    var total_pages = (int)(rec_count / size) + ((rec_count % size != 0) ? 1 : 0);
 
-                return 0;//order_list.Count;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //    return new QueryParamsModel()
+        //    {
+        //        Filter = filter,
+        //        Sorting = sorting,
+        //        Paging = new Pagination()
+        //        {
+        //            current_page = current_page,
+        //            total_pages = total_pages,
+        //            page_size = size
+        //        }
+        //    };
+        //}
 
-        #region Fields Mapping
+        //// 取得共有多少筆訂單[分頁用]
+        //public int GetAccountsCount(string filter)
+        //{
+        //    try
+        //    {
+        //        var _filter = GetFieldFiltering(filter);
+        //        //var order_list= OrderProxy.GetOrderList(_filter);
 
-        private string GetFieldFiltering(string filter)
-        {
-            var jObjFilter = string.IsNullOrEmpty(filter) ? new JObject() : JObject.Parse(filter);
-            var _filter = "";
+        //        return 0;//order_list.Count;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
 
-            // Full Name
-            if (!string.IsNullOrEmpty((string)jObjFilter["name"]))
-                _filter += $" AND LOWER(name_first || name_last) LIKE '%{jObjFilter["name"]}%' ";
-            // Company Name
-            if (!string.IsNullOrEmpty((string)jObjFilter["comp_name"]))
-                _filter += $" AND LOWER(comp_name) LIKE '%{jObjFilter["comp_name"]}%' ";
-            // Email
-            if (!string.IsNullOrEmpty((string)jObjFilter["email"]))
-                _filter += $" AND LOWER(email) LIKE '%{jObjFilter["email"]}%' ";
-            // enable
-            if (!string.IsNullOrEmpty((string)jObjFilter["status"]))
-                _filter += $" AND enable = '{jObjFilter["status"]}' ";
+        //#region Fields Mapping
 
-            return _filter;
-        }
+        //private string GetFieldFiltering(string filter)
+        //{
+        //    var jObjFilter = string.IsNullOrEmpty(filter) ? new JObject() : JObject.Parse(filter);
+        //    var _filter = "";
 
-        private string GetFieldSorting(string sorting)
-        {
-            var _sorting = "";
+        //    // Full Name
+        //    if (!string.IsNullOrEmpty((string)jObjFilter["name"]))
+        //        _filter += $" AND LOWER(name_first || name_last) LIKE '%{jObjFilter["name"]}%' ";
+        //    // Company Name
+        //    if (!string.IsNullOrEmpty((string)jObjFilter["comp_name"]))
+        //        _filter += $" AND LOWER(comp_name) LIKE '%{jObjFilter["comp_name"]}%' ";
+        //    // Email
+        //    if (!string.IsNullOrEmpty((string)jObjFilter["email"]))
+        //        _filter += $" AND LOWER(email) LIKE '%{jObjFilter["email"]}%' ";
+        //    // enable
+        //    if (!string.IsNullOrEmpty((string)jObjFilter["status"]))
+        //        _filter += $" AND enable = '{jObjFilter["status"]}' ";
 
-            switch (sorting)
-            {
-                case "name": _sorting = "name"; break;
-                case "email": _sorting = "email"; break;
-                case "comp_name": _sorting = "comp_name"; break;
-                case "enable": _sorting = "enable"; break;
-                case "xid": _sorting = "xid"; break;
+        //    return _filter;
+        //}
 
-                default: break;
-            }
+        //private string GetFieldSorting(string sorting)
+        //{
+        //    var _sorting = "";
 
-            return _sorting;
-        }
+        //    switch (sorting)
+        //    {
+        //        case "name": _sorting = "name"; break;
+        //        case "email": _sorting = "email"; break;
+        //        case "comp_name": _sorting = "comp_name"; break;
+        //        case "enable": _sorting = "enable"; break;
+        //        case "xid": _sorting = "xid"; break;
 
-        #endregion Fields Mapping
+        //        default: break;
+        //    }
+
+        //    return _sorting;
+        //}
+
+        //#endregion Fields Mapping
     }
 }
