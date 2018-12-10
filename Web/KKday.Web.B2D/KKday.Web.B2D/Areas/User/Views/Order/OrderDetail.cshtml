@@ -1,0 +1,1554 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Order
+@using Resources
+@inject ILocalizer localizer
+@{
+    Layout = "_LayoutMain";
+}
+
+<div class="page-wrap member-wrap order-detail-wrap">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="order_list.html"><i class="fa fa-angle-left fa-lg"></i>返回訂單管理</a>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <aside class="page-aside">
+                    <div class="aside-box">
+                        <div class="product-img img-bg" style="background-image:url(img/bg_login.jpg);"></div>
+                        <div class="order-main-goday pull-left">
+                            <div class="year">2018</div>
+                            <div class="mon">Apr</div>
+                            <div class="day">22</div>
+                        </div>
+                        <div class="order-main-title">
+                            <h2>Day Tour From Seoul: Korean Demilitarized Zone (DMZ) and Panmunjom</h2>
+                        </div>
+                        <div class="clearfix"></div>
+
+                        <div class="fill-group">
+                            <label>套餐</label>
+                            Option A
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8 col-lg-7">
+                                <div class="fill-group">
+                                    <label>使用日</label>
+                                    2018-04-22 (Tokyo)
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-lg-5">
+                                <div class="fill-group">
+                                    <label>場次</label>
+                                    11:30
+                                </div>
+                            </div>
+                        </div>
+                        <div class="fill-group price-detail ">
+                            <label>費用明細</label>
+                            <div class="mt-10">
+                                <span class="pull-left">成人 x 2</span>
+                                <span class="pull-right">GBP 123,456</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="mt-10">
+                                <span class="pull-left">孩童 x 2</span>
+                                <span class="pull-right">GBP 100,000</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="mt-10">
+                                <span class="pull-left">老人 x 1</span>
+                                <span class="pull-right">GBP 100,000</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <div class="mt-10 text-primary">
+                                <span class="pull-left">折扣券</span>
+                                <span class="pull-right">- GBP 100,000</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <hr>
+
+                            <!-- 已取消訂單 -->
+                            <div class="mt-10">
+                                <span class="pull-left">總金額</span>
+                                <span class="pull-right">GBP 223,456</span>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <!-- 如果結帳幣別與收單幣別相同，隱藏以下內容 -->
+                            <hr>
+                            <div class="tip">
+                                <i class="icons icon-info"></i>您是以TWD支付此訂單
+                                <p class="text-xs">(實際支付金額會依匯率不同而有所變動)</p>
+                            </div>
+                            <div class="mt-10">
+                                <span class="pull-left">實際付款金額</span>
+                                <span class="pull-right">TWD 223,456</span>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <div class="mt-10 text-danger">
+                                <span class="pull-left">取消手續費</span>
+                                <span class="pull-right">- TWD 223,456</span>
+                                <div class="clearfix"></div>
+                            </div>
+                            <hr>
+                            <div class="mt-10">
+                                <span class="pull-left">退款金額</span>
+                                <div class="product-pricing pull-right">
+                                    <span class="text-primary">TWD</span>
+                                    <h4>10,000</h4>
+
+                                    <!-- 如果結帳幣別與收單幣別相同，隱藏此div -->
+                                    <div class="tip text-right">
+                                        約等同於 GBP 88.67
+                                    </div>
+
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+
+                            <!-- 一般訂單 -->
+                            <!-- <div class="mt-10">
+                                <span class="pull-left">總金額</span>
+                                <div class="product-pricing pull-right text-primary">
+                                    <span class="text-primary">GBP</span>
+                                    <h4>10,000</h4>
+                                </div>
+                                <div class="clearfix"></div>
+                            </div> -->
+                            <!-- 如果結帳幣別與收單幣別相同，隱藏以下內容 -->
+                            <!-- <hr>
+                            <div class="mt-10">
+                                <span class="pull-left">您是以TWD支付此訂單</span>
+                                <span class="pull-right product-pricing text-primary">TWD 3,523</span>
+                                <div class="clearfix"></div>
+                                <div class="tip text-xs">(實際支付金額會依匯率不同而有所變動)</div>
+                            </div> -->
+
+                        </div>
+                    </div>
+                </aside>
+            </div>
+            <div class="col-md-8">
+                <div class="board order-cta">
+                    <div class="page-head">
+                        <div class="order-status">
+                            <!-- 訂單處理中顯示 -->
+                            <div class="label label-info">訂單處理中</div>
+                            <p>須二次確認，於N個工作日內回覆訂購結果</p>
+                            <div class="clearfix"></div>
+
+                            <!-- 退款作業中顯示 -->
+                            <!-- <span class="flash-tag">
+                                <i class="fa fa-refresh text-danger"></i>退款作業進行中
+                            </span> -->
+                            <!-- 已成功取消顯示 -->
+                            <!-- <span class="flash-tag">
+                                <i class="fa fa-times-circle text-danger"></i>已取消
+                            </span> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-7 col-lg-8">
+                            <h1>訂單編號 #18KK010973183</h1>
+                            <div class="critical-info">
+                                <i class="icons icon-user"></i>
+                                購買人：
+                                <span>Zhen lin, Taipei</span>
+                            </div>
+                            <div class="critical-info">
+                                <i class="icons icon-envelope"></i>
+                                電子郵件信箱：
+                                <span>peizhen.lin@kkday.com</span>
+                            </div>
+                            <div class="critical-info">
+                                <i class="icons icon-phone"></i>
+                                聯絡電話：
+                                <span>+886 987 123 456</span>
+                            </div>
+                            <div class="critical-info">
+                                <i class="icons icon-calendar"></i>
+                                訂購日：
+                                <span>2017-08-01</span>
+                            </div>
+                        </div>
+                        <div class="col-md-5 col-lg-4">
+                            <a href="#" class="btn btn-primary btn-block" data-toggle="modal" data-target="#voucher-modal">Your vouchers</a>
+                            <a href="#" class="btn btn-danger btn-block">訂單緊急服務</a>
+                            <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#downloadReceipt">
+                                Need an
+                                invoice?
+                            </a>
+                            <a href="order_msg.html" class="btn btn-success btn-block">Contact us</a>
+                            <!-- <a href="order_comment02.html" class="btn btn-success btn-block">Check Feedback</a> -->
+                            <a href="#" class="btn btn-success btn-block" data-toggle="modal" data-target="#cancel-modal">Cancel order</a>
+                            <div class="mt-10 text-right">
+                                <a href="#" data-toggle="modal" data-target="#cancel-info-modal">Cancellation policy</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="board">
+                    <div class="page-head">
+                        <ul class="nav nav-tabs page-tab">
+                            <li class="active">
+                                <a href="#product-tab" data-toggle="tab">行程介紹</a>
+                            </li>
+                            <li>
+                                <a href="#map-tab" data-toggle="tab">行程表 & 地圖</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#traveler" class="dropdown-toggle" data-toggle="dropdown">
+                                    旅客資料
+                                    <i class="fa fa-caret-down"></i>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li>
+                                        <a href="#traveler1" data-toggle="tab">旅客 1 - Ming Wang</a>
+                                    </li>
+                                    <li>
+                                        <a href="#traveler2" data-toggle="tab">旅客 2 - Ming Lin</a>
+                                    </li>
+                                    <li>
+                                        <a href="#traveler3" data-toggle="tab">旅客 3 - Ming Chen</a>
+                                    </li>
+                                </ul>
+                                <span class="dropdown-arrow"></span>
+                            </li>
+                            <li>
+                                <a href="#order-tab" data-toggle="tab">訂購資料</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="product-tab">
+                            <div class="info-section">
+                                <h4 class="sub-title">注意事項</h4>
+                                <div class="info-content">
+                                    <ul>
+                                        <li>
+                                            Please avoid wearing ripped or torn clothing, including (but not limited to) jeans. Avoid wearing
+                                            shorts, mini skirts, sportswear, sandals, flip flops or any other inappropriate attire. Those wearing
+                                            inappropriate attire may not be permitted to enter site
+                                        </li>
+                                        <li>Please adhere to on-site rules regarding photography (90mm camera lens are not allowed)</li>
+                                        <li>7人座超時NT400/hr，9人座超時NT500/hr，當支付給司機。</li>
+                                        <li>預約完成後，會告知司機電話號碼，請記得前一天打電話跟司機聯絡確認時間及地點，如與旅客聯絡不上，本公司有權取消預約。</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="info-section">
+                                <h4 class="sub-title">Inclusion</h4>
+                                <div class="info-content">
+                                    <ul class="price-include">
+                                        <li><img src="img/ic_include.svg">Transportation fee</li>
+                                        <li><img src="img/ic_include.svg">Tour guide</li>
+                                        <li><img src="img/ic_include.svg">Admission fee</li>
+                                        <li><img src="img/ic_include.svg">Meals</li>
+                                        <li><img src="img/ic_include.svg">清潔費</li>
+                                        <li><img src="img/ic_include.svg">乘客保險 500 萬</li>
+                                    </ul>
+                                    <ul class="price-not">
+                                        <li><img src="img/ic_notinclude.svg">Personal expenses</li>
+                                        <li><img src="img/ic_notinclude.svg">個人消費</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="info-section">
+                                <h4 class="sub-title">行程介紹</h4>
+                                <div class="info-content">
+                                    <p>
+                                        此台北8小時包車行程，你可以選擇台北近郊著名的景點，讓你一天暢玩，景點都可以自行決定，用車8小時為限，如果不知道要去哪裡好？你可以參考我們的建議行程，任何行程安排都可以留言與我們討論唷！<br>
+                                        <br>
+                                        － 開始時間：可自行決定出發開始時間 <br>
+                                        － 出發地點：台北市區各大飯店民宿(下單時請備注)<br>
+                                        － 行程長度：8小時<br>
+                                        － 回程資訊：自行指定下車地點<br>
+                                        － 包車車型：1-4人旅客-TOYOTA WISH 七人座車 / 5-8人旅客-福斯T5 九人座車<br>
+                                        <br>
+                                        － 行程特色 －<br>
+                                        ＃ 超彈性！自行決定想要去的景點，不拘束於旅行團設計好的行程<br>
+                                        ＃ 台北郊區景點，不必自己搭火車轉公車，包車不需人擠人<br>
+                                        ＃ 專業包車司機大哥，貼心推薦當地景點、人文小吃<br>
+                                        <br>
+                                        －包車路線 －<br>
+                                        ＃包車路線可自行決定，用車8小時為限<br>
+                                        ＃建議台北包車8小時行程：集合地點 -- 十分瀑布 -- 平溪車站 -- 九份老街 -- 基隆廟口夜市 -- 回到台北<br>
+                                        <br>
+                                        －與司機聯繫方式 －<br>
+                                        預訂完成後，會保留當天用車並告知司機聯絡方式，需要您出發日前20:00前撥打電話，與您確認在台灣的聯絡方式與接送時間地點。<br>
+                                        <br>
+                                        －參考景點 －<br>
+                                        #九份老街<br>
+                                        最令人印象深刻的想必就是位於其中的老街區，每到夜深時刻，街道兩旁的紅燈籠映照著古老的階梯，與民宅的昏黃燈光兩相輝映，整個九份山城將瀰漫著濃濃的傳統氣息。<br>
+                                        <br>
+                                        ＃十分瀑布<br>
+                                        十分位於新北市平溪區，鄰近的基隆河支流長年沖刷著河床，許多的斷層和奇岩應運而生，從而形成了景觀壯麗的十分瀑布。沿著鐵路，兩旁民宅毗鄰而居，漫步於路旁老街上時，可以感受到其蘊含其中濃厚的古典及思鄉氛圍。<br>
+                                        <br>
+                                        ＃平溪<br>
+                                        平溪區最具特色的是天燈文化、煤礦產業文化。每年元宵節，地方會舉辦盛大的天燈施放活動，吸引國內外遊客前來，也造就了平溪區以天燈聞名的意象。煤礦產業雖然是平溪區過去的經濟脈絡，也遺留下許多礦業地景，自然而然形成觀光景點。<br>
+                                        <br>
+                                        ＃基隆廟口<br>
+                                        基隆廟口的小吃最早可溯源至日據時代，基隆廟口因位於俗稱『聖王廟』的『奠濟宮』前而得名。廟口擁有許多著名的小吃，像是泡泡冰、鼎邊銼、營養三明治、蚵仔煎、蝦仁羹、豆簽羹、天婦羅等等，民眾若想嚐嚐這些美味可要來廟口逛逛。
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="map-tab">
+                            <div class="info-section">
+                                <h4 class="sub-title">地圖</h4>
+                                <div class="info-content">
+                                    <!-- 若為機場接送類別 -->
+                                    <h4 class="info-subtitle">機場集合地</h4>
+                                    <ul class="map-info">
+                                        <li>
+                                            <div class="map-title"><i class="fa fa-map-pin"></i>TPE - Terminal 1<br>1F</div>
+                                            <div class="map-img">
+                                                <div id="map_source"></div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="map-title"><i class="fa fa-map-pin"></i>TPE - Terminal 2<br>2F</div>
+                                            <div class="map-img">
+                                                <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
+                                                    <img src="http://placehold.it/720x405?text=This is a map">
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <!--若非機場接送類別-->
+                                    <h4 class="info-subtitle">集合地</h4>
+                                    <ul class="map-info">
+                                        <li>
+                                            <div class="map-title"><i class="fa fa-map-pin"></i>台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站台北車站</div>
+                                            <!-- 地圖圖片型態 -->
+                                            <div class="map-img">
+                                                <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
+                                                    <img src="http://placehold.it/720x405?text=This is a map">
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="map-title"><i class="fa fa-map-pin"></i>南港車站</div>
+                                            <!-- 地圖圖片型態 -->
+                                            <div class="map-img">
+                                                <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
+                                                    <img src="http://placehold.it/720x405?text=This is a map">
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <!-- 主要目的地 -->
+                                    <h4 class="info-subtitle">主要目的地</h4>
+                                    <ul class="map-info">
+                                        <li>
+                                            <div class="map-title"><i class="fa fa-map-pin"></i>平溪車站</div>
+                                            <div class="map-img">
+                                                <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
+                                                    <img src="http://placehold.it/720x405?text=This is a map">
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="map-title"><i class="fa fa-map-pin"></i>十分瀑布</div>
+                                            <div class="map-img">
+                                                <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
+                                                    <img src="http://placehold.it/720x405?text=This is a map">
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="map-title"><i class="fa fa-map-pin"></i>基隆廟口</div>
+                                            <div class="map-img">
+                                                <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
+                                                    <img src="http://placehold.it/720x405?text=This is a map">
+                                                </a>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="map-title"><i class="fa fa-map-pin"></i>九份</div>
+                                            <div class="map-img">
+                                                <a href="http://www.google.com/maps/place/25.047923,121.51708/@@25.047923,121.51708,13z" target="_blank">
+                                                    <img src="http://placehold.it/720x405?text=This is a map">
+                                                </a>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <!-- 備註-->
+                                    <h4 class="info-subtitle">備註</h4>
+                                    <p>
+                                        7:15am JR 新宿站：地下S2出口上來 三菱東京UFJ銀行前
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="info-section">
+                                <h4 class="sub-title">行程表</h4>
+                                <div class="info-content">
+                                    <ul class="time-info">
+                                        <li class="time-info-day">
+                                            第 1 天
+                                        </li>
+                                        <li class="time-info-include">
+                                            費用包含：午餐、晚餐
+                                        </li>
+                                        <li class="time-info-spot">
+                                            <div class="time-info-title">
+                                                <div class="time">13:00</div>
+                                                <div class="txt">
+                                                    九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                                </div>
+                                            </div>
+                                            <div class="time-info-img">
+                                                <img src="http://placehold.it/650x300?text=This is a schedule image">
+                                            </div>
+                                        </li>
+                                        <li class="time-info-spot">
+                                            <div class="time-info-title">
+                                                <div class="txt">
+                                                    九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="time-info-spot">
+                                            <div class="time-info-title">
+                                                <div class="time">13:00</div>
+                                                <div class="txt">
+                                                    建議行程（行程可自由安排景點)
+                                                </div>
+                                            </div>
+                                            <div class="time-info-img">
+                                                <img src="http://placehold.it/650x405?text=This is a schedule image">
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                    <ul class="time-info">
+                                        <li class="time-info-day">
+                                            Day 2
+                                        </li>
+                                        <li class="time-info-spot">
+                                            <div class="time-info-title">
+                                                <div class="time">13:00</div>
+                                                <div class="txt">
+                                                    九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                                </div>
+                                            </div>
+                                            <div class="time-info-img">
+                                                <img src="http://placehold.it/650x405?text=This is a schedule image">
+                                            </div>
+                                        </li>
+                                        <li class="time-info-spot">
+                                            <div class="time-info-title">
+                                                <div class="txt">
+                                                    九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街九份老街
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="time-info-spot">
+                                            <div class="time-info-title">
+                                                <div class="time">13:00</div>
+                                                <div class="txt">
+                                                    建議行程（行程可自由安排景點)
+                                                </div>
+                                            </div>
+                                            <div class="time-info-img">
+                                                <img src="http://placehold.it/650x405?text=This is a schedule image">
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="traveler1">
+                            <div class="traveler-con">
+                                <h4 class="sub-title">
+                                    旅人1 - <span class="text-secondary">Ming Wang</span>
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>性別</label>
+                                            難
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>出生日期</label>
+                                            1992-11-20
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>國籍</label>
+                                            台灣
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>護照號碼</label>
+                                            3535355364
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>護照截止日</label>
+                                            2020-12-29
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>本國國籍名字</label>
+                                            小明
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>本國國籍姓氏</label>
+                                            王
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>台灣身分證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="fill-group">
+                                    <label>港澳身分證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="fill-group">
+                                    <label>台胞證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>旅客身高</label>
+                                            200 cm
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>旅客體重</label>
+                                            30 kg
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>旅客鞋碼</label>
+                                    成人女性鞋碼 US 37
+                                </div>
+                                <div class="fill-group">
+                                    <label>眼鏡度數</label>
+                                    100 deg
+                                </div>
+                                <div class="fill-group">
+                                    <label>選擇餐食</label>
+                                    葷
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="traveler2">
+                            <div class="traveler-con">
+                                <h4 class="sub-title">
+                                    旅人2 - <span class="text-secondary">Ming Lin</span>
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>性別</label>
+                                            女
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>出生日期</label>
+                                            1993-12-31
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>國籍</label>
+                                            台灣
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>護照號碼</label>
+                                            12387901293
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>護照截止日</label>
+                                            2020-12-25
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>本國國籍名字</label>
+                                            小明
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>本國國籍姓氏</label>
+                                            林
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>台灣身分證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="fill-group">
+                                    <label>港澳身分證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="fill-group">
+                                    <label>台胞證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>旅客身高</label>
+                                            200 cm
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>旅客體重</label>
+                                            30 kg
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>旅客鞋碼</label>
+                                    成人女性鞋碼 US 37
+                                </div>
+                                <div class="fill-group">
+                                    <label>眼鏡度數</label>
+                                    100 deg
+                                </div>
+                                <div class="fill-group">
+                                    <label>選擇餐食</label>
+                                    葷
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="traveler3">
+                            <div class="traveler-con">
+                                <h4 class="sub-title">
+                                    旅人3 - <span class="text-secondary">Ming Chen</span>
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>性別</label>
+                                            女
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>出生日期</label>
+                                            1991-10-25
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>國籍</label>
+                                            台灣
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>護照號碼</label>
+                                            45451664424
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>護照截止日</label>
+                                            2022-1-25
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>本國國籍名字</label>
+                                            小明
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>本國國籍姓氏</label>
+                                            陳
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>台灣身分證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="fill-group">
+                                    <label>港澳身分證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="fill-group">
+                                    <label>台胞證字號</label>
+                                    Z123456789
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>旅客身高</label>
+                                            200 cm
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>旅客體重</label>
+                                            30 kg
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>旅客鞋碼</label>
+                                    成人女性鞋碼 US 37
+                                </div>
+                                <div class="fill-group">
+                                    <label>眼鏡度數</label>
+                                    100 deg
+                                </div>
+                                <div class="fill-group">
+                                    <label>選擇餐食</label>
+                                    葷
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="order-tab">
+                            <div class="traveler-con">
+                                <h4 class="sub-title">亞洲萬里通</h4>
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>亞洲萬里通會員編號</label>
+                                            1234567890
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>亞洲萬里通會員姓名</label>
+                                            LIN PEI ZHEN
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tip mb-20 text-xs">
+                                    <i class="icons icon-info"></i>
+                                    里數將於6至8週存入你的帳戶，帳戶里數資訊請至「亞洲萬里通」查詢
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">候補場次</h4>
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>第一候補場次時間</label>
+                                            2017-12-31 10:00
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>第二候補場次時間</label>
+                                            2017-12-31 10:00
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>第三候補場次時間</label>
+                                            2017-12-31 10:00
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">導覽語言</h4>
+                                <div class="fill-group">
+                                    <label>行程導覽語言</label>
+                                    中文
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">
+                                    抵達日本航班資訊
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>航班類型</label>
+                                            國際線
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>抵達機場</label>
+                                            桃園國際機場
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>航廈</label>
+                                            第二航廈
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>航空公司</label>
+                                            國泰航空
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>航班編號</label>
+                                            123456
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>航班出發時間</label>
+                                    2017-10-31 14:30
+                                </div>
+                                <div class="fill-group">
+                                    <label>是否辦理落地簽?</label>
+                                    是
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">
+                                    離開日本航班資訊
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>航班類型</label>
+                                            國際線
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>出發機場</label>
+                                            桃園國際機場
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>航廈</label>
+                                            第二航廈
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>航空公司</label>
+                                            國泰航空
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>航班編號</label>
+                                            123456
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>航班出發時間</label>
+                                    2017-10-31 14:30
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">接送資料</h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>接駁日期</label>
+                                            2017-12-31
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>接駁時間</label>
+                                            10:30
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>上車地點</label>
+                                    台北車站
+                                </div>
+                                <div class="fill-group">
+                                    <label>下車地點</label>
+                                    北投溫泉
+                                </div>
+                                <div class="fill-group">
+                                    <label>接送地點</label>
+                                    北投溫泉飯店
+                                    <div class="tip">
+                                        3-37 Toyosaki, Tomigusuku, Tomigusuku,Okinawa Prefecture 901-0225
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>包車路線</label>
+                                    Route D:Taipei – Chiang Kau-Shek Memorial Hall - Yangmingshan National Park - Qingtiangang - Xiaoyoukeng -
+                                    Back to Taipei
+                                </div>
+                                <div class="fill-group">
+                                    <label>自訂行程</label>
+                                    <ol>
+                                        <li>買包包</li>
+                                        <li>吃大餐</li>
+                                        <li>遊樂園</li>
+                                        <li>野柳地質公園</li>
+                                        <li>九份</li>
+                                    </ol>
+                                </div>
+                            </div>
+                            <div class="traveler-con">
+                                <h4 class="sub-title">租車資料</h4>
+                                <div class="fill-group">
+                                    <label>取車地點</label>
+                                    Four Season New York
+                                    <div class="tip">
+                                        3-37 Toyosaki, Tomigusuku, Tomigusuku,Okinawa Prefecture 901-0225
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>取車時間</label>
+                                    2017-12-31 14:00
+                                </div>
+                                <div class="fill-group">
+                                    <label>是否需要免費Wi-Fi機</label>
+                                    是
+                                </div>
+                                <div class="fill-group">
+                                    <label>是否需要免費GPS</label>
+                                    否
+                                </div>
+                                <div class="fill-group">
+                                    <label>還車地點</label>
+                                    Four Season New York
+                                    <div class="tip">
+                                        3-37 Toyosaki, Tomigusuku, Tomigusuku,Okinawa Prefecture 901-0225
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>還車時間</label>
+                                    2017-12-31 14:00
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">乘客資料</h4>
+                                旅客數量
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>成人(12歲以上)</small>
+                                            <p>12</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>孩童(4 - 11歲)</small>
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>嬰兒(0 - 3歲)</small>
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                兒童座椅數量(適用年齡 4 - 11歲)
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>廠商提供</small>
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>自備座椅</small>
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                嬰兒座椅數量(適用年齡 0 - 3歲)
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>廠商提供</small>
+                                            <p>1</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>自備座椅</small>
+                                            <p>0</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                行李數量
+                                <div class="row">
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>手提行李</small>
+                                            <p>1</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-12">
+                                        <div class="fill-group">
+                                            <small>托運行李</small>
+                                            <p>2</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">寄送資料</h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>收件人名字</label>
+                                            Ming
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>收件人姓氏</label>
+                                            Wang
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>收件人地址</label>
+                                    <div class="row">
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <small>收件國家</small>
+                                            <p>台灣</p>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <small>收件城市</small>
+                                            <p>台北市</p>
+                                        </div>
+                                        <div class="col-md-4 col-sm-6 col-xs-12">
+                                            <small>郵遞區號</small>
+                                            <p>110</p>
+                                        </div>
+                                        <div class="col-md-8 col-sm-12">
+                                            <small>詳細地址</small>
+                                            <p>台北市南港區八德路四段768巷20號</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>出發前可聯絡電話</label>
+                                    +88612345678
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>飯店名稱</label>
+                                            W Hotel Taipei
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>飯店電話</label>
+                                            +8862435272
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>飯店地址</label>
+                                    3-37 Toyosaki, Tomigusuku, Tomigusuku,Okinawa Prefecture 901-0225
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>訂房人英文名(同護照)</label>
+                                            Ming
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>訂房人英文姓(同護照)</label>
+                                            Wang
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>訂房人本國籍名字</label>
+                                            小明
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>訂房人本國籍姓氏</label>
+                                            王
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>訂房網站</label>
+                                            Agoda
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>訂房編號</label>
+                                            123123123
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>入住日期</label>
+                                            2017-12-31
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>退房日期</label>
+                                            2018-01-01
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">其他資料</h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>手機型號</label>
+                                            iPhone X
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>IMEI</label>
+                                            1231231092830
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>開通日期</label>
+                                            2017-12-31
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>取票櫃檯</label>
+                                    桃園國際機場
+                                </div>
+                            </div>
+
+                            <div class="traveler-con">
+                                <h4 class="sub-title">
+                                    旅遊期間聯絡人
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>聯絡人英文名(同護照)</label>
+                                            Becky
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>聯絡人英文姓(同護照)</label>
+                                            Hung
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-sm-6 col-xs-12">
+                                        <div class="fill-group">
+                                            <label>聯絡電話</label>
+                                            +886123456789
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="fill-group">
+                                    <label>APP聯絡</label>
+                                    <div class="contact-app">
+                                        <div class="pic"><img src="img/sns/Line.svg"></div>
+                                        <div class="info">
+                                            <div>Line</div>
+                                            <div class="text">wangwang111</div>
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="traveler-con">
+                                <h4 class="sub-title">訂單備註<small>(選填)</small></h4>
+                                <div class="fill-group mt-10">
+                                    若訂到票請趕快通知我
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Voucher Modal Start-->
+<div class="modal fade" id="voucher-modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h2 class="modal-title">憑證或檔案下載</h2>
+            </div>
+            <div class="modal-body overflow-x">
+                <table class="table table-bordered table-sripted">
+                    <colgroup>
+                        <col class="w-30">
+                        <col class="w-150">
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>檔名</th>
+                            <th>檔案說明</th>
+                            <th>下載</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-sm">
+                        <tr>
+                            <td class="text-center">1</td>
+                            <td>Voucher.pdf</td>
+                            <td>Korea Seoul Voucher20161231 PDF 詳細內容</td>
+                            <td>
+                                <a href="###" class="btn btn-primary">
+                                    <i class="fa fa-download"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">2</td>
+                            <td>seoul_map.jpg</td>
+                            <td>Korea Seoul Map</td>
+                            <td><a href="###" class="btn btn-primary"><i class="fa fa-download"></i></a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary w-150"><i class="fa fa-download"></i>&nbsp;全部下載</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal for login confirm start-->
+<div class="modal fade" id="voucher_confirm" tabindex="-1" role="dialog" aria-labelledby="confirmModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="confirmModal">Confirm</h4>
+            </div>
+            <div class="modal-body">
+                是否寄到聯絡人信箱：michelle.tsai@kkday.com
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" onclick="send_voucher();">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal of  download receipt -->
+<div class="modal fade" id="downloadReceipt" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form id="receipt_form" role="form" action="https://www-02.sit.kkday.com/zh-tw/booking/ajax_sendReceipt" novalidate="novalidate"
+                  class="bv-form">
+                <input name="orderMid" value="16KK110958159" type="hidden">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h2 class="modal-title">寄送報帳收據</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group has-error">
+                        <label>
+                            旅客代表人英文姓*<br>
+                        </label>
+                        <input class="form-control" name="firstName" placeholder="英文姓" data-bv-field="firstName" type="text">
+                        <div class="tip">Theis field is required.</div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            旅客代表人英文名*<br>
+                        </label>
+                        <input class="form-control" name="lastName" placeholder="英文名" data-bv-field="lastName" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            公司名稱*
+                        </label>
+                        <input class="form-control" name="companyName" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            部門名稱*
+                        </label>
+                        <input class="form-control" name="companyDepartment" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            統一編號*
+                        </label>
+                        <input class="form-control" name="companyDepartment" type="text">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary btn_receipt">送出</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Cancel Order modal -->
+<div class="modal fade" id="cancel-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+                </button>
+                <h2 class="modal-title">取消我的訂單</h2>
+                <div class="tip">
+                    <i class="icons icon-info"></i>
+                    取消時間依照商品時區決定
+                </div>
+            </div>
+            <div class="modal-body">
+                <table class="cancel-info">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-7">Cancellation Date</th>
+                            <th>取消手續費</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                2016-11-09 ~ 2016-11-30
+                            </td>
+                            <td>
+                                30%
+                            </td>
+                        </tr>
+                        <tr class="choose">
+                            <td>
+                                2016-12-01 ~ 2016-12-07
+                            </td>
+                            <td>
+                                50% <i class="icons icon-check text-lg pull-right text-primary"></i>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                2016-12-08 ~ 2016-12-15
+                            </td>
+                            <td>
+                                100%
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="fill-group price-detail">
+                    <label>費用明細</label>
+
+                    <!-- 如果結帳幣別與收單幣別相同，隱藏此div -->
+                    <div class="tip text-xs"><i class="icons icon-info"></i> 您是以TWD支付此訂單</div>
+
+                    <div class="mt-10">
+                        <span class="pull-left">實際付款金額</span>
+                        <span class="pull-right">TWD 123,456</span>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="mt-10 text-danger">
+                        <span class="pull-left">取消手續費 50%</span>
+                        <span class="pull-right">- TWD 100,000</span>
+                        <div class="clearfix"></div>
+                    </div>
+                    <hr>
+                    <div class="mt-10">
+                        <span class="pull-left">退款金額</span>
+                        <div class="product-pricing pull-right">
+                            <span class="text-primary">TWD</span>
+                            <h4>23,456</h4>
+
+                            <!-- 如果結帳幣別與收單幣別相同，隱藏此div -->
+                            <div class="tip text-right">
+                                約等同於 GBP 88.67
+                                <div class="text-xs">(實際金額依帳單收到金額為主)</div>
+                            </div>
+
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="fill-group point-detail">
+                    <label>點數明細</label>
+                    <div class="tip text-xs"><i class="icons icon-info"></i>取消訂單將會扣除此訂單所獲得的點數</div>
+
+                    <div class="mt-10">
+                        <span class="pull-left">首購禮</span>
+                        <span class="pull-right">-35</span>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="mt-10">
+                        <span class="pull-left">生日禮</span>
+                        <span class="pull-right">-35</span>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="mt-10">
+                        <span class="pull-left">結帳禮</span>
+                        <span class="pull-right">-35</span>
+                        <div class="clearfix"></div>
+                    </div>
+                    <hr>
+                    <div class="mt-10">
+                        <span class="pull-left">扣除點數</span>
+                        <div class="product-pricing pull-right">
+                            <h4 class="text-danger">-105</h4>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>請選擇取消原因</label>
+                    <select name="cancelReason" class="form-control">
+                        <option selected disabled>請選擇</option>
+                        <option value="">個人因素</option>
+                        <option value="">行程變更或取消</option>
+                        <option value="">交通因素</option>
+                        <option value="">價格因素</option>
+                        <option value="">重複訂購</option>
+                        <option value="">聯絡不上店家</option>
+                        <option value="other">其他</option>
+                    </select>
+                </div>
+                <div class="form-group otherReason">
+                    <label>其他原因</label>
+                    <textarea rows="3" class="form-control" placeholder="請輸入其他原因"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default" data-dismiss="modal">保留訂單 不取消了</button>
+                <button type="submit" class="btn btn-primary">我要取消訂單</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 取消政策 -->
+<div id="cancel-info-modal" class="modal fade">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">×</span>
+                    <span class="sr-only"></span>
+                </button>
+                <h2 class="modal-title">取消政策</h2>
+                <div class="tip">
+                    <i class="icons icon-info"></i>
+                    取消時間依照商品時區決定
+                </div>
+            </div>
+            <div class="modal-body">
+                <table class="cancel-info">
+                    <thead>
+                        <tr>
+                            <th>取消日期</th>
+                            <th>取消費用</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span>4</span>天以前
+                            </td>
+                            <td>0%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>2~3</span>天
+                            </td>
+                            <td>50%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span>0~1</span>天
+                            </td>
+                            <td>100%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
