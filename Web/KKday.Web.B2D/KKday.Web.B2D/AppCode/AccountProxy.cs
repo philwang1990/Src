@@ -37,7 +37,7 @@ namespace KKday.SearchProd.AppCode
 
                         #endregion Uri with QueryStrings
 
-                        string url = Website.Instance.Configuration["WMS_API:URL:UserAuthenAPI"];
+                        string url = string.Format("{0}{1}",Website.Instance.Configuration["WMS_API:URL"], "Authorize/AuthUser");
 
                         url += string.Format("?email={0}&password={1}", email, password);
 

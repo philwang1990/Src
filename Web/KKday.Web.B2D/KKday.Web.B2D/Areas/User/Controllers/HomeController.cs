@@ -15,6 +15,7 @@ using KKday.Web.B2D.BE.Filters;
 using KKday.Web.B2D.BE.AppCode.DAL.Company;
 using KKday.Web.B2D.BE.App_Code;
 using KKday.Web.B2D.BE.Models.Model.Company;
+using Microsoft.AspNetCore.Http.Features;
 
 namespace KKday.Web.B2D.BE.Areas.User.Controllers
 {
@@ -41,6 +42,15 @@ namespace KKday.Web.B2D.BE.Areas.User.Controllers
             B2dCompany model = CompanyDAL.GetCompany(xid);
             return View(model);
         }
+
+        //允許cookies
+        public bool GrantCookie()
+        {
+            var consentFeature = HttpContext.Features.Get<ITrackingConsentFeature>();
+            consentFeature.GrantConsent();
+            return true;
+        }
+
 
         #region 用不到
 
