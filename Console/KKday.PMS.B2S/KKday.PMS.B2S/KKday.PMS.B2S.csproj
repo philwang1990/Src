@@ -27,5 +27,6 @@
   <ItemGroup>
     <Compile Remove="AppCode\新增資料夾\AbstractComparer.cs" />
     <Compile Remove="AppCode\DAL\appsettings.json" />
+    <Compile Remove="AppCode\Website.cs" />
   </ItemGroup>
 </Project>

@@ -17,6 +17,7 @@ using KKday.PMS.B2S.Models.Shared.Enum;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.FileExtensions;
 using Microsoft.Extensions.Configuration.Json;
+using System.Threading;
 
 
 namespace KKday.PMS.B2S
@@ -31,14 +32,14 @@ namespace KKday.PMS.B2S
             {
                 _log.Info("PackageRepository start..");
 
-                Startup startup = new Startup();
-                startup.Initial();
+                //Startup startup = new Startup();
+                //startup.Initial();
 
                 DateTime startDate = DateTime.Now; //待確認
                 DateTime endDate = DateTime.Now.AddYears(3); //待確認
 
-                var get = CommonTool.GetDataNew(string.Format(startup.GetParameter(pms, ParameterType.Availability),
-                                                startup.GetParameter(pms, ParameterType.ApiKey),
+                var get = CommonTool.GetDataNew(string.Format(Startup.Instance.GetParameter(pms, ParameterType.Availability),
+                                                Startup.Instance.GetParameter(pms, ParameterType.ApiKey),
                                                 productCode,
                                                 $"{startDate.ToString("yyyy-MM-dd")} 00:00:00",
                                                 $"{endDate.ToString("yyyy-MM-dd")} 23:59:00"));
@@ -61,11 +62,12 @@ namespace KKday.PMS.B2S
                             SupplierUserUuid = supplierUserUuid,
                             DeviceId = deviceId,
                             TokenKey = tokenKey,
-                            PackageNm = $"{rezdyPackageModel.Sessions.First().ProductCode}{DateTime.Now.ToString("yyyyMMddHHmmss")}", //待確認
+                            PackageNm = $"{rezdyPackageModel.Sessions.First().ProductCode}", //待確認
                             PackageDesc = new PackageDesc
                             {
                                 DescItems = new List<DescItem> { new DescItem { Content = new List<Content> { new Content {
-                                         Id = rezdyPackageModel.Sessions.First().Id.ToString(), //待確認
+                                         //Id = rezdyPackageModel.Sessions.First().Id.ToString(), //待確認
+                                         Id = $"{rezdyPackageModel.Sessions.First().Id.ToString()}", //待確認
                                          Desc = rezdyPackageModel.Sessions.First().Id.ToString() //待確認
                                      } } } }
                             }
@@ -74,7 +76,7 @@ namespace KKday.PMS.B2S
 
                     //Post
                     Console.WriteLine($"posting new package..");
-                    var newPackageResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_updatepkg), prodOid), JsonConvert.SerializeObject(scmPackageModel));
+                    var newPackageResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_updatepkg), prodOid), JsonConvert.SerializeObject(scmPackageModel));
                     if (newPackageResult["content"]["result"].ToString() != "0000")
                     {
                         //待確認
@@ -131,7 +133,7 @@ namespace KKday.PMS.B2S
 
                         //Post
                         Console.WriteLine($"posting new calendar..");
-                        calendarInitialResult = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_calendarextend), JsonConvert.SerializeObject(scmPackageCalendarModel));
+                        calendarInitialResult = CommonTool.GetDataPost(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_calendarextend), JsonConvert.SerializeObject(scmPackageCalendarModel));
                         Console.WriteLine($"posting result: {calendarInitialResult["content"]["result"]}{calendarInitialResult["content"]["msg"]}");
 
                         foreach (var missingDate in missingDates)
@@ -152,7 +154,7 @@ namespace KKday.PMS.B2S
                             };
                             //Post
                             Console.WriteLine($"posting modify calendar..");
-                            calendarInitialResult = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_calendarmodify), JsonConvert.SerializeObject(scmPackageCalendarModifyModel));
+                            calendarInitialResult = CommonTool.GetDataPost(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_calendarmodify), JsonConvert.SerializeObject(scmPackageCalendarModifyModel));
                             Console.WriteLine($"posting result: {calendarInitialResult["content"]["result"]}{calendarInitialResult["content"]["msg"]}");
                         }
                     }
@@ -215,9 +217,9 @@ namespace KKday.PMS.B2S
                         //Post
                         Console.WriteLine($"posting package prices..");
 
-                        _log.Debug($"prodOid:{prodOid}packageOid:{packageOid}Price send: "+JsonConvert.SerializeObject(scmPackagePriceModel));
-
-                        var newPackagePriceResult = CommonTool.GetDataPost(startup.GetParameter(PMSSourse.KKday,
+                        _log.Debug($"\nprodOid:{prodOid}\npackageOid:{packageOid}\nPrice send: " + JsonConvert.SerializeObject(scmPackagePriceModel));
+                        Thread.Sleep(1000);
+                        var newPackagePriceResult = CommonTool.GetDataPost(Startup.Instance.GetParameter(PMSSourse.KKday,
                                                                                                 ParameterType.KKdayApi_priceupdate),
                                                                                                 JsonConvert.SerializeObject(scmPackagePriceModel));
 
@@ -268,7 +270,7 @@ namespace KKday.PMS.B2S
 
                                     //Post
                                     Console.WriteLine($"posting event datetime {date.ToString("yyyy-MM-dd HH:mm")}");
-                                    var newEventsResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(
+                                    var newEventsResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(
                                                                                     PMSSourse.KKday,
                                                                                     ParameterType.KKdayApi_newevent)),
                                                                                     JsonConvert.SerializeObject(scmPackageEventModel));
@@ -289,10 +291,10 @@ namespace KKday.PMS.B2S
                         if (eventPostResult)
                         {
                             //Event status update
-                            EventStatusUpdate(startup, prodOid, packageOid, supplierId, supplierUserUuid, deviceId, tokenKey);
+                            EventStatusUpdate(Startup.Instance, prodOid, packageOid, supplierId, supplierUserUuid, deviceId, tokenKey);
 
                             //Package status update
-                            PackageStatusUpdate(startup, prodOid, packageOid, supplierId, supplierUserUuid, deviceId, tokenKey);
+                            PackageStatusUpdate(Startup.Instance, prodOid, packageOid, supplierId, supplierUserUuid, deviceId, tokenKey);
                         }
                     }
                     #endregion
@@ -351,7 +353,7 @@ namespace KKday.PMS.B2S
                                 return "";
                         }
                     default:
-                        return "";
+                        return string.Empty;
                 }
             }
             catch (Exception ex)
