@@ -58,7 +58,7 @@ namespace KKday.PMS.B2S
                         {
                             // 設定參數
 
-                            supplierLoginRSModel = product.setParameters(PMSSourse.Rezdy, supplier["pms_supplier_name"].ToString(), supplier["kkday_supplier_oid"].ToString(), supplier["scm_account"].ToString(), supplier["scm_password"].ToString());
+                            supplierLoginRSModel = product.setParameters(PMSSourse.Rezdy, supplier["pms_supplier_name"].ToString(), supplier["kkday_supplier_oid"].ToString(), Startup.Instance.configuration["Scm_Info:account"], Startup.Instance.configuration["Scm_Info:password"]);
                             if (supplierLoginRSModel.result == "0000")
                             {
                                 offset = 0;
@@ -130,7 +130,7 @@ namespace KKday.PMS.B2S
 
 
 
-
+        
     }
 
 }

@@ -71,6 +71,8 @@ namespace KKday.PMS.B2S.Models.Shared.Enum
         KKdayApi_newevent,
         KKdayApi_eventstatus,
         KKdayApi_pkgstatus,
+        KKdayApi_imageUpload,
+        KKdayApi_modifyImg,
         ApiKey,
         ProductSearch,
         Product,
