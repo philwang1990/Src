@@ -246,6 +246,8 @@
     <kkday_price_type>price1</kkday_price_type>
     <jtr_prod_no>14229689</jtr_prod_no>
   </item>
+    
+    
   <!-- USJ--> 
   <item>
   <kkday_prod_pkg>77655</kkday_prod_pkg>
@@ -257,5 +259,20 @@
     <kkday_price_type>price2</kkday_price_type>
     <jtr_prod_no>23750115</jtr_prod_no>
   </item>
-    
+  <!--海遊館--> 
+  <item>
+  <kkday_prod_pkg>75522</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>22176315</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>75522</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>22176322</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>75522</kkday_prod_pkg>
+    <kkday_price_type>price3</kkday_price_type>
+    <jtr_prod_no>22176324</jtr_prod_no>
+  </item>  
 </product>
