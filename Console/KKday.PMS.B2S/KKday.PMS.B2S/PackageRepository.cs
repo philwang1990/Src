@@ -95,7 +95,9 @@ namespace KKday.PMS.B2S
                     #region Create Calendar
                     if (packageOid != 0)
                     {
-                        var availableDate = rezdyPackageModel.Sessions.Select(x => x.StartTimeLocal).OrderBy(date => date).ToList();
+                        var availableDate = rezdyPackageModel.Sessions.Where(s => s.SeatsAvailable > 0)
+                                               .Select(x => x.StartTimeLocal)
+                                               .OrderBy(date => date).ToList();
 
                         ScmPackageCalendarModel scmPackageCalendarModel = new ScmPackageCalendarModel
                         {
