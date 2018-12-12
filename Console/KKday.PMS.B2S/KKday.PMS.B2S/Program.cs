@@ -86,7 +86,7 @@ namespace KKday.PMS.B2S
                                             Models.Shared.Enum.PMSSourse.Rezdy,
                                             prodOid,
                                             supplierLoginRSModel.supplierOid,
-                                            "PVVRFE",
+                                            rezdyProductModel.Product.productCode,
                                             rezdyProductModel.Product.currency,
                                             supplierLoginRSModel.supplierUserUuid,
                                             supplierLoginRSModel.deviceId,
