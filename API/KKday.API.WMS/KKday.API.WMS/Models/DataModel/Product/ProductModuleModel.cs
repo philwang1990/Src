@@ -47,7 +47,7 @@ namespace KKday.API.WMS.Models.DataModel.Product
         public Weight weight { get; set; }
         public ShoeSize shoe_size { get; set; }
         public Meal meal { get; set; }
-        public GlassDiopter glass_dopter { get; set; }
+        public GlassDiopter glass_degree { get; set; }
 
     }
 
@@ -186,8 +186,8 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class GlassDiopter 
     {
         public bool is_require { get; set; }
-        public string diopter_range_start { get; set; }
-        public string diopter_range_end { get; set; }
+        public string degree_range_start { get; set; }
+        public string degree_range_end { get; set; }
     }
 
     #endregion
@@ -239,11 +239,11 @@ namespace KKday.API.WMS.Models.DataModel.Product
     public class SimWifi
     {
         public bool is_require { get; set; }
-        public MobileModleNumber mobile_modle_no { get; set; }
+        public MobileModelNumber mobile_model_no { get; set; }
         public MobileIMEI mobile_IMEI { get; set; }
         public ActivationDate activation_date { get; set; }
     }
-    public class MobileModleNumber 
+    public class MobileModelNumber 
     {
         public bool is_require { get; set; }//手機型號
     }
@@ -432,14 +432,16 @@ namespace KKday.API.WMS.Models.DataModel.Product
     {
         public bool is_require { get; set; }
         public string rent_type { get; set; }//01{pickUp=true,dropOff=false},02{pickUp=true,dropOff=true}
+        public bool is_require_SDate { get; set; } //取車日期
+        public bool is_require_EDate { get; set; } //還車日期
         public RentOffice rent_office { get; set; } //01,02
         public DriverShuttle driver_shuttle { get; set; } //03
     }
 
     public class RentOffice 
     {
-        public bool is_require_PickUp { get; set; } //取車地點
-        public bool is_require_DropOff { get; set; } //還車地點
+        public bool is_require_SLocation { get; set; } //取車地點
+        public bool is_require_ELocation { get; set; } //還車地點
         public List<Office> office_list { get; set; }
         public bool is_ProvidedFreeWiFi { get; set; } //YesNo
         public bool is_ProvidedFreeGPS { get; set; } //YesNo

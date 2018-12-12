@@ -17,9 +17,13 @@ namespace KKday.API.WMS.Models.DataModel.Discount
     public class Rule
     {
         public string mst_xid { get; set; }
+        public string disc_name { get; set; }
         public double disc_percent { get; set; }
         public double amt { get; set; }
         public double disc_price { get; set; }
+        public string currency { get; set; }
+        public string disc_dtl_xid { get; set; }
+        public string disc_type { get; set; }//規則類型
 
     }
 }

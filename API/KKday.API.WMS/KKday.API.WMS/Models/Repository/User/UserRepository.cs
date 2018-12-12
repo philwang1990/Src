@@ -2,11 +2,12 @@
 using System.Data;
 using System.Security.Cryptography;
 using System.Text;
+using KKday.API.WMS.AppCode;
 using KKday.API.WMS.AppCode.DAL;
 using KKday.API.WMS.Models.DataModel.User;
 using Newtonsoft.Json.Linq;
 
-namespace KKday.API.WMS.Models.Repository.User {
+namespace KKday.API.WMS.Models.Repository {
     public class UserRepository {
 
         /// <summary>
@@ -104,6 +105,51 @@ namespace KKday.API.WMS.Models.Repository.User {
             return aum;
 
         }
+
+        #region 使用者認證 Authentication
+
+        public static B2dAccountModel AuthAccount(string email, string password)
+        {
+            // 檢查登入者身分
+            //B2dAccountModel account = AccountAuthDAL.UserAuth(email, Sha256Helper.Gethash(password));
+            B2dAccountModel account = AccountAuthDAL.UserAuth(email, password);
+            // 若無效身分則送出登入異常
+            if (account.ACCOUNT is null)
+            {
+                //若帳密有誤 僅傳送錯誤代碼 
+                account.result = "02";
+                account.result_msg = "Invalid User Login";
+
+            }
+
+            return account;
+        }
+
+        public static B2dAccountModel AuthApiAccount(string email)
+        {
+            // 檢查登入者身分
+            B2dAccountModel account = AccountAuthDAL.UserApiAuth(email);
+            // 若無效身分則送出登入異常
+            if (account is null)
+            {
+                //若帳密有誤 僅傳送錯誤代碼 
+                account.result = "02";
+                account.result_msg = "Invalid User Login";
+
+            }
+
+            return account;
+        }
+
+
+
+        public static B2dUserProfile GetProfile(string account)
+        {
+            return AccountAuthDAL.GetB2dProfile(account);
+        }
+
+        #endregion
+
 
 
     }

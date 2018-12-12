@@ -14,7 +14,7 @@ using KKday.API.WMS.AppCode.Proxy;
 
 using KKday.API.WMS.Models.DataModel.Authorize;
 using KKday.API.WMS.Models.DataModel.User;
-using KKday.API.WMS.Models.Repository.User;
+using KKday.API.WMS.Models.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Newtonsoft.Json;
@@ -36,45 +36,45 @@ namespace KKday.API.WMS.Controllers {
             this.redisCache = redisCache;
         }
 
-        /// <summary>
-        /// Auths the user.
-        /// </summary>
-        /// <returns>The user.</returns>
-        /// <param name="email">Email.</param>
-        /// <param name="password">Password.</param>
-        [HttpGet("AuthUser")]
-        public ApiUserModel AuthUser(string email,string password)
-        {
+        ///// <summary>
+        ///// Auths the user.
+        ///// </summary>
+        ///// <returns>The user.</returns>
+        ///// <param name="email">Email.</param>
+        ///// <param name="password">Password.</param>
+        //[HttpGet("AuthUserToken")]
+        //public ApiUserModel AuthUserToken(string email,string password)
+        //{
 
-           // string token = "";
-            ApiUserModel user = new ApiUserModel();
+        //   // string token = "";
+        //    ApiUserModel user = new ApiUserModel();
 
-            try
-            {
-                Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
-                //1. 從IS4取使用者的門票
-               // GetTokenResponseModel response = AuthProxy.getToke(account, password);
-              //  token = response.access_token ?? response.error_description;
+        //    try
+        //    {
+        //        Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
+        //        //1. 從IS4取使用者的門票
+        //        GetTokenResponseModel response = AuthProxy.getToke(email, password);
+        //      //  token = response.access_token ?? response.error_description;
 
-                //1. 從DB抓使用者資訊
-                user = UserRepository.GetUser(email, password);
+        //        //1. 從DB抓使用者資訊
+        //        user = UserRepository.GetUser(email, password);
 
-                //3. 把使用者的資訊轉成byte 存進去redis快取
-              //  var userByte = ObjectToByteArray(user);
+        //        //3. 把使用者的資訊轉成byte 存進去redis快取
+        //      //  var userByte = ObjectToByteArray(user);
                
-              //  redisCache.Set("wms.api.token", userByte, 
-               //                new DistributedCacheEntryOptions() {
-               //     AbsoluteExpiration = DateTime.Now.AddHours(24)
-                    //設定過期時間，時間一到快取立刻就被移除
-               // });
+        //      //  redisCache.Set("wms.api.token", userByte, 
+        //       //                new DistributedCacheEntryOptions() {
+        //       //     AbsoluteExpiration = DateTime.Now.AddHours(24)
+        //            //設定過期時間，時間一到快取立刻就被移除
+        //       // });
             
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return user;
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //    return user;
+        //}
 
         /// <summary>
         /// Auths the API user.
@@ -82,21 +82,22 @@ namespace KKday.API.WMS.Controllers {
         /// <returns>The API user.</returns>
         /// <param name="email">Email.</param>
         [HttpGet("AuthApiUser")]
-        public ApiUserModel AuthApiUser(string email)
+        public B2dAccountModel AuthApiUser(string email)
         {
 
-            ApiUserModel ApiUser = new ApiUserModel();
+            B2dAccountModel ApiUser = new B2dAccountModel();
 
             try
             {
                 Website.Instance.logger.Info($"WMS AuthApiUser Start! B2D email:{email}");
                 //從DB抓使用者資訊
-                ApiUser = UserRepository.GetApiUser(email);
+                ApiUser = UserRepository.AuthApiAccount(email);
 
             }
             catch (Exception ex)
             {
-                throw ex;
+                ApiUser.result = "10";
+                ApiUser.result_msg = "system error:" + ex.Message;
             }
             return ApiUser;
         }
@@ -117,7 +118,7 @@ namespace KKday.API.WMS.Controllers {
         //{
         //    string result = "";
         //    HttpClient client = new HttpClient();
-        
+
         //    try
         //    {
 
@@ -145,7 +146,25 @@ namespace KKday.API.WMS.Controllers {
         //    return result;
         //}
 
+        [HttpGet("AuthUser")]
+        public B2dAccountModel AuthUser(string email, string password)
+        {
 
+            B2dAccountModel user = new B2dAccountModel();
+
+            try
+            {
+                Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
+                user = UserRepository.AuthAccount(email, password);
+            }
+            catch (Exception ex)
+            {
+                user.result = "10";
+                user.result_msg = "system error:" + ex.Message;
+
+            }
+            return user;
+        }
 
     }
 }
