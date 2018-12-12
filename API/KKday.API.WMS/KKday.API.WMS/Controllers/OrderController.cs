@@ -33,7 +33,6 @@ namespace KKday.API.WMS.Controllers
 
             return order_info = OrderRepository.GetOrderInfo(queryRQ, order_no);
         }
-<<<<<<< HEAD
 
         ////////////以下為憑證
         //[HttpPost("QueryFileList")]
@@ -45,8 +44,6 @@ namespace KKday.API.WMS.Controllers
         //    return files = OrderRepository.GetOrders(queryRQ);
         //}
 
-=======
->>>>>>> dev_branch
     }
 }
 

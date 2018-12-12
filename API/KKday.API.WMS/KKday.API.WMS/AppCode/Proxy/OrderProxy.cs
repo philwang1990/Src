@@ -57,11 +57,7 @@ namespace KKday.API.WMS.AppCode.Proxy
                         RQ.json = j;
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-<<<<<<< HEAD
                         string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/list/member";
-=======
-                        string url = $"{Website.Instance.Configuration["URL:KK_ORDERS"]}";
->>>>>>> dev_branch
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -123,12 +119,8 @@ namespace KKday.API.WMS.AppCode.Proxy
                         RQ.json = j;
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-<<<<<<< HEAD
                         //string url = $"{Website.Instance.Configuration["URL:KK_ORDER_INFO"]}{order_no}";
                         string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/info/{order_no}";
-=======
-                        string url = $"{Website.Instance.Configuration["URL:KK_ORDER_INFO"]}{order_no}";
->>>>>>> dev_branch
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -192,12 +184,8 @@ namespace KKday.API.WMS.AppCode.Proxy
                         RQ.json = j;
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-<<<<<<< HEAD
                         //string url = $"{Website.Instance.Configuration["URL:KK_PAYMENT_FAIL"]}{mid}";
                         string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/payment/fail/{mid}";
-=======
-                        string url = $"{Website.Instance.Configuration["URL:KK_PAYMENT_FAIL"]}{mid}";
->>>>>>> dev_branch
 
                         using (HttpContent content = new StringContent(json_data))
                         {

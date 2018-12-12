@@ -390,17 +390,9 @@ namespace KKday.API.WMS.AppCode.Proxy
 
                         };
 
-<<<<<<< HEAD
                         string json_data = JsonConvert.SerializeObject(RQ);
 
                         string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}comm/CURRENCY/";
-=======
-
-
-
-                        string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_CURRENCY"]}";
->>>>>>> dev_branch
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -472,17 +464,9 @@ namespace KKday.API.WMS.AppCode.Proxy
 
                         //};
 
-<<<<<<< HEAD
                         string json_data = JsonConvert.SerializeObject(RQ);
                        // string url = $"{Website.Instance.Configuration["URL:KK_COUNTRY_CITY"]}";
                         string url = $"{Website.Instance.Configuration["KKApiUrl:SIT_02"]}productCountryCity";
-=======
-
-
-
-                        string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_COUNTRY_CITY"]}";
->>>>>>> dev_branch
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -556,12 +540,8 @@ namespace KKday.API.WMS.AppCode.Proxy
                         };
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-<<<<<<< HEAD
                         //string url = $"{Website.Instance.Configuration["URL:KK_GUIDE_LANG"]}";
                         string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}countryLang";
-=======
-                        string url = $"{Website.Instance.Configuration["URL:KK_GUIDE_LANG"]}";
->>>>>>> dev_branch
 
                         using (HttpContent content = new StringContent(json_data))
                         {

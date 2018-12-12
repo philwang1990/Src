@@ -539,11 +539,7 @@ namespace KKday.API.WMS.AppCode
                 X509Chain chain, SslPolicyErrors sslPolicyErrors)
                 { return true; };
 
-<<<<<<< HEAD
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/payment/success/{orderMid}");
-=======
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_PAYMENT_SUCCESS"]}" + orderMid);
->>>>>>> dev_branch
 
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
@@ -604,14 +600,10 @@ namespace KKday.API.WMS.AppCode
                 delegate (object s, X509Certificate certificate,
                 X509Chain chain, SslPolicyErrors sslPolicyErrors)
                 { return true; };
-<<<<<<< HEAD
                 //var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.sit.kkday.com/api/order/payment/success/" + orderMid);
                 var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/payment/success/{orderMid}");
 
 
-=======
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.sit.kkday.com/api/order/payment/success/" + orderMid);
->>>>>>> dev_branch
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 string result;
