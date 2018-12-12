@@ -3,69 +3,25 @@
    <!-- 測試台--> 
    <!-- KKday_prod_no: 17721-->
    <item>
-    <kkday_prod_pkg>63273</kkday_prod_pkg>
+    <kkday_prod_pkg>42437</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
     <jtr_prod_no>23668542</jtr_prod_no>
   </item>
   <item>
-    <kkday_prod_pkg>63273</kkday_prod_pkg>
+    <kkday_prod_pkg>42437</kkday_prod_pkg>
     <kkday_price_type>price2</kkday_price_type>
     <jtr_prod_no>23668618</jtr_prod_no>
   </item>
   <item>
-    <kkday_prod_pkg>63274</kkday_prod_pkg>
-    <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>23668542</jtr_prod_no>
-  </item>
-  <item>
-    <kkday_prod_pkg>63274</kkday_prod_pkg>
-    <kkday_price_type>price2</kkday_price_type>
-    <jtr_prod_no>23668618</jtr_prod_no>
-  </item>
-  <item>
-    <kkday_prod_pkg>63275</kkday_prod_pkg>
-    <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>23668542</jtr_prod_no>
-  </item>
-  <item>
-    <kkday_prod_pkg>63275</kkday_prod_pkg>
-    <kkday_price_type>price2</kkday_price_type>
-    <jtr_prod_no>23668618</jtr_prod_no>
-  </item>
-  <item>
-    <kkday_prod_pkg>63276</kkday_prod_pkg>
-    <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>23668542</jtr_prod_no>
-  </item>
-  <item>
-    <kkday_prod_pkg>63276</kkday_prod_pkg>
-    <kkday_price_type>price2</kkday_price_type>
-    <jtr_prod_no>23668618</jtr_prod_no>
-  </item>
-  <item>
-    <kkday_prod_pkg>62566</kkday_prod_pkg>
+    <kkday_prod_pkg>42438</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
     <jtr_prod_no>23668714</jtr_prod_no>
   </item>
   <item>
-    <kkday_prod_pkg>62566</kkday_prod_pkg>
+    <kkday_prod_pkg>42438</kkday_prod_pkg>
     <kkday_price_type>price2</kkday_price_type>
     <jtr_prod_no>23668743</jtr_prod_no>
   </item>
-  <item>
-    <kkday_prod_pkg>63272</kkday_prod_pkg>
-    <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>23668714</jtr_prod_no>
-  </item>
-  <item>
-    <kkday_prod_pkg>63272</kkday_prod_pkg>
-    <kkday_price_type>price2</kkday_price_type>
-    <jtr_prod_no>23668743</jtr_prod_no>
-  </item>
- <item>
-    <kkday_prod_pkg>62545</kkday_prod_pkg>
-    <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>23668748</jtr_prod_no>
-  </item>
+ 
     
 </product>

@@ -1,0 +1,254 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.FixedPrice
+@using Resources
+@inject ILocalizer localizer
+@model List<FixedPriceProductEx>
+@{
+    Layout = "_LayoutMain";
+
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+    var countryLocales = ViewData["COUNTRIES_LOCALE"] as List<CountryArea>;
+}
+@section Stylesheet {
+    <link rel="stylesheet" href="~/css/tablesaw.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/css/bootstrap-select.min.css" /> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <style type="text/css">
+        .modal-dialog {
+            width: whatever;
+        } 
+ 
+    </style>
+}
+@section Scripts {
+    <script src="~/js/tablesaw.js" asp-append-version="true"></script>
+    <script src="~/js/tablesaw-init.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+
+}
+
+<script type="text/javascript">
+  var query_params = @Html.Raw(ViewData["QUERY_PARAMS_JSON"].ToString());
+</script>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item">@localizer.Text.Title_Distributor</li>
+        <li class="breadcrumb-item active" aria-current="page">@localizer.Text.FixedPriceSetting</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>@localizer.Text.FixedPriceSetting</h4>
+
+            <span style="font-size: 1.18em; display: block; margin: 16px 0 16px 0; color: #0174DF;">
+                @ViewData["COMPANY_NAME"]
+            </span>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <input type="hidden" id="xid" value="@ViewData["COMPANY_NAME"]" />
+            <a href="#" class="btn" data-title="新增商品" data-toggle="modal" data-target="#add"><i class="fas fa-plus"></i> 新增商品</a>
+
+            <hr style="margin:3px 0 3px 0; padding:3px 0 3px 0;" />
+        </div>
+
+        <div class="col-xs-12">
+            <div id="list_panel" class="table-responsive">
+                @await Html.PartialAsync("ProdList", Model)
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <hr />
+            <button type="button" class="btn btn-default" onclick="window.history.go(-1);">回上一頁</button>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="add" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Add</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form>
+                        <div class="col-xs-12"> 
+                            <label>@localizer.Text.ProductNo<span class="text-danger">*</span></label>
+                            <input type="text" id="add_prod_no" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/,'')" />
+                        </div>
+                        <div class="col-xs-12"> 
+                            <label>@localizer.Text.ProductName<span class="text-danger">*</span></label>
+                            <input type="text" id="add_prod_name" class="form-control" /> 
+                        </div>
+                        <div class="col-xs-12"> 
+                            <label>所在國家<span class="text-danger">*</span></label>
+                             <select id="add_state" class="form-control selectpicker" data-live-search="true">
+                                <option value="">請選擇</option>
+                                @foreach (var item in countryLocales)
+                                {
+                                    <option value="@item.countryCode">@item.countryName (@item.countryCode) </option>
+                                }
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_insert" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="InsertProduct();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Insert
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Edit</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                     <form>
+                        <div class="col-xs-12"> 
+                            <label>@localizer.Text.ProductNo<span class="text-danger">*</span></label>
+                            <input type="text" id="edit_prod_no" class="form-control" onkeyup="this.value=this.value.replace(/[^\d]/,'')" />
+                        </div>
+                        <div class="col-xs-12"> 
+                            <label>@localizer.Text.ProductName<span class="text-danger">*</span></label>
+                            <input type="text" id="edit_prod_name" class="form-control" /> 
+                        </div>
+                        <div class="col-xs-12"> 
+                            <label>所在國家<span class="text-danger">*</span></label>
+                             <select id="edit_state" class="form-control selectpicker" data-live-search="true">
+                                <option value="">請選擇</option>
+                                @foreach (var item in countryLocales)
+                                {
+                                    <option value="@item.countryCode">@item.countryName (@item.countryCode) </option>
+                                }
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_update" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="UpdateBLProduct();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Update
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="delete" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="disc_mst_xid" />
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_del" type="button" class="btn btn-success" onclick="RemoveBLProduct();"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<script type="text/javascript">
+    $(function(){
+     
+    });
+
+    function Refresh(page, is_recount) {
+        if(query_params != undefined) {
+            query_params.Filter = JSON.stringify({ name:$("#name").val(), country:$("#country").val().toUpperCase(), status:$("#status").val() });
+            query_params.Sorting = $("#sorting").val();
+            if (page!= undefined) query_params.Paging.current_page = page;
+            query_params.RecountFlag= is_recount;
+            //console.log("Params: " + JSON.stringify(query_params));
+        }
+    /*
+        $.ajax({
+            type: "POST",
+            url: _root_path + "FixedPrice/ProdRefresh",
+            contentType: "application/json",
+            data: JSON.stringify(query_params),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    $("#list_panel").html(result.content);
+                    query_params = JSON.parse(result.query_params);
+                }
+            }
+        });
+    */
+
+    }
+
+    function InsertProduct() {
+        var _prod = { 
+            company_xid : @ViewData["COMPANY_XID"],
+            prod_no: $("#add_prod_no").val(),
+            prod_name : $("#add_prod_name").val(),
+            state : $("#add_state").val() 
+         };
+
+        $.ajax({
+            type: "POST",
+            url: _root_path + "FixedPrice/InsertProd",
+            contentType: "application/json",
+            data: JSON.stringify(_prod),
+            dataType: "json",
+            error: function (jqXHR, textStatus, errorThrown) {
+                // console.log("jqXHR => respText: " + jqXHR.responseText + ", status: " + jqXHR.status + ", readyState: " + jqXHR.readyState + ", statusText: " + jqXHR.statusText);
+                console.log("textStatus: " +textStatus + ", error: " + errorThrown);
+            },
+            success: function (result) {
+                // console.log("result: " + JSON.stringify(result));
+                if(result.status == "OK") {
+                    window.location.reload(-1);
+                }
+            }
+        });
+    }
+
+    function GoPackagePrices(pid) {
+        var query = encodeURI(JSON.stringify(query_params));
+        window.location.href = _root_path + "FixedPrice/PkgPrices/" + pid + "?query=" + query;
+    }
+
+</script>

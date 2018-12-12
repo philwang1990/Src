@@ -1,0 +1,58 @@
+﻿@page "{status:int?}"
+@using KKday.Web.B2D.BE.Pages.Errors
+@model IndexModel
+@{
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+          asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+          asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+
+    <style type="text/css">
+        .page-wrap {
+            min-height: 100vh;
+        }
+
+    </style>
+</head>
+<body>
+
+    @if (Model.Code == 404)
+    {
+
+        <div class="page-wrap d-flex flex-row align-items-center">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-md-12 text-center">
+                        <span class="display-1 d-block" style="font-size:5em;">404</span>
+                        <div class="mb-4 lead">The page you are looking for was not found.</div>
+                        <a href="javascript:history.go(-1);" class="btn btn-link">Back to Previous</a>
+                        @if (ViewData["HOME_PAGE"] != null)
+                        {
+                        <a href="@ViewData["HOME_PAGE"]" class="btn btn-default">Home</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <h3>HTTP Error @Model.Code </h3>
+    }
+
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+            asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+            asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+            crossorigin="anonymous"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+    </script>
+
+</body>
+</html>

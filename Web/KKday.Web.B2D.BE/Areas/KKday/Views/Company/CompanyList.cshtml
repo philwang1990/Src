@@ -1,0 +1,84 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.Company
+@using Resources
+@inject ILocalizer localizer
+@model List<B2dCompany>
+@{
+    var query_params = (QueryParamsModel)ViewData["QUERY_PARAMS"];
+}
+
+@if (Model == null || Model.Count < 1)
+{
+    <span>@localizer.Text.Data_Not_Found</span>
+}
+else
+{
+
+    <table id="mytable" class="table table-bordred table-striped fit">
+        <thead>
+            <th><input type="checkbox" id="checkall" /></th>
+            <th>@localizer.Text.ID</th>
+            <th>@localizer.Text.Company_Name</th>
+            <th>@localizer.Text.Country</th>
+            <th>@localizer.Text.Status</th>
+            <th>@localizer.Text.FixedPrice</th>
+            <th>@localizer.Text.Promotion</th>
+            <th>@localizer.Text.Delete</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+        {
+            <tr>
+                <td><input type="checkbox" class="checkthis" value="@item.XID" /></td>
+                <td>@item.XID</td>
+                <td><a href="javascript:CompanyEdit(@item.XID);">@item.COMP_NAME</a></td>
+                <td>@item.COMP_COUNTRY</td>
+                <td>@item.STATUS_DESC (@item.STATUS)</td>
+                <td>
+                    <button class="btn btn-primary btn-xs" onclick="CompanyFixedPrice(@item.XID, '@item.COMP_NAME')">
+                        <span class="glyphicon glyphicon-list-alt"></span>
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-primary btn-xs" data-title="Promotion" data-toggle="modal" data-target="#promotion" onclick="CompanyPromotion(@item.XID, '@item.COMP_NAME');">
+                        <span class="glyphicon glyphicon-random"></span> 
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete">
+                        <span class="glyphicon glyphicon-trash"></span> 
+                    </button>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+
+    <div class="col-xs-12">
+        <ul class="pagination pull-right">
+
+            @if (query_params.Paging.total_pages > 1)
+            {
+            <li><a href="javascript:Refresh(1, false);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+            }
+
+            @for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
+            {
+                var pgIdx = nIdx + 1;
+                if (pgIdx == query_params.Paging.current_page)
+                {
+                <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+                }
+                else
+                {
+            <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx, false);">@pgIdx</a></li>
+                }
+            }
+            @if (query_params.Paging.total_pages > 1)
+            {
+            <li><a href="javascript:Refresh(@query_params.Paging.total_pages, false);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+            }
+        </ul>
+    </div>
+
+}

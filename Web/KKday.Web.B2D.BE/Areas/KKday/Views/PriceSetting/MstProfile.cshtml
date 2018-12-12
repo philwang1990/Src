@@ -1,0 +1,529 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.PriceSetting
+@using Resources
+
+@inject ILocalizer localizer 
+@model B2dDiscountMst
+@{
+    Layout = "_LayoutMain";
+
+    ViewData["MST_XID"] = Model.XID;
+    var dtl_query_params = ViewData["DTL_QUERY_PARAMS"] as QueryParamsModel;
+    var curamt_query_params = ViewData["CUR_AMT_QUERY_PARAMS"] as QueryParamsModel;
+    var currency_locales = (Dictionary<string, string>)ViewData["CURRENCIES"];
+    var locale = User.FindFirst("Locale").Value;
+}
+
+@section Stylesheet {
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/lib/jquery-scrolling-tabs/dist/css/jquery.scrolling-tabs.min.css")" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.css" rel="stylesheet" />
+    <style type="text/css">
+        .daterangepicker select.monthselect, .daterangepicker select.yearselect {
+            font-size: 20px;
+        }
+
+        .sign-btn {
+            background-color: #E0F2F7;
+        }
+
+        .error-text {
+            color: red;
+        }
+    </style>
+}
+@section Scripts {
+    <script src="~/js/price-setting.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery-scrolling-tabs/dist/js/jquery.scrolling-tabs.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap-daterangepicker/dist/js/moment-with-locales.min.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-daterangepicker/2.1.25/daterangepicker.min.js"></script>
+}
+
+<script type="text/javascript">
+    var dtl_query_params = @Html.Raw(ViewData["DTL_QUERY_PARAMS_JSON"].ToString());
+    var curamt_query_params = @Html.Raw(ViewData["CUR_AMT_QUERY_PARAMS_JSON"].ToString());
+</script>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item" aria-current="page">@localizer.Text.Title_PriceSetting</li>
+        <li class="breadcrumb-item active" aria-current="page">折扣規則內容</li>
+    </ol>
+</nav>
+
+
+<input type="hidden" id="mst_xid" value="@Model.XID" />
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <h4>折扣規則內容</h4>
+            <form id="edit_form">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>折扣規則名稱</label>
+                            <input type="text" id="disc_name" name="disc_name" class="form-control" value="@Model.DISC_NAME">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>訂購效期<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="text" id="book_period" name="book_period" class="form-control period" value="@string.Format("{0:yyyy-MM-dd} ~ {1:yyyy-MM-dd}",  Model.S_DATE, Model.E_DATE)" />
+                                <div class="input-group-addon">
+                                    <span class="glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>折扣類型</label>
+                            <select id="disc_type" name="disc_type" class="form-control">
+                                <option value="01">NET</option>
+                                <option value="02">COMMISSION</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>折扣百分比<span class="text-danger">*</span></label>
+                            <div class="input-group">
+
+                                <div class="input-group-btn">
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-default sign-btn dropdown-toggle" data-toggle="dropdown">
+                                            <span id="sign_label">@(Model.DISC_PERCENT < 0 ? "-" : "+")</span>
+                                        </button>
+                                        <ul class="dropdown-menu disc_percent">
+                                            <li><a href="#">-</a></li>
+                                            <li><a href="#">+</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input typex="text" id="disc_percent" dir="rtl" name="disc_percent" class="form-control" value="@Math.Abs(Model.DISC_PERCENT)" placeholder="輸入百分比數值" onkeyup="this.value=this.value.replace(/[^\d,.]+/,'')">
+                                <div class="input-group-addon">%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label>狀態</label>
+                            <select id="status" name="status" class="form-control">
+                                <option value="00" selected>@localizer.Text.Disable</option>
+                                <option value="01">@localizer.Text.Enable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-12">
+                        <div class="form-group">
+                            <label>產品規則條件<span class="text-danger">*</span></label>
+                            <div class="col-xs-12">
+                                <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio1" value="00" checked />
+                                <label class="form-check-label" for="inlineRadio1" style="margin-right: 8px;">不限定條件</label>
+
+                                <input class="form-check-input" type="radio" name="rule_status" id="inlineRadio2" value="01" />
+                                <label class="form-check-label" for="inlineRadio2">限定條件適用</label>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- row -->
+
+                <div class="row">
+                    <div class="col-xs-12 text-center">
+                        <hr />
+                        <button type="button" class="btn btn-default" onclick="window.history.go(-1);">回上一頁</button>
+                        <button type="button" class="btn btn-primary" onclick="UpdateDiscountMst();">更新</button>
+                    </div>
+                </div> <!-- row -->
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <!-- Nav tabs -->
+
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#disc_dtl" aria-controls="disc_dtl" role="tab" data-toggle="tab">折扣明細</a></li>
+            <li role="presentation"><a href="#curr_amt" aria-controls="curr_amt" role="tab" data-toggle="tab">外幣加減價</a></li>
+        </ul>
+    </div>
+
+
+    <div class="row" style="margin-top: 16px;">
+
+        <!-- Tab panes begin -->
+        <div class="tab-content">
+
+            <div role="tabpanel" class="tab-pane active" id="disc_dtl">
+
+                <div class="col-xs-12 add-dtl" style="@(Model.RULE_STATUS.Equals("01")? "" : "display:none;")">
+                    <a href="javascript:void(0);" class="btn" data-title="新增明細規則" data-toggle="modal" data-target="#add_dtl"><i class="fas fa-plus"></i> 新增明細規則</a>
+                </div>
+
+                <div class="col-xs-12">
+                    <div id="dtl_panel" class="table-responsive">
+                        @await Html.PartialAsync("DiscountDtlList", ViewData["DTL_MODEL"])
+                    </div>
+                </div>
+
+            </div>
+
+            <div role="tabpanel" class="tab-pane" id="curr_amt">
+
+                <div class="col-xs-12">
+                    <a href="javascript:void(0);" class="btn" data-title="新增外幣金額" data-toggle="modal" data-target="#add_curramt"><i class="fas fa-plus"></i> 新增外幣金額</a>
+                </div>
+
+                <div class="col-xs-12">
+                    <div id="curamt_panel" class="table-responsive">
+                        @await Html.PartialAsync("DiscountCurrAmtList", ViewData["CURR_AMT_MODEL"])
+                    </div>
+                </div>
+
+            </div>
+
+        </div>  <!-- Tab panes end -->
+
+    </div>
+</div>
+
+<!-- Discount Detail Modal Dialogs -->
+<div class="modal fade" id="add_dtl" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@(localizer.Text.Add)折扣明細</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="add_form_dtl"  >
+                        <div class="col-sm-6">
+                            <label>明細類型<span class="text-danger">*</span></label>
+                            <select id="add_dtl_type" name="add_dtl_type" class="form-control">
+                                <option value="type1">依商品編號</option>
+                                <option value="type2">依商品分類</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>內容值<span class="text-danger">*</span></label>
+                            <input type="text" id="add_dtl_cond" name="dtl_cond" class="form-control" />
+                        </div> 
+                        <div class="col-sm-6">
+                            <label>黑白名單<span class="text-danger">*</span></label>
+                            <select id="add_dtl_wb" name="add_dtl_wb" class="form-control">
+                                <option value="0">黑名單</option>
+                                <option value="1">白名單</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>描述</label>
+                            <input type="text" id="add_dtl_desc" name="add_dtl_desc" class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_insert" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="InsertDiscDtl();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Insert
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="edit_dtl" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@(localizer.Text.Edit)折扣明細</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="edit_from_dtl">
+                        <input type="hidden" id="edit_dtl_xid" />
+                        <div class="col-sm-6">
+                            <label>明細類型<span class="text-danger">*</span></label>
+                            <select id="edit_dtl_type" name="edit_dtl_type" class="form-control">
+                                <option value="type1">依商品編號</option>
+                                <option value="type2">依商品分類</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>內容值<span class="text-danger">*</span></label>
+                            <input type="text" id="edit_dtl_cond" name="edit_dtl_cond" class="form-control" />
+                        </div> 
+                        <div class="col-sm-6">
+                            <label>黑白名單<span class="text-danger">*</span></label>
+                            <select id="edit_dtl_wb" name="edit_dtl_wb" class="form-control">
+                                <option value="0">黑名單</option>
+                                <option value="1">白名單</option>
+                            </select>
+                        </div>
+                        <div class="col-sm-6">
+                            <label>描述</label>
+                            <input type="text" id="edit_dtl_desc" name="edit_dtl_desc" class="form-control">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_update" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="UpdateDiscDtl();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Update
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="delete_dtl" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="del_dtl_xid" />
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_del" type="button" class="btn btn-success" onclick="RemoveDiscDtl();"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<!-- Currency Amount Modal Dialogs -->
+
+<div class="modal fade" id="add_curramt" tabindex="-1" role="dialog" aria-labelledby="add" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@(localizer.Text.Add)外幣加減價</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="add_form_curramt">
+                        <div class="col-xs-12">
+                            <label>幣別</label>
+                            <select id="add_curamt_curr" name="add_curamt_curr" class="form-control">
+                                <option value="">--Select--</option>
+                            @foreach(var cur in currency_locales)
+                            {
+                                <option value="@cur.Key">@cur.Value @cur.Key</option>
+                            }
+                            </select>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>金額</label>
+                                <div class="input-group"> 
+                                    <div class="input-group-btn">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default sign-btn dropdown-toggle" data-toggle="dropdown">
+                                                <span id="sign_label_01">-</span>
+                                            </button>
+                                            <ul class="dropdown-menu sign_sel_01">
+                                                <li><a href="#">-</a></li>
+                                                <li><a href="#">+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <input typex="text" id="add_curamt_price" dir="rtl" name="add_curamt_price" class="form-control" placeholder="輸入數值" onkeyup="this.value=this.value.replace(/[^\d,.]+/,'')">                                     
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_insert" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="InsertDiscCurrAmt();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Insert
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="edit_curramt" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@(localizer.Text.Edit)外幣加減價</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form id="edit_form_curramt">
+                        <input type="hidden" id="edit_curramt_xid" />
+                        <div class="col-xs-12">
+                            <label>幣別</label>
+                            <select id="edit_curamt_curr" name="edit_curamt_curr" class="form-control">
+                                <option value="">--Select--</option>
+                            @foreach(var cur in currency_locales)
+                            {
+                                <option value="@cur.Key">@cur.Value @cur.Key</option>
+                            }
+                            </select>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <label>金額</label>
+                                <div class="input-group"> 
+                                    <div class="input-group-btn">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-default sign-btn dropdown-toggle" data-toggle="dropdown">
+                                                <span id="sign_label_02">-</span>
+                                            </button>
+                                            <ul class="dropdown-menu sign_sel_02">
+                                                <li><a href="#">-</a></li>
+                                                <li><a href="#">+</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <input typex="text" id="edit_curamt_price" dir="rtl" name="edit_curamt_price" class="form-control" placeholder="輸入數值" onkeyup="this.value=this.value.replace(/[^\d,.]+/,'')">                                     
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_update" type="button" class="btn btn-warning btn-lg" style="width: 100%;" onclick="UpdateDiscCurrAmt();">
+                    <span class="glyphicon glyphicon-ok-sign"></span>@localizer.Text.Update
+                </button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+<div class="modal fade" id="delete_curramt" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>
+                <h4 class="modal-title custom_align" id="Heading">@localizer.Text.Delete</h4>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="del_curramt_xid" />
+                <div class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign"></span> Are you sure you want to delete this Record?</div>
+            </div>
+            <div class="modal-footer ">
+                <button id="btn_del" type="button" class="btn btn-success" onclick="RemoveDiscCurrAmt();"><span class="glyphicon glyphicon-ok-sign"></span> Yes</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> No</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+ 
+
+<script type="text/javascript">
+    $(function(){
+        $("#status").val('@Model.STATUS');
+        $("input[name=rule_status][value=@Model.RULE_STATUS]").prop("checked",true);
+        $("input[name=rule_status]").click(function() {
+            if(this.value == "00") $(".add-dtl").hide();
+            else $(".add-dtl").show();
+        });
+
+        moment.locale('@locale'); 
+
+        $("#edit_form").validate({
+            errorClass: "error-text",
+            errorElement: "small",
+            rules: {
+              disc_name: "required",
+              book_period: "required",
+              disc_type: "required",
+              disc_percent:  "required",
+              disc_type: "required",
+              rule_status: "required"
+            },
+            messages: {
+              disc_name: "折扣規則名稱不可為空",
+              book_period: "訂購效期不可為空",
+              disc_type: "訂購類型不可為空",
+              disc_type: "折扣百分比不可為空",
+              status: "請選擇折扣規則狀態",
+              rule_status: "請任選產品規則條件"
+            }
+        });
+
+        $("#add_form_dtl").validate({
+            errorClass: "error-text",
+            errorElement: "small",
+            rules: {
+              dtl_cond: "required"
+            },
+            messages: {
+              dtl_cond: "折扣規則名稱不可為空"
+            }
+        });
+
+        $("#edit_form_dtl").validate({
+            errorClass: "error-text",
+            errorElement: "small",
+            rules: {
+              dtl_cond: "required"
+            },
+            messages: {
+              dtl_cond: "折扣規則名稱不可為空"
+            }
+        });
+
+
+        $("#add_form_curramt").validate({
+            errorClass: "error-text",
+            errorElement: "small",
+            rules: {
+                add_curamt_curr: "required",          
+                add_curamt_price: "required"
+            },
+            messages: {
+                add_curamt_curr: "幣別不可為空",
+                add_curamt_price: "金額不可為空"
+            }
+        });
+
+        $("#edit_form_curramt").validate({
+            errorClass: "error-text",
+            errorElement: "small",
+            rules: {
+                edit_curamt_curr: "required",          
+                edit_curamt_price: "required"
+            },
+            messages: {
+                edit_curamt_curr: "幣別不可為空",
+                edit_curamt_price: "金額不可為空"
+            }
+        });
+     
+        mst_setting_init();
+
+    });
+
+</script>

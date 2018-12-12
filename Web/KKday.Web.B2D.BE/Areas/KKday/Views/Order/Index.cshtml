@@ -1,0 +1,117 @@
+﻿@page
+@{
+    Layout = "_LayoutMain";
+}
+@section Stylesheet {
+    <link rel="stylesheet" href="~/css/stacktable.css" asp-append-version="true" />
+}
+@section Scripts {
+    <script src="~/js/stacktable.js" asp-append-version="true"></script>
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="@Url.Content("~/KKday")">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">訂單管理</li>
+    </ol>
+</nav>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <h4>訂單管理</h4>
+
+
+            <!-- search tab -->
+            <div class="search-tab row" style="margin-bottom: 20px;">
+                <form role="form">
+                 
+                    <div class="col-xs-12 col-sm-2">
+                        <lable class="control-label clearfix">訂單編號</lable>
+                        <div class="col-xs-12 no-padding-left">
+                            <input type="text" class="form-control" placeholder="Order No" aria-label="Order No">
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <lable class="control-label clearfix">訂單日期</lable>
+                        <div class="col-xs-12 col-sm-6 no-padding-left">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                <input type="text" name="orddate" class="form-control" id="from-date1" placeholder="Date1">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 no-padding-left"> 
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                <input type="text" name="orddate" class="form-control" id="to-date1" placeholder="Date2">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-4">
+                        <lable class="control-label clearfix">出發日期</lable>
+                        <div class="col-xs-12 col-sm-6 no-padding-left">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                <input type="text" name="depdate" class="form-control" id="from-date1" placeholder="Date1">
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-6 no-padding-left">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                <input type="text" name="depdate" class="form-control" id="to-date1" placeholder="Date2">
+                            </div>
+                        </div>
+                    </div> 
+
+                    <div class="col-xs-12 col-sm-4">
+                        <lable class="control-label clearfix">目的地城市</lable>
+                        <div class="col-xs-12 col-sm-6 no-padding-left">
+                            <input type="text" name="nation" class="form-control" id="nation" placeholder="nation">
+                        </div>
+                        <div class="col-xs-12 col-sm-6 no-padding-left">
+                            <input type="text" name="city" class="form-control" id="city" placeholder="city">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-2">
+                        <lable class="control-label clearfix">&nbsp;</lable>
+                        <input type="Submit" name="submit" value="Search" class="btn btn-info cst-btn" id="srch">
+                    </div>
+                 
+                </form>
+            </div>
+            <!-- search tab -->
+
+            <div class="table-responsive">
+                <partial name="OrderList" />
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+        $('#mytable').stacktable({ hideOriginal:true, displayHeader: false });
+
+        $("#mytable #checkall").click(function () {
+            console.log("checkall clicked");
+
+            if ($("#mytable #checkall").is(':checked')) {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", true);
+                });
+
+            } else {
+                $("#mytable input[type=checkbox]").each(function () {
+                    $(this).prop("checked", false);
+                });
+            }
+        });
+
+        $("[data-toggle=tooltip]").tooltip();
+    });
+
+</script>

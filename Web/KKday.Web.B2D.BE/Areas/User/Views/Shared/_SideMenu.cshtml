@@ -1,0 +1,47 @@
+﻿@using Resources
+@inject ILocalizer localizer
+@{
+}
+
+<div id="wrapper" data-spy="scroll" data-target="#spy" class="">
+    <!-- Sidebar -->
+    <div id="sidebar-wrapper" class="">
+        <nav id="spy">
+            <ul class="sidebar-nav nav">
+                <li class="sidebar-brand active">
+                    <a href="#home" class="">前往訂購</a>
+                </li>
+                <li class="">
+                    <a href="@Url.Content("~/User/Account")" data-scroll="" class="">
+                        <span>@localizer.Text.Title_MyProfile</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="@Url.Content("~/User/Voucher")" data-scroll="" class="">
+                        <span>@localizer.Text.Title_AddVoucher</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="@Url.Content("~/User/Order")" data-scroll="" class="">
+                        <span>@localizer.Text.Title_MyOrder</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="@Url.Content("~/User/Account/Password")" data-scroll="" class="">
+                        <span>@localizer.Text.Title_ChangePassword</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="@Url.Content("~/User/Account/WebUser")" data-scroll="" class="">
+                        <span>@localizer.Text.Title_WebUser</span>
+                    </a>
+                </li>
+                <li class="">
+                    <a href="@Url.Content("~/User/Account/ApiUser")" data-scroll="" class="">
+                        <span>@localizer.Text.Title_ApiUser</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>

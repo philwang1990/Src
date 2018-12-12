@@ -46,7 +46,7 @@ namespace KKday.API.B2S.JTR
             }
  
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

@@ -1,0 +1,62 @@
+﻿@using KKday.Web.B2D.BE.Models.Model.Common
+@using KKday.Web.B2D.BE.Models.Model.ListPrice
+@using Resources
+@inject ILocalizer localizer
+@model List<B2dBlacklistProduct>
+@{
+    var query_params = ViewData["QUERY_PARAMS"] as QueryParamsModel;
+}
+@if (Model == null || Model.Count() < 1)
+{
+    <span>@localizer.Text.Data_Not_Found</span>
+}
+else
+{
+    <table id="mytable" class="table table-bordred table-striped fit">
+        <thead>
+            <th><input type="checkbox" id="checkall" style="float:left;" /><label for="checkall" class="visible-xs" style="font-size:11pt; margin-top:2px; margin-left:20px;">Select All</label></th>
+            <th>@localizer.Text.ProductNo</th>
+            <th>@localizer.Text.ProductName</th>
+            <th>@localizer.Text.Delete</th>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+        {
+                <tr id="@item.XID">
+                    <td><input type="checkbox" class="checkthis" /></td>
+                    <td><a href="javascript:void(0);" data-title="edit" data-toggle="modal" data-target="#edit" onclick="UpdateSetting(@item.XID);" >@item.PROD_NO</a></td>
+                    <td>@item.PROD_NAME</td>
+                    <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete" onclick="$('#btn_del').attr('xid', @item.XID);">
+                            <span class="glyphicon glyphicon-trash"></span>
+                        </button></td>
+                </tr>
+        }
+        </tbody>
+    </table>
+
+    <div class="col-xs-12">
+        <ul class="pagination pull-right">
+        @if (query_params.Paging.total_pages > 1)
+        {
+            <li><a href="javascript:Refresh(1);"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
+        }
+        @for (int nIdx = 0; nIdx < query_params.Paging.total_pages; nIdx++)
+        {
+            var pgIdx = nIdx + 1;
+            if (pgIdx == query_params.Paging.current_page)
+            {
+            <li class="active"><a href="javascript:void(0);">@pgIdx</a></li>
+            }
+            else
+            {
+            <li><a href="javascript:void(0);" onclick="Refresh(@pgIdx);">@pgIdx</a></li>
+            }
+        }
+        @if (query_params.Paging.total_pages > 1)
+        {
+            <li><a href="javascript:Refresh(@query_params.Paging.total_pages);"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
+        }
+        </ul>
+    </div>
+
+}

@@ -36,6 +36,7 @@ namespace KKday.API.WMS.Controllers {
             this.redisCache = redisCache;
         }
 
+<<<<<<< HEAD
         ///// <summary>
         ///// Auths the user.
         ///// </summary>
@@ -44,6 +45,16 @@ namespace KKday.API.WMS.Controllers {
         ///// <param name="password">Password.</param>
         //[HttpGet("AuthUserToken")]
         //public ApiUserModel AuthUserToken(string email,string password)
+=======
+        /// <summary>
+        /// Auths the user.
+        /// </summary>
+        /// <returns>The user.</returns>
+        /// <param name="email">Email.</param>
+        /// <param name="password">Password.</param>
+        //[HttpGet("AuthUser")]
+        //public ApiUserModel AuthUser(string email,string password)
+>>>>>>> dev_branch
         //{
 
         //   // string token = "";
@@ -53,7 +64,11 @@ namespace KKday.API.WMS.Controllers {
         //    {
         //        Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
         //        //1. 從IS4取使用者的門票
+<<<<<<< HEAD
         //        GetTokenResponseModel response = AuthProxy.getToke(email, password);
+=======
+        //       // GetTokenResponseModel response = AuthProxy.getToke(account, password);
+>>>>>>> dev_branch
         //      //  token = response.access_token ?? response.error_description;
 
         //        //1. 從DB抓使用者資訊
@@ -151,6 +166,7 @@ namespace KKday.API.WMS.Controllers {
         {
 
             B2dAccountModel user = new B2dAccountModel();
+<<<<<<< HEAD
 
             try
             {
@@ -162,6 +178,19 @@ namespace KKday.API.WMS.Controllers {
                 user.result = "10";
                 user.result_msg = "system error:" + ex.Message;
 
+=======
+
+            try
+            {
+                Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
+                user = UserRepository.AuthAccount(email, password);
+            }
+            catch (Exception ex)
+            {
+                user.result = "10";
+                user.result_msg = "system error:" + ex.Message;
+
+>>>>>>> dev_branch
             }
             return user;
         }
