@@ -44,11 +44,11 @@ namespace KKday.API.WMS.Controllers {
         }
 
 
-        [HttpPost("UpdateUser")]
-        public ActionResult UpdateUser(AccountModel acct)
+        [HttpPost("UpdateIs4User")]
+        public ActionResult UpdateIs4User(AccountModel acct)
         {
 
-            return Content(AccountRepository.UpdatetUser(acct).ToString(), "application/json");
+            return Content(AccountRepository.UpdateIs4User(acct).ToString(), "application/json");
         }
 
         [HttpPost("RegisterUser")]

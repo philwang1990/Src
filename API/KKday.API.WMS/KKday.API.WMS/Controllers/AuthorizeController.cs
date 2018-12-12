@@ -36,14 +36,14 @@ namespace KKday.API.WMS.Controllers {
             this.redisCache = redisCache;
         }
 
-        /// <summary>
-        /// Auths the user.
-        /// </summary>
-        /// <returns>The user.</returns>
-        /// <param name="email">Email.</param>
-        /// <param name="password">Password.</param>
-        //[HttpGet("AuthUser")]
-        //public ApiUserModel AuthUser(string email,string password)
+        ///// <summary>
+        ///// Auths the user.
+        ///// </summary>
+        ///// <returns>The user.</returns>
+        ///// <param name="email">Email.</param>
+        ///// <param name="password">Password.</param>
+        //[HttpGet("AuthUserToken")]
+        //public ApiUserModel AuthUserToken(string email,string password)
         //{
 
         //   // string token = "";
@@ -53,7 +53,7 @@ namespace KKday.API.WMS.Controllers {
         //    {
         //        Website.Instance.logger.Info($"WMS AuthUser Start! B2D email:{email},pwd:{password}");
         //        //1. 從IS4取使用者的門票
-        //       // GetTokenResponseModel response = AuthProxy.getToke(account, password);
+        //        GetTokenResponseModel response = AuthProxy.getToke(email, password);
         //      //  token = response.access_token ?? response.error_description;
 
         //        //1. 從DB抓使用者資訊

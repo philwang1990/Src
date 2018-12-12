@@ -89,7 +89,7 @@ namespace KKday.API.WMS.AppCode.Proxy
                         RQ.json = j;
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_PROD"]}{query_lst.prod_no}";
+                        string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}product/info/fe/v1/{query_lst.prod_no}";
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -136,6 +136,7 @@ namespace KKday.API.WMS.AppCode.Proxy
                         client.DefaultRequestHeaders.Accept.Add(
                         new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
+
                         List<string> typeList = new List<string>();
                         typeList.Add(ProdProxy._PMDL_CAR_PSGR);
                         typeList.Add(ProdProxy._PMDL_CONTACT_DATA);
@@ -166,8 +167,9 @@ namespace KKday.API.WMS.AppCode.Proxy
                         };
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_MODEL"]}".Replace("{prod_no}", query_lst.prod_no);
-
+                
+                        string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}product/{query_lst.prod_no}/module/get";
+               
                         using (HttpContent content = new StringContent(json_data))
                         {
                             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -176,6 +178,7 @@ namespace KKday.API.WMS.AppCode.Proxy
 
                             Website.Instance.logger.Info($"URL:{url},URL Response StatusCode:{response.StatusCode}");
 
+  
                             //與API串接失敗 
                             if (response.StatusCode.ToString() != "OK")
                             {

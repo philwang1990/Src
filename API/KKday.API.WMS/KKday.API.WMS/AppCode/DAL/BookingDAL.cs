@@ -47,14 +47,14 @@ namespace KKday.API.WMS.AppCode.DAL
 
             sql = @"INSERT INTO b2b.orders(
     order_no, kkday_order_oid, kkday_order_mid, order_date, order_type, order_status, order_amt, order_b2c_amt, contact_name, contact_tel, contact_mail, order_note, company_xid, channel_oid, booking_type, crt_datetime)
-    VALUES (:order_no, :kkday_order_oid, :kkday_order_mid, to_timestamp(:order_date,'MM/DD/YYYY HH24:mi:SS' ), :order_type, :order_status, :order_amt, :order_b2c_amt, :contact_name, :contact_tel, :contact_mail, :order_note, :company_xid, :channel_oid, :booking_type, :crt_datetime); ";
+    VALUES (:order_no, :kkday_order_oid, :kkday_order_mid, :order_date, :order_type, :order_status, :order_amt, :order_b2c_amt, :contact_name, :contact_tel, :contact_mail, :order_note, :company_xid, :channel_oid, :booking_type, :crt_datetime); ";
 
 
             np = new NpgsqlParameter[]{
                      new NpgsqlParameter("order_no",order_no),
                      new NpgsqlParameter("kkday_order_oid",obj["kkday_order_oid"].ToString()),
                      new NpgsqlParameter("kkday_order_mid",obj["kkday_order_mid"].ToString()),
-                     new NpgsqlParameter("order_date",obj["order_date"].ToString()), // date : 10/26/2018 04:09:21
+                     new NpgsqlParameter("order_date",DateTime.Now), // date : 10/26/2018 04:09:21
                      new NpgsqlParameter("order_type",obj["order_type"].ToString()),
                      new NpgsqlParameter("order_status",obj["order_status"].ToString()),
                      new NpgsqlParameter("order_amt",(int)obj["order_amt"]),
@@ -63,7 +63,7 @@ namespace KKday.API.WMS.AppCode.DAL
                      new NpgsqlParameter("contact_tel",obj["contact_tel"].ToString()),
                      new NpgsqlParameter("contact_mail",obj["contact_mail"].ToString()),
                      new NpgsqlParameter("order_note",obj["order_note"].ToString()),
-                     new NpgsqlParameter("company_xid",obj["company_xid"].ToString()),
+                     new NpgsqlParameter("company_xid",(int)obj["company_xid"]),
                      new NpgsqlParameter("channel_oid",obj["channel_oid"].ToString()),
                      new NpgsqlParameter("booking_type",obj["booking_type"].ToString()),
                      new NpgsqlParameter("crt_datetime",DateTime.Now)
@@ -272,10 +272,10 @@ namespace KKday.API.WMS.AppCode.DAL
 
 
             np = new NpgsqlParameter[]{
-             new NpgsqlParameter("kkday_order_oid",model.order_oid),
-             new NpgsqlParameter("kkday_order_mid",model.order_mid),
-             new NpgsqlParameter("order_no",model.order_no),
-             new NpgsqlParameter("company_xid",model.company_xid)
+                 new NpgsqlParameter("kkday_order_oid",model.order_oid),
+                 new NpgsqlParameter("kkday_order_mid",model.order_mid),
+                 new NpgsqlParameter("order_no",model.order_no),
+                new NpgsqlParameter("company_xid",int.Parse(model.company_xid))
 
             };
 

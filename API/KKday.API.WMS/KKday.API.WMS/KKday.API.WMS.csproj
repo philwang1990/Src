@@ -29,6 +29,7 @@
     <Folder Include="Models\Repository\Order\" />
     <Folder Include="Models\DataModel\Account\" />
     <Folder Include="Models\Repository\Account\" />
+    <Folder Include="Models\DataModel\Final\" />
   </ItemGroup>
 
   <ItemGroup>

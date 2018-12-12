@@ -40,7 +40,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
 
                 CallModules call = new CallModules();
-                call.ipaddress = "192.168.1.1";
+                call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -122,7 +122,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
 
                 CallModules call = new CallModules();
-                call.ipaddress = "192.168.1.1";
+                call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -190,7 +190,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
 
                 CallModules call = new CallModules();
-                call.ipaddress = "192.168.1.1";
+                call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -255,7 +255,7 @@ namespace KKday.API.WMS.AppCode
                 httpWebRequest.Method = "POST";
 
                 CallModules call = new CallModules();
-                call.ipaddress = "192.168.1.1";
+                call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -326,7 +326,8 @@ namespace KKday.API.WMS.AppCode
 
             string result;
 
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_ORDER_NEW"]}");
+            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/new");
+
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
@@ -411,7 +412,7 @@ namespace KKday.API.WMS.AppCode
            { return true; };
 
             PmchSslRequest call = new PmchSslRequest();
-            call.ipaddress = "192.168.1.1";
+            call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
             call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
             call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
             call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -485,7 +486,7 @@ namespace KKday.API.WMS.AppCode
            { return true; };
 
             PmchSslRequest2 call = new PmchSslRequest2();
-            call.ipaddress = "192.168.1.1";
+            call.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
             call.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
             call.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
             call.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -538,7 +539,7 @@ namespace KKday.API.WMS.AppCode
                 X509Chain chain, SslPolicyErrors sslPolicyErrors)
                 { return true; };
 
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_PAYMENT_SUCCESS"]}" + orderMid);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/payment/success/{orderMid}");
 
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
@@ -546,7 +547,7 @@ namespace KKday.API.WMS.AppCode
                 string result;
 
                 PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
-                mst.ipaddress = "192.168.1.1";
+                mst.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 mst.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 mst.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 mst.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];
@@ -599,12 +600,15 @@ namespace KKday.API.WMS.AppCode
                 delegate (object s, X509Certificate certificate,
                 X509Chain chain, SslPolicyErrors sslPolicyErrors)
                 { return true; };
-                var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.sit.kkday.com/api/order/payment/success/" + orderMid);
+                //var httpWebRequest = (HttpWebRequest)WebRequest.Create("https://api.sit.kkday.com/api/order/payment/success/" + orderMid);
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/payment/success/{orderMid}");
+
+
                 httpWebRequest.ContentType = "application/json";
                 httpWebRequest.Method = "POST";
                 string result;
                 PaySuccessUpdOrderMst mst = new PaySuccessUpdOrderMst();
-                mst.ipaddress = "192.168.1.1";
+                mst.ipaddress = Website.Instance.Configuration["KKAPI_INPUT:IPADDRESS"];
                 mst.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
                 mst.userOid = Website.Instance.Configuration["KKAPI_INPUT:USER_OID"];
                 mst.ver = Website.Instance.Configuration["KKAPI_INPUT:VER"];

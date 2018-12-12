@@ -1,0 +1,5 @@
+2018-12-06 15:16:00,110 [1] DEBUG KKday.PMS.B2S.ProductRepository.ProductRepository - System.NullReferenceException: Object reference not set to an instance of an object.
+   at KKday.PMS.B2S.ProductRepository.ProductRepository.setScmProduct(SupplierLoginRSModel supplierLoginRSModel, Int64 prodOid, RezdyProductModel rezdyProductModel) in /Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/ProductRepository.cs:line 178
+2018-12-06 15:16:00,328 [1] ERROR KKday.PMS.B2S.Program - System.NullReferenceException: Object reference not set to an instance of an object.
+   at KKday.PMS.B2S.ProductRepository.ProductRepository.setScmProduct(SupplierLoginRSModel supplierLoginRSModel, Int64 prodOid, RezdyProductModel rezdyProductModel) in /Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/ProductRepository.cs:line 215
+   at KKday.PMS.B2S.Program.Main(String[] args) in /Users/cengshenghao/Documents/GitHub/Src/Console/KKday.PMS.B2S/KKday.PMS.B2S/Program.cs:line 56

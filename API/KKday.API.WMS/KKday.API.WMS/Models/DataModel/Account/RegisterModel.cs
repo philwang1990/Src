@@ -23,7 +23,8 @@ namespace KKday.API.WMS.Models.DataModel.Account
         public string LICENCSE_1 { get; set; }     //憑證一
         public string LICENCSE_2 { get; set; }     //憑證二
         public string USER_UUID { get; set; }      //uuid
-
+        public string TIMEZONE { get; set; }
+        public string TEL_CODE { get; set; }
     }
 
     [Serializable]

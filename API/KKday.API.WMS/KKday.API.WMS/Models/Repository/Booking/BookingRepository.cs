@@ -39,7 +39,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             JObject obj = JObject.Parse(json_data);
             List<int> cus_seqno = new List<int>();
             List<int> lst_seqno = new List<int>();
-            int discount_xid = 0;
+            //int discount_xid = 0;
 
             try
             {
@@ -48,7 +48,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
                 BookingDAL.InsertOrders(obj, trans, ref order_no);
 
-                if (obj["order_discount_rule"] != null)
+                if (obj["order_discount_rule"].ToString() != "" )
                     BookingDAL.InsertOrderDiscountRule(obj["order_discount_rule"] as JObject, trans, order_no);
 
                 //if (obj["source"]  != null)
@@ -121,21 +121,29 @@ namespace KKday.API.WMS.Models.Repository.Booking
 
         }
 
-        public static JObject UpdateOrder(UpdateOrderModel model)
+        public static OrderNoModel UpdateOrder(UpdateOrderModel model)
         {
             int count = 0;
+            OrderNoModel orderNo = new OrderNoModel();
 
             try
             {
 
                 count = BookingDAL.UpdateOrder(model);
+                orderNo.result = "0000";
+                orderNo.result_msg = "OK";
+                orderNo.count = count.ToString();
 
-                return JObject.Parse("{ \"result\":  \"0000\",\"result_msg\": \"OK\",\"count\":" + count.ToString() + "}");
+
+                return orderNo;
             }
             catch (Exception ex)
             {
+                orderNo.result = "10001";
+                orderNo.result_msg = "UpdateOrder  Error :"+ex.Message + ","+ex.StackTrace ;
+                orderNo.count = count.ToString();
 
-                return JObject.Parse("{ \"result\":  \"10001\",\"result_msg\": \"InsertOrder  Error :\"" + ex.Message + "," + ex.StackTrace + ",\"count\":" + count + "}");
+                return orderNo;
 
             }
         }
@@ -277,8 +285,8 @@ namespace KKday.API.WMS.Models.Repository.Booking
             json.pay_currency = orderModel.currency;
             json.pay_amount = Convert.ToDouble(orderModel.currPriceTotal);
 
-            json.return_url = Website.Instance.Configuration["URL:B2D_API"] + "Final/Success/" + "?id=" + orderMid + "&jsondata=";
-            json.cancel_url = Website.Instance.Configuration["URL:B2D_API"] + "Final/Cancel/" + "?id=" + orderMid;
+            json.return_url = Website.Instance.Configuration["B2DApiUrl:apiUri"] + "Final/Success/" + "?id=" + orderMid + "&jsondata=";
+            json.cancel_url = Website.Instance.Configuration["B2DApiUrl:apiUri"] + "Final/Cancel/" + "?id=" + orderMid;
             json.user_locale = "zh-tw";
             json.paymentParam1 = "";
             json.paymentParam2 = "";
@@ -499,6 +507,51 @@ namespace KKday.API.WMS.Models.Repository.Booking
                 return result;
             }
         }
+
+        public static OrderModel setOrderModel(DataKKdayModel data, PkgPriceModel pkgPrice,double calAmt)
+        {
+            OrderModel orderModel = new OrderModel();
+            OrderDiscountRule orderRule = new OrderDiscountRule();
+
+            orderModel.company_xid = data.company_xid ;
+            orderModel.channel_oid = data.channel_oid;
+            orderModel.booking_type = data.booking_type;
+            orderModel.order_date = DateTime.Now;
+            orderModel.order_type = "B2D";
+            orderModel.order_status = "NW";
+            orderModel.order_amt = calAmt;
+            orderModel.order_b2c_amt = (double)data.currPriceTotal;
+            orderModel.contact_name = data.contactFirstname + data.contactLastname;
+            orderModel.contact_tel = data.contactTel;
+            orderModel.contact_mail = data.contactEmail;
+            orderModel.order_note = data.note;
+
+            if (pkgPrice.discount_rule.isRule == true)
+            {
+                orderRule.disc_name = pkgPrice.discount_rule.disc_name ;
+                orderRule.disc_amt = (double)pkgPrice.discount_rule.amt ;
+                orderRule.disc_currency = pkgPrice.discount_rule.currency ;
+                orderRule.disc_note = pkgPrice.discount_rule.disc_type ;
+                //orderRule.order_no = oreder_no;
+
+                orderModel.order_discount_rule = orderRule;
+            }
+
+            return orderModel;
+
+        }
+
+        public static UpdateOrderModel setUpdOrdModel(DataKKdayModel data,string order_no, JObject order)
+        {
+            UpdateOrderModel updOrderModel = new UpdateOrderModel();
+            updOrderModel.order_no = order_no;
+            updOrderModel.order_oid = order["content"]["orderOid"].ToString();
+            updOrderModel.order_mid = order["content"]["orderMid"].ToString();
+            updOrderModel.company_xid = data.company_xid;
+
+            return updOrderModel;
+        }
+
 
     }
 }

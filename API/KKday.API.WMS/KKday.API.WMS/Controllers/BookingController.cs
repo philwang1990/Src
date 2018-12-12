@@ -42,12 +42,12 @@ namespace KKday.API.WMS.Controllers {
         }
 
         [HttpPost("UpdateOrder")]
-        public ActionResult UpdateOrder([FromBody]UpdateOrderModel queryRQ)
+        public OrderNoModel UpdateOrder([FromBody]UpdateOrderModel queryRQ)
         {
 
             Website.Instance.logger.Info($"WMS UpdateOrder Start! ");
 
-            return Content(BookingRepository.UpdateOrder(queryRQ).ToString(), "application/json");
+            return BookingRepository.UpdateOrder(queryRQ);
         }
 
         // GET: /<controller>/
@@ -218,14 +218,90 @@ namespace KKday.API.WMS.Controllers {
 
 
         [HttpPost("bookingStep1")]
-        public String bookingStep1([FromBody]DataKKdayModel data)
+        public BookingRSModel bookingStep1([FromBody]DataKKdayModel data)
         {
+            BookingRSModel bookingRS = new BookingRSModel();
+            double  calAmt = 0; // 計算金額
+            double  b2cAmt = 0; // 計算直客價金額
+
             try
             {
+                //先查看價格是否正確
+                if(rds.getRedis("b2d:pkgsPrice:" + data.guidNo) == null)
+                {
+                    Website.Instance.logger.Debug($"getRedis:error");//要改
+                    bookingRS.result = "10001";
+                    bookingRS.result_msg = "在redis上找不到資料"; //要改
+                    return bookingRS;
+                }
+
+
+                PkgPriceModel pkgPrice = JsonConvert.DeserializeObject<PkgPriceModel>(rds.getRedis("b2d:pkgsPrice:" + data.guidNo));
+                //if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則
+                //{
+                //    foreach (var i in pkgPrice.pkgs)
+                //    {
+                //        if( i.pkg_no == data.packageOid )
+                //        {
+                //            calAmt += (double)data.price1Qty * (double)i.price1;
+                //            calAmt += (double)data.price2Qty * (double)i.price2;
+                //            calAmt += (double)data.price3Qty * (double)i.price3;
+                //            calAmt += (double)data.price4Qty * (double)i.price4;
+                //            b2cAmt += (double)data.price1Qty * (double)i.price1_b2c;
+                //            b2cAmt += (double)data.price2Qty * (double)i.price2_b2c;
+                //            b2cAmt += (double)data.price3Qty * (double)i.price3_b2c;
+                //            b2cAmt += (double)data.price4Qty * (double)i.price4_b2c;
+                //        }
+                //    }
+                //}
+                //else
+                //{
+                //    foreach (var i in pkgPrice.pkgs)
+                //    {
+                //        if (i.pkg_no == data.packageOid)
+                //        {
+                //            calAmt += (double)data.price1Qty * (double)i.price1_b2c;
+                //            calAmt += (double)data.price2Qty * (double)i.price2_b2c;
+                //            calAmt += (double)data.price3Qty * (double)i.price3_b2c;
+                //            calAmt += (double)data.price4Qty * (double)i.price4_b2c;
+                //        }
+                //    }
+                //}
+
+                foreach (var i in pkgPrice.pkgs)
+                {
+                    if (i.pkg_no == data.packageOid)
+                    {
+                        calAmt += (double)data.price1Qty * (double)i.price1;
+                        calAmt += (double)data.price2Qty * (double)i.price2;
+                        calAmt += (double)data.price3Qty * (double)i.price3;
+                        calAmt += (double)data.price4Qty * (double)i.price4;
+                        b2cAmt += (double)data.price1Qty * (double)i.price1_b2c;
+                        b2cAmt += (double)data.price2Qty * (double)i.price2_b2c;
+                        b2cAmt += (double)data.price3Qty * (double)i.price3_b2c;
+                        b2cAmt += (double)data.price4Qty * (double)i.price4_b2c;
+                    }
+                }
+
+
+                if (calAmt != data.currPriceTotal)
+                {
+                    Website.Instance.logger.Debug($"currPriceTotal:error");//要改
+                    bookingRS.result = "10001";
+                    bookingRS.result_msg = "金額有誤："+ data.currPriceTotal ; //要改
+                    return bookingRS;
+                }
+
+                //if (pkgPrice.discount_rule.isRule == true) //  currPriceTotal 要換成直客價 不然order new 會有問題
+                //data.currPriceTotal = b2cAmt;
+                data.currPriceTotal = b2cAmt; // currPriceTotal 要換成直客價 不然order new 會有問題
+
+
                 //重新決定排除的餐食-還沒有做
                 //'0002': ['0001', '0002', '0003', '0004', '0005', '0006'], //素食
                 //'0003': ['0002'], //猶太餐
                 //'0004': ['0002', '0005'] //穆斯林餐
+
 
                 ApiSetting api = new ApiSetting();
                 api.apiKey = Website.Instance.Configuration["KKAPI_INPUT:API_KEY"];
@@ -236,8 +312,8 @@ namespace KKday.API.WMS.Controllers {
                 api.ipaddress = data.ipaddress ;
 
                 //假分銷商
-                distributorInfo fakeContact = DataSettingRepository.fakeContact();
-                ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, data.productOid);
+                //distributorInfo fakeContact = DataSettingRepository.fakeContact();
+                //ProductModel prod = ApiHelper.getProdDtl(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, data.productOid);
 
                 //DataSettingRepostory Ores = new DataSettingRepostory();
                  //= DataSettingRepostory.fakeDataModel(data);
@@ -252,9 +328,9 @@ namespace KKday.API.WMS.Controllers {
                 KKapiHelper kk = new KKapiHelper();
                 JObject order =kk.crtOrder(api);
 
-                string orderMid = "";
-                string orderOid = "";
-                returnStatus status = new returnStatus();
+                //string orderMid = "";
+                //string orderOid = "";
+                //returnStatus status = new returnStatus();
                 //要先判斷是不是result＝'0000'
                  if (order["content"]["result"].ToString()=="0000")
                 {
@@ -271,14 +347,53 @@ namespace KKday.API.WMS.Controllers {
                     //CallJsonPay2 rdsJson = (CallJsonPay2)status.pmchSslRequest.json;
                     //string callPmchReq = JsonConvert.SerializeObject(status.pmchSslRequest.json);
                     //rds.SetProdInfotoRedis(callPmchReq, "b2d:ec:pmchSslRequest:"+ orderMid, 60);
-                    return order.ToString();
+
+                    //轉 ordermodel
+                    OrderModel ordModel = BookingRepository.setOrderModel(data, pkgPrice, calAmt);
+                    OrderNoModel ordNoModel = InsertOrder(ordModel);
+                    if (ordNoModel.result == "0000")
+                    {
+                        UpdateOrderModel UpdOrdModel = BookingRepository.setUpdOrdModel(data, ordNoModel.order_no,order);
+
+                        OrderNoModel updResult = UpdateOrder(UpdOrdModel);
+
+
+                        if (updResult.result == "0000")
+                        {
+                            bookingRS.result = "0000";
+                            bookingRS.result_msg = "OK"; //要改
+                            bookingRS.order_oid = UpdOrdModel.order_oid;
+                            bookingRS.order_mid = UpdOrdModel.order_mid;
+                            bookingRS.order_no = UpdOrdModel.order_no;
+                            return bookingRS;
+                        }
+                        else
+                        {
+                            Website.Instance.logger.Debug($"UpdateOrder:error");//要改
+                            bookingRS.result = "10001";
+                            bookingRS.result_msg = updResult.ToString(); //要改
+                            return bookingRS;
+                        }
+
+                    }
+                    else 
+                    {
+                        Website.Instance.logger.Debug($"InsertOrder:error");//要改
+                        bookingRS.result = "10001";
+                        bookingRS.result_msg = ordNoModel.result_msg; //要改
+                        return bookingRS;
+                    }
+
+
+
+                    //return order.ToString();
                 }
                 else 
                 {
-                    Website.Instance.logger.Debug($"bookingStep1:qq");//要改
-                    status.status = "Error";
-                    status.msgErr = "error bookingSetp1_1";//要改
-                    return order.ToString();
+                    Website.Instance.logger.Debug($"bookingStep1:error");//要改
+                    bookingRS.result = order["content"]["result"].ToString();
+                    bookingRS.result_msg = order["content"]["msg"].ToString(); //要改
+                    return bookingRS;
                 }
 
             }
@@ -286,11 +401,10 @@ namespace KKday.API.WMS.Controllers {
             {
                 //error
                 Website.Instance.logger.Debug($"bookingStep1:{ex.ToString()}");
-                returnStatus status = new returnStatus();
-                status.status = "Error";
-                status.msgErr = ex.ToString();//要改
+                bookingRS.result = "10001";
+                bookingRS.result_msg = ex.ToString();//要改
 
-                return "false";
+                return bookingRS;
             }
         }
 

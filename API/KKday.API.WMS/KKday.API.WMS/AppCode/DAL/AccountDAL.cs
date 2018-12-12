@@ -56,7 +56,7 @@ namespace KKday.API.WMS.AppCode.DAL
 
         }
 
-        public static int UpdatetUser(AccountModel model)
+        public static int UpdateIs4User(AccountModel model)
         {
             int count = 0;
             try

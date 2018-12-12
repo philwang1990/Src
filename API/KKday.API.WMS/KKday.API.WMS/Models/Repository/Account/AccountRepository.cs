@@ -39,14 +39,14 @@ namespace KKday.API.WMS.Models.Repository.Account
             }
         }
 
-        public static JObject UpdatetUser(AccountModel model)
+        public static JObject UpdateIs4User(AccountModel model)
         {
             int count = 0;
 
             try
             {
 
-                count = AccountDAL.UpdatetUser(model);
+                count = AccountDAL.UpdateIs4User(model);
 
                 return JObject.Parse("{ \"result\":  \"0000\",\"result_msg\": \"OK\",\"count\":" + count.ToString() + "}");
             }

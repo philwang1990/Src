@@ -9,6 +9,7 @@ namespace KKday.API.WMS.Models.DataModel.Package
 
         public string currency { get; set; }
         public List<pkgs> pkgs { get; set; }
+        public Discount.DiscountRuleModel discount_rule { get; set; }
 
     }
 

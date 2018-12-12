@@ -23,7 +23,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
             {
                 //黑名單規則塞入redis
                 string _blackRedis = rds.getRedis($"b2d:discount:blcakList:{prod_no}");
-                if (string.IsNullOrEmpty(_blackRedis))
+                if (string.IsNullOrEmpty(_blackRedis) || _blackRedis == "{}")
                 {
                     obj = DiscountDAL.GetBlackList();
                     rds.SetRedis(obj.ToString(), $"b2d:discount:blcakList:{prod_no}", 1440);
@@ -75,7 +75,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
 
                 //固定價規則塞入redis
                 string _fixedRedis = rds.getRedis($"b2d:discount:fixedPriceList:{company_xid}_{prod_no}");
-                if (string.IsNullOrEmpty(_fixedRedis))
+                if (string.IsNullOrEmpty(_fixedRedis) || _fixedRedis == "{}")
                 {
                     objFixed = DiscountDAL.GetFixedPriceList(company_xid, prod_no);
                     rds.SetRedis(objFixed.ToString(), $"b2d:discount:fixedPriceList:{company_xid}_{prod_no}", 1440);
@@ -131,7 +131,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
 
                 //套價規塞入redis
                 string _ruleRedis = rds.getRedis($"b2d:discount:ruleList:{company_xid}_{company_currency}");
-                if (string.IsNullOrEmpty(_ruleRedis))
+                if (string.IsNullOrEmpty(_ruleRedis) || _ruleRedis =="{}")
                 {
                     objRules = DiscountDAL.GetDiscRuleList(company_xid, company_currency);
                     rds.SetRedis(objFixed.ToString(), $"b2d:discount:ruleList:{company_xid}_{company_currency}", 1440);
@@ -154,6 +154,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         rule.amt = (double)item["amt"];
                         rule.disc_price = System.Math.Round((b2d_price * (1 + rule.disc_percent / 100)) + rule.amt, MidpointRounding.AwayFromZero);
                         rule.disc_name = (string)item["disc_name"];
+                        rule.disc_type = (string)item["disc_type"];
                         ruList.Add(rule);
                     }
 
@@ -173,6 +174,7 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         rule.disc_name = (string)item["disc_name"];
                         rule.currency = (string)item["currency"];
                         rule.disc_dtl_xid = (string)item["disc_dtl_xid"];
+                        rule.disc_type = (string)item["disc_type"];
                         ruList.Add(rule);
                     }
 
@@ -193,6 +195,8 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         disc.amt = null;
                         disc.currency = null;
                         disc.disc_dtl_xid = null;
+                        disc.disc_type = null;
+
                     }
                         
                     else 
@@ -204,6 +208,8 @@ namespace KKday.API.WMS.Models.Repository.Discount {
                         disc.amt = ruList[0].amt;
                         disc.currency = ruList[0].currency ;
                         disc.disc_dtl_xid = ruList[0].disc_dtl_xid ;
+                        disc.disc_type = ruList[0].disc_type;
+
                     }
                         
                 }

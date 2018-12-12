@@ -33,6 +33,17 @@ namespace KKday.API.WMS.Controllers
 
             return order_info = OrderRepository.GetOrderInfo(queryRQ, order_no);
         }
+
+        ////////////以下為憑證
+        //[HttpPost("QueryFileList")]
+        //public FileListModel QueryFileList([FromBody]QueryOrderModel queryRQ) {
+        //    Website.Instance.logger.Info($"WMS QueryOrders Start! B2D Xid:{queryRQ.company_xid}");
+
+        //    var files = new FileListModel();
+
+        //    return files = OrderRepository.GetOrders(queryRQ);
+        //}
+
     }
 }
 

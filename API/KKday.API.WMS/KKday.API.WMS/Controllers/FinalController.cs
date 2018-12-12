@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using KKday.API.WMS.Models.DataModel.Pmch ;
+using KKday.API.WMS.Models.DataModel.Final;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using KKday.API.WMS.AppCode;
 using KKday.API.WMS.Models.Repository.Booking;
 using KKday.API.WMS.Models.DataModel.Booking;
+using KKday.API.WMS.Models.DataModel.Common;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -27,48 +29,76 @@ namespace KKday.API.WMS.Controllers
             return View();
         }
 
-        [HttpGet("Step3")]
+        [HttpPost("Step3")]
         //付款後導回
-        public String Step3(string mid,string jsondata)
+        public RSModel Step3([FromBody]Step3RQModel rq )
         {
-            jsondata = jsondata.Replace(@"\","");
-            //回傳的連結有訂編 (記log)
-            //透過訂編將redis 的資料抓回送出去的資料
-            //取b2dredis 內的paymentDtl
-            string payDtlStr = rds.getRedis("b2d:ec:payDtl:" + mid);
-            PaymentDtl  payDtl= JsonConvert.DeserializeObject<PaymentDtl>(payDtlStr);
-
-            //從kkday redis 取出
-            //組出token res:pmgwTransNo, res:pmgwMethod ,res:pmch_resp ceil res:payAmount order_mid
-            //md5($pmgw_trans_no.$pmgw_method.$trans_curr_cd.$trans_amt.$pmch_ref_no.$key);
-            //PmchSslResponse res = JsonConvert.DeserializeObject<PmchSslResponse>(jsondata); //舊版
-            PmchSslResponse2 res = JsonConvert.DeserializeObject<PmchSslResponse2>(jsondata); //新版
-            res.data.pmgw_trans_no = res.data.pmgw_trans_no.Replace(" ", "+");
-            string transNo = GibberishAES.OpenSSLDecrypt(res.data.pmgw_trans_no, Website.Instance.Configuration["PMCH:TRANS_NO"]);
-            //CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
-            CallJsonPay2 req = JsonConvert.DeserializeObject<CallJsonPay2>(rds.getRedis("b2d:ec:pmchSslRequest:" + mid)); //using KKday.Web.B2D.EC.AppCode;
-
-            string token = Website.Instance.Configuration["PMCH:TOKEN"];
-            string pmgwMethod = res.data.pmgw_method;
-
-            string payCurrency = res.data.pay_currency;
-            string payAmount = Math.Ceiling(res.data.pay_amount).ToString();
-            string pmgwValidToken =  MD5Tool.GetMD5(transNo + pmgwMethod + payCurrency + payAmount + mid + token);
-
-            KKapiHelper helper = new KKapiHelper();
-            //必須要再呼叫一次要讓FA 知道這個授權是kkday做的!而不是robot
-            string result = helper.PaymentValid(transNo, pmgwValidToken);
-
-            var obj = JObject.Parse(result);
-            if (obj["isSuccess"].ToString() == "True")
+            RSModel rSModel = new RSModel();
+            try
             {
-                //如果ok就upd
-                distributorInfo fakeContact = DataSettingRepository.fakeContact();
-                //helper.PayUpdSuccessUpdOrder(id, transNo, payDtl, req, res, fakeContact);//舊版
-                helper.PayUpdSuccessUpdOrder2(mid, transNo, payDtl, req, res, fakeContact); //新版
-            } 
+               
+                //jsondata = jsondata.Replace(@"\","");
+                //回傳的連結有訂編 (記log)
+                //透過訂編將redis 的資料抓回送出去的資料
+                //取b2dredis 內的paymentDtl
 
-            return result;
+                string payDtlStr = rds.getRedis("b2d:ec:payDtl:" + rq.mid);
+
+                if (payDtlStr == null)
+                {
+                    rSModel.result = "10001";
+                    rSModel.msg = "在redis上找不到資料," + " b2d:ec:payDtl:" + rq.mid;
+                    return rSModel;
+                }
+
+                PaymentDtl payDtl = JsonConvert.DeserializeObject<PaymentDtl>(payDtlStr);
+
+                //從kkday redis 取出
+                //組出token res:pmgwTransNo, res:pmgwMethod ,res:pmch_resp ceil res:payAmount order_mid
+                //md5($pmgw_trans_no.$pmgw_method.$trans_curr_cd.$trans_amt.$pmch_ref_no.$key);
+                //PmchSslResponse res = JsonConvert.DeserializeObject<PmchSslResponse>(jsondata); //舊版
+                //PmchSslResponse2 res = JsonConvert.DeserializeObject<PmchSslResponse2>(rq.jsondata); //新版
+                //res.data.pmgw_trans_no = res.data.pmgw_trans_no.Replace(" ", "+");
+                string transNo = GibberishAES.OpenSSLDecrypt(rq.jsondata.data.pmgw_trans_no, Website.Instance.Configuration["PMCH:TRANS_NO"]);
+                //CallJsonPay req = JsonConvert.DeserializeObject<CallJsonPay>(RedisHelper.getProdInfotoRedis("b2d:ec:pmchSslRequest:" + id)); //using KKday.Web.B2D.EC.AppCode;
+                CallJsonPay2 req = JsonConvert.DeserializeObject<CallJsonPay2>(rds.getRedis("b2d:ec:pmchSslRequest:" + rq.mid)); //using KKday.Web.B2D.EC.AppCode;
+
+                string token = Website.Instance.Configuration["PMCH:TOKEN"];
+                string pmgwMethod = rq.jsondata.data.pmgw_method;
+
+                string payCurrency = rq.jsondata.data.pay_currency;
+                string payAmount = Math.Ceiling(rq.jsondata.data.pay_amount).ToString();
+                string pmgwValidToken = MD5Tool.GetMD5(transNo + pmgwMethod + payCurrency + payAmount + rq.mid + token);
+
+                KKapiHelper helper = new KKapiHelper();
+                //必須要再呼叫一次要讓FA 知道這個授權是kkday做的!而不是robot
+                string result = helper.PaymentValid(transNo, pmgwValidToken);
+
+                var obj = JObject.Parse(result);
+                if (obj["isSuccess"].ToString() == "True")
+                {
+                    //如果ok就upd
+                    distributorInfo fakeContact = DataSettingRepository.fakeContact();
+                    //helper.PayUpdSuccessUpdOrder(id, transNo, payDtl, req, res, fakeContact);//舊版
+                    helper.PayUpdSuccessUpdOrder2(rq.mid, transNo, payDtl, req, rq.jsondata, fakeContact); //新版
+
+                    rSModel.result = "0000";
+                    rSModel.msg = "OK";
+                    return rSModel;
+                }
+
+                rSModel.msg = "10001";
+                rSModel.result = "PMCH驗證失敗";
+                return rSModel;
+            }
+            catch(Exception ex)
+            {
+                //error
+                Website.Instance.logger.Debug($"Step3:{ex.ToString()}");
+                rSModel.result = "10001";
+                rSModel.msg = ex.ToString();//要改
+                return rSModel;
+            }
         }
 
 

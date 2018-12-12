@@ -23,6 +23,7 @@ namespace KKday.API.WMS.Models.DataModel.Discount
         public double disc_price { get; set; }
         public string currency { get; set; }
         public string disc_dtl_xid { get; set; }
+        public string disc_type { get; set; }//規則類型
 
     }
 }

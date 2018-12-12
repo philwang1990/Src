@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <RootNamespace>KKday.PMS.B2S</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\" />
+    <Folder Include="AppCode\" />
+    <Folder Include="Models\Package\" />
+    <Folder Include="Models\Shared\" />
+    <Folder Include="Models\Product\" />
+    <Folder Include="AppCode\DAL\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.8" />
+    <PackageReference Include="log4net.Ext.Json" Version="2.0.8.3" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="ObjectsComparer" Version="1.2.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+    <PackageReference Include="Npgsql" Version="4.0.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="AppCode\新增資料夾\AbstractComparer.cs" />
+    <Compile Remove="AppCode\DAL\appsettings.json" />
+    <Compile Remove="AppCode\Website.cs" />
+  </ItemGroup>
+</Project>
