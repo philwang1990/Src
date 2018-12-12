@@ -1,16 +1,10 @@
 ﻿using System;
-using System.IO;
-using KKday.PMS.B2S.ProductRepository;
-using KKday.PMS.B2S.ModuleRepository;
-using log4net;
 using KKday.PMS.B2S.AppCode;
-using KKday.PMS.B2S.Models.Shared;
-using KKday.PMS.B2S.Models.Product;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Configuration.FileExtensions;
-using Microsoft.Extensions.Configuration.Json;
-using KKday.PMS.B2S.Models.Shared.Enum;
 using KKday.PMS.B2S.AppCode.DAL;
+using KKday.PMS.B2S.Models.Product;
+using KKday.PMS.B2S.Models.Shared;
+using KKday.PMS.B2S.Models.Shared.Enum;
+using log4net;
 
 namespace KKday.PMS.B2S
 {
@@ -25,8 +19,11 @@ namespace KKday.PMS.B2S
         {
             try
             {
-                Startup startup = new Startup();
-                startup.Initial();
+                //Startup startup = new Startup();
+                //startup.Initial();
+                //Website.Instance.Init(configuration);
+
+                Startup.Instance.Initial();
 
                 //initial log4net
                 CommonTool.LoadLog4netConfig();
@@ -37,6 +34,7 @@ namespace KKday.PMS.B2S
                 SupplierLoginRSModel supplierLoginRSModel = new SupplierLoginRSModel();
                 RezdyProductListModel rezdyProductListModel = new RezdyProductListModel();
                 RezdyProductModel rezdyProductModel = new RezdyProductModel();
+                PackageRepository packageRepository = new PackageRepository();
                 RSModel getProductRSModel = new RSModel();
                 RSModel getProductListRSModel = new RSModel();
                 RSModel createProductRSModel = new RSModel();
@@ -83,12 +81,12 @@ namespace KKday.PMS.B2S
                                             setScmProductRSModel = product.setScmProduct(supplierLoginRSModel, prodOid, rezdyProductModel);
 
                                             //套餐
-                                            PackageRepository packageRepository = new PackageRepository();
+                                            //PackageRepository packageRepository = new PackageRepository();
                                             packageRepository.Main(
                                             Models.Shared.Enum.PMSSourse.Rezdy,
                                             prodOid,
                                             supplierLoginRSModel.supplierOid,
-                                            "PVVRFE",
+                                            rezdyProductModel.Product.productCode,
                                             rezdyProductModel.Product.currency,
                                             supplierLoginRSModel.supplierUserUuid,
                                             supplierLoginRSModel.deviceId,
@@ -135,88 +133,4 @@ namespace KKday.PMS.B2S
 
     }
 
-    class Startup
-    {
-        public IConfigurationBuilder builder;
-        public IConfigurationRoot configuration;
-
-        //StartUp
-        public void Initial()
-        {
-            //appsetting
-            builder = new ConfigurationBuilder()
-                            .SetBasePath(Directory.GetCurrentDirectory())
-                            .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-            configuration = builder.Build();
-            Website.Instance.Init(configuration);
-        }
-
-        public string GetParameter(PMSSourse pms, ParameterType parameterType)
-        {
-            string head = "";
-
-            switch (pms)
-            {
-                case PMSSourse.Rezdy:
-                    head = "PMS_Url";
-                    switch (parameterType)
-                    {
-                        case ParameterType.ApiKey:
-                            return this.configuration[$"{head}:Rezdy:apikey"];
-                        case ParameterType.ProductSearch:
-                            return this.configuration[$"{head}:Rezdy:ProductSearch"];
-                        case ParameterType.Product:
-                            return this.configuration[$"{head}:Rezdy:Product"];
-                        case ParameterType.Pickups:
-                            return this.configuration[$"{head}:Rezdy:Pickups"];
-                        case ParameterType.Availability:
-                            return this.configuration[$"{head}:Rezdy:Availability"];
-                        default:
-                            return string.Empty;
-                    }
-                case PMSSourse.KKday:
-                    head = "KKdayApi_Url";
-                    switch (parameterType)
-                    {
-                        case ParameterType.KKdayApi_supplierlogin:
-                            return this.configuration[$"{head}:supplierlogin"];
-                        case ParameterType.KKdayApi_productnew:
-                            return this.configuration[$"{head}:productnew"];
-                        case ParameterType.KKdayApi_area:
-                            return this.configuration[$"{head}:area"];
-                        case ParameterType.KKdayApi_countrymodify:
-                            return this.configuration[$"{head}:countrymodify"];
-                        case ParameterType.KKdayApi_timezone:
-                            return this.configuration[$"{head}:timezone"];
-                        case ParameterType.KKdayApi_setCostMethod:
-                            return this.configuration[$"{head}:setCostMethod"];
-                        case ParameterType.KKdayApi_productmodify:
-                            return this.configuration[$"{head}:productmodify"];
-                        case ParameterType.KKdayApi_updateDate:
-                            return this.configuration[$"{head}:updateDate"];
-                        case ParameterType.KKdayApi_voucherupdate:
-                            return this.configuration[$"{head}:voucherupdate"];
-                        case ParameterType.KKdayApi_updatepkg:
-                            return this.configuration[$"{head}:update_pkg"];
-                        case ParameterType.KKdayApi_calendarextend:
-                            return this.configuration[$"{head}:calendar_extend"];
-                        case ParameterType.KKdayApi_calendarmodify:
-                            return this.configuration[$"{head}:calendar_modify"];
-                        case ParameterType.KKdayApi_priceupdate:
-                            return this.configuration[$"{head}:price_update"];
-                        case ParameterType.KKdayApi_newevent:
-                            return this.configuration[$"{head}:new_event"];
-                        case ParameterType.KKdayApi_eventstatus:
-                            return this.configuration[$"{head}:event_status"];
-                        case ParameterType.KKdayApi_pkgstatus:
-                            return this.configuration[$"{head}:pkg_status"];
-                        default:
-                            return string.Empty;
-                    }
-                default:
-                    return string.Empty;
-            }
-        }
-    }
 }
