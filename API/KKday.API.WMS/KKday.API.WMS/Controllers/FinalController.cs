@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using KKday.API.WMS.AppCode;
 using KKday.API.WMS.Models.Repository.Booking;
 using KKday.API.WMS.Models.DataModel.Booking;
+using KKday.API.WMS.Models.DataModel.Common;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
