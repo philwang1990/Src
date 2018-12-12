@@ -31,6 +31,8 @@ namespace KKday.API.B2S.JTR.Models.Model
         public string pay_error_msg { get; set; }
         public string code { get; set; }
 
+        public List<string> codeUrls { get; set; }
+
     }
 
     [Serializable]
@@ -137,6 +139,103 @@ namespace KKday.API.B2S.JTR.Models.Model
         [XmlElement(ElementName = "error_state")]
         public string error_state { get; set; }
 
+    }
+
+
+    [Serializable]
+    [XmlRoot(ElementName = "result")]
+    public class orderDetail_result
+    {
+        [XmlElement(ElementName = "status")]
+        public string Status { get; set; }
+        [XmlElement(ElementName = "orders")]
+        public Orders Orders { get; set; }
+    }
+
+    [XmlRoot(ElementName = "orders")]
+    public class Orders
+    {
+        [XmlElement(ElementName = "order")]
+        public OrderInfo Order { get; set; }
+        [XmlElement(ElementName = "peoples")]
+        public string Peoples { get; set; }
+    }
+
+    [XmlRoot(ElementName = "order")]
+    public class OrderInfo
+    {
+        //[XmlElement(ElementName = "orderState")]
+        //public string OrderState { get; set; }
+        //[XmlElement(ElementName = "isOnlinepay")]
+        //public string IsOnlinepay { get; set; }
+        //[XmlElement(ElementName = "isConfirm")]
+        //public string IsConfirm { get; set; }
+        //[XmlElement(ElementName = "getType")]
+        //public string GetType { get; set; }
+        [XmlElement(ElementName = "code")]
+        public string Code { get; set; }
+        //[XmlElement(ElementName = "security_code")]
+        //public string Security_code { get; set; }
+        [XmlElement(ElementName = "qrCodeUrl")]
+        public string QrCodeUrl { get; set; }
+        //[XmlElement(ElementName = "qrType")]
+        //public string QrType { get; set; }
+        //[XmlElement(ElementName = "getPrice")]
+        //public string GetPrice { get; set; }
+        //[XmlElement(ElementName = "freeMemo")]
+        //public string FreeMemo { get; set; }
+        //[XmlElement(ElementName = "cancelState")]
+        //public string CancelState { get; set; }
+        //[XmlElement(ElementName = "cancelStateTXT")]
+        //public string CancelStateTXT { get; set; }
+        //[XmlElement(ElementName = "productNo")]
+        //public string ProductNo { get; set; }
+        //[XmlElement(ElementName = "productName")]
+        //public string ProductName { get; set; }
+        //[XmlElement(ElementName = "num")]
+        //public string Num { get; set; }
+        //[XmlElement(ElementName = "salePrice")]
+        //public string SalePrice { get; set; }
+        //[XmlElement(ElementName = "marketPrice")]
+        //public string MarketPrice { get; set; }
+        //[XmlElement(ElementName = "orderMoney")]
+        //public string OrderMoney { get; set; }
+        //[XmlElement(ElementName = "memOrderMoney")]
+        //public string MemOrderMoney { get; set; }
+        //[XmlElement(ElementName = "payMoney")]
+        //public string PayMoney { get; set; }
+        [XmlElement(ElementName = "sourceId")]
+        public string SourceId { get; set; }
+        //[XmlElement(ElementName = "isCancel")]
+        //public string IsCancel { get; set; }
+        //[XmlElement(ElementName = "linkMan")]
+        //public string LinkMan { get; set; }
+        //[XmlElement(ElementName = "linkPhone")]
+        //public string LinkPhone { get; set; }
+        //[XmlElement(ElementName = "linkEmail")]
+        //public string LinkEmail { get; set; }
+        //[XmlElement(ElementName = "linkAddress")]
+        //public string LinkAddress { get; set; }
+        //[XmlElement(ElementName = "linkCreditType")]
+        //public string LinkCreditType { get; set; }
+        //[XmlElement(ElementName = "linkCreditNo")]
+        //public string LinkCreditNo { get; set; }
+        //[XmlElement(ElementName = "travelDate")]
+        //public string TravelDate { get; set; }
+        //[XmlElement(ElementName = "orderDate")]
+        //public string OrderDate { get; set; }
+        //[XmlElement(ElementName = "cancelDate")]
+        //public string CancelDate { get; set; }
+        //[XmlElement(ElementName = "userId")]
+        //public string UserId { get; set; }
+        //[XmlElement(ElementName = "orderMemo")]
+        //public string OrderMemo { get; set; }
+        //[XmlElement(ElementName = "finishNum")]
+        //public string FinishNum { get; set; }
+        //[XmlElement(ElementName = "payUrl")]
+        //public string PayUrl { get; set; }
+        //[XmlElement(ElementName = "cancelMoney")]
+        //public string CancelMoney { get; set; }
     }
 
 }

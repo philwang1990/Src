@@ -1,0 +1,830 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Product Page";
+
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var prod = (ProductforEcModel)ViewData["prod"];
+    var pkgs = (PackageModel)ViewData["pkgs"];
+    var allCanUseDate = (string)ViewData["allCanUseDate"];
+    var currency = (string)ViewData["currency"];
+    var moduleVenue = (VenueInfo)ViewData["moduleVenue"];
+    @*var priceType = ViewBag["priceType"] as string;*@
+    var priceType = (string)ViewData["priceType"];
+}
+@section Scripts{
+    <link rel="stylesheet" href="@Url.Content("/css/daterangepicker.css")" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("/js/daterangepicker.js")"></script>
+    <script type="text/javascript" src="@Url.Content("/js/prod.check.js")"></script>
+    <script type="text/javascript">
+                $(function () {
+                    setInit();
+                    dtInit();
+                });
+    </script>
+    <script type="text/javascript" src="@Url.Content("/js/product_detail.js")"></script>
+}
+@Html.Hidden("hdnGuid", prod.guidNo)
+@Html.Hidden("hdnCutOfDay", prod.before_order_day)
+@Html.Hidden("hdnAllCanUseDate", allCanUseDate)
+@Html.Hidden("hdnProdOid", prod.prod_no)
+@Html.Hidden("hdnPkgOid", "")
+@Html.Hidden("hdnChkflow", "0")
+@Html.Hidden("hdnPreSelDate", "")
+@Html.Hidden("hdnShowImmediately", "")
+@Html.Hidden("hdnIsEcSale", prod.prod_mkt.is_ec_sale)
+<div id="productDetailApp">
+    @{
+        string mainImgUrl = prod.img_list != null && prod.img_list.Any() ? prod.img_list.FirstOrDefault(x => x.is_main_img == "Y").img_url : "";
+    }
+    <div class="product-banner" onclick="photo_slideshow()" style="background-image:url(@mainImgUrl)">
+        <h5 class="photo-by">Photo by KKday</h5>
+        <div class="container more-photo">
+            <a href="javascript:;" class="btn btn-white btn-sm"><i class="fa fa-image"></i>@prodTitle.product_index_see_more_photo</a>
+        </div>
+        <!-- 有影片才顯示此圖 -->
+        @if(prod.video_list != null && prod.video_list.Any())
+        {
+            <img src="@Url.Content("~/images/btn_play.svg")" class="play-icon" />
+        }
+    </div>
+    <div id="product-scroll-spy">
+        <div class="container">
+            <ul class="nav nav-tabs page-tab">
+                <li class="active">
+                    <a href="#overview-spy">@prodTitle.common_info</a>
+                </li>
+                <li>
+                    <a href="#option-spy">@prodTitle.product_index_option_title</a>
+                </li>
+                <li>
+                    <a href="#info-spy">@prodTitle.common_experience</a>
+                </li>
+                <li>
+                    <a href="#map-spy">@prodTitle.common_map</a>
+                </li>
+                @*<li>
+                    <a href="#review-spy">Reviews</a>
+                </li>*@
+            </ul>
+        </div>
+    </div>
+    <div class="product-wrap">
+        @*<div class="lowest-price visible-sm visible-xs">
+            <h5 class="pull-left">From</h5>
+            <div class="product-pricing pull-right">
+                <span>TWD </span>
+                <h2>2,011</h2>
+            </div>
+            <div class="clearfix"></div>
+        </div>*@
+        <div class="container" id="overview-spy">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="cut-bread">
+                        <ol class="breadcrumb">
+                            @{
+                                string countryName = "";
+                                string cityName = "";
+                                if (prod.countries != null && prod.countries.Any())
+                                {
+                                    foreach (var country in prod.countries)
+                                    {
+                                        countryName += $"<a href=\"https://www.kkday.com/zh-tw/product/productlist/{country.id}?countryname={country.name}\">{(countryName.Length > 0 ? ", " : "")}{country.name}</a>";
+                                        foreach (var city in country.cities)
+                                        {
+                                            //https://www.kkday.com/zh-tw/product/productlist/A05-001?countryname=%E7%BE%8E%E5%9C%8B&cityname=%E7%B4%90%E7%B4%84&city=A05-001-00001
+                                            cityName += $"<a href=\"https://www.kkday.com/zh-tw/product/productlist/{country.id}?countryname={country.name}&cityname={city.name}&city={city.id}\">{(cityName.Length > 0 ? ", " : "")}{city.name}</a>";
+                                        }
+                                    }
+                                }
+                            }
+                            <li>@Html.Raw(countryName)</li>
+                            <li>@Html.Raw(cityName)</li>
+                            <li class="active">@prod.prod_name</li>
+                        </ol>
+                    </div>
+                    @{
+                        string instant = prod.confirm_order_time == 0 ? prodTitle.product_index_imm_confirm : "";
+                    }
+                    <span class="flash-tag"><i class="fa fa-flash text-primary"></i>@instant</span>
+                    <h1>@prod.prod_name</h1>
+                    <div class="critical-info">
+                        <div class="row">
+                            <div class="col-sm-4 col-sm-push-8">
+                                @*<div class="product-star" id="review-num">
+                                        <div class="star star-100"></div>
+                                        <div class="star star-100"></div>
+                                        <div class="star star-100"></div>
+                                        <div class="star star-100"></div>
+                                        <div class="star star-25"></div>
+                                        <span class="text-grey">40 Reviews</span>
+                                    </div>*@
+                            </div>
+                            <div class="col-sm-8 col-sm-pull-4">
+                                <i class="icons icon-tag"></i>
+                                @prodTitle.product_index_product_oid :
+                                <span>@prod.prod_no</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="critical-info">
+                        <i class="icons icon-clock"></i>
+                        @prodTitle.common_duration :
+                        <span>@prod.durationStr</span>
+                    </div>
+                    <div class="critical-info">
+                        <i class="icons icon-clock"></i>
+                        @prodTitle.common_location :
+                        @if (prod.countries != null)
+                        {
+                            <span>@prod.countries[0].name</span>
+
+                            @foreach (City c in prod.countries[0].cities)
+                            {
+                                <span>,@c.name</span>
+                            }
+
+                        }
+                        @prod.locationCountry @prod.locationCity
+                    </div>
+                    @if (prod.guide_lang_list != null)
+                    {
+                        <div class="critical-info guide-lang">
+                            <i class="icons icon-globe"></i>
+                            @prodTitle.common_guide_can_speak：
+                            @foreach (GuideLanguage g in prod.guide_lang_list)
+                            {
+                                <span>@g.lang_name </span>
+                            }
+                        </div>
+                    }
+                    <div class="critical-info">
+                        <i class="icons icon-eye"></i>
+                        @{
+                            int clickCount = Convert.ToInt32(prod.prod_comment_info.click_count);
+                            string clickCountStr = clickCount > 0 && clickCount > 1000
+                                                    ? $"{clickCount / 1000}K+" : clickCount.ToString();
+                        }
+                        <span>@clickCountStr</span> @prodTitle.product_index_visitor
+                    </div>
+                    <div class="prod-intro">
+                        @prod.introduction
+                    </div>
+                    @*@if (prod.prod_mkt.is_ec_sale == true)
+                        {
+                            <div class="alert alert-info">
+                                <i class="icons icon-info"></i>
+                                Please bear with us while we are working hard to translate the details of this product to your preferred language. Until then, please contact us if you need assistance
+                            </div>
+                        }*@
+                </div>
+                <div class="col-md-4">
+                    <affix id="booking-bar" relative-element-selector="#productDetailApp .product-wrap" :offset="{ top: 40, bottom: 48 }" :scroll-affix="false">
+                        @{
+                            string bookingHintStr = "";
+                            switch (prod.confirm_order_time)
+                            {
+
+                                case 0:
+                                    bookingHintStr = $"<i class=\"fa fa-flash fa-lg text-primary\"></i><b>{prodTitle.product_index_imm_confirm}</b>";
+                                    break;
+                                case 24:
+                                    bookingHintStr = prodTitle.product_index_confirm_hr_24;
+                                    break;
+                                case 48:
+                                    bookingHintStr = prodTitle.product_index_confirm_hr_48;
+                                    break;
+                                default:
+                                    break;
+                            }
+                        }
+                        <div class="booking-bar-content">
+                            <div class="lowest-price minPriceBar">
+                                <h5 class="pull-left">@prodTitle.common_per_person</h5>
+                                <div class="pull-right">
+                                    <div class="product-pricing">
+                                        <span>@currency </span>
+                                        <h2>@prod.b2d_price</h2>
+                                    </div>
+                                </div>
+                                <div class="clearfix"></div>
+                                <!-- 已售罄時顯示
+                                #error-message，不顯示按鈕 -->
+                                @*<div class="text-center text-muted" id="error-message" style="display:none;">
+                                    <h3 class="mg-0 btn-mute-msg"></h3>
+                                </div>*@
+                                @if (prod.prod_mkt.is_ec_sale)
+                                {
+                                    <a class="btn btn-primary btn-block choice-pkg" onclick="BookingEvent()">
+                                        @prodTitle.common_booking
+                                    </a>
+                                    @*<div class="row"><button type="button" class="btn btn-info" id="btnConfirm" onclick="chgPkgInfo('','')">@prodTitle.common_booking </button></div>*@
+                                }
+                                else
+                                {
+                                    <a class="btn btn-primary btn-block mg-0" disabled="disabled">
+                                        @prodTitle.product_index_coming_soon
+                                    </a>
+                                    @*<div class="row"><button type = "button" class="btn btn-info" id="btnConfirm" disabled="disabled">@prodTitle.product_index_coming_soon </button></div>*@
+                                }
+                                <div class="booking-hint">
+                                    <div class="text-right mt-10">
+                                        <div class="duration">
+                                            @Html.Raw(bookingHintStr)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right mt-10">
+                                    @if (prod.policy_no == "1")
+                                    {
+                                        <strong>@prodTitle.common_free_cancellation</strong>
+                                    }
+                                    else if(prod.policy_no == "2")
+                                    {
+                                        <strong>@prodTitle.common_no_refund</strong>
+                                    }
+                                    else if(prod.policy_no == "3")
+                                    {
+                                        <a onclick="scrollToInfoSection('#cancellation-policy')" class="text-grey">@prodTitle.common_special_cancel_fee</a>
+                                    }
+                                </div>
+                            </div>
+                            <div class="view-option confirmBar">
+                                <i class="icons icon-pencil"></i>
+                                <h4 class="option-title">Three people per room</h4>
+                                <div class="booking-info">
+                                    <span class="replaceSelDate"></span>
+                                    <span id="EventSelect" style="        display: none;"></span>
+                                </div>
+                                <div class="booking-info">
+
+                                    <span class="rankNumberInfoElder" style="display: none;">@prodTitle.common_elder x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoAdult" style="display: none;">@priceType x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoChild" style="display: none;">@prodTitle.common_child x <span class="number">0</span></span>
+                                    <span class="rankNumberInfoInfant" style="display: none;">@prodTitle.common_infant x <span class="number">0</span></span>
+                                </div>
+                                <div class="booking-price">
+                                    <h5 class="pull-left">@prodTitle.common_total</h5><!-- 選擇人數後文字顯示: Total -->
+                                    <div class="pull-right">
+                                        <div class="product-pricing">
+                                            <span>@currency </span>
+                                            <h2 id="txtprice">16,256</h2>
+                                        </div>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                    <button class="btn btn-primary btn-block disabled btn-confirm-block" data-toggle="tooltip" data-title="Please select start time and travler">@prodTitle.product_index_choose_option</button>
+                                    <button id="btnConfirm" class="btn btn-primary btn-block btn-book" onclick="btnConfirm()">@prodTitle.product_index_choose_option</button>
+                                </div>
+                                <div class="booking-hint">
+                                    <div class="text-right mt-10">
+                                        <div class="duration">
+                                            @Html.Raw(bookingHintStr)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right mt-10">
+                                    @if (prod.policy_no == "1")
+                                    {
+                                        <strong>@prodTitle.common_free_cancellation</strong>
+                                    }
+                                    else if(prod.policy_no == "2")
+                                    {
+                                        <strong>@prodTitle.common_no_refund</strong>
+                                    }
+                                    else if(prod.policy_no == "3")
+                                    {
+                                        <a onclick="scrollToInfoSection('#cancellation-policy')" class="text-grey">@prodTitle.common_special_cancel_fee</a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </affix>
+                </div>
+            </div>
+        </div>
+        <div class="option-section" id="option-spy">
+        @if (prod.prod_mkt.is_ec_sale)
+        {
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3 class="info-title">@prodTitle.product_index_option_title</h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                @*<div class="input-group">
+                                        <span class="input-group-addon"><i class="icons icon-calendar"></i></span>
+                                        <input type="text" id="select-date" class="form-control" placeholder="@prodTitle.product_index_select_date" readonly="readonly">
+                                    </div>*@
+                                <div id="select-date" class="input-group">
+                                    <span class="input-group-addon"><i class="icons icon-calendar"></i></span>
+                                    <input type="text" class="form-control" placeholder="@prodTitle.product_index_select_date" readonly>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="showPkg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        </div>
+        <div class="product-view">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="info-section" id="info-spy">
+                            <h3 class="info-title">@prodTitle.common_experience</h3>
+                            <div class="info-content">
+                                <p>
+                                    @Html.Raw(prod.prod_desc.Replace("\n", "<br>"))
+                                </p>
+                            </div>
+                        </div>
+                        <div class="info-section">
+                            <h3 class="info-title">@prodTitle.common_timetable</h3>
+                            <div class="info-content">
+                                @{
+                                    var tourGroup = prod.tour_list.GroupBy(g => g.tour_day);
+                                }
+                                @foreach (var g in tourGroup)
+                                {
+                                    <ul class="time-info">
+                                        <li class="time-info-day">
+                                            第 @g.Key 天 @* 原生css好像有問題，導致變白色 *@
+                                        </li>
+                                        @{
+                                            string commonInclude = "";
+                                            var includeData = prod.meal_list.Where(x => x.tour_day == g.Key);
+                                            if (includeData != null && includeData.Any())
+                                            {
+
+                                                if (includeData.First().is_breakfast.ToUpper() == "Y")
+                                                {
+                                                    commonInclude += prodTitle.common_breakfast;
+                                                }
+                                                if (includeData.First().is_lunch.ToUpper() == "Y")
+                                                {
+                                                    commonInclude += $"{(commonInclude.Length > 0 ? ", " : "")}{prodTitle.common_lunch}";
+                                                }
+                                                if (includeData.First().is_dinner.ToUpper() == "Y")
+                                                {
+                                                    commonInclude += $"{(commonInclude.Length > 0 ? ", " : "")}{prodTitle.common_dinner}";
+                                                }
+                                            }
+                                        }
+                                        @if (commonInclude.Length > 0)
+                                        {
+                                            <li class="time-info-include"><Span>@prodTitle.common_included：@commonInclude</Span></li>
+                                        }
+                                        @foreach (var tour in g)
+                                        {
+                                            <li class="time-info-spot">
+                                                <div class="time-info-title">
+                                                    @{ string timeStr = !string.IsNullOrEmpty(tour.time_desc) && tour.time_desc.Length == 4 ? $"{tour.time_desc.Substring(0, 2)}:{tour.time_desc.Substring(2, 2)}" : ""; }
+                                                    @if (!string.IsNullOrEmpty(timeStr))
+                                                    {
+                                                        <div class="time">@timeStr</div>
+                                                    }
+                                                    @if (!string.IsNullOrEmpty(tour.tour_desc))
+                                                    {
+                                                        <div class="txt">@Html.Raw(tour.tour_desc)</div>
+                                                    }
+                                                </div>
+                                                @if (!string.IsNullOrEmpty(tour.photo_url))
+                                                {
+                                                    <div class="time-info-img">
+                                                        <img src="@tour.photo_url">
+                                                    </div>
+                                                }
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                        <div class="info-section">
+                            <h3 class="info-title">@prodTitle.product_index_price_detail</h3>
+                            <div class="info-content">
+                                @{
+                                    var priceInc = prod.cost_detail_list.Where(d => d.detail_type == "INC");
+                                    var priceXInc = prod.cost_detail_list.Where(d => d.detail_type != "INC");
+                                }
+                                <ul class="price-include">
+                                    @foreach (var inc in priceInc)
+                                    {
+                                        <li data-inc-id="@inc.detail_xid">@inc.detail_desc</li>
+                                    }
+                                </ul>
+                                <ul class="price-not">
+                                    @foreach (var xinc in priceXInc)
+                                    {
+                                        <li data-inc-id="@xinc.detail_xid">@xinc.detail_desc</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="info-section">
+                            <h3 class="info-title">@prodTitle.product_index_voucher_type</h3>
+                            <div class="info-content">
+                                <ul>
+                                    <li>@prod.voucher_desc</li>
+                                </ul>
+                                @{ int exchangeIndex = 1; }
+                                @foreach (var info in prod.voucher_locations)
+                                {
+                                    string weekDaysStr = "";
+                                    foreach (var businessHour in info.businessHours)
+                                    {
+                                        DateTime dtFrom = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, businessHour.from.hour, businessHour.from.minute, 0);
+                                        DateTime dtTo = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, businessHour.to.hour, businessHour.to.minute, 0);
+                                        var weekDayFormat = new string[] { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+                                        var weekDaysArr = businessHour.weekDays.Split(',');
+                                        for (int i = 0; i < weekDayFormat.Length; i++)
+                                        {
+                                            if (weekDaysArr[i] == "Y")
+                                            {
+                                                if (weekDaysStr.Length > 0)
+                                                {
+                                                    weekDaysStr += ", ";
+                                                }
+                                                weekDaysStr += weekDayFormat[i];
+                                            }
+                                        }
+                                        weekDaysStr += $" {dtFrom.ToString("HH:mm")} ~ {dtTo.ToString("HH:mm")}<br>";
+                                    }
+
+                                    <div class="exchange-info">
+                                        <h5>
+                                            <span>@prodTitle.product_index_place @exchangeIndex</span>
+                                            <span>@info.name</span>
+                                        </h5>
+                                        <div class="critical-info">
+                                            <i class="icons icon-location-pin"></i>
+                                            <span>@info.address</span>
+                                        </div>
+                                        <div class="critical-info">
+                                            <i class="icons icon-clock"></i>
+                                            <span>@Html.Raw(weekDaysStr)</span>
+                                        </div>
+                                        <div class="critical-info">
+                                            <i class="icons icon-info"></i>
+                                            <span>@info.note</span>
+                                        </div>
+                                    </div>
+                                    exchangeIndex++;
+                                }
+                            </div>
+                        </div>
+                        <div class="info-section">
+                            <h3 class="info-title">@prodTitle.common_reminder</h3>
+                            <div class="info-content">
+                                <ul>
+                                    @foreach (var remind in prod.remind_list)
+                                    {
+                                        <li>@remind.remind_desc</li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="info-section">
+                            <h3 class="info-title">@prodTitle.common_cancellation_policy</h3>
+                            <div class="info-content" id="cancellation-policy">
+                                <div class="row">
+                                    <div class="col-md-9">
+                                    @if(prod.policy_no == "1")
+                                    {
+                                        @prodTitle.common_free_cancellation
+                                    }
+                                    else if (prod.policy_no == "2")
+                                    {
+                                        @prodTitle.common_no_refund
+                                    }
+                                    else
+                                    {
+                                            <table class="cancel-info">
+                                                <thead>
+                                                    <tr>
+                                                        <th>@prodTitle.common_cancel_date</th>
+                                                        <th>@prodTitle.common_cancellation_fee</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @{int policyIndex = 0;}
+                                                    @foreach (var policy in prod.policy_list)
+                                                    {
+                                                        int smallestDay = prod.policy_list.Min(x => x.days);
+                                                        string dateDescStr = policy.is_over ?
+                                                                                $"<span>{policy.days}</span> {prodTitle.common_days_more}" :
+                                                                                $"<span>{(smallestDay < policy.days ? $"{(prod.policy_list[policyIndex + 1].days + 1)}" : "0")}~{policy.days}</span> {prodTitle.common_days_prior}";
+                                                        string feeDescStr = policy.fee == 100 ?
+                                                                                prodTitle.product_index_non_refundable :
+                                                                                policy.fee == 0 ?
+                                                                                prodTitle.product_index_refundable :
+                                                                                $"{policy.fee}%";
+                                                        <tr>
+                                                            <td>
+                                                                @Html.Raw(dateDescStr)
+                                                            </td>
+                                                            <td>@feeDescStr</td>
+                                                        </tr>
+                                                        policyIndex++;
+                                                    }
+                                                </tbody>
+                                            </table>
+                                            <div class="tip text-grey mt-20">
+                                                <i class="icons icon-info"></i>
+                                                @prodTitle.common_cancel_policy_explanation
+                                            </div>
+                                    }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="info-section" id="map-spy">
+                            <h3 class="info-title">@prodTitle.common_map</h3>
+                            <div class="info-content">
+                                <!-- 若為機場接送類別 -->
+                                @if (prod.prod_type == "M03")
+                                {
+                                    <h4 class="info-subtitle">@prodTitle.common_airport_meeting_point</h4>
+                                    <ul class="map-info">
+                                        @foreach (var mapInfo in prod.meeting_point_list)
+                                        {
+                                            <li>
+                                                @{ string terminalStr = $"{mapInfo.airport_code} - terminal{mapInfo.terminal}"; }
+                                                <span>@terminalStr<br>@mapInfo.meeting_point</span>
+                                                <div class="map-img">
+                                                    <a href="@mapInfo.img_url" target="_blank">
+                                                        <img src="@mapInfo.img_url">
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                <!--若非機場接送類別-->
+                                @if (prod.meeting_point_map != null)
+                                {
+                                    <h4 class="info-subtitle">@prodTitle.common_meeting_point</h4>
+                                    <ul class="map-info">
+                                        @if (!string.IsNullOrEmpty(prod.meeting_point_map.latitude) && !string.IsNullOrEmpty(prod.meeting_point_map.longitude))
+                                        {
+                                            <li>
+                                                <span>@prod.meeting_point_map.mapAddress</span>
+                                                <div class="map-img">
+                                                    @{
+                                                        string mapUrl = $"https://www.google.com/maps/embed/v1/place?q={prod.meeting_point_map.latitude},{prod.meeting_point_map.longitude}&key=AIzaSyCD4sken7reI5M9LOV3ANX8pkNKSmvuw9g";
+                                                    }
+                                                    <iframe width="100%" height="450" frameborder="0" style="border: 0" src="@mapUrl" allowfullscreen></iframe>
+                                                </div>
+                                            </li>
+                                        }
+                                        else if (!string.IsNullOrEmpty(prod.meeting_point_map.imageUrl))
+                                        {
+                                            <li>
+                                                <span>@prod.meeting_point_map.mapAddress</span>
+                                                <div class="map-img">
+                                                    <a href="@prod.meeting_point_map.imageUrl" target="_blank">
+                                                        <img src="@prod.meeting_point_map.imageUrl">
+                                                    </a>
+                                                </div>
+                                            </li>
+                                        }
+                                    </ul>
+                                }
+                                <!-- 主要目的地 -->
+                                @if (prod.arr_map_info_list != null && prod.arr_map_info_list.Any())
+                                {
+                                    <h4 class="info-subtitle">@prodTitle.common_experience_point</h4>
+                                    <!-- 備註-->
+                                    <p>
+                                        @prod.prod_map_note
+                                    </p>
+                                    <ul class="map-info">
+                                        @foreach (var mapInfo in prod.arr_map_info_list)
+                                        {
+                                            if (mapInfo.map_type == "PHOTO")
+                                            {
+                                                <li v-if="product.arrMapType == 'PHOTO'">
+                                                    <span>
+                                                        @mapInfo.photo_desc
+                                                    </span>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div v-if="product.arrImgUrl.length > 0 && product.arrMapType == 'PHOTO'" class="map-img">
+                                                                <!-- 圖片型態 -->
+                                                                <img :src="product.arrImgUrl">
+                                                            </div>
+                                                            <div v-else class="map-img">
+                                                                <div id="map_target"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            }
+                                            @*else if(mapInfo.map_type == "ARR")*@
+                                            else
+                                            {
+                                                <li>
+                                                    <span>@mapInfo.latlong_desc</span>
+                                                    <div class="map-img">
+                                                        @{
+                                                            @*string mapUrl = $"https://www.google.com/maps/embed/v1/place?q={mapInfo.latitude},{mapInfo.longitude}/@{mapInfo.latitude},{mapInfo.longitude},{mapInfo.zoom}z&key=AIzaSyCD4sken7reI5M9LOV3ANX8pkNKSmvuw9g";*@
+                                                            string mapUrl = $"https://www.google.com/maps/embed/v1/place?q={mapInfo.latitude},{mapInfo.longitude}&key=AIzaSyCD4sken7reI5M9LOV3ANX8pkNKSmvuw9g";
+                                                            @*string imgUrl = $"{mapInfo.photo_url}?text={mapInfo.photo_desc}";*@
+                                                        }
+                                                        <iframe width="100%" height="450" frameborder="0" style="border: 0"
+                                                                src="@mapUrl" allowfullscreen></iframe>
+                                                    </div>
+                                                </li>
+                                            }
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a class="btn btn-primary btn-block choice-pkg visible-xs visible-sm" id="choose-mobile" href="#product_price">Select Options</a>
+    <!-- scroll to top -->
+    <div class="scroll-top-wrapper">
+        <span class="scroll-top-inner">
+            <i class="fa fa-2x fa-angle-up"></i>
+        </span>
+    </div>
+    <!-- img slideshow -->
+    <div class="modal fade modal-fullscreen" id="product-photo-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog" style="        max-width: none;">
+            <div class="modal-content" style="        background-color: rgba(0,0,0,0.6);">
+                <div class="modal-body">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <div class="photo-modal-wrap">
+                        <div class="row">
+                            <div class="col-md-1 hidden-sm hidden-xs">
+                                <div class="custom-nav" id="slideshow_left" onclick="slideshowPrev()">
+                                    <a class="prev"><i class="icons icon-arrow-left"></i></a>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-10">
+                                <div id="kk-slideshow" class="owl-carousel owl-theme">
+                                    @{
+                                        int vIndex = 1;
+                                        int totalSlide = prod.video_list.Count + prod.img_list.Count;
+                                    }
+                                    @if (prod.video_list != null && prod.video_list.Any())
+                                    {
+                                        foreach (var vItem in prod.video_list)
+                                        {
+                                            <div class="item">
+                                                <div class="embed-responsive embed-responsive-16by9">
+                                                    <iframe src="@vItem.vidoe_url" frameborder="0" allowfullscreen></iframe>
+                                                </div>
+                                                <div class="carousel-caption">
+                                                    @*<p>(Photo by ABCC)</p>*@
+                                                    <p>@vIndex/@totalSlide</p>
+                                                </div>
+                                            </div>
+                                            vIndex++;
+                                        }
+                                    }
+                                    @if (prod.img_list != null && prod.img_list.Any())
+                                    {
+                                        foreach (var iItem in prod.img_list)
+                                        {
+                                            <div class="item">
+                                                <img class="owl-lazy" alt="" data-id="@vIndex" data-src="@iItem.img_url">
+                                                <div class="carousel-caption">
+                                                    <p>(Photo by @iItem.auth_name)</p>
+                                                    <p>@vIndex/@totalSlide</p>
+                                                </div>
+                                            </div>
+                                            vIndex++;
+                                        }
+                                    }
+                                </div>
+                            </div>
+                            <div class="col-md-1 hidden-sm hidden-xs">
+                                <div class="custom-nav" id="slideshow_right" onclick="slideshowNext()">
+                                    <a class="next"><i class="icons icon-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="modal fade log-in" id="checking_email" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" onclick="cleanErrMsg()"><span aria-hidden="true">×</span><span class="sr-only"></span></button>
+                    <h2 class="modal-title">開賣通知</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>
+                            會員的連絡信箱*
+                        </label>
+                        <input class="form-control" id="memberNoticeEmail" value="michelle.tsai@kkday.com" type="email">
+                        <div class="tip">修改此處的信箱，會自動更新您的會員資料。</div>
+                    </div>
+                    <i class="fa fa-user-plus add-notice-user-btn" aria-hidden="true"></i>
+                    <div id="other-notice-email-area" style="        display: none;">
+                        <div class="form-group">
+                            <label>
+                                其他連絡信箱*
+                            </label>
+                            <div class="other-notice-email-input">
+                                <div class="item-area"></div>
+                                <input type="input" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center msg-error" id="noticeEmail_error_msg"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" id="send_notice_btn" class="btn btn-primary" onclick="add_to_noticelist()">確認</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal of  contact -->
+    <div class="modal fade log-in" id="contact-agency--nonmember" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only"></span></button>
+                    <h2 class="modal-title">聯絡店家</h2>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>
+                            會員的連絡信箱*<br>
+                        </label>
+                        <input class="form-control" id="memberContactEmail" value="michelle.tsai@kkday.com" type="email">
+                        <div class="tip">修改此處的信箱，會自動更新您的會員資料。</div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            選擇套餐*
+                        </label>
+                        <div class="dropdown">
+                            <button class="form-control dropdown-toggle input-dropdown" type="button" id="dropdownMenu-prodcontact" data-toggle="dropdown">
+                                <span>請選擇</span>
+                            </button>
+                            <ul class="dropdown-menu input-dropdown-menu" role="menu" aria-labelledby="dropdownMenu-prodcontact">
+                                <li id="pkg_contact_5574">
+                                    <a href="javascript:;">1-4人台北出發(七人座車)</a>
+                                </li>
+                                <li id="pkg_contact_5576">
+                                    <a href="javascript:;">5-8人台北出發(九人座車)</a>
+                                </li>
+                                <li id="pkg_contact_6496">
+                                    <a href="javascript:;">1~4人桃園機場出發（七人座車)</a>
+                                </li>
+                                <li id="pkg_contact_6497">
+                                    <a href="javascript:;">5~8人桃園機場出發（九人座車）</a>
+                                </li>
+                                <li id="pkg_contact_17848">
+                                    <a href="javascript:;">補差價</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input name="pkg_contact_pkgOid" value="0" type="hidden">
+                        <label>詢問內容*</label>
+                        <textarea class="form-control" rows="3" id="contact_question"></textarea>
+                    </div>
+                    <span id="contact_pkg_err">錯誤訊息</span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" id="askQ" onclick="contact_us()">送出</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--商品讀取失敗Modal-->
+    <div class="modal fade" id="load_error_msg" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body pd-20 text-center text-md">
+                    <div class="modal-icon">
+                        <img src="@Url.Content("~/images/ic_load_error.svg")">
+                    </div>
+                    商品讀取過程中發生了一點問題，為確保您獲得完整的行程資訊，請您重新整理頁面。
+                </div>
+                <div class="modal-footer text-center">
+                    <a href="#" class="btn btn-block btn-primary" data-dismiss="modal">重新整理</a>
+                </div>
+            </div>
+        </div>
+    </div>*@
+</div>

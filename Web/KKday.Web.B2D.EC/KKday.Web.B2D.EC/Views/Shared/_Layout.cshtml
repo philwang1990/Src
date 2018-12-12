@@ -1,0 +1,654 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Product Detail-KKday.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+
+    <link href="@Url.Content("~/images/favicon.png")" rel="shortcut icon" type="image/ico">
+
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/flat-ui.css")" type="text/css" />
+    @*<link rel="stylesheet" href="@Url.Content("~/css/font-awesome/css/font-awesome.min.css")" type="text/css" />*@
+    <link rel="stylesheet" href="@Url.Content("~/css/font-awesome.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrapValidator.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/bootstrap-modal-carousel.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/owl.theme.default.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/owl.carousel.min.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/simple-line-icons.css")" type="text/css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/custom.css")" type="text/css" />
+
+    <!-- jQuery 2.0.0 -->
+    <script src="@Url.Content("~/js/jquery.min.js")"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="@Url.Content("~/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/js/bootstrapValidator.js")"></script>
+    <script src="@Url.Content("~/js/jquery.kkday.js")"></script>
+    <script src="@Url.Content("~/js/owl.carousel.2.2.1.min.js")"></script>
+    <script src="@Url.Content("~/js/moment.js")"></script>
+    <script src="@Url.Content("~/js/vue.min.js")"></script>
+    <script src="@Url.Content("~/js/vue-affix.min.js")"></script>
+    @*取得網站相對根目錄路徑*@
+    <script type="text/javascript">
+        var _root_path = '@Url.Content("~/")';
+    </script>
+</head>
+<body>
+    <div class="header-sheet">
+        <div class="container">
+            <div class="content">我們將使用cookie等資訊來優化您的體驗，繼續瀏覽即表示您同意我們使用。欲瞭解詳細內容，請詳閱<a href="#" target="_blank">隱私權政策與條款</a></div>
+            <button type="button" class="close">×</button>
+        </div>
+    </div>
+    <header class="header">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="header-container row">
+                    <div class="col-xs-8">
+                        <a href="index.html">
+                            <img src="@Url.Content("~/images/kkday_logo_final.svg")" class="header-logo">
+                        </a>
+                        <div class="kksearch">
+                            <div class="kksearch-header visible-xs">
+                                <h4 class="text-center">搜尋</h4>
+                                <span class="close-search visible-xs">
+                                    <i class="fa fa-angle-left fa-3x"></i>
+                                </span>
+                            </div>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Where are you going?">
+                                <span class="clear-input"><i class="fa fa-times-circle fa-lg"></i></span>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-primary"><i class="fa fa-search fa-lg"></i></button>
+                                </span>
+                            </div>
+                            <div class="search-dropdown">
+                                <div class="default-suggest">
+                                    <h4 class="title">Most Popular Destinations</h4>
+                                    <ul>
+                                        <li><a href="#"><span>台北</span></a></li>
+                                        <li><a href="#"><span>東京</span></a></li>
+                                        <li><a href="#"><span>京都</span></a></li>
+                                        <li><a href="#"><span>Athens</span></a></li>
+                                        <li><a href="#"><span class="hot">Berlin</span></a></li>
+                                        <li><a href="#"><span class="hot">Dominican Republic</span></a></li>
+                                        <li><a href="#"><span>Edinburgh</span></a></li>
+                                        <li><a href="#"><span>Hamburg</span></a></li>
+                                        <li><a href="#"><span>Hanoi</span></a></li>
+                                        <li><a href="#"><span>Ho Chi Minh City</span></a></li>
+                                        <li><a href="#"><span>Paris</span></a></li>
+                                        <li><a href="#"><span>Prague</span></a></li>
+                                        <li><a href="#"><span>Rome</span></a></li>
+                                        <li><a href="#"><span>San Francisco</span></a></li>
+                                        <li><a href="#"><span class="hot">Taichung</span></a></li>
+                                    </ul>
+                                </div>
+                                <div class="city-suggest">
+                                    <!--輸入”國家名稱“時只出現此區塊-->
+                                    <ul>
+                                        <li><a href="#"><span>台北</span></a></li>
+                                        <li><a href="#"><span>東京</span></a></li>
+                                        <li><a href="#"><span>京都</span></a></li>
+                                        <li><a href="#"><span>Athens</span></a></li>
+                                        <li><a href="#"><span>Berlin</span></a></li>
+                                        <li><a href="#"><span>Dominican Republic</span></a></li>
+                                        <li><a href="#"><span>Edinburgh</span></a></li>
+                                        <li><a href="#"><span>Hamburg</span></a></li>
+                                        <li><a href="#"><span>Hanoi</span></a></li>
+                                        <li><a href="#"><span>Ho Chi Minh City</span></a></li>
+                                        <li><a href="#"><span>Paris</span></a></li>
+                                        <li><a href="#"><span>Prague</span></a></li>
+                                        <li><a href="#"><span>Rome</span></a></li>
+                                        <li><a href="#"><span>San Francisco</span></a></li>
+                                        <li><a href="#"><span>Taichung</span></a></li>
+                                        <div class="clearfix"></div>
+                                    </ul>
+                                </div>
+                                <div class="autosuggest">
+                                    <ul class="destination">
+                                        <li>
+                                            <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>chung</a>
+                                        </li>
+                                        <li>
+                                            <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>nan</a>
+                                        </li>
+                                        <li>
+                                            <a href=""><i class="fa fa-map-marker"></i><strong>Tai</strong>pei</a>
+                                        </li>
+                                    </ul>
+                                    <ul class="experience">
+                                        <li>
+                                            <a href="#">
+                                                <span class="prod_name">
+                                                    Bangkok Dinosaur Planet Tickets - Over 30% Off
+                                                </span>
+                                                <span class="city">
+                                                    <i class="fa fa-map-marker"></i>Bankok
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="prod_name">
+                                                    <i class="fa fa-flash text-primary"></i>
+                                                    Universal Studios Singapore Ticket - Save 10%
+                                                </span>
+                                                <span class="city">
+                                                    <i class="fa fa-map-marker"></i>Taipei
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="prod_name">
+                                                    Day Trip From Seoul: Korean Demilitarized Zone (DMZ) One Day Tour
+                                                </span>
+                                                <span class="city">
+                                                    <i class="fa fa-map-marker"></i>Dominican Republic
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="prod_name">
+                                                    Nami Island with Petite France, Gangchon Rail Bike, Flower Garden
+                                                </span>
+                                                <span class="city">
+                                                    <i class="fa fa-map-marker"></i>Seoul
+                                                </span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <span class="prod_name">
+                                                    <i class="fa fa-flash text-primary"></i>
+                                                    Korea Everland Theme Park Entry Ticket (QR code)
+                                                </span>
+                                                <span class="city">
+                                                    <i class="fa fa-map-marker"></i>Seoul
+                                                </span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <span class="dropdown-arrow hidden-xs"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 text-right">
+                        <div class="table-row">
+                            <div class="table-cell">
+                                <button type="button" class="btn btn-link visible-xs open-search">
+                                    <span class="fa fa-search fa-lg"></span>
+                                </button>
+                            </div>
+                            <div class="table-cell">
+                                <button type="button" class="btn btn-link hidden-xs" id="switch-language-btn">
+                                    繁體中文<i class="fa fa-caret-down"></i>
+                                </button>
+                            </div>
+                            <div class="table-cell">
+                                <button type="button" class="btn btn-link hidden-xs" id="switch-currency-btn">
+                                    TWD<i class="fa fa-caret-down"></i>
+                                </button>
+                            </div>
+                            <div class="table-cell">
+                                <button type="button" class="account-user-photo" id="header-main-sidenav-button" style="background-image:url('../images/default_image.png')"></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div id="main-sidenav" class="container-fluid kk-sidenav">
+        <div class="row">
+            <ul class="list-group nav-menu">
+                <li href="#" class="list-group-item asset-btn" id="close-main-sidenav">
+                    <span class="fa fa-times pull-left close-botton"></span>
+                </li>
+                <li class="list-group-item" href="order_list.html" id="check-order">
+                    <h5 class="li-text">訂單管理</h5>
+                </li>
+                <li class="list-group-item" href="msg_list.html" id="check-messages">
+                    <h5 class="li-text">訊息管理<span class="pull-right text-primary" id="unreadMsgNum">4</span></h5>
+                </li>
+                <li class="list-group-item" href="coupon_list.html" id="check-coupons">
+                    <h5 class="li-text">折扣券管理</h5>
+                </li>
+                <li class="list-group-item" href="wish_list.html" id="check-wishlist">
+                    <h5 class="li-text">我的收藏</h5>
+                </li>
+                <li class="list-group-item" href="notice_list.html" id="check-noticelist">
+                    <h5 class="li-text">開賣通知</h5>
+                </li>
+                <li class="list-group-item" href="member_basic.html" id="account-setting">
+                    <h5 class="li-text">帳號設定</h5>
+                </li>
+                <li class="list-group-item visible-xs" id="select-language">
+                    <h5 class="li-text">語言<span class="pull-right text-primary">繁體中文</span></h5>
+                </li>
+                <li class="list-group-item visible-xs" id="select-currency">
+                    <h5 class="li-text">幣別<span class="pull-right text-primary">TWD</span></h5>
+                </li>
+                <li class="list-group-item" id="logout" href="errorpage_index.html">
+                    <h5 class="li-text">登出</h5>
+                </li>
+                <li class="list-group-item visible-xs" href="#">
+                    <h5 class="li-text">手機版</h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="language-sidenav" class="container-fluid kk-sidenav">
+        <div class="row">
+            <ul class="list-group nav-menu" id="language-list">
+                <li href="#" class="list-group-item visible-xs asset-btn" id="language-return-main-sidenav">
+                    <span class="fa fa-chevron-left pull-left close-botton"></span>
+                </li>
+                <li href="#" class="list-group-item hidden-xs asset-btn" id="language-close-main-sidenav">
+                    <span class="fa fa-times pull-left close-botton"></span>
+                </li>
+                <li class="list-group-header">現在選擇國家</li>
+                <li class="list-group-item has-son open" name="zh-tw" href="#">
+                    <h5 class="li-text">
+                        台灣<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item active" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>繁體中文
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-header">所有國家</li>
+                <li class="list-group-item" name="en" href="#">
+                    <h5 class="li-text">
+                        International
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="zh-cn" href="#">
+                    <h5 class="li-text">
+                        中国<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>简体中文
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="zh-hk" href="#">
+                    <h5 class="li-text">
+                        香港<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>繁體中文
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="ko" href="#">
+                    <h5 class="li-text">
+                        대한민국<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>한국어
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="jp" href="#">
+                    <h5 class="li-text">
+                        日本<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>日本語
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item" name="en-sg" href="#">
+                    <h5 class="li-text">
+                        Singapore
+                    </h5>
+                </li>
+                <li class="list-group-item has-son" name="zh-my" href="#">
+                    <h5 class="li-text">
+                        Malaysia<i class="fa fa-caret-down"></i>
+                        <ul class="list-group nav-menu nav-menu-son">
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>English
+                                </h5>
+                            </li>
+                            <li class="list-group-item" href="#">
+                                <h5 class="li-text">
+                                    <i class="fa fa-chevron-right"></i>简体中文
+                                </h5>
+                            </li>
+                        </ul>
+                    </h5>
+                </li>
+                <li class="list-group-item" name="th" href="#">
+                    <h5 class="li-text">
+                        ประเทศไทย
+                    </h5>
+                </li>
+                <li class="list-group-item" name="vi" href="#">
+                    <h5 class="li-text">
+                        Việt Nam
+                    </h5>
+                </li>
+                <li class="list-group-item" name="id" href="#">
+                    <h5 class="li-text">
+                        Indonesia
+                    </h5>
+                </li>
+                <li class="list-group-item" name="ph" href="#">
+                    <h5 class="li-text">
+                        Philippines
+                    </h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="currency-sidenav" class="container-fluid kk-sidenav">
+        <div class="row">
+            <ul class="list-group nav-menu" id="currency-list">
+                <li href="#" class="list-group-item visible-xs asset-btn" id="currency-return-main-sidenav">
+                    <span class="fa fa-chevron-left pull-left close-botton"></span>
+                </li>
+                <li href="#" class="list-group-item hidden-xs asset-btn" id="currency-close-main-sidenav">
+                    <span class="fa fa-times pull-left close-botton"></span>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="USD">
+                    <h5 class="li-text">USD 美元</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="TWD">
+                    <h5 class="li-text">TWD 新臺幣</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="TRY">
+                    <h5 class="li-text">TRY 新土耳其里拉</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="THB">
+                    <h5 class="li-text">THB 泰銖</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="SGD">
+                    <h5 class="li-text">SGD 新加坡幣</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="PHP">
+                    <h5 class="li-text">PHP 菲律賓比索</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="NZD">
+                    <h5 class="li-text">NZD 紐西蘭元</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="MYR">
+                    <h5 class="li-text">MYR 馬來西亞令吉</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="KRW">
+                    <h5 class="li-text">KRW 韓圓  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="JPY">
+                    <h5 class="li-text">JPY 日圓  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="IDR">
+                    <h5 class="li-text">IDR 印尼盾</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="HKD">
+                    <h5 class="li-text">HKD 港幣  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="GBP">
+                    <h5 class="li-text">GBP 英鎊  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="EUR">
+                    <h5 class="li-text">EUR 歐元  </h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="CNY">
+                    <h5 class="li-text">CNY 人民幣</h5>
+                </li>
+                <li class="list-group-item" name="a-ccy" id="AUD">
+                    <h5 class="li-text">AUD 澳幣</h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="container body-content" style="width:100%;padding-left:0;padding-right:0;">
+        @RenderBody()
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 col-sm-6" id="footer-know-kkday">
+                    <h4>認識KKday</h4>
+                    <ul class="list-unstyled">
+                        <li class="p"><a target="_blank" href="kk_aboutus.html">關於KKday</a></li>
+                        <li class="p"><a target="_blank" href="#">聯絡我們</a></li>
+                        <li class="p"><a target="_blank" href="#">服務條款與隱私聲明</a></li>
+                        <li class="p"><a target="_blank" href="#">常見問題與幫助</a></li>
+                        <li class="p"><a target="_blank" href="#">媒體報導</a></li>
+                        <li class="p"><a target="_blank" href="#">特定商取引法に基づく表記</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6" id="footer-for-travellers">
+                    <h4>給旅人</h4>
+                    <ul class="list-unstyled">
+                        <li class="p"><a target="_blank" href="kk_traveller.html">三大保證</a></li>
+                        <li class="p"><a target="_blank" href="#">精選合作服務</a></li>
+                        <li class="p"><a target="_blank" href="#">旅人故事</a></li>
+                        <li class="p"><a target="_blank" href="http://blog.kkday.com/?fr=7008">KKday部落格</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6" id="footer-for-partner">
+                    <h4>KKday 合作夥伴</h4>
+                    <ul class="list-unstyled">
+                        <li class="p"><a target="_blank" href="kk_supplier.html">成為我們的夥伴</a></li>
+                        <li class="p"><a target="_blank" href="#">聯合行銷</a></li>
+                        <li class="p"><a target="_blank" href="#">工作機會</a></li>
+                        <li class="p"><a target="_blank" href="#">部落客/攝影師合作計畫</a></li>
+                        <li class="p"><a target="_blank" href="#">企業福委旅遊合作</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 col-sm-6">
+                    <h4>Follow KKday</h4>
+                    <div class="sns">
+                        <!-- zh-tw -->
+                        <ul class="list-unstyled">
+                            <li><a href="https://www.facebook.com/KKdayTaiwan/" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="https://www.youtube.com/channel/UC0WrywZgsEaZRZ2VOG0TpVg" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="https://www.instagram.com/kkdaytw/" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="https://twitter.com/kkdaytravel" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="http://blog.kkday.com/" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="https://www.pinterest.com/kkdayofficial/" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                            <li><a href="http://tumblr.kkday.com/" target="_blank"><i class="fa fa-tumblr"></i></a></li>
+                        </ul>
+                        <!-- zh-cn -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-tumblr"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- en -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- ja -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- ko -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                            <li><a href="#" target="_blank"><img src="img/sns/kakao_white.svg"></a></li>
+                            <li><a href="#" target="_blank"><img src="img/sns/naver_blog.svg"></a></li>
+                            <li><a href="#" target="_blank"><img src="img/sns/naver_white.svg"></a></li>
+                        </ul> -->
+                        <!-- en-sg -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- th -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- vi -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- en-ph -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- zh-hk -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- en-id -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                        <!-- zh-my -->
+                        <!-- <ul class="list-unstyled">
+                            <li><a href="#" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-youtube"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-instagram"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-bold"></i></a></li>
+                            <li><a href="#" target="_blank"><i class="fa fa-pinterest-p"></i></a></li>
+                        </ul> -->
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div id="contact-kkday-row">
+                <div class="cr-font text-right" id="footer-company-info">
+                    <h8 class="text-muted">COPYRIGHT © 2016 KKday All rights reserved.</h8>
+                </div>
+            </div>
+        </div>
+        <div class="row twfooter">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <ul class="list-unstyled">
+                            <li>酷遊天國際旅行社股份有限公司</li>
+                            <li>甲種旅行業</li>
+                            <li>交觀甲第7774號</li>
+                            <li>統一編號 2497 7417</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <ul class="list-unstyled">
+                            <li>地址 台灣台北市萬華區成都路4號5樓</li>
+                            <li>電話 <a href="tel:+886223140003">02-2314-0003</a></li>
+                            <li>傳真 02-2786-1101</li>
+                            <li>e-mail <a href="mailto:service@kkday.com">service＠kkday.com</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-3 col-sm-6">
+                        <ul class="list-unstyled">
+                            <li>代表人 陳惟倫</li>
+                            <li>聯絡人 蘇姿亦</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- ./footer -->
+    <!-- scroll to top -->
+    <div class="scroll-top-wrapper">
+        <span class="scroll-top-inner">
+            <i class="fa fa-2x fa-angle-up"></i>
+        </span>
+    </div>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

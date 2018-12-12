@@ -1,0 +1,310 @@
+/* 
+    CSS config -------------------------------------------------------------------
+*/
+/* line 7, ../sass/kkday.union.scss */
+html, body {
+  font-size: 10px;
+  background-color: #FFFFFF;
+}
+
+/* line 11, ../sass/kkday.union.scss */
+a, a:hover, button, button:hover {
+  text-decoration: none;
+}
+
+/* line 14, ../sass/kkday.union.scss */
+ul {
+  list-style-type: none;
+}
+
+/* line 19, ../sass/kkday.union.scss */
+.text-primary {
+  color: #26BEC9;
+}
+
+/* line 23, ../sass/kkday.union.scss */
+h1, .h1 {
+  font-size: 4.5rem;
+}
+
+/* line 26, ../sass/kkday.union.scss */
+h2, .h2 {
+  font-size: 3.4rem;
+}
+
+/* line 29, ../sass/kkday.union.scss */
+h3, .h3 {
+  font-size: 2.4rem;
+}
+
+/* line 32, ../sass/kkday.union.scss */
+h4, .h4 {
+  font-size: 2rem;
+}
+
+/* line 35, ../sass/kkday.union.scss */
+h5, .h5 {
+  font-size: 1.4rem;
+}
+
+/* line 38, ../sass/kkday.union.scss */
+h6, .h6 {
+  font-size: 1.2rem;
+}
+
+/* line 41, ../sass/kkday.union.scss */
+p {
+  font-size: 1.6rem;
+}
+
+/* line 46, ../sass/kkday.union.scss */
+.btn-default {
+  color: #64696b;
+  background-color: transparent;
+}
+/* line 49, ../sass/kkday.union.scss */
+.btn-default:hover {
+  background-color: transparent;
+}
+
+/* line 57, ../sass/kkday.union.scss */
+.header #header-container {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+@media only screen and (min-width: 1200px) {
+  /* line 57, ../sass/kkday.union.scss */
+  .header #header-container {
+    width: 1170px;
+  }
+}
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
+  /* line 57, ../sass/kkday.union.scss */
+  .header #header-container {
+    width: 970px;
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+  /* line 57, ../sass/kkday.union.scss */
+  .header #header-container {
+    width: 750px;
+  }
+}
+/* line 72, ../sass/kkday.union.scss */
+.header .header-logo {
+  margin-top: 10px;
+  width: 120px;
+}
+/* line 76, ../sass/kkday.union.scss */
+.header .table-row {
+  display: table;
+  float: right;
+}
+/* line 79, ../sass/kkday.union.scss */
+.header .table-row .table-cell {
+  height: 70px;
+  line-height: 70px;
+  float: none;
+  display: table-cell;
+  vertical-align: top;
+}
+/* line 86, ../sass/kkday.union.scss */
+.header .table-row .border-left {
+  border-left: 1px solid #e9eef1;
+}
+/* line 88, ../sass/kkday.union.scss */
+.header .table-row .border-left .btn {
+  color: #64696b;
+}
+/* line 91, ../sass/kkday.union.scss */
+.header .table-row .border-left:hover {
+  background-color: #f6f6f5;
+}
+/* line 95, ../sass/kkday.union.scss */
+.header .table-row .border-double {
+  padding-left: 10px;
+  padding-right: 10px;
+  border-left: 1px solid #e9eef1;
+  border-right: 1px solid #e9eef1;
+}
+/* line 100, ../sass/kkday.union.scss */
+.header .table-row .border-double .btn {
+  min-width: 120px;
+}
+@media only screen and (max-width: 767px) {
+  /* line 100, ../sass/kkday.union.scss */
+  .header .table-row .border-double .btn {
+    min-width: 10px;
+  }
+}
+/* line 106, ../sass/kkday.union.scss */
+.header .table-row .border-double:hover {
+  background-color: #f6f6f5;
+}
+
+/* line 120, ../sass/kkday.union.scss */
+div.union .imageview {
+  background-size: cover;
+  min-height: 205px;
+  color: #FFFFFF;
+}
+/* line 126, ../sass/kkday.union.scss */
+div.union .main-menu {
+  margin-top: 20px;
+}
+/* line 129, ../sass/kkday.union.scss */
+div.union .main-menu ul li {
+  cursor: pointer;
+  font-size: 1.6rem;
+  text-align: left;
+  padding: 10px;
+  background-color: #f6f6f5;
+}
+/* line 135, ../sass/kkday.union.scss */
+div.union .main-menu ul li:hover {
+  background-color: #26BEC9;
+  color: #FFFFFF;
+}
+/* line 139, ../sass/kkday.union.scss */
+div.union .main-menu ul li .glyphicon {
+  margin-right: 10px;
+}
+/* line 144, ../sass/kkday.union.scss */
+div.union .main-menu ul .active {
+  background-color: #26BEC9;
+  color: #FFFFFF;
+}
+/* line 148, ../sass/kkday.union.scss */
+div.union .main-menu ul li.sub {
+  padding: 0px;
+  background-color: #FFFFFF;
+}
+/* line 152, ../sass/kkday.union.scss */
+div.union .main-menu ul li.sub ul li {
+  list-style-type: disc;
+  background-color: #FFFFFF;
+  color: #64696b;
+  font-size: 1.4rem;
+  padding: 1px;
+}
+/* line 158, ../sass/kkday.union.scss */
+div.union .main-menu ul li.sub ul li:hover {
+  font-weight: bold;
+}
+/* line 162, ../sass/kkday.union.scss */
+div.union .main-menu ul li.sub ul .active {
+  color: #26BEC9;
+}
+@media only screen and (max-width: 767px) {
+  /* line 151, ../sass/kkday.union.scss */
+  div.union .main-menu ul li.sub ul {
+    margin-left: 20px;
+  }
+}
+@media only screen and (max-width: 767px) {
+  /* line 126, ../sass/kkday.union.scss */
+  div.union .main-menu {
+    margin-top: 10px;
+    display: none;
+    padding: 0px;
+  }
+  /* line 175, ../sass/kkday.union.scss */
+  div.union .main-menu ul {
+    padding: 0px;
+  }
+}
+/* line 180, ../sass/kkday.union.scss */
+div.union .mobile-menu {
+  margin-top: 10px;
+  display: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  text-align: center;
+  padding: 10px;
+  background-color: #f6f6f5;
+}
+/* line 188, ../sass/kkday.union.scss */
+div.union .mobile-menu:hover {
+  background-color: #26BEC9;
+  color: #FFFFFF;
+}
+@media only screen and (max-width: 767px) {
+  /* line 180, ../sass/kkday.union.scss */
+  div.union .mobile-menu {
+    display: block;
+  }
+}
+/* line 198, ../sass/kkday.union.scss */
+div.union .main-content {
+  margin-top: 20px;
+}
+/* line 202, ../sass/kkday.union.scss */
+div.union .main-content .nav-tabs .active a {
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+/* line 208, ../sass/kkday.union.scss */
+div.union .main-content .nav-content {
+  border-left: 1px solid #e9eef1;
+  border-right: 1px solid #e9eef1;
+  border-bottom: 1px solid #e9eef1;
+  margin: 0px 0px 30px 0px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+/* line 215, ../sass/kkday.union.scss */
+div.union .main-content .nav-content span {
+  color: #FF0000;
+}
+/* line 218, ../sass/kkday.union.scss */
+div.union .main-content .nav-content .form-group {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+/* line 221, ../sass/kkday.union.scss */
+div.union .main-content .nav-content .form-group .radio {
+  margin: 0px;
+}
+/* line 223, ../sass/kkday.union.scss */
+div.union .main-content .nav-content .form-group .radio label {
+  line-height: 1.4;
+}
+/* line 225, ../sass/kkday.union.scss */
+div.union .main-content .nav-content .form-group .radio label input {
+  display: block;
+}
+/* line 231, ../sass/kkday.union.scss */
+div.union .main-content .nav-content .table {
+  font-size: 1.4rem;
+}
+/* line 234, ../sass/kkday.union.scss */
+div.union .main-content .nav-content label.checkbox-inline {
+  line-height: 1.4;
+}
+/* line 239, ../sass/kkday.union.scss */
+div.union .main-content .adsense h2 {
+  margin-top: 0px;
+}
+/* line 242, ../sass/kkday.union.scss */
+div.union .main-content .adsense textarea {
+  border-color: #e9eef1;
+  width: 100%;
+}
+/* line 248, ../sass/kkday.union.scss */
+div.union .main-content .adsense form .checkbox label {
+  line-height: 1.4;
+}
+/* line 250, ../sass/kkday.union.scss */
+div.union .main-content .adsense form .checkbox label input {
+  display: block;
+}
+/* line 256, ../sass/kkday.union.scss */
+div.union .main-content .adsense hr {
+  margin-top: 10px;
+}
+/* line 259, ../sass/kkday.union.scss */
+div.union .main-content .adsense span {
+  color: #FF0000;
+}
