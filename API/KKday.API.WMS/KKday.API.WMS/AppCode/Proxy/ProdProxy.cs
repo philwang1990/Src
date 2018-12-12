@@ -135,7 +135,7 @@ namespace KKday.API.WMS.AppCode.Proxy
                     {
                         client.DefaultRequestHeaders.Accept.Add(
                         new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-<<<<<<< HEAD
+
 
                         List<string> typeList = new List<string>();
                         typeList.Add(ProdProxy._PMDL_CAR_PSGR);
@@ -148,20 +148,6 @@ namespace KKday.API.WMS.AppCode.Proxy
                         typeList.Add(ProdProxy._PMDL_SIM_WIFI);
                         typeList.Add(ProdProxy._PMDL_VENUE);
 
-=======
-
-                        List<string> typeList = new List<string>();
-                        typeList.Add(ProdProxy._PMDL_CAR_PSGR);
-                        typeList.Add(ProdProxy._PMDL_CONTACT_DATA);
-                        typeList.Add(ProdProxy._PMDL_CUST_DATA);
-                        typeList.Add(ProdProxy._PMDL_EXCHANGE);
-                        typeList.Add(ProdProxy._PMDL_FLIGHT_INFO);
-                        typeList.Add(ProdProxy._PMDL_RENT_CAR);
-                        typeList.Add(ProdProxy._PMDL_SEND_DATA);
-                        typeList.Add(ProdProxy._PMDL_SIM_WIFI);
-                        typeList.Add(ProdProxy._PMDL_VENUE);
-
->>>>>>> dev_branch
 
                         KKdayApiProdRQModel RQ = new KKdayApiProdRQModel()
                         {
@@ -181,7 +167,6 @@ namespace KKday.API.WMS.AppCode.Proxy
                         };
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-<<<<<<< HEAD
                 
                         string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}product/{query_lst.prod_no}/module/get";
                
@@ -193,18 +178,7 @@ namespace KKday.API.WMS.AppCode.Proxy
 
                             Website.Instance.logger.Info($"URL:{url},URL Response StatusCode:{response.StatusCode}");
 
-=======
-                        string url = $"{Website.Instance.Configuration["URL:KK_MODEL"]}".Replace("{prod_no}", query_lst.prod_no);
-
-                        using (HttpContent content = new StringContent(json_data))
-                        {
-                            content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-                            var response = client.PostAsync(url, content).Result;
-                            result = response.Content.ReadAsStringAsync().Result;
-
-                            Website.Instance.logger.Info($"URL:{url},URL Response StatusCode:{response.StatusCode}");
-
->>>>>>> dev_branch
+  
                             //與API串接失敗 
                             if (response.StatusCode.ToString() != "OK")
                             {
