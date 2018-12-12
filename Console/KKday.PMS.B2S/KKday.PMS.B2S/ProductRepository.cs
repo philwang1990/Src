@@ -383,9 +383,9 @@ namespace KKday.PMS.B2S.ProductRepository
 
                 //scmModel.json.tagCd = new List<string>();
                 if (rezdyProductModel.Product.productType == "DAYTOUR")
-                    scmModel.json.tagCd = new List<string>(new String[] { "TAG_4_4" }); // 商品分類 一日遊
+                    scmModel.json.tagCd = new List<string> { "TAG_4_4" }; // 商品分類 一日遊
                 else if (rezdyProductModel.Product.productType == "MULTIDAYTOUR")
-                    scmModel.json.tagCd = new List<string>(new String[] { "TAG_4_5" }); // 商品分類 多日遊
+                    scmModel.json.tagCd = new List<string> { "TAG_4_5" }; // 商品分類 多日遊
 
                 //後面參數為model有null時 不顯示在model內
                 scmRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productmodify), prodOid), JsonConvert.SerializeObject(scmModel,
