@@ -22,14 +22,6 @@
     <Folder Include="Models\Repository\Discount\" />
     <Folder Include="Models\DataModel\Discount\" />
     <Folder Include="Models\DataModel\Common\" />
-    <Folder Include="Models\DataModel\Booking\" />
-    <Folder Include="Models\Repository\Booking\" />
-    <Folder Include="Models\DataModel\Pmch\" />
-    <Folder Include="Models\DataModel\Order\" />
-    <Folder Include="Models\Repository\Order\" />
-    <Folder Include="Models\DataModel\Account\" />
-    <Folder Include="Models\Repository\Account\" />
-    <Folder Include="Models\DataModel\Final\" />
   </ItemGroup>
 
   <ItemGroup>

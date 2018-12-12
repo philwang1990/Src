@@ -326,14 +326,8 @@ namespace KKday.API.WMS.AppCode
 
             string result;
 
-<<<<<<< HEAD
-            //var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_ORDER_NEW"]}");
-
             var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/new");
 
-=======
-            var httpWebRequest = (HttpWebRequest)WebRequest.Create($"{Website.Instance.Configuration["URL:KK_ORDER_NEW"]}");
->>>>>>> dev_branch
 
             httpWebRequest.ContentType = "application/json";
             httpWebRequest.Method = "POST";
