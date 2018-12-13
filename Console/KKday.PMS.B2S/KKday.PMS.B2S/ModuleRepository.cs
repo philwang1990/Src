@@ -36,13 +36,13 @@ namespace KKday.PMS.B2S.ModuleRepository
                 CommonTool.LoadLog4netConfig();
 
                 //url帶入
-                Startup startup = new Startup();
-                startup.Initial();
+                //Startup startup = new Startup();
+                //startup.Initial();
 
                 //Rezdy Data
-                var getPickup = CommonTool.GetData(string.Format(startup.GetParameter(PMSSourse.Rezdy, ParameterType.Pickups),
+                var getPickup = CommonTool.GetData(string.Format(Startup.Instance.GetParameter(PMSSourse.Rezdy, ParameterType.Pickups),
                                                                 prodCode,
-                                                                startup.GetParameter(PMSSourse.Rezdy, ParameterType.ApiKey)
+                                                                Startup.Instance.GetParameter(PMSSourse.Rezdy, ParameterType.ApiKey)
                                                                 ));
 
                 RezdyPickupModel obj = JsonConvert.DeserializeObject<RezdyPickupModel>(getPickup);
@@ -165,7 +165,7 @@ namespace KKday.PMS.B2S.ModuleRepository
                         moduleSetting = cust_data
                     }
                 };
-                var custDataResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_custdata), prodOid), JsonConvert.SerializeObject(scmCustomModel));
+                var custDataResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_custdata), prodOid), JsonConvert.SerializeObject(scmCustomModel));
                 if (custDataResult["content"]["result"].ToString() != "0000")
                 {
                     throw new Exception("create booking fields custom data fail.");
@@ -215,7 +215,7 @@ namespace KKday.PMS.B2S.ModuleRepository
                         moduleSetting = contact_data
                     }
                 };
-                var contactDataResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_contactdata), prodOid), JsonConvert.SerializeObject(scmContactModel));
+                var contactDataResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_contactdata), prodOid), JsonConvert.SerializeObject(scmContactModel));
                 if (contactDataResult["content"]["result"].ToString() != "0000")
                 {
                     throw new Exception("create booking fields contact data fail.");
@@ -307,7 +307,7 @@ namespace KKday.PMS.B2S.ModuleRepository
                         }
                     };
 
-                    var venuDataResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_venue), prodOid), JsonConvert.SerializeObject(scmVenueModel));
+                    var venuDataResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_venue), prodOid), JsonConvert.SerializeObject(scmVenueModel));
                     if (venuDataResult["content"]["result"].ToString() != "0000")
                     {
                         throw new Exception("create booking fields venue data fail.");
@@ -332,7 +332,7 @@ namespace KKday.PMS.B2S.ModuleRepository
                         moduleSetting = oteher
                     }
                 };
-                var flightDataResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_flightinfo), prodOid), JsonConvert.SerializeObject(scmOtherFlightModel));
+                var flightDataResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_flightinfo), prodOid), JsonConvert.SerializeObject(scmOtherFlightModel));
                 if (flightDataResult["content"]["result"].ToString() != "0000")
                 {
                     throw new Exception("create booking fields flightinfo data fail.");
@@ -350,7 +350,7 @@ namespace KKday.PMS.B2S.ModuleRepository
                         moduleSetting = oteher
                     }
                 };
-                var carPsgDataResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_catpsgr), prodOid), JsonConvert.SerializeObject(scmOtherCarPsgModel));
+                var carPsgDataResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_catpsgr), prodOid), JsonConvert.SerializeObject(scmOtherCarPsgModel));
                 if (carPsgDataResult["content"]["result"].ToString() != "0000")
                 {
                     throw new Exception("create booking fields carpsg data fail.");
@@ -368,7 +368,7 @@ namespace KKday.PMS.B2S.ModuleRepository
                         moduleSetting = oteher
                     }
                 };
-                var rentDataResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_rentcar), prodOid), JsonConvert.SerializeObject(scmOtherRentModel));
+                var rentDataResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_rentcar), prodOid), JsonConvert.SerializeObject(scmOtherRentModel));
                 if (rentDataResult["content"]["result"].ToString() != "0000")
                 {
                     throw new Exception("create booking fields rentcar data fail.");
@@ -386,7 +386,7 @@ namespace KKday.PMS.B2S.ModuleRepository
                         moduleSetting = oteher
                     }
                 };
-                var sendDataResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_senddata), prodOid), JsonConvert.SerializeObject(scmOtherSendModel));
+                var sendDataResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_senddata), prodOid), JsonConvert.SerializeObject(scmOtherSendModel));
                 if (sendDataResult["content"]["result"].ToString() != "0000")
                 {
                     throw new Exception("create booking fields send data fail.");
@@ -403,7 +403,7 @@ namespace KKday.PMS.B2S.ModuleRepository
                         moduleSetting = oteher
                     }
                 };
-                var simwifiDataResult = CommonTool.GetDataPost(string.Format(startup.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_simwifi), prodOid), JsonConvert.SerializeObject(scmOtherSimWifiModel));
+                var simwifiDataResult = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_simwifi), prodOid), JsonConvert.SerializeObject(scmOtherSimWifiModel));
                 if (simwifiDataResult["content"]["result"].ToString() != "0000")
                 {
                     throw new Exception("create booking fields simwifi data fail.");
