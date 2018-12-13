@@ -819,12 +819,13 @@ textarea.form-control{
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
   }
-.input-group-btn .btn{
-  background:#26bec9;
-  height: 42px;
-  border:0;
-  color:#fff;
-  }
+.input-group-btn .btn {
+    background: #138184;
+    /*background: #26bec9;*/
+    height: 42px;
+    border: 0;
+    color: #fff;
+}
 .input-group-btn .btn:hover,
 .input-group-btn .btn:focus,
 .input-group-btn .btn:active{
@@ -3313,7 +3314,7 @@ footer .twfooter a{
 .home-section [class*=col-],
 .row-dense [class*=col-]{
   padding-right: 7.5px;
-  padding-left: 7.5px;
+  /*padding-left: 7.5px;*/
   }
 .home-section .product-item,
 .guide-carousel .guide-item,

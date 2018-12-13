@@ -1,0 +1,46 @@
+.home-banner {
+  margin-top: -30px;
+  padding: 80px 0;
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0.3)), to(rgba(0, 0, 0, 0.6))), url(/img/bg_login.jpg);
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url(/img/bg_login.jpg);
+  background-position: center; }
+  .home-banner .kksearch .search-area {
+    position: relative; }
+    .home-banner .kksearch .search-area .clear-input {
+      right: 80px;
+      line-height: 48px; }
+  .home-banner .kksearch h2 {
+    color: #fff;
+    text-align: left;
+    margin: 0 0 15px 0;
+    font-weight: bolder;
+    font-size: 2.4rem;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
+  .home-banner .kksearch .input-group {
+    -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); }
+    .home-banner .kksearch .input-group .form-control {
+      height: 48px;
+      border: 0; }
+    .home-banner .kksearch .input-group .input-group-btn .btn {
+      height: 48px;
+      font-size: 1.6rem; }
+      .home-banner .kksearch .input-group .input-group-btn .btn i {
+        top: 0; }
+  .home-banner .kksearch .search-dropdown {
+    top: 48px;
+    border-top: 1px solid #eee;
+    border-radius: 0 0 6px 6px;
+    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1); }
+
+.home-section {
+  padding: 20px 0 5px 0;
+  border-top: 1px solid #eee; }
+  .home-section .section-title {
+    margin-top: 0;
+    margin-bottom: 10px; }
+  .home-section .btn {
+    margin: 5px 5px 10px 0; }
+
+/*# sourceMappingURL=../sourcemaps/pages/index.css.map */
