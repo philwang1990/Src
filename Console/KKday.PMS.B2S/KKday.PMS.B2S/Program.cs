@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using KKday.PMS.B2S.AppCode;
 using KKday.PMS.B2S.AppCode.DAL;
 using KKday.PMS.B2S.Models.Product;
@@ -89,7 +90,7 @@ namespace KKday.PMS.B2S
                                             rezdyProductModel.Product.currency,
                                             supplierLoginRSModel.supplierUserUuid,
                                             supplierLoginRSModel.deviceId,
-                                            supplierLoginRSModel.tokenKey);
+                                            supplierLoginRSModel.tokenKey, out List<string> timeList);
 
                                             //旅規
                                             module.Main(supplierLoginRSModel, rezdyProductModel.Product.BookingFields, prodOid, rezdyProductModel.Product.productCode, "");
