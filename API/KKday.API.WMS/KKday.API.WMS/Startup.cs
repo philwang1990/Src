@@ -37,9 +37,7 @@ namespace KKday.API.WMS {
             services.AddSingleton<SearchRepository, SearchRepository>();//註冊搜尋服務
             services.AddSingleton<OrderRepository, OrderRepository>();//註冊查訂單服務
             services.AddSingleton<ProductRepository, ProductRepository>();//註冊搜尋單一商品服務
-            //services.AddSingleton<PackageRepository, PackageRepository>();//註冊搜尋單一商品服務
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //services.AddSingleton<IRedisHelper, RedisHelper>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
