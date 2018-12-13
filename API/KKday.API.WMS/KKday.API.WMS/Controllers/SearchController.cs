@@ -17,6 +17,11 @@ namespace KKday.API.WMS.Controllers {
     [Route("api/[controller]")]
     public class SearchController : Controller {
 
+        private readonly SearchRepository _Search;
+        public SearchController(SearchRepository Search) {
+            _Search = Search;
+        }
+
         /// <summary>
         /// Gets the prod.
         /// </summary>
@@ -28,7 +33,7 @@ namespace KKday.API.WMS.Controllers {
             Website.Instance.logger.Info($"WMS GetProd Start! B2D Xid:{list_rq.company_xid}");
 
             var prods = new SearchProductModel();
-            prods = SearchRepository.GetProdList(list_rq);
+            prods = _Search.GetProdList(list_rq);
 
             return prods;
 

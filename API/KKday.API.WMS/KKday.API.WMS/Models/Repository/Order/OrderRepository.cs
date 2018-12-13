@@ -14,10 +14,12 @@ namespace KKday.API.WMS.Models.Repository.Order
 {
     public class OrderRepository
     {
-        //private static RedisHelper rds;
-        static RedisHelper rds = new RedisHelper();
+        private readonly IRedisHelper _redisCache;
+        public OrderRepository(IRedisHelper redisCache) {
 
-        public static OrderListModel GetOrders(QueryOrderModel queryRQ)
+            _redisCache = redisCache;
+        }
+        public OrderListModel GetOrders(QueryOrderModel queryRQ)
         {
             queryRQ.option.orders = new List<string>();
 
@@ -90,7 +92,7 @@ namespace KKday.API.WMS.Models.Repository.Order
             return orderList;
         }
 
-        public static OrderInfoModel GetOrderInfo(QueryOrderModel queryRQ,string orderMid)
+        public OrderInfoModel GetOrderInfo(QueryOrderModel queryRQ,string orderMid)
         {
             OrderInfoModel info = new OrderInfoModel();
             info.order_modules = new List<modules>();
@@ -115,7 +117,7 @@ namespace KKday.API.WMS.Models.Repository.Order
                 obj = OrderProxy.getOrderInfo(queryRQ, orderMid);
 
                 //RedisHelper rds = new RedisHelper();
-                Dictionary<string, string> uikey = rds.klingonGet("frontend", queryRQ.locale_lang);
+                Dictionary<string, string> uikey = CommonRepository.getKlingon(_redisCache,"frontend", queryRQ.locale_lang);
 
                 if (obj["content"]["result"].ToString() != "0000")
                 {

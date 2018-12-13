@@ -15,7 +15,6 @@
     <Folder Include="Models\Repository\Product\" />
     <Folder Include="Models\DataModel\Supplier\" />
     <Folder Include="Models\DataModel\Package\" />
-    <Folder Include="Models\Repository\Package\" />
     <Folder Include="AppCode\DAL\" />
     <Folder Include="Models\DataModel\User\" />
     <Folder Include="Models\Repository\User\" />
@@ -36,8 +35,8 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="log4net" Version="2.0.8" />
     <PackageReference Include="log4net.Ext.Json" Version="2.0.8.3" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Redis" Version="2.1.2" />
     <PackageReference Include="Npgsql" Version="4.0.3" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.519" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,5 +49,6 @@
     <Compile Remove="Models\Repository\Authorize\AuthorizeRepository.cs" />
     <Compile Remove="AppCode\Proxy\CurrencyProxy.cs" />
     <Compile Remove="Controllers\GuideyModel.cs" />
+    <Compile Remove="AppCode\IRedisHelper.cs" />
   </ItemGroup>
 </Project>

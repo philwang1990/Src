@@ -8,42 +8,40 @@ using System.Linq;
 using KKday.API.WMS.Models.DataModel.Package;
 using KKday.API.WMS.Models.Repository.Discount;
 using KKday.API.WMS.AppCode;
+using KKday.API.WMS.Models.Repository.Common;
 
-namespace KKday.API.WMS.Models.Repository.Product
-{
-    public class ProductRepository
-    {
-        public ProductRepository()
-        {
+namespace KKday.API.WMS.Models.Repository.Product {
+    public class ProductRepository {
+        public ProductRepository() {
         }
-
 
         //code language type
         static string _VOUCHER_EXCHANGE_TYPE = "VOUCHER_EXCHANGE_TYPE";
         static string _SEARCH_TYPE = "PRODUCT";
 
-        //private static RedisHelper rds;
-        static RedisHelper rds = new RedisHelper();
+
+        private readonly IRedisHelper _redisCache;
+        public ProductRepository(IRedisHelper redisCache) {
+
+            _redisCache = redisCache;
+        }
 
         /// <summary>
         /// Gets the prod dtl.
         /// </summary>
         /// <returns>The prod dtl.</returns>
         /// <param name="queryRQ">Query rq.</param>
-        public static ProductModel GetProdDtl(QueryProductModel queryRQ)
-        {
+        public ProductModel GetProdDtl(QueryProductModel queryRQ) {
             ProductModel product = new ProductModel();
             JObject obj = null, objModule = null, objExTypeLang = null;
             DataModel.Discount.DiscountRuleModel disc = null;
-
-            try
-            {
+            DiscountRepository dis = new DiscountRepository(_redisCache);
+            try {
                 //商品黑名單過濾
                 //抓商品是否為黑名單
-                bool isBlack = DiscountRepository.GetProdBlackWhite(queryRQ.prod_no);
+                bool isBlack = dis.GetProdBlackWhite(queryRQ.prod_no);
 
-                if(isBlack)
-                {
+                if (isBlack) {
                     product.result = "10";
                     product.result_msg = $"Bad Request:Product-{queryRQ.prod_no} is not available";
                     return product;
@@ -55,8 +53,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 objExTypeLang = CommonProxy.getCodeLang(queryRQ, ProductRepository._VOUCHER_EXCHANGE_TYPE);
 
 
-                if (obj["content"]["result"].ToString() != "0000")
-                {
+                if (obj["content"]["result"].ToString() != "0000") {
                     product.result = obj["content"]["result"].ToString();
                     product.result_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
                     throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
@@ -78,7 +75,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 product.prod_tips = obj["content"]["product"]["productTips"].ToString();
                 product.prod_map_note = obj["content"]["product"]["gatherNote"].ToString();
                 product.is_search = obj["content"]["product"]["isSearch"].ToString();
-                product.apply_status = obj["content"]["product"]["applyStatus"].ToString();  
+                product.apply_status = obj["content"]["product"]["applyStatus"].ToString();
                 product.status = obj["content"]["product"]["saleStatus"].ToString();
                 product.policy_no = obj["content"]["product"]["policyNo"].ToString();  //1:不扣手續費，退全額（包含當天取消者） 2:取消訂單，將收取所有實際產生費用 3:取消時間依照商品時區決定
                 product.is_tour = obj["content"]["product"]["isSche"].ToString();
@@ -90,20 +87,20 @@ namespace KKday.API.WMS.Models.Repository.Product
                 product.before_order_day = obj["content"]["product"]["cutOfDay"].ToString();
                 product.finishStep = obj["content"]["product"]["finishStep"].ToString();
 
-            
+
                 ProdCommentInfo comment = new ProdCommentInfo();
                 comment.total_scores = obj["content"]["prodUrlInfo"]["totalScores"].ToString();
                 comment.avg_scores = obj["content"]["prodUrlInfo"]["avgScores"].ToString();
                 comment.click_count = obj["content"]["prodUrlInfo"]["clickCnt"].ToString();
-                comment.comment_record  = obj["content"]["prodUrlInfo"]["countRec"].ToString();
+                comment.comment_record = obj["content"]["prodUrlInfo"]["countRec"].ToString();
                 comment.keyword = obj["content"]["prodUrlInfo"]["keyword"].ToString();
                 comment.sales_qty = obj["content"]["prodUrlInfo"]["orderNum"].ToString();
-                comment.prod_url_oid= obj["content"]["prodUrlInfo"]["prodUrlOid"].ToString();
+                comment.prod_url_oid = obj["content"]["prodUrlInfo"]["prodUrlOid"].ToString();
                 product.prod_comment_info = comment;
 
                 product.b2c_price = (double)obj["content"]["product"]["minSalePrice"];
-                product.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(queryRQ.company_xid), queryRQ.current_currency, (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString(), ProductRepository._SEARCH_TYPE, null, ref disc);
-                
+                product.b2d_price = dis.GetCompanyDiscPrice(Int64.Parse(queryRQ.company_xid), queryRQ.current_currency, (double)obj["content"]["product"]["minPrice"], queryRQ.prod_no, obj["content"]["product"]["mainCat"].ToString(), ProductRepository._SEARCH_TYPE, null, ref disc);
+
                 product.order_email = obj["content"]["product"]["orderEmail"].ToString();
                 product.prod_hander = obj["content"]["supplier"]["orderHandler"].ToString();
 
@@ -123,17 +120,15 @@ namespace KKday.API.WMS.Models.Repository.Product
                 pmkt.purchase_type = obj["content"]["prodMarketing"]["purchase_type"].ToString();
                 pmkt.purchase_type_name = obj["content"]["prodMarketing"]["purchase_type_name"].ToString();
                 product.prod_mkt = pmkt;
- 
+
                 //product 之外的list 或 object
                 //取消規定
                 List<Policy> polList = new List<Policy>();
                 Policy policy = null;
-                if (obj["content"]["policyList"] != null)
-                {
+                if (obj["content"]["policyList"] != null) {
                     JArray policy_items = (JArray)obj["content"]["policyList"];
 
-                    foreach (var item in policy_items)
-                    {
+                    foreach (var item in policy_items) {
                         policy = new Policy();
                         policy.days = (int)item["policy"]["days"];
                         policy.fee = (int)item["policy"]["percent"];
@@ -147,13 +142,11 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //行程表
                 List<Tour> tourList = new List<Tour>();
                 Tour tour = null;
-                if (obj["content"]["scheList"] != null)
-                {
+                if (obj["content"]["scheList"] != null) {
                     JArray sche_items = (JArray)obj["content"]["scheList"];
 
 
-                    foreach (var item in sche_items)
-                    {
+                    foreach (var item in sche_items) {
                         tour = new Tour();
                         tour.tour_day = (int)item["sche"]["daySeq"];
                         tour.time_desc = (string)item["sche"]["timeDesc"];
@@ -169,12 +162,10 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //行程餐食
                 List<ProvideMeal> mealList = new List<ProvideMeal>();
                 ProvideMeal meal = null;
-                if (obj["content"]["scheMealList"] != null)
-                {
+                if (obj["content"]["scheMealList"] != null) {
                     JArray meal_items = (JArray)obj["content"]["scheMealList"];
 
-                    foreach (var item in meal_items)
-                    {
+                    foreach (var item in meal_items) {
                         meal = new ProvideMeal();
                         meal.tour_day = (int)item["day"];
                         meal.is_breakfast = (string)item["meal"]["breakfast"];
@@ -189,43 +180,36 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //導覽語言
                 List<GuideLanguage> langList = new List<GuideLanguage>();
                 GuideLanguage lang = null;
-                if (obj["content"]["product"]["guideLang"] != null && (string)obj["content"]["product"]["guideLang"] !="")
-                {
+                if (obj["content"]["product"]["guideLang"] != null && (string)obj["content"]["product"]["guideLang"] != "") {
                     //多筆
-                    if (((string)obj["content"]["product"]["guideLang"]).Contains(','))
-                    {
+                    if (((string)obj["content"]["product"]["guideLang"]).Contains(',')) {
                         string[] guide_langs = ((string)obj["content"]["product"]["guideLang"]).Split(',');
-                        foreach(string guide_lang in guide_langs)
-                        {
+                        foreach (string guide_lang in guide_langs) {
                             lang = new GuideLanguage();
                             lang.lang_code = guide_lang;
                             lang.lang_name = (string)obj["content"]["product"]["guideLangMap"][guide_lang];
                             langList.Add(lang);
 
                         }
-                    }
-                    else
-                    {
+                    } else {
                         lang = new GuideLanguage();
                         lang.lang_code = (string)obj["content"]["product"]["guideLang"];
                         lang.lang_name = (string)obj["content"]["product"]["guideLangMap"][(string)obj["content"]["product"]["guideLang"]];
                         langList.Add(lang);
                     }
-                   
+
                     product.guide_lang_list = langList;
                 }
 
                 //主要目的地 (地圖區)
                 List<ArrivalMapInfo> arrList = new List<ArrivalMapInfo>();
                 ArrivalMapInfo arr = null;
-                if (obj["content"]["arrList"] != null)
-                {
+                if (obj["content"]["arrList"] != null) {
                     JArray items = (JArray)obj["content"]["arrList"];
-                    foreach (var item in items)
-                    {
+                    foreach (var item in items) {
                         arr = new ArrivalMapInfo();
                         arr.photo_url = (string)item["latlong"]["imgUrl"];
-                        arr.photo_desc= (string)item["latlong"]["photoDesc"];
+                        arr.photo_desc = (string)item["latlong"]["photoDesc"];
                         arr.zoom = (int)item["latlong"]["zoomLv"];
                         arr.latitude = (string)item["latlong"]["latitude"];
                         arr.longitude = (string)item["latlong"]["longitude"];
@@ -243,12 +227,10 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //圖片
                 List<Images> imgList = new List<Images>();
                 Images img = null;
-                if (obj["content"]["imgList"] != null)
-                {
+                if (obj["content"]["imgList"] != null) {
                     JArray items = (JArray)obj["content"]["imgList"];
 
-                    foreach (var item in items)
-                    {
+                    foreach (var item in items) {
                         img = new Images();
                         img.auth_name = (string)item["img"]["authName"];
                         img.is_main_img = (string)item["img"]["defaultImg"];
@@ -264,7 +246,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
                     product.img_list = imgList;
                 }
-             
+
 
 
 
@@ -273,14 +255,12 @@ namespace KKday.API.WMS.Models.Repository.Product
                 JArray modules = (JArray)objModule["content"]["product"]["modules"];
                 var voucher_module = modules.FirstOrDefault(jt => (string)jt["moduleType"] == "PMDL_EXCHANGE");
 
-                if((bool)voucher_module["moduleSetting"]["isRequired"])
-                {
+                if ((bool)voucher_module["moduleSetting"]["isRequired"]) {
                     //codeLang api找出exchangeType 與langValue 對應
                     var code = objExTypeLang["content"]["codeList"].FirstOrDefault(jt => (string)jt["code"]["langValue"] == (string)voucher_module["moduleSetting"]["setting"]["exchangeType"]);
                     //找出憑證類型敘述
                     product.voucher_desc = (string)code["code"]["langDesc"];
-                }else
-                {
+                } else {
                     product.voucher_desc = "";
                 }
                 //找出憑證領取地點資訊(名稱,地點,營業時間)
@@ -291,8 +271,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                 product.remind_list = setRemInf(obj, queryRQ.locale_lang, null);
 
                 var venue_module = modules.FirstOrDefault(jt => (string)jt["moduleType"] == "PMDL_VENUE");
-                if( (string)venue_module["moduleSetting"]["setting"]["venueType"] == "01"  ) 
-                {
+                if ((string)venue_module["moduleSetting"]["setting"]["venueType"] == "01") {
                     MeetingPointMap meeting_point = new MeetingPointMap();
                     meeting_point.mapAddress = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["mapAddress"];
                     meeting_point.latitude = (string)venue_module["moduleSetting"]["setting"]["dataItems"]["meetingPointMap"]["latitude"];
@@ -332,12 +311,10 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //影片
                 List<Video> videoList = new List<Video>();
                 Video video = null;
-                if (obj["content"]["videoList"] != null)
-                {
+                if (obj["content"]["videoList"] != null) {
                     JArray items = (JArray)obj["content"]["videoList"];
 
-                    foreach (var item in items)
-                    {
+                    foreach (var item in items) {
                         video = new Video();
                         video.lang_code = (string)item["video"]["langCode"];
                         video.vidoe_url = (string)item["video"]["videoUrl"];
@@ -351,12 +328,10 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //費用包含與不包含
                 List<CostDetail> detailList = new List<CostDetail>();
                 CostDetail detail = null;
-                if (obj["content"]["detailList"] != null)
-                {
+                if (obj["content"]["detailList"] != null) {
                     JArray items = (JArray)obj["content"]["detailList"];
 
-                    foreach (var item in items)
-                    {
+                    foreach (var item in items) {
                         detail = new CostDetail();
                         detail.detail_desc = (string)item["detail"]["desc"];
                         detail.detail_type = (string)item["detail"]["detailType"];
@@ -369,12 +344,10 @@ namespace KKday.API.WMS.Models.Repository.Product
                 //接機地點(地圖區)
                 List<MeetingPoint> mpList = new List<MeetingPoint>();
                 MeetingPoint mp = null;
-                if (obj["content"]["meetingPointList"] != null)
-                {
+                if (obj["content"]["meetingPointList"] != null) {
                     JArray items = (JArray)obj["content"]["meetingPointList"];
 
-                    foreach (var item in items)
-                    {
+                    foreach (var item in items) {
                         mp = new MeetingPoint();
                         mp.terminal = (string)item["data"]["terminal"];
                         mp.meeting_point = (string)item["data"]["meeting"];
@@ -391,15 +364,13 @@ namespace KKday.API.WMS.Models.Repository.Product
                 List<City> cityList = new List<City>();
                 City city = null;
 
-                if (obj["content"]["cityList"] != null)
-                {
+                if (obj["content"]["cityList"] != null) {
                     JArray items = (JArray)obj["content"]["cityList"];
                     country = new Country();
                     country.id = (string)items[0]["city"]["countryCd"];
                     country.name = (string)items[0]["city"]["countryName"];
 
-                    foreach (var item in items)
-                    {
+                    foreach (var item in items) {
                         city = new City();
                         city.id = (string)item["city"]["cityCd"];
                         city.name = (string)item["city"]["cityName"];
@@ -407,12 +378,10 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
                     country.cities = cityList;
                     countryList.Add(country);
-                    product.countries= countryList;
+                    product.countries = countryList;
                 }
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 product.result = "10001";
                 product.result_msg = $"Product ERROR:{ex.Message},{ex.StackTrace}";
 
@@ -427,17 +396,14 @@ namespace KKday.API.WMS.Models.Repository.Product
         /// </summary>
         /// <returns>The prod module.</returns>
         /// <param name="queryRQ">Query rq.</param>
-        public static ProductModuleModel GetProdModule(QueryProductModel queryRQ)
-        {
+        public ProductModuleModel GetProdModule(QueryProductModel queryRQ) {
             ProductModuleModel module = new ProductModuleModel();
             JObject objModule = null, obj = null, objEvent = null, objCountryCode = null, objAreaCode = null, objAirport = null;
 
-            try
-            {
+            try {
 
-                string _moduleRedis = rds.getRedis($"b2d:Product:module:{queryRQ.prod_no}_{queryRQ.pkg_no}");
-                if (string.IsNullOrEmpty(_moduleRedis))
-                {
+                string _moduleRedis = _redisCache.getRedis($"b2d:Product:module:{queryRQ.prod_no}_{queryRQ.pkg_no}");
+                if (string.IsNullOrEmpty(_moduleRedis)) {
 
                     obj = ProdProxy.getProd(queryRQ);
                     objModule = ProdProxy.getModule(queryRQ);
@@ -447,16 +413,14 @@ namespace KKday.API.WMS.Models.Repository.Product
                     objAirport = CommonProxy.getProdAirport(queryRQ);
 
                     //挖字！！！！！！！
-                    Dictionary<string, string> uikey = rds.klingonGet("frontend", queryRQ.locale_lang);
+                    Dictionary<string, string> uikey = CommonRepository.getKlingon(_redisCache, "frontend", queryRQ.locale_lang);
 
-                    if (objModule["content"]["result"].ToString() != "0000")
-                    {
+                    if (objModule["content"]["result"].ToString() != "0000") {
                         module.result = objModule["content"]["result"].ToString();
                         module.result_msg = $"kkday module api response msg is not correct! {objModule["content"]["msg"].ToString()}";
                         throw new Exception($"kkday module api response msg is not correct! {objModule["content"]["msg"].ToString()}");
                     }
-                    if (obj["content"]["result"].ToString() != "0000")
-                    {
+                    if (obj["content"]["result"].ToString() != "0000") {
                         module.result = objModule["content"]["result"].ToString();
                         module.result_msg = $"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}";
                         throw new Exception($"kkday product api response msg is not correct! {obj["content"]["msg"].ToString()}");
@@ -471,8 +435,7 @@ namespace KKday.API.WMS.Models.Repository.Product
 
 
                     //旅客資料
-                    if (module.module_type.Where(x => x.Contains("PMDL_CUST_DATA")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_CUST_DATA")).Count() > 0) {
                         var objPmdlCustData = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_CUST_DATA");
 
                         CusData cus = new CusData();
@@ -487,13 +450,11 @@ namespace KKday.API.WMS.Models.Repository.Product
                         Gender gd = new Gender();
                         List<GenderType> gdType = new List<GenderType>();
                         gd.is_require = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["gender"]["isRequired"];
-                        gdType.Add(new GenderType()
-                        {
+                        gdType.Add(new GenderType() {
                             type = "F",
                             type_name = uikey["common_female"]
                         });
-                        gdType.Add(new GenderType()
-                        {
+                        gdType.Add(new GenderType() {
                             type = "M",
                             type_name = uikey["common_male"]
                         });
@@ -509,8 +470,7 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                         na.is_require = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["nationality"]["isRequired"];
                         na.nation_list = !na.is_require ? null : ((JArray)objCountryCode["content"]["countryList"])
-                                .Select(x => new NationInfo
-                                {
+                                .Select(x => new NationInfo {
                                     country_code = (string)x["country"]["countryCd"],
                                     country_local_name = (string)x["country"]["countryName"]
 
@@ -537,14 +497,12 @@ namespace KKday.API.WMS.Models.Repository.Product
                         High h = new High();
                         List<Unit> h_units = new List<Unit>();
                         h.is_require = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["height"]["isRequired"];
-                        h_units.Add(new Unit()
-                        {
+                        h_units.Add(new Unit() {
                             unit_code = "01",
                             unit_name = uikey["booking_step1_cust_data_height_unit_01"]
 
                         });
-                        h_units.Add(new Unit()
-                        {
+                        h_units.Add(new Unit() {
                             unit_code = "02",
                             unit_name = uikey["booking_step1_cust_data_height_unit_02"]
                         });
@@ -554,13 +512,11 @@ namespace KKday.API.WMS.Models.Repository.Product
                         Weight w = new Weight();
                         List<Unit> w_units = new List<Unit>();
                         w.is_require = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["weight"]["isRequired"];
-                        w_units.Add(new Unit()
-                        {
+                        w_units.Add(new Unit() {
                             unit_code = "01",
                             unit_name = uikey["booking_step1_cust_data_weight_unit_01"]
                         });
-                        w_units.Add(new Unit()
-                        {
+                        w_units.Add(new Unit() {
                             unit_code = "02",
                             unit_name = uikey["booking_step1_cust_data_weight_unit_02"]
                         });
@@ -569,13 +525,11 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                         ShoeSize shoe = new ShoeSize();
                         shoe.is_require = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["shoeSize"]["isRequired"];
-                        if (shoe.is_require)
-                        {
+                        if (shoe.is_require) {
                             Man man = new Man();
                             man.is_provided = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["shoeSize"]["options"]["man"]["isProvided"];
                             man.unit_list = !man.is_provided ? null : ((JArray)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["shoeSize"]["options"]["man"]["allowData"])
-                                .Select(x => new Unit
-                                {
+                                .Select(x => new Unit {
                                     unit_code = (string)x["unit"],
                                     unit_name = (string)x["unit"] == "01" ? "US" : (string)x["unit"] == "02" ? "EU" : "JP/CM",
                                     size_range_start = (string)x["min"],
@@ -585,8 +539,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                             Woman woman = new Woman();
                             woman.is_provided = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["shoeSize"]["options"]["woman"]["isProvided"];
                             woman.unit_list = !woman.is_provided ? null : ((JArray)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["shoeSize"]["options"]["woman"]["allowData"])
-                                .Select(x => new Unit
-                                {
+                                .Select(x => new Unit {
                                     unit_code = (string)x["unit"],
                                     unit_name = (string)x["unit"] == "01" ? "US" : (string)x["unit"] == "02" ? "EU" : "JP/CM",
                                     size_range_start = (string)x["min"],
@@ -596,8 +549,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                             Child child = new Child();
                             child.is_provided = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["shoeSize"]["options"]["child"]["isProvided"];
                             child.unit_list = !child.is_provided ? null : ((JArray)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["shoeSize"]["options"]["child"]["allowData"])
-                                .Select(x => new Unit
-                                {
+                                .Select(x => new Unit {
                                     unit_code = (string)x["unit"],
                                     unit_name = (string)x["unit"] == "01" ? "US" : (string)x["unit"] == "02" ? "EU" : "JP/CM",
                                     size_range_start = (string)x["min"],
@@ -615,17 +567,15 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                         meal.is_require = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["meal"]["isRequired"];
                         meal.meal_list = !meal.is_require ? null : ((JArray)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["meal"]["options"]["meals"])
-                            .Select(x => new MealType
-                            {
+                            .Select(x => new MealType {
                                 is_provided = (bool)x["isProvided"],
                                 meal_type = (string)x["mealType"],
                                 meal_type_name = (string)x["mealTypeName"]
-                        }).OrderBy(y =>y.meal_type).ToList();
+                            }).OrderBy(y => y.meal_type).ToList();
 
                         ex.is_exclude = (bool)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["meal"]["options"]["excludeFood"]["isExcluded"];
                         ex.food_list = !ex.is_exclude ? null : ((JArray)objPmdlCustData["moduleSetting"]["setting"]["dataItems"]["meal"]["options"]["excludeFood"]["foods"])
-                            .Select(x => new Food
-                            {
+                            .Select(x => new Food {
                                 can_exclude = (bool)x["canExclude"],
                                 food_type = (string)x["foodType"],
                                 food_type_name = (string)x["foodTypeName"]
@@ -645,8 +595,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
 
                     //旅遊期間聯絡人
-                    if (module.module_type.Where(x => x.Contains("PMDL_CONTACT_DATA")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_CONTACT_DATA")).Count() > 0) {
                         var objPmdlContactData = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_CONTACT_DATA");
                         ContactData contact = new ContactData();
                         contact.is_require = (bool)objPmdlContactData["moduleSetting"]["isRequired"];
@@ -660,8 +609,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                         tel.is_require_TelCountryCode = (bool)objPmdlContactData["moduleSetting"]["setting"]["dataItems"]["contactTel"]["isRequired"];
                         tel.is_require_TelNumber = (bool)objPmdlContactData["moduleSetting"]["setting"]["dataItems"]["contactTel"]["isRequired"];
                         tel.tel_code_list = !tel.is_require_TelCountryCode ? null : ((JArray)objCountryCode["content"]["countryList"])
-                                .Select(x => new NationInfo
-                                {
+                                .Select(x => new NationInfo {
                                     country_tel_code = (string)x["country"]["telArea"],
                                     country_tel_info = $"{(string)x["country"]["countryEngName"]}({(string)x["country"]["countryName"]})"
                                 }).ToList();
@@ -672,8 +620,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                         app.is_require = (bool)objPmdlContactData["moduleSetting"]["setting"]["dataItems"]["contactApp"]["isRequired"];
                         app.is_require_AppAccount = (bool)objPmdlContactData["moduleSetting"]["setting"]["dataItems"]["contactApp"]["isRequired"];
                         app.app_type_list = ((JArray)objPmdlContactData["moduleSetting"]["setting"]["dataItems"]["contactApp"]["apps"])
-                            .Select(x => new App
-                            {
+                            .Select(x => new App {
                                 is_supported = (bool)x["isSupported"],
                                 app_type = (string)x["appType"],
                                 app_name = (string)x["appTypeName"]
@@ -683,8 +630,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
 
                     //其他資料
-                    if (module.module_type.Where(x => x.Contains("PMDL_SIM_WIFI")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_SIM_WIFI")).Count() > 0) {
                         var objPmdlSimWifi = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_SIM_WIFI");
                         SimWifi simWifi = new SimWifi();
 
@@ -703,8 +649,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
 
                     //乘客資料
-                    if (module.module_type.Where(x => x.Contains("PMDL_CAR_PSGR")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_CAR_PSGR")).Count() > 0) {
                         var objPmdlCarPsgr = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_CAR_PSGR");
 
                         CarPasgr carPasgr = new CarPasgr();
@@ -755,8 +700,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
 
                     //班機資訊 
-                    if (module.module_type.Where(x => x.Contains("PMDL_FLIGHT_INFO")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_FLIGHT_INFO")).Count() > 0) {
                         var objPmdlFlightInfo = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_FLIGHT_INFO");
                         FlightInfo flight = new FlightInfo();
                         flight.is_require = (bool)objPmdlFlightInfo["moduleSetting"]["isRequired"];
@@ -765,23 +709,19 @@ namespace KKday.API.WMS.Models.Repository.Product
                         Departure dep = new Departure();
 
                         List<FlightType> ft_list = new List<FlightType>();
-                        ft_list.Add(new FlightType()
-                        {
+                        ft_list.Add(new FlightType() {
                             type = "01",
                             type_name = uikey["booking_step1_flight_info_domestic_routes"]
                         });
-                        ft_list.Add(new FlightType()
-                        {
+                        ft_list.Add(new FlightType() {
                             type = "02",
                             type_name = uikey["booking_step1_flight_info_international_routes"]
                         });
 
                         List<Airport> airports = new List<Airport>();
-                        if (objAirport["content"]["airportList"] != null)
-                        {
+                        if (objAirport["content"]["airportList"] != null) {
                             airports = ((JArray)objAirport["content"]["airportList"])
-                              .Select(x => new Airport
-                              {
+                              .Select(x => new Airport {
                                   airport_code = (string)x["airportCode"],
                                   airport_name = (string)x["airportName"],
                                   area_code = (string)x["areaCd"]
@@ -820,8 +760,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
 
                     //寄送資料
-                    if (module.module_type.Where(x => x.Contains("PMDL_SEND_DATA")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_SEND_DATA")).Count() > 0) {
                         var objPmdlSendData = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_SEND_DATA");
                         SendData send = new SendData();
                         send.is_require = (bool)objPmdlSendData["moduleSetting"]["isRequired"];
@@ -835,8 +774,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                         rectel.is_require_TelCountryCode = (bool)objPmdlSendData["moduleSetting"]["setting"]["dataItems"]["receiverTel"]["isRequired"];
                         rectel.is_require_TelNumber = (bool)objPmdlSendData["moduleSetting"]["setting"]["dataItems"]["receiverTel"]["isRequired"];
                         rectel.tel_code_list = !rectel.is_require_TelCountryCode ? null : ((JArray)objCountryCode["content"]["countryList"])
-                                .Select(x => new NationInfo
-                                {
+                                .Select(x => new NationInfo {
                                     country_tel_code = (string)x["country"]["telArea"],
                                     country_tel_info = $"{(string)x["country"]["countryEngName"]}({(string)x["country"]["countryName"]})"
                                 }).ToList();
@@ -851,11 +789,9 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                         JArray items = (JArray)objPmdlSendData["moduleSetting"]["setting"]["dataItems"]["sendToCountry"]["countries"];
                         List<Country> countryList = new List<Country>();
-                        if (items != null)
-                        {
+                        if (items != null) {
                             //moudle來的country 資訊
-                            foreach (var item in items)
-                            {
+                            foreach (var item in items) {
                                 Country country = new Country();
                                 List<City> cityList = new List<City>();
 
@@ -870,8 +806,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                                 country.id = country_items["country"].ToString().Split("|||")[1];
                                 country.name = country_items["country"].ToString().Split("|||")[0];
                                 country.cities = ((JArray)country_items["citys"])
-                                    .Select(x => new City
-                                    {
+                                    .Select(x => new City {
                                         id = x.ToString().Split("|||")[1],
                                         name = x.ToString().Split("|||")[0]
 
@@ -906,8 +841,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
 
                     //租車(取車/還車)＋接送資料
-                    if (module.module_type.Where(x => x.Contains("PMDL_RENT_CAR")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_RENT_CAR")).Count() > 0) {
                         var objPmdlRentCar = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_RENT_CAR");
                         RentCar car = new RentCar();
                         car.is_require = (bool)objPmdlRentCar["moduleSetting"]["isRequired"];
@@ -916,8 +850,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                         car.is_require_EDate = true;
 
                         //去租車公司取車
-                        if ((string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"] != "03")
-                        {
+                        if ((string)objPmdlRentCar["moduleSetting"]["setting"]["rentCarType"] != "03") {
                             RentOffice office = new RentOffice();
                             BusinessHour bissTime = new BusinessHour();
                             office.is_ProvidedFreeGPS = (bool)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["rentCar"]["isProvidedFreeGPS"];
@@ -925,8 +858,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                             office.is_require_SLocation = true;
                             office.is_require_ELocation = true;
                             office.office_list = ((JArray)objPmdlRentCar["moduleSetting"]["setting"]["dataItems"]["rentCar"]["offices"])
-                                .Select(x => new Office
-                                {
+                                .Select(x => new Office {
                                     sort = (int)x["sort"],
                                     id = (string)x["id"],
                                     area_code = (string)x["areaCode"],
@@ -940,8 +872,7 @@ namespace KKday.API.WMS.Models.Repository.Product
                             car.rent_office = office;
                         }
                         //司機接送 或是 客人指定>>接送資料
-                        else
-                        {
+                        else {
                             car.is_require_EDate = false; //客人指定不用還車日期
 
                             DriverShuttle driver = new DriverShuttle();
@@ -962,18 +893,15 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
 
                     //接送資料(包車/指定)
-                    if (module.module_type.Where(x => x.Contains("PMDL_VENUE")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_VENUE")).Count() > 0) {
                         var objPmdlVenue = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_VENUE");
-                        if ((string)objPmdlVenue["moduleSetting"]["setting"]["venueType"] == "03" || (string)objPmdlVenue["moduleSetting"]["setting"]["venueType"] == "04")
-                        {
+                        if ((string)objPmdlVenue["moduleSetting"]["setting"]["venueType"] == "03" || (string)objPmdlVenue["moduleSetting"]["setting"]["venueType"] == "04") {
                             VenueInfo venue = new VenueInfo();
                             venue.is_require = (bool)objPmdlVenue["moduleSetting"]["isRequired"];
                             venue.is_require_Date = (bool)objPmdlVenue["moduleSetting"]["isRequired"];
                             venue.venue_type = (string)objPmdlVenue["moduleSetting"]["setting"]["venueType"];
                             venue.designated_location_list = ((JArray)objPmdlVenue["moduleSetting"]["setting"]["dataItems"]["designatedLocation"]["locations"])
-                                .Select(x => new DesignatedLocation
-                                {
+                                .Select(x => new DesignatedLocation {
                                     id = (string)x["id"],
                                     sort = (int)x["sort"],
                                     location_name = (string)x["locationName"],
@@ -1014,46 +942,37 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                             venue.designated_by_customer = byCustomer;
                             module.module_venue_info = venue;
-                        }
-                        else
-                        {
+                        } else {
                             module.module_type.Remove("PMDL_VENUE");
                         }
 
                     }
 
                     //憑證領取地點
-                    if (module.module_type.Where(x => x.Contains("PMDL_EXCHANGE")).Count() > 0)
-                    {
+                    if (module.module_type.Where(x => x.Contains("PMDL_EXCHANGE")).Count() > 0) {
                         var objPmdlExchange = jModules.FirstOrDefault(y => (string)y["moduleType"] == "PMDL_EXCHANGE");
-                        if ((string)objPmdlExchange["moduleSetting"]["setting"]["exchangeType"] == "05")
-                        {
+                        if ((string)objPmdlExchange["moduleSetting"]["setting"]["exchangeType"] == "05") {
                             List<Location> locations = ((JArray)objPmdlExchange["moduleSetting"]["setting"]["dataItems"]["locations"])
-                                .Select(x => new Location
-                                {
+                                .Select(x => new Location {
                                     id = (string)x["id"],
                                     name = (string)x["name"]
                                 }).ToList();
 
                             module.module_exchange_location_list = locations;
-                        }
-                        else
-                        {
+                        } else {
                             module.module_type.Remove("PMDL_EXCHANGE");
                         }
                     }
 
                     //導覽語系
-                    if (obj["content"]["product"]["guideLang"] != null && (string)obj["content"]["product"]["guideLang"] != "")
-                    {
+                    if (obj["content"]["product"]["guideLang"] != null && (string)obj["content"]["product"]["guideLang"] != "") {
                         List<GuideLanguage> langList = new List<GuideLanguage>();
                         GuideLanguage lang = null;
 
                         module.module_type.Add("GUIDE_LANGUAGE");
 
                         string[] guide_langs = ((string)obj["content"]["product"]["guideLang"]).Split(',');
-                        foreach (string guide_lang in guide_langs)
-                        {
+                        foreach (string guide_lang in guide_langs) {
                             lang = new GuideLanguage();
                             lang.lang_code = guide_lang;
                             lang.lang_name = (string)obj["content"]["product"]["guideLangMap"][guide_lang];
@@ -1064,14 +983,12 @@ namespace KKday.API.WMS.Models.Repository.Product
                     }
 
                     //場次
-                    if (objEvent["content"]["eventData"] != null)
-                    {
+                    if (objEvent["content"]["eventData"] != null) {
                         module.module_type.Add("PACKAGE_EVENT_BACKUP");
                         List<Event> et = new List<Event>();
 
                         module.module_event_list = ((JArray)objEvent["content"]["eventData"][0]["events"])
-                                .Select(x => new Event
-                                {
+                                .Select(x => new Event {
                                     day = (string)x["day"],
                                     event_times = (string)x["eventTimes"]
 
@@ -1080,17 +997,13 @@ namespace KKday.API.WMS.Models.Repository.Product
 
                     //WMS旅規 塞入redis
                     string module_data = JsonConvert.SerializeObject(module);
-                    rds.SetRedis(module_data, $"b2d:Product:module:{queryRQ.prod_no}_{queryRQ.pkg_no}", 180);
+                    _redisCache.SetRedis(module_data, $"b2d:Product:module:{queryRQ.prod_no}_{queryRQ.pkg_no}", 180);
 
-                }
-                else
-                {
+                } else {
                     module = JsonConvert.DeserializeObject<ProductModuleModel>(_moduleRedis);
                 }
 
-            }
-            catch (Exception ex)
-            {
+            } catch (Exception ex) {
                 module.result = "10001";
                 module.result_msg = $"Module ERROR :{ex.Message},{ex.StackTrace}";
                 module.module_type = null;
@@ -1101,15 +1014,13 @@ namespace KKday.API.WMS.Models.Repository.Product
             return module;
         }
 
-
-
         //提醒事項的挖字處理
-        public static List<Remind> setRemInf(JObject obj, string locale_lan, Dictionary<string, string> uikey) {
+        public List<Remind> setRemInf(JObject obj, string locale_lan, Dictionary<string, string> uikey) {
             //注意事項  diseaseRemind   php:gen_prod_tips_html
             List<Remind> remList = new List<Remind>();
             Remind rem = null;
-            uikey = rds.klingonGet("frontend", locale_lan);
-           
+            uikey = CommonRepository.getKlingon(_redisCache, "frontend", locale_lan);
+
             //票券商品提示M05
             if (obj["content"]["product"]["mainCat"].ToString().Equals("M05")) //如果是票要設order_show_tkt_1 ~5
             {
@@ -1194,8 +1105,7 @@ namespace KKday.API.WMS.Models.Repository.Product
         }
 
         //預設標題挖字處理
-        public static ProdTitleModel getProdTitle(Dictionary<string, string> uiKey)
-        {
+        public static ProdTitleModel getProdTitle(Dictionary<string, string> uiKey) {
             ProdTitleModel title = new ProdTitleModel();
 
             title.common_per_person = uiKey["common_per_person"];
@@ -1422,7 +1332,7 @@ namespace KKday.API.WMS.Models.Repository.Product
             title.booking_step1_rent_car_drop_off_date = uiKey["booking_step1_rent_car_drop_off_date"];
             title.booking_step1_rent_car_drop_off_date_placeholder = uiKey["booking_step1_rent_car_drop_off_date_placeholder"];
             title.booking_step1_car_psgr = uiKey["booking_step1_car_psgr"];
-            title.booking_step1_car_psgr_carry_luggage_quantity=uiKey["booking_step1_car_psgr_carry_luggage_quantity"];
+            title.booking_step1_car_psgr_carry_luggage_quantity = uiKey["booking_step1_car_psgr_carry_luggage_quantity"];
             title.booking_step1_car_psgr_carry_luggage = uiKey["booking_step1_car_psgr_carry_luggage"];
             title.booking_step1_car_psgr_checked_luggage = uiKey["booking_step1_car_psgr_checked_luggage"];
             title.booking_step1_car_psgr_child_seat_quantity = uiKey["booking_step1_car_psgr_child_seat_quantity"];
@@ -1509,5 +1419,360 @@ namespace KKday.API.WMS.Models.Repository.Product
             return title;
         }
 
+
+        #region --套餐--
+        static string _SEARCH_TYPE_PKG = "PACKAGE";
+
+        /// <summary>
+        /// Gets the package lst.
+        /// </summary>
+        /// <returns>The package lst.</returns>
+        /// <param name="rq">Rq.</param>
+        //取得套餐列表
+        public PackageModel GetPkgLst(QueryProductModel rq) {
+
+            PackageModel pkg = new PackageModel();
+            List<PkgDetailModel> pkgLst = new List<PkgDetailModel>();
+
+            DataModel.Discount.DiscountRuleModel disc = null;
+            PkgPriceModel pkg_price = new PkgPriceModel();
+            DiscountRepository dis = new DiscountRepository(_redisCache);
+            try {
+
+                //商品黑名單過濾
+                //抓商品是否為黑名單
+                bool isBlack = dis.GetProdBlackWhite(rq.prod_no);
+
+                if (isBlack) {
+                    pkg.result = "10";
+                    pkg.result_msg = $"Bad Request:Product-{rq.prod_no} is not available";
+                    return pkg;
+                }
+
+
+                JObject obj = PackageProxy.getPkgLst(rq);
+                JObject objProd = ProdProxy.getProd(rq);
+
+                if (obj["content"]["result"].ToString() != "0000") {
+                    pkg.result = obj["content"]["result"].ToString();
+                    pkg.result_msg = $"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday package api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
+
+                if (objProd["content"]["result"].ToString() != "0000") {
+                    pkg.result = obj["content"]["result"].ToString();
+                    pkg.result_msg = $"kkday product api response msg is not correct! {objProd["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday product api response msg is not correct! {objProd["content"]["msg"].ToString()}");
+                }
+
+                #region --1.取回傳資料是否成功的訊息、一般資訊--
+
+                pkg.result = obj["content"]["result"].ToString();
+                pkg.result_msg = obj["content"]["msg"].ToString();
+                pkg.cost_calc_type = obj["content"]["costCalcMethod"].ToString();
+
+                #endregion
+
+                #region --2.從傑森物件取『套餐列表』--
+                JArray jPkglst = (JArray)obj["content"]["packageList"];
+
+                pkg_price.pkgs = new List<pkgs>(); // 初始化陣列
+                pkg_price.currency = rq.current_currency;
+
+                for (int i = 0; i < jPkglst.Count; i++) {
+
+                    var model = new PkgDetailModel();
+                    var price_model = new pkgs(); // pkg_price 用
+
+                    model.pkg_no = jPkglst[i]["productPkg"]["pkgOid"].ToString();
+                    model.pkg_name = jPkglst[i]["productPkg"]["pkgName"].ToString();
+                    model.online_s_date = jPkglst[i]["productPkg"]["begValidDt"].ToString();
+                    model.online_e_date = jPkglst[i]["productPkg"]["endValidDt"].ToString();
+                    model.weekDays = jPkglst[i]["productPkg"]["weekDays"].ToString();
+
+                    model.is_unit_pirce = jPkglst[i]["productPkg"]["priceType"].ToString();
+
+                    model.price1 = dis.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), rq.current_currency, (double)jPkglst[i]["productPkg"]["price1"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString(), _SEARCH_TYPE_PKG, $"{jPkglst[i]["productPkg"]["pkgOid"].ToString()}_price1", ref disc);//分銷價
+                    model.price1_org = (double?)jPkglst[i]["productPkg"]["price1Org"] ?? 0;
+                    model.price1_org_net = (double?)jPkglst[i]["productPkg"]["price1NetOrg"] ?? 0;
+                    model.price1_profit_rate = (double?)jPkglst[i]["productPkg"]["price1GrossRate"] ?? 0;
+                    model.price1_comm_rate = (double?)jPkglst[i]["productPkg"]["price1CommRate"] ?? 0;
+                    model.price1_age_range = jPkglst[i]["productPkg"]["price1BegOld"].ToString() + "~" +
+                                             jPkglst[i]["productPkg"]["price1EndOld"].ToString();
+                    model.price1_b2c = (double?)jPkglst[i]["productPkg"]["price1Sale"] ?? 0;
+                    // model.price1_net = (double)jPkglst[i]["productPkg"][""];
+                    //  model.price1_list = (double)jPkglst[i]["productPkg"][""];
+
+                    model.price2 = (double?)jPkglst[i]["productPkg"]["price2"] == null ? 0 : dis.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), rq.current_currency, (double)jPkglst[i]["productPkg"]["price2"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString(), _SEARCH_TYPE_PKG, $"{jPkglst[i]["productPkg"]["pkgOid"].ToString()}_price2", ref disc);//分銷價
+                    model.price2_org = (double?)jPkglst[i]["productPkg"]["price2Org"] ?? 0;
+                    model.price2_org_net = (double?)jPkglst[i]["productPkg"]["price2NetOrg"] ?? 0;
+                    model.price2_profit_rate = (double?)jPkglst[i]["productPkg"]["price2GrossRate"] ?? 0;
+                    model.price2_comm_rate = (double?)jPkglst[i]["productPkg"]["price2CommRate"] ?? 0;
+                    model.price2_age_range = jPkglst[i]["productPkg"]["price2BegOld"].ToString() + "~" +
+                                             jPkglst[i]["productPkg"]["price2EndOld"].ToString();
+                    model.price2_b2c = (double?)jPkglst[i]["productPkg"]["price2Sale"] ?? 0;
+                    // model.price2_net = (double)jPkglst[i]["productPkg"][""];
+                    //  model.price2_list = (double)jPkglst[i]["productPkg"][""];
+
+                    model.price3 = (double?)jPkglst[i]["productPkg"]["price3"] == null ? 0 : dis.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), rq.current_currency, (double)jPkglst[i]["productPkg"]["price3"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString(), _SEARCH_TYPE_PKG, $"{jPkglst[i]["productPkg"]["pkgOid"].ToString()}_price3", ref disc);//分銷價
+                    model.price3_org = (double?)jPkglst[i]["productPkg"]["price3Org"] ?? 0;
+                    model.price3_org_net = (double?)jPkglst[i]["productPkg"]["price3NetOrg"] ?? 0;
+                    model.price3_profit_rate = (double?)jPkglst[i]["productPkg"]["price3GrossRate"] ?? 0;
+                    model.price3_comm_rate = (double?)jPkglst[i]["productPkg"]["price3CommRate"] ?? 0;
+                    model.price3_age_range = jPkglst[i]["productPkg"]["price3BegOld"].ToString() + "~" +
+                                             jPkglst[i]["productPkg"]["price3EndOld"].ToString();
+                    model.price3_b2c = (double?)jPkglst[i]["productPkg"]["price3Sale"] ?? 0;
+                    // model.price3_net = (double)jPkglst[i]["productPkg"][""];
+                    //  model.price3_list = (double)jPkglst[i]["productPkg"][""];
+
+                    model.price4 = (double?)jPkglst[i]["productPkg"]["price4"] == null ? 0 : dis.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), rq.current_currency, (double)jPkglst[i]["productPkg"]["price4"], rq.prod_no, objProd["content"]["product"]["mainCat"].ToString(), _SEARCH_TYPE_PKG, $"{jPkglst[i]["productPkg"]["pkgOid"].ToString()}_price4", ref disc);//分銷價
+                    model.price4_org = (double?)jPkglst[i]["productPkg"]["price4Org"] ?? 0;
+                    model.price4_org_net = (double?)jPkglst[i]["productPkg"]["price4NetOrg"] ?? 0;
+                    model.price4_profit_rate = (double?)jPkglst[i]["productPkg"]["price4GrossRate"] ?? 0;
+                    model.price4_comm_rate = (double?)jPkglst[i]["productPkg"]["price4CommRate"] ?? 0;
+                    model.price4_age_range = jPkglst[i]["productPkg"]["price4BegOld"].ToString() + "~" +
+                                             jPkglst[i]["productPkg"]["price4EndOld"].ToString();
+                    model.price4_b2c = (double?)jPkglst[i]["productPkg"]["price4Sale"] ?? 0;
+                    // model.price4_net = (double)jPkglst[i]["productPkg"][""];
+                    //  model.price4_list = (double)jPkglst[i]["productPkg"][""];
+
+                    model.status = jPkglst[i]["productPkg"]["status"].ToString();
+                    model.norank_min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderNum"];
+                    model.norank_max_book_qty = (int)jPkglst[i]["productPkg"]["maxOrderNum"];
+                    model.rank_min_book_qty = (int)jPkglst[i]["productPkg"]["minOrderQty"];
+                    model.min_overage_qty = (int)jPkglst[i]["productPkg"]["minOrderAdultQty"];
+
+                    model.isMultiple = jPkglst[i]["productPkg"]["isMultiple"].ToString();
+                    model.book_qty = jPkglst[i]["productPkg"]["orderQty"].ToString();
+                    model.unit = jPkglst[i]["productPkg"]["unit"].ToString();
+
+                    model.unit_txt = jPkglst[i]["productPkg"]["unitTxt"].ToString();
+                    model.unit_qty = (int)jPkglst[i]["productPkg"]["unitQty"];
+                    model.pickupTp = jPkglst[i]["productPkg"]["pickupTp"].ToString();
+                    model.pickupTpTxt = jPkglst[i]["productPkg"]["pickupTpTxt"].ToString();
+                    model.is_hl = jPkglst[i]["productPkg"]["isBackUp"].ToString();
+                    model.is_event = jPkglst[i]["productPkg"]["hasEvent"].ToString();
+
+                    var d = jPkglst[i]["productPkg"]["pkgDesc"];
+                    if (d.FirstOrDefault() != null) {
+                        //取各套餐內的各個敘述
+                        List<DescItem> desc = (d["descItems"][0]["content"])
+                            .Select(x => new DescItem {
+
+                                id = (string)x["id"],
+                                desc = (string)x["desc"]
+
+                            }).ToList();
+                        model.desc_items = desc;
+                    }
+
+                    //組moduleSetting
+                    var moduleSet = jPkglst[i]["productPkg"]["moduleSetting"];
+
+                    if (moduleSet.FirstOrDefault() != null) {
+
+                        FlightInfoType fit = new FlightInfoType() {
+                            value =
+                                moduleSet["flightInfoType"]["value"].ToString()
+
+                        };
+
+                        SendInfoType sit = new SendInfoType() {
+                            value =
+                                moduleSet["sendInfoType"]["value"].ToString(),
+                            country_code =
+                                moduleSet["sendInfoType"]["countryCode"].ToString()
+
+                        };
+
+                        VoucherValidInfo vi = new VoucherValidInfo();
+
+                        if (moduleSet["voucherValidInfo"] != null && moduleSet["voucherValidInfo"].Any()) {
+
+                            vi.valid_period_type =
+                                  moduleSet["voucherValidInfo"]["validPeriodType"].ToString();
+
+                            vi.before_specific_date =
+                                  moduleSet["voucherValidInfo"]["beforeSpecificDate"].ToString();
+
+                            if (moduleSet["voucherValidInfo"]["afterOrderDate"] != null && moduleSet["voucherValidInfo"]["afterOrderDate"].Any()) {
+                                AfterOrderDate aod = new AfterOrderDate() {
+                                    qty = (int?)moduleSet["voucherValidInfo"]["afterOrderDate"]["qty"],
+                                    unit = moduleSet["voucherValidInfo"]["afterOrderDate"]["unit"].ToString()
+                                };
+
+                                vi.after_order_date = aod;
+                            }
+                        }
+
+                        ModuleSetting ms = new ModuleSetting() {
+                            flight_info_type = fit,
+                            send_info_type = sit,
+                            voucher_valid_info = vi
+                        };
+
+                        model.module_setting = ms;
+
+                    }
+
+                    pkgLst.Add(model);
+
+
+                    price_model.pkg_no = model.pkg_no;
+                    price_model.price1 = model.price1;
+                    price_model.price1_b2c = model.price1_b2c;
+                    price_model.price2 = model.price2;
+                    price_model.price2_b2c = model.price2_b2c;
+                    price_model.price3 = model.price3;
+                    price_model.price3_b2c = model.price3_b2c;
+                    price_model.price4 = model.price4;
+                    price_model.price4_b2c = model.price4_b2c;
+                    pkg_price.pkgs.Add(price_model);
+
+                }
+
+                pkg.pkgs = pkgLst;
+                pkg.discount_rule = disc;
+                pkg.guid = Guid.NewGuid().ToString();
+
+                pkg_price.discount_rule = disc;
+
+                _redisCache.SetRedis(JsonConvert.SerializeObject(pkg_price), "b2d:pkgsPrice:" + pkg.guid, 1440); // 將 pkg_price 存入redis 
+
+
+                //依套餐取回『可售日期』
+                pkg.sale_dates = (PkgSaleDateModel)GetPkgSaleDate(rq); ;
+
+                #endregion
+
+
+            } catch (Exception ex) {
+
+                pkg.result = "10001";
+                pkg.result_msg = $"Package ERROR :{ex.Message},{ex.StackTrace}";
+                Website.Instance.logger.FatalFormat($"Package ERROR :{ex.Message},{ex.StackTrace}");
+            }
+
+            return pkg;
+        }
+        /// <summary>
+        /// Gets the package sale date.
+        /// </summary>
+        /// <returns>The package sale date.</returns>
+        /// <param name="rq">Rq.</param>
+        //取得套餐可售日期
+        public static PkgSaleDateModel GetPkgSaleDate(QueryProductModel rq) {
+
+            PkgSaleDateModel pkgSdt = new PkgSaleDateModel();
+            List<SaleDt> dt = new List<SaleDt>();
+
+            try {
+
+                JObject obj = PackageProxy.getSaleDate(rq);
+
+                if (obj["content"]["result"].ToString() != "0000") {
+                    pkgSdt.result = obj["content"]["result"].ToString();
+                    pkgSdt.result_msg = $"kkday saleDate api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday saleDate api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
+
+                #region --1.取回傳資料是否成功的訊息--
+
+                pkgSdt.result = obj["content"]["result"].ToString();
+                pkgSdt.result_msg = obj["content"]["msg"].ToString();
+
+                #endregion
+
+                #region --2.從傑森物件取『套餐可售日期列表』--
+
+                if (pkgSdt.result.ToString() == "0000") {
+
+                    JArray jDt = (JArray)obj["content"]["saleDt"];
+
+                    for (int i = 0; i < jDt.Count; i++) {
+
+
+
+                        var model = new SaleDt();
+
+                        model.pkg_no = jDt[i]["pkgOidObj"].ToString();
+                        model.sale_day = jDt[i]["day"].ToString();
+                        dt.Add(model);
+
+                    }
+
+                    pkgSdt.saleDt = dt;
+                }
+
+
+                #endregion
+            } catch (Exception ex) {
+                pkgSdt.result = "10001";
+                pkgSdt.result_msg = $"SaleDate ERROR :{ex.Message},{ex.StackTrace}";
+                Website.Instance.logger.FatalFormat($"SaleDate ERROR :{ex.Message},{ex.StackTrace}");
+
+            }
+
+            return pkgSdt;
+        }
+
+        /// <summary>
+        /// Gets the package events.
+        /// </summary>
+        /// <returns>The package events.</returns>
+        /// <param name="rq">Rq.</param>
+        //取得套餐場次
+        public PkgEventsModel GetPkgEvents(QueryProductModel rq) {
+
+            PkgEventsModel pkgEvnt = new PkgEventsModel();
+            List<Event> et = new List<Event>();
+
+            try {
+
+                JObject obj = PackageProxy.getEvents(rq);
+
+                if (obj["content"]["result"].ToString() != "0000") {
+                    pkgEvnt.result = obj["content"]["result"].ToString();
+                    pkgEvnt.result_msg = $"kkday event api response msg is not correct! {obj["content"]["msg"].ToString()}";
+                    throw new Exception($"kkday event api response msg is not correct! {obj["content"]["msg"].ToString()}");
+                }
+
+                #region --1.取回傳資料是否成功的訊息--
+
+                pkgEvnt.result = obj["content"]["result"].ToString();
+                pkgEvnt.result_msg = obj["content"]["msg"].ToString();
+                pkgEvnt.pkg_no = (int)obj["content"]["eventData"][0]["pkgOid"];
+                pkgEvnt.is_hl = obj["content"]["eventData"][0]["isBackup"].ToString();
+
+                #endregion
+
+                #region --2.從傑森物件取『套餐場次列表』--
+                JArray jEt = (JArray)obj["content"]["eventData"][0]["events"];
+
+                for (int i = 0; i < jEt.Count; i++) {
+
+                    var model = new Event();
+
+                    model.day = jEt[i]["day"].ToString();
+                    model.event_times = jEt[i]["eventTimes"].ToString();
+                    et.Add(model);
+
+                }
+
+                pkgEvnt.events = et;
+
+                #endregion
+            } catch (Exception ex) {
+
+                pkgEvnt.result = "10001";
+                pkgEvnt.result_msg = $"Events ERROR :{ex.Message},{ex.StackTrace}";
+                Website.Instance.logger.FatalFormat($"Events ERROR:{ex.Message},{ex.StackTrace}");
+            }
+
+            return pkgEvnt;
+
+
+        }
+        #endregion
     }
 }
