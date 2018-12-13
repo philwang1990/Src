@@ -93,7 +93,7 @@ namespace KKday.PMS.B2S
                                             supplierLoginRSModel.tokenKey);
 
                                             //旅規
-                                            module.Main(supplierLoginRSModel, rezdyProductModel.Product.BookingFields, prodOid, "PSSPVU", "");
+                                            module.Main(supplierLoginRSModel, rezdyProductModel.Product.BookingFields, prodOid, rezdyProductModel.Product.productCode, "");
 
                                             //商品 套餐 旅規 都沒有問題 打送審的API
 
