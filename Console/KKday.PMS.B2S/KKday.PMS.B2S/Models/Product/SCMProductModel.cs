@@ -35,6 +35,8 @@ namespace KKday.PMS.B2S.Models.Product
         public List<ScheMeal> scheMeal { get; set; }
         public string policyNo { get; set; }
         public string confirmHour { get; set; }
+
+
     }
 
     public class ScheMeal

@@ -54,7 +54,7 @@ namespace KKday.PMS.B2S.Models.Product
         public bool commissionIncludesExtras { get; set; }
         public DateTime dateCreated { get; set; }
         public long minimumNoticeMinutes { get; set; }
-        public long durationMinutes { get; set; }
+        public double durationMinutes { get; set; }
         public DateTime dateUpdated { get; set; }
         public long pickupId { get; set; }
         public locationAddress LocationAddress { get; set; }
