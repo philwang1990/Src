@@ -25,8 +25,8 @@ namespace KKday.PMS.B2S.Models.Product
         public string authName { get; set; }
         public string defaultImg { get; set; }
         public string imgDesc { get; set; }
-        public int imgOid { get; set; }
-        public int imgSeq { get; set; }
+        public int? imgOid { get; set; }
+        public int? imgSeq { get; set; }
         public string imgUrl { get; set; }
         public string isCcAuth { get; set; }
         public string isCommerce { get; set; }

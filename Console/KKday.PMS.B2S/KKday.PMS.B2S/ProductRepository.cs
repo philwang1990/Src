@@ -205,7 +205,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 setStep3(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel, timezoneString); // 上架時間
                 setStep4(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 憑證設定
                 setStep5(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程說明
-                //setStep6(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 照片及影片
+                setStep6(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 照片及影片
                 //setStep7(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程表
                 //setStep8(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 集合地點
                 //setStep9(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 費用包含細節
@@ -568,7 +568,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 JObject imageUploadRSModel;
                 ModifyImgRQModel modifyImgRQModel;
                 JObject modifyImgRSModel;
-                ImgList imgList = new ImgList();
+                ImgList imgList;
                 int seq = 0;
 
                 imageUploadRQModel = new ImageUploadRQModel();
@@ -593,7 +593,12 @@ namespace KKday.PMS.B2S.ProductRepository
                                                                    JsonConvert.SerializeObject(imageUploadRQModel));
                             if(imageUploadRSModel["isSuccess"].ToString() == "True")
                             {
-                                imgList.defaultImg = "N";
+                                imgList = new ImgList();
+                                if( seq == 0)
+                                    imgList.defaultImg = "Y";
+                                else
+                                    imgList.defaultImg = "N";
+
                                 imgList.imgUrl = imageUploadRSModel["s3Url"].ToString();
                                 imgList.kkdayImgUrl = imageUploadRSModel["kkdayImgUrl"].ToString();
                                 //imgList.imgOid = (int)imageUploadRSModel["imageOid"];
@@ -601,8 +606,9 @@ namespace KKday.PMS.B2S.ProductRepository
                                 imgList.imgSeq = seq;
                                 imgList.shareType = "A";
                                 imgList.usageTag = "U01";
+                                imgList.isCcAuth = "N";
+                                imgList.isCommerce = "Y";
                                 modifyImgRQModel.json.imgList.Add(imgList);
-
                             }
                             else
                             {
@@ -614,7 +620,12 @@ namespace KKday.PMS.B2S.ProductRepository
                     }
 
                     modifyImgRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_modifyImg), prodOid),
-                                                                   JsonConvert.SerializeObject(modifyImgRQModel));
+                                                                   JsonConvert.SerializeObject(modifyImgRQModel,
+                                                                                                Newtonsoft.Json.Formatting.None,
+                                                                                                new JsonSerializerSettings
+                                                                                                {
+                                NullValueHandling = NullValueHandling.Ignore
+                            }));
                     if (modifyImgRSModel["content"]["result"].ToString() != "0000")
                     {
                         isSuccess = false;
