@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace KKday.API.WMS.Models.DataModel.Order
 {
@@ -146,7 +147,8 @@ namespace KKday.API.WMS.Models.DataModel.Order
         public string userCrtDt { get; set; }
         public string userCrtDtGMTNm { get; set; }
         public string orderStatus { get; set; }
-        public string orderStatusTxt { get; set; }
+        [JsonProperty("orderStatusTxt")]
+        public string orderStatusTxt { get; set; } = "aa";
         public int confirmHour { get; set; }
         public string lstStatus { get; set; }
         public string takeStatus { get; set; }

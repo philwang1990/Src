@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace KKday.PMS.B2S.ProductRepository
 {
@@ -199,15 +200,15 @@ namespace KKday.PMS.B2S.ProductRepository
                 scmModel.json.deviceId = supplierLoginRSModel.deviceId;
                 scmModel.json.tokenKey = supplierLoginRSModel.tokenKey;
 
-                setStep1(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel, ref timezoneString); // 基本設定
-                setStep2(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 商品分類
-                setStep3(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel, timezoneString); // 上架時間
-                setStep4(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 憑證設定
-                setStep5(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程說明
+                //setStep1(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel, ref timezoneString); // 基本設定
+                //setStep2(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 商品分類
+                //setStep3(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel, timezoneString); // 上架時間
+                //setStep4(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 憑證設定
+                //setStep5(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程說明
                 //setStep6(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 照片及影片
                 //setStep7(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程表
                 //setStep8(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 集合地點
-                //setStep9(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 費用包含細節
+                setStep9(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 費用包含細節
                 //setStep10(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 兌換方式
 
                 return rsModel;
@@ -383,9 +384,9 @@ namespace KKday.PMS.B2S.ProductRepository
 
                 //scmModel.json.tagCd = new List<string>();
                 if (rezdyProductModel.Product.productType == "DAYTOUR")
-                    scmModel.json.tagCd = new List<string>(new String[] { "TAG_4_4" }); // 商品分類 一日遊
+                    scmModel.json.tagCd = new List<string> { "TAG_4_4" }; // 商品分類 一日遊
                 else if (rezdyProductModel.Product.productType == "MULTIDAYTOUR")
-                    scmModel.json.tagCd = new List<string>(new String[] { "TAG_4_5" }); // 商品分類 多日遊
+                    scmModel.json.tagCd = new List<string> { "TAG_4_5" }; // 商品分類 多日遊
 
                 //後面參數為model有null時 不顯示在model內
                 scmRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_productmodify), prodOid), JsonConvert.SerializeObject(scmModel,
@@ -494,7 +495,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 voucherUpdateRQModel.json.moduleSetting.isRequired = true; // 固定
                 voucherUpdateRQModel.json.moduleSetting.setting.voucherType = "02"; // 憑證類型 供應商憑證
 
-                //後面參數為model有null時 不顯示在model內
+
                 voucherUpdateRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_voucherupdate),prodOid),
                                                               JsonConvert.SerializeObject(voucherUpdateRQModel));
                 if (voucherUpdateRSModel["content"]["result"].ToString() != "0000")
@@ -561,6 +562,99 @@ namespace KKday.PMS.B2S.ProductRepository
                 //Startup startup = new Startup();
                 //startup.Initial();
                 RSModel rsModel = new RSModel();
+                WebClient wc = new WebClient();
+                bool isSuccess = true; // 預設為true 如果圖片上傳有任一個失敗 改為false並回傳錯誤
+                ImageUploadRQModel imageUploadRQModel;
+                JObject imageUploadRSModel;
+                ModifyImgRQModel modifyImgRQModel;
+                JObject modifyImgRSModel;
+                ImgList imgList;
+                int seq = 0;
+                string msg = "";
+
+                imageUploadRQModel = new ImageUploadRQModel();
+                modifyImgRQModel = new ModifyImgRQModel();
+                modifyImgRQModel.json = new ModifyImgJson();
+                modifyImgRQModel.json.imgList = new List<ImgList>();
+                modifyImgRQModel.json.supplierOid = supplierLoginRSModel.supplierOid;
+                modifyImgRQModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
+                modifyImgRQModel.json.deviceId = supplierLoginRSModel.deviceId;
+                modifyImgRQModel.json.tokenKey = supplierLoginRSModel.tokenKey;
+
+                if ( rezdyProductModel.Product.Images.Count > 0 )
+                {
+                    foreach( var i in rezdyProductModel.Product.Images)
+                    {
+
+                        if (i.largeSizeUrl != null)
+                        {
+                            imageUploadRQModel.fileName = i.largeSizeUrl.Split("/")[i.largeSizeUrl.Split("/").Length-1];
+                            imageUploadRQModel.encodeString = Convert.ToBase64String(wc.DownloadData(i.largeSizeUrl));
+                            imageUploadRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_imageUpload), prodOid),
+                                                                   JsonConvert.SerializeObject(imageUploadRQModel));
+                            if(imageUploadRSModel["isSuccess"].ToString() == "True")
+                            {
+                                imgList = new ImgList();
+                                if( seq == 0)
+                                    imgList.defaultImg = "Y";
+                                else
+                                    imgList.defaultImg = "N";
+
+                                imgList.imgUrl = imageUploadRSModel["s3Url"].ToString();
+                                imgList.kkdayImgUrl = imageUploadRSModel["kkdayImgUrl"].ToString();
+                                //imgList.imgOid = (int)imageUploadRSModel["imageOid"];
+                                //imgList.imgOid = null;
+                                imgList.imgSeq = seq;
+                                imgList.shareType = "A";
+                                imgList.usageTag = "U01";
+                                imgList.isCcAuth = "N";
+                                imgList.isCommerce = "Y";
+                                modifyImgRQModel.json.imgList.Add(imgList);
+                            }
+                            else
+                            {
+                                isSuccess = false;
+                                msg = imageUploadRSModel["errorMsg"].ToString();
+                                break;
+                            }
+                        }
+
+                        seq++;
+                    }
+
+                    // 上傳圖片若有失敗 要回傳錯誤訊息
+                    if(!isSuccess)
+                    {
+                        rsModel.result = "10001";
+                        rsModel.msg = msg;
+                        return rsModel;
+                    }
+
+                    modifyImgRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_modifyImg), prodOid),
+                                                                   JsonConvert.SerializeObject(modifyImgRQModel,
+                                                                                                Newtonsoft.Json.Formatting.None,
+                                                                                                new JsonSerializerSettings
+                                                                                                {
+                                NullValueHandling = NullValueHandling.Ignore
+                            }));
+                    if (modifyImgRSModel["content"]["result"].ToString() != "0000")
+                    {
+                        rsModel.result = modifyImgRSModel["content"]["result"].ToString();
+                        rsModel.msg = modifyImgRSModel["content"]["msg"].ToString();
+                        return rsModel;
+                    }
+
+                    rsModel.result = modifyImgRSModel["content"]["result"].ToString();
+                    rsModel.msg = modifyImgRSModel["content"]["msg"].ToString();
+                    return rsModel;
+
+                }
+
+
+
+                //byte[] bytes = wc.DownloadData("https://img.rezdy.com/PRODUCT_IMAGE/136215/d4-yellow-water-billabong-kakadu-aat-kings.jpg");
+                //string base64String = Convert.ToBase64String(bytes);
+                //Console.WriteLine(base64String);
 
                 return rsModel;
             }
@@ -612,7 +706,33 @@ namespace KKday.PMS.B2S.ProductRepository
                 //Startup startup = new Startup();
                 //startup.Initial();
                 RSModel rsModel = new RSModel();
+                DetailNewRQModel detailNewRQModel;
+                JObject detailNewRSModel;
+                DetailList detailList = new DetailList();
 
+                detailNewRQModel = new DetailNewRQModel();
+                detailNewRQModel.json = new DetailNewJson();
+                detailNewRQModel.json.detailList = new List<DetailList>();
+                detailNewRQModel.json.supplierOid = supplierLoginRSModel.supplierOid;
+                detailNewRQModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
+                detailNewRQModel.json.deviceId = supplierLoginRSModel.deviceId;
+                detailNewRQModel.json.tokenKey = supplierLoginRSModel.tokenKey;
+
+                detailList.detailType = "INC"; // 費用包含
+                detailList.desc = "DAYTOUR"; // 固定
+                detailNewRQModel.json.detailList.Add(detailList);
+
+                detailNewRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_detailNew), prodOid),
+                                                              JsonConvert.SerializeObject(detailNewRQModel));
+                if (detailNewRSModel["content"]["result"].ToString() != "0000")
+                {
+                    rsModel.result = detailNewRSModel["content"]["result"].ToString();
+                    rsModel.msg = detailNewRSModel["content"]["msg"].ToString();
+                    return rsModel;
+                }
+
+                rsModel.result = detailNewRSModel["content"]["result"].ToString();
+                rsModel.msg = detailNewRSModel["content"]["msg"].ToString();
                 return rsModel;
             }
             catch (Exception ex)

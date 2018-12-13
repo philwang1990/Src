@@ -22,7 +22,7 @@ namespace KKday.API.WMS.AppCode.Proxy {
 
             JObject jsonObj = new JObject();
 
-            var _uri = Website.Instance.Configuration["URL:KK_SEARCH"];
+            var _uri = $"{Website.Instance.Configuration["KKApiUrl:SEARCH_SIT"]}search/prod";
        
 
             try {

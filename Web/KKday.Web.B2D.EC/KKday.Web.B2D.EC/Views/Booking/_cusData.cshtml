@@ -1,0 +1,491 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@{
+    var totalCus = (int)ViewData["totalCus"];
+    var cusData = (CusData)ViewData["cusData"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var guide = (List<GuideLanguage>) ViewData["guide"];
+    var cusAgeRange =(CusAgeRange) ViewData["cusAgeRange"];
+    var totalCusTemp = 0;
+}
+
+@if (cusData != null)
+{
+
+   @for (int i = 1; i <= totalCus; i++)
+   {
+     <form id="cusForm_@i" class="formClass">
+
+         <div class="traveler-con">
+             <div class="sub-title">
+                 @Html.Hidden("hdnCusType", cusData.cus_type)
+                 @if (cusData.cus_type == "01")
+        {
+         @prodTitle.booking_step1_lead_traveler
+}
+else
+{
+         @prodTitle.booking_step1_custom @i
+}
+             </div>
+             <div class="row">
+                 @if (cusData.is_require == true)
+        {
+         @if (cusData.englis_name.is_require_FirstName == true)
+{
+         <!--護照名-->
+         <div class="col-md-4 col-sm-6 col-xs-12">
+             <label> @prodTitle.booking_step1_cust_data_passport_english_firstname</label>
+             <input type="text" class="form-control" id="txtEngFirst_@i" name="txtEngFirst" placeholder="@prodTitle.booking_step1_cust_data_passport_english_firstname_placeholder" />
+         </div>
+}
+         @if (cusData.englis_name.is_require_LastName == true)
+{
+         <!-- 護照姓 -->
+         <div class="col-md-4 col-sm-6 col-xs-12">
+             <label> @prodTitle.booking_step1_cust_data_passport_english_lastname</label>
+             <input type="text" class="form-control" id="txtEngLast_@i" name="txtEngLast" placeholder="@prodTitle.booking_step1_cust_data_passport_english_lastname_placeholder" />
+         </div>
+}
+
+         @if (cusData.gender.is_require == true)
+{
+         <!-- 性別 -->
+         <div class="col-md-4 col-sm-6 col-xs-12">
+             <div class="form-group">
+                 <label>@prodTitle.booking_step1_cus_cusGender</label>
+                 <select class="form-control" id="selGender_@i" name="selGender">
+                     <option value=null disabled selected="selected">
+                         @prodTitle.common_select_set
+                     </option>
+                     <option value="M">
+                         @prodTitle.common_male
+                     </option>
+                     <option value="F">
+                         @prodTitle.common_female
+                     </option>
+                 </select>
+             </div>
+         </div>
+}
+}
+
+             </div>
+             <div class="row">
+                 @if (cusData.birthday.is_require == true)
+        {
+         <div class="col-md-4 col-sm-6 col-xs-12 divCusBirthday">
+             @if (totalCusTemp < cusAgeRange.price1Qty)
+    {
+         @Html.Hidden("hdnBirthdaySage_" + i, cusAgeRange.price1sAge)
+         @Html.Hidden("hdnBirthdayEage_" + i, cusAgeRange.price1eAge)
+}
+else if (totalCusTemp < cusAgeRange.price1Qty + cusAgeRange.price2Qty)
+{
+         @Html.Hidden("hdnBirthdaySage_" + i, cusAgeRange.price2sAge)
+         @Html.Hidden("hdnBirthdayEage_" + i, cusAgeRange.price2eAge)
+}
+else if (totalCusTemp < cusAgeRange.price1Qty + cusAgeRange.price2Qty + cusAgeRange.price3Qty)
+{
+         @Html.Hidden("hdnBirthdaySage_" + i, cusAgeRange.price3sAge)
+         @Html.Hidden("hdnBirthdayEage_" + i, cusAgeRange.price3eAge)
+}
+else
+{
+         @Html.Hidden("hdnBirthdaySage_" + i, cusAgeRange.price4sAge)
+         @Html.Hidden("hdnBirthdayEage_" + i, cusAgeRange.price4eAge)
+}
+             <label> @prodTitle.booking_step1_cus_cusBirthday</label>
+             <div class="form-group">
+                 <div class="input-group date" id='datepicker_@i' onclick="">
+                     <input type="text" class="form-control" id="txtBirtyday_@i" name="txtBirtyday" placeholder="@prodTitle.common_select_set" readonly="readonly" />
+                     <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                 </div>
+             </div>
+         </div>
+
+totalCusTemp = totalCusTemp + 1;
+}
+
+                 <!--國家-->
+                 @if (cusData.nationality.is_require == true)
+        {
+         <div class="col-md-4 col-sm-6 col-xs-12">
+             <div class="form-group">
+                 <label>@prodTitle.booking_step1_cus_countryName_placeholder</label>
+                 <select class="form-control country" id="selcusCountry_@i" name="selcusCountry" onchange="chgNation(@i)">
+                     <option value=null disabled selected="selected">
+                         @prodTitle.booking_step1_cus_countryName_placeholder
+                     </option>
+                     @foreach (NationInfo n in cusData.nationality.nation_list)
+            {
+             <option value="@n.country_code">
+                 @n.country_local_name
+             </option>
+}
+                 </select>
+             </div>
+         </div>
+}
+             </div>
+
+             @if (cusData.passport.is_require_PassprotNo == true)
+    {
+         <div class="row">
+             <div class="col-md-4 col-sm-6 col-xs-12">
+                 <div class="form-group">
+                     <label>@prodTitle.booking_step1_cus_passportId</label>
+                     <input type="text" class="form-control" id="txtPassportId_@i" name="txtPassportId" placeholder="@prodTitle.booking_step1_cus_passportId" />
+                 </div>
+             </div>
+
+             @if (cusData.passport.is_require_PassprotExpDate == true)
+    {
+         <div class="col-md-4 col-sm-6 col-xs-12">
+             <div class="form-group">
+                 <label>@prodTitle.booking_step1_cust_data_passport_exp_date</label>
+                 <div class="input-group date" id='passDate_@i' onclick="">
+                     <input type="text" class="form-control" placeholder="@prodTitle.common_select_set" id="txtPassDate_@i" name="txtPassDate" readonly="readonly" />
+                     <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                 </div>
+             </div>
+         </div>
+}
+         </div>
+}
+
+             @if (cusData.local_name.is_require_FirstName == true)
+    {
+         <!-- 本國國籍名字  -->
+         <div class="row">
+             <div class="col-md-4 col-sm-6 col-xs-12">
+                 <div class="form-group">
+                     <label> @prodTitle.booking_step1_cust_data_local_firstname</label>
+                     <input type="text" class="form-control" id="txtlocalFirstName_@i" name="txtlocalFirstName" placeholder="@prodTitle.booking_step1_cust_data_local_firstname_placeholder">
+                 </div>
+             </div>
+
+             @if (cusData.local_name.is_require_LastName == true)
+    {
+         <div class="col-md-4 col-sm-6 col-xs-12">
+             <div class="form-group">
+                 <label> @prodTitle.booking_step1_cust_data_local_lastname</label>
+                 <input type="text" class="form-control" id="txtlocalLastName_@i" name="txtlocalLastName" placeholder="@prodTitle.booking_step1_cust_data_local_lastname_placeholder">
+             </div>
+         </div>
+}
+
+         </div>
+}
+
+             <!-- 台灣身分證字號 -->
+             @Html.Hidden("hdnNationTW_" + i, "1")
+             <div class="row defaultHide nationTW_@i">
+                 <div class="col-md-4 col-sm-6 col-xs-12">
+                     <div class="form-group">
+                         <label>@prodTitle.booking_step1_cust_data_tw_identity_number</label>
+                         <div class="input-icon">
+                             <input type="text" class="form-control" id="txtNationTW_@i" name="txtNationTW" placeholder="@prodTitle.booking_step1_cust_data_tw_identity_number_placeholder">
+                             <span class="flag"><img src=""></span>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- 港澳身分證字號 -->
+             @Html.Hidden("hdnNationHKMO_" + i, "1")
+             <div class="row defaultHide nationHKMO_@i">
+                 <div class="col-md-4 col-sm-6 col-xs-12">
+                     <div class="form-group">
+                         <label>@prodTitle.booking_step1_cust_data_hk_mo_identity_number</label>
+                         <div class="input-icon">
+                             <input class="form-control" id="txtNationHKMO_@i" name="txtNationHKMO"
+                                    placeholder="@prodTitle.booking_step1_cust_data_hk_mo_identity_number_placeholder"
+                                    type="text">
+                             <span class="flag"><img src=""></span> <!---<?php echo base_url('assets/img/flag/tw.png') ?>-->
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <!-- 台胞證字號 -->
+             @Html.Hidden("hdnNationMTP_" + i, "1")
+             <div class="row defaultHide nationMTP_@i">
+                 <div class="col-md-4 col-sm-6 col-xs-12">
+                     <div class="form-group">
+                         <label>@prodTitle.booking_step1_cust_data_mtp_number</label>
+                         <div class="input-icon">
+                             <input class="form-control" id="txtNationMTP_@i" name="txtNationMTP"
+                                    placeholder="@prodTitle.booking_step1_cust_data_mtp_number_placeholder"
+                                    type="text">
+                             <span class="flag"><img src=""></span> <!---<?php echo base_url('assets/img/flag/tw.png') ?>-->
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
+             <div class="row">
+                 @if (cusData.high.is_require == true)
+        {
+         <!-- 旅客身高 -->
+         <div class="col-md-4 col-sm-6 col-xs-12">
+             <div class="form-group must">
+                 <label>@prodTitle.booking_step1_cust_data_height</label>
+                 <div class="input-select">
+                     <div class="form-group form-input">
+                         <input type="number" min="0" class="form-control" id="txtHigh_@i" name="txtHigh">
+                     </div>
+                     <div class="form-group form-select">
+                         <select class="form-control" id="selHighUnit_@i" name="selHighUnit">
+                             <option value=null disabled selected="selected">
+                                 @prodTitle.booking_step1_cust_data_unit
+                             </option>
+                             <option value="01">
+                                 @prodTitle.booking_step1_cust_data_height_unit_01
+                             </option>
+                             <option value="02">
+                                 @prodTitle.booking_step1_cust_data_height_unit_02
+                             </option>
+                         </select>
+                     </div>
+                 </div>
+             </div>
+         </div>
+}
+
+                 @if (cusData.weight.is_require == true)
+        {
+         <!-- 旅客體重 -->
+         <div class="col-md-4 col-sm-6 col-xs-12">
+             <div class="form-group must">
+                 <label>@prodTitle.booking_step1_cust_data_weight</label>
+                 <div class="input-select">
+                     <div class="form-group form-input">
+                         <input type="number" min="0" class="form-control" id="txtWeight_@i" name="txtWeight">
+                     </div>
+                     <div class="form-group form-select">
+                         <select class="form-control" id="selWeightUnit_@i" name="selWeightUnit">
+                             <option value=null disabled selected="selected">
+                                 @prodTitle.booking_step1_cust_data_unit
+                             </option>
+                             <option value="01">
+                                 @prodTitle.booking_step1_cust_data_weight_unit_01
+                             </option>
+                             <option value="02">
+                                 @prodTitle.booking_step1_cust_data_weight_unit_02
+                             </option>
+                         </select>
+                     </div>
+                 </div>
+             </div>
+         </div>
+}
+             </div>
+
+
+             <!--鞋子-->
+             @if (cusData.shoe_size.is_require == true)
+    {
+         <div class="row">
+             <div class="col-md-8 col-sm-12">
+                 <div class="form-group">
+                     <label>@prodTitle.booking_step1_cust_data_shoe_size </label>
+                     <div class="row">
+                         <div class="col-sm-6 col-xs-12">
+                             <div class="form-group form-select">
+                                 <select class="form-control" id="selSize_@i" name="selSize" onchange="chgShoeIdentity(@i)">
+                                     <option :value="null" disabled selected="selected">
+                                         @prodTitle.booking_step1_cust_data_shoe_size_placeholder
+                                     </option>
+                                     @if (cusData.shoe_size.man.is_provided == true)
+                            {
+                             <option value="M">
+                                 @prodTitle.booking_step1_cust_data_shoe_size_man
+                             </option>
+                }
+                                     @if (cusData.shoe_size.woman.is_provided == true)
+                            {
+                             <option value="W">
+                                 @prodTitle.booking_step1_cust_data_shoe_size_woman
+                             </option>
+                }
+                                     @if (cusData.shoe_size.child.is_provided == true)
+                            {
+                             <option value="C">
+                                 @prodTitle.booking_step1_cust_data_shoe_size_child
+                             </option>
+                }
+
+                                 </select>
+                                 <div class="tip">
+                                     <i class="icon-info icons"></i>@prodTitle.booking_step1_cust_data_shoe_size_tip
+                                 </div>
+                             </div>
+                         </div>
+
+
+                         <!--man unit-->
+                         @if (cusData.shoe_size.man.is_provided == true)
+                {
+                 <div class="col-sm-6 col-xs-12 defaultHide shoeUnitMan_@i">
+                     <div class="form-inline shoe_size">
+                         <div class="form-group">
+                             <select class="form-control" id="selShoeUnitM_@i" name="selShoeUnitM" onchange="chgShoeIdentity3(this)">
+                                 <option :value="null" disabled selected="selected">
+                                     @prodTitle.booking_step1_cust_data_unit
+                                 </option>
+                                 @foreach (Unit u in cusData.shoe_size.man.unit_list)
+                        {
+                            var uCode = u.unit_code + "_" + u.size_range_start + "_" + u.size_range_end;
+                         <option value="@uCode">
+                             @u.unit_name
+                         </option>
+            }
+                             </select>
+                         </div>
+                         <!--size-->
+                         <div class="form-group defaultHide shoeSizeM_@i">
+                             <select class="form-control" id="selShoeSizeM_@i" name="selShoeSizeM">
+                                 <option :value="null" disabled selected="selected">
+                                     --
+                                 </option>
+                             </select>
+                         </div>
+                     </div>
+                 </div>
+    }
+
+                         <!--woman unit-->
+                         @if (cusData.shoe_size.woman.is_provided == true)
+                {
+                 <div class="col-sm-6 col-xs-12 defaultHide shoeUnitWoman_@i">
+                     <div class="form-inline shoe_size">
+                         <div class="form-group">
+                             <select class="form-control" id="selShoeUnitW_@i" name="selShoeUnitW" onchange="chgShoeIdentity3(this)">
+                                 <option :value="null" disabled selected="selected">
+                                     @prodTitle.booking_step1_cust_data_unit
+                                 </option>
+                                 @foreach (Unit u in cusData.shoe_size.woman.unit_list)
+                        {
+                            var uCode = u.unit_code + "_" + u.size_range_start + "_" + u.size_range_end;
+                         <option value="@uCode">
+                             @u.unit_name
+                         </option>
+            }
+                             </select>
+                         </div>
+                         <!--size-->
+                         <div class="form-group defaultHide shoeSizeW_@i">
+                             <select class="form-control" id="selShoeSizeW_@i" name="selShoeSizeW">
+                                 <option :value="null" disabled selected="selected">
+                                     --
+                                 </option>
+                             </select>
+                         </div>
+
+                     </div>
+                 </div>
+    }
+
+                         <!--child unit-->
+                         @if (cusData.shoe_size.child.is_provided == true)
+                {
+                 <div class="col-sm-6 col-xs-12 defaultHide shoeUnitChild_@i">
+                     <div class="form-inline shoe_size">
+                         <div class="form-group">
+                             <select class="form-control" id="selShoeUnitC_@i" name="selShoeUnitC" onchange="chgShoeIdentity3(this)">
+                                 <option :value="null" disabled selected="selected">
+                                     @prodTitle.booking_step1_cust_data_unit
+                                 </option>
+                                 @foreach (Unit u in cusData.shoe_size.man.unit_list)
+                        {
+                            var uCode = u.unit_code + "_" + u.size_range_start + "_" + u.size_range_end;
+                         <option value="@uCode">
+                             @u.unit_name
+                         </option>
+            }
+                             </select>
+                         </div>
+                         <!--size-->
+                         <div class="form-group defaultHide shoeSizeC_@i">
+                             <select class="form-control" id="selShoeSizeC_@i" name="selShoeSizeC">
+                                 <option :value="null" disabled selected="selected">
+                                     --
+                                 </option>
+                             </select>
+                         </div>
+
+                     </div>
+                 </div>
+    }
+
+
+                     </div>
+                 </div>
+             </div>
+         </div>
+}
+
+
+             <!-- 眼鏡度數 -->
+             @if (cusData.glass_degree.is_require == true)
+    {
+        var s = Convert.ToInt32(cusData.glass_degree.degree_range_start);
+        var e = Convert.ToInt32(cusData.glass_degree.degree_range_end);
+         <div class="row">
+             <div class="col-md-4 col-sm-6 col-xs-12">
+                 <div class="form-group">
+                     <label>@prodTitle.booking_step1_cust_data_glass_diopter</label>
+                     <select class="form-control" id="selGlass_@i" name="selGlass">
+                         <option value="null" disabled selected="selected">
+                             @prodTitle.booking_step1_cust_data_glass_diopter_placeholder
+                         </option>
+                         <option value="0">@prodTitle.booking_step1_cust_data_do_not_need</option>
+                         @for (int ii = s; ii <= e; ii = ii + 100)
+                {
+                 <option value="@ii">
+                     @ii
+                 </option>
+    }
+
+                     </select>
+                 </div>
+             </div>
+         </div>
+}
+
+             <!-- 選擇餐食 -->
+             @if (cusData.meal.is_require == true)
+    {
+         <div class="row">
+             <div class="col-md-4 col-sm-6 col-xs-12">
+                 <div class="form-group">
+                     <label>@prodTitle.booking_step1_cust_data_meal</label>
+                     <select class="form-control" id="selMealType_@i" name="selMealType">
+                         <option value="null" disabled selected="selected">
+                             @prodTitle.booking_step1_cust_data_meal_placeholder
+                         </option>
+
+                         @foreach (MealType m in cusData.meal.meal_list)
+                {
+                 @if (m.is_provided == true)
+        {
+         <option value="@m.meal_type">
+             @m.meal_type_name
+         </option>
+}
+    }
+
+                     </select>
+                 </div>
+             </div>
+         </div>
+}
+         </div>
+     </form>
+    }
+
+}
+
+@*<input type="button" value="button" onclick="chkValid()" />*@

@@ -57,7 +57,7 @@ namespace KKday.API.WMS.AppCode.Proxy
                         RQ.json = j;
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_ORDERS"]}";
+                        string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/list/member";
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -119,7 +119,8 @@ namespace KKday.API.WMS.AppCode.Proxy
                         RQ.json = j;
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_ORDER_INFO"]}{order_no}";
+                        //string url = $"{Website.Instance.Configuration["URL:KK_ORDER_INFO"]}{order_no}";
+                        string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/info/{order_no}";
 
                         using (HttpContent content = new StringContent(json_data))
                         {
@@ -183,7 +184,8 @@ namespace KKday.API.WMS.AppCode.Proxy
                         RQ.json = j;
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_PAYMENT_FAIL"]}{mid}";
+                        //string url = $"{Website.Instance.Configuration["URL:KK_PAYMENT_FAIL"]}{mid}";
+                        string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}order/payment/fail/{mid}";
 
                         using (HttpContent content = new StringContent(json_data))
                         {

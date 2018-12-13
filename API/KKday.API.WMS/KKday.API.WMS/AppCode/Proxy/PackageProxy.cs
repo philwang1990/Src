@@ -47,7 +47,8 @@ namespace KKday.API.WMS.AppCode.Proxy {
 
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = $"{Website.Instance.Configuration["URL:KK_PKG"]}{query_lst.prod_no}";
+                       
+                        string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}product/pkg/{query_lst.prod_no}";
 
                         using (HttpContent content = new StringContent(json_data)) {
                             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
@@ -104,8 +105,9 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         };
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = Website.Instance.Configuration["URL:KK_PKG_DAY"];
-
+                       
+                        string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}1.0/pkg/cal/order/saleDt";
+                   
                         using (HttpContent content = new StringContent(json_data)) {
                             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
                             var response = client.PostAsync(url, content).Result;
@@ -162,7 +164,8 @@ namespace KKday.API.WMS.AppCode.Proxy {
                         };
 
                         string json_data = JsonConvert.SerializeObject(RQ);
-                        string url = Website.Instance.Configuration["URL:KK_PKG_EVENT"];
+                        //string url = Website.Instance.Configuration["URL:KK_PKG_EVENT"];
+                        string url = $"{Website.Instance.Configuration["KKApiUrl:SIT"]}1.0/pkg/cal/order/events";
 
                         using (HttpContent content = new StringContent(json_data)) {
                             content.Headers.ContentType = new MediaTypeHeaderValue("application/json");

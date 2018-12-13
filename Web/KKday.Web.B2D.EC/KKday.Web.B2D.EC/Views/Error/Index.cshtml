@@ -1,0 +1,17 @@
+﻿@{
+    string invalid_title = ViewBag.invalid_title as string;
+    string invalid_info = ViewBag.invalid_info as string;
+    string common_more_experiences = ViewBag.common_more_experiences as string;
+}
+
+<section class="wrapper" id="invalidProductApp">
+    <div class="container">
+        <div class="empty-list">
+            <div class="none-title">
+                <img src="@Url.Content("/images/empty_state/product_detail.svg")">
+                <h3> @invalid_title </h3>
+                <p class="none-hint"> @invalid_info </p>
+            </div>
+        </div>
+    </div>
+</section>

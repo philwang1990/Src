@@ -62,13 +62,13 @@ FROM (
     (SELECT  regexp_replace(xpath('.//text()', ('<items>' || XMLAGG(XMLELEMENT(name C, CATE)) || '</items>')::xml)::text,  '[{}]', '', 'g') AS CATE
        FROM (
            SELECT mst_xid, disc_list||'^'||whitelist  AS CATE
-           FROM b2b.b2d_discount_dtl dtl WHERE dtl.disc_type='type2'
+           FROM b2b.b2d_discount_dtl dtl WHERE dtl.disc_type='MAIN_CAT'
             )G WHERE  G.mst_xid=A.xid
     )AS main_cat_wb,
     (SELECT  regexp_replace(xpath('.//text()', ('<items>' || XMLAGG(XMLELEMENT(name C, PRODNO)) || '</items>')::xml)::text,  '[{}]', '', 'g') AS PRODNO
        FROM (
            SELECT mst_xid, disc_list||'^'||whitelist  AS PRODNO
-           FROM b2b.b2d_discount_dtl dtl WHERE dtl.disc_type='type1'
+           FROM b2b.b2d_discount_dtl dtl WHERE dtl.disc_type='PROD_NO'
             )G WHERE  G.mst_xid=A.xid
     )AS prod_no_wb  ,
     (SELECT  regexp_replace(xpath('.//text()', ('<items>' || XMLAGG(XMLELEMENT(name C, dtl_xid)) || '</items>')::xml)::text, '[{}]', '', 'g') AS PRODNO

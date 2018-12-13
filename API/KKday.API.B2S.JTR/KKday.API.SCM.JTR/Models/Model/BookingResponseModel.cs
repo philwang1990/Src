@@ -20,6 +20,7 @@ namespace KKday.API.B2S.JTR.Models.Model
     {
         public bool isMuiltSupOrder { get; set; }
         public string supTicketNumber { get; set; }
+        public List<string> supQrUrl { get; set; }
         public List<Orderinfo> orderinfo { get; set; }
     }
 
@@ -29,6 +30,7 @@ namespace KKday.API.B2S.JTR.Models.Model
         public int qty { get; set; }
         public string kkOrderNo { get; set; }
         public string ticketNumber { get; set; }
+        public List<string> QrUrl { get; set; }
         public string result { get; set; }
 
     }

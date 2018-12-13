@@ -1,0 +1,26 @@
+﻿<Properties StartupConfiguration="{A777387F-6558-4DCC-A0E4-4B42FC95EE37}|Default">
+  <MonoDevelop.Ide.ItemProperties.KKday.API.B2S.JTR PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="KKday.API.SCM.JTR/Controllers/BookController.cs">
+    <Files>
+      <File FileName="KKday.API.SCM.JTR/App_Data/ProdMapping.xml" Line="276" Column="26" />
+      <File FileName="KKday.API.SCM.JTR/Program.cs" Line="17" Column="1" />
+      <File FileName="KKday.API.SCM.JTR/Startup.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.SCM.JTR/Controllers/BookController.cs" Line="189" Column="58" />
+      <File FileName="KKday.API.SCM.JTR/AppCode/Tools/XMLTool.cs" Line="13" Column="1" />
+      <File FileName="KKday.API.SCM.JTR/Models/Model/JtrDataModel.cs" Line="33" Column="1" />
+      <File FileName="KKday.API.SCM.JTR/Models/Model/BookingResponseModel.cs" Line="33" Column="29" />
+      <File FileName="KKday.API.SCM.JTR/Models/Model/BookingRequestModel.cs" Line="1" Column="1" />
+      <File FileName="KKday.API.SCM.JTR/appsettings.json" Line="6" Column="64" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/lulu/Desktop/git source/Src/API/KKday.API.B2S.JTR/KKday.API.SCM.JTR/Controllers/BookController.cs" relfile="KKday.API.SCM.JTR/Controllers/BookController.cs" line="131" column="1" />
+      <Breakpoint file="/Users/lulu/Desktop/git source/Src/API/KKday.API.B2S.JTR/KKday.API.SCM.JTR/Controllers/BookController.cs" relfile="KKday.API.SCM.JTR/Controllers/BookController.cs" line="148" column="1" />
+      <Breakpoint file="/Users/lulu/Desktop/git source/Src/API/KKday.API.B2S.JTR/KKday.API.SCM.JTR/Controllers/BookController.cs" relfile="KKday.API.SCM.JTR/Controllers/BookController.cs" line="186" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -30,13 +30,13 @@ namespace KKday.API.WMS.AppCode.Proxy
                     new KeyValuePair<string, string>("password", password)
                 });
 
-                HttpResponseMessage response = client.PostAsync($"{Website.Instance.Configuration["URL:IS4"]}", formData).Result;
+                HttpResponseMessage response = client.PostAsync($"{Website.Instance.Configuration["B2DApiUrl:IS4"]}connect/token", formData).Result;
                 RS = JsonConvert.DeserializeObject<GetTokenResponseModel>(response.Content.ReadAsStringAsync().Result);
 
             }
             catch(Exception ex)
             {
-                Website.Instance.logger.FatalFormat($"getToke  Error :{ex.Message},{ex.StackTrace}");
+                Website.Instance.logger.FatalFormat($"getToken  Error :{ex.Message},{ex.StackTrace}");
                 throw ex;
             }
 

@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using KKday.API.WMS.Models.DataModel.Package;
+﻿using KKday.API.WMS.Models.DataModel.Package;
 using KKday.API.WMS.Models.DataModel.Product;
-using KKday.API.WMS.Models.Repository.Package;
 using KKday.API.WMS.Models.Repository.Product;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,6 +9,11 @@ namespace KKday.API.WMS.Controllers {
   
     [Route("api/[controller]")]
     public class ProductController : Controller {
+
+        private readonly ProductRepository _Product;
+        public ProductController(ProductRepository Product) {
+            _Product = Product;
+        }
 
         /// <summary>
         /// Queries the product.
@@ -27,7 +27,7 @@ namespace KKday.API.WMS.Controllers {
 
             var prod_dtl = new ProductModel();
 
-            prod_dtl = ProductRepository.GetProdDtl(queryRQ);
+            prod_dtl = _Product.GetProdDtl(queryRQ);
 
             return prod_dtl;
         }
@@ -41,10 +41,8 @@ namespace KKday.API.WMS.Controllers {
         public PackageModel QueryPackage([FromBody]QueryProductModel queryRQ) {
 
             Website.Instance.logger.Info($"WMS QueryPackage Start! B2D Xid:{queryRQ.company_xid},KKday ProdOid:{queryRQ.prod_no}");
-
-            var pkg_dtl = new PackageModel();
-
-            pkg_dtl = PackageRepository.GetPkgLst(queryRQ);
+                       
+            PackageModel pkg_dtl = _Product.GetPkgLst(queryRQ);
 
             return pkg_dtl;
         }
@@ -59,7 +57,7 @@ namespace KKday.API.WMS.Controllers {
 
             Website.Instance.logger.Info($"WMS QueryEvent Start! B2D Xid:{queryRQ.company_xid},KKday ProdOid:{queryRQ.prod_no}");
 
-            PkgEventsModel pkg_events = PackageRepository.GetPkgEvents(queryRQ);
+            PkgEventsModel pkg_events = _Product.GetPkgEvents(queryRQ);
 
             return pkg_events;
         }
@@ -76,7 +74,7 @@ namespace KKday.API.WMS.Controllers {
 
             var prod_model = new ProductModuleModel();
 
-            prod_model = ProductRepository.GetProdModule(queryRQ);
+            prod_model = _Product.GetProdModule(queryRQ);
 
             return prod_model;
         }

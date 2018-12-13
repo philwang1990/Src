@@ -1,0 +1,75 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+
+@{
+    var isEvent = (string)ViewData["isEvent"];
+    var isHl = (string)ViewData["isHl"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+}
+
+
+@if (isEvent == "Y" && isHl == "Y")
+{
+
+<div class="traveler-con">
+    <div class="sub-title">@prodTitle.booking_step1_event_backup</div>
+    <div>@prodTitle.booking_step1_backup_event_data</div> <br/>
+                <div class="form-group">
+                    <label>@prodTitle.booking_step1_backup_event_data_number.Replace("%s","1")</label>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type = "text" class="form-control has-datepicker eventDatePicker" placeholder="@prodTitle.product_productlist_choose_date"  id="txtEventDate1" name="txtEventDate1">
+                                    <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-xs-12">
+                            <div class="form-group"> 
+                                <select class="form-control event" id="selEvent1" name="selEvent1">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>@prodTitle.booking_step1_backup_event_data_number.Replace("%s","2")</label>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type = "text" class="form-control has-datepicker eventDatePicker" placeholder="@prodTitle.product_productlist_choose_date" id="txtEventDate2" name="txtEventDate2">
+                                    <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <select class="form-control event" id="selEvent2" name="selEvent2">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>@prodTitle.booking_step1_backup_event_data_number.Replace("%s","3")</label>
+                    <div class="row">
+                        <div class="col-md-4 col-sm-6 col-xs-12">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type = "text" class="form-control has-datepicker eventDatePicker" placeholder="@prodTitle.product_productlist_choose_date" id="txtEventDate3" name="txtEventDate3">
+                                    <span class="input-group-addon"><i class="icon-calendar icons"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3 col-sm-4 col-xs-12">
+                            <div class="form-group">
+                                <select class="form-control event" id="selEvent3" name="selEvent3"></select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+}
