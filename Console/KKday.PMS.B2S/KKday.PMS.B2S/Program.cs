@@ -53,7 +53,6 @@ namespace KKday.PMS.B2S
                         //抓取所有supplier清單
                         var supplierList = SupplierDAL.GetSupplierList(pms.pmsname);
 
-
                         foreach (var supplier in supplierList["Table"])
                         {
                             // 設定參數
@@ -113,7 +112,6 @@ namespace KKday.PMS.B2S
                             {
                                 Console.WriteLine("設定參數錯誤:" + supplierLoginRSModel.result);
                             }
-
                         }
                     }
                 }
