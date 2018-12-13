@@ -82,6 +82,7 @@ namespace KKday.PMS.B2S.Models.Shared.Enum
         KKdayApi_simwifi,
         KKdayApi_venue,
         KKdayApi_detailNew,
+        KKdayApi_exchangeUpdate,
         ApiKey,
         ProductSearch,
         Product,

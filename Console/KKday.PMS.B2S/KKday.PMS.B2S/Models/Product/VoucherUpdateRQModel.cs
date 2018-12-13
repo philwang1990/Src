@@ -18,22 +18,22 @@ namespace KKday.PMS.B2S.Models.Product
         public string tokenKey { get; set; }
 
         public string moduleType { get; set; }
-        public ModuleSetting moduleSetting { get; set; }
+        public VoucherUpdateModuleSetting moduleSetting { get; set; }
     }
 
-    public class ModuleSetting
+    public class VoucherUpdateModuleSetting
     {
         public bool isRequired { get; set; }
-        public Setting setting { get; set; }
+        public VoucherUpdateSetting setting { get; set; }
     }
 
-    public class Setting
+    public class VoucherUpdateSetting
     {
-        public DataItems dataItems { get; set; }
+        public VoucherUpdateDataItems dataItems { get; set; }
         public string voucherType { get; set; }
     }
 
-    public class DataItems
+    public class VoucherUpdateDataItems
     {
         public ValidOptions validOptions { get; set; }
     }

@@ -209,8 +209,8 @@ namespace KKday.PMS.B2S.ProductRepository
                 //setStep7(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程表
                 //setStep8(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 集合地點
                 //setStep9(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 費用包含細節
-                //setStep10(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 兌換方式
-                setStep11(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 取消費用規定
+                setStep10(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 兌換方式
+                //setStep11(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 取消費用規定
 
                 return rsModel;
             }
@@ -484,9 +484,9 @@ namespace KKday.PMS.B2S.ProductRepository
 
                 voucherUpdateRQModel = new VoucherUpdateRQModel();
                 voucherUpdateRQModel.json = new VoucherUpdateJson();
-                voucherUpdateRQModel.json.moduleSetting = new ModuleSetting();
-                voucherUpdateRQModel.json.moduleSetting.setting = new Setting();
-                voucherUpdateRQModel.json.moduleSetting.setting.dataItems = new DataItems();
+                voucherUpdateRQModel.json.moduleSetting = new VoucherUpdateModuleSetting();
+                voucherUpdateRQModel.json.moduleSetting.setting = new VoucherUpdateSetting() ;
+                voucherUpdateRQModel.json.moduleSetting.setting.dataItems = new VoucherUpdateDataItems();
                 voucherUpdateRQModel.json.moduleSetting.setting.dataItems.validOptions = new ValidOptions();
                 voucherUpdateRQModel.json.supplierOid = supplierLoginRSModel.supplierOid;
                 voucherUpdateRQModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
@@ -779,6 +779,35 @@ namespace KKday.PMS.B2S.ProductRepository
                 //Startup startup = new Startup();
                 //startup.Initial();
                 RSModel rsModel = new RSModel();
+                ExchangeUpdateRQModel exchangeUpdateRQModel;
+                JObject exchangeUpdateRSModel;
+
+                exchangeUpdateRQModel = new ExchangeUpdateRQModel();
+                exchangeUpdateRQModel.json = new ExchangeUpdateJson();
+                exchangeUpdateRQModel.json.moduleSetting = new ExchangeUpdateModuleSetting();
+                exchangeUpdateRQModel.json.moduleSetting.setting = new ExchangeUpdateSetting();
+                exchangeUpdateRQModel.json.moduleSetting.setting.dataItems = new ExchangeUpdateDataItems();
+                exchangeUpdateRQModel.json.moduleSetting.setting.dataItems.locations = new List<object>();
+                exchangeUpdateRQModel.json.supplierOid = supplierLoginRSModel.supplierOid;
+                exchangeUpdateRQModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
+                exchangeUpdateRQModel.json.deviceId = supplierLoginRSModel.deviceId;
+                exchangeUpdateRQModel.json.tokenKey = supplierLoginRSModel.tokenKey;
+
+                exchangeUpdateRQModel.json.moduleType = "PMDL_EXCHANGE"; // 固定
+                exchangeUpdateRQModel.json.moduleSetting.isRequired = true; // 此產品是否有兌換方式 是
+                exchangeUpdateRQModel.json.moduleSetting.setting.exchangeType = "02"; // 電子憑證
+
+                exchangeUpdateRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_exchangeUpdate), prodOid),
+                                                              JsonConvert.SerializeObject(exchangeUpdateRQModel));
+                if (exchangeUpdateRSModel["content"]["result"].ToString() != "0000")
+                {
+                    rsModel.result = exchangeUpdateRSModel["content"]["result"].ToString();
+                    rsModel.msg = exchangeUpdateRSModel["content"]["msg"].ToString();
+                    return rsModel;
+                }
+
+                rsModel.result = exchangeUpdateRSModel["content"]["result"].ToString();
+                rsModel.msg = exchangeUpdateRSModel["content"]["msg"].ToString();
 
                 return rsModel;
             }

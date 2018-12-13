@@ -117,6 +117,8 @@ namespace KKday.PMS.B2S
                             return this.configuration[$"{head}:modifyImg"];
                         case ParameterType.KKdayApi_detailNew:
                             return this.configuration[$"{head}:detailNew"];
+                        case ParameterType.KKdayApi_exchangeUpdate:
+                            return this.configuration[$"{head}:exchangeUpdate"];
                         default:
                             return string.Empty;
                     }
