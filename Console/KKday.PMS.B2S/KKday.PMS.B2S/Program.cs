@@ -58,7 +58,7 @@ namespace KKday.PMS.B2S
                         {
                             // 設定參數
 
-                            supplierLoginRSModel = product.setParameters(PMSSourse.Rezdy, supplier["pms_supplier_name"].ToString(), supplier["kkday_supplier_oid"].ToString(), supplier["scm_account"].ToString(), supplier["scm_password"].ToString());
+                            supplierLoginRSModel = product.setParameters(PMSSourse.Rezdy, supplier["pms_supplier_name"].ToString(), supplier["kkday_supplier_oid"].ToString(), Startup.Instance.configuration["Scm_Info:account"], Startup.Instance.configuration["Scm_Info:password"]);
                             if (supplierLoginRSModel.result == "0000")
                             {
                                 offset = 0;
@@ -93,7 +93,11 @@ namespace KKday.PMS.B2S
                                             supplierLoginRSModel.tokenKey);
 
                                             //旅規
-                                            //module.Main();
+                                            module.Main(supplierLoginRSModel, rezdyProductModel.Product.BookingFields, prodOid, "PSSPVU", "");
+
+                                            //商品 套餐 旅規 都沒有問題 打送審的API
+
+                                            //導入結果的報表
                                         }
                                         //else
                                         //{
@@ -130,7 +134,7 @@ namespace KKday.PMS.B2S
 
 
 
-
+        
     }
 
 }

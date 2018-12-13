@@ -111,6 +111,10 @@ namespace KKday.PMS.B2S
                             return this.configuration[$"{head}:event_status"];
                         case ParameterType.KKdayApi_pkgstatus:
                             return this.configuration[$"{head}:pkg_status"];
+                        case ParameterType.KKdayApi_imageUpload:
+                            return this.configuration[$"{head}:imageUpload"];
+                        case ParameterType.KKdayApi_modifyImg:
+                            return this.configuration[$"{head}:modifyImg"];
                         default:
                             return string.Empty;
                     }

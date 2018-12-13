@@ -8,6 +8,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Net;
 
 namespace KKday.PMS.B2S.ProductRepository
 {
@@ -204,7 +205,7 @@ namespace KKday.PMS.B2S.ProductRepository
                 setStep3(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel, timezoneString); // 上架時間
                 setStep4(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 憑證設定
                 setStep5(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程說明
-                //setStep6(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 照片及影片
+                setStep6(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 照片及影片
                 //setStep7(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 行程表
                 //setStep8(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 集合地點
                 //setStep9(supplierLoginRSModel, prodOid, rezdyProductModel, scmModel); // 費用包含細節
@@ -561,6 +562,85 @@ namespace KKday.PMS.B2S.ProductRepository
                 //Startup startup = new Startup();
                 //startup.Initial();
                 RSModel rsModel = new RSModel();
+                WebClient wc = new WebClient();
+                bool isSuccess = true; // 預設為true 如果圖片上傳有任一個失敗 改為false並回傳錯誤
+                ImageUploadRQModel imageUploadRQModel;
+                JObject imageUploadRSModel;
+                ModifyImgRQModel modifyImgRQModel;
+                JObject modifyImgRSModel;
+                ImgList imgList;
+                int seq = 0;
+
+                imageUploadRQModel = new ImageUploadRQModel();
+                modifyImgRQModel = new ModifyImgRQModel();
+                modifyImgRQModel.json = new ModifyImgJson();
+                modifyImgRQModel.json.imgList = new List<ImgList>();
+                modifyImgRQModel.json.supplierOid = supplierLoginRSModel.supplierOid;
+                modifyImgRQModel.json.supplierUserUuid = supplierLoginRSModel.supplierUserUuid;
+                modifyImgRQModel.json.deviceId = supplierLoginRSModel.deviceId;
+                modifyImgRQModel.json.tokenKey = supplierLoginRSModel.tokenKey;
+
+                if ( rezdyProductModel.Product.Images.Count > 0 )
+                {
+                    foreach( var i in rezdyProductModel.Product.Images)
+                    {
+
+                        if (i.largeSizeUrl != null)
+                        {
+                            imageUploadRQModel.fileName = i.largeSizeUrl.Split("/")[i.largeSizeUrl.Split("/").Length-1];
+                            imageUploadRQModel.encodeString = Convert.ToBase64String(wc.DownloadData(i.largeSizeUrl));
+                            imageUploadRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_imageUpload), prodOid),
+                                                                   JsonConvert.SerializeObject(imageUploadRQModel));
+                            if(imageUploadRSModel["isSuccess"].ToString() == "True")
+                            {
+                                imgList = new ImgList();
+                                if( seq == 0)
+                                    imgList.defaultImg = "Y";
+                                else
+                                    imgList.defaultImg = "N";
+
+                                imgList.imgUrl = imageUploadRSModel["s3Url"].ToString();
+                                imgList.kkdayImgUrl = imageUploadRSModel["kkdayImgUrl"].ToString();
+                                //imgList.imgOid = (int)imageUploadRSModel["imageOid"];
+                                //imgList.imgOid = null;
+                                imgList.imgSeq = seq;
+                                imgList.shareType = "A";
+                                imgList.usageTag = "U01";
+                                imgList.isCcAuth = "N";
+                                imgList.isCommerce = "Y";
+                                modifyImgRQModel.json.imgList.Add(imgList);
+                            }
+                            else
+                            {
+                                isSuccess = false;
+                            }
+                        }
+
+                        seq++;
+                    }
+
+                    modifyImgRSModel = CommonTool.GetDataPost(string.Format(Startup.Instance.GetParameter(PMSSourse.KKday, ParameterType.KKdayApi_modifyImg), prodOid),
+                                                                   JsonConvert.SerializeObject(modifyImgRQModel,
+                                                                                                Newtonsoft.Json.Formatting.None,
+                                                                                                new JsonSerializerSettings
+                                                                                                {
+                                NullValueHandling = NullValueHandling.Ignore
+                            }));
+                    if (modifyImgRSModel["content"]["result"].ToString() != "0000")
+                    {
+                        isSuccess = false;
+                    }
+                    else
+                    {
+
+                    }
+                }
+
+
+
+                //byte[] bytes = wc.DownloadData("https://img.rezdy.com/PRODUCT_IMAGE/136215/d4-yellow-water-billabong-kakadu-aat-kings.jpg");
+                //string base64String = Convert.ToBase64String(bytes);
+                //Console.WriteLine(base64String);
 
                 return rsModel;
             }

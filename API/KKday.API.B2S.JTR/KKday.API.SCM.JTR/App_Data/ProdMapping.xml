@@ -1,27 +1,278 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <product>
-   <!-- 測試台--> 
-   <!-- KKday_prod_no: 17721-->
-   <item>
-    <kkday_prod_pkg>42437</kkday_prod_pkg>
+   <!-- KKday_prod_no: 18565-->
+  <item>
+    <kkday_prod_pkg>66659</kkday_prod_pkg>
+
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>23668542</jtr_prod_no>
+    <jtr_prod_no>12926417</jtr_prod_no>
   </item>
   <item>
-    <kkday_prod_pkg>42437</kkday_prod_pkg>
-    <kkday_price_type>price2</kkday_price_type>
-    <jtr_prod_no>23668618</jtr_prod_no>
-  </item>
-  <item>
-    <kkday_prod_pkg>42438</kkday_prod_pkg>
+    <kkday_prod_pkg>66658</kkday_prod_pkg>
     <kkday_price_type>price1</kkday_price_type>
-    <jtr_prod_no>23668714</jtr_prod_no>
+    <jtr_prod_no>12926443</jtr_prod_no>
   </item>
   <item>
-    <kkday_prod_pkg>42438</kkday_prod_pkg>
-    <kkday_price_type>price2</kkday_price_type>
-    <jtr_prod_no>23668743</jtr_prod_no>
+    <kkday_prod_pkg>66657</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11280151</jtr_prod_no>
   </item>
- 
+    <!-- KKday_prod_no: 18602--> 
+  <item>
+  <kkday_prod_pkg>66663</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>12926417</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>66662</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>12926443</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>66661</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11280151</jtr_prod_no>
+  </item> 
+  <!-- KKday_prod_no: 18492-->
+  <item>
+    <kkday_prod_pkg>63273</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433215</jtr_prod_no>
+  </item>
+  <item>
+    <kkday_prod_pkg>63274</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433215</jtr_prod_no>
+  </item>
+  <item>
+    <kkday_prod_pkg>63275</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433215</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>63276</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433215</jtr_prod_no>
+  </item>
     
+  <item>
+  <kkday_prod_pkg>63273</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>11433864</jtr_prod_no>
+  </item>
+
+  <item>
+  <kkday_prod_pkg>63274</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>11433864</jtr_prod_no>
+  </item>
+    <item>
+  <kkday_prod_pkg>63275</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>11433864</jtr_prod_no>
+  </item>
+    <item>
+  <kkday_prod_pkg>63276</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>11433864</jtr_prod_no>
+  </item>
+    
+  <item>
+  <kkday_prod_pkg>62566</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433847</jtr_prod_no>
+  </item>
+  
+  <item>
+  <kkday_prod_pkg>63272</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433847</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>62566</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>11433850</jtr_prod_no>
+  </item>
+  
+  <item>
+  <kkday_prod_pkg>63272</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>11433850</jtr_prod_no>
+  </item>
+  
+  <item>
+  <kkday_prod_pkg>63277</kkday_prod_pkg>
+
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11140070</jtr_prod_no>
+  </item>
+  
+  <item>
+  <kkday_prod_pkg>63278</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11140070</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>63277</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>11139995</jtr_prod_no>
+  </item>
+  
+  <item>
+
+  <kkday_prod_pkg>63278</kkday_prod_pkg>
+
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>11139995</jtr_prod_no>
+  </item>
+    
+    <!-- KKday_prod_no: 18418--> 
+  <item>
+  <kkday_prod_pkg>62545</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433190</jtr_prod_no>
+  </item>
+
+    
+  <item>
+  <kkday_prod_pkg>62546</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433189</jtr_prod_no>
+  </item>
+    <!-- KKday_prod_no: 18566 京成 Skyliner 車票 串接形式為pdf url 所以移除
+    <item>
+  <kkday_prod_pkg>66760</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>23923543</jtr_prod_no>
+  </item>
+    
+  <item>
+  <kkday_prod_pkg>66760</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>23923550</jtr_prod_no>
+  </item>
+    
+ <item>
+  <kkday_prod_pkg>66761</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>23893318</jtr_prod_no>
+  </item> 
+ 
+   <item>
+  <kkday_prod_pkg>66762</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>23897489</jtr_prod_no>
+  </item> 
+    <item>
+  <kkday_prod_pkg>66763</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>23897760</jtr_prod_no>
+  </item> 
+     <item>
+  <kkday_prod_pkg>66764</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>23898281</jtr_prod_no>
+  </item> 
+  <item>
+  <kkday_prod_pkg>66765</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>23898452</jtr_prod_no>
+  </item> 
+  <item>
+  <kkday_prod_pkg>66766</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>23898607</jtr_prod_no>
+  </item> --> 
+    <!-- KKday_prod_no: 19691--> 
+  <item>
+  <kkday_prod_pkg>75833</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433877</jtr_prod_no>
+  </item> 
+  <item>
+  <kkday_prod_pkg>75834</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433880</jtr_prod_no>
+  </item> 
+     <!-- KKday_prod_no: 19694--> 
+  <item>
+  <kkday_prod_pkg>75861</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433882</jtr_prod_no>
+  </item> 
+   
+     <!-- KKday_prod_no: 18569--> 
+  <item>
+  <kkday_prod_pkg>66772</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11332446</jtr_prod_no>
+  </item>
+    <!-- KKday_prod_no: 18648--> 
+  <item>
+  <kkday_prod_pkg>69321</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>22117233</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>69321</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>22117234</jtr_prod_no>
+  </item>
+  <!-- KKday_prod_no: 18574--> 
+    <item>
+  <kkday_prod_pkg>66758</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>11433188</jtr_prod_no>
+  </item>
+ <!-- KKday_prod_no: 19513--> 
+    <item>
+  <kkday_prod_pkg>74979</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>10197782</jtr_prod_no>
+  </item>
+  <!-- KKday_prod_no: 18573--> 
+    <item>
+  <kkday_prod_pkg>66731</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>14229695</jtr_prod_no>
+  </item>
+   <item>
+  <kkday_prod_pkg>66732</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>14229688</jtr_prod_no>
+  </item>
+   <item>
+  <kkday_prod_pkg>66733</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>14229689</jtr_prod_no>
+  </item>
+    
+    
+  <!-- USJ--> 
+  <item>
+  <kkday_prod_pkg>77655</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>23749562</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>77655</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>23750115</jtr_prod_no>
+  </item>
+  <!--海遊館--> 
+  <item>
+  <kkday_prod_pkg>75522</kkday_prod_pkg>
+    <kkday_price_type>price1</kkday_price_type>
+    <jtr_prod_no>22176315</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>75522</kkday_prod_pkg>
+    <kkday_price_type>price2</kkday_price_type>
+    <jtr_prod_no>22176322</jtr_prod_no>
+  </item>
+  <item>
+  <kkday_prod_pkg>75522</kkday_prod_pkg>
+    <kkday_price_type>price3</kkday_price_type>
+    <jtr_prod_no>22176324</jtr_prod_no>
+  </item>  
 </product>

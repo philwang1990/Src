@@ -17,7 +17,7 @@ namespace KKday.PMS.B2S.AppCode.DAL
 
             try
             {
-                String sql = @" SELECT xid,pms_supplier_name,pms_supplier_id,kkday_supplier_oid,scm_account,scm_password,pms_source 
+                String sql = @" SELECT xid,pms_supplier_name,pms_supplier_id,kkday_supplier_oid,pms_source 
                                 FROM pms_suppliers
                                 WHERE 
                                 1=1

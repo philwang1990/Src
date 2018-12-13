@@ -1,0 +1,64 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+@using KKday.Web.B2D.EC.Models.Model.Account
+
+@{
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+    var totalCus = (int)ViewData["totalCus"];
+    var cusData = (CusData)ViewData["cusData"];
+    var contactInfo = (B2dAccount)ViewData["contactInfo"];
+
+}
+
+<div class="title">
+    @prodTitle.booking_step1_contact
+    <a href="javascript:;" class="title-tool expand-info">
+        <i class="fa fa-angle-down"></i>
+    </a>
+</div>
+<div class="con">
+    <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group must">
+                <label>@prodTitle.booking_step1_contact_firstname<span class="text-danger">*</span></label> 
+                <input type="text" class="form-control" id="txtLocalFname" name="txtLocalFname" value="@contactInfo.NAME_FIRST" placeholder="@prodTitle.booking_step1_local_firstname_placeholder" readonly>
+                @*<div class="tip text-danger">請輸入訂購人名</div>*@
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group must">
+                <label>@prodTitle.booking_step1_contact_lastname<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="txtLocalLname" name="txtLocalLname" value="@contactInfo.NAME_LAST" placeholder="@prodTitle.booking_step1_local_lastname_placeholder" readonly>
+                @*<div class="tip text-danger">請輸入訂購人姓</div>*@
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group must">
+                <label>@prodTitle.common_nationality<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="txtNationality" name="txtNationality" placeholder="" value="@contactInfo.COUNRTY_CODE" readonly>
+                @*<select class="form-control">
+                        <option value="0">-請選擇-</option>
+                        <option selected="selected">台灣</option>
+                    </select>*@
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-6 col-xs-12">
+            <div class="form-group must">
+                <label>@prodTitle.booking_step1_contact_tel<span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="txtContactTel" placeholder="" value="@contactInfo.TEL_AREA  @contactInfo.TEL" readonly>
+                @*<div class="tip text-danger">no number</div>*@
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-8 col-xs-12">
+            <div class="form-group must">
+                <label>@prodTitle.booking_step1_contact_email<span class="text-danger">*</span></label>
+                <input type="email" class="form-control" id="txtEmail" placeholder="" value="@contactInfo.EMAIL" readonly>
+            </div>
+        </div>
+    </div>
+</div>

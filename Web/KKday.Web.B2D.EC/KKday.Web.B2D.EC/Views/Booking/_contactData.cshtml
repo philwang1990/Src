@@ -1,0 +1,137 @@
+﻿@using KKday.Web.B2D.EC.Models.Model.Product
+@using KKday.Web.B2D.EC.Models.Model.Booking
+@using System.Linq
+
+
+@{
+    var contactData = (ContactData)ViewData["contactData"];
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+
+}
+
+<!-- 旅遊期間聯絡人 -->
+@if (contactData != null)
+{
+    @if (contactData.is_require == true)
+    {
+        <div class="traveler-con">
+
+            <div class="sub-title">
+                @prodTitle.booking_step1_contact_data
+            </div>
+            <div class="row">
+
+                @if (contactData.contact_name.is_require_FirstName == true)
+                {
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>@prodTitle.booking_step1_contact_data_firstname</label>
+                        <input type="text" id="txtContactfName" name="txtContactfName"
+                               class="form-control"
+                               placeholder="@prodTitle.booking_step1_contact_data_firstname_placeholder">
+                    </div>
+                }
+
+                @if (contactData.contact_name.is_require_LastName == true)
+                {
+                    <div class="col-md-4 col-sm-6 col-xs-12">
+                        <label>@prodTitle.booking_step1_contact_data_lastname</label>
+                        <input type="text" id="txtContactlName" name="txtContactlName"
+                               class="form-control"
+                               placeholder="@prodTitle.booking_step1_contact_data_lastname_placeholder">
+                    </div>
+                }
+            </div>
+
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    @if (contactData.contact_tel.is_require_TelNumber == true)
+                    {
+                        <label>@prodTitle.booking_step1_contact_data_contact_tel</label>
+                        <div class="form-inline radio-has-son">
+                            <label>
+                                <input type="radio" id="rdoContactPhone1"
+                                       name="contact_phone"
+                                       value="true" onclick="showContatPhone(1)">
+                                @prodTitle.common_have
+                            </label>
+                            <label>
+                                <input type="radio" id="rdoContactPhone2"
+                                       name="contact_phone"
+                                       value="false" onclick="showContatPhone(2)">
+                                @prodTitle.common_have_not
+                            </label>
+                        </div>
+                        <div class="form-group-son form-group must">
+                            <input type="text" class="form-control" id="txtContactPhone" name="txtContactPhone" placeholder="@prodTitle.booking_step1_contact_data_contact_tel_placeholder" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    @if (contactData.contact_app.is_require == true)
+                    {
+                        <label>@prodTitle.booking_step1_contact_data_contact_app</label>
+                        <div class="form-inline radio-has-son">
+                            <label>
+                                <input type="radio" id="rdoContactApp1" onclick="showContactApp(1)"
+                                       name="contact_app"
+                                       value="true">
+                                
+                                @prodTitle.common_have
+                            </label>
+                            <label>
+                                <input type="radio" id="rdoContactApp2" onclick="showContactApp(2)"
+                                       name="contact_app"
+                                       value="false">
+                                @prodTitle.common_have_not
+                            </label>
+                        </div>
+
+                        <div class="row">
+
+                            @if (contactData.contact_app != null)
+                            {
+                                @if (contactData.contact_app.app_type_list != null)
+                                {
+                                    <div class="col-md-4 col-sm-12">
+                                        <select class="form-control" id="selContactApp" name="selContactApp">
+                                            <option value=null disabled selected="selected">
+                                                @prodTitle.booking_step1_contact_data_contact_app_placeholder
+                                            </option>
+
+                                            @foreach (App a in contactData.contact_app.app_type_list)
+                                            {
+                                                @if (a.is_supported == true)
+                                                {
+                                                    <option value="@a.app_type">
+                                                        @a.app_name
+                                                    </option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+
+                                    @if (contactData.contact_app.is_require_AppAccount == true)
+                                    {
+                                        <div class="col-md-8 col-sm-12">
+                                            <input type="text" class="form-control" id="txtContactAppAccount" name="txtContactAppAccount"
+                                                   placeholder="@prodTitle.booking_step1_contact_data_contact_app_account">
+                                        </div>
+                                    }
+                                }
+
+                            }
+
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    }
+}
+
+
+
