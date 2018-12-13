@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using KKday.API.WMS.AppCode;
 using Microsoft.AspNetCore.Http;
-
+using KKday.API.WMS.Models.Repository.Product;
+using KKday.API.WMS.Models.Repository.Booking;
+using KKday.API.WMS.Models.Repository;
 
 namespace KKday.API.WMS {
     public class Startup {
@@ -40,16 +33,11 @@ namespace KKday.API.WMS {
               // options.SerializerSettings.DefaultValueHandling = DefaultValueHandling.Ignore;
             });
 
-            // Register Redis cache server
-            services.AddDistributedRedisCache(options => {
-                // Redis Server 的 IP 跟 Port
-
-                options.Configuration = "192.168.2.113";
-                options.InstanceName = "api.wms";
-
-
-            });
-
+            services.AddSingleton<IRedisHelper, RedisHelper>();
+            services.AddSingleton<SearchRepository, SearchRepository>();//註冊搜尋服務
+            services.AddSingleton<OrderRepository, OrderRepository>();//註冊查訂單服務
+            services.AddSingleton<ProductRepository, ProductRepository>();//註冊搜尋單一商品服務
+            //services.AddSingleton<PackageRepository, PackageRepository>();//註冊搜尋單一商品服務
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             //services.AddSingleton<IRedisHelper, RedisHelper>();
         }

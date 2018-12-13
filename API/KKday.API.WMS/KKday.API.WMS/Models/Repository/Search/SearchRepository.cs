@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using KKday.API.WMS.AppCode;
 using KKday.API.WMS.AppCode.Proxy;
 using KKday.API.WMS.Models.DataModel.Product;
 using KKday.API.WMS.Models.DataModel.Search;
@@ -15,6 +16,11 @@ namespace KKday.API.WMS.Models.Repository {
     public class SearchRepository {
 
         static string _SEARCH_TYPE = "SEARCH";
+        private readonly IRedisHelper _redisCache;
+        public SearchRepository(IRedisHelper redisCache) {
+
+            _redisCache = redisCache;
+        }
 
         /// <summary>
         /// Gets the prod list.
@@ -22,11 +28,12 @@ namespace KKday.API.WMS.Models.Repository {
         /// <returns>The prod list.</returns>
         /// <param name="rq">Rq.</param>
         //1.取得商品列表
-        public static SearchProductModel GetProdList(SearchRQModel rq) 
+        public SearchProductModel GetProdList(SearchRQModel rq) 
         {
 
             SearchProductModel prod = new SearchProductModel();
             List<ProductBaseModel> pLst = new List<ProductBaseModel>();
+            DiscountRepository dis = new DiscountRepository(_redisCache);
 
             try {
 
@@ -60,7 +67,7 @@ namespace KKday.API.WMS.Models.Repository {
                         string prod_no = jsonPlst[i]["id"].ToString();
 
                         //抓商品是否為黑名單
-                        bool isBlack = DiscountRepository.GetProdBlackWhite(prod_no);
+                        bool isBlack = dis.GetProdBlackWhite(prod_no);
 
                         //表示該商品為白名單 需要綁入列表中 （黑名單的就不綁了）
                         if (isBlack != true)
@@ -68,7 +75,7 @@ namespace KKday.API.WMS.Models.Repository {
 
                             model.prod_no = Convert.ToInt32(prod_no);
                             model.prod_name = jsonPlst[i]["name"].ToString();
-                            model.b2d_price = DiscountRepository.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), rq.currency, (double)jsonPlst[i]["price"], prod_no, jsonPlst[i]["main_cat_key"].ToString(), SearchRepository._SEARCH_TYPE, null, ref disc);//分銷價
+                            model.b2d_price = dis.GetCompanyDiscPrice(Int64.Parse(rq.company_xid), rq.currency, (double)jsonPlst[i]["price"], prod_no, jsonPlst[i]["main_cat_key"].ToString(), SearchRepository._SEARCH_TYPE, null, ref disc);//分銷價
                             model.b2c_price = (double)jsonPlst[i]["sale_price"];//直客價
                             model.display_ref_price = jsonPlst[i]["display_price"].ToString();
                           

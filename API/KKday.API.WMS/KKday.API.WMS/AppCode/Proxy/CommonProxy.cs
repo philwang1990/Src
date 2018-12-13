@@ -17,8 +17,11 @@ namespace KKday.API.WMS.AppCode.Proxy
         }
         //
 
-        static RedisHelper rds = new RedisHelper();
-        //private static RedisHelper rds;
+        private readonly IRedisHelper _redisCache;
+        public CommonProxy(IRedisHelper redisCache) {
+
+            _redisCache = redisCache;
+        }
 
         //各種type的翻譯 ex:VOUCHER_EXCHANGE_TYPE
         public static JObject getCodeLang(QueryProductModel query_lst,string TYPE)

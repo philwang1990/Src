@@ -14,6 +14,11 @@ namespace KKday.API.WMS.Controllers
     [Route("api/[controller]")]
     public class OrderController : Controller
     {
+        private readonly OrderRepository _Order;
+        public OrderController(OrderRepository Order) {
+            _Order = Order;
+        }
+
         [HttpPost("QueryOrders")]
         public OrderListModel QueryOrders([FromBody]QueryOrderModel queryRQ)
         {
@@ -21,7 +26,7 @@ namespace KKday.API.WMS.Controllers
 
             var orders = new OrderListModel();
 
-            return orders = OrderRepository.GetOrders(queryRQ);
+            return orders = _Order.GetOrders(queryRQ);
         }
 
         [HttpPost("QueryOrderInfo/{order_no}")]
@@ -30,8 +35,8 @@ namespace KKday.API.WMS.Controllers
             Website.Instance.logger.Info($"WMS QueryOrderInfo Start! B2D Xid:{queryRQ.company_xid},B2D OrderNo:{order_no}");
 
             var order_info = new OrderInfoModel();
-
-            return order_info = OrderRepository.GetOrderInfo(queryRQ, order_no);
+          
+            return order_info = _Order.GetOrderInfo(queryRQ, order_no);
         }
 
         ////////////以下為憑證

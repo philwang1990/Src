@@ -14,6 +14,7 @@ using KKday.API.WMS.Models.DataModel.Pmch;
 using KKday.API.WMS.AppCode;
 using KKday.API.WMS.Models;
 using System.Diagnostics;
+using KKday.API.WMS.Models.Repository.Common;
 
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,8 +23,11 @@ namespace KKday.API.WMS.Controllers {
 
     [Route("api/[controller]")]
     public class BookingController : Controller {
-        RedisHelper rds = new RedisHelper();
-        //private static RedisHelper rds;
+        private readonly IRedisHelper _redisCache;
+        public BookingController(IRedisHelper redisCache) {
+
+            _redisCache = redisCache;
+        }
 
         [HttpPost("InsertOrder")]
         public OrderNoModel InsertOrder([FromBody]OrderModel queryRQ)
@@ -57,7 +61,7 @@ namespace KKday.API.WMS.Controllers {
             {
                 if (guid == null) throw new Exception("err");
 
-                confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>(rds.getRedis("bid:ec:confirm:" + guid));
+                confirmPkgInfo confirm = JsonConvert.DeserializeObject<confirmPkgInfo>(_redisCache.getRedis("bid:ec:confirm:" + guid));
                 //confirm.pkgEvent = "1";
                 if (confirm == null) throw new Exception("err");
 
@@ -65,7 +69,7 @@ namespace KKday.API.WMS.Controllers {
                 distributorInfo fakeContact = DataSettingRepository.fakeContact();
 
                 //取挖字
-                Dictionary<string, string> uikey = RedisHelper.getuiKey(fakeContact.lang);
+                Dictionary<string, string> uikey = CommonRepository.getuiKey(_redisCache,fakeContact.lang);
 
                 //從 api取 
                 ProductModuleModel module = ApiHelper.getProdModule(fakeContact.companyXid, fakeContact.state, fakeContact.lang, fakeContact.currency, confirm.prodOid, confirm.pkgOid);
@@ -227,7 +231,7 @@ namespace KKday.API.WMS.Controllers {
             try
             {
                 //先查看價格是否正確
-                if(rds.getRedis("b2d:pkgsPrice:" + data.guidNo) == null)
+                if(_redisCache.getRedis("b2d:pkgsPrice:" + data.guidNo) == null)
                 {
                     Website.Instance.logger.Debug($"getRedis:error");//要改
                     bookingRS.result = "10001";
@@ -236,7 +240,7 @@ namespace KKday.API.WMS.Controllers {
                 }
 
 
-                PkgPriceModel pkgPrice = JsonConvert.DeserializeObject<PkgPriceModel>(rds.getRedis("b2d:pkgsPrice:" + data.guidNo));
+                PkgPriceModel pkgPrice = JsonConvert.DeserializeObject<PkgPriceModel>(_redisCache.getRedis("b2d:pkgsPrice:" + data.guidNo));
                 //if (pkgPrice.discount_rule.isRule == true) // 有中折扣規則
                 //{
                 //    foreach (var i in pkgPrice.pkgs)
@@ -325,7 +329,7 @@ namespace KKday.API.WMS.Controllers {
                 api.json = ord;
 
                 string qq = JsonConvert.SerializeObject(api);
-                KKapiHelper kk = new KKapiHelper();
+                KKapiHelper kk = new KKapiHelper(_redisCache);
                 JObject order =kk.crtOrder(api);
 
                 //string orderMid = "";

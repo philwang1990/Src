@@ -23,8 +23,12 @@ namespace KKday.API.WMS.Models.Repository.Booking
     public class BookingRepository
     {
 
-        //private static RedisHelper rds;
-        static RedisHelper rds = new RedisHelper();
+
+        private readonly IRedisHelper _redisCache;
+        public BookingRepository(IRedisHelper redisCache) {
+
+            _redisCache = redisCache;
+        }
 
         public static OrderNoModel InsertOrder(OrderModel queryRQ)
         {
@@ -329,7 +333,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             return pmch;// JsonConvert.SerializeObject(pmch);
         }
 
-        public static void setPayDtltoRedis(OrderKKdayModel orderModel, string orderMid, string memUuid)
+        public void setPayDtltoRedis(OrderKKdayModel orderModel, string orderMid, string memUuid)
         {
             //RedisHelper rds = new RedisHelper();
 
@@ -342,7 +346,7 @@ namespace KKday.API.WMS.Models.Repository.Booking
             payDtl.paymentToken = MD5Tool.GetMD5(orderMid + memUuid + "kk%$#@pay");
 
             string payDtlStr = JsonConvert.SerializeObject(payDtl);
-            rds.SetRedis(payDtlStr, "b2d:ec:payDtl:" + orderMid, 60);
+            _redisCache.SetRedis(payDtlStr, "b2d:ec:payDtl:" + orderMid, 60);
         }
 
         //組出booking 頁右邊顯示的內容
