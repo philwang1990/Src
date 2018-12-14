@@ -1,0 +1,177 @@
+.city-banner {
+  padding: 30px 0;
+  position: relative; }
+  .city-banner h1, .city-banner h3 {
+    margin: 2px 0;
+    line-height: 1.4; }
+  .city-banner h1 {
+    font-size: 2.8rem;
+    display: inline-block;
+    margin: 0;
+    cursor: pointer; }
+    .city-banner h1 i {
+      margin-left: 10px; }
+  .city-banner h3 a {
+    font-size: 1.6rem;
+    font-weight: normal; }
+
+.filter-box {
+  padding: 5px 20px;
+  border: 0;
+  background-color: white;
+  border-radius: 6px;
+  margin-bottom: 15px; }
+  .filter-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0; }
+    .filter-box ul li a {
+      padding: 10px 20px 10px 0;
+      display: block;
+      white-space: normal; }
+  .filter-box h4 {
+    margin: 10px 0; }
+    .filter-box h4.collapsable {
+      cursor: pointer; }
+  .filter-box .form-control {
+    margin-bottom: 10px; }
+
+.filter-box h4 i,
+.theme-board h4 i {
+  margin-top: 5px;
+  -webkit-transform: rotateZ(0deg);
+          transform: rotateZ(0deg);
+  -webkit-transition: .2s;
+  transition: .2s;
+  color: #999; }
+
+.filter-box h4.collapsed i,
+.theme-board h4.collapsed i {
+  -webkit-transform: rotateZ(180deg);
+          transform: rotateZ(180deg); }
+
+.filter-box h4:hover i,
+.theme-board h4:hover i {
+  color: #333; }
+
+ul.main-category {
+  margin: 0 -20px;
+  -webkit-transition: .2s;
+  transition: .2s; }
+  ul.main-category > li {
+    padding: 0 20px;
+    cursor: pointer; }
+    ul.main-category > li:hover, ul.main-category > li.open {
+      background: #eff9fa; }
+    ul.main-category > li > a {
+      position: relative;
+      color: #333;
+      border-bottom: 1px solid #eee; }
+    ul.main-category > li:last-child > a {
+      border-bottom: 0; }
+    ul.main-category > li > i {
+      position: absolute;
+      right: 6px;
+      top: 50%;
+      -webkit-transform: translateY(-50%);
+              transform: translateY(-50%);
+      padding: 16px; }
+
+ul.sub-category {
+  padding: 10px;
+  width: calc(100% + 40px);
+  left: auto;
+  right: calc(-100% - 40px);
+  top: 0;
+  -webkit-box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+          box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  max-height: none;
+  background: #eff9fa;
+  border: 0;
+  z-index: 9; }
+  ul.sub-category li a {
+    padding-left: 10px; }
+
+.irs {
+  margin-bottom: 30px; }
+
+.irs-line {
+  background: #eee;
+  border-color: #eaeaea;
+  top: 46px;
+  height: 6px; }
+
+.irs-bar {
+  background: linear-gradient(45deg, #64b3f4 0%, #26bec9 50%);
+  border: 0;
+  top: 46px;
+  height: 6px; }
+
+.irs-bar-edge {
+  background: #64b3f4;
+  border: 0;
+  top: 46px; }
+
+.irs-slider {
+  background: #fff;
+  border: 1px solid #ccc;
+  -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 2px 3px rgba(0, 0, 0, 0.15);
+  top: 37px;
+  z-index: 0;
+  width: 24px;
+  height: 24px; }
+
+.irs-slider.type_last {
+  z-index: 0; }
+
+.irs-from, .irs-to {
+  display: none !important; }
+
+.irs-single {
+  position: static;
+  visibility: visible !important;
+  background: transparent;
+  margin-bottom: 15px;
+  padding: 0;
+  color: #666;
+  font-size: 1.6rem;
+  display: block; }
+
+.product-result h4 {
+  margin: 4px 0;
+  color: #333;
+  font-weight: normal;
+  display: inline-block; }
+
+.theme-board {
+  padding-top: 5px;
+  padding-bottom: 5px; }
+
+.product-list .board .city-item {
+  height: 200px;
+  margin-bottom: 15px; }
+  .product-list .board .city-item .overlap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(60%, rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.85)));
+    background: linear-gradient(rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.85) 100%); }
+  .product-list .board .city-item .caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px;
+    color: #fff; }
+    .product-list .board .city-item .caption h5 {
+      margin: 0;
+      font-size: 1.8rem;
+      line-height: 1.2;
+      font-weight: bolder;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
+
+/*# sourceMappingURL=../sourcemaps/pages/product-list.css.map */

@@ -1,0 +1,178 @@
+﻿@using Microsoft.AspNetCore.Http
+@using KKday.Web.B2D.BE.App_Code
+@using System.Security.Claims
+@using Resources
+@using KKday.Web.B2D.EC.Models.Model.Product;
+@inject ILocalizer localizer
+@{
+    var comp_locale = Context.Session.GetString("B2D_COMPANY_LOCALE");
+    var comp_currency = Context.Session.GetString("B2D_COMPANY_CURRENCY");
+    var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
+    <title>@ViewData["Title"] - KKday.Web.B2D.BE</title>
+    <link href="img/favicon.png" rel="shortcut icon" type="image/png">
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        @*<link rel="stylesheet" href="~/css/site.css" />
+            <link rel="stylesheet" href="~/css/sidemenu.css" />
+
+            <link rel="stylesheet" href="~/css/font-awesome.min.css">*@
+        <link rel="stylesheet" href="~/css/bootstrap.min.css">
+        <link rel="stylesheet" href="~/css/simple-line-icons.css">
+        @*<link rel="stylesheet" href="~/css/daterangepicker.css">*@
+        @*<link rel="stylesheet" href="~/css/webfont/zh-tw.css">*@
+        <link rel="stylesheet" href="~/css/main.css">
+        @*<link rel="stylesheet" href="~/css/pages/member.css">*@
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/css/sidemenu.css" asp-append-version="true" />
+    </environment>
+    @*<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">*@
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*<script src="~/js/jquery.min.js"></script>*@
+        <script src="~/js/bootstrap.min.js"></script>
+        <script src="~/js/moment.js"></script>
+        <script src="~/js/daterangepicker.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT"></script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"></script>
+    </environment>
+    <script type="text/javascript" src="@Url.Content("~/lib/jquery-validation/dist/jquery.validate.js")"></script>
+    <script type="text/javascript">
+        var _root_path = '@Url.Content("~/")';
+    </script>
+    @RenderSection("styles", required: false)
+
+
+</head>
+<body>
+
+    <header>
+        @*<div class="header-sheet">
+            <div class="container">
+                <div class="content">我們將使用cookie等資訊來優化您的體驗，繼續瀏覽即表示您同意我們使用。欲瞭解詳細內容，請詳閱<a href="#" target="_blank">隱私權政策與條款</a></div>
+                <button type="button" class="close">×</button>
+            </div>
+        </div>*@
+
+        <div class="container">
+            <form id="form3" action="@Url.Content("~/Search/ProdList")" method="post">
+                <input type="hidden" id="req_citykey" name="citykey" />
+                <a href="@Url.Content("~/")" class="logo">
+                    <img src="~/images/logo_white.svg" alt="">
+                </a>
+
+                <div class="kksearch">
+                    <div class="kksearch-header visible-sm visible-xs">
+                        <h4 class="text-center">搜尋</h4>
+                        <span class="close-search visible-sm visible-xs">
+                            <i class="fa fa-angle-left fa-3x"></i>
+                        </span>
+                    </div>
+                    <div class="input-group">
+                        <input type="text" id="req_key" name="key1" value="@ViewData["key"]" class="form-control" placeholder="@prodTitle.common_type_to_search">
+                        <span class="clear-input"><i class="fa fa-times-circle fa-lg"></i></span>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary"><i class="fa fa-search fa-lg"></i></button>
+                        </span>
+                    </div>
+                </div>
+
+                <ul class="menu">
+                    <li class="dropdown member-dropdown">
+                        <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <div class="badge user-type">@User.FindFirst("UserType").Value</div>
+                            @User.FindFirst(ClaimTypes.Name).Value<i class="fa fa-angle-down hidden-sm hidden-xs"></i>
+                        </a>
+                        <ul class="dropdown-menu pull-right" aria-labelledby="dLabel">
+                            <li><a href="@Url.Content("~/User/Account")">@localizer.Text.Title_MyProfile</a></li>
+                            <li><a href="@Url.Content("~/User/Account/Password")">@localizer.Text.Title_ChangePassword</a></li>
+                            <li><a href="@Url.Content("~/User/Order")">@localizer.Text.Title_MyOrder</a></li>
+                            <li><a href="@Url.Content("~/User/Voucher")">@localizer.Text.Title_AddVoucher</a></li>
+                            <li><a href="@Url.Content("~/User/Account/WebUser")">@localizer.Text.Title_WebUser</a></li>
+                            <li><a href="@Url.Content("~/User/Account/ApiUser")">@localizer.Text.Title_ApiUser</a></li>
+                            <li role="separator" class="divider hidden-sm hidden-xs"></li>
+                            <li class="logout"><a asp-action="LogOutAsync">Logout</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @User.FindFirst("Locale").Value
+                        </a>
+                    </li>
+                    <li>
+                        <a href="javascript:;" aria-haspopup="true" aria-expanded="false">
+                            @User.FindFirst("Currency").Value
+                        </a>
+                    </li>
+                    <li class="visible-sm visible-xs">
+                        <a href="index.html" class="btn btn-primary btn-block mt-10"><i class="fa fa-shopping-cart"></i>前往購買</a>
+                    </li>
+                </ul>
+                <div class="burger visible-sm visible-xs">
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                    <div class="bar"></div>
+                </div>
+                <div class="clearfix"></div>
+            </form>
+        </div>
+
+    </header>
+
+    <partial name="_CookieConsentPartial" />
+
+    @*<div class="page-wrap member-wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 hidden-sm hidden-xs">
+                            <partial name="_SideMenu" />
+                        </div>
+                    <div class="col-md-9">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+    @RenderBody()
+
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 col-sm-push-6">
+                    <ul class="footer-link">
+                        <li><a href="#">聯絡我們</a></li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-sm-pull-6">
+                    <div class="copyright">COPYRIGHT © 2018 KKday All rights reserved.</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

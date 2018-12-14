@@ -73,13 +73,13 @@ h5, .h5{
 p, .p{
   font-size: 1.4rem;
   }
-a{
-  cursor: pointer;
-  color:#26bec9;
-  text-decoration:none;
-  -webkit-transition:.25s;
-  transition:.25s 
-  } 
+/*a {
+    cursor: pointer;
+    color: #26bec9;
+    text-decoration: none;
+    -webkit-transition: .25s;
+    transition: .25s
+}*/
 a:hover,a:focus{
   color:#22a7aa;
   text-decoration:none;
@@ -3396,9 +3396,9 @@ footer .twfooter a{
 .city-banner{
   height:200px;
   position: relative;
-  background:-webkit-linear-gradient(rgba(250,250,250,0) 20%, #f5f5f5 100%),-webkit-linear-gradient(45deg,#64b3f4 0%,#26bec9 50%);
+  /*background:-webkit-linear-gradient(rgba(250,250,250,0) 20%, #f5f5f5 100%),-webkit-linear-gradient(45deg,#64b3f4 0%,#26bec9 50%);
   background:-o-linear-gradient(rgba(250,250,250,0) 20%, #f5f5f5 100%),-o-linear-gradient(45deg,#64b3f4 0%,#26bec9 50%);
-  background:linear-gradient(rgba(250,250,250,0) 20%, #f5f5f5 100%), linear-gradient(45deg,#64b3f4 0%,#26bec9 50%);
+  background:linear-gradient(rgba(250,250,250,0) 20%, #f5f5f5 100%), linear-gradient(45deg,#64b3f4 0%,#26bec9 50%);*/
   }
 .city-banner-img{
   height: 300px;
@@ -3420,14 +3420,14 @@ footer .twfooter a{
   }
 .city-banner h1,
 .city-banner h3{
-  color:#fff;
+  /*color:#fff;*/
   margin:2px 0;
   line-height: 1.4;
   }
 .city-banner h1,
 .pageTitle h1{
   font-size:2.8rem;
-  color:#fff;
+  /*color:#fff;*/
   display: inline-block;
   margin:0;
   text-shadow:1px 2px 5px rgba(0,0,0,.2);
@@ -3439,7 +3439,7 @@ footer .twfooter a{
   margin-left:10px;
   }
 .city-banner h3 a{
-  color:#fff;
+  /*color:#fff;*/
   font-size:1.6rem;
   font-weight: normal;
   text-shadow:1px 2px 3px rgba(0,0,0,.2);

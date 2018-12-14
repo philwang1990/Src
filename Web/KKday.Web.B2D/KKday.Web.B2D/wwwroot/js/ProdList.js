@@ -24,17 +24,13 @@ $(function () {
     });
 
     //Open sub-category dropdown on Hover
-    $('.main-category').hover(function(){
+    $('.main-category .dropdown').hover(function(){
       if($(window).width() > 991){
         $(this).find($('.dropdown-toggle')).trigger('click');
       };
     });
 
-    $('.dropdown').hover(function(){
-      if($(window).width() > 991){
-        $(this).find($('.dropdown-toggle')).trigger('click');
-      };
-    });
+
 
     $('.main-category li.dropdown').hover(
         function(){

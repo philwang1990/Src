@@ -4,7 +4,7 @@
 @model List<ProductBaseModel>;
 @{
     ViewData["Title"] = "Home Page";
-    Layout = "_Layout1";
+    Layout = "_LayoutSearch";
 
     int total_pages = (int)ViewData["total_pages"];
     int active_page_idx = (int)ViewData["active_page_idx"];
@@ -41,7 +41,10 @@
     <link rel="stylesheet" href="@Url.Content("~/css/ion.rangeSlider.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/ion.rangeSlider.skinHTML5.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/ionicons.min.css")">
-    <link rel="stylesheet" href="@Url.Content("~/css/custom1.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/custom.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/main.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/pages/product-list.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/font-awesome.min.css")">
 
 }
 @section Scripts{
@@ -61,8 +64,8 @@
     <script src="@Url.Content("~/js/ion.rangeSlider.min.js")"></script>
 
 }
-
-<section class="wrapper">
+<div class="page-wrap product-list-wrap">
+@*<section class="wrapper">*@
     <form id="form2" action="@Url.Content("~/Search/ProdList/")" method="post" onsubmit="Submit();">
         @*return false;*@
         <input type="hidden" id="keyword" name="key1" value="@ViewData["key"]" />
@@ -70,56 +73,47 @@
         <input type="hidden" id="catmain_key" name="cat_main" />
         <input type="hidden" id="catsub_key" name="cat_sub" />
         <input type="hidden" id="citykey" name="citykey" value="@ViewData["citycode"]" />
-
-        <div class="pageTitle city-banner">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-8">
-                        @foreach (var country in countries)
-                        {
-                            var sel_city = country.Cities.Where(c => c.IsSelceted == true).FirstOrDefault();
-                            <h3><a href="#">@country.CountryName</a></h3>
-                            <div class="dropdown btn-group dropdown-scroll">
-                                <a class="city-dropdown dropdown-toggle" data-toggle="dropdown">
-                                    @(sel_city.CityName)
-                                    <i class="fa fa-angle-down"></i>
-                                </a>
-                                <ul class="dropdown-menu">
-                                    @foreach (var city in @country.Cities)
-                                    {
-                                        if (city.CityName != "所有城市")
-                                        {
-                                            <li><a herf="javascript:void(0);" onclick="qSearch('@city.CityCode');">@city.CityName</a></li>
-                                        }
-                                    }
-                                </ul>
-                                <span class="dropdown-arrow dropdown-arrow-inverse"></span>
-                            </div>
-                        }
-                    </div>
-                    @*氣候(尚未做)
-                        <div class="col-sm-4">
-                            <div class="weather">
-                                <span>17 ℃</span>
-                                <i class="ion-ios-partlysunny-outline"></i>
-                            </div>
-                        </div>*@
+        <section class="city-banner">
+            <div class="overlap">
+                <div class="container">
+                    @foreach (var country in countries)
+                    {
+                        var sel_city = country.Cities.Where(c => c.IsSelceted == true).FirstOrDefault();
+                        <h3><a href="#">@country.CountryName</a></h3>
+                        <div class="dropdown btn-group dropdown-scroll">
+                            <a class="city-dropdown dropdown-toggle" data-toggle="dropdown">
+                                <h1>@(sel_city.CityName)<i class="fa fa-angle-down"></i></h1>
+                            </a>
+                            <ul class="dropdown-menu">
+                                @foreach (var city in country.Cities)
+                                {
+                                    <li>
+                                        <a href="javascript:void(0);" onclick="qSearch('@city.CityCode');">@city.CityName</a>
+                                    </li>
+                                }
+                            </ul>
+                            <span class="dropdown-arrow dropdown-arrow-inverse"></span>
+                        </div>
+                    }
                 </div>
             </div>
-        </div>
+        </section>
+
+        @*氣候(尚未做)
+        <div class="col-sm-4">
+            <div class="weather">
+                <span>17 ℃</span>
+                <i class="ion-ios-partlysunny-outline"></i>
+            </div>
+        </div>*@
 
         <div class="container product-content">
             <div class="row">
                 <!-- filiter -->
-
-
-                <aside class="col-md-3 product-filiter">
+                <aside class="col-md-3 product-filter">
                     <div class="filter-container">
-                        <div class="filter-header">
-                            <span id="close-filter">✕</span>
-                            <h4 class="text-center">篩選條件</h4>
-                        </div>
                         <div class="filter-group">
+                            <!-- 出發日期 -->
                             <div class="filter-box">
                                 <h4>@prodTitle.product_productlist_filter_by_availability</h4>
                                 <div class="input-group-clear">
@@ -127,9 +121,10 @@
                                     <span class="input-group-icon clear-input"><i class="fa fa-times-circle fa-lg"></i></span>
                                 </div>
                                 <!--  先拔掉不做
-                                    <button class="btn btn-block btn-primary date_range">check availability</button>
-                                 -->
+                                <button class="btn btn-block btn-primary date_range">check availability</button>
+                                -->
                             </div>
+                            <!-- 商品類別 -->
                             <div class="filter-box">
                                 <h4>@prodTitle.product_productlist_all_search_cat</h4>
                                 <ul class="main-category">
@@ -137,7 +132,7 @@
                                     {
                                         <li class="dropdown">
                                             <a herf="javascript:void(0);" onclick="QueryMainKey('@catmain.id');">@catmain.name</a>
-                                            <i class="fa fa-angle-right fa-lg"></i>
+                                            <i class="fa fa-angle-right fa-lg dropdown-toggle" data-toggle="dropdown"></i>
                                             <ul class="sub-category dropdown-menu" style="display: none;">
                                                 <li>
                                                     @foreach (var catsub in facets.cat_sub)
@@ -156,17 +151,16 @@
                                     }
                                 </ul>
                             </div>
-
+                            <!-- 價錢 -->
                             <div class="filter-box">
                                 <h4>@prodTitle.product_productlist_budget (TWD)</h4>
                                 <input type="hidden" id="budget" name="budget" class="irs-hidden-input" tabindex="-1" readonly="">
                                 <input type="hidden" id="pricerange" name="pricerange" value="@ViewData["pricerange"]" />
-
                                 <!--  先拔掉不做
                                 <button class="btn btn-block btn-grey date_range mt-20">refresh</button>
-                                 -->
+                                -->
                             </div>
-
+                            <!-- 行程時間 -->
                             <div class="filter-box">
                                 <h4 class="collapsable">@prodTitle.product_productlist_duration <i class="fa fa-caret-up pull-right"></i></h4>
                                 <ul id="duration" class="filter-list checkbox-group  in">
@@ -196,13 +190,14 @@
                                     </li>
                                 </ul>
                             </div>
+                            <!-- 語言 -->
                             <div class="filter-box">
                                 <h4 class="collapsable">@prodTitle.product_productlist_guide_lang<i class="fa fa-caret-up pull-right"></i></h4>
                                 <ul id="guidelang" class="filter-list checkbox-group in">
                                     @*<label class="checkbox">
-                                            <i class="fa fa-square-o fa-lg"></i>
-                                            <span class="checkbox-title">English</span>
-                                        </label>*@
+                                        <i class="fa fa-square-o fa-lg"></i>
+                                        <span class="checkbox-title">English</span>
+                                      </label>*@
                                     @foreach (var lang in facets.guide_lang)
                                     {
                                         <li>
@@ -214,10 +209,6 @@
                                     }
                                 </ul>
                             </div>
-
-                        </div>
-                        <div class="apply-filter">
-                            <button class="btn btn-primary btn-lg btn-block btn-search">Apply</button>
                         </div>
                     </div>
                 </aside>
@@ -228,11 +219,11 @@
                             <li><a href="~/">@prodTitle.common_affiliate_index</a></li>
                             @foreach (var country in countries)
                             {
-                                <li><a href="index.html">@country.CountryName</a></li>
+                                <li><a href="javascript:void(0);">@country.CountryName</a></li>
                                 @*@foreach(var city in country.Cities)
-                                    {
-                                        <li class="active">@city.CityName</li>
-                                    }*@
+                                {
+                                    <li class="active">@city.CityName</li>
+                                }*@
                             }
                         </ol>
 
@@ -241,133 +232,133 @@
 
                         <h4><span class="text-primary">@ViewData["total_count"] </span>@prodTitle.product_productlist_experiences_found</h4>
                         @*<span class="chip">
-                                <a>Cultures and Tours </a>
-                                <span class="delete-chip">✕</span>
-                            </span>
-                            <span class="chip">
-                                <a>< TWD 10,000</a>
-                                <span class="delete-chip">✕</span>
-                            </span>
-                            <span class="chip">
-                                <a>2017/4/15-2017/5/2</a>
-                                <span class="delete-chip">✕</span>
-                            </span>
-                            <span class="chip">
-                                <a>Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours </a>
-                                <span class="delete-chip">✕</span>
-                            </span>
-                            <span class="chip">
-                                <a>2 days</a>
-                                <span class="delete-chip">✕</span>
-                            </span>
-                            <span class="chip">
-                                <a>English Guide</a>
-                                <span class="delete-chip">✕</span>
-                            </span>
-                            <span class="chip">
-                                <a>中文導覽</a>
-                                <span class="delete-chip">✕</span>
-                            </span>
-                            <span class="chip clearall">
-                                <a href="###">Clear all</a>
-                            </span>*@
+                            <a>Cultures and Tours </a>
+                            <span class="delete-chip">✕</span>
+                        </span>
+                        <span class="chip">
+                            <a>< TWD 10,000</a>
+                            <span class="delete-chip">✕</span>
+                        </span>
+                        <span class="chip">
+                            <a>2017/4/15-2017/5/2</a>
+                            <span class="delete-chip">✕</span>
+                        </span>
+                        <span class="chip">
+                            <a>Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours Cultures and Tours </a>
+                            <span class="delete-chip">✕</span>
+                        </span>
+                        <span class="chip">
+                            <a>2 days</a>
+                            <span class="delete-chip">✕</span>
+                        </span>
+                        <span class="chip">
+                            <a>English Guide</a>
+                            <span class="delete-chip">✕</span>
+                        </span>
+                        <span class="chip">
+                            <a>中文導覽</a>
+                            <span class="delete-chip">✕</span>
+                        </span>
+                        <span class="chip clearall">
+                            <a href="###">Clear all</a>
+                        </span>*@
                     </div>
 
 
                     @*<div class="sorting">
-                            <div class="dropdown">
-                                <span>Sort by : </span>
-                                <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
-                                    <span>熱門：高到低</span>
-                                    <i class="fa fa-angle-down fa-lg"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-right" role="menu">
-                                    <li class="product_list_sort"><a>搜尋關聯度：高到低</a></li>
-                                    <li class="product_list_sort active"><a>熱門：高到低</a></li>
-                                    <li class="product_list_sort"><a>評分：高到低</a></li>
-                                    <li class="product_list_sort"><a>價格:低 到 高</a></li>
-                                    <li class="product_list_sort"><a>價格:高 到 低</a></li>
-                                </ul>
-                                <span class="dropdown-arrow"></span>
-                            </div>
-                        </div>*@
+                        <div class="dropdown">
+                            <span>Sort by : </span>
+                            <button class="btn btn-default btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
+                                <span>熱門：高到低</span>
+                                <i class="fa fa-angle-down fa-lg"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-right" role="menu">
+                                <li class="product_list_sort"><a>搜尋關聯度：高到低</a></li>
+                                <li class="product_list_sort active"><a>熱門：高到低</a></li>
+                                <li class="product_list_sort"><a>評分：高到低</a></li>
+                                <li class="product_list_sort"><a>價格:低 到 高</a></li>
+                                <li class="product_list_sort"><a>價格:高 到 低</a></li>
+                            </ul>
+                            <span class="dropdown-arrow"></span>
+                        </div>
+                    </div>*@
 
                     @foreach (var prod in Model)
-                    {
-                        <div class="product-listview">
-                            @*<a href="https://www.kkday.com/zh-tw/product/@prod.prod_no" target="_blank">*@
-                            <a href="~/Product/@prod.prod_no" )" target="_blank">
-                                <div class="row">
-                                    <div class="col-sm-5 col-lg-4">
-                                        <div class="img-bg" style="background-image: url('@prod.prod_img_url'); "></div>
-                                    </div>
-                                    <div class="col-sm-7 col-lg-8">
-                                        <div class="product-detail">
-                                            <h3>
-                                                <i class="fa fa-flash text-primary"></i>
-                                                @prod.prod_name
-                                            </h3>
-                                            <p class="description">
-                                                @prod.introduction
-                                            </p>
-                                            <div class="product-place">
-                                                <i class="fa fa-map-marker"></i>
-                                                @foreach (var country in prod.countries)
-                                                {
-                                                    foreach (var city in country.cities)
-                                                    {
-                                                        <span>@city.name </span>
-                                                    }
-                                                }
+                {
+                    <div class="product-listview">
+                        @*<a href="https://www.kkday.com/zh-tw/product/@prod.prod_no" target="_blank">*@
+                        <a href="~/Product/@prod.prod_no" )" target="_blank">
+                            <div class="row">
+                                <div class="col-sm-5 col-lg-4">
+                                    <div class="img-bg" style="background-image: url('@prod.prod_img_url'); "></div>
+                                </div>
+                                <div class="col-sm-7 col-lg-8">
+                                    <div class="product-detail">
+                                        <h3>
+                                            <i class="fa fa-flash text-primary"></i>
+                                            @prod.prod_name
+                                        </h3>
+                                        <p class="description">
+                                            @prod.introduction
+                                        </p>
+                                        <div class="product-place">
+                                            <i class="fa fa-map-marker"></i>
+                                            @foreach (var country in prod.countries)
+                                        {
+                                            foreach (var city in country.cities)
+                                            {
+                                                <span>@city.name </span>
+                                        }
+                                    }
+                                        </div>
+                                        <div class="product-time">
+                                            <i class="fa fa-clock-o"></i>@prod.hours @prodTitle.common_hours
+                                        </div>
+                                        <div class="product-footer">
+                                            @*<div class="product-star">
+                                                <div class="star star-100"></div>
+                                                <div class="star star-100"></div>
+                                                <div class="star star-100"></div>
+                                                <div class="star star-100"></div>
+                                                <div class="star star-25"></div>
+                                                <span class="text-grey-light">(2260)</span>
                                             </div>
-                                            <div class="product-time">
-                                                <i class="fa fa-clock-o"></i>@prod.hours @prodTitle.common_hours
+                                            <span class="divider"></span>
+                                            <div class="product-book">
+                                                <i class="glyphicon glyphicon-fire text-yellow"></i>2506 booked
+                                            </div>*@
+                                            <div class="product-pricing">
+                                                <span>@prod.prod_currency</span>
+                                                <h4>@prod.b2c_price</h4>
                                             </div>
-                                            <div class="product-footer">
-                                                @*<div class="product-star">
-                                                        <div class="star star-100"></div>
-                                                        <div class="star star-100"></div>
-                                                        <div class="star star-100"></div>
-                                                        <div class="star star-100"></div>
-                                                        <div class="star star-25"></div>
-                                                        <span class="text-grey-light">(2260)</span>
-                                                    </div>
-                                                    <span class="divider"></span>
-                                                    <div class="product-book">
-                                                        <i class="glyphicon glyphicon-fire text-yellow"></i>2506 booked
-                                                    </div>*@
-                                                <div class="product-pricing">
-                                                    <span>@prod.prod_currency</span>
-                                                    <h4>@prod.b2c_price</h4>
-                                                </div>
-                                            </div>
-                                            <div class="product-tag red">
-                                                <span>Most Popular</span>
-                                            </div>
-                                            <div class="product-hint">
-                                                <i class="fa fa-flash"></i> Instant Booking
-                                            </div>
+                                        </div>
+                                        <div class="product-tag red">
+                                            <span>Most Popular</span>
+                                        </div>
+                                        <div class="product-hint">
+                                            <i class="fa fa-flash"></i> Instant Booking
                                         </div>
                                     </div>
                                 </div>
-                            </a>
-                        </div>
-                    }
+                            </div>
+                        </a>
+                    </div>
+            }
 
                     <ul class="pagination">
                         @*<li class="a-page disabled"><a class="toPage" name="@active_page_idx-1"><i class="fa fa-angle-left"></i></a></li>*@
                         @for (int pg_idx = 0; pg_idx < total_pages; pg_idx++)
+                    {
+                        var pageIdx = pg_idx + 1;
+                        if (pageIdx == active_page_idx)
                         {
-                            var pageIdx = pg_idx + 1;
-                            if (pageIdx == active_page_idx)
-                            {
-                                <li class="active"><a href="#">@pageIdx</a></li>
-                            }
-                            else
-                            {
-                                <li><a href="javascript:ReQuery(@pageIdx)">@pageIdx</a></li>
-                            }
-                        }
+                            <li class="active"><a href="#">@pageIdx</a></li>
+                    }
+                    else
+                    {
+                        <li><a href="javascript:ReQuery(@pageIdx)">@pageIdx</a></li>
+                }
+            }
                         @*<li class="a-page"><a class="toPage" name="postPage"><i class="fa fa-angle-right"></i></a></li>*@
                     </ul>
                 </main>
@@ -378,7 +369,8 @@
             <h4><i class="fa fa-sliders"></i>篩選條件</h4>
         </div>
     </form>
-</section>
+@*</section>*@
+    </div>
 
 <!-- ./footer -->
 <!-- scroll to top -->
