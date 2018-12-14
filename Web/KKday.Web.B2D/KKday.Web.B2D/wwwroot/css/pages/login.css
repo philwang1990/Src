@@ -1,7 +1,8 @@
 .login-body {
-  background-image: url("../../img/bg_login.jpg");
-  background-size: cover;
-  background-position: center; }
+    background-image: url(/images/bg_login.jpg); /*url("../../img/bg_login.jpg")*/
+    background-size: cover;
+    background-position: center;
+}
   .login-body header {
     background: transparent;
     position: absolute; }
