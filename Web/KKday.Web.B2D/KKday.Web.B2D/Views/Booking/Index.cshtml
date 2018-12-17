@@ -2,25 +2,34 @@
 @using KKday.Web.B2D.EC.Models.Model.Booking
 @using KKday.Web.B2D.EC.Models.Model.Account;
 
-@{ 
-    Layout = "_LayoutBooking";
+@{
+    @*Layout = "_LayoutBooking";*@
+    Layout = "_LayoutMain";
 }
-@section Scripts{
 
+@section styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/daterangepicker.css")">
+    <!--Intel Tel-->
+    <link rel="stylesheet" href="@Url.Content("~/css/intlTelInput.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/custom.css")">
+    <link rel="stylesheet" href="@Url.Content("~/css/main.css")">
+}
+
+@section Scripts{
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <title>Booking Step1 - KKday.com</title>
-    <link rel="stylesheet" href="~/css/daterangepicker.css">
-    <!--Intel Tel-->
-    <link rel="stylesheet" href="~/css/intlTelInput.css" type="text/css">    
     <style>
-
         .has-error {
             color: Red;
         }
     </style>
-
- @*<script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>*@
+    <script src="@Url.Content("~/js/jquery.min.js")"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="@Url.Content("~/js/bootstrap.min.js")"></script>
+    <script src="@Url.Content("~/js/jquery.kkday.js")"></script>
+    <script src="@Url.Content("~/js/owl.carousel.2.2.1.min.js")"></script>
+    @*<script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>*@
     <script src="~/js/jquery.validate.min.js"></script>
     <script src="~/js/booking.js"></script>
     <script src="~/js/booking.validate.js"></script>
@@ -34,6 +43,7 @@
     <script src="~/js/intlTelInput.min.js"></script>
     <script src="~/js/booking.kkday.js"></script>
     <script src="~/js/jquery.payment.js"></script>
+
     <script type="text/javascript">
 
         var dataModel;
@@ -41,7 +51,7 @@
         var useDate;
         var module;
         var countryLst;
-        
+
         $(function () {
 
              $(".defaultHide").hide();
@@ -53,20 +63,17 @@
 
         });
     </script>
+
 }
-
-
-
-
 
 @{
     var guid = (string)ViewData["guid"];
-    var confirm =(confirmPkgInfo) ViewData["confirmPkgInfo"];
+    var confirm = (confirmPkgInfo)ViewData["confirmPkgInfo"];
     var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
     var totalCus = (int)ViewData["totalCus"];
     var cusData = (CusData)ViewData["cusData"];
     var mainCat = (string)ViewData["mainCat"];
-    var guide = (List<GuideLanguage>) ViewData["guide"];
+    var guide = (List<GuideLanguage>)ViewData["guide"];
     var wifi = (SimWifi)ViewData["wifi"];
     var exchange = (List<Location>)ViewData["exchange"];
 
@@ -87,24 +94,24 @@
     var dataModelStr = ViewData["dataModelStr"];
     var cutOfDay = ViewData["CutOfDay"];
     var cusAgeRange = ViewData["cusAgeRange"];
-    var prodShow = (BookingShowProdModel) ViewData["prodShow"];
+    var prodShow = (BookingShowProdModel)ViewData["prodShow"];
     var isEvent = (string)ViewData["isEvent"];
     var isHl = (string)ViewData["isHl"];
     var pkgCanUseDate = (string)ViewData["pkgCanUseDate"];
     var countryName = (string)ViewData["nationName"];
 }
 
-@Html.Hidden("hdnGuid",guid)
-@Html.Hidden("hdndataModelStr",dataModelStr)
+@Html.Hidden("hdnGuid", guid)
+@Html.Hidden("hdndataModelStr", dataModelStr)
 @Html.Hidden("hdnAdultQty", confirm.price1Qty)
 @Html.Hidden("hdnChildQty", confirm.price2Qty)
 @Html.Hidden("hdnInfantQty", confirm.price3Qty)
-@Html.Hidden("hdnOldQty",confirm.price4Qty)
-@Html.Hidden("hdnUseDate",useDate)
+@Html.Hidden("hdnOldQty", confirm.price4Qty)
+@Html.Hidden("hdnUseDate", useDate)
 @Html.Hidden("hdnCutOfDay", cutOfDay)
-@Html.Hidden("hdnPkgCanUseDate",pkgCanUseDate)
-@Html.Hidden("hdnIsEvent",isEvent)
-@Html.Hidden("hdnIsHl",isHl)
+@Html.Hidden("hdnPkgCanUseDate", pkgCanUseDate)
+@Html.Hidden("hdnIsEvent", isEvent)
+@Html.Hidden("hdnIsHl", isHl)
 
 <section id="bookingWrapper" class="booking-wrap">
     <div class="container">
@@ -205,7 +212,7 @@
                                class="btn btn-primary"
                                id="board2_btn"
                                data-href="#board3">
-                                 @prodTitle.common_next_step
+                                @prodTitle.common_next_step
                             </a>
                         </div>
                     </div>
@@ -217,7 +224,7 @@
                 </div>
             </div>
         </div>
-        
+
         @Html.Hidden("booking_step1_length_error_1", prodTitle.booking_step1_length_error_1)
         @Html.Hidden("booking_step1_length_error_2", prodTitle.booking_step1_length_error_2)
         @Html.Hidden("booking_step1_required_error", prodTitle.booking_step1_required_error)
@@ -229,5 +236,5 @@
 
 
     <!--action-->
-     @await Html.PartialAsync("_prodShow")
+    @await Html.PartialAsync("_prodShow")
 </section>

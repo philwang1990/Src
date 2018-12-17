@@ -2,9 +2,9 @@
 @using KKday.SearchProd.Models.Model
 
 @*WMS-API*@
-@*@model List<CountryInfo>;*@
+@model List<CountryInfo>;
 @*KK-API*@
-@model List<TravelLine>;
+@*@model List<TravelLine>;*@
 
 @{
     Layout = "_LayoutMain";
@@ -12,7 +12,7 @@
     var prodTitle = (ProdTitleModel)ViewData["prodTitle"];
 }
 
-@section Scripts{
+@section styles{
     <link rel="stylesheet" href="@Url.Content("~/css/bootstrap.min.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/flat-ui.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/font-awesome.min.css")">
@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="@Url.Content("~/css/pages/index.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/simple-line-icons.css")">
     <link rel="stylesheet" href="@Url.Content("~/css/main.css")">
+}
+
+@section Scripts{
     <script src="@Url.Content("~/js/jquery.min.js")"></script>
     <!-- Bootstrap 3.3.7 -->
     <script src="@Url.Content("~/js/bootstrap.min.js")"></script>
@@ -189,26 +192,33 @@
     *@
 
     @*//WMS-API*@
-    @*<div class="container" id="cont2">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h2 class="text-light mt-20">直接選擇目的地城市名稱</h2>
                 @foreach (var countries in Model)
                 {
-                    <div class="row" style="margin-bottom: 8px;">
-                        <div class="col-md-1" id="countries" name="@countries.CountryName">
-                            @countries.CountryName
-                        </div>
+                    <div class="home-section">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <h2 class="section-title">@countries.CountryName</h2>
+                            </div>
 
-                        <div class="col-md-11" id="cities">
-                            @foreach (var city in countries.Cities)
-                            {
-                                <a herf="javascript:void(0);" onclick="quicksearch('@city.CityName');">@city.CityName</a>
-                            }
+                            <div class="col-md-10">
+                                @foreach (var city in countries.Cities)
+                                {
+                                    <a href="javascript:void(0);" class="btn btn-outline-primary btn-xs" onclick="quicksearch('@city.CityCode');">@city.CityName</a>
+                                }
+                            </div>
                         </div>
                     </div>
                 }
-        </div>*@
+            </div>
+        </div>
+    </div>
 
     @*//WMS-API*@
-    <div class="container">
+    @*<div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h2 class="text-light mt-20">直接選擇目的地城市名稱</h2>
@@ -234,9 +244,8 @@
                 }
             </div>
         </div>
-    </div>
+    </div>*@
 </div>
-
 
 <div class="scroll-top-wrapper">
     <span class="scroll-top-inner">
@@ -342,7 +351,5 @@
         offsetTop = offset.top;
         $('html, body').animate({scrollTop: offsetTop}, 500, 'linear');
     }
-
-
 
 </script>

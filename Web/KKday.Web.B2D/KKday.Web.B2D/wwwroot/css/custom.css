@@ -3031,10 +3031,11 @@ ul.nav-menu li.has-son.open ul.nav-menu-son{
   height: 75px;
   margin-top: 10px;
   }
-footer{
-  background-color: #444;
-  padding-top: 50px;
-  }
+footer {
+    background-color: #444;
+    /*padding-top: 50px;*/
+    padding-top: 10px; /*Layout用*/
+}
 footer ul.list-unstyled{
   margin-bottom: 40px;
   }
@@ -4634,7 +4635,7 @@ ul.sub-category li a{
 .booking-wrap{
 min-height: 100vh;
 position: relative;
-padding: 0px 0px;
+padding: 60px 0px;
   }
 .booking-wrap .breadcrumb{
 padding-top: 15px;
